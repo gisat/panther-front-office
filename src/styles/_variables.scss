@@ -6,6 +6,15 @@ measure unit - use whole numbers or thirds if neccessary
 }
 
 /**
+return transparent version of given colour
+$colour - colour code
+$opacity - number between 0 and 1
+ */
+@function transparent($colour, $opacity) {
+  @return rgba($colour, $opacity);
+}
+
+/**
 fill container with position context
  */
 @mixin positionFill() {
@@ -75,6 +84,10 @@ $bo7: #3b3a38;
 $bo8: #2a2927;
 $bo9: #191917;
 $bo10: #040300;
+
+$bo-lighter1: #d8d6d4;
+$bo-lighter2: #e3e2e1;
+$bo-lighter3: #eeeeed;
 
 $bo-accent0: #c7c5c2;
 $bo-accent1: #a9b5b2;

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import LayerTemplateMetadataConfig from "../../metadataConfigs/LayerTemplateMetadataConfig";
 import LayerTemplateMetadataSwitcher from "../../metadataSwitchers/LayerTemplateMetadataSwitcher";
 
+import "../style.scss";
+
 class LayerTemplateMetadataScreen extends React.PureComponent {
 	static propTypes = {
 		itemKey: PropTypes.string
@@ -10,16 +12,18 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 
 	render() {
 		return (
-			<div className='ptr-bo-colours margin-1'>
-				<h1>
-					Layer templates
-				</h1>
-				<div className="ptr-screen-metadata-switcher">
-					<LayerTemplateMetadataSwitcher
-						itemKey={this.props.itemKey}
-					/>
+			<div className='ptr-bo-colours'>
+				<div className="ptr-screen-content ptr-screen-metadata-header">
+					<div className="ptr-screen-metadata-title">
+						Layer templates
+					</div>
+					<div className="ptr-screen-metadata-switcher">
+						<LayerTemplateMetadataSwitcher
+							itemKey={this.props.itemKey}
+						/>
+					</div>
 				</div>
-				<div className="ptr-screen-metadata-content">
+				<div className="ptr-screen-content ptr-screen-metadata-content">
 					<LayerTemplateMetadataConfig
 						itemKey={this.props.itemKey}
 					/>

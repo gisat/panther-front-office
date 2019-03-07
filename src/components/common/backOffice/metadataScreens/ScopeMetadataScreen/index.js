@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import ScopeMetadataConfig from "../../metadataConfigs/ScopeMetadataConfig";
 import ScopeMetadataSwitcher from "../../metadataSwitchers/ScopesMetadataSwitcher";
 
+import "../style.scss";
+
 class ScopeMetadataScreen extends React.PureComponent {
 	static propTypes = {
 		itemKey: PropTypes.string

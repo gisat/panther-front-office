@@ -12,6 +12,7 @@ class Screen extends React.PureComponent {
 		]),
 		contentWidth: PropTypes.number,
 		disabled: PropTypes.bool,
+		focused: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
 		onOpenClick: PropTypes.func,
@@ -25,7 +26,6 @@ class Screen extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.onCloseClick = this.props.onCloseClick.bind(this, props.lineage);
-		this.onFocus = this.props.onFocus.bind(this, props.lineage);
 		this.onOpenClick = this.props.onOpenClick.bind(this, props.lineage);
 		this.onRetractClick = this.props.onRetractClick.bind(this, props.lineage);
 	}
@@ -42,9 +42,6 @@ class Screen extends React.PureComponent {
 		}
 
 		let screenScrollStyle = {};
-		if (this.props.contentWidth) {
-			screenScrollStyle.width = `${this.props.contentWidth}rem`;
-		}
 		if (this.props.minWidth) {
 			screenScrollStyle.minWidth = `${this.props.minWidth}rem`;
 		}
