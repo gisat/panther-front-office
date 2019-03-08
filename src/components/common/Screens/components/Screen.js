@@ -12,7 +12,6 @@ class Screen extends React.PureComponent {
 		]),
 		contentWidth: PropTypes.number,
 		disabled: PropTypes.bool,
-		focused: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
 		onOpenClick: PropTypes.func,
@@ -40,8 +39,10 @@ class Screen extends React.PureComponent {
 	}
 
 	onFocus() {
-		this.props.onFocus(this.props.lineage);
-		this.setState({focused: true});
+		if (!this.props.disabled) {
+			this.props.onFocus(this.props.lineage);
+			this.setState({focused: true});
+		}
 	}
 
 	onBlur() {
@@ -49,6 +50,7 @@ class Screen extends React.PureComponent {
 	}
 
 	render() {
+		let tabIndex = this.props.disabled ? -1 : 0;
 		let classes = classNames("ptr-screen", {
 			disabled: this.props.disabled,
 			open: !this.props.disabled,
@@ -66,11 +68,11 @@ class Screen extends React.PureComponent {
 		}
 
 		return (
-			<div className={classes} style={screenStyle} onFocus={this.onFocus} tabIndex={0} onBlur={this.onBlur} ref={this.screen}>
-				<div className="ptr-screen-scroll" style={screenScrollStyle}>
+			<div className={classes} style={screenStyle} onFocus={this.onFocus} onBlur={this.onBlur} ref={this.screen} tabIndex={tabIndex}>
+				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex={tabIndex}>
 					{this.props.content}
 				</div>
-				<div className="ptr-screen-overlay" onClick={this.onOpenClick} />
+				<div className="ptr-screen-overlay" onClick={this.onOpenClick} tabIndex={tabIndex}/>
 				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>x</div> : null}
 				{!this.props.noControls && this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onOpenClick}>O</div> : null}
 				{!this.props.noControls && !this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onRetractClick}>R</div> : null}

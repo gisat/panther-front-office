@@ -17,7 +17,8 @@ class Input extends React.PureComponent {
 		transparent: PropTypes.bool,
 		value: PropTypes.string,
 		name: PropTypes.string,
-		onChange: PropTypes.func
+		onChange: PropTypes.func,
+		unfocusable: PropTypes.bool
 	};
 
 	constructor(props){
@@ -108,6 +109,7 @@ class Input extends React.PureComponent {
 
 		return (
 			<input type={type}
+				tabIndex={this.props.unfocusable ? -1 : 0}
 				placeholder={this.state.focus ? null : this.props.placeholder}
 				value={this.state.value || ""}
 				name={this.props.name}
@@ -124,6 +126,7 @@ class Input extends React.PureComponent {
 		return (
 			<EditableText
 				invisible
+				unfocusable={this.props.unfocusable}
 				value={this.props.value || this.state && this.state.value || ""}
 				name={this.props.name}
 				onChange={this.onChangeMultiline}

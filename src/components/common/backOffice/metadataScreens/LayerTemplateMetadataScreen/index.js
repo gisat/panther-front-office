@@ -7,7 +7,8 @@ import "../style.scss";
 
 class LayerTemplateMetadataScreen extends React.PureComponent {
 	static propTypes = {
-		itemKey: PropTypes.string
+		itemKey: PropTypes.string,
+		unfocusable: PropTypes.bool
 	};
 
 	render() {
@@ -20,12 +21,14 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 					<div className="ptr-screen-metadata-switcher">
 						<LayerTemplateMetadataSwitcher
 							itemKey={this.props.itemKey}
+							unfocusable={this.props.unfocusable}
 						/>
 					</div>
 				</div>
 				<div className="ptr-screen-content ptr-screen-metadata-content">
 					<LayerTemplateMetadataConfig
 						itemKey={this.props.itemKey}
+						unfocusable={this.props.unfocusable}
 					/>
 				</div>
 			</div>

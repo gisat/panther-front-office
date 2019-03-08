@@ -5,6 +5,12 @@ import AddIndicatorsContainer from './AddIndicatorsContainer';
 
 
 class MetadataSwitcher extends React.PureComponent {
+	static propTypes = {
+		data: PropTypes.array,
+		onChange: PropTypes.func,
+		unfocusable: PropTypes.bool
+	};
+
 	componentDidMount(){
 		this.props.onMount();
 	}
@@ -19,6 +25,7 @@ class MetadataSwitcher extends React.PureComponent {
 		return (
 			<div style={{display:'flex'}}>
 				<Select
+					unfocusable={this.props.unfocusable}
 					components = {{
 						IndicatorsContainer: AddIndicatorsContainer,
 					}}

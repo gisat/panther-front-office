@@ -8,10 +8,11 @@ import './select.scss';
 class Select extends React.PureComponent {
     
     render() {
-        const { selectedValue, options, components, className, onChange, customProps } = this.props;
+        const { selectedValue, options, components, className, onChange, customProps, unfocusable } = this.props;
 
         return (
                 <SelectCreatable
+                        tabIndex={unfocusable ? -1 : 0}
                         hideSelectedOptions={true}
                         components={components}
                         value={selectedValue}

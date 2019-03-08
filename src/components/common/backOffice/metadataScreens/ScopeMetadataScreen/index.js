@@ -7,7 +7,8 @@ import "../style.scss";
 
 class ScopeMetadataScreen extends React.PureComponent {
 	static propTypes = {
-		itemKey: PropTypes.string
+		itemKey: PropTypes.string,
+		unfocusable: PropTypes.bool,
 	};
 
 	render() {
@@ -19,11 +20,13 @@ class ScopeMetadataScreen extends React.PureComponent {
 				<div className="ptr-screen-metadata-switcher">
 					<ScopeMetadataSwitcher
 						itemKey={this.props.itemKey}
+						unfocusable={this.props.unfocusable}
 					/>
 				</div>
 				<div className="ptr-screen-metadata-content">
 					<ScopeMetadataConfig
 						itemKey={this.props.itemKey}
+						unfocusable={this.props.unfocusable}
 					/>
 				</div>
 			</div>

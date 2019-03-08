@@ -205,7 +205,7 @@ class Screens extends React.PureComponent {
 				if (screenLineage === 'base'){
 					screenComponents.push(this.renderScreen(screen, this.props.children, true));
 				} else {
-					screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
+					screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, {...stateScreen.data.props, unfocusable: screen.computedDisabled} , null)));
 				}
 			});
 

@@ -14,6 +14,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 		onUnmount: PropTypes.func,
 		onSave: PropTypes.func,
 		onDelete: PropTypes.func,
+		unFocusable: PropTypes.bool,
 		updateEdited: PropTypes.func
 	};
 
@@ -48,6 +49,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					label={t("nameCapitalized")}
 				>
 					<Input
+						unfocusable={this.props.unfocusable}
 						value={data && data.nameDisplay || ""}
 						onChange={(val) => this.onChange('nameDisplay', val)}
 					/>
@@ -57,12 +59,13 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					label={t("labels.nameInternal")}
 				>
 					<Input
+						unfocusable={this.props.unfocusable}
 						value={data && data.nameInternal || ""}
 						onChange={(val) => this.onChange('nameInternal', val)}
 					/>
 				</InputWrapper>
-				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button onClick={this.props.onSave}>Save</button> : null}
-				<button onClick={() => this.props.onDelete(this.props.data)}>Delete</button>
+				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button tabIndex={this.props.unfocusable ? -1 : 0} onClick={this.props.onSave}>Save</button> : null}
+				<button tabIndex={this.props.unfocusable ? -1 : 0} onClick={() => this.props.onDelete(this.props.data)}>Delete</button>
 			</div>
 		);
 	}

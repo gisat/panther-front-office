@@ -15,7 +15,8 @@ class EditableText extends React.PureComponent {
 
 	static propTypes = {
 		disabled: PropTypes.bool,
-		required: PropTypes.bool
+		required: PropTypes.bool,
+		unfocusable: PropTypes.bool
 	};
 
 	constructor(props){
@@ -112,6 +113,7 @@ class EditableText extends React.PureComponent {
 			return (
 				<div>
 					<textarea
+						tabIndex={this.props.unfocusable ? -1 : 0}
 						className={classes}
 						style={style}
 						ref={this.ref}
