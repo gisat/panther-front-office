@@ -10,19 +10,21 @@ import './navlist.scss';
 
 
 class NavList extends React.PureComponent {
-    
+    static propTypes = {
+        unfocusable: PropTypes.bool
+    };
+
     getDescendant (descendant) {
         switch (descendant.type) {
             case 'folder':
-                return ([<li
-                            key={descendant.title}
-                            className={'ptr-nav-item-folder'}>
-                            {descendant.title}
-                        </li>,
-                        <ul key={`${descendant.title}-folder`}>
-                           {this.getDescendants(descendant.items, descendant)} 
-                        </ul>]
-                        )
+                return ([
+                    <li key={descendant.title} className={'ptr-nav-item-folder'}>
+                        {descendant.title}
+                    </li>,
+                    <ul key={`${descendant.title}-folder`}>
+                        {this.getDescendants(descendant.items, descendant)}
+                    </ul>
+                    ]);
             case 'leaf':
                 const isLeafActive = !!matchPath(
                     this.props.location.pathname, 
@@ -32,6 +34,7 @@ class NavList extends React.PureComponent {
                         key={descendant.title}
                         className={`ptr-nav-item ${isLeafActive ? 'selected' : ''}`}>
                         <NavLink
+                            tabIndex={this.props.unfocusable ? -1 : 0}
                             to={descendant.path}
                             activeClassName="selected"
                             >

@@ -28,7 +28,8 @@ class AddValue extends React.PureComponent {
         
 
         return (
-            <Value 
+            <Value
+                unfocusable={this.props.unfocusable}
                 option={option}
                 endItems = {endItems}
                 startItems = {startItems}

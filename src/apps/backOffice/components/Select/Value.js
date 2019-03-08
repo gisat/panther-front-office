@@ -7,6 +7,16 @@ import './Item.scss';
 
 class Value extends React.PureComponent {
 
+	static propTypes = {
+		disabled: PropTypes.bool,                   // disabled prop passed to ReactSelect
+		onOptionLabelClick: PropTypes.func,         // method to handle click on value label
+		endItems: PropTypes.arrayOf(PropTypes.element),
+		startItems: PropTypes.arrayOf(PropTypes.element),
+		option: PropTypes.object.isRequired,        // option passed to component
+		renderer: PropTypes.func,
+		unfocusable: PropTypes.bool
+	};
+
 	blockEvent (event) {
 		event.stopPropagation();
 	}
@@ -27,17 +37,16 @@ class Value extends React.PureComponent {
 						{this.props.endItems}
 					</div> : null)
 				]
-		)
+		);
 
 		if (typeof this.props.onOptionLabelClick === 'function') {
 			return(
 				<a className={classes('ptr-item', this.props.option.className)}
-					style={{display:'flex'}}
 					onMouseDown={this.blockEvent}
 					onTouchEnd={(evt) => {this.props.onOptionLabelClick(this.props.option, evt)}}
 					onClick={(evt) => {this.props.onOptionLabelClick(this.props.option, evt)}}
 					style={this.props.option.style}
-				    tabIndex={0}
+				    tabIndex={this.props.unfocusable ? -1 : 0}
 					title={this.props.option.title}
 				>
 					{itemContent}	
@@ -51,15 +60,6 @@ class Value extends React.PureComponent {
 			);
 		}
 	}
-};
-
-Value.propTypes = {
-	disabled: PropTypes.bool,                   // disabled prop passed to ReactSelect
-	onOptionLabelClick: PropTypes.func,         // method to handle click on value label
-	endItems: PropTypes.arrayOf(PropTypes.element),
-	startItems: PropTypes.arrayOf(PropTypes.element),
-	option: PropTypes.object.isRequired,        // option passed to component
-	renderer: PropTypes.func                    // method to render option label passed to ReactSelect
 }
 
 export default Value;

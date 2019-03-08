@@ -4,13 +4,14 @@ import _ from 'lodash';
 import {withNamespaces} from "react-i18next";
 import Value from '../Select/Value';
 import Icon from 'components/common/atoms/Icon';
-import AddValue from 'apps/backOffice/components/Select/AddValue';
+import AddValue from '../../../../apps/backOffice/components/Select/AddValue';
 
 class MetadataList extends React.PureComponent {
 	static propTypes = {
 		models: PropTypes.array,
 		onMount: PropTypes.func,
-		onUnmount: PropTypes.func
+		onUnmount: PropTypes.func,
+		unfocusable: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -39,11 +40,20 @@ class MetadataList extends React.PureComponent {
 		return (
 			<div>
 				<AddValue
-					tabIndex={0}
+					unfocusable={this.props.unfocusable}
                     option={{label:"Create"}} 
                     onOptionLabelClick={this.props.onAddClick}
                     />
-				{this.props.models ? this.props.models.map(model => <Value key={model.key} option={{label: model.data.nameDisplay, key: model.key, ...model.data}} onOptionLabelClick={this.onItemClick} optionLabelClick={true} endItems = {endItems}/>) : null}
+				{this.props.models ? this.props.models.map(model =>
+					<Value
+						unfocusable={this.props.unfocusable}
+						key={model.key}
+						option={{label: model.data.nameDisplay, key: model.key, ...model.data}}
+						onOptionLabelClick={this.onItemClick}
+						optionLabelClick={true}
+						endItems = {endItems}
+					/>
+					) : null}
 			</div>
 		);
 	}

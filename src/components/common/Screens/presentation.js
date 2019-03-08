@@ -27,7 +27,7 @@ class Screens extends React.PureComponent {
 
 	static defaultProps = {
 		baseActiveWidth: 40,
-	}
+	};
 
 	constructor(props){
 		super(props);
@@ -203,7 +203,11 @@ class Screens extends React.PureComponent {
 				}
 
 				if (screenLineage === 'base'){
-					screenComponents.push(this.renderScreen(screen, this.props.children, true));
+					let content = this.props.children;
+					if (screen.computedDisabled) {
+						content = React.cloneElement(this.props.children, {unfocusable: true});
+					}
+					screenComponents.push(this.renderScreen(screen, content, true));
 				} else {
 					screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, {...stateScreen.data.props, unfocusable: screen.computedDisabled} , null)));
 				}
