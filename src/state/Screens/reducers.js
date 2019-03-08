@@ -85,7 +85,17 @@ const topHistory = (state, action) => {
 	let orderByHistory = _.without([...sets[action.setKey].orderByHistory], action.lineage);
 	orderByHistory.push(action.lineage);
 
-	return {...state, sets: {...sets, [action.setKey]: {...sets[action.setKey], orderByHistory}}};
+	return {
+		...state,
+		sets: {
+			...sets,
+			[action.setKey]: {
+				...sets[action.setKey],
+				focusedScreenLineage: action.lineage,
+				orderByHistory
+			}
+		}
+	};
 };
 
 // TODO test properly!
