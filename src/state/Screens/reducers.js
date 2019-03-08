@@ -112,12 +112,14 @@ const update = (state, action) => {
 
 	let orderByHistory = _.without(sets[action.setKey].orderByHistory, action.lineage);
 	orderByHistory.push(action.lineage);
-
-	let orderBySpace = _.without(sets[action.setKey].orderBySpace, action.lineage);
-	orderBySpace.push(action.lineage);
-
-	sets[action.setKey].orderBySpace = orderBySpace;
 	sets[action.setKey].orderByHistory = orderByHistory;
+
+	let alreadyInOrder = _.find(sets[action.setKey].orderBySpace, (lineage) => lineage === action.lineage);
+	if (!alreadyInOrder) {
+		let orderBySpace = _.without(sets[action.setKey].orderBySpace, action.lineage);
+		orderBySpace.push(action.lineage);
+		sets[action.setKey].orderBySpace = orderBySpace;
+	}
 
 	return {...state, screens, sets};
 };
