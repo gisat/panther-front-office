@@ -24,28 +24,24 @@
 
 /* Overlay */
 .ptr-screen-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+	@include positionFill;
   background: transparent;
   pointer-events: none;
   transition: background .2s ease-in-out, box-shadow .2s ease-in-out;
 }
 .ptr-screen.focused .ptr-screen-overlay {
   outline: none;
-  box-shadow: inset 0 m(1/2) 0 m(-1/6) transparent($bo-accent5, .6);
+  box-shadow: inset 0 m(1/2) 0 m(-1/6) rgba($bo-accent5, .6);
 }
 
 .ptr-screen.disabled > .ptr-screen-overlay {
-  background: transparent($bo5, .5);
+  background: rgba($bo5, .5);
   pointer-events: all;
   cursor: pointer;
 }
 
 .ptr-screen.disabled > .ptr-screen-overlay:hover {
-  background: transparent($bo4, .5);
+  background: rgba($bo4, .5);
 }
 
 // experimental - todo test performance (compatibility should be ok now)

@@ -1,22 +1,9 @@
-/**
-measure unit - use whole numbers or thirds if neccessary
- */
+// measure unit - use whole numbers or thirds if neccessary
 @function m($amount) {
 	@return $amount * 1.5rem;
 }
 
-/**
-return transparent version of given colour
-$colour - colour code
-$opacity - number between 0 and 1
- */
-@function transparent($colour, $opacity) {
-  @return rgba($colour, $opacity);
-}
-
-/**
-fill container with position context
- */
+// fill container with position context
 @mixin positionFill() {
 	position: absolute;
 	top: 0;
@@ -25,9 +12,7 @@ fill container with position context
 	left: 0;
 }
 
-/**
-font sizes
- */
+// font sizes
 $a0: .618rem;
 $a1: 1rem;
 $a2: 1.618rem;
@@ -46,10 +31,9 @@ $b5: 5.545rem;
 $b6: 8.971rem;
 $b7: 14.515rem;
 
-/**
-colours
- */
+// colours
 $gray0: #fffefc;
+$gray0rgb: 255, 254, 252;
 $gray1: #f0f0ef;
 $gray2: #dcdcda;
 $gray3: #bebdbb;
@@ -60,6 +44,7 @@ $gray7: #4d4c4b;
 $gray8: #353433;
 $gray9: #1f1e1d;
 $gray10: #040300;
+$gray10rgb: 4, 3, 0;
 
 $accent0: #fffefc;
 $accent1: #eaf6f4;
@@ -67,6 +52,7 @@ $accent2:  #c9e8e5;
 $accent3:  #a2d8d3;
 $accent4:  #75c7c3;
 $accent5:  #2ab2ad;
+$accent5rgb:  42, 178, 173;
 $accent6:  #2a8c88;
 $accent7:  #24615d;
 $accent8:  #1d3f3c;
@@ -74,6 +60,7 @@ $accent9:  #172624;
 $accent10:  #040300;
 
 $bo0: #c7c5c2;
+$bo0rgb: 199, 197, 194;
 $bo1: #b1afad;
 $bo2: #9c9a98;
 $bo3: #878683;
@@ -84,6 +71,7 @@ $bo7: #3b3a38;
 $bo8: #2a2927;
 $bo9: #191917;
 $bo10: #040300;
+$bo10rgb: 4, 3, 0;
 
 $bo-lighter1: #d8d6d4;
 $bo-lighter2: #e3e2e1;
@@ -95,6 +83,7 @@ $bo-accent2:  #8ba6a1;
 $bo-accent3:  #6c9692;
 $bo-accent4:  #4b8682;
 $bo-accent5:  #227773;
+$bo-accent5rgb:  34, 119, 115;
 $bo-accent6:  #215f5b;
 $bo-accent7:  #1e4844;
 $bo-accent8:  #19322f;

@@ -14,6 +14,7 @@ code, pre {
 
 .ptr-light {
 	--base0: #{$gray0};
+	--base0rgb: #{$gray0rgb};
 	--base1: #{$gray1};
 	--base2: #{$gray2};
 	--base3: #{$gray3};
@@ -24,6 +25,7 @@ code, pre {
 	--base8: #{$gray8};
 	--base9: #{$gray9};
 	--base10: #{$gray10};
+	--base10rgb: #{$gray10rgb};
 
 	--accent0: #{$accent0};
 	--accent1: #{$accent1};
@@ -31,6 +33,7 @@ code, pre {
 	--accent3: #{$accent3};
 	--accent4: #{$accent4};
 	--accent5: #{$accent5};
+	--accent5rgb: #{$accent5rgb};
 	--accent6: #{$accent6};
 	--accent7: #{$accent7};
 	--accent8: #{$accent8};
@@ -39,6 +42,7 @@ code, pre {
 }
 .ptr-dark {
 	--base0: #{$gray10};
+	--base0rgb: #{$gray10rgb};
 	--base1: #{$gray9};
 	--base2: #{$gray8};
 	--base3: #{$gray7};
@@ -49,6 +53,7 @@ code, pre {
 	--base8: #{$gray2};
 	--base9: #{$gray1};
 	--base10: #{$gray0};
+	--base10rgb: #{$gray0rgb};
 
 	--accent0: #{$accent10};
 	--accent1: #{$accent9};
@@ -56,6 +61,7 @@ code, pre {
 	--accent3: #{$accent7};
 	--accent4: #{$accent6};
 	--accent5: #{$accent5};
+	--accent5rgb: #{$accent5rgb};
 	--accent6: #{$accent4};
 	--accent7: #{$accent3};
 	--accent8: #{$accent2};
@@ -64,6 +70,7 @@ code, pre {
 }
 .ptr-bo-colours {
 	--base0: #{$bo0};
+	--base0rgb: #{$bo0rgb};
 	--base1: #{$bo1};
 	--base2: #{$bo2};
 	--base3: #{$bo3};
@@ -74,6 +81,7 @@ code, pre {
 	--base8: #{$bo8};
 	--base9: #{$bo9};
 	--base10: #{$bo10};
+	--base10rgb: #{$bo10rgb};
 
 	--accent0: #{$bo-accent0};
 	--accent1: #{$bo-accent1};
@@ -81,6 +89,7 @@ code, pre {
 	--accent3: #{$bo-accent3};
 	--accent4: #{$bo-accent4};
 	--accent5: #{$bo-accent5};
+	--accent5rgb: #{$bo-accent5rgb};
 	--accent6: #{$bo-accent6};
 	--accent7: #{$bo-accent7};
 	--accent8: #{$bo-accent8};
