@@ -68,11 +68,11 @@ class Screen extends React.PureComponent {
 		}
 
 		return (
-			<div className={classes} style={screenStyle} onFocus={this.onFocus} onBlur={this.onBlur} ref={this.screen} tabIndex={tabIndex}>
+			<div className={classes} style={screenStyle} onFocus={this.onFocus} onBlur={this.onBlur} ref={this.screen}>
 				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex={tabIndex}>
 					{this.props.content}
 				</div>
-				<div className="ptr-screen-overlay" onClick={this.onOpenClick} tabIndex={tabIndex}/>
+				<div className="ptr-screen-overlay" onClick={this.onOpenClick}/>
 				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>x</div> : null}
 				{!this.props.noControls && this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onOpenClick}>O</div> : null}
 				{!this.props.noControls && !this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onRetractClick}>R</div> : null}
