@@ -234,13 +234,13 @@ Ext.define('PumaMain.controller.ViewMng', {
 		}
     },
         
-    onDataviewLoad: function() {
+    onDataviewLoad: function(data) {
         var yearCombo = Ext.ComponentQuery.query('#selyear')[0];
         var datasetCombo = Ext.ComponentQuery.query('#seldataset')[0];
         var themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
         var visualizationCombo = Ext.ComponentQuery.query('#selvisualization')[0];
         var locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
-		var cfg = Config.cfg;
+		var cfg = data ? data : Config.cfg;
 
         yearCombo.suspendEvents();
         datasetCombo.suspendEvents();

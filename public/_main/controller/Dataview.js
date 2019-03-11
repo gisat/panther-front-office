@@ -41,10 +41,12 @@ Ext.define('PumaMain.controller.Dataview', {
 
     onLoadingFinished: function(data) {
         if (data){
-            console.log(`##### Ext Dataview#onLoadingfinished dataview: ${data}`);
-            Config.cfg = data.data;
-			Config.dataviewId = data.key;
-			this.getController('ViewMng').onDataviewLoad();
+            console.log(`##### Ext Dataview#onLoadingfinished dataview: `, data);
+            let dataviewData = data.data.conf ? data.data.conf : data.data;
+            console.log(`##### Ext Dataview#onLoadingfinished dataview data: `, dataviewData);
+            Config.cfg = dataviewData;
+			Config.dataviewId = dataviewData.key;
+			this.getController('ViewMng').onDataviewLoad(dataviewData);
         }
     },
 });
