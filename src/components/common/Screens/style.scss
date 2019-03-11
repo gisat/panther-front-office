@@ -12,7 +12,7 @@
 	box-shadow: -5px 0 15px -5px rgba(0, 0, 0, .6);
   	overflow-x: hidden;
 }
-.ptr-screen.open {
+.ptr-screen.base {
 	flex-grow: 1;
 }
 .ptr-screen.focused {
@@ -28,7 +28,7 @@
 	@include positionFill;
   background: transparent;
   pointer-events: none;
-  transition: background .2s ease-in-out, box-shadow .2s ease-in-out;
+  transition: background .2s ease-in-out, box-shadow .2s ease-in-out .3s;
 }
 .ptr-screen.focused .ptr-screen-overlay {
   outline: none;

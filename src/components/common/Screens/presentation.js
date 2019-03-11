@@ -92,7 +92,6 @@ class Screens extends React.PureComponent {
 	renderScreens() {
 		if (this.state.width && this.props.set) {
 			let screens = {};
-			let focusedLineage = null;
 			let orderByHistory = [...this.props.set.orderByHistory].reverse();
 			let orderBySpace = [...this.props.set.orderBySpace];
 
@@ -149,7 +148,7 @@ class Screens extends React.PureComponent {
 						if (stateScreen && stateScreen.data && stateScreen.data.width) {
 							if (stateScreen.data.desiredState === 'open') {
 								if ((stateScreen.data.width + CONST_PLUS) <= (availableWidthLeft + RETRACTED_WIDTH)) {
-									screens[lineage].computedWidth = 	stateScreen.data.width + CONST_PLUS;
+									screens[lineage].computedWidth = stateScreen.data.width + CONST_PLUS;
 								} else {
 									screens[lineage].computedWidth = availableWidthLeft + RETRACTED_WIDTH;
 									screens[lineage].computedDisabled = true;
@@ -170,11 +169,16 @@ class Screens extends React.PureComponent {
 								screens[lineage].computedWidth = 0;
 								screens[lineage].computedDisabled = true;
 							} else {
-								screens[lineage].computedWidth = availableWidthLeft + RETRACTED_WIDTH;
-								availableWidthLeft = 0;
+								let enoughSpaceAvailable = (this.props.baseActiveWidth + CONST_PLUS) <= (availableWidthLeft + RETRACTED_WIDTH);
+								if (lineage === "base" && (baseFirstOpen || enoughSpaceAvailable)) {
+									screens[lineage].computedWidth = this.props.baseActiveWidth + CONST_PLUS;
+									availableWidthLeft -= this.props.baseActiveWidth - RETRACTED_WIDTH;
+								} else {
+									screens[lineage].computedWidth = availableWidthLeft + RETRACTED_WIDTH;
+									availableWidthLeft = 0;
+								}
 
-								// TODO Do we want to disable base screen?
-								if (lineage === 'base' && !baseFirstOpen) {
+								if (lineage === "base" && !baseFirstOpen) {
 									screens[lineage].computedDisabled = screens[lineage].computedWidth < this.props.baseActiveWidth;
 								}
 							}

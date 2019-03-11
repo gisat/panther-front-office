@@ -59,6 +59,7 @@ class Screen extends React.PureComponent {
 	render() {
 		let tabIndex = this.props.disabled ? -1 : 0;
 		let classes = classNames("ptr-screen", {
+			base: (this.props.lineage === "base"),
 			disabled: this.props.disabled,
 			open: !this.props.disabled,
 			focused: this.state.focused
