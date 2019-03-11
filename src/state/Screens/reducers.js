@@ -91,7 +91,6 @@ const topHistory = (state, action) => {
 			...sets,
 			[action.setKey]: {
 				...sets[action.setKey],
-				focusedScreenLineage: action.lineage,
 				orderByHistory
 			}
 		}

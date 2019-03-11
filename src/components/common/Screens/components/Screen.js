@@ -12,6 +12,7 @@ class Screen extends React.PureComponent {
 		]),
 		contentWidth: PropTypes.number,
 		disabled: PropTypes.bool,
+		focused: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
 		onOpenClick: PropTypes.func,
@@ -49,6 +50,12 @@ class Screen extends React.PureComponent {
 		this.setState({focused: false});
 	}
 
+	componentDidUpdate(prevProps) {
+		if (this.props.focused && prevProps.focused !== this.props.focused && !this.props.disabled) {
+			this.screen.current.children[0].focus();
+		}
+	}
+
 	render() {
 		let tabIndex = this.props.disabled ? -1 : 0;
 		let classes = classNames("ptr-screen", {
@@ -63,14 +70,19 @@ class Screen extends React.PureComponent {
 		}
 
 		let screenScrollStyle = {};
+		if (this.props.disabled) {
+			screenScrollStyle.overflow = `hidden`;
+		}
+
+		let screenScrollContentStyle = {};
 		if (this.props.minWidth) {
-			screenScrollStyle.minWidth = `${this.props.minWidth}rem`;
+			screenScrollContentStyle.minWidth = `${this.props.minWidth}rem`;
 		}
 
 		return (
 			<div className={classes} style={screenStyle} onFocus={this.onFocus} onBlur={this.onBlur} ref={this.screen}>
 				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex={tabIndex}>
-					{this.props.content}
+					<div style={screenScrollContentStyle}>{this.props.content}</div>
 				</div>
 				<div className="ptr-screen-overlay" onClick={this.onOpenClick}/>
 				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>x</div> : null}

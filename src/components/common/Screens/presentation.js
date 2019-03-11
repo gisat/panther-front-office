@@ -92,6 +92,7 @@ class Screens extends React.PureComponent {
 	renderScreens() {
 		if (this.state.width && this.props.set) {
 			let screens = {};
+			let focusedLineage = null;
 			let orderByHistory = [...this.props.set.orderByHistory].reverse();
 			let orderBySpace = [...this.props.set.orderBySpace];
 
@@ -138,7 +139,8 @@ class Screens extends React.PureComponent {
 			});
 
 			if (!maximalizedScreenLineage) {
-				orderByHistory.forEach(function(lineage) {
+				let focusedScreenAlreadySelected = false;
+				orderByHistory.forEach(function(lineage, index) {
 					let stateScreen = this.props.screens[lineage];
 					if (!availableWidthLeft) {
 						screens[lineage].computedWidth = RETRACTED_WIDTH;
@@ -178,6 +180,13 @@ class Screens extends React.PureComponent {
 							}
 						}
 					}
+
+					let closing = stateScreen && stateScreen.data.desiredState === 'closing';
+					if (!focusedScreenAlreadySelected && (closing || !screens[lineage].computedDisabled)) {
+						screens[lineage].focused = true;
+						focusedScreenAlreadySelected = true;
+					}
+
 				}.bind(this));
 			} else {
 				orderByHistory.forEach(lineage => {
@@ -186,6 +195,7 @@ class Screens extends React.PureComponent {
 						screens[lineage].computedWidth = 0;
 					} else {
 						screens[lineage].computedWidth = this.state.width;
+						screens[lineage].focused = true;
 					}
 				});
 			}
@@ -230,6 +240,7 @@ class Screens extends React.PureComponent {
 			<Screen
 				key={screen.lineage}
 				lineage={screen.lineage}
+				focused={screen.focused}
 				disabled={screen.computedDisabled}
 				width={screen.computedWidth}
 				minWidth={screen.minActiveWidth}
