@@ -157,6 +157,10 @@ class Screens extends React.PureComponent {
 							} else if (stateScreen.data.desiredState === 'retracted') {
 								screens[lineage].computedWidth = RETRACTED_WIDTH;
 								screens[lineage].computedDisabled = true;
+							} else if (stateScreen.data.desiredState === 'opening') {
+								screens[lineage].computedWidth = 0;
+								screens[lineage].computedDisabled = false;
+								availableWidthLeft -= (stateScreen.data.width - RETRACTED_WIDTH);
 							} else {
 								screens[lineage].computedWidth = 0;
 								screens[lineage].computedDisabled = true;
@@ -190,7 +194,6 @@ class Screens extends React.PureComponent {
 						screens[lineage].focused = true;
 						focusedScreenAlreadySelected = true;
 					}
-
 				}.bind(this));
 			} else {
 				orderByHistory.forEach(lineage => {
