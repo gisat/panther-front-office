@@ -51,7 +51,7 @@ class Screen extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		if (this.props.focused) {
+		if (this.props.disabled !== true) {
 			this.screen.current.children[0].focus();
 		}
 	}
