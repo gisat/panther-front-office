@@ -16,11 +16,14 @@ class MetadataList extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.list = React.createRef();
 		this.onItemClick = this.onItemClick.bind(this);
 	}
 
 	componentDidMount() {
 		this.props.onMount();
+		this.list.current.children[0].focus();
 	}
 
 	componentWillUnmount() {
@@ -38,7 +41,7 @@ class MetadataList extends React.PureComponent {
 		</span>)];
 
 		return (
-			<div>
+			<div ref={this.list}>
 				<AddValue
 					unfocusable={this.props.unfocusable}
                     option={{label:"Create"}} 
