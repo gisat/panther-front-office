@@ -1,6 +1,8 @@
 @import '../../../styles/variables';
 .ptr-navlist{
     background-color: var(--base1);
+    height: 100%;
+    padding: m(2/3) 0;
 }
 
 .ptr-navlist ul{
@@ -18,11 +20,12 @@
     border-left-style: solid;
     border-left-color: var(--base3);
 }
-.ptr-navlist li.ptr-nav-item:hover {
-    border-left-color: $accent6;
+.ptr-navlist li.ptr-nav-item:hover,
+.ptr-navlist li.ptr-nav-item:focus-within {
+    border-left-color: var(--accent6);
 }
 .ptr-navlist li.ptr-nav-item.selected {
-    border-left-color: $accent6;
+    border-left-color: var(--accent6);
 }
 
 .ptr-navlist li.ptr-nav-item a, 
@@ -35,17 +38,21 @@
     /* transition: all 400ms; background animation */
 }
 
+.ptr-navlist li.ptr-nav-item.selected a,
 .ptr-navlist li.ptr-nav-item a:hover,
 .ptr-navlist li.ptr-nav-item a:focus {
-    color: var(--accent5);
+    color: var(--accent6);
     background-color: var(--base2);
 }
 
-.ptr-navlist li.ptr-nav-item-folder,
+.ptr-navlist li.ptr-nav-item-folder {
+    padding: m(1/3) m(1);
+}
+
 .ptr-navlist li.ptr-nav-item a {
-    padding: m(.5) m(1.5);
+    padding: m(1/3) m(1.5);
 }
 
 .ptr-navlist li.ptr-nav-item a.selected{
-    background: $accent3;
+    background: var(--accent2);
 }

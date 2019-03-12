@@ -10,11 +10,16 @@ import './navlist.scss';
 
 
 class NavList extends React.PureComponent {
+	static defaultProps = {
+		items: []
+	};
+
     static propTypes = {
+		items: PropTypes.array.isRequired,
         unfocusable: PropTypes.bool
     };
 
-    onNavKeyPress(path, key) {
+	onNavKeyPress(path, key) {
         if (key.charCode === 32) {
             this.props.history.replace(path);
         }
@@ -62,22 +67,13 @@ class NavList extends React.PureComponent {
 
     render () {
         return (
-                <div className={'ptr-navlist ptr-screen-scroll'}>
-                    <ul>
+                <div className={'ptr-navlist'}>
+                    <ul ref={this.list}>
                         {this.getDescendants(this.props.items)}
                     </ul>
                 </div>
         )
     }
 }
-
-
-NavList.defaultProps = {
-    items: [],
-  };
-  
-  NavList.propTypes = {
-    items: PropTypes.array.isRequired,
-};
 
 export default withRouter(NavList);
