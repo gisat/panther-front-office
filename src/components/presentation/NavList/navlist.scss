@@ -27,6 +27,7 @@
 
 .ptr-navlist li.ptr-nav-item a, 
 .ptr-navlist li.ptr-nav-item a:link,
+.ptr-navlist li.ptr-nav-item a:focus,
 .ptr-navlist li.ptr-nav-item a:visited {
     display: block;
     color: var(--base6);
@@ -34,7 +35,8 @@
     /* transition: all 400ms; background animation */
 }
 
-.ptr-navlist li.ptr-nav-item a:hover {
+.ptr-navlist li.ptr-nav-item a:hover,
+.ptr-navlist li.ptr-nav-item a:focus {
     color: var(--accent5);
     background-color: var(--base2);
 }

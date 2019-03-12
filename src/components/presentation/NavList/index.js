@@ -14,6 +14,12 @@ class NavList extends React.PureComponent {
         unfocusable: PropTypes.bool
     };
 
+    onNavKeyPress(path, key) {
+        if (key.charCode === 32) {
+            this.props.history.replace(path);
+        }
+    }
+
     getDescendant (descendant) {
         switch (descendant.type) {
             case 'folder':
@@ -35,6 +41,7 @@ class NavList extends React.PureComponent {
                         className={`ptr-nav-item ${isLeafActive ? 'selected' : ''}`}>
                         <NavLink
                             tabIndex={this.props.unfocusable ? -1 : 0}
+                            onKeyPress={this.onNavKeyPress.bind(this, descendant.path)}
                             to={descendant.path}
                             activeClassName="selected"
                             >
