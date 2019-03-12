@@ -20,6 +20,7 @@ class LpisCheckHeader extends React.PureComponent {
 		previousCaseKey: PropTypes.number,
 		map: PropTypes.object,
 		onMount: PropTypes.func,
+		backToList: PropTypes.func,
 		changingCase: PropTypes.bool,
 	};
 
@@ -63,6 +64,11 @@ class LpisCheckHeader extends React.PureComponent {
 		const loginContainerStyle = {margin: '20px 8px'};
 		return (
 			<div id="lpisCheckHeader">
+				<div id="dromasLpisChangeReviewHeader-back">
+					<div>
+						<Button invisible inverted circular icon="back" onClick={this.props.backToList}/>
+					</div>
+				</div>
 				{
 					this.props.changingCase ? <Loader transparent /> :
 				<div className="container flex">
