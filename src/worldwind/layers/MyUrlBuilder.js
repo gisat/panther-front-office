@@ -45,6 +45,7 @@ class MyUrlBuilder extends WmsUrlBuilder {
         sb = sb + "&format=" + imageFormat;
         sb = sb + "&width=" + tile.tileWidth;
         sb = sb + "&height=" + tile.tileHeight;
+        sb = sb + "&tiled=true";
 
         if (this.sldId){
             sb = sb + "&sld_id=" + this.sldId;
