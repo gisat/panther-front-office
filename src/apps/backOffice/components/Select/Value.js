@@ -17,8 +17,25 @@ class Value extends React.PureComponent {
 		unfocusable: PropTypes.bool
 	};
 
-	blockEvent (event) {
+	constructor(options) {
+		super(options);
+
+		this.onClick = this.onClick.bind(this);
+		this.onKeyPress = this.onKeyPress.bind(this);
+	}
+
+	blockEvent(event) {
 		event.stopPropagation();
+	}
+
+	onKeyPress(key) {
+		if (key.charCode === 13 || key.charCode === 32) {
+			this.props.onOptionLabelClick(this.props.option);
+		}
+	}
+
+	onClick() {
+		this.props.onOptionLabelClick(this.props.option);
 	}
 
 	render () {
@@ -43,8 +60,9 @@ class Value extends React.PureComponent {
 			return(
 				<a className={classes('ptr-item', this.props.option.className)}
 					onMouseDown={this.blockEvent}
-					onTouchEnd={(evt) => {this.props.onOptionLabelClick(this.props.option, evt)}}
-					onClick={(evt) => {this.props.onOptionLabelClick(this.props.option, evt)}}
+					onTouchEnd={this.onClick}
+					onClick={this.onClick}
+				   	onKeyPress={this.onKeyPress}
 					style={this.props.option.style}
 				    tabIndex={this.props.unfocusable ? -1 : 0}
 					title={this.props.option.title}
