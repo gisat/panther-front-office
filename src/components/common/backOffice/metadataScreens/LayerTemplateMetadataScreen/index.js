@@ -16,7 +16,7 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 			<div className='ptr-bo-colours'>
 				<div className="ptr-screen-content ptr-screen-metadata-header">
 					<div className="ptr-screen-metadata-title">
-						Layer templates
+						Layer template
 					</div>
 					<div className="ptr-screen-metadata-switcher">
 						<LayerTemplateMetadataSwitcher

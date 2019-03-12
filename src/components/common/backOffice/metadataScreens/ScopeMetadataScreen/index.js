@@ -13,17 +13,19 @@ class ScopeMetadataScreen extends React.PureComponent {
 
 	render() {
 		return (
-			<div className='ptr-bo-colours margin-1'>
-				<h1>
-					Scope
-				</h1>
-				<div className="ptr-screen-metadata-switcher">
-					<ScopeMetadataSwitcher
-						itemKey={this.props.itemKey}
-						unfocusable={this.props.unfocusable}
-					/>
+			<div className='ptr-bo-colours'>
+				<div className="ptr-screen-content ptr-screen-metadata-header">
+					<div className="ptr-screen-metadata-title">
+						Scope
+					</div>
+					<div className="ptr-screen-metadata-switcher">
+						<ScopeMetadataSwitcher
+							itemKey={this.props.itemKey}
+							unfocusable={this.props.unfocusable}
+						/>
+					</div>
 				</div>
-				<div className="ptr-screen-metadata-content">
+				<div className="ptr-screen-content ptr-screen-metadata-content">
 					<ScopeMetadataConfig
 						itemKey={this.props.itemKey}
 						unfocusable={this.props.unfocusable}
