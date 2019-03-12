@@ -203,6 +203,7 @@ class Screens extends React.PureComponent {
 					} else {
 						screens[lineage].computedWidth = this.state.width;
 						screens[lineage].focused = true;
+						screens[lineage].minActiveWidth = 0;
 					}
 				});
 			}
@@ -212,8 +213,8 @@ class Screens extends React.PureComponent {
 				let screen = screens[screenLineage];
 
 				let stateScreen = this.props.screens[screenLineage];
-				if (stateScreen && stateScreen.data && stateScreen.data.minActiveWidth) {
-					screen.minActiveWidth = stateScreen.data.minActiveWidth;
+				if (stateScreen && stateScreen.data && (stateScreen.data.minActiveWidth || screen.minActiveWidth)) {
+					screen.minActiveWidth = screen.hasOwnProperty("minActiveWidth") ? screen.minActiveWidth : stateScreen.data.minActiveWidth;
 				}
 				if (stateScreen && stateScreen.data && stateScreen.data.width) {
 					screen.contentWidth = stateScreen.data.width ? stateScreen.data.width : null;

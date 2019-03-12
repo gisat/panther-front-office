@@ -82,7 +82,7 @@ class Screen extends React.PureComponent {
 		}
 
 		let screenScrollContentStyle = {};
-		if (this.props.minWidth) {
+		if (this.props.minWidth || this.props.minWidth === 0) {
 			screenScrollContentStyle.minWidth = `${this.props.minWidth}rem`;
 		}
 
