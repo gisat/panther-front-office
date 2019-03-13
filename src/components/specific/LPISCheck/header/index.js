@@ -37,7 +37,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					showGeometryAfter: geometry,
 				}
 			}));
-
+		},
+		backToList: () => {
+			dispatch(Action.components.overlays.views.selectActiveScope());
+			dispatch(Action.components.overlays.openOverlay('views'));
+			dispatch(Action.components.setIntro(true));
 		}
 	};
 };
