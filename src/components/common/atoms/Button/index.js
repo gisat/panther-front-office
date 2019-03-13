@@ -1,29 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import classNames from 'classnames';
 
 import Icon from '../Icon';
 import Menu from '../Menu';
 
-import './style.css';
-
+import './style.scss';
 
 class Button extends React.PureComponent {
 
 	static propTypes = {
+		circular: PropTypes.bool,
+		className: PropTypes.string,
 		disabled: PropTypes.bool,
+		ghost: PropTypes.bool,
 		icon: PropTypes.string,
+		inverted: PropTypes.bool,
+		invisible: PropTypes.bool,
+		large: PropTypes.bool,
+		onClick: PropTypes.func,
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
-		ghost: PropTypes.bool,
-		invisible: PropTypes.bool,
-		circular: PropTypes.bool,
 		small: PropTypes.bool,
-		floatingAction: PropTypes.bool,
-		onClick: PropTypes.func,
-		className: PropTypes.string,
-		inverted: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -36,9 +34,10 @@ class Button extends React.PureComponent {
 			focused: false,
 			menuOpen: false
 		};
+
+		this.onBlur = this.onBlur.bind(this);
 		this.onClick = this.onClick.bind(this);
 		this.onKeyPress = this.onKeyPress.bind(this);
-		this.onBlur = this.onBlur.bind(this);
 	}
 
 
@@ -58,12 +57,6 @@ class Button extends React.PureComponent {
 			menuOpen: false
 		});
 	}
-
-	//setFocus(focused) {
-	//	this.setState({
-	//		focused: focused
-	//	});
-	//}
 
 	onKeyPress(e) {
 		if(e.charCode === 32) {
@@ -86,9 +79,6 @@ class Button extends React.PureComponent {
 
 		let hasContent = false;
 		let content = React.Children.map(this.props.children, child => {
-
-			//if (typeof child === 'object') console.log('####', child.type === Menu, child.type.prototype instanceof Menu);
-
 			if (child) {
 				if (typeof child === 'string') {
 					hasContent = true;
@@ -111,41 +101,34 @@ class Button extends React.PureComponent {
 
 		let classes = classNames(
 			'ptr-button', {
+				circular: !!this.props.circular,
+				disabled: this.props.disabled,
+				ghost: !!this.props.ghost,
+				icon: !!iconInsert && !hasContent,
+				inverted: !!this.props.inverted,
+				invisible: !!this.props.invisible,
+				large: !!this.props.large,
 				primary: !!this.props.primary,
 				secondary: !!this.props.secondary,
-				ghost: !!this.props.ghost,
-				invisible: !!this.props.invisible,
-				circular: !!this.props.circular,
-				'floating-action': !!this.props.floatingAction,
-				//hasIcon: !!this.props.icon,
-				//focused: this.state.focused,
-				disabled: this.props.disabled,
-				icon: !!iconInsert && !hasContent,
 				small: this.props.small,
-				inverted: !!this.props.inverted
 			},
 			this.props.className
 		);
 
-		let ret = (
+		return (
 			<div
 				className={classes}
 				id={this.props.id}
-				tabIndex={this.props.disabled ? "-1" : "0"}
+				onBlur={this.onBlur}
 				onClick={this.onClick}
 				onKeyPress={this.onKeyPress}
-				//onFocus={this.setFocus.bind(this, true)}
-				onBlur={this.onBlur}
+				tabIndex={this.props.disabled ? "-1" : "0"}
 			>
 				{iconInsert}
 				{content}
 			</div>
 		);
-
-		return ret;
 	}
-
 }
-
 
 export default Button;

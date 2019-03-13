@@ -1,0 +1,254 @@
+@import '../../../../styles/variables';
+
+/*
+	Table of contents
+
+	Button
+		General
+		Icon
+		Sizes (small, large, ...)
+		Levels (primary, secondary, ...)
+		Inversion
+		Invisible
+		Circular
+		Ghost
+		Disability
+
+	Button menu
+*/
+
+/* === Button ======================================= */
+
+/* General */
+.ptr-button {
+  background: var(--base2);
+  color: var(--base9);
+  border: 1px solid rgba(0,0,0,.02); // TODO why?
+  border-radius: .2rem;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+  display: inline-block;
+  height: m(1 + 1/3);
+  padding: 0 m(1/4);
+  position: relative;
+
+  transition:
+	  background .3s ease-in-out,
+	  color .3s ease-in-out;
+
+  margin: .2rem; // TODO remove - only for testing
+}
+
+.ptr-button:hover {
+  background: var(--base1);
+}
+
+.ptr-button:focus::after {
+  content: ' ';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  border-radius: .2rem;
+  box-shadow: 0 0 2px 2px var(--accent5);
+  pointer-events: none;
+}
+
+.ptr-button-caption {
+  display: inline-block;
+  vertical-align: top;
+  font-size: $a1;
+  line-height: calc(#{m(1 + 1/3)} - 1px);
+  margin: 0 m(1/6);
+}
+
+/* Icon */
+.ptr-button > .ptr-icon {
+  display: inline-block;
+  width: m(3/4);
+  height: m(3/4);
+  margin: calc(#{m(7/24)} - 1px) m(1/8);
+}
+
+.ptr-button > .ptr-icon .line {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.ptr-button > .ptr-icon .polygon {
+  fill: transparent;
+  stroke: currentColor;
+}
+
+
+/* Sizes */
+.ptr-button.large {
+  height: m(2);
+  padding: 0 m(3/4);
+}
+
+.ptr-button.large:focus::after {
+  box-shadow: 0 0 3px 3px var(--accent5);
+}
+
+.ptr-button.large .ptr-button-caption {
+  font-size: $b2;
+  line-height: calc(#{m(2)} - 1px);
+  margin: 0 m(1/6);
+}
+
+.ptr-button.large > .ptr-icon {
+  width: m(1);
+  height: m(1);
+}
+
+.ptr-button.large:not(.icon) > .ptr-icon {
+  margin: calc(#{m(1/2)} - 1px) m(1/4) calc(#{m(1/2)} - 1px) 0;
+}
+
+.ptr-button.small {
+  height: m(1 + 1/6);
+  padding: 0 m(1/6);
+}
+
+.ptr-button.small .ptr-button-caption {
+  font-size: $b1;
+  line-height: calc(#{m(1 + 1/6)} - 1px);
+}
+
+.ptr-button.small > .ptr-icon {
+  width: m(2/3);
+  height: m(2/3);
+  margin: calc(#{m(3/12)} - 1px) m(1/12);
+}
+
+
+/* Levels */
+.ptr-button.primary {
+  background: var(--accent5);
+  color: #ddd; // TODO select color
+}
+
+.ptr-button.primary:hover {
+  background: var(--accent4);
+  color: #eee; // TODO select color
+}
+
+.ptr-button.secondary {
+  background: var(--base8);
+  color: #ddd; // TODO select color
+}
+
+.ptr-button.secondary:hover {
+  background: var(--base7);
+  color: #eee; // TODO select color
+}
+
+
+/* Inversion */
+// TODO
+.ptr-button.inverted {
+
+}
+
+
+/* Invisible */
+.ptr-button.invisible {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+
+/* Circular */
+.ptr-button.circular {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: m(1.5);
+  height: m(1.5);
+  border: 0;
+  border-radius: 50%;
+  position: relative;
+  top: m(-1/12);
+  left: m(-1/12);
+  outline: none;
+}
+
+.ptr-button.circular.large {
+  width: m(2.5);
+  height: m(2.5);
+  padding: 0;
+}
+
+.ptr-button.circular:focus::after {
+  border-radius: 50%;
+}
+
+
+/* Ghost */
+.ptr-button.ghost {
+  background: transparent;
+  border: 1px solid var(--base7);
+  box-shadow: none;
+}
+
+.ptr-button.ghost:hover {
+  background: var(--base1);
+}
+
+.ptr-button.ghost.large {
+  border-width: 2px;
+  padding: 0 m(3/4);
+}
+
+.ptr-button.ghost.primary {
+  border-color: var(--accent5);
+  color: var(--accent6);
+}
+
+.ptr-button.ghost.primary:hover {
+  background: var(--accent1);
+}
+
+/* Disability */
+.ptr-button:not(.disabled) {
+  cursor: pointer;
+}
+
+.ptr-button.disabled,
+.ptr-button.primary.disabled,
+.ptr-button.secondary.disabled {
+  pointer-events: none;
+  background: rgba(125,125,125,.2); // TODO select color
+  color: #888; // TODO select color
+}
+
+.ptr-button.ghost.disabled {
+  background: transparent;
+  border-color: #aaa; // TODO select color
+}
+
+.ptr-button.disabled .ptr-icon .line {
+  fill: #888; // TODO select color
+}
+.ptr-button.disabled .ptr-icon .polygon {
+  stroke: #888; // TODO select color
+}
+
+
+/* ==== Button menu ============================ */
+
+.ptr-button-menu {
+	position: absolute;
+	z-index: 1;
+}
+.ptr-button-menu.bottom {
+	top: 100%;
+}
+.ptr-button-menu.top {
+	bottom: 100%;
+}
+.ptr-button-menu.left {
+	right: 0;
+}
+.ptr-button-menu.right {
+	left: 0;
+}
