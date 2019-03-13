@@ -42,7 +42,7 @@ const activeScopeKeyWatcher = (value, previousValue) => {
 	console.log('@@ activeScopeKeyWatcher', previousValue, '->', value);
 };
 const activeScopeWatcher = (value, previousValue) => {
-	toggleBodyClasses(value.data, previousValue);
+	toggleBodyClasses(value && value.data, previousValue);
 	if (value && value.data && value.data.configuration && value.data.configuration.tour) {
 		window.Stores.notify("REDUX_TOUR_CHANGED", {tour: value.data.configuration.tour});
 	}
