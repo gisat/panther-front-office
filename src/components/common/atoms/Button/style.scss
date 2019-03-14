@@ -22,7 +22,7 @@
 
 /* General */
 .ptr-button {
-  background: var(--base3);
+  background: var(--base2);
   color: var(--base9);
   border: 1px solid rgba(0,0,0,.02); // TODO why?
   border-radius: .2rem;
@@ -281,7 +281,8 @@
 
 .ptr-button.ghost.disabled {
   background: transparent;
-  border-color: var(--base4);
+  border-color: var(--base3);
+  color: var(--base3);
 }
 
 .ptr-button.disabled .ptr-icon .line {
