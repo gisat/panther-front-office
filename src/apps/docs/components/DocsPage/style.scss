@@ -18,10 +18,7 @@
 .ptr-docs-panel {
   flex: 1;
   padding: m(1);
-}
-
-.ptr-docs-panel.ptr-dark {
-  background: #000000
+  background: var(--base0);
 }
 
 .ptr-docs-panel h1 {
