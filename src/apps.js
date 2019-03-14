@@ -19,6 +19,15 @@ export default [
 		})
 	},
 	{
+		key: 'docs',
+		hostname: 'panther.gisat.cz',
+		path: '/docs',
+		devPath: '/docs',
+		app: path => import(/* webpackChunkName: "demo" */'./apps/docs').then(module => {
+			module.default(path);
+		})
+	},
+	{
 		key: 'urbanTepVacBackOffice',
 		backOffice: true,
 		hostname: 'urban-tep.eu',
