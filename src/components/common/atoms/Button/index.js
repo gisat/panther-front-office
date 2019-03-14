@@ -21,6 +21,7 @@ class Button extends React.PureComponent {
 		onClick: PropTypes.func,
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
+		side: PropTypes.string,
 		small: PropTypes.bool,
 	};
 
@@ -110,6 +111,11 @@ class Button extends React.PureComponent {
 				large: !!this.props.large,
 				primary: !!this.props.primary,
 				secondary: !!this.props.secondary,
+				side: !!this.props.side,
+				'side-left': this.props.side === 'left',
+				'side-right': this.props.side === 'right',
+				'side-top': this.props.side === 'top',
+				'side-bottom': this.props.side === 'bottom',
 				small: this.props.small,
 			},
 			this.props.className

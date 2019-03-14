@@ -11,6 +11,7 @@
 		Inversion
 		Invisible
 		Circular
+		Side
 		Ghost
 		Disability
 
@@ -21,7 +22,7 @@
 
 /* General */
 .ptr-button {
-  background: var(--base2);
+  background: var(--base3);
   color: var(--base9);
   border: 1px solid rgba(0,0,0,.02); // TODO why?
   border-radius: .2rem;
@@ -40,7 +41,7 @@
 }
 
 .ptr-button:hover {
-  background: var(--base1);
+  background: var(--base2);
 }
 
 .ptr-button:focus::after {
@@ -124,22 +125,22 @@
 /* Levels */
 .ptr-button.primary {
   background: var(--accent5);
-  color: #ddd; // TODO select color
+  color: var(--base1);
 }
 
 .ptr-button.primary:hover {
   background: var(--accent4);
-  color: #eee; // TODO select color
+  color: var(--base0);
 }
 
 .ptr-button.secondary {
-  background: var(--base8);
-  color: #ddd; // TODO select color
+  background: var(--base7);
+  color: var(--base1);
 }
 
 .ptr-button.secondary:hover {
-  background: var(--base7);
-  color: #eee; // TODO select color
+  background: var(--base6);
+  color: var(--base0);
 }
 
 
@@ -155,6 +156,10 @@
   background: transparent;
   border-color: transparent;
   box-shadow: none;
+}
+
+.ptr-button.invisible:hover {
+  background: var(--base2);
 }
 
 
@@ -183,6 +188,42 @@
   border-radius: 50%;
 }
 
+/* Side */
+.ptr-button.side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.ptr-button.side-left,
+.ptr-button.side-right {
+  width: m(1 + 1/6);
+  height: m(1 + 2/3);
+}
+
+.ptr-button.side-left {
+  border-radius: 0 .2rem .2rem 0;
+}
+
+.ptr-button.side-right {
+  border-radius: .2rem 0 0 .2rem;
+}
+
+.ptr-button.side-top,
+.ptr-button.side-bottom {
+  height: m(1 + 1/6);
+  width: m(1 + 2/3);
+}
+
+.ptr-button.side-top {
+  border-radius: 0 0 .2rem .2rem;
+}
+
+.ptr-button.side-bottom {
+  border-radius: .2rem .2rem 0 0;
+}
+
 
 /* Ghost */
 .ptr-button.ghost {
@@ -192,7 +233,7 @@
 }
 
 .ptr-button.ghost:hover {
-  background: var(--base1);
+  background: var(--base2);
 }
 
 .ptr-button.ghost.large {
@@ -206,7 +247,23 @@
 }
 
 .ptr-button.ghost.primary:hover {
-  background: var(--accent1);
+  background: var(--accent2);
+}
+
+.ptr-button.ghost.side-left {
+  border-left-width: 0;
+}
+
+.ptr-button.ghost.side-right {
+  border-right-width: 0;
+}
+
+.ptr-button.ghost.side-top {
+  border-top-width: 0;
+}
+
+.ptr-button.ghost.side-bottom {
+  border-bottom-width: 0;
 }
 
 /* Disability */
@@ -218,20 +275,20 @@
 .ptr-button.primary.disabled,
 .ptr-button.secondary.disabled {
   pointer-events: none;
-  background: rgba(125,125,125,.2); // TODO select color
-  color: #888; // TODO select color
+  background: var(--base2);
+  color: var(--base4);
 }
 
 .ptr-button.ghost.disabled {
   background: transparent;
-  border-color: #aaa; // TODO select color
+  border-color: var(--base4);
 }
 
 .ptr-button.disabled .ptr-icon .line {
-  fill: #888; // TODO select color
+  fill: var(--base4);
 }
 .ptr-button.disabled .ptr-icon .polygon {
-  stroke: #888; // TODO select color
+  stroke: var(--base4);
 }
 
 
