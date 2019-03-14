@@ -6,6 +6,7 @@ import AngleDoubleRight from "./components/AngleDoubleRight";
 import AngleDoubleUp from "./components/AngleDoubleUp";
 import ArrowLeft from './components/ArrowLeft';
 import Circle from './components/Circle';
+import ChevronLeft from './components/ChevronLeft';
 import Delete from './components/Delete';
 import Dots from './components/Dots';
 import getAngleRight from './components/angle-right-solid';
@@ -57,6 +58,8 @@ const icon = key => {
 			return <ArrowLeft />;
 		// case 'circle':
 		// 	return <Circle />;
+		case 'chevron-left':
+			return <ChevronLeft />;
 		case 'delete':
 			return <Delete />; //todo
 		case 'dots':
