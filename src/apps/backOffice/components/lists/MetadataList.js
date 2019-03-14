@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from 'lodash';
 import {withNamespaces} from "react-i18next";
 import Value from '../Select/Value';
-import Icon from 'components/common/atoms/Icon';
+import Icon from '../../../../components/common/atoms/Icon';
 import AddValue from '../../../../apps/backOffice/components/Select/AddValue';
 
 class MetadataList extends React.PureComponent {

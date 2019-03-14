@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SelectCreatable from 'react-select/lib/Creatable';
 import Value from './Value';
-import Icon from 'components/common/atoms/Icon';
+import Icon from '../../../../components/common/atoms/Icon';
 import {getLabel} from './utils';
 
 import './select.scss';

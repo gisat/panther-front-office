@@ -1,8 +1,8 @@
 import ActionTypes from '../../../constants/ActionTypes';
 import Select from '../../Select';
 import cloneDeep from 'lodash/cloneDeep';
-import {getFolderByLayerKey, getFolderByKey, getLayersInFolder} from 'utils/tree';
-import mapsActions from 'state/Maps/actions';
+import {getFolderByLayerKey, getFolderByKey, getLayersInFolder} from '../../../utils/tree';
+import mapsActions from '../../../state/Maps/actions';
 
 // ============ creators ===========
 const hideRadioFolderLayersByLayerTemplateKey = (layersTree, layerTemplateKey, mapKey) => {

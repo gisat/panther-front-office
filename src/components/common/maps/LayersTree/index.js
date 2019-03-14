@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import Select from 'state/Select';
-import Action from 'state/Action';
-import utils from 'utils/utils';
-import {getLayerZindex, getFlattenLayers} from 'utils/tree'
+import Select from '../../../../state/Select';
+import Action from '../../../../state/Action';
+import utils from '../../../../utils/utils';
+import {getLayerZindex, getFlattenLayers} from '../../../../utils/tree'
 
 import presentation from './presentation';
 

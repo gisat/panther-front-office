@@ -9,7 +9,7 @@ import Select from "../Select";
 import ActionTypes from "../../constants/ActionTypes";
 
 import Action from '../Action';
-import utils from 'utils/utils';
+import utils from '../../utils/utils';
 
 const PAGE_SIZE = 10;
 const DEFAULT_CATEGORY_PATH = 'metadata';

@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Overlays from './Overlays/selectors';
 import MapsSelect from '../Maps/selectors';
-import LayerTemplatesSelect from 'state/LayerTemplates/selectors';
+import LayerTemplatesSelect from '../../state/LayerTemplates/selectors';
 import Windows from './Windows/selectors';
 import {stylePriorityOrder} from '../../constants/VisualsConfig';
 // import getLayersTreesConfig from
