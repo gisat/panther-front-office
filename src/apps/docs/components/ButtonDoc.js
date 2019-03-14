@@ -27,6 +27,13 @@ class ButtonDoc extends React.PureComponent {
 					<Button secondary icon="plus">Secondary</Button>
 				</div>
 
+				<h2>Normal size icon only</h2>
+				<div className="ptr-docs-panel-section">
+					<Button icon="delete"/>
+					<Button primary icon="plus"/>
+					<Button secondary icon="delete"/>
+				</div>
+
 				<h2>Small size</h2>
 				<div className="ptr-docs-panel-section">
 					<Button small>Basic</Button>
@@ -73,13 +80,6 @@ class ButtonDoc extends React.PureComponent {
 					<Button disabled icon="delete">Basic</Button>
 					<Button disabled primary icon="download">Basic</Button>
 					<Button disabled secondary icon="plus">Basic</Button>
-				</div>
-
-				<h2>TODO: Inverted</h2>
-				<div className="ptr-docs-panel-section">
-					<Button inverted>Basic</Button>
-					<Button inverted primary>Primary</Button>
-					<Button inverted secondary>Secondary</Button>
 				</div>
 
 				<h2>Invisible</h2>
