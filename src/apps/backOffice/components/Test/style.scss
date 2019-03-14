@@ -3,6 +3,16 @@
 .ptr-bo-test {
 	width: 100%;
 }
+.ptr-bo-test:after {
+	display: block;
+	position: absolute;
+	width: 1px;
+	background: #abc;
+	left: 50%;
+	height: 100%;
+	content: " ";
+	top: 0;
+}
 .testy {
 	height: 12vw;
 	display: flex;
@@ -13,6 +23,8 @@
 	margin: 3vw 0;
 	width: 6vw;
 	height: 6vw;
+	z-index: 1;
+	position: relative;
 }
 .testy > div:nth-child(1) {
 	background-color: var(--base0);

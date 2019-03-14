@@ -7,6 +7,7 @@
     "@nasaworldwind/worldwind": "0.9.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-preset-env": "1.7.0",
+    "chroma-js": "2.0.3",
     "classnames": "2.2.6",
     "connected-react-router": "6.2.2",
     "d3": "5.7.0",
