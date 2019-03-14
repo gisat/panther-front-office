@@ -1,5 +1,5 @@
 import React from "react";
-import TreeFolder from "components/presentation/Tree/treeFolder";
+import TreeFolder from "../../../../components/presentation/Tree/treeFolder";
 import PropTypes from "prop-types";
 
 class LayerTreeFolder extends React.PureComponent {

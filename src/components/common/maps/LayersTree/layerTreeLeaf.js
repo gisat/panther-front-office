@@ -1,5 +1,5 @@
 import React from "react";
-import TreeLeaf from "components/presentation/Tree/treeLeaf";
+import TreeLeaf from "../../../../components/presentation/Tree/treeLeaf";
 import PropTypes from "prop-types";
 
 class LayerTreeNode extends React.PureComponent {
