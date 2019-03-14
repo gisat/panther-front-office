@@ -7,7 +7,130 @@ class ButtonDoc extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-docs-panel-content">
-				<Button secondary>Test</Button>
+				<h2>Normal size</h2>
+				<div className="ptr-docs-panel-section">
+					<Button>Basic</Button>
+					<Button primary>Primary</Button>
+					<Button secondary>Secondary</Button>
+				</div>
+
+				<h2>Normal size with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button icon="delete">Basic</Button>
+					<Button icon="download">Basic</Button>
+					<Button icon="plus">Basic</Button>
+					<Button primary icon="delete">Primary</Button>
+					<Button primary icon="download">Primary</Button>
+					<Button primary icon="plus">Primary</Button>
+					<Button secondary icon="delete">Secondary</Button>
+					<Button secondary icon="download">Secondary</Button>
+					<Button secondary icon="plus">Secondary</Button>
+				</div>
+
+				<h2>Small size</h2>
+				<div className="ptr-docs-panel-section">
+					<Button small>Basic</Button>
+					<Button small primary>Primary</Button>
+					<Button small secondary>Secondary</Button>
+				</div>
+
+				<h2>Small size with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button small icon="delete">Basic</Button>
+					<Button small icon="download">Basic</Button>
+					<Button small icon="plus">Basic</Button>
+				</div>
+
+				<h2>Large size</h2>
+				<div className="ptr-docs-panel-section">
+					<Button large>Basic</Button>
+					<Button large primary>Primary</Button>
+					<Button large secondary>Secondary</Button>
+				</div>
+
+				<h2>Normal size with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button large icon="delete">Basic</Button>
+					<Button large icon="download">Basic</Button>
+					<Button large icon="plus">Basic</Button>
+					<Button large primary icon="delete">Primary</Button>
+					<Button large primary icon="download">Primary</Button>
+					<Button large primary icon="plus">Primary</Button>
+					<Button large secondary icon="delete">Secondary</Button>
+					<Button large secondary icon="download">Secondary</Button>
+					<Button large secondary icon="plus">Secondary</Button>
+				</div>
+
+				<h2>Disabled</h2>
+				<div className="ptr-docs-panel-section">
+					<Button disabled>Basic</Button>
+					<Button disabled primary>Primary</Button>
+					<Button disabled secondary>Secondary</Button>
+				</div>
+
+				<h2>Disabled with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button disabled icon="delete">Basic</Button>
+					<Button disabled primary icon="download">Basic</Button>
+					<Button disabled secondary icon="plus">Basic</Button>
+				</div>
+
+				<h2>TODO: Inverted</h2>
+				<div className="ptr-docs-panel-section">
+					<Button inverted>Basic</Button>
+					<Button inverted primary>Primary</Button>
+					<Button inverted secondary>Secondary</Button>
+				</div>
+
+				<h2>Invisible</h2>
+				<div className="ptr-docs-panel-section">
+					<Button invisible>Basic</Button>
+				</div>
+
+				<h2>Ghost</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost>Basic</Button>
+					<Button ghost primary>Primary</Button>
+				</div>
+
+				<h2>Ghost with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost icon="delete">Basic</Button>
+					<Button ghost primary icon="download">Basic</Button>
+				</div>
+
+				<h2>Ghost large</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost large>Basic</Button>
+					<Button ghost large primary>Primary</Button>
+				</div>
+
+				<h2>Ghost large with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost large icon="delete">Basic</Button>
+					<Button ghost large primary icon="plus">Basic</Button>
+				</div>
+
+				<h2>Ghost disabled</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost disabled>Basic</Button>
+					<Button ghost disabled primary>Primary</Button>
+				</div>
+
+				<h2>Circular</h2>
+				<div className="ptr-docs-panel-section">
+					<Button circular icon="delete"/>
+					<Button circular primary icon="plus"/>
+					<Button circular secondary icon="edit"/>
+				</div>
+
+				<h2>Circular large</h2>
+				<div className="ptr-docs-panel-section">
+					<Button circular large icon="expand"/>
+					<Button circular large primary icon="search"/>
+					<Button circular large secondary icon="restore"/>
+				</div>
+
 			</div>
 		);
 	}

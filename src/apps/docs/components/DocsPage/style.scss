@@ -2,7 +2,7 @@
 
 .ptr-docs-page {
   display: flex;
-  height: 100%;
+  min-height: 100%;
 }
 
 .ptr-docs-nav {
@@ -25,9 +25,19 @@
 }
 
 .ptr-docs-panel h1 {
-  color: var(--base9);
+  color: var(--base8);
+  font-size: $a3;
+  margin-bottom: m(1/3);
+}
+
+.ptr-docs-panel h2 {
+  color: var(--base8);
   font-size: $a2;
   margin-bottom: m(1/3);
+}
+
+.ptr-docs-panel-section {
+  margin-bottom: m(1);
 }
 
 @media screen and (max-width: 60rem) {
