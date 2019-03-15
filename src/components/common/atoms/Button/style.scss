@@ -8,7 +8,6 @@
 		Icon
 		Sizes (small, large, ...)
 		Levels (primary, secondary, ...)
-		Inversion
 		Invisible
 		Circular
 		Side
@@ -22,15 +21,15 @@
 
 /* General */
 .ptr-button {
-  background: var(--base2);
-  color: var(--base9);
-  border: 1px solid rgba(0,0,0,.02); // TODO why?
+  background: var(--base3);
+  color: var(--base10);
+  //border: 1px solid rgba(0,0,0,.02); // TODO why?
   border-radius: .2rem;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   display: inline-block;
-  height: m(1 + 1/3);
+  height: 2.2rem;
   outline: none;
-  padding: 0 m(1/4);
+  padding: 0.35rem .5rem;
   position: relative;
 
   transition:
@@ -40,8 +39,27 @@
   margin: .2rem; // TODO remove - only for testing
 }
 
+.ptr-button:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: transparent;
+  transition: background .3s ease-in-out;
+}
+
 .ptr-button:hover {
-  background: var(--base2);
+  color: var(--base11);
+}
+
+.ptr-button:not(.ghost):hover {
+  border-color: transparent;
+}
+
+.ptr-button:not(.ghost):hover:after {
+  background: rgba(255,255,255,.15);
 }
 
 .ptr-button:focus::after {
@@ -49,7 +67,7 @@
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
   border-radius: .2rem;
-  box-shadow: 0 0 2px 2px var(--accent5);
+  box-shadow: 0 0 2px 2px var(--accent6);
   pointer-events: none;
 }
 
@@ -57,16 +75,16 @@
   display: inline-block;
   vertical-align: top;
   font-size: $a1;
-  line-height: calc(#{m(1 + 1/3)} - 1px);
-  margin: 0 m(1/6);
+  line-height: 1.6rem;
+  margin: 0 0.25rem;
 }
 
 /* Icon */
 .ptr-button > .ptr-icon {
   display: inline-block;
-  width: m(3/4);
-  height: m(3/4);
-  margin: calc(#{m(7/24)} - 1px) m(1/8);
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: .125rem .3rem;
 }
 
 .ptr-button > .ptr-icon .line {
@@ -79,11 +97,10 @@
   stroke: currentColor;
 }
 
-
 /* Sizes */
 .ptr-button.large {
-  height: m(2);
-  padding: 0 m(3/4);
+  height: 3rem;
+  padding: .5rem .8rem;
 }
 
 .ptr-button.large:focus::after {
@@ -92,64 +109,54 @@
 
 .ptr-button.large .ptr-button-caption {
   font-size: $b2;
-  line-height: calc(#{m(2)} - 1px);
-  margin: 0 m(1/6);
+  line-height: 2.1rem;
+  margin: 0 .4rem;
 }
 
 .ptr-button.large > .ptr-icon {
-  width: m(1);
-  height: m(1);
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .ptr-button.large:not(.icon) > .ptr-icon {
-  margin: calc(#{m(1/2)} - 1px) m(1/4) calc(#{m(1/2)} - 1px) 0;
+  margin: .25rem .3rem;
 }
 
 .ptr-button.small {
-  height: m(1 + 1/6);
-  padding: 0 m(1/6);
+  height: 1.7rem;
+  padding: .2rem .35rem;
 }
 
 .ptr-button.small .ptr-button-caption {
   font-size: $b1;
-  line-height: calc(#{m(1 + 1/6)} - 1px);
+  line-height: 1.4rem;
 }
 
 .ptr-button.small > .ptr-icon {
-  width: m(2/3);
-  height: m(2/3);
-  margin: calc(#{m(3/12)} - 1px) m(1/12);
+  width: 1rem;
+  height: 1rem;
+  margin: .15rem;
 }
 
 
 /* Levels */
 .ptr-button.primary {
-  background: var(--accent5);
+  background: var(--accent6);
   color: var(--base1);
 }
 
 .ptr-button.primary:hover {
-  background: var(--accent4);
   color: var(--base0);
 }
 
 .ptr-button.secondary {
-  background: var(--base7);
+  background: var(--base6);
   color: var(--base1);
 }
 
 .ptr-button.secondary:hover {
-  background: var(--base6);
   color: var(--base0);
 }
-
-
-/* Inversion */
-// TODO
-.ptr-button.inverted {
-
-}
-
 
 /* Invisible */
 .ptr-button.invisible {
@@ -159,7 +166,7 @@
 }
 
 .ptr-button.invisible:hover {
-  background: var(--base2);
+  background: var(--base3);
 }
 
 
@@ -168,19 +175,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: m(1.5);
-  height: m(1.5);
+  width: 2.5rem;
+  height: 2.5rem;
   border: 0;
   border-radius: 50%;
   position: relative;
-  top: m(-1/12);
-  left: m(-1/12);
+  top: -.15rem;
+  left: -.15rem;
   outline: none;
 }
 
+.ptr-button.circular {
+  padding: 0;
+}
+
+.ptr-button.circular:after {
+  border-radius: 50%;
+}
+
 .ptr-button.circular.large {
-  width: m(2.5);
-  height: m(2.5);
+  width: 3.5rem;
+  height: 3.5rem;
   padding: 0;
 }
 
@@ -198,8 +213,8 @@
 
 .ptr-button.side-left,
 .ptr-button.side-right {
-  width: m(1 + 1/6);
-  height: m(1 + 2/3);
+  width: 1.75rem;
+  height: 2.5rem;
 }
 
 .ptr-button.side-left {
@@ -212,8 +227,8 @@
 
 .ptr-button.side-top,
 .ptr-button.side-bottom {
-  height: m(1 + 1/6);
-  width: m(1 + 2/3);
+  height: 1.75rem;
+  width: 2.5rem;
 }
 
 .ptr-button.side-top {
@@ -232,17 +247,24 @@
   box-shadow: none;
 }
 
+.ptr-button.ghost:not(.side) {
+  padding: calc(0.35rem - 1px) calc(.5rem - 1px);
+}
+
 .ptr-button.ghost:hover {
   background: var(--base2);
 }
 
 .ptr-button.ghost.large {
   border-width: 2px;
-  padding: 0 m(3/4);
+}
+
+.ptr-button.ghost.large:not(.side) {
+  padding: calc(.5rem - 2px) calc(.8rem - 2px);
 }
 
 .ptr-button.ghost.primary {
-  border-color: var(--accent5);
+  border-color: var(--accent6);
   color: var(--accent6);
 }
 
@@ -282,7 +304,7 @@
 .ptr-button.ghost.disabled {
   background: transparent;
   border-color: var(--base3);
-  color: var(--base3);
+  color: var(--base4);
 }
 
 .ptr-button.disabled .ptr-icon .line {
