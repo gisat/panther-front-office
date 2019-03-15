@@ -2,6 +2,8 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 
 import Button from "../../../components/common/atoms/Button";
+import Menu from "../../../components/common/atoms/Menu";
+import {MenuItem} from "../../../components/common/atoms/Menu";
 
 class ButtonDoc extends React.PureComponent {
 	render() {
@@ -87,6 +89,17 @@ class ButtonDoc extends React.PureComponent {
 					<Button invisible>Basic</Button>
 				</div>
 
+				<h2>Button with menu</h2>
+				<div className="ptr-docs-panel-section">
+					<Button icon="dots" invisible>
+						<Menu bottom right>
+							<MenuItem disabled>Item 1</MenuItem>
+							<MenuItem>Wtf menu item</MenuItem>
+							<MenuItem>Omg</MenuItem>
+						</Menu>
+					</Button>
+				</div>
+
 				<h2>Ghost</h2>
 				<div className="ptr-docs-panel-section">
 					<Button ghost>Basic</Button>
@@ -147,7 +160,6 @@ class ButtonDoc extends React.PureComponent {
 					<Button circular large primary icon="search"/>
 					<Button circular large secondary icon="chevron-left"/>
 				</div>
-
 			</div>
 		);
 	}

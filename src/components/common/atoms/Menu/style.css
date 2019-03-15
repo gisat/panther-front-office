@@ -21,24 +21,25 @@
 	white-space: nowrap;
 	overflow: hidden;
 
-	background: #eee;
+	background: var(--base1);
 
 	transition:
 		background .3s ease-in-out;
 }
 .ptr-menu-item.disabled {
 	pointer-events: none;
-	color: #b7b7b7;
+	color: var(--base4);
 }
 .ptr-menu-item.disabled > .ptr-icon .line,
 .ptr-menu-item.disabled > .ptr-icon .polygon {
 	stroke: #b7b7b7;
 }
 .ptr-menu-item:not(:first-child) {
-	border-top: 1px solid rgba(0,0,0,0.2);
+	border-top: 1px solid var(--base4);
 }
+
 .ptr-menu-item:hover {
-	background: #fff;
+	background: var(--base3);
 }
 
 .ptr-menu-item > .ptr-icon {
