@@ -33,6 +33,9 @@ class Test extends React.PureComponent {
 		let accentScale6 = chroma.scale(['#fffefc', '#ad162b', '#040300']).mode('lab').correctLightness();
 		let accentScale7 = chroma.scale(['#fffefc', '#90daf8', '#040300']).mode('lab').correctLightness();
 
+		let boBaseScale = chroma.scale(['#c7c5c2', '#040300']).mode('lab').correctLightness();
+		let boAccentScale = chroma.scale(['#c7c5c2', '#227773', '#040300']).mode('lab').correctLightness();
+
 		// let darkBase = [
 		// 	'#fffefc',
 		// 	'#f0f0ef',
@@ -109,10 +112,10 @@ class Test extends React.PureComponent {
 
 
 				<div className="testy ptr-bo-colours">
-					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
+					{scale.map(value => (<div style={{background: boBaseScale(value).hex()}}/>))}
 				</div>
 				<div className="testy t2 ptr-bo-colours">
-					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
+					{scale.map(value => (<div style={{background: boAccentScale(value).hex()}}/>))}
 				</div>
 				<div className="testy t3 ptr-bo-colours">
 					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
