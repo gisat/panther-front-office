@@ -1,6 +1,6 @@
 @import '../../../styles/variables';
 .ptr-navlist{
-    background-color: var(--base1);
+    background-color: var(--base2);
     height: 100%;
     padding: m(2/3) 0;
 }
@@ -18,14 +18,14 @@
 .ptr-navlist li.ptr-nav-item {
     border-left: 3px;
     border-left-style: solid;
-    border-left-color: var(--base3);
+    border-left-color: var(--base4);
 }
 .ptr-navlist li.ptr-nav-item:hover,
 .ptr-navlist li.ptr-nav-item:focus-within {
-    border-left-color: var(--accent6);
+    border-left-color: var(--accent7);
 }
 .ptr-navlist li.ptr-nav-item.selected {
-    border-left-color: var(--accent6);
+    border-left-color: var(--accent7);
 }
 
 .ptr-navlist li.ptr-nav-item a, 
@@ -33,7 +33,7 @@
 .ptr-navlist li.ptr-nav-item a:focus,
 .ptr-navlist li.ptr-nav-item a:visited {
     display: block;
-    color: var(--base6);
+    color: var(--base7);
     text-decoration: none;
     /* transition: all 400ms; background animation */
 }
@@ -41,7 +41,7 @@
 .ptr-navlist li.ptr-nav-item.selected a,
 .ptr-navlist li.ptr-nav-item a:hover,
 .ptr-navlist li.ptr-nav-item a:focus {
-    color: var(--accent6);
+    color: var(--accent7);
     background-color: var(--base2);
 }
 
@@ -54,5 +54,5 @@
 }
 
 .ptr-navlist li.ptr-nav-item a.selected{
-    background: var(--accent2);
+    background: var(--accent3);
 }
