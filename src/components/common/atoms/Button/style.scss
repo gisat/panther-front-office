@@ -27,9 +27,9 @@
   border-radius: .2rem;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   display: inline-block;
-  height: 2.2rem;
+  height: m(4/3);
   outline: none;
-  padding: 0.35rem 0.5rem;
+  padding: 0 .35rem;
   position: relative;
 
   transition:
@@ -42,10 +42,6 @@
 .ptr-button > * {
   position: relative;
   z-index: 1;
-}
-
-.ptr-button.icon {
-  padding: 0.35rem;
 }
 
 .ptr-button:after {
@@ -85,8 +81,9 @@
   display: inline-block;
   vertical-align: top;
   font-size: $a1;
-  line-height: 1.6rem;
   margin: 0 0.25rem;
+  line-height: 1;
+  padding: 0.5rem 0;
 }
 
 /* Icon */
@@ -94,7 +91,7 @@
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
-  margin: .125rem .3rem;
+  margin: .375rem .25rem;
 }
 
 .ptr-button > .ptr-icon .line {
@@ -109,8 +106,8 @@
 
 /* Sizes */
 .ptr-button.large {
-  height: 3rem;
-  padding: .5rem .8rem;
+  height: m(2);
+  padding: 0 .5rem;
 }
 
 .ptr-button.large:focus::after {
@@ -119,33 +116,31 @@
 
 .ptr-button.large .ptr-button-caption {
   font-size: $b2;
-  line-height: 2.1rem;
+  padding: .8455rem 0;
   margin: 0 .4rem;
 }
 
 .ptr-button.large > .ptr-icon {
   width: 1.5rem;
   height: 1.5rem;
-}
-
-.ptr-button.large:not(.icon) > .ptr-icon {
-  margin: .25rem .3rem;
+  margin: .75rem .4rem;
 }
 
 .ptr-button.small {
-  height: 1.7rem;
-  padding: .2rem .35rem;
+  height: m(1);
+  padding: 0 .35rem;
 }
 
 .ptr-button.small .ptr-button-caption {
   font-size: $b1;
-  line-height: 1.4rem;
+  padding: .4rem 0 .291rem;
+  margin: 0 .15rem;
 }
 
 .ptr-button.small > .ptr-icon {
   width: 1rem;
   height: 1rem;
-  margin: .15rem;
+  margin: .25rem .15rem;
 }
 
 
@@ -182,9 +177,6 @@
 
 /* Circular */
 .ptr-button.circular {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
   border: 0;
@@ -214,13 +206,6 @@
 }
 
 /* Side */
-.ptr-button.side {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
 .ptr-button.side-left,
 .ptr-button.side-right {
   width: 1.75rem;
@@ -255,10 +240,15 @@
   background: transparent;
   border: 1px solid var(--base7);
   box-shadow: none;
+  padding: 0 calc(.35rem - 1px);
 }
 
-.ptr-button.ghost:not(.side) {
-  padding: calc(0.35rem - 1px) calc(.5rem - 1px);
+.ptr-button.ghost .ptr-button-caption {
+  padding: calc(0.5rem - 1px) 0;
+}
+
+.ptr-button.ghost .ptr-icon {
+  margin: calc(.375rem - 1px) .25rem;
 }
 
 .ptr-button.ghost:hover {
@@ -267,10 +257,15 @@
 
 .ptr-button.ghost.large {
   border-width: 2px;
+  padding: 0 calc(.5rem - 2px);
 }
 
-.ptr-button.ghost.large:not(.side) {
-  padding: calc(.5rem - 2px) calc(.8rem - 2px);
+.ptr-button.ghost.large .ptr-button-caption {
+  padding: calc(.8455rem - 2px) 0;
+}
+
+.ptr-button.ghost.large .ptr-icon {
+  margin: calc(.75rem - 2px) .4rem;
 }
 
 .ptr-button.ghost.primary {

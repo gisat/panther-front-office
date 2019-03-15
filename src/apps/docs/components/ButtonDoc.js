@@ -2,6 +2,7 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 
 import Button from "../../../components/common/atoms/Button";
+import Icon from "../../../components/common/atoms/Icon";
 import Menu from "../../../components/common/atoms/Menu";
 import {MenuItem} from "../../../components/common/atoms/Menu";
 
@@ -26,7 +27,7 @@ class ButtonDoc extends React.PureComponent {
 					<Button primary icon="plus">Primary</Button>
 					<Button secondary icon="delete">Secondary</Button>
 					<Button secondary icon="download">Secondary</Button>
-					<Button secondary icon="plus">Secondary</Button>
+					<Button secondary>Secondary<Icon icon="plus"/></Button>
 				</div>
 
 				<h2>Normal size icon only</h2>
@@ -48,6 +49,14 @@ class ButtonDoc extends React.PureComponent {
 					<Button small icon="delete">Basic</Button>
 					<Button small icon="download">Basic</Button>
 					<Button small icon="plus">Basic</Button>
+					<Button small secondary>Secondary<Icon icon="plus"/></Button>
+				</div>
+
+				<h2>Small size with icon only</h2>
+				<div className="ptr-docs-panel-section">
+					<Button small icon="delete"/>
+					<Button small icon="download"/>
+					<Button small icon="plus"/>
 				</div>
 
 				<h2>Large size</h2>
@@ -57,7 +66,7 @@ class ButtonDoc extends React.PureComponent {
 					<Button large secondary>Secondary</Button>
 				</div>
 
-				<h2>Normal size with icon</h2>
+				<h2>Large size with icon</h2>
 				<div className="ptr-docs-panel-section">
 					<Button large icon="delete">Basic</Button>
 					<Button large icon="download">Basic</Button>
@@ -67,7 +76,14 @@ class ButtonDoc extends React.PureComponent {
 					<Button large primary icon="plus">Primary</Button>
 					<Button large secondary icon="delete">Secondary</Button>
 					<Button large secondary icon="download">Secondary</Button>
-					<Button large secondary icon="plus">Secondary</Button>
+					<Button large secondary>Secondary<Icon icon="plus"/></Button>
+				</div>
+
+				<h2>Large size with icon only</h2>
+				<div className="ptr-docs-panel-section">
+					<Button large icon="delete"/>
+					<Button large icon="download"/>
+					<Button large icon="plus"/>
 				</div>
 
 				<h2>Disabled</h2>
