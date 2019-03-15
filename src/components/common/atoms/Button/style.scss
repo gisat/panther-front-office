@@ -185,6 +185,13 @@
   top: -.15rem;
   left: -.15rem;
   outline: none;
+  padding: 0;
+}
+
+.ptr-button.circular > .ptr-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: .625rem;
 }
 
 .ptr-button.circular {
@@ -195,21 +202,47 @@
   border-radius: 50%;
 }
 
-.ptr-button.circular.large {
-  width: 3.5rem;
-  height: 3.5rem;
-  padding: 0;
-}
-
 .ptr-button.circular:focus::after {
   border-radius: 50%;
 }
 
+.ptr-button.circular.small {
+  width: 2rem;
+  height: 2rem;
+}
+
+.ptr-button.circular.small > .ptr-icon {
+  width: 1rem;
+  height: 1rem;
+  margin: .5rem;
+}
+
+.ptr-button.circular.large {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.ptr-button.circular.large > .ptr-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 1rem;
+}
+
+
 /* Side */
+.ptr-button.side {
+  padding: 0;
+}
+
 .ptr-button.side-left,
 .ptr-button.side-right {
   width: 1.75rem;
   height: 2.5rem;
+}
+
+.ptr-button.side-left > .ptr-icon,
+.ptr-button.side-right > .ptr-icon {
+  margin: .625rem .25rem;
 }
 
 .ptr-button.side-left {
@@ -224,6 +257,11 @@
 .ptr-button.side-bottom {
   height: 1.75rem;
   width: 2.5rem;
+}
+
+.ptr-button.side-top > .ptr-icon,
+.ptr-button.side-bottom > .ptr-icon {
+  margin: .25rem .625rem;
 }
 
 .ptr-button.side-top {
@@ -247,12 +285,24 @@
   padding: calc(0.5rem - 1px) 0;
 }
 
-.ptr-button.ghost .ptr-icon {
+.ptr-button.ghost > .ptr-icon {
   margin: calc(.375rem - 1px) .25rem;
 }
 
 .ptr-button.ghost:hover {
-  background: var(--base2);
+  background: var(--base3);
+}
+
+.ptr-button.ghost.small {
+  padding: 0 calc(.35rem - 1px);
+}
+
+.ptr-button.ghost.small .ptr-button-caption {
+  padding: calc(.3455rem - 1px) 0;
+}
+
+.ptr-button.ghost.small .ptr-icon {
+  margin: calc(.25rem - 1px) .15rem;
 }
 
 .ptr-button.ghost.large {
@@ -275,6 +325,11 @@
 
 .ptr-button.ghost.primary:hover {
   background: var(--accent2);
+  color: var(--accent7);
+}
+
+.ptr-button.ghost.side {
+  padding: 0;
 }
 
 .ptr-button.ghost.side-left {
@@ -291,6 +346,16 @@
 
 .ptr-button.ghost.side-bottom {
   border-bottom-width: 0;
+}
+
+.ptr-button.ghost.side-left > .ptr-icon,
+.ptr-button.ghost.side-right > .ptr-icon {
+  margin: calc(.625rem - 1px) .25rem;
+}
+
+.ptr-button.ghost.side-top > .ptr-icon,
+.ptr-button.ghost.side-bottom > .ptr-icon {
+  margin: .25rem calc(.625rem - 1px);
 }
 
 /* Disability */

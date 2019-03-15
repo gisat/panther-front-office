@@ -128,6 +128,18 @@ class ButtonDoc extends React.PureComponent {
 					<Button ghost primary icon="download">Basic</Button>
 				</div>
 
+				<h2>Ghost small</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost small>Basic</Button>
+					<Button ghost small primary>Primary</Button>
+				</div>
+
+				<h2>Ghost small with icon</h2>
+				<div className="ptr-docs-panel-section">
+					<Button ghost small icon="delete">Basic</Button>
+					<Button ghost small primary icon="plus">Basic</Button>
+				</div>
+
 				<h2>Ghost large</h2>
 				<div className="ptr-docs-panel-section">
 					<Button ghost large>Basic</Button>
@@ -168,6 +180,13 @@ class ButtonDoc extends React.PureComponent {
 					<Button circular icon="chevron-left"/>
 					<Button circular primary icon="plus"/>
 					<Button circular secondary icon="edit"/>
+				</div>
+
+				<h2>Circular small</h2>
+				<div className="ptr-docs-panel-section">
+					<Button circular small icon="expand"/>
+					<Button circular small primary icon="search"/>
+					<Button circular small secondary icon="chevron-left"/>
 				</div>
 
 				<h2>Circular large</h2>
