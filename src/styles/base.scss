@@ -25,7 +25,9 @@ code, pre {
 	--base8: #{$gray8};
 	--base9: #{$gray9};
 	--base10: #{$gray10};
-	--base10rgb: #{$gray10rgb};
+	--base11: #{$gray11};
+	--base12: #{$gray12};
+	--base12rgb: #{$gray12rgb};
 
 	--accent0: #{$accent0};
 	--accent1: #{$accent1};
@@ -33,40 +35,46 @@ code, pre {
 	--accent3: #{$accent3};
 	--accent4: #{$accent4};
 	--accent5: #{$accent5};
-	--accent5rgb: #{$accent5rgb};
+	--accent6rgb: #{$accent6rgb};
 	--accent6: #{$accent6};
 	--accent7: #{$accent7};
 	--accent8: #{$accent8};
 	--accent9: #{$accent9};
 	--accent10: #{$accent10};
+	--accent11: #{$accent11};
+	--accent12: #{$accent12};
 }
 .ptr-dark {
-	--base0: #{$gray10};
-	--base0rgb: #{$gray10rgb};
-	--base1: #{$gray9};
-	--base2: #{$gray8};
-	--base3: #{$gray7};
-	--base4: #{$gray6};
-	--base5: #{$gray5};
-	--base6: #{$gray4};
-	--base7: #{$gray3};
-	--base8: #{$gray2};
-	--base9: #{$gray1};
-	--base10: #{$gray0};
-	--base10rgb: #{$gray0rgb};
+	--base0: #{$darkmode-gray12};
+	--base0rgb: #{$darkmode-gray12rgb};
+	--base1: #{$darkmode-gray11};
+	--base2: #{$darkmode-gray10};
+	--base3: #{$darkmode-gray9};
+	--base4: #{$darkmode-gray8};
+	--base5: #{$darkmode-gray7};
+	--base6: #{$darkmode-gray6};
+	--base7: #{$darkmode-gray5};
+	--base8: #{$darkmode-gray4};
+	--base9: #{$darkmode-gray3};
+	--base10: #{$darkmode-gray2};
+	--base11: #{$darkmode-gray1};
+	--base12: #{$darkmode-gray0};
+	--base10rgb: #{$darkmode-gray0rgb};
 
-	--accent0: #{$accent10};
-	--accent1: #{$accent9};
-	--accent2: #{$accent8};
-	--accent3: #{$accent7};
-	--accent4: #{$accent6};
-	--accent5: #{$accent5};
-	--accent5rgb: #{$accent5rgb};
-	--accent6: #{$accent4};
-	--accent7: #{$accent3};
-	--accent8: #{$accent2};
-	--accent9: #{$accent1};
-	--accent10: #{$accent0};
+	--accent0: #{$darkmode-accent12};
+	--accent1: #{$darkmode-accent11};
+	--accent2: #{$darkmode-accent10};
+	--accent3: #{$darkmode-accent9};
+	--accent4: #{$darkmode-accent8};
+	--accent5: #{$darkmode-accent7};
+	--accent6rgb: #{$darkmode-accent6rgb};
+	--accent6: #{$darkmode-accent6};
+	--accent7: #{$darkmode-accent5};
+	--accent8: #{$darkmode-accent4};
+	--accent9: #{$darkmode-accent3};
+	--accent10: #{$darkmode-accent2};
+	--accent11: #{$darkmode-accent1};
+	--accent12: #{$darkmode-accent0};
 }
 .ptr-bo-colours {
 	--base0: #{$bo0};
@@ -81,7 +89,9 @@ code, pre {
 	--base8: #{$bo8};
 	--base9: #{$bo9};
 	--base10: #{$bo10};
-	--base10rgb: #{$bo10rgb};
+	--base11: #{$bo11};
+	--base12: #{$bo12};
+	--base12rgb: #{$bo12rgb};
 
 	--accent0: #{$bo-accent0};
 	--accent1: #{$bo-accent1};
@@ -89,10 +99,12 @@ code, pre {
 	--accent3: #{$bo-accent3};
 	--accent4: #{$bo-accent4};
 	--accent5: #{$bo-accent5};
-	--accent5rgb: #{$bo-accent5rgb};
+	--accent6rgb: #{$bo-accent6rgb};
 	--accent6: #{$bo-accent6};
 	--accent7: #{$bo-accent7};
 	--accent8: #{$bo-accent8};
 	--accent9: #{$bo-accent9};
 	--accent10: #{$bo-accent10};
+	--accent11: #{$bo-accent11};
+	--accent12: #{$bo-accent12};
 }
