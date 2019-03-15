@@ -29,7 +29,7 @@
   display: inline-block;
   height: 2.2rem;
   outline: none;
-  padding: 0.35rem .5rem;
+  padding: 0.35rem 0.5rem;
   position: relative;
 
   transition:
@@ -37,6 +37,15 @@
 	  color .3s ease-in-out;
 
   margin: .2rem; // TODO remove - only for testing
+}
+
+.ptr-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ptr-button.icon {
+  padding: 0.35rem;
 }
 
 .ptr-button:after {
@@ -48,6 +57,7 @@
   right: 0;
   background: transparent;
   transition: background .3s ease-in-out;
+  z-index: 0;
 }
 
 .ptr-button:hover {
@@ -319,7 +329,7 @@
 
 .ptr-button-menu {
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
 }
 .ptr-button-menu.bottom {
 	top: 100%;
