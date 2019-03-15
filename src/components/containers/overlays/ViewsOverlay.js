@@ -5,7 +5,7 @@ import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
 import utils from '../../../utils/utils';
-import {filterScopesByUrl} from '../../../utils/models';
+import {filterScopesByUrl, groupScopesByGroup} from '../../../utils/models';
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
 
 	// todo move hostName to configuration
 	let filteredScopes = (isAdminGroupMember || hostName === "localhost" || hostName === "192.168.2.205")  ? scopes : filterScopesByUrl(scopes, url);
+	filteredScopes = groupScopesByGroup(filteredScopes);
 
 	return {
 		active: Select.components.isAppInIntroMode(state),

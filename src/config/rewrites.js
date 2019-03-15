@@ -7,17 +7,18 @@
  */
 
 export default {
-    geoServerUrl: 'http://panther.gisat.cz/geoserver/',
-    serverUrl: 'http://panther.gisat.cz/backend/',
+    geoServerUrl: 'https://urban-tep.eu/puma/geoserver/',
+    serverUrl: 'https://urban-tep.eu/puma/backend/',
 
-    apiGeoserverWFSProtocol: 'http',
-    apiGeoserverWFSHost: 'panther.gisat.cz',
-    apiGeoserverWFSPath: 'geoserver/geonode/wfs',
+    apiGeoserverWFSProtocol: 'https',
+    apiGeoserverWFSHost: 'urban-tep.eu',
+    apiGeoserverWFSPath: 'puma/geoserver/geonode/wfs',
 
-    apiBackendProtocol: 'http',
-    apiBackendHost: 'panther.gisat.cz',
-    apiBackendAoiLayerPeriodsPath: 'backend/rest/imagemosaic/getDates',
-    apiBackendSzifPath: 'backend/rest/szif/case',
+    apiBackendProtocol: 'https',
+    apiBackendHost: 'urban-tep.eu/puma',
+
+    apiBackendAoiLayerPeriodsPath: 'puma/backend/rest/imagemosaic/getDates',
+    apiBackendSzifPath: 'puma/backend/rest/szif/case',
 
     hasPeriodsSelector: true
 };

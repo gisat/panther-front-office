@@ -1,8 +1,8 @@
 var Config = {
 	// url: 'http://localhost:4000/',
 	//url: 'http://192.168.2.205/backend/',
-	// url: 'https://urban-tep.eo.esa.int/puma/backend/',
-	 url: 'http://panther.gisat.cz/backend/',
+	url: 'https://urban-tep.eu/puma/backend/',
+	// url: 'http://panther.gisat.cz/backend/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
@@ -16,15 +16,16 @@ var Config = {
 	 */
 	// geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
 	// geoServerUrl: "http://admin:geoserver@192.168.2.205/geoserver/panther/wms",
-	 geoServerUrl: "http://panther.gisat.cz/geoserver/panther/wms",
-	// geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
+	// geoServerUrl: "http://panther.gisat.cz/geoserver/panther/wms",
+	 geoServerUrl: 'https://urban-tep.eu/puma/geoserver/',
 
 	/**
 	 * Log in to geoserver
 	 */
 	//geoServerLoginUrl: "http://192.168.2.205/geoserver/j_spring_security_check",
 	// geoServerLoginUrl: "http://10.0.75.2/geoserver/j_spring_security_check",
-	 geoServerLoginUrl: "http://panther.gisat.cz/geoserver/j_spring_security_check",
+	// geoServerLoginUrl: "http://panther.gisat.cz/geoserver/j_spring_security_check",
+	geoServerLoginUrl: "https://urban-tep.eu/puma/geoserver/j_spring_security_check",
 	geoServerUser: "admin",
 	geoServerPassword: "geoserver",
 

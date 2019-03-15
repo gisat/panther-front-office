@@ -57,5 +57,24 @@ export const filterScopesByUrl = (scopes, url) => {
 	}
 };
 
+/**
+ * Orders scopes by the order property of coniguration if present
+ * @param scopes
+ * @returns {Object}
+ */
+export const groupScopesByGroup = (scopes) => {
+	if (scopes){
+		let result =  _.groupBy(scopes, (scope) => {
+			return scope.data && scope.data.configuration && scope.data.configuration.group || "Other";
+		});
+
+		result[0] = scopes.length > 0 && [scopes[0]] || [];
+
+		return result;
+	} else {
+		return {0: []};
+	}
+};
+
 
 
