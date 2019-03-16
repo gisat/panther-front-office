@@ -96,9 +96,10 @@
 
 .ptr-button > .ptr-icon .line {
   fill: currentColor;
-  stroke: currentColor;
+  stroke: currentColor; // TODO remove after icon refactoring
 }
 
+// TODO remove after icon refactoring
 .ptr-button > .ptr-icon .polygon {
   fill: transparent;
   stroke: currentColor;

@@ -2,6 +2,6 @@ import React from 'react';
 
 export default props => (
 	<g>
-		<path className="polygon" d="M22 5 l-12 11 l12 11" strokeWidth="3"/>
+		<path className="line" d="M 21.292969,3.2929688 8.5859375,16 21.292969,28.707031 22.707031,27.292969 11.414062,16 22.707031,4.7070312 Z"/>
 	</g>
 );
