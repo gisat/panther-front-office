@@ -160,7 +160,7 @@ class ButtonDoc extends React.PureComponent {
 
 				<h2>Side icon</h2>
 				<div className="ptr-docs-panel-section">
-					<Button side="left" icon="delete"/>
+					<Button side="left" icon="times"/>
 					<Button side="right" icon="chevron-left"/>
 					<Button side="top" primary icon="plus"/>
 					<Button side="bottom" secondary icon="pushpin"/>
@@ -168,8 +168,9 @@ class ButtonDoc extends React.PureComponent {
 
 				<h2>Ghost side icon</h2>
 				<div className="ptr-docs-panel-section">
-					<Button ghost side="left" icon="delete"/>
+					<Button ghost side="left" icon="times"/>
 					<Button ghost side="right" icon="chevron-left"/>
+					<Button ghost side="right" icon="chevron-right"/>
 					<Button ghost side="top" primary icon="plus"/>
 					<Button ghost side="bottom" primary icon="pushpin"/>
 				</div>
@@ -193,7 +194,9 @@ class ButtonDoc extends React.PureComponent {
 				<div className="ptr-docs-panel-section">
 					<Button circular large icon="expand"/>
 					<Button circular large primary icon="search"/>
+					<Button circular large primary icon="times"/>
 					<Button circular large secondary icon="chevron-left"/>
+					<Button circular large secondary icon="chevron-right"/>
 				</div>
 			</div>
 		);

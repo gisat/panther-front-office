@@ -7,6 +7,7 @@ import AngleDoubleUp from "./components/AngleDoubleUp";
 import ArrowLeft from './components/ArrowLeft';
 import Circle from './components/Circle';
 import ChevronLeft from './components/ChevronLeft';
+import ChevronRight from './components/ChevronRight';
 import Delete from './components/Delete';
 import Dots from './components/Dots';
 import getAngleRight from './components/angle-right-solid';
@@ -28,6 +29,7 @@ import getSortDown from './components/sort-down-solid';
 import getSortUp from './components/sort-up-solid';
 import TiltMore from './components/TiltMore';
 import TiltLess from './components/TiltLess';
+import Times from './components/Times';
 import getTimes from './components/times-solid';
 import Upload from './components/Upload';
 import RotateLeftCircularArrow from './components/rotateLeftCircularArrow';
@@ -60,6 +62,8 @@ const icon = key => {
 		// 	return <Circle />;
 		case 'chevron-left':
 			return <ChevronLeft />;
+		case 'chevron-right':
+			return <ChevronRight />;
 		case 'delete':
 			return <Delete />; //todo
 		case 'dots':
@@ -94,6 +98,9 @@ const icon = key => {
 			return <TiltLess />; //todo
 		case 'tilt-more':
 			return <TiltMore />; //todo
+		case 'times':
+		case 'close':
+			return <Times />;
 		// case 'sort-down':
 		// 	return getSortDown();
 		// case 'sort-up':
