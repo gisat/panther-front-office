@@ -36,12 +36,12 @@ class Test extends React.PureComponent {
 
 		};
 
-		const ITEMS = 13;
-		let step = 1/(ITEMS - 1);
+		const ITEMS = 21;
+		let megaStep = 1000000/(ITEMS - 1); // fixing floating point precision
 
 		let scaleBase = [];
-		for (let i=0; i <= 1; i += step) {
-			scaleBase.push(i);
+		for (let i=0; i < ITEMS; i++) {
+			scaleBase.push((i*megaStep)/1000000);
 		}
 
 		let scale = _.mapValues(func, f => _.map(scaleBase, f));
