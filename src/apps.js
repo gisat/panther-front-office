@@ -23,7 +23,7 @@ export default [
 		hostname: 'panther.gisat.cz',
 		path: '/docs',
 		devPath: '/docs',
-		app: path => import(/* webpackChunkName: "demo" */'./apps/docs').then(module => {
+		app: path => import(/* webpackChunkName: "docs" */'./apps/docs').then(module => {
 			module.default(path);
 		})
 	},
@@ -43,6 +43,25 @@ export default [
 		path: '/vac',
 		devPath: '/urbanTepVac',
 		app: path => import(/* webpackChunkName: "urbanTepVac" */'./apps/urbanTepVac').then(module => {
+			module.default(path);
+		})
+	},
+	{
+		key: 'esponFuoreBackOffice',
+		backOffice: true,
+		hostname: 'fuore.gisat.cz',
+		path: '/backoffice',
+		devPath: '/esponFuoreBackOffice',
+		app: path => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
+			module.default(path, 'esponFuore');
+		})
+	},
+	{
+		key: 'esponFuore',
+		hostname: 'fuore.gisat.cz',
+		path: null,
+		devPath: '/esponFuore',
+		app: path => import(/* webpackChunkName: "esponFuore" */'./apps/esponFuore').then(module => {
 			module.default(path);
 		})
 	}
