@@ -130,6 +130,8 @@ class Input extends React.PureComponent {
 				value={this.props.value || this.state && this.state.value || ""}
 				name={this.props.name}
 				onChange={this.onChangeMultiline}
+				onFocus={this.onFocus}
+				onBlur={this.onBlur}
 			/>
 		);
 

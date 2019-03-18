@@ -38,6 +38,10 @@
 	position: relative;
 }
 
+.ptr-input-wrapper textarea{
+	outline: none;
+}
+
 .ptr-input-wrapper .ptr-input-text.focus {
 	// todo
 }

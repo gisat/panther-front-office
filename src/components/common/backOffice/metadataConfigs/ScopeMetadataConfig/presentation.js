@@ -99,11 +99,12 @@ class ScopeMetadataConfig extends React.PureComponent {
 				<InputWrapper
 					label={t("labels.configuration")}
 				>
-					<textarea
-						tabIndex={this.props.unfocusable ? -1 : 0}
-						value={configuration} 
-						onChange={(evt) => this.onChangeJsonValue('configuration', evt.target.value)} 
-						/>
+					<Input
+						unfocusable={this.props.unfocusable}
+						multiline
+						value={configuration}
+						onChange={(evt) => this.onChangeJsonValue('configuration', evt.target.value)}
+					/>
 				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
 					<div className="ptr-screen-metadata-buttons-left">
