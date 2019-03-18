@@ -62,6 +62,35 @@
 	top: 50%;
 }
 
+// TODO move handle specific button styles out of general screen component
+.ptr-screen-controls > .ptr-button {
+	color: var(--base5);
+}
+
+.ptr-screen-controls > .ptr-button.ghost {
+	border-color: var(--base2);
+	transition: border-color .3s ease-in-out, color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.ptr-screen.disabled .ptr-screen-controls > .ptr-button {
+	color: var(--base6);
+}
+
+.ptr-screen.disabled  .ptr-screen-controls > .ptr-button.ghost {
+	border-color: var(--base4);
+}
+
+.ptr-screen-controls > .ptr-button:hover,
+.ptr-screen.disabled .ptr-screen-controls > .ptr-button:hover {
+	color: var(--base7);
+}
+
+.ptr-screen-controls > .ptr-button.ghost:hover,
+.ptr-screen.disabled  .ptr-screen-controls > .ptr-button.ghost:hover {
+	background: var(--base1);
+	border-color: var(--base5);
+}
+
 /* Scroll */
 .ptr-screen-scroll {
 	overflow-x: hidden;
