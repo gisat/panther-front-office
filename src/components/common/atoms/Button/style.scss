@@ -35,8 +35,6 @@
   transition:
 	  background .3s ease-in-out,
 	  color .3s ease-in-out;
-
-  margin: .2rem; // TODO remove - only for testing
 }
 
 .ptr-button > * {
@@ -237,13 +235,13 @@
 
 .ptr-button.side-left,
 .ptr-button.side-right {
-  width: 1.75rem;
+  width: 1.6rem;
   height: 2.5rem;
 }
 
 .ptr-button.side-left > .ptr-icon,
 .ptr-button.side-right > .ptr-icon {
-  margin: .625rem .25rem;
+  margin: .625rem .2rem;
 }
 
 .ptr-button.side-left {
@@ -256,13 +254,13 @@
 
 .ptr-button.side-top,
 .ptr-button.side-bottom {
-  height: 1.75rem;
+  height: 1.6rem;
   width: 2.5rem;
 }
 
 .ptr-button.side-top > .ptr-icon,
 .ptr-button.side-bottom > .ptr-icon {
-  margin: .25rem .625rem;
+  margin: .2rem .625rem;
 }
 
 .ptr-button.side-top {
@@ -351,12 +349,12 @@
 
 .ptr-button.ghost.side-left > .ptr-icon,
 .ptr-button.ghost.side-right > .ptr-icon {
-  margin: calc(.625rem - 1px) .25rem;
+  margin: calc(.625rem - 1px) calc(.2rem - 1px);
 }
 
 .ptr-button.ghost.side-top > .ptr-icon,
 .ptr-button.ghost.side-bottom > .ptr-icon {
-  margin: .25rem calc(.625rem - 1px);
+  margin: calc(.2rem - 1px) calc(.625rem - 1px);
 }
 
 /* Disability */

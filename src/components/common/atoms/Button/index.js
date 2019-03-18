@@ -21,7 +21,7 @@ class Button extends React.PureComponent {
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
 		side: PropTypes.string,
-		small: PropTypes.bool,
+		small: PropTypes.bool
 	};
 
 	static defaultProps = {

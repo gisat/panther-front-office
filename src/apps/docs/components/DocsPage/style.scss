@@ -37,6 +37,10 @@
   margin-bottom: m(1);
 }
 
+.ptr-docs-panel-section .ptr-button {
+  margin: .2rem;
+}
+
 @media screen and (max-width: 60rem) {
   .ptr-docs-content {
     flex-direction: column;
