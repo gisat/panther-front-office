@@ -21,7 +21,8 @@ class Button extends React.PureComponent {
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
 		side: PropTypes.string,
-		small: PropTypes.bool
+		small: PropTypes.bool,
+		unfocusable: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -126,7 +127,7 @@ class Button extends React.PureComponent {
 				onBlur={this.onBlur}
 				onClick={this.onClick}
 				onKeyPress={this.onKeyPress}
-				tabIndex={this.props.disabled ? "-1" : "0"}
+				tabIndex={(this.props.disabled || this.props.unfocusable) ? "-1" : "0"}
 			>
 				{iconInsert}
 				{content}
