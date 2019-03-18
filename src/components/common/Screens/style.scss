@@ -69,7 +69,7 @@
 
 .ptr-screen-controls > .ptr-button.ghost {
 	border-color: var(--base2);
-	transition: border-color .3s ease-in-out, color .3s ease-in-out, background-color .3s ease-in-out;
+	transition: border-color .3s ease-in-out, color .3s ease-in-out;
 }
 
 .ptr-screen.disabled .ptr-screen-controls > .ptr-button {
@@ -87,7 +87,7 @@
 
 .ptr-screen-controls > .ptr-button.ghost:hover,
 .ptr-screen.disabled  .ptr-screen-controls > .ptr-button.ghost:hover {
-	background: var(--base1);
+	background: none;
 	border-color: var(--base5);
 }
 
