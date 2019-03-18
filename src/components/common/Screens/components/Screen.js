@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import Button from "../../atoms/Button";
 
 class Screen extends React.PureComponent {
 
@@ -92,9 +93,30 @@ class Screen extends React.PureComponent {
 					<div style={screenScrollContentStyle}>{this.props.content}</div>
 				</div>
 				<div className="ptr-screen-overlay" onClick={this.onOpenClick}/>
-				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>x</div> : null}
-				{!this.props.noControls && this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onOpenClick}>O</div> : null}
-				{!this.props.noControls && !this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onRetractClick}>R</div> : null}
+				{!this.props.noControls ? <div className="ptr-screen-controls top">
+					<Button
+						ghost
+						icon={"close"}
+						side={"left"}
+						onClick={this.onCloseClick}
+					/>
+				</div> : null}
+				{!this.props.noControls && this.props.disabled ? <div className="ptr-screen-controls middle">
+					<Button
+						ghost
+						icon={"chevron-left"}
+						side={"left"}
+						onClick={this.onOpenClick}
+					/>
+				</div> : null}
+				{!this.props.noControls && !this.props.disabled ? <div className="ptr-screen-controls middle">
+					<Button
+						ghost
+						icon={"chevron-right"}
+						side={"left"}
+						onClick={this.onRetractClick}
+					/>
+				</div> : null}
 			</div>
 		);
 	}

@@ -18,5 +18,15 @@
 }
 
 .ptr-screen-metadata-content {
+	padding-bottom: m(4/3);
 	padding-top: m(4/3);
+}
+
+.ptr-screen-metadata-buttons {
+	display: flex;
+	padding: 0 1px;
+}
+
+.ptr-screen-metadata-buttons-left {
+	flex: 1;
 }

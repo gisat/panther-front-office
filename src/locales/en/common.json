@@ -4,10 +4,12 @@
 	"tuesday": "Tuesday",
 	"wednesday": "Wednesday"
   },
+  "deleteCapitalized": "Delete",
   "months": {
 	"january": "January",
 	"february": "February",
 	"march": "March"
   },
-  "nameCapitalized": "Name"
+  "nameCapitalized": "Name",
+  "saveCapitalized": "Save"
 }

@@ -3,10 +3,12 @@
 	"monday": "Pondělí",
 	"wednesday": "Středa"
   },
+  "deleteCapitalized": "Smazat",
   "months": {
 	"january": "Leden",
 	"february": "Únor",
 	"march": "Březen"
   },
-  "nameCapitalized": "Název"
+  "nameCapitalized": "Název",
+  "saveCapitalized": "Uložit"
 }

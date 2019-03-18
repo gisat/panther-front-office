@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
+import Button from "../../../atoms/Button";
 
 class LayerTemplateMetadataConfig extends React.PureComponent {
 	static propTypes = {
@@ -64,8 +65,24 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 						onChange={(val) => this.onChange('nameInternal', val)}
 					/>
 				</InputWrapper>
-				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button tabIndex={this.props.unfocusable ? -1 : 0} onClick={this.props.onSave}>Save</button> : null}
-				<button tabIndex={this.props.unfocusable ? -1 : 0} onClick={() => this.props.onDelete(this.props.data)}>Delete</button>
+				<div className="ptr-screen-metadata-buttons">
+					<div className="ptr-screen-metadata-buttons-left">
+						{this.props.editedData && !_.isEmpty(this.props.editedData) ? (
+							<Button
+								disabled={this.props.unFocusable}
+								ghost
+								primary
+								onClick={this.props.onSave}
+							> {t("saveCapitalized")} </Button>) : null}
+					</div>
+					<div className="ptr-screen-metadata-buttons-right">
+						<Button
+							disabled={this.props.unFocusable}
+							ghost
+							onClick={() => this.props.onDelete(this.props.data)}
+						> {t("deleteCapitalized")} </Button>
+					</div>
+				</div>
 			</div>
 		);
 	}

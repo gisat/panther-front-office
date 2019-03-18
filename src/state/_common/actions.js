@@ -138,7 +138,7 @@ const deleteItem = (getSubstate, dataType, actionTypes) => {
 					const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(state, item);
 					indexes.forEach(index => {
 						//invalidate data
-						dispatch(actionClearIndex(actionTypes, index.filter, index.order))
+						dispatch(actionClearIndex(actionTypes, index.filter, index.order));
 						//refresh data
 						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
 					})
@@ -146,7 +146,7 @@ const deleteItem = (getSubstate, dataType, actionTypes) => {
 			});
 		}
 	}
-}
+};
 
 const saveEdited = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (key) => {

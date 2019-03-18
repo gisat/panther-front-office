@@ -25,7 +25,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onDelete: (item) => {
 				//TODO - confirm before delete
-				dispatch(Action.layerTemplates.delete({...item, key: props.itemKey}))
+				dispatch(Action.layerTemplates.delete({...item, key: props.itemKey}));
 				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig'));
 			},
 			onUnmount: () => {

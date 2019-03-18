@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
+import Button from "../../../../common/atoms/Button";
 
 class ScopeMetadataConfig extends React.PureComponent {
 	static propTypes = {
@@ -54,7 +55,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
-		const configurationObject = data && data.configuration || ""
+		const configurationObject = data && data.configuration || "";
 
 		let configuration;
 		if (configurationObject && typeof configurationObject === "object") {
@@ -104,8 +105,24 @@ class ScopeMetadataConfig extends React.PureComponent {
 						onChange={(evt) => this.onChangeJsonValue('configuration', evt.target.value)} 
 						/>
 				</InputWrapper>
-				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button tabIndex={this.props.unfocusable ? -1 : 0} onClick={this.props.onSave}>Save</button> : null}
-				<button tabIndex={this.props.unfocusable ? -1 : 0} onClick={() => this.props.onDelete(this.props.data)}>Delete</button>
+				<div className="ptr-screen-metadata-buttons">
+					<div className="ptr-screen-metadata-buttons-left">
+						{this.props.editedData && !_.isEmpty(this.props.editedData) ? (
+							<Button
+								disabled={this.props.unFocusable}
+								ghost
+								primary
+								onClick={this.props.onSave}
+							> {t("saveCapitalized")} </Button>) : null}
+					</div>
+					<div className="ptr-screen-metadata-buttons-right">
+						<Button
+							disabled={this.props.unFocusable}
+							ghost
+							onClick={() => this.props.onDelete(this.props.data)}
+						> {t("deleteCapitalized")} </Button>
+					</div>
+				</div>
 			</div>
 		);
 	}
