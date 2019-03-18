@@ -113,14 +113,14 @@ class ScopeMetadataConfig extends React.PureComponent {
 								ghost
 								primary
 								onClick={this.props.onSave}
-							> {t("saveCapitalized")} </Button>) : null}
+							>{t("saveCapitalized")}</Button>) : null}
 					</div>
 					<div className="ptr-screen-metadata-buttons-right">
 						<Button
 							disabled={this.props.unfocusable}
 							ghost
 							onClick={() => this.props.onDelete(this.props.data)}
-						> {t("deleteCapitalized")} </Button>
+						>{t("deleteCapitalized")}</Button>
 					</div>
 				</div>
 			</div>
