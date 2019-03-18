@@ -61,6 +61,10 @@ class Screen extends React.PureComponent {
 		if (this.props.focused && prevProps.focused !== this.props.focused && !this.props.disabled) {
 			this.screen.current.children[0].focus();
 		}
+
+		if (this.props.disabled) {
+			this.setState({focused: false});
+		}
 	}
 
 	render() {
@@ -98,6 +102,7 @@ class Screen extends React.PureComponent {
 						ghost
 						icon={"close"}
 						side={"left"}
+						unfocusable={this.props.disabled}
 						onClick={this.onCloseClick}
 					/>
 				</div> : null}
@@ -106,6 +111,7 @@ class Screen extends React.PureComponent {
 						ghost
 						icon={"chevron-left"}
 						side={"left"}
+						unfocusable={this.props.disabled}
 						onClick={this.onOpenClick}
 					/>
 				</div> : null}
@@ -114,6 +120,7 @@ class Screen extends React.PureComponent {
 						ghost
 						icon={"chevron-right"}
 						side={"left"}
+						unfocusable={this.props.disabled}
 						onClick={this.onRetractClick}
 					/>
 				</div> : null}
