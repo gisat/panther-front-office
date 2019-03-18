@@ -6,6 +6,7 @@
 
 .ptr-bo-top-bar-quick-access {
 	height: 100%;
+	flex: 1;
 }
 .ptr-bo-top-bar-quick-access > a {
 	display: inline-block;
@@ -49,4 +50,20 @@
 }
 .ptr-bo-top-bar-quick-access > a.active > .ptr-icon .second {
 	fill: var(--accent6);
+}
+
+.ptr-bo-top-bar-user {
+	display: flex;
+	align-items: center;
+	margin-right: .5rem;
+	color: var(--base0);
+}
+
+.ptr-bo-top-bar-user .ptr-button:hover,
+.ptr-bo-top-bar-user .ptr-button:hover:after {
+	background: none;
+}
+
+.ptr-bo-top-bar-user .ptr-button > .ptr-icon  {
+	color: var(--base1);
 }

@@ -5,12 +5,11 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 import Names from '../../../../constants/Names'
 
-import './style.css';
+import './style.scss';
 
 import Button from '../../atoms/Button';
 import Menu, {MenuItem} from '../../atoms/Menu';
-
-let polyglot = window.polyglot;
+import {withNamespaces} from "react-i18next";
 
 class User extends React.PureComponent {
 
@@ -19,6 +18,7 @@ class User extends React.PureComponent {
 	};
 
 	render() {
+		let t = this.props.t;
 		let user = this.props.user;
 
 		if (user) {
@@ -31,7 +31,7 @@ class User extends React.PureComponent {
 					<div className="ptr-user-options">
 						<Button icon="dots" invisible>
 							<Menu bottom left>
-								<MenuItem onClick={this.props.logout}>{polyglot.t('logOut')}</MenuItem>
+								<MenuItem onClick={this.props.logout}>{t("user.logout")}</MenuItem>
 							</Menu>
 						</Button>
 					</div>
@@ -43,7 +43,7 @@ class User extends React.PureComponent {
 			return (
 				<div className="ptr-user">
 					<div className="ptr-user-login">
-						<Button invisible inverted onClick={this.props.login}>{polyglot.t('logIn')}</Button>
+						<Button invisible inverted onClick={this.props.login}>{t("user.logout")}</Button>
 					</div>
 				</div>
 			);
@@ -53,4 +53,4 @@ class User extends React.PureComponent {
 	}
 }
 
-export default User;
+export default withNamespaces()(User);

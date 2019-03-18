@@ -4,6 +4,7 @@
 	"tuesday": "Tuesday",
 	"wednesday": "Wednesday"
   },
+  "cancelCapitalized": "Cancel",
   "deleteCapitalized": "Delete",
   "months": {
 	"january": "January",
@@ -11,5 +12,10 @@
 	"march": "March"
   },
   "nameCapitalized": "Name",
-  "saveCapitalized": "Save"
+  "saveCapitalized": "Save",
+  "user": {
+	"login": "Log in",
+	"logout": "Log out",
+	"passphrase": "Passphrase"
+  }
 }

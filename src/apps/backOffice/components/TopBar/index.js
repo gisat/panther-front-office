@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import {matchPath} from "react-router";
 import isArray from "lodash/isArray";
 import isObject from "lodash/isObject";
+import User from "../../../../components/common/controls/User";
 
 class TopBar extends React.PureComponent {
 	onNavKeyPress(path, key) {
@@ -51,6 +52,9 @@ class TopBar extends React.PureComponent {
 					>
 						<Icon />
 					</NavLink>
+				</div>
+				<div className="ptr-bo-top-bar-user">
+					<User/>
 				</div>
 			</>
 		)

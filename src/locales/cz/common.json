@@ -3,6 +3,7 @@
 	"monday": "Pondělí",
 	"wednesday": "Středa"
   },
+  "cancelCapitalized": "Zrušit",
   "deleteCapitalized": "Smazat",
   "months": {
 	"january": "Leden",
@@ -10,5 +11,10 @@
 	"march": "Březen"
   },
   "nameCapitalized": "Název",
-  "saveCapitalized": "Uložit"
+  "saveCapitalized": "Uložit",
+  "user": {
+	"login": "Přihlásit",
+	"logout": "Odhlásit",
+	"passphrase": "Heslo"
+  }
 }

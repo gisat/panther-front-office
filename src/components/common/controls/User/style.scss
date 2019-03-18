@@ -1,25 +1,22 @@
+@import '../../../../styles/variables';
+
 .ptr-user {
 	display: flex;
 	justify-content: flex-end;
-	height: 2rem;
+	height: m(4/3);
+}
 
-	color: #ccc;
-}
-.ptr-user svg .line {
-	fill: #ccc;
-}
 .ptr-user > div {
 	flex-grow: 0;
 }
 
 .ptr-user-name, .ptr-user-login {
 	display: flex;
-	height: 2rem;
+	height: m(4/3);
 	padding: .25rem;
 	white-space: nowrap;
 	overflow: hidden;
-	line-height: 1.5rem;
-	font-size: .9375rem;
+	font-size: $a1;
 }
 
 .ptr-user-login {

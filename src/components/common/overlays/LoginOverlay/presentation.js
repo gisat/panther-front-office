@@ -9,8 +9,7 @@ import './style.css';
 
 import Button from '../../atoms/Button';
 import InputText from '../../atoms/Input/Input';
-
-let polyglot = window.polyglot;
+import {withNamespaces} from "react-i18next";
 
 class LoginOverlay extends React.PureComponent {
 
@@ -49,6 +48,7 @@ class LoginOverlay extends React.PureComponent {
 	}
 
 	render() {
+		const t = this.props.t;
 
 		return (
 			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-dark", "ptr-overlay-fix", {open: this.props.open})}>
@@ -57,7 +57,7 @@ class LoginOverlay extends React.PureComponent {
 						<InputText
 							email
 							transparent
-							placeholder="e-mail"
+							placeholder="E-mail"
 							onChange={this.onChangeEmail}
 							value={this.state.email}
 						/>
@@ -66,7 +66,7 @@ class LoginOverlay extends React.PureComponent {
 						<InputText
 							password
 							transparent
-							placeholder={polyglot.t('passphrase')}
+							placeholder={t('user.passphrase')}
 							onChange={this.onChangePassword}
 							value={this.state.password}
 						/>
@@ -76,7 +76,7 @@ class LoginOverlay extends React.PureComponent {
 							primary
 							onClick={this.login}
 						>
-							{polyglot.t('logIn')}
+							{t("user.login")}
 						</Button>
 						{!this.props.loginRequired ? (
 							<Button
@@ -84,7 +84,7 @@ class LoginOverlay extends React.PureComponent {
 								inverted
 								onClick={this.props.close}
 							>
-								{polyglot.t('cancel')}
+								{t('cancelCapitalized')}
 							</Button>
 						) : null}
 					</div>
@@ -95,4 +95,4 @@ class LoginOverlay extends React.PureComponent {
 	}
 }
 
-export default LoginOverlay;
+export default withNamespaces()(LoginOverlay);
