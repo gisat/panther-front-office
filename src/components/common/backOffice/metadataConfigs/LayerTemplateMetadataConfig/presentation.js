@@ -69,7 +69,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					<div className="ptr-screen-metadata-buttons-left">
 						{this.props.editedData && !_.isEmpty(this.props.editedData) ? (
 							<Button
-								disabled={this.props.unFocusable}
+								disabled={this.props.unfocusable}
 								ghost
 								primary
 								onClick={this.props.onSave}
@@ -77,7 +77,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					</div>
 					<div className="ptr-screen-metadata-buttons-right">
 						<Button
-							disabled={this.props.unFocusable}
+							disabled={this.props.unfocusable}
 							ghost
 							onClick={() => this.props.onDelete(this.props.data)}
 						> {t("deleteCapitalized")} </Button>
