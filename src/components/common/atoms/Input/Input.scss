@@ -1,21 +1,24 @@
+@import '../../../../styles/variables';
+
 .ptr-input-text {
 	border-radius: .2rem;
-	margin: .3rem 0;
+	margin: .25rem 0;
 	min-width: 10rem;
 	display: flex;
 	background: white;
 	border: 1px solid #aaa;
 }
 .ptr-input-text.input {
-	height: 2rem;
+	height: m(4/3);
 }
 .ptr-input-text.multiline {
-	min-height: 2rem;
+	min-height: m(4/3);
 }
 .ptr-input-text input {
 	border: 0;
 	width: 100%;
-	font-size: .9375rem;
+	font-size: $a1;
+	line-height: 1.5;
 	flex: 1;
 	padding: 0 .5rem;
 }
@@ -23,7 +26,7 @@
 	width: 100%;
 }
 .ptr-input-text.multiline .ptr-editable-text {
-	font-size: .9375rem;
+	font-size: $a1;
 	padding: .25rem 0;
 	width: 100%;
 }
@@ -33,15 +36,12 @@
 
 /* extra large */
 .ptr-input-text.extraLarge input {
-	font-size: 1.3rem;
+	font-size: $b2;
 }
 
 /* large */
-.ptr-input-text.large {
-
-}
 .ptr-input-text.large input {
-	font-size: 1.1rem;
+	font-size: $a1;
 }
 
 /* transparent */

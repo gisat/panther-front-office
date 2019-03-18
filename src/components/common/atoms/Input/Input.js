@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
-import './Input.css';
+import './Input.scss';
 import EditableText from "../EditableText";
 
 class Input extends React.PureComponent {

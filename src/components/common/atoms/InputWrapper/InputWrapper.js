@@ -7,7 +7,7 @@ import _ from 'lodash';
 import cz from './locales/cz.json';
 import en from './locales/en.json';
 
-import './style.css';
+import './style.scss';
 import {withNamespaces} from "react-i18next";
 
 // add locales to component namespace
