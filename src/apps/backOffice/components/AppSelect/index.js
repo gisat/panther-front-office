@@ -13,7 +13,8 @@ const mapStateToProps = () => {
 	return state => {
 		return {
 			apps,
-			// activeKey: Select.apps.getActiveKey(state),
+			activeKey: Select.apps.getActiveKey(state),
+			storeApps: Select.apps.getAllAsObject(state)
 			// storeApps: Select.apps.get(null, null, order, 1, 100)
 		}
 	}
@@ -25,13 +26,13 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				// Action.apps.useIndexed(null, null, order, 1, 100, componentId)
+				dispatch(Action.apps.useIndexed(null, null, order, 1, 100, componentId));
 			},
 			onChange: (key) => {
-				// dispatch(Action.apps.setActive(key));
+				dispatch(Action.apps.setActiveKey(key));
 			},
 			onUnmount: () => {
-				// dispatch(Action.apps.useIndexedClear(componentId));
+				dispatch(Action.apps.useIndexedClear(componentId));
 			}
 		}
 	}

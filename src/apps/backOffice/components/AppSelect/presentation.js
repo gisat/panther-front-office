@@ -28,6 +28,10 @@ class AppSelect extends React.PureComponent {
 		this.renderApp = this.renderApp.bind(this);
 	}
 
+	componentDidMount() {
+		this.props.onMount();
+	}
+
 	merge(apps, storeApps) {
 		return storeApps && Object.keys(storeApps).length && apps.map(app => {return {...app, ...storeApps[app.key]}}) || apps;
 	}
@@ -55,7 +59,7 @@ class AppSelect extends React.PureComponent {
 					<span>All apps</span><Icon icon="triangle-down"/>
 				</div>
 				<div className={classNames("ptr-bo-app-select-list", {open: this.state.open})}><div><div>
-					{this.props.apps && this.props.apps.length && this.props.apps.map(this.renderApp) || null}
+					{apps && apps.length && apps.map(this.renderApp) || null}
 				</div></div></div>
 			</>
 		);
@@ -66,11 +70,11 @@ class AppSelect extends React.PureComponent {
 			return null;
 		} else {
 			let style = {
-				background: utils.stringToColours(app.key, 1, {lightness: [30,40]})
+				background: app.data && app.data.color || utils.stringToColours(app.key, 1, {lightness: [30,40]})
 			};
 			return (
 				<div className="ptr-bo-app-select-item" style={style} onClick={this.onItemClick.bind(this, app.key)}>
-					<span>{app.nameDisplay || app.key}</span>
+					<span>{app.data && app.data.name || app.key}</span>
 				</div>
 			);
 		}
