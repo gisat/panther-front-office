@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Value from './Value';
-import Icon from '../../../../components/common/atoms/Icon';
+import Icon from '../Icon';
 
 class AddValue extends React.PureComponent {
     render() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Select from '../../../../apps/backOffice/components/Select/Select';
+import Select from '../../atoms/Select/Select';
 import './MetadataSwitcher.scss';
 import Button from "../../atoms/Button";
 
