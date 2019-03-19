@@ -24,6 +24,13 @@
 	left: .75rem;
 	transform: translateY(-50%);
 	color: #ccc;
+	//allow no more than two lines
+	line-height: 1.1;
+	max-height: 2.2rem;
+	overflow: hidden;
+	//block overflow for long single word
+	max-width: calc(100% - 1.5rem);
+	text-overflow: ellipsis;
 }
 
 .ptr-bo-app-select-item > .ptr-icon {
