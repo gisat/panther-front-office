@@ -51,7 +51,6 @@ export default {
 	},
 	"un": {
 		htmlClass: "un",
-		logoSrc: "img/un/logo.png",
 		introHeaderBackgroundSrc: "img/un/sdgs.jpg",
         introLogoSrc: "img/un/logo.png"
 	},
