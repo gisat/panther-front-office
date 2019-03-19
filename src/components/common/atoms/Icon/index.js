@@ -30,6 +30,7 @@ import getSortUp from './components/sort-up-solid';
 import TiltMore from './components/TiltMore';
 import TiltLess from './components/TiltLess';
 import Times from './components/Times';
+import TriangleDown from "./components/TriangleDown";
 import getTimes from './components/times-solid';
 import Upload from './components/Upload';
 import RotateLeftCircularArrow from './components/rotateLeftCircularArrow';
@@ -101,6 +102,8 @@ const icon = key => {
 		case 'times':
 		case 'close':
 			return <Times />;
+		case 'triangle-down':
+			return <TriangleDown />;
 		// case 'sort-down':
 		// 	return getSortDown();
 		// case 'sort-up':
