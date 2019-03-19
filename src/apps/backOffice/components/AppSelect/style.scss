@@ -19,7 +19,12 @@
 	position: absolute;
 	top: 50%;
 	right: .5rem;
+	width: m(1);
+	height: m(1);
 	transform: translateY(-50%);
+}
+.ptr-bo-app-select-item > .ptr-icon .line {
+	fill: var(--base0);
 }
 
 

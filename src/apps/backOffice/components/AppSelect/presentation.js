@@ -27,7 +27,7 @@ class AppSelect extends React.PureComponent {
 		return (
 			<>
 				<div className="ptr-bo-app-select-current ptr-bo-app-select-item" tabIndex="0" onClick={this.onSelectClick}>
-					<span>All apps</span><Icon />
+					<span>All apps</span><Icon icon="triangle-down"/>
 				</div>
 				<div className={classNames("ptr-bo-app-select-list", {open: this.state.open})}><div><div>
 					{this.props.apps && this.props.apps.length && this.props.apps.map(this.renderApp) || null}
