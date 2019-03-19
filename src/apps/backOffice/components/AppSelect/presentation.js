@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Icon from '../../../../components/common/atoms/Icon';
 
 import './style.scss';
+import utils from "../../../../utils/utils";
 
 class AppSelect extends React.PureComponent {
 
@@ -37,9 +38,18 @@ class AppSelect extends React.PureComponent {
 	}
 
 	renderApp(app) {
-		return app.backOffice ? null : (
-			<div className="ptr-bo-app-select-item"><span>{app.nameDisplay || app.key}</span></div>
-		);
+		if (app.backOffice) {
+			return null;
+		} else {
+			let style = {
+				background: utils.stringToColours(app.key, 1, {lightness: [30,40]})
+			};
+			return (
+				<div className="ptr-bo-app-select-item" style={style}>
+					<span>{app.nameDisplay || app.key}</span>
+				</div>
+			);
+		}
 	}
 
 }
