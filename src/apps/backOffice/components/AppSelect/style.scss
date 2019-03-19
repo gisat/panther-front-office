@@ -4,7 +4,18 @@
 	height: m(2);
 	width: 12rem;
 
+	cursor: pointer;
+
 	position: relative;
+}
+.ptr-bo-app-select-item::after {
+	@include positionFill;
+	pointer-events: none;
+	content: ' ';
+	transition: background .3s ease-in-out;
+}
+.ptr-bo-app-select-item:hover::after {
+	background: rgba(255,255,255,.15);
 }
 
 .ptr-bo-app-select-item > span {

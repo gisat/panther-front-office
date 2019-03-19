@@ -14,7 +14,7 @@ const mapStateToProps = () => {
 		return {
 			apps,
 			// activeKey: Select.apps.getActiveKey(state),
-			// apps: Select.apps.get(null, null, order, 1, 100)
+			// storeApps: Select.apps.get(null, null, order, 1, 100)
 		}
 	}
 };
