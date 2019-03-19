@@ -37,8 +37,9 @@ class Test extends React.PureComponent {
 			poly5_dark_4: x => 1.8029482531040015 * Math.pow(x,5) - 3.7807511314326407 * Math.pow(x,4) + 2.0538124091941405 * Math.pow(x,3) - 0.028245268825428955 * Math.pow(x,2) + 0.9517842595912386 * x,
 			poly6_dark_1: x => - 14.861223703758561 * Math.pow(x,6) + 42.67857300079763 * Math.pow(x,5) - 45.318648318930805 * Math.pow(x,4) + 21.23308346105347 * Math.pow(x,3) - 3.9715919420674775 * Math.pow(x,2) + 1.241597572374719 * x,
 			poly6_dark_2: x => - 12.24244793333811 * Math.pow(x,6) + 35.18966549158417 * Math.pow(x,5) - 37.51795945847538 * Math.pow(x,4) + 17.6366962706446 * Math.pow(x,3) - 3.257760310727048 * Math.pow(x,2) + 1.1930146250308482 * x,
-			poly6_dark_3: x => - 9.078052129304432 * Math.pow(x,6) + 26.86874074886899* Math.pow(x,5) - 29.545781890954203 * Math.pow(x,4) + 14.229080324563313 * Math.pow(x,3) - 2.6259657069382323 * Math.pow(x,2) + 1.152769392179279 * x,
-			poly6_dark_4: x => - 5.913656325270676 * Math.pow(x,6) + 18.547816006153575* Math.pow(x,5) - 21.573604323432754 * Math.pow(x,4) + 10.821464378481888 * Math.pow(x,3) - 1.9941711031493847 * Math.pow(x,2) + 1.112524159327707 * x,
+			poly6_dark_3: x => - 9.078052129304432 * Math.pow(x,6) + 26.86874074886899 * Math.pow(x,5) - 29.545781890954203 * Math.pow(x,4) + 14.229080324563313 * Math.pow(x,3) - 2.6259657069382323 * Math.pow(x,2) + 1.152769392179279 * x,
+			poly6_dark_4: x => - 5.913656325270676 * Math.pow(x,6) + 18.547816006153575 * Math.pow(x,5) - 21.573604323432754 * Math.pow(x,4) + 10.821464378481888 * Math.pow(x,3) - 1.9941711031493847 * Math.pow(x,2) + 1.112524159327707 * x,
+			poly6_dark_5: x => - 2.7492605212369323 * Math.pow(x,6) + 10.226891263438196 * Math.pow(x,5) - 13.601426755911348 * Math.pow(x,4) + 7.413848432400486 * Math.pow(x,3) - 1.3623764993605418 * Math.pow(x,2) + 1.0722789264761354 * x,
 
 		};
 
@@ -111,6 +112,9 @@ class Test extends React.PureComponent {
 					<div title="poly6_dark_4">
 						{scale.poly6_dark_4.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
 					</div>
+					<div title="poly6_dark_5">
+						{scale.poly6_dark_5.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
+					</div>
 					<div title="poly5_dark_3">
 						{scale.poly5_dark_3.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
 					</div>
@@ -146,6 +150,9 @@ class Test extends React.PureComponent {
 					</div>
 					<div title="poly6_dark_4">
 						{scale.poly6_dark_4.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
+					</div>
+					<div title="poly6_dark_5">
+						{scale.poly6_dark_5.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
 					</div>
 					<div title="poly5_dark_3">
 						{scale.poly5_dark_3.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
