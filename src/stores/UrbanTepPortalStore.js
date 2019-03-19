@@ -25,6 +25,4 @@ class UrbanTepPortalStore {
     };
 }
 
-window.UrbanTepPortalStore = UrbanTepPortalStore;
-
 export default UrbanTepPortalStore;
