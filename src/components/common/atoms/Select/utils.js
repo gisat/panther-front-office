@@ -1,5 +1,5 @@
 import React from 'react';
-import Key from '../../../../apps/backOffice/components/Key';
+import Key from './Key';
 
 /**
  * 

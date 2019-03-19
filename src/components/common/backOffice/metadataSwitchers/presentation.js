@@ -28,21 +28,23 @@ class MetadataSwitcher extends React.PureComponent {
 		const selectedValue = this.props.data.find(i => i.key === this.props.itemKey);
 		
 		return (
-			<div>
+			<div className="ptr-screen-metadata-switcher-content">
 				<Select
 					unfocusable={this.props.unfocusable}
                     options = {this.props.data}
-                    selectedValue = {selectedValue}
+					optionValue="key"
+                    value = {selectedValue}
+					valueIsTitle
+					optionLabel="data.nameDisplay"
 					onChange={this.props.onChange}
-					className={'ptr-select-heading'}
-					style={{flexGrow: 2}}
-					/>
-					<Button
-						icon="plus"
-						ghost
-						onClick={this.props.onAddClick}
-						unfocusable={this.props.unfocusable}
-					/>
+					withKeyPrefix
+				/>
+				<Button
+					icon="plus"
+					ghost
+					onClick={this.props.onAddClick}
+					unfocusable={this.props.unfocusable}
+				/>
 			</div>
 		);
 	}

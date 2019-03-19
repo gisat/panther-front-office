@@ -6,6 +6,7 @@ import NavList from '../../../../components/presentation/NavList';
 
 import './style.scss';
 import ButtonDoc from "../ButtonDoc";
+import SelectDoc from "../SelectDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -13,12 +14,14 @@ class DocsPage extends React.PureComponent {
 		super(props);
 
 		this.components = [
-			{key: 'button', title: 'Button', component: ButtonDoc}
+			{key: 'button', title: 'Button', component: ButtonDoc},
+			{key: 'select', title: 'Select', component: SelectDoc},
 		];
 
-		this.paths = {
-			button: `${this.props.match.path}button`
-		};
+		this.paths = {};
+		this.components.forEach(component => {
+			this.paths[component.key] = `${this.props.match.path}${component.key}`;
+		});
 
 		this.navList = [
 			{

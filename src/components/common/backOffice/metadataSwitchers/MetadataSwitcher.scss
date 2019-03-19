@@ -1,5 +1,11 @@
 @import '../../../../styles/variables';
 
-.ptr-screen-metadata-switcher > div {
+.ptr-screen-metadata-switcher-content {
 	display: flex;
+	align-items: flex-end;
+}
+
+.ptr-screen-metadata-switcher-content > div:first-child {
+	flex-grow: 1;
+	margin-right: .5rem;
 }
