@@ -49,6 +49,12 @@ export default {
 		introHeaderBackgroundSrc: "img/dlr/intro_image.jpg",
 		introLogoSrc: "img/dlr/logo.png"
 	},
+	"un": {
+		htmlClass: "un",
+		logoSrc: "img/un/logo.png",
+		introHeaderBackgroundSrc: "img/un/sdgs.jpg",
+        introLogoSrc: "img/un/logo.png"
+	},
 	"test": {
 		htmlClass: "dromas"
 	}

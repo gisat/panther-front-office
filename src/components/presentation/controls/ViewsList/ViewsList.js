@@ -59,7 +59,7 @@ class ViewsList extends React.PureComponent {
 				/>
 			);
 		} else if (scopeStyle === "eo4sd" || scopeStyle === "puma" || scopeStyle === "eow2" || scopeStyle === "dlr" ||
-			scopeStyle === "tep"){
+			scopeStyle === "tep" || scopeStyle === "un" ){
 			return (
 				<IntroHeader
 					title={this.props.selectedScopeData && this.props.selectedScopeData.name}

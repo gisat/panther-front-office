@@ -959,6 +959,14 @@ todo merge with overlay
 	background-color: rgba(55,55,55,.9);
 }
 
+.dlr .ptr-intro-header-overlay {
+	background-color: rgba(55,55,55,.9);
+}
+
+.un .ptr-intro-header-overlay {
+	background-color: rgba(91,146,229,1);
+}
+
 .tep .ptr-intro-header-overlay {
 	background-color: rgba(153,55,64,.9);
 }
