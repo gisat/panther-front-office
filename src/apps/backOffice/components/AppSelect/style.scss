@@ -22,19 +22,52 @@
 	transform: translateY(-50%);
 }
 
+
 .ptr-bo-app-select-list {
 	position: absolute;
-	padding: m(1/3) m(1/3) 0;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 100vh;
 
-	transform-origin: top;
-	transition: transform .3s ease-in-out;
-	transform: scaleY(0);
+	padding-top: m(2);
 
-	background: $gray10;
+	pointer-events: none;
+
+	//background: rgba(255,255,0,.3);
+
+	display: flex;
 }
 .ptr-bo-app-select-list.open {
+	//height: 100vh;
+}
+
+.ptr-bo-app-select-list > div {
+	width: 100%;
+	height: 100%;
+
+	overflow: hidden;
+
+	//background: #f00c;
+}
+
+.ptr-bo-app-select-list > div > div {
+	padding: m(1/3) m(1/3) 0;
+
+
+	transform: translateY(-100%);
+	transition: transform .3s ease-in-out;
+
+	background: $gray9;
+
+	pointer-events: all;
+}
+.ptr-bo-app-select-list.open > div > div {
 	transform: none;
 }
-.ptr-bo-app-select-list > .ptr-bo-app-select-item {
+.ptr-bo-app-select-list .ptr-bo-app-select-item {
 	margin-bottom: m(1/3);
+}
+.ptr-bo-app-select-list .ptr-bo-app-select-item:hover {
+	background: #ff0;
 }
