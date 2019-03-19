@@ -1,11 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import Icon from '../../../../components/common/atoms/Icon';
 
 import './style.scss';
+import utils from "../../../../utils/utils";
 
 class AppSelect extends React.PureComponent {
+
+	static propTypes = {
+		apps: PropTypes.object,
+		storeApps: PropTypes.object,
+		activeKey: PropTypes.string,
+		onChange: PropTypes.func
+	};
 
 	constructor(props) {
 		super(props);
@@ -15,6 +25,11 @@ class AppSelect extends React.PureComponent {
 		};
 
 		this.onSelectClick = this.onSelectClick.bind(this);
+		this.renderApp = this.renderApp.bind(this);
+	}
+
+	merge(apps, storeApps) {
+		return storeApps && Object.keys(storeApps).length && apps.map(app => {return {...app, ...storeApps[app.key]}}) || apps;
 	}
 
 	onSelectClick(e) {
@@ -23,7 +38,17 @@ class AppSelect extends React.PureComponent {
 		});
 	}
 
+	onItemClick(appKey) {
+		if (appKey !== this.props.activeKey) {
+			this.props.onChange(appKey);
+		}
+	}
+
 	render() {
+		let apps = this.merge(this.props.apps, this.props.storeApps);
+		let activeApp = _.find(apps, {key: this.props.activeKey});
+		let selectStyle = activeApp ? {background: utils.stringToColours(activeApp.key, 1, {lightness: [30,40]})} : null;
+
 		return (
 			<>
 				<div className="ptr-bo-app-select-current ptr-bo-app-select-item" tabIndex="0" onClick={this.onSelectClick}>
@@ -37,9 +62,18 @@ class AppSelect extends React.PureComponent {
 	}
 
 	renderApp(app) {
-		return app.backOffice ? null : (
-			<div className="ptr-bo-app-select-item"><span>{app.nameDisplay || app.key}</span></div>
-		);
+		if (app.backOffice) {
+			return null;
+		} else {
+			let style = {
+				background: utils.stringToColours(app.key, 1, {lightness: [30,40]})
+			};
+			return (
+				<div className="ptr-bo-app-select-item" style={style} onClick={this.onItemClick.bind(this, app.key)}>
+					<span>{app.nameDisplay || app.key}</span>
+				</div>
+			);
+		}
 	}
 
 }
