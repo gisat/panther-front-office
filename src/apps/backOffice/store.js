@@ -5,6 +5,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
 // base types
+import appsReducers from '../../state/Apps/reducers';
 import areasReducers from '../../state/Areas/reducers';
 import attributesReducers from '../../state/Attributes/reducers';
 import attributeSetsReducers from '../../state/AttributeSets/reducers';
@@ -27,6 +28,7 @@ export const history = createBrowserHistory();
 
 // Redux store
 export default createStore(combineReducers({
+	apps: appsReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,

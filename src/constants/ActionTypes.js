@@ -12,6 +12,34 @@ export default utils.deepKeyMirror({
 	AOI_GEOMETRY_RECEIVE: 'AOI_GEOMETRY_RECEIVE',
 	AOI_GEOMETRY_REQUEST_ERROR: 'AOI_GEOMETRY_REQUEST_ERROR',
 
+	APPS: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		LOAD: {
+			ERROR: null,
+			REQUEST: null
+		},
+		SET_ACTIVE_KEY: null,
+		SET_ACTIVE_KEYS: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
+	},
+
 	AREAS: {
 		AREA_TREE_LEVELS: {
 			ADD: null,
