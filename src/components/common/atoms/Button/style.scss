@@ -21,8 +21,8 @@
 
 /* General */
 .ptr-button {
-  background: var(--base3);
-  color: var(--base10);
+  background: var(--base30);
+  color: var(--base100);
   //border: 1px solid rgba(0,0,0,.02); // TODO why?
   border-radius: .2rem;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
@@ -55,7 +55,7 @@
 }
 
 .ptr-button:hover {
-  color: var(--base11);
+  color: var(--base100);
 }
 
 .ptr-button:not(.ghost):hover {
@@ -71,7 +71,7 @@
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
   border-radius: .2rem;
-  box-shadow: 0 0 2px 2px var(--accent6);
+  box-shadow: 0 0 2px 2px var(--accent50);
   pointer-events: none;
 }
 
@@ -110,7 +110,7 @@
 }
 
 .ptr-button.large:focus::after {
-  box-shadow: 0 0 3px 3px var(--accent5);
+  box-shadow: 0 0 3px 3px var(--accent50);
 }
 
 .ptr-button.large .ptr-button-caption {
@@ -145,8 +145,8 @@
 
 /* Levels */
 .ptr-button.primary {
-  background: var(--accent6);
-  color: var(--base1);
+  background: var(--accent50);
+  color: var(--base10);
 }
 
 .ptr-button.primary:hover {
@@ -154,8 +154,8 @@
 }
 
 .ptr-button.secondary {
-  background: var(--base6);
-  color: var(--base1);
+  background: var(--base50);
+  color: var(--base10);
 }
 
 .ptr-button.secondary:hover {
@@ -170,7 +170,7 @@
 }
 
 .ptr-button.invisible:hover {
-  background: var(--base3);
+  background: var(--base30);
 }
 
 
@@ -275,7 +275,7 @@
 /* Ghost */
 .ptr-button.ghost {
   background: transparent;
-  border: 1px solid var(--base7);
+  border: 1px solid var(--base70);
   box-shadow: none;
   padding: 0 calc(.35rem - 1px);
 }
@@ -289,7 +289,7 @@
 }
 
 .ptr-button.ghost:hover {
-  background: var(--base3);
+  background: var(--base30);
 }
 
 .ptr-button.ghost.small {
@@ -318,13 +318,13 @@
 }
 
 .ptr-button.ghost.primary {
-  border-color: var(--accent6);
-  color: var(--accent6);
+  border-color: var(--accent50);
+  color: var(--accent50);
 }
 
 .ptr-button.ghost.primary:hover {
-  background: var(--accent2);
-  color: var(--accent7);
+  background: var(--accent20);
+  color: var(--accent70);
 }
 
 .ptr-button.ghost.side {
@@ -366,21 +366,21 @@
 .ptr-button.primary.disabled,
 .ptr-button.secondary.disabled {
   pointer-events: none;
-  background: var(--base2);
-  color: var(--base4);
+  background: var(--base20);
+  color: var(--base40);
 }
 
 .ptr-button.ghost.disabled {
   background: transparent;
-  border-color: var(--base3);
-  color: var(--base4);
+  border-color: var(--base30);
+  color: var(--base40);
 }
 
 .ptr-button.disabled .ptr-icon .line {
-  fill: var(--base4);
+  fill: var(--base40);
 }
 .ptr-button.disabled .ptr-icon .polygon {
-  stroke: var(--base4);
+  stroke: var(--base40);
 }
 
 
