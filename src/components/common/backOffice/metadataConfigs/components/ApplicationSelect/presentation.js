@@ -8,6 +8,7 @@ class ApplicationSelect extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		onChange: PropTypes.func,
+		unfocusable: PropTypes.bool,
 		value: PropTypes.string
 	};
 
@@ -27,6 +28,7 @@ class ApplicationSelect extends React.PureComponent {
 				options={this.props.data}
 				optionLabel="data.name"
 				optionValue="key"
+				unfocusable={this.props.unfocusable}
 				value={this.props.value}
 			/>
 		);

@@ -74,6 +74,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					<ApplicationSelect
 						value={data && data.applicationKey || null}
 						onChange={this.onChange}
+						unfocusable={this.props.unfocusable}
 					/>
 				</InputWrapper>
 				<InputWrapper

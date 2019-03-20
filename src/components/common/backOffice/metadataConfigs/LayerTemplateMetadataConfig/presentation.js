@@ -53,6 +53,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					<ApplicationSelect
 						value={data && data.applicationKey || ""}
 						onChange={this.onChange}
+						unfocusable={this.props.unfocusable}
 					/>
 				</InputWrapper>
 				<InputWrapper
