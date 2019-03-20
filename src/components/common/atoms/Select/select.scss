@@ -95,6 +95,10 @@
 	background-color: var(--accent50);
 }
 
+.ptr-select-container .ptr-select__menu .ptr-select__option .label.emphasized {
+	font-weight: 700;
+}
+
 /* Key prefix */
 .ptr-select-container .option-id{
 	display: inline-block;

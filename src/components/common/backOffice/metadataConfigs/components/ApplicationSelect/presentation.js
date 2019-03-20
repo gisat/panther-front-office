@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
+import classnames from 'classnames';
 import {withNamespaces} from "react-i18next";
 import Select from "../../../../atoms/Select/Select";
 
@@ -18,19 +19,51 @@ class ApplicationSelect extends React.PureComponent {
 	}
 
 	onChange(value) {
-		this.props.onChange('applicationKey', value.key);
+		let key = value.key;
+		if (key === 'allApps') {
+			key = null;
+		}
+
+		this.formatOptionLabel = this.formatOptionLabel.bind(this);
+		this.props.onChange('applicationKey', key);
 	}
 
 	render() {
+		let t = this.props.t;
+		let data = [{
+			key: 'allApps',
+			data: {
+				name: t('allApps')
+			}
+		}];
+		let value = this.props.value ? this.props.value : data[0];
+
+		if (this.props.data) {
+			data = [...data, ...this.props.data];
+		}
+
 		return (
 			<Select
+				formatOptionLabel={this.formatOptionLabel}
 				onChange={this.onChange}
-				options={this.props.data}
+				options={data}
 				optionLabel="data.name"
 				optionValue="key"
 				unfocusable={this.props.unfocusable}
-				value={this.props.value}
+				value={value}
 			/>
+		);
+	}
+
+	formatOptionLabel(option) {
+		let classes = classnames('label', {
+			'emphasized': option.key === 'allApps'
+		});
+
+		return (
+			<div className={classes} key='label'>
+				{option.data.name}
+			</div>
 		);
 	}
 }

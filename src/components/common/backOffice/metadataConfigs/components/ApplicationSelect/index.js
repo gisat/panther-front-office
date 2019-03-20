@@ -8,7 +8,7 @@ const order = [['name', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.apps.getAll(state) // TODO get only active and common?
+		data: Select.apps.getActiveOrAll(state)
 	}
 };
 

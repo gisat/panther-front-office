@@ -13,6 +13,7 @@ class Select extends React.PureComponent {
     static propTypes = {
         className: PropTypes.string, // className for the outer element
         components: PropTypes.object,
+        formatOptionLabel: PropTypes.func, // custom option rendering
         onChange: PropTypes.func, // onChange handler: function (newValue) {}
         options: PropTypes.array,
         optionLabel: PropTypes.string, // path to label
@@ -98,19 +99,23 @@ class Select extends React.PureComponent {
     }
 
     getLabel(option) {
-        let labelPrefix = null;
-        let labelText = this.getOptionLabel(option);
+        if (this.props.formatOptionLabel) {
+            return this.props.formatOptionLabel(option);
+        } else {
+            let labelPrefix = null;
+            let labelText = this.getOptionLabel(option);
 
-        if (this.props.withKeyPrefix) {
-            labelPrefix = (<Key value={this.getOptionValue(option)}/>)
+            if (this.props.withKeyPrefix) {
+                labelPrefix = (<Key value={this.getOptionValue(option)}/>)
+            }
+
+            return (
+                <div className="label" key='label'>
+                    {labelPrefix}
+                    {labelText}
+                </div>
+            );
         }
-
-        return (
-            <div className="label" key='label'>
-                {labelPrefix}
-                {labelText}
-            </div>
-        );
     }
 
     getOptionLabel(option) {

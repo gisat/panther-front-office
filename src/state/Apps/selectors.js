@@ -13,13 +13,29 @@ const getActiveModels = common.getActiveModels(getSubstate);
 
 const getIndexes = common.getIndexes(getSubstate);
 
+// TODO test
+const getActiveOrAll = createSelector(
+	[
+		getAll,
+		getActive
+	],
+	(all, active) => {
+		if (active) {
+			return [active];
+		} else if (all) {
+			return all;
+		} else {
+			return null;
+		}
+	}
+);
 
 export default {
 	getActivePeriod: getActive,
 	getActiveKey,
 	getActiveKeys,
 	getActiveModels,
-	getAll,
+	getActiveOrAll,
 	getAllAsObject,
 	getSubstate
 };
