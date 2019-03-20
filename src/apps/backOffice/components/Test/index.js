@@ -84,12 +84,22 @@ class Test extends React.PureComponent {
 		// 	'#040300'
 		// ];
 
+		let scssVar = scaleBase.map(value => {
+			if (value === 0.05) {
+				return `$lightAccent05:  ${accentScale(func.poly5_3(value)).css('hsl')};`;
+			}
+			return `$lightAccent${value*100}: ${accentScale(func.poly5_3(value)).css('hsl')};`;
+		});
+
+
+		scale.poly5_3.map(value => (console.log(baseScale(value).css('hsl'))));
+
 		return (
 			<div className="ptr-bo-test">
 
 				<div className="testy ptr-light">
 					<div title="original">
-						{originalScale.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
+						{originalScale.map(value => (<div style={{background: baseScale(value).css('hsl')}}/>))}
 					</div>
 					<div title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
