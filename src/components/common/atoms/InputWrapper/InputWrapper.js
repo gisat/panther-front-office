@@ -43,7 +43,7 @@ class InputWrapper extends React.PureComponent {
 			<div className={classes}>
 				<div>
 					{required}
-					{this.props.label ? <span>{this.props.label}</span> : null}
+					{this.props.label ? <span className="ptr-input-label">{this.props.label}</span> : null}
 					{children}
 				</div>
 				{info}
@@ -52,7 +52,7 @@ class InputWrapper extends React.PureComponent {
 			<div className={classes}>
 				<label>
 					{required}
-					<span>{this.props.label}</span>
+					<span className="ptr-input-label">{this.props.label}</span>
 					{children}
 				</label>
 				{info}

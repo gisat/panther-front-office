@@ -17,6 +17,10 @@
 	font-size: $a1;
 	color: var(--base10);
 }
+.ptr-input-wrapper .ptr-input-label {
+	display: inline-block;
+	margin-bottom: .2rem;
+}
 .ptr-input-wrapper-required {
 	position: absolute;
 	top: 0;
