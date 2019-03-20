@@ -58,6 +58,7 @@ class Test extends React.PureComponent {
 
 
 		let baseScale = chroma.scale(['#fffefc','#040300']).mode('lrgb').correctLightness();
+		let baseScaleDark = chroma.scale(['#040300', '#fffefc']).mode('lrgb').correctLightness();
 		let accentScale = chroma.scale(['#fffefc', '#2ab2ad', '#040300']).mode('lab').correctLightness();
 		let accentScaleLrgb = chroma.scale(['#fffefc', '#2ab2ad', '#040300']).mode('lrgb').correctLightness();
 		let accentScale2 = chroma.scale(['#fffefc', '#4535b2', '#040300']).mode('lab').correctLightness();
@@ -109,6 +110,18 @@ class Test extends React.PureComponent {
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
+					</div>
+					<div>
+						{scale.sin.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
+					</div>
+					<div>
+						{darkScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div>
+						{darkScale.reverse().map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div>
+						{originalScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
 					</div>
 					<div title="poly6_dark_1">
 						{scale.poly6_dark_1.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
