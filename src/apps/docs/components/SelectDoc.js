@@ -21,22 +21,21 @@ class SelectDoc extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			basicValue: 'chocolate',
 			basicSelectCustomizedOptionsValue: 'dfgdfg84g',
-			selectAsTitleValue: baseOptions[0]
+			selectAsTitleValue: baseOptions[0],
+			selectAsTitlePrefixedValue: baseOptions[1],
 		};
-
-		this.onSelectAsTitleOnChange = this.onSelectAsTitleOnChange.bind(this);
 	}
 
-	onSelectAsTitleOnChange(value) {
-		this.setState({
-			selectAsTitleValue: value
-		});
-	}
+	onChange(key, keyPath, value) {
+		let val = value;
+		if (keyPath) {
+			val = _.get(value, keyPath);
+		}
 
-	onChangeCustom(key, value) {
 		this.setState({
-			[key]: value.data.key
+			[key]: val
 		});
 	}
 
@@ -47,15 +46,16 @@ class SelectDoc extends React.PureComponent {
 					<h2>Basic select</h2>
 					<p>Basic select with default options format.</p>
 					<Select
+						onChange={this.onChange.bind(this, 'basicValue')}
 						options={baseOptions}
-						value='chocolate'
+						value={this.state.basicValue}
 					/>
 				</div>
 
 				<div className="ptr-docs-panel-section">
 					<h2>Basic select with prefixed key</h2>
 					<Select
-						onChange={this.onChangeCustom.bind(this, 'basicSelectCustomizedOptionsValue')}
+						onChange={this.onChange.bind(this, 'basicSelectCustomizedOptionsValue', 'data.key')}
 						options={customOptions}
 						optionLabel="data.labelCz"
 						optionValue="data.key"
@@ -68,7 +68,7 @@ class SelectDoc extends React.PureComponent {
 					<h2>Select as title</h2>
 					<Select
 						options={baseOptions}
-						onChange={this.onSelectAsTitleOnChange}
+						onChange={this.onChange.bind(this, 'selectAsTitleValue')}
 						valueIsTitle
 						value={this.state.selectAsTitleValue}
 					/>
@@ -78,9 +78,9 @@ class SelectDoc extends React.PureComponent {
 					<h2>Select as title (with prefixed key)</h2>
 					<Select
 						options={baseOptions}
-						onChange={this.onSelectAsTitleOnChange}
+						onChange={this.onChange.bind(this, 'selectAsTitlePrefixedValue')}
 						valueIsTitle
-						value={this.state.selectAsTitleValue}
+						value={this.state.selectAsTitlePrefixedValue}
 						withKeyPrefix
 					/>
 				</div>
