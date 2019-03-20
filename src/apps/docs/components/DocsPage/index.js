@@ -6,6 +6,8 @@ import NavList from '../../../../components/presentation/NavList';
 
 import './style.scss';
 import ButtonDoc from "../ButtonDoc";
+import InputDoc from "../InputDoc";
+import InputWrapperDoc from "../InputWrapperDoc";
 import SelectDoc from "../SelectDoc";
 
 class DocsPage extends React.PureComponent {
@@ -15,6 +17,8 @@ class DocsPage extends React.PureComponent {
 
 		this.components = [
 			{key: 'button', title: 'Button', component: ButtonDoc},
+			{key: 'input', title: 'Input', component: InputDoc},
+			{key: 'inputWrapper', title: 'InputWrapper', component: InputWrapperDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
 		];
 
