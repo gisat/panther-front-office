@@ -19,9 +19,12 @@ class Select extends React.PureComponent {
         optionValue: PropTypes.string, // path to value
         type: PropTypes.string,
         unfocusable: PropTypes.bool,
-        value: PropTypes.object,
+        value: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.string
+        ]),
         valueIsTitle: PropTypes.bool,
-        withKeyPrefix: PropTypes.string
+        withKeyPrefix: PropTypes.bool
     };
 
     constructor(props) {
@@ -40,6 +43,14 @@ class Select extends React.PureComponent {
 
         if (!props.optionValue) {
             props.optionValue = 'value';
+        }
+
+        if (typeof props.value === 'string') {
+            if (props.optionValue) {
+                props.value = _.find(props.options, (option) => {return _.get(option, props.optionValue) === props.value});
+            } else {
+                props.value = _.find(props.options, {label: props.value});
+            }
         }
 
         switch (this.props.type) {

@@ -5,9 +5,9 @@ import _ from 'lodash';
 import Select from "../../../components/common/atoms/Select/Select";
 
 const baseOptions = [
-	{ value: 'chocolate', label: 'Chocolate', data: {labelCz: 'Čokoláda', key: 'adsddfsfds'} },
-	{ value: 'strawberry', label: 'Strawberry', data: {labelCz: 'Jahoda', key: '7457784567'}  },
-	{ value: 'vanilla', label: 'Vanilla', data: {labelCz: 'Vanilka', key: 'dfgdfg84g'}  }
+	{ value: 'chocolate', label: 'Chocolate'},
+	{ value: 'strawberry', label: 'Strawberry'},
+	{ value: 'vanilla', label: 'Vanilla'}
 ];
 
 const customOptions = [
@@ -21,7 +21,7 @@ class SelectDoc extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			basicSelectCustomizedOptionsValue: customOptions[0],
+			basicSelectCustomizedOptionsValue: 'dfgdfg84g',
 			selectAsTitleValue: baseOptions[0]
 		};
 
@@ -36,22 +36,24 @@ class SelectDoc extends React.PureComponent {
 
 	onChangeCustom(key, value) {
 		this.setState({
-			[key]: {...value, value: value.data.key, label: value.data.label}
+			[key]: value.data.key
 		});
 	}
 
 	render() {
 		return (
 			<div className="ptr-docs-panel-content">
-				<h2>Basic select</h2>
 				<div className="ptr-docs-panel-section">
+					<h2>Basic select</h2>
+					<p>Basic select with default options format.</p>
 					<Select
 						options={baseOptions}
+						value='chocolate'
 					/>
 				</div>
 
-				<h2>Basic select with prefixed key</h2>
 				<div className="ptr-docs-panel-section">
+					<h2>Basic select with prefixed key</h2>
 					<Select
 						onChange={this.onChangeCustom.bind(this, 'basicSelectCustomizedOptionsValue')}
 						options={customOptions}
@@ -62,8 +64,8 @@ class SelectDoc extends React.PureComponent {
 					/>
 				</div>
 
-				<h2>Select as title</h2>
 				<div className="ptr-docs-panel-section">
+					<h2>Select as title</h2>
 					<Select
 						options={baseOptions}
 						onChange={this.onSelectAsTitleOnChange}
@@ -72,8 +74,8 @@ class SelectDoc extends React.PureComponent {
 					/>
 				</div>
 
-				<h2>Select as title (with prefixed key)</h2>
 				<div className="ptr-docs-panel-section">
+					<h2>Select as title (with prefixed key)</h2>
 					<Select
 						options={baseOptions}
 						onChange={this.onSelectAsTitleOnChange}
