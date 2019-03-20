@@ -4,74 +4,42 @@
 	border-radius: .2rem;
 	min-width: 10rem;
 	display: flex;
-	background: white;
-	border: 1px solid #aaa;
+	background: none;
+	border: 1px solid var(--base5); // todo
 }
 .ptr-input-text.input {
 	height: m(4/3);
 }
-.ptr-input-text.multiline {
-	min-height: m(4/3);
-}
 .ptr-input-text input {
+	background: none;
 	border: 0;
+	border-radius: .2rem;
+	color: var(--base10); //todo
 	width: 100%;
 	font-size: $a1;
 	line-height: 1.5;
 	flex: 1;
 	padding: 0 .5rem;
+	outline: none;
+}
+.ptr-input-text input:focus {
+	box-shadow: 0 0 2px 2px var(--accent6); // todo
+}
+
+/* Multiline */
+.ptr-input-text.multiline {
+	min-height: m(4/3);
 }
 .ptr-input-text.multiline > div {
 	width: 100%;
 }
 .ptr-input-text.multiline .ptr-editable-text {
+	color: var(--base10); //todo
+	outline: none;
 	font-size: $a1;
-	padding: .25rem 0;
+	padding: .25rem .5rem;
 	width: 100%;
 }
-.ptr-input-text .ptr-icon {
-	width: 1.4rem;
-}
-
-/* extra large */
-.ptr-input-text.extraLarge input {
-	font-size: $b2;
-}
-
-/* large */
-.ptr-input-text.large input {
-	font-size: $a1;
-}
-
-/* transparent */
-.ptr-input-text.transparent {
-	background: rgba(255,255,255,.2);
-	border: 0;
-	transition: background .3s ease-in-out;
-}
-.ptr-input-text.transparent input {
-	background: none;
-	font-weight: 400;
-	color: rgba(255,255,255,.6);
-	transition: color .3s ease-in-out;
-}
-.ptr-input-text.transparent .ptr-icon .line,
-.ptr-input-text.transparent .ptr-icon .polygon {
-	stroke: rgba(255,255,255,.6);
-	transition: stroke .3s ease-in-out;
-}
-.ptr-input-text.transparent input::placeholder {
-	color: rgba(255,255,255,.6);
-}
-
-/* transparent and focused */
-.ptr-input-text.transparent.focus {
-	background: rgba(255,255,255,.25);
-}
-.ptr-input-text.transparent.focus input {
-	color: rgba(255,255,255,1);
-}
-.ptr-input-text.transparent.focus .ptr-icon .line,
-.ptr-input-text.transparent.focus .ptr-icon .polygon {
-	stroke: rgba(255,255,255,1);
+.ptr-input-text.multiline .ptr-editable-text:focus {
+	box-shadow: 0 0 2px 2px var(--accent6); // todo
 }

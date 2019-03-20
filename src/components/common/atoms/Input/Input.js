@@ -10,15 +10,12 @@ import EditableText from "../EditableText";
 class Input extends React.PureComponent {
 
 	static propTypes = {
-		extraLarge: PropTypes.bool,
 		focus: PropTypes.bool,
-		large: PropTypes.bool,
-		placeholder: PropTypes.string,
-		transparent: PropTypes.bool,
-		value: PropTypes.string,
 		name: PropTypes.string,
 		onChange: PropTypes.func,
-		unfocusable: PropTypes.bool
+		placeholder: PropTypes.string,
+		unfocusable: PropTypes.bool,
+		value: PropTypes.string
 	};
 
 	constructor(props){
@@ -77,11 +74,8 @@ class Input extends React.PureComponent {
 
 	render() {
 		let classes = classNames("ptr-input-text", {
-			'extraLarge': this.props.extraLarge,
-			'large': this.props.large,
 			'empty': !this.state.value,
 			'focus': this.state.focus,
-			'transparent': this.props.transparent,
 			'input': !this.props.multiline,
 			'multiline': this.props.multiline
 		});

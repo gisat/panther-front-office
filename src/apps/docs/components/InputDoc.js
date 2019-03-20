@@ -12,8 +12,37 @@ class InputDoc extends React.PureComponent {
 		return (
 			<div className="ptr-docs-panel-content">
 				<div className="ptr-docs-panel-section">
-					<h2>Basic</h2>
+					<h2>Basic text</h2>
 					<Input/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Basic text with deafult value</h2>
+					<Input
+						value="Strawberry"
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Basic text with placeholder</h2>
+					<Input
+						placeholder="Placeholder"
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Multiline text</h2>
+					<Input
+						multiline
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Multiline text with value</h2>
+					<Input
+						multiline
+						value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+					/>
 				</div>
 			</div>
 		);
