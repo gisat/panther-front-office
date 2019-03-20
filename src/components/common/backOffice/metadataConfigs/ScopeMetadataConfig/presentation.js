@@ -5,6 +5,7 @@ import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
 import Button from "../../../../common/atoms/Button";
+import ApplicationSelect from "../components/ApplicationSelect";
 
 class ScopeMetadataConfig extends React.PureComponent {
 	static propTypes = {
@@ -66,6 +67,15 @@ class ScopeMetadataConfig extends React.PureComponent {
 
 		return (
 			<div>
+				<InputWrapper
+					required
+					label={t("labels.applicationCapitalized")}
+				>
+					<ApplicationSelect
+						value={data && data.applicationKey || null}
+						onChange={this.onChange}
+					/>
+				</InputWrapper>
 				<InputWrapper
 					required
 					label={t("nameCapitalized")}

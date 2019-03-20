@@ -1,5 +1,6 @@
 {
   "labels": {
+    "applicationCapitalized": "Application",
     "nameInternal": "Internal name",
     "configuration": "Configuration",
     "description": "Description"

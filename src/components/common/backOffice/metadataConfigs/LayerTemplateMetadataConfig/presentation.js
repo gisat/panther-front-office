@@ -5,6 +5,7 @@ import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
 import Button from "../../../atoms/Button";
+import ApplicationSelect from "../components/ApplicationSelect";
 
 class LayerTemplateMetadataConfig extends React.PureComponent {
 	static propTypes = {
@@ -47,6 +48,15 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
+					label={t("labels.applicationCapitalized")}
+				>
+					<ApplicationSelect
+						value={data && data.applicationKey || ""}
+						onChange={this.onChange}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					required
 					label={t("nameCapitalized")}
 				>
 					<Input
@@ -56,7 +66,6 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					required
 					label={t("labels.nameInternal")}
 				>
 					<Input
