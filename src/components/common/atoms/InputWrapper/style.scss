@@ -2,7 +2,7 @@
 
 .ptr-input-wrapper {
 	position: relative;
-	border: 1px solid var(--base3);
+	border: 1px solid var(--base4); //todo
 	border-radius: .2rem;
 	margin-bottom: m(1);
 	box-shadow: 0.05rem 0.05rem 0.2rem 0 rgba(0, 0, 0, .07);
@@ -15,7 +15,7 @@
 .ptr-input-wrapper label span,
 .ptr-input-wrapper div span {
 	font-size: $a1;
-	color: var(--base10);
+	color: var(--base10); //todo
 }
 .ptr-input-wrapper .ptr-input-label {
 	display: inline-block;
@@ -26,9 +26,10 @@
 	top: 0;
 	right: 1rem;
 	display: block;
-	border: 1px solid var(--base3);
+	background: var(--base4);
+	border: 1px solid var(--base4); //todo
 	border-top: 0;
-	color: var(--base6);
+	color: var(--base0); //todo
 	font-size: $b1;
 	line-height: 1.5rem;
 	padding: 0 .5rem;
@@ -36,7 +37,8 @@
 	box-shadow: rgba(125,125,125,.07) 1px 2px 3px 0;
 }
 .ptr-input-wrapper-info {
-	border-top: 1px solid rgba(0, 0, 0, .1);
+	border-top: 1px solid var(--base3);
+	color: var(--base8);
 	font-size: $b1;
 	padding: .5rem 1rem;
 	line-height: 1.5;
