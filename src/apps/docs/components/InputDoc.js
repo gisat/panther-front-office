@@ -31,6 +31,14 @@ class InputDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
+					<h2>Basic text disabled</h2>
+					<Input
+						disabled
+						value="Strawberry"
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
 					<h2>Multiline text</h2>
 					<Input
 						multiline
@@ -40,6 +48,15 @@ class InputDoc extends React.PureComponent {
 				<div className="ptr-docs-panel-section">
 					<h2>Multiline text with value</h2>
 					<Input
+						multiline
+						value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Multiline text disabled</h2>
+					<Input
+						disabled
 						multiline
 						value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
 					/>

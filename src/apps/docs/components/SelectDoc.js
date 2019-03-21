@@ -65,6 +65,18 @@ class SelectDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
+					<h2>Basic select disabled</h2>
+					<Select
+						disabled
+						options={customOptions}
+						optionLabel="data.labelCz"
+						optionValue="data.key"
+						value={customOptions[0]}
+						withKeyPrefix
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
 					<h2>Select as title</h2>
 					<Select
 						options={baseOptions}

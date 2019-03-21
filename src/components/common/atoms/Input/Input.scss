@@ -34,6 +34,7 @@
 	width: 100%;
 }
 .ptr-input-text.multiline .ptr-editable-text {
+	border-radius: .2rem;
 	color: var(--base100); //todo
 	outline: none;
 	font-size: $a1;
@@ -42,4 +43,14 @@
 }
 .ptr-input-text.multiline .ptr-editable-text:focus {
 	box-shadow: 0 0 2px 2px var(--accent60); // todo
+}
+
+/* Disabled */
+.ptr-input-text.disabled {
+	border: 1px solid var(--base30); // todo
+}
+
+.ptr-input-text.disabled input,
+.ptr-input-text.disabled .ptr-editable-text {
+	color: var(--base50); // todo
 }

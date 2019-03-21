@@ -5,6 +5,7 @@
 	BASIC
 		Options
 		Key prefix
+		Disabled
 
 	VALUE IS TITLE
 */
@@ -109,6 +110,27 @@
 
 .ptr-select-container .ptr-select__menu .ptr-select__option--is-selected .option-id{
 	color: var(--accent20);
+}
+
+/* Disabled */
+.ptr-select-container.disabled  .ptr-select__control {
+	border-color: var(--base30); // todo
+}
+
+.ptr-select-container.disabled .ptr-select__single-value {
+	color: var(--base50); // todo
+}
+
+.ptr-select-container.disabled  .ptr-select__dropdown-indicator {
+	color: var(--base30); // todo
+}
+
+.ptr-select-container.disabled  .ptr-select__indicator-separator {
+	background: var(--base30); // todo
+}
+
+.ptr-select-container.disabled .option-id{
+	color: var(--base40);
 }
 
 /* === VALUE IS TITLE =================================================== */

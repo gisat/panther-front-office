@@ -13,6 +13,7 @@ class Select extends React.PureComponent {
     static propTypes = {
         className: PropTypes.string, // className for the outer element
         components: PropTypes.object,
+        disabled: PropTypes.bool,
         formatOptionLabel: PropTypes.func, // custom option rendering
         onChange: PropTypes.func, // onChange handler: function (newValue) {}
         options: PropTypes.array,
@@ -40,6 +41,7 @@ class Select extends React.PureComponent {
 
         const classes = classnames(`ptr-select-container ${this.props.className}`, {
             'value-is-title': !!this.props.valueIsTitle,
+            'disabled': this.props.disabled
         });
 
         if (!props.optionValue) {
@@ -72,6 +74,7 @@ class Select extends React.PureComponent {
                 getOptionValue={this.getOptionValue}
                 getOptionLabel={this.getOptionLabel}
                 hideSelectedOptions={props.hideSelectedOptions}
+                isDisabled={this.props.disabled}
                 onChange={props.onChange}
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}
@@ -90,6 +93,7 @@ class Select extends React.PureComponent {
                 formatOptionLabel={this.getLabel}
                 getOptionValue={this.getOptionValue}
                 hideSelectedOptions={props.hideSelectedOptions}
+                isDisabled={this.props.disabled}
                 onChange={props.onChange}
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}

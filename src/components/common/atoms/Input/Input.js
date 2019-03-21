@@ -10,6 +10,7 @@ import EditableText from "../EditableText";
 class Input extends React.PureComponent {
 
 	static propTypes = {
+		disabled: PropTypes.bool,
 		focus: PropTypes.bool,
 		name: PropTypes.string,
 		onChange: PropTypes.func,
@@ -77,7 +78,8 @@ class Input extends React.PureComponent {
 			'empty': !this.state.value,
 			'focus': this.state.focus,
 			'input': !this.props.multiline,
-			'multiline': this.props.multiline
+			'multiline': this.props.multiline,
+			'disabled': this.props.disabled
 		});
 
 		return (
@@ -103,6 +105,7 @@ class Input extends React.PureComponent {
 
 		return (
 			<input type={type}
+				disabled={this.props.disabled}
 				tabIndex={this.props.unfocusable ? -1 : 0}
 				placeholder={this.state.focus ? null : this.props.placeholder}
 				value={this.state.value || ""}
@@ -120,6 +123,7 @@ class Input extends React.PureComponent {
 		return (
 			<EditableText
 				invisible
+				disabled={this.props.disabled}
 				unfocusable={this.props.unfocusable}
 				value={this.props.value || this.state && this.state.value || ""}
 				name={this.props.name}
