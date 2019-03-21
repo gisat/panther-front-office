@@ -38,7 +38,7 @@ class ViewsList extends React.PureComponent {
 		return (
 			<div className="ptr-views-list">
 				{this.props.hideTitle ? null : this.renderHeader(scopeStyle)}
-				{scopeStyle === "geoinvaze" || scopeStyle === "eo4sd" ? this.renderDescription(this.props.selectedScopeData  && this.props.selectedScopeData.description) : null}
+				{scopeStyle === "geoinvaze" || scopeStyle === "eo4sd" || scopeStyle === "puma" ? this.renderDescription(this.props.selectedScopeData  && this.props.selectedScopeData.description) : null}
 				<div className="ptr-views-list-content">
 					<div>{this.renderContent()}</div>
 				</div>
@@ -58,7 +58,8 @@ class ViewsList extends React.PureComponent {
 					withBackgroundOverlay
 				/>
 			);
-		} else if (scopeStyle === "eo4sd"){
+		} else if (scopeStyle === "eo4sd" || scopeStyle === "puma" || scopeStyle === "eow2" || scopeStyle === "dlr" ||
+			scopeStyle === "tep" || scopeStyle === "un" ){
 			return (
 				<IntroHeader
 					title={this.props.selectedScopeData && this.props.selectedScopeData.name}

@@ -30,6 +30,31 @@ export default {
 		introHeaderBackgroundSrc: "img/pucs/intro-header-background.jpg",
 		introLogoSrc: "img/pucs/pucs-logo-white-big.png"
 	},
+	"eow2": {
+		htmlClass: "eow2",
+		introHeaderBackgroundSrc: "img/eow2/intro-header-background.jpg",
+		introLogoSrc: "img/eow2/puma-square.png"
+	},
+	"puma": {
+		htmlClass: "puma",
+		introHeaderBackgroundSrc: "img/puma/intro-header-background.jpg",
+		introLogoSrc: "img/puma/puma-square.png"
+	},
+	"tep": {
+		htmlClass: "tep",
+		introHeaderBackgroundSrc: "img/tep/urban_tep_background.png",
+		introLogoSrc: "img/tep/urban_tep_logo.png"
+	},
+	"dlr": {
+		htmlClass: "dlr",
+		introHeaderBackgroundSrc: "img/dlr/intro_image.jpg",
+		introLogoSrc: "img/dlr/logo.png"
+	},
+	"un": {
+		htmlClass: "un",
+		introHeaderBackgroundSrc: "img/un/sdgs.jpg",
+        introLogoSrc: "img/un/logo.png"
+	},
 	"test": {
 		htmlClass: "dromas"
 	}

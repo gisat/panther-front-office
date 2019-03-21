@@ -32,6 +32,8 @@ Ext.define('PumaMain.controller.Layers', {
 		Select.colourMap = this.colourMap.bind(this);
 
         Observer.notify('Layers#init');
+
+        this.sldRequestIsRunning = false;
 	},
 
 	onConfigure: function() {
@@ -448,106 +450,123 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 
 		var me = this;
-		Ext.Ajax.request({
-			url: Config.url + 'api/proxy/saveSld',
-			params: Ext.apply({
-				sldBody: sldTextFormatted,
-				legendSld: legendSld || ''
-			}, params || {}),
-			layer: layer,
-			node: node,
-			legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
-			success: function(response) {
-				var layer = response.request.options.layer;
-				var node = response.request.options.node;
-				var legendLayer = response.request.options.legendLayer;
-				response = JSON.parse(response.responseText);
-				var id = response.data;
 
-				var attribute = node.data.attribute;
-				var attributeSet = node.data.attributeSet;
+		handleRequest();
 
-				if (node.data.type == "chartlayer" && attribute > 0 && attributeSet > 0){
-					var data = {
-						legendLayer: legendLayer,
-						sldId: id
-					};
-					window.Stores.notify("choropleths#update", {
-						attribute: attribute,
-						attributeSet: attributeSet,
-						layer: legendLayer,
-						sldId: id,
-						period: period,
-					});
-				} else if (node.data.type == "areaoutlines"){
-					Stores.updateOutlines({
-						data: {
-							namedLayers: namedLayers,
-							layer: layer,
-							legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
-							sldBody: sldText,
-							legendSld: legendSld
-						},
-						sldId: id,
-						layerNames: "outlines"
-					});
-				} else if(node.data.type == "selectedareasfilled") {
-					Stores.updateSelectedOutlines({
-						data: {
-							namedLayers: namedLayers,
-							layer: layer,
-							legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
-							sldBody: sldText,
-							legendSld: legendSld
-						},
-						sldId: id,
-						layerNames: "selectedAreasFilled"
-					})
-				} else if (node.data.type == "selectedareas") {
-					Stores.updateSelectedAreas({
-                        data: {
-                            namedLayers: namedLayers,
-                            layer: layer,
-                            legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
-                            sldBody: sldText,
-                            legendSld: legendSld
-                        },
-                        sldId: id,
-                        layerNames: "selectedAreas"
-					});
-				}
-				// TODO: Add information about the selected layers sldId to show the information. .
-
-				layer.mergeNewParams({
-					"SLD_ID": id
-				});
-				layer.initialized = true;
-				node.initialized = true;
-				if (legendLayer) {
-					node.set('src',me.getLegendUrl(id,legendLayer));
-					var panel = Ext.ComponentQuery.query('layerpanel')[0];
-					var legend = node.get('legend');
-					if (!legend && node.get('checked') && node.needLegend) {
-						node.needLegend = null;
-						panel.fireEvent('layerlegend', panel, node, true);
-
-					}
-					if (legend) {
-						legend.down('image').el.set({src: node.get('src')});
-					}
-
-				}
-				if (node.get('checked')) {
-					me.onCheckChange(node,true);
-				}
-
-			},
-			failure: function(response) {
-				var layer = response.request.options.layer;
-				layer.initialized = false;
-				layer.setVisibility(false);
+		function handleRequest() {
+			if(me.sldRequestIsRunning) {
+				setTimeout(handleRequest,100);
+			} else {
+				me.sldRequestIsRunning = true;
+				makeRequest();
 			}
-		})
+		}
+
+		function makeRequest() {
+			Ext.Ajax.request({
+				url: Config.url + 'api/proxy/saveSld',
+				params: Ext.apply({
+					sldBody: sldTextFormatted,
+					legendSld: legendSld || ''
+				}, params || {}),
+				layer: layer,
+				node: node,
+				legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+				success: function (response) {
+					me.sldRequestIsRunning = false;
+
+					var layer = response.request.options.layer;
+					var node = response.request.options.node;
+					var legendLayer = response.request.options.legendLayer;
+					response = JSON.parse(response.responseText);
+					var id = response.data;
+
+					var attribute = node.data.attribute;
+					var attributeSet = node.data.attributeSet;
+
+					if (node.data.type == "chartlayer" && attribute > 0 && attributeSet > 0) {
+						var data = {
+							legendLayer: legendLayer,
+							sldId: id
+						};
+						window.Stores.notify("choropleths#update", {
+							attribute: attribute,
+							attributeSet: attributeSet,
+							layer: legendLayer,
+							sldId: id,
+							period: period,
+						});
+					} else if (node.data.type == "areaoutlines") {
+						Stores.updateOutlines({
+							data: {
+								namedLayers: namedLayers,
+								layer: layer,
+								legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+								sldBody: sldText,
+								legendSld: legendSld
+							},
+							sldId: id,
+							layerNames: "outlines"
+						});
+					} else if (node.data.type == "selectedareasfilled") {
+						Stores.updateSelectedOutlines({
+							data: {
+								namedLayers: namedLayers,
+								layer: layer,
+								legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+								sldBody: sldText,
+								legendSld: legendSld
+							},
+							sldId: id,
+							layerNames: "selectedAreasFilled"
+						})
+					} else if (node.data.type == "selectedareas") {
+						Stores.updateSelectedAreas({
+							data: {
+								namedLayers: namedLayers,
+								layer: layer,
+								legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+								sldBody: sldText,
+								legendSld: legendSld
+							},
+							sldId: id,
+							layerNames: "selectedAreas"
+						});
+					}
+					// TODO: Add information about the selected layers sldId to show the information. .
+
+					layer.mergeNewParams({
+						"SLD_ID": id
+					});
+					layer.initialized = true;
+					node.initialized = true;
+					if (legendLayer) {
+						node.set('src', me.getLegendUrl(id, legendLayer));
+						var panel = Ext.ComponentQuery.query('layerpanel')[0];
+						var legend = node.get('legend');
+						if (!legend && node.get('checked') && node.needLegend) {
+							node.needLegend = null;
+							panel.fireEvent('layerlegend', panel, node, true);
+
+						}
+						if (legend) {
+							legend.down('image').el.set({src: node.get('src')});
+						}
+
+					}
+					if (node.get('checked')) {
+						me.onCheckChange(node, true);
+					}
+				},
+				failure: function (response) {
+					me.sldRequestIsRunning = false;
+
+					var layer = response.request.options.layer;
+					layer.initialized = false;
+					layer.setVisibility(false);
+				}
+			})
+		}
 	},
 
 	refreshOutlines: function() {

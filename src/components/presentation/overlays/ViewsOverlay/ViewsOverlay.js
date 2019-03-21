@@ -32,7 +32,9 @@ class ViewsOverlay extends React.PureComponent {
 
 	componentWillReceiveProps(nextProps){
 		if (nextProps.scopes && nextProps.selectedScope){
-			let selectedScope = _.find(nextProps.scopes, (scope) => {
+			let scopes = _.flatten(_.values(nextProps.scopes));
+
+			let selectedScope = _.find(scopes, (scope) => {
 				return scope.key === nextProps.selectedScope.key
 			});
 			if (!selectedScope){
@@ -56,7 +58,7 @@ class ViewsOverlay extends React.PureComponent {
 		});
 
 		let about = this.props.intro ? this.renderAboutItem() : null;
-		let firstScope = this.props.scopes && this.props.scopes.length ? this.props.scopes[0] : null;
+		let firstScope = this.props.scopes && this.props.scopes.length ? this.props.scopes[0][0] : null;
 		let selectedScope = this.props.selectedScope ? this.props.selectedScope : (this.props.intro ? null : firstScope);
 		let scopeKey = selectedScope ? selectedScope.key : null;
 		let scopes = this.renderScopes(selectedScope);
@@ -91,12 +93,35 @@ class ViewsOverlay extends React.PureComponent {
 
 	}
 
-	renderScopes(selectedScope){
-		return this.props.scopes.map(scope => {
-			let classes = classNames("scopes-list-item", {
-				"active": selectedScope ? (scope.key === selectedScope.key) : false
-			});
-			return <div key={scope.key} className={classes} onClick={this.selectScope.bind(this, scope.key)}>{scope.data.name}</div>
+	renderScopes(selectedScope) {
+		let groups = Object.keys(this.props.scopes);
+
+		let containsUrbanTep = groups.indexOf('Urban TEP') !== -1;
+		let containsOthers = groups.indexOf('Other') !== -1;
+		let otherGroups = groups.filter(group => {
+			return group != "Urban TEP" && group != "Other" && group != 0;
+		});
+
+		groups = [];
+		if(containsUrbanTep) {
+			groups[0] = "Urban TEP";
+		}
+		groups = groups.concat(otherGroups);
+		if(containsOthers) {
+			groups.push('Other');
+		}
+
+		return groups.map(group => {
+			return (
+				<div className="group">
+					<div className="group-title">{group}</div>
+					{this.props.scopes[group].map(scope => {
+					let classes = classNames("scopes-list-item", {
+						"active": selectedScope ? (scope.key === selectedScope.key) : false
+					});
+					return <div key={scope.key} className={classes} onClick={this.selectScope.bind(this, scope.key)}>{scope.data.name}</div>
+				})}
+				</div>);
 		});
 	}
 

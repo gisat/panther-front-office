@@ -9,9 +9,12 @@ import EvaluationWidget from './view/widgets/EvaluationWidget/EvaluationWidget';
 
 import WorldWind from '@nasaworldwind/worldwind';
 import Tour from "./view/tour/Tour";
+import UrbanTepPortalStore from './stores/UrbanTepPortalStore';
 
 let Observer = window.Observer;
 let ThemeYearConfParams = window.ThemeYearConfParams;
+
+window.UrbanTepPortalStore = UrbanTepPortalStore;
 
 /**
  * Constructor for assembling current application.
