@@ -46,6 +46,9 @@ class AppSelect extends React.PureComponent {
 		if (appKey !== this.props.activeKey) {
 			this.props.onChange(appKey);
 		}
+		this.setState({
+			open: false
+		});
 	}
 
 	render() {
