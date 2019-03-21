@@ -7,6 +7,8 @@
 	cursor: pointer;
 
 	position: relative;
+
+	transition: background .5s ease-in-out;
 }
 .ptr-bo-app-select-item::after {
 	@include positionFill;
@@ -93,7 +95,4 @@
 }
 .ptr-bo-app-select-list .ptr-bo-app-select-item {
 	margin-bottom: m(2/3);
-}
-.ptr-bo-app-select-list .ptr-bo-app-select-item:hover {
-	background: #ff0;
 }

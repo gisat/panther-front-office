@@ -68,6 +68,9 @@ class AppSelect extends React.PureComponent {
 					<span>{selectContent}</span><Icon icon="triangle-down"/>
 				</div>
 				<div className={classNames("ptr-bo-app-select-list", {open: this.state.open})}><div><div>
+					<div key="allApps" className="ptr-bo-app-select-item" onClick={this.onItemClick.bind(this, null)}>
+						<span>All apps</span>
+					</div>
 					{apps && apps.length && apps.map(this.renderApp) || null}
 				</div></div></div>
 			</>
@@ -82,7 +85,7 @@ class AppSelect extends React.PureComponent {
 				background: app.data && app.data.color || utils.stringToColours(app.key, 1, {lightness: [30,40]})
 			};
 			return (
-				<div className="ptr-bo-app-select-item" style={style} onClick={this.onItemClick.bind(this, app.key)}>
+				<div key={app.key} className="ptr-bo-app-select-item" style={style} onClick={this.onItemClick.bind(this, app.key)}>
 					<span>{app.data && app.data.name || app.key}</span>
 				</div>
 			);
