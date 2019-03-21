@@ -10,6 +10,8 @@ import ApplicationSelect from "../components/ApplicationSelect";
 class ScopeMetadataConfig extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
+		deletable: PropTypes.bool,
+		editable: PropTypes.bool,
 		editedData: PropTypes.object,
 		itemKey: PropTypes.string,
 		onMount: PropTypes.func,
@@ -72,6 +74,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					label={t("labels.applicationCapitalized")}
 				>
 					<ApplicationSelect
+						disabled={!this.props.editable}
 						value={data && data.applicationKey || null}
 						onChange={this.onChange}
 						unfocusable={this.props.unfocusable}
@@ -82,6 +85,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					label={t("nameCapitalized")}
 				>
 					<Input
+						disabled={!this.props.editable}
 						unfocusable={this.props.unfocusable}
 						value={data && data.nameDisplay || ""}
 						onChange={(val) => this.onChange('nameDisplay', val)}
@@ -92,6 +96,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					label={t("labels.nameInternal")}
 				>
 					<Input
+						disabled={!this.props.editable}
 						unfocusable={this.props.unfocusable}
 						value={data && data.nameInternal || ""}
 						onChange={(val) => this.onChange('nameInternal', val)}
@@ -102,6 +107,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					label={t("labels.description")}
 				>
 					<Input
+						disabled={!this.props.editable}
 						unfocusable={this.props.unfocusable}
 						value={data && data.description || ""}
 						onChange={(val) => this.onChange('description', val)}
@@ -112,6 +118,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 				>
 					<Input
 						unfocusable={this.props.unfocusable}
+						disabled={!this.props.editable}
 						multiline
 						value={configuration}
 						onChange={(evt) => this.onChangeJsonValue('configuration', evt.target.value)}
@@ -129,7 +136,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					</div>
 					<div className="ptr-screen-metadata-buttons-right">
 						<Button
-							disabled={this.props.unfocusable}
+							disabled={this.props.unfocusable || !this.props.deletable}
 							ghost
 							onClick={() => this.props.onDelete(this.props.data)}
 						>{t("deleteCapitalized")}</Button>

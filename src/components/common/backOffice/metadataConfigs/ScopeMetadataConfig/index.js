@@ -7,7 +7,9 @@ import utils from "../../../../../utils/utils";
 const mapStateToProps = (state, props) => {
 	return {
 		data: Select.scopes.getDataByKey(state, props.itemKey),
-		editedData: Select.scopes.getEditedDataByKey(state, props.itemKey)
+		editedData: Select.scopes.getEditedDataByKey(state, props.itemKey),
+		deletable: Select.scopes.getDeletePermissionByKey(state, props.itemKey),
+		editable: Select.scopes.getUpdatePermissionByKey(state, props.itemKey)
 	}
 };
 

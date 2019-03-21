@@ -7,7 +7,9 @@ import utils from "../../../../../utils/utils";
 const mapStateToProps = (state, props) => {
 	return {
 		data: Select.layerTemplates.getDataByKey(state, props.itemKey),
-		editedData: Select.layerTemplates.getEditedDataByKey(state, props.itemKey)
+		editedData: Select.layerTemplates.getEditedDataByKey(state, props.itemKey),
+		deletable: Select.layerTemplates.getDeletePermissionByKey(state, props.itemKey),
+		editable: Select.layerTemplates.getUpdatePermissionByKey(state, props.itemKey)
 	}
 };
 

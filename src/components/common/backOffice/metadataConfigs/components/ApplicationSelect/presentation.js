@@ -8,6 +8,7 @@ import Select from "../../../../atoms/Select/Select";
 class ApplicationSelect extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
+		disabled: PropTypes.bool,
 		onChange: PropTypes.func,
 		unfocusable: PropTypes.bool,
 		value: PropTypes.string
@@ -44,6 +45,7 @@ class ApplicationSelect extends React.PureComponent {
 
 		return (
 			<Select
+				disabled={this.props.disabled}
 				formatOptionLabel={this.formatOptionLabel}
 				onChange={this.onChange}
 				options={data}
