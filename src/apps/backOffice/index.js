@@ -18,8 +18,14 @@ import Page from './components/Page';
 import TestSelectPage from './components/TestSelect';
 
 import Test from './components/Test';
-import MetadataBase from './components/pages/MetadataBase';
 import AppContainer from "../../components/common/AppContainer";
+import Apps from './components/pages/Apps';
+import Dashboard from './components/pages/Dashboard';
+import Places from './components/pages/Places';
+import SpatialDataSources from './components/pages/SpatialDataSources';
+import AttributeDataSources from './components/pages/AttributeDataSources';
+import MetadataBase from './components/pages/MetadataBase';
+import Users from './components/pages/Users';
 
 import cz from "./locales/cz/common";
 import en from "./locales/en/common";
@@ -56,10 +62,16 @@ export default (path, managedAppKey) => {
 			<AppContainer loginRequired>
 				<ConnectedRouter history={history}>
 					<Switch>
-						<Route exact path={path + "/"} render={page(Test, "base")} />
+						<Route exact path={path + "/"} render={page(Dashboard, "base")} />
+						<Route path={path + "/apps"} render={page(Apps, "base")} />
+						<Route path={path + "/places"} render={page(Places, "base")} />
+						<Route path={path + "/spatialDataSources"} render={page(SpatialDataSources, "base")} />
+						<Route path={path + "/attributeDataSources"} render={page(AttributeDataSources, "base")} />
+						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata", 40)} />
+						<Route path={path + "/users"} render={page(Users, "base")} />
+
 						<Route exact path={path + "/test"} render={page(Test, "test")} />
 						<Route exact path={path + "/testselect"} render={page(TestSelectPage, "testselect")} />
-						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata", 40)} />
 					</Switch>
 				</ConnectedRouter>
 			</AppContainer>

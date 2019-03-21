@@ -3,7 +3,13 @@ import classNames from 'classnames';
 import {NavLink, withRouter} from 'react-router-dom';
 
 import Icon from '../../../../components/common/atoms/Icon';
+import Apps from './icons/Apps';
+import Dashboard from './icons/Dashboard';
+import Places from "./icons/Places";
+import SpatialDataSources from './icons/SpatialDataSources';
+import AttributeDataSources from './icons/AttributeDataSources';
 import Metadata from './icons/Metadata';
+import Users from './icons/Users';
 import AppSelect from '../AppSelect';
 
 import './style.scss';
@@ -32,13 +38,43 @@ class TopBar extends React.PureComponent {
 						to={this.props.appPath + '/'}
 						onKeyPress={this.onNavKeyPress.bind(this, '/')}
 					>
-						<Icon />
+						<Icon icon={Dashboard}/>
+					</NavLink>
+					<NavLink
+						to={this.props.appPath + '/apps'}
+						onKeyPress={this.onNavKeyPress.bind(this, '/apps')}
+					>
+						<Icon icon={Apps}/>
+					</NavLink>
+					<NavLink
+						to={this.props.appPath + '/places'}
+						onKeyPress={this.onNavKeyPress.bind(this, '/places')}
+					>
+						<Icon icon={Places}/>
+					</NavLink>
+					<NavLink
+						to={this.props.appPath + '/spatialDataSources'}
+						onKeyPress={this.onNavKeyPress.bind(this, '/spatialDataSources')}
+					>
+						<Icon icon={SpatialDataSources}/>
+					</NavLink>
+					<NavLink
+						to={this.props.appPath + '/attributeDataSources'}
+						onKeyPress={this.onNavKeyPress.bind(this, '/attributeDataSources')}
+					>
+						<Icon icon={AttributeDataSources}/>
 					</NavLink>
 					<NavLink
 						to={this.props.appPath + '/metadata'}
 						onKeyPress={this.onNavKeyPress.bind(this, '/metadata')}
 					>
 						<Icon icon={Metadata}/>
+					</NavLink>
+					<NavLink
+						to={this.props.appPath + '/users'}
+						onKeyPress={this.onNavKeyPress.bind(this, '/users')}
+					>
+						<Icon icon={Users}/>
 					</NavLink>
 					<NavLink
 						to={this.props.appPath + '/test'}
