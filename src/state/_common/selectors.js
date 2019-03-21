@@ -123,6 +123,32 @@ const getDataByKey = (getSubstate) => {
 	);
 };
 
+const getDeletePermissionByKey = (getSubstate) => {
+	return createSelector(
+		[getByKey(getSubstate)],
+		(model) => {
+			if (model && model.permissions) {
+				return (model.permissions.activeUser && model.permissions.activeUser.delete) || (model.permissions.guest && model.permissions.guest.delete);
+			} else {
+				return false;
+			}
+		}
+	);
+};
+
+const getUpdatePermissionByKey = (getSubstate) => {
+	return createSelector(
+		[getByKey(getSubstate)],
+		(model) => {
+			if (model && model.permissions) {
+				return (model.permissions.activeUser && model.permissions.activeUser.update) || (model.permissions.guest && model.permissions.guest.update);
+			} else {
+				return false;
+			}
+		}
+	);
+};
+
 const getEditedAll = (getSubstate) => {
 	return (state) => {
 		let data = getSubstate(state).editedByKey;
@@ -537,7 +563,9 @@ export default {
 	getAllForActiveScope,
 
 	getByKey,
+
 	getDataByKey,
+	getDeletePermissionByKey,
 
 	getEditedActive,
 	getEditedAll,
@@ -556,6 +584,7 @@ export default {
 
 	getKeysToLoad,
 
+	getUpdatePermissionByKey,
 	getUsesForIndex,
 	getUsedIndexPages,
 	getUsedKeys,

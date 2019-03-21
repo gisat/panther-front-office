@@ -91,7 +91,7 @@ export const BASIC_STATE = {
 					name: "France"
 				},
 				permissions: {
-					activeUser: {get: true, update: true, delete: true},
+					activeUser: {get: true, update: false, delete: true},
 					guest: {get: false, update: false, delete: false}
 				}
 			},
@@ -101,8 +101,8 @@ export const BASIC_STATE = {
 					name: "Espana"
 				},
 				permissions: {
-					activeUser: {get: true, update: true, delete: true},
-					guest: {get: false, update: false, delete: false}
+					activeUser: {get: true, update: false, delete: false},
+					guest: {get: false, update: true, delete: true}
 				}
 			},
 			11: {
