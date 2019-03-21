@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withNamespaces} from "react-i18next";
 import {Route, Switch} from "react-router";
+import Helmet from "react-helmet";
+
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
 import ScopesList from "../../lists/ScopesList";
 import NavList from '../../../../../components/presentation/NavList'
@@ -46,6 +48,7 @@ class MetadataBase extends React.PureComponent {
 		
 		return (
 			<div className="ptr-base-page ptr-bo-metadata-base">
+				<Helmet><title>Metadata</title></Helmet>
 				<div className="ptr-bo-metadata-base-menu">
 					<NavList items={this.navList} location={location} unfocusable={this.props.unfocusable}/>
 				</div>

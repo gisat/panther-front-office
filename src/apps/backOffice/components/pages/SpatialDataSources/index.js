@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withNamespaces} from "react-i18next";
-import {Route, Switch} from "react-router";
-import LayerTemplatesList from "../../lists/LayerTemplatesList";
-import ScopesList from "../../lists/ScopesList";
-import NavList from '../../../../../components/presentation/NavList'
+import Helmet from "react-helmet";
 
 import './style.scss';
 
@@ -17,6 +14,7 @@ class SpatialDataSourcesPage extends React.PureComponent {
 
 		return (
 			<div className="ptr-base-page">
+				<Helmet><title>Spatial Data Sources</title></Helmet>
 				Spatial data sources! Relations! Such data!
 			</div>
 		);
