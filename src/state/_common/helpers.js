@@ -68,6 +68,13 @@ function itemFitFilter(filter, item) {
 function mergeFilters(activeKeys, filterByActive, filter) {
 	if (activeKeys && filterByActive) {
 		let fullFilter = {...filter};
+		if (filterByActive.application){
+			if (activeKeys.activeApplicationKey){
+				fullFilter.applicationKey = activeKeys.activeApplicationKey;
+			} else {
+				return null;
+			}
+		}
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
 				fullFilter.scope = activeKeys.activeScopeKey;

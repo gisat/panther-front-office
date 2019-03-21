@@ -8,6 +8,7 @@ const getSubstate = state => state.scopes;
 
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
+const getAllForActiveApp = common.getAllForActiveApp(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 
 const getActive = common.getActive(getSubstate);
@@ -39,6 +40,7 @@ export default {
 	getActiveScopeConfiguration,
 	getActiveScopeData: getActive,
 	getActiveScopeKey: getActiveKey,
+	getAllForActiveApp,
 	getDataByKey,
 	getEditedDataByKey,
 	getScopes: getAll,

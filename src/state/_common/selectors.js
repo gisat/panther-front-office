@@ -4,6 +4,7 @@ import _, {pickBy} from "lodash";
 import commonHelpers from './helpers';
 import Select from "../Select";
 
+const activeAppKey = state => state.apps.activeKey;
 const activeScopeKey = state => state.scopes.activeKey;
 const activeThemeKey = state => state.themes.activeKey;
 
@@ -21,6 +22,44 @@ const getAll = (getSubstate) => {
 		[getAllAsObject(getSubstate)],
 		byKey => {
 			return byKey ? Object.values(byKey) : null;
+		}
+	);
+};
+
+const getAllForActiveApp = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate), getIndexes(getSubstate), activeAppKey, (state, order) => order],
+		(models, indexes, activeAppKey, order) => {
+			if (models && indexes) {
+				let filter = null;
+				if (activeAppKey) {
+					filter = {
+						applicationKey: activeAppKey
+					}
+				}
+				let index = commonHelpers.getIndex(indexes, filter, order);
+				if (index && index.index) {
+					let indexedModels = [];
+					for (let i = 1; i <= index.count; i++){
+						let modelKey = index.index[i];
+						if (modelKey){
+							let indexedModel = models[modelKey];
+							if (indexedModel){
+								indexedModels.push(indexedModel);
+							} else {
+								indexedModels.push({key: modelKey});
+							}
+						} else {
+							indexedModels.push(null);
+						}
+					}
+					return indexedModels.length ? indexedModels : null;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
 		}
 	);
 };
@@ -347,6 +386,7 @@ const getIndexedDataUses = (getSubstate) => {
 const getAllActiveKeys = state => {
 	// TODO add scenarios, cases
 	return {
+		activeApplicationKey: state.apps.activeKey,
 		activeScopeKey: state.scopes.activeKey,
 		activePlaceKey: state.places.activeKey,
 		activePlaceKeys: state.places.activeKeys,
@@ -560,6 +600,7 @@ export default {
 	getAll,
 	getAllActiveKeys,
 	getAllAsObject,
+	getAllForActiveApp,
 	getAllForActiveScope,
 
 	getByKey,

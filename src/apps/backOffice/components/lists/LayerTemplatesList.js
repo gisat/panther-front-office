@@ -12,7 +12,7 @@ const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.layerTemplates.getAll(state) //TODO select filtered?
+		models: Select.layerTemplates.getAllForActiveApp(state, order)
 	}
 };
 
@@ -25,7 +25,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.layerTemplates.useIndexed(null, null, order, 1, 1000, componentId)); // TODO filter?
+				dispatch(Action.layerTemplates.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));

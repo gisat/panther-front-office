@@ -29,7 +29,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.apps.useIndexed(null, null, order, 1, 100, componentId));
 			},
 			onChange: (key) => {
-				dispatch(Action.apps.setActiveKey(key));
+				dispatch(Action.apps.setActiveKeyAndEnsureDependencies(key));
 			},
 			onUnmount: () => {
 				dispatch(Action.apps.useIndexedClear(componentId));

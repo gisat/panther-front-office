@@ -12,6 +12,7 @@ const useIndexed = common.useIndexed(Select.apps.getSubstate, 'applications', Ac
 const useIndexedClear = common.useIndexedClear(ActionTypes.APPS);
 const refreshUses = common.refreshUses(Select.apps.getSubstate, `applications`, ActionTypes.APPS, 'applications');
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.apps.getSubstate, 'applications', ActionTypes.APPS, 'applications');
+const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.APPS, 'application');
 
 // ============ actions ===========
 
@@ -24,6 +25,7 @@ export default {
 	ensureIndexesWithFilterByActive,
 	refreshUses,
 	setActiveKey,
+	setActiveKeyAndEnsureDependencies,
 	setActiveKeys,
 	useIndexed,
 	useIndexedClear,

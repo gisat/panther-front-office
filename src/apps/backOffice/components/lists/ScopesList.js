@@ -12,7 +12,7 @@ const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.scopes.getAll(state) //TODO select filtered?
+		models: Select.scopes.getAllForActiveApp(state, order)
 	}
 };
 
@@ -25,7 +25,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.scopes.useIndexed(null, null, order, 1, 1000, componentId)); // TODO filter?
+				dispatch(Action.scopes.useIndexed({application: true}, null, order, 1, 1000, componentId)); // TODO filter?
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));
