@@ -4,6 +4,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import {getFolderByLayerKey, getFolderByKey, getLayersInFolder} from '../../../utils/tree';
 import mapsActions from '../../../state/Maps/actions';
 
+// TODO refactor - adapt to new component store
+
 // ============ creators ===========
 const hideRadioFolderLayersByLayerTemplateKey = (layersTree, layerTemplateKey, mapKey) => {
     return (dispatch, getState) => {

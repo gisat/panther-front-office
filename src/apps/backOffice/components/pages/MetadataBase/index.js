@@ -50,7 +50,11 @@ class MetadataBase extends React.PureComponent {
 			<div className="ptr-base-page ptr-bo-metadata-base">
 				<Helmet><title>Metadata</title></Helmet>
 				<div className="ptr-bo-metadata-base-menu">
-					<NavList items={this.navList} location={location} unfocusable={this.props.unfocusable}/>
+					<NavList
+						componentKey="NavList_BackOfficeMetadataBase"
+						items={this.navList}
+						location={location}
+						unfocusable={this.props.unfocusable}/>
 				</div>
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>

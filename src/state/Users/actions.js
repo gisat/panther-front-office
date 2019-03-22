@@ -9,9 +9,6 @@ import request from "../_common/request";
 import common from '../_common/actions';
 import Select from "../Select";
 
-import scopeActions from '../Scopes/actions';
-import lpisCasesActions from '../_specific/LpisChangeReviewCases/actions';
-import overlaysActions from '../Components/Overlays/actions';
 
 import Action from '../Action';
 
@@ -34,7 +31,6 @@ function onLogin() {
 	return (dispatch) => {
 		dispatch(common.actionDataSetOutdated());
 		dispatch(apiLoadCurrentUser());
-		dispatch(overlaysActions.closeOverlay('login'));
 
 		dispatch(Action.scopes.refreshUses());
 		dispatch(Action.places.refreshUses());

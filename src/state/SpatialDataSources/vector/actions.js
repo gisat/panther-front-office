@@ -8,7 +8,6 @@ import queryString from 'query-string';
 import config from '../../../config';
 import Select from '../../Select';
 
-import action from '../../Components/Overlays/actions';
 import utils from '../../../utils/utils';
 
 const TTL = 3;
@@ -201,7 +200,7 @@ function updateSelectedFeatures(dataSourceKey, luClass) { //todo generalize
 				dispatch(actionAddEditedFeatures(dataSourceKey, _.map(selectedFeatures, feature => {
 					return {key: feature.key, data: {properties: {CODE2012: luClass}, geometry: feature.data.geometry}}; //todo get column from attribute?
 				})));
-				dispatch(action.actionUpdateOverlay('scenarioMapEditing', {editedPolygonsInfo: utils.guid()}));
+				// dispatch(action.actionUpdateOverlay('scenarioMapEditing', {editedPolygonsInfo: utils.guid()}));
 				console.log('#### update polygon request response', response);
 			},
 			error => {

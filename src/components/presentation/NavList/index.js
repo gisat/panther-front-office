@@ -1,79 +1,20 @@
-import React from "react";
-import PropTypes from 'prop-types';
-import { NavLink, withRouter } from 'react-router-dom'
-import { matchPath } from 'react-router';
+import { connect } from 'react-redux';
+import presentation from "./presentation";
+import Action from '../../../state/Action';
+import Select from '../../../state/Select';
 
-import isArray from 'lodash/isArray';
-import isObject from 'lodash/isObject';
+const mapStateToProps = (state, ownProps) => {
+    return {
+        componentData: Select.components.getDataByComponentKey(state, ownProps.componentKey)
+    }
+};
 
-import './navlist.scss';
-
-
-class NavList extends React.PureComponent {
-	static defaultProps = {
-		items: []
-	};
-
-    static propTypes = {
-		items: PropTypes.array.isRequired,
-        unfocusable: PropTypes.bool
-    };
-
-	onNavKeyPress(path, key) {
-        if (key.charCode === 32) {
-            this.props.history.replace(path);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        update: (data) => {
+            dispatch(Action.components.update(ownProps.componentKey, data))
         }
     }
+};
 
-    getDescendant (descendant) {
-        switch (descendant.type) {
-            case 'folder':
-                return ([
-                    <li key={descendant.title} className={'ptr-nav-item-folder'}>
-                        {descendant.title}
-                    </li>,
-                    <ul key={`${descendant.title}-folder`}>
-                        {this.getDescendants(descendant.items, descendant)}
-                    </ul>
-                    ]);
-            case 'leaf':
-                const isLeafActive = !!matchPath(
-                    this.props.location.pathname, 
-                    descendant.path
-                    ); 
-               return <li 
-                        key={descendant.title}
-                        className={`ptr-nav-item ${isLeafActive ? 'selected' : ''}`}>
-                        <NavLink
-                            tabIndex={this.props.unfocusable ? -1 : 0}
-                            onKeyPress={this.onNavKeyPress.bind(this, descendant.path)}
-                            to={descendant.path}
-                            activeClassName="selected"
-                            >
-                            {descendant.title}
-                        </NavLink>
-                    </li>
-        }
-    }
-    getDescendants(structure, parentProps) {
-        if(isArray(structure)) {
-            return structure.map((item) => this.getDescendant(item));
-        }
-
-        if(isObject(structure)) {
-            return [this.getDescendant(structure)];
-        }
-    }
-
-    render () {
-        return (
-                <div className={'ptr-navlist'}>
-                    <ul ref={this.list}>
-                        {this.getDescendants(this.props.items)}
-                    </ul>
-                </div>
-        )
-    }
-}
-
-export default withRouter(NavList);
+export default connect(mapStateToProps, mapDispatchToProps)(presentation);
