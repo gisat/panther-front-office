@@ -68,6 +68,15 @@ export const groupScopesByGroup = (scopes) => {
 			return scope.data && scope.data.configuration && scope.data.configuration.group || "Other";
 		});
 
+		Object.keys(result).forEach(key => {
+			result[key].sort((first, second) => {
+				const index1 = first.data && first.data.configuration && first.data.configuration.index || 100000;
+				const index2 = second.data && second.data.configuration && second.data.configuration.index || 100000;
+
+				return index2 - index1;
+			})
+		});
+
 		result[0] = scopes.length > 0 && [scopes[0]] || [];
 
 		return result;
