@@ -69,6 +69,11 @@ const remove = (state, action) => {
 	return {...state, sets: {...sets, [action.setKey]: {orderByHistory, orderBySpace}}};
 };
 
+const removeAllScreensFromSet = (state, action) => {
+	let sets = {...state.sets};
+	return {...state, sets: {...sets, [action.setKey]: {orderByHistory: [], orderBySpace: []}}};
+};
+
 const retract = (state, action) => {
 	let screens = {...state.screens};
 
@@ -134,6 +139,8 @@ export default (state = INITIAL_STATE, action) => {
 			return open(state, action);
 		case ActionTypes.SCREENS.REMOVE:
 			return remove(state, action);
+		case ActionTypes.SCREENS.REMOVE_ALL:
+			return removeAllScreensFromSet(state, action);
 		case ActionTypes.SCREENS.RETRACT:
 			return retract(state, action);
 		case ActionTypes.SCREENS.SETS.ADD:

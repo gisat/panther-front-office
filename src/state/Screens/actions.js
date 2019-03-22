@@ -73,6 +73,12 @@ function close(setKey, screenLineage) {
 	};
 }
 
+function removeAllScreensFromSet(setKey) {
+	return (dispatch) => {
+		dispatch(actionRemoveAllScreensFromSet(setKey));
+	};
+}
+
 function retract(setKey, screenLineage) {
 	return (dispatch, getState) => {
 		dispatch(actionRetract(setKey, screenLineage));
@@ -128,6 +134,13 @@ const actionRemove = (setKey, lineage) => {
 	}
 };
 
+const actionRemoveAllScreensFromSet = (setKey) => {
+	return {
+		type: ActionTypes.SCREENS.REMOVE_ALL,
+		setKey
+	}
+};
+
 const actionRetract = (setKey, lineage) => {
 	return {
 		type: ActionTypes.SCREENS.RETRACT,
@@ -161,6 +174,7 @@ export default {
 	addSet: actionAddSet,
 	close,
 	open,
+	removeAllScreensFromSet,
 	retract,
 	topHistory
 }

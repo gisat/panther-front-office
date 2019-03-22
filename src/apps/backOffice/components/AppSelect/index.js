@@ -30,6 +30,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onChange: (key) => {
 				dispatch(Action.apps.setActiveKeyAndEnsureDependencies(key));
+				dispatch(Action.screens.removeAllScreensFromSet('metadata',));
 			},
 			onUnmount: () => {
 				dispatch(Action.apps.useIndexedClear(componentId));

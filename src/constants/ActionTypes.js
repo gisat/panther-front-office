@@ -438,6 +438,7 @@ export default utils.deepKeyMirror({
 		CLOSE: null,
 		OPEN: null,
 		REMOVE: null,
+		REMOVE_ALL: null,
 		RETRACT: null,
 		SETS: {
 			ADD: null,
