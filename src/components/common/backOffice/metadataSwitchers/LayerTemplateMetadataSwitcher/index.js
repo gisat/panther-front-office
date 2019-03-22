@@ -5,20 +5,21 @@ import presentation from "../presentation";
 import utils from "../../../../../utils/utils";
 import LayerTemplateMetadataScreen from "../../../../../components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
 
+const order = [['nameDisplay', 'ascending']];
+
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.layerTemplates.getAll(state, props.itemKey), // todo more specific selector
+		data: Select.layerTemplates.getAllForActiveApp(state, order),
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
-	const order = [['nameDisplay', 'ascending']];
 	const componentId = 'LayerTemplateMetadataSwitcher_' + utils.randomString(6);
 
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.layerTemplates.useIndexed(null, null, order, 1, 1000, componentId));
+				dispatch(Action.layerTemplates.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));

@@ -5,20 +5,21 @@ import presentation from "../presentation";
 import utils from "../../../../../utils/utils";
 import ScopeMetadataScreen from "../../../../../components/common/backOffice/metadataScreens/ScopeMetadataScreen";
 
+const order = [['nameDisplay', 'ascending']];
+
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.scopes.getAll(state, props.itemKey), // todo more specific selector
+		data: Select.scopes.getAllForActiveApp(state, order), // todo more specific selector
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
-	const order = [['nameDisplay', 'ascending']];
 	const componentId = 'ScopeMetadataSwitcher_' + utils.randomString(6);
 
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.scopes.useIndexed(null, null, order, 1, 1000, componentId));
+				dispatch(Action.scopes.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));

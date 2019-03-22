@@ -39,6 +39,10 @@ class Select extends React.PureComponent {
     render() {
         let props = {...this.props};
 
+        if (!props.options) {
+            props.options = [];
+        }
+
         const classes = classnames(`ptr-select-container ${this.props.className}`, {
             'value-is-title': !!this.props.valueIsTitle,
             'disabled': this.props.disabled

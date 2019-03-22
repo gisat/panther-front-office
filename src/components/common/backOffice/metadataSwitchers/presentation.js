@@ -25,7 +25,10 @@ class MetadataSwitcher extends React.PureComponent {
 	}
 
 	render() {
-		const selectedValue = this.props.data.find(i => i.key === this.props.itemKey);
+		let selectedValue = null;
+		if (this.props.data) {
+			selectedValue = this.props.data.find(i => i.key === this.props.itemKey);
+		}
 		
 		return (
 			<div className="ptr-screen-metadata-switcher-content">
