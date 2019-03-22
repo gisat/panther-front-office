@@ -47,15 +47,18 @@ class MetadataList extends React.PureComponent {
                     option={{label:"Create"}} 
                     onOptionLabelClick={this.props.onAddClick}
                     />
-				{this.props.models ? this.props.models.map(model =>
-					<Value
-						unfocusable={this.props.unfocusable}
-						key={model.key}
-						option={{label: model.data.nameDisplay, key: model.key, ...model.data}}
-						onOptionLabelClick={this.onItemClick}
-						optionLabelClick={true}
-						endItems = {endItems}
-					/>
+				{this.props.models ? this.props.models.map(model => {
+					if (model) {
+						return (<Value
+							unfocusable={this.props.unfocusable}
+							key={model.key}
+							option={{label: model.data && model.data.nameDisplay, key: model.key, ...model.data}}
+							onOptionLabelClick={this.onItemClick}
+							optionLabelClick={true}
+							endItems = {endItems}
+						/>);
+					}
+				}
 					) : null}
 			</div>
 		);
