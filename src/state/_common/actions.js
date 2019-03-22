@@ -258,8 +258,10 @@ function requestWrapper(apiPath, method, query, payload, successAction, errorAct
 function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return (key) => {
 		return (dispatch, getState) => {
+			const state = getState();
 			const apiPath = path.join('backend/rest', categoryPath);
-			const payload = getCreatePayload(dataType, key);
+			let applicationKey = state.apps.activeKey;
+			const payload = getCreatePayload(dataType, key, applicationKey);
 			return request(apiPath, 'POST', null, payload).then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
@@ -267,11 +269,10 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 					const item = result.data[dataType];
 					dispatch(actionAdd(actionTypes, item));
 
-					const state = getState();
-					const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(state, item);
+					const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), item);
 					indexes.forEach(index => {
 						//invalidate data
-						dispatch(actionClearIndex(actionTypes, index.filter, index.order))
+						dispatch(actionClearIndex(actionTypes, index.filter, index.order));
 						//refresh data
 						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
 					})
@@ -688,16 +689,20 @@ const getAPIPath = (categoryPath = DEFAULT_CATEGORY_PATH, dataType) => {
 	return path.join('backend/rest', categoryPath ,'filtered', dataType);
 };
 
-const getCreatePayload = (datatype, key = utils.uuid(), data = {}) => {
+const getCreatePayload = (datatype, key = utils.uuid(), applicationKey) => {
 	const payload = {
 		"data": {}
 	};
+
 	payload.data[datatype] = [{
 		key,
-		data,
+		data: {
+			applicationKey
+		},
 	}];
+
 	return payload;
-}
+};
 
 // ============ export ===========
 
