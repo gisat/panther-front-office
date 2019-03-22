@@ -73,7 +73,7 @@ export const groupScopesByGroup = (scopes) => {
 				const index1 = first.data && first.data.configuration && first.data.configuration.index || 100000;
 				const index2 = second.data && second.data.configuration && second.data.configuration.index || 100000;
 
-				return index2 - index1;
+				return index1 - index2;
 			})
 		});
 
