@@ -16,6 +16,7 @@ import Snapshots from './Snapshots/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
+import Tags from './Tags/actions';
 import Users from './Users/actions';
 
 // specific types
@@ -40,6 +41,7 @@ export default {
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,
+	tags: Tags,
 	users: Users,
 	specific: {
 		lpisChangeReviewCases: LpisChangeReviewCases,
