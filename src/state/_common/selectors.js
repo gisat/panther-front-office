@@ -334,8 +334,7 @@ const getIndexesByFilteredItem = (getSubstate) => {
 		(state, item) => item,
 		],
 		(indexes, item) => {
-			const nullFiltersIndexes = indexes.filter((index) => commonHelpers.itemFitFilter(index.filter, item));
-			return nullFiltersIndexes;
+			return indexes.filter((index) => commonHelpers.itemFitFilter(index.filter, item));
 		}
 	);
 };

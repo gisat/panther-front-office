@@ -22,14 +22,13 @@ function itemFitFilter(filter, item) {
 	}
 
 	for (const [key, value] of Object.entries(filter)) {
-		const itemHasFilterKey = item.hasOwnProperty(key);
-		const linkKey = `${key}Key`;
-		const itemHasFilterLinkKey = item.hasOwnProperty(linkKey);
+		const itemHasFilterKey = item.data && item.data.hasOwnProperty(key);
+		const itemHasFilterLinkKey = item.data && item.data.hasOwnProperty(`${key}Key`) ;
 		if(itemHasFilterKey) {
 			//apply condition
 			//"column0": "hleda se rovnost",
     		//"column1": null,
-			if(item[key] === value) {
+			if(item.data && item.data[key] === value) {
 				return true;
 			}
 
@@ -58,7 +57,7 @@ function itemFitFilter(filter, item) {
 
 		//check if filter contains linking like scopeKey, viewKey, ...
 		if(itemHasFilterLinkKey) {
-			if(item[linkKey] === value) {
+			if(item.data && item.data[`${key}Key`] === value) {
 				return true;
 			}
 		}

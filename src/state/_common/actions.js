@@ -266,16 +266,19 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
-					const item = result.data[dataType];
-					dispatch(actionAdd(actionTypes, item));
+					const items = result.data[dataType];
+					dispatch(actionAdd(actionTypes, items));
 
-					const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), item);
-					indexes.forEach(index => {
-						//invalidate data
-						dispatch(actionClearIndex(actionTypes, index.filter, index.order));
-						//refresh data
-						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
-					})
+					// TODO solve potential multiple clearing/refreshing when there is more than one model created
+					items.forEach(item => {
+						const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), item);
+						indexes.forEach(index => {
+							//invalidate data
+							dispatch(actionClearIndex(actionTypes, index.filter, index.order));
+							//refresh data
+							dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+						});
+					});
 				}
 			})
 			.catch(error => {
