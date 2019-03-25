@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Select from '../../atoms/Select/Select';
 import './MetadataSwitcher.scss';
 import Button from "../../atoms/Button";
+import _ from 'lodash';
 
 
 class MetadataSwitcher extends React.PureComponent {
@@ -26,15 +27,19 @@ class MetadataSwitcher extends React.PureComponent {
 
 	render() {
 		let selectedValue = null;
-		if (this.props.data) {
-			selectedValue = this.props.data.find(i => i.key === this.props.itemKey);
+
+		// filter null values
+		let relevantData = _.compact(this.props.data);
+
+		if (relevantData) {
+			selectedValue = relevantData.find(i => i.key === this.props.itemKey);
 		}
 		
 		return (
 			<div className="ptr-screen-metadata-switcher-content">
 				<Select
 					unfocusable={this.props.unfocusable}
-                    options = {this.props.data}
+                    options = {relevantData}
 					optionValue="key"
                     value = {selectedValue}
 					valueIsTitle
