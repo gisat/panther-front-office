@@ -269,15 +269,17 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 					const items = result.data[dataType];
 					dispatch(actionAdd(actionTypes, items));
 
-					// TODO solve potential multiple clearing/refreshing when there is more than one model created
+					let indexes = [];
 					items.forEach(item => {
-						const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), item);
-						indexes.forEach(index => {
-							//invalidate data
-							dispatch(actionClearIndex(actionTypes, index.filter, index.order));
-							//refresh data
-							dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
-						});
+						indexes = indexes.concat(commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), item));
+					});
+
+					let uniqueIndexes = commonHelpers.getUniqueIndexes(indexes);
+					uniqueIndexes.forEach(index => {
+						//invalidate data
+						dispatch(actionClearIndex(actionTypes, index.filter, index.order));
+						//refresh data
+						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
 					});
 				}
 			})
@@ -490,16 +492,31 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType) {
 	return (dispatch, getState) => {
 		let data = result.data[dataType];
 		if (data.length){
+			let originalData = commonSelectors.getAllAsObject(getSubstate)(getState());
 			dispatch(actionAdd(actionTypes, data));
 			let editedData = commonSelectors.getEditedAllAsObject(getSubstate)(getState());
 
+
+			let indexes = [];
 			data.forEach(model => {
+				let original = originalData[model.key];
 				let edited = editedData[model.key].data;
 				_.forIn(edited, (value, key) => {
 					if (model.data[key] === value) {
 						dispatch(actionRemovePropertyFromEdited(actionTypes, model.key, key));
 					}
 				});
+
+				indexes = indexes.concat(commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), model));
+				indexes = indexes.concat(commonSelectors.getIndexesByFilteredItem(getSubstate)(getState(), original));
+			});
+
+			let uniqueIndexes = commonHelpers.getUniqueIndexes(indexes);
+			uniqueIndexes.forEach(index => {
+				//invalidate data
+				dispatch(actionClearIndex(actionTypes, index.filter, index.order));
+				//refresh data
+				dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
 			});
 		} else {
 			console.warn(`No data updated for ${dataType} metadata type`);

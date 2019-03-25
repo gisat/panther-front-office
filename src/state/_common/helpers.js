@@ -11,6 +11,18 @@ function getIndex(indexes, filter, order) {
 	}
 }
 
+// TODO Test
+function getUniqueIndexes(indexes) {
+	let uniqueIndexes = [];
+	indexes.forEach(index => {
+		let duplicity = _.find(uniqueIndexes, (i) => {return isCorrespondingIndex(index, i.filter, i.order) });
+		if (!duplicity) {
+			uniqueIndexes.push(index);
+		}
+	});
+	return uniqueIndexes;
+}
+
 function isCorrespondingIndex(index, filter, order) {
 	return _.isEqual(index.filter, filter) && _.isEqual(index.order, order);
 }
@@ -108,6 +120,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 
 export default {
 	getIndex,
+	getUniqueIndexes,
 	mergeFilters,
 	isCorrespondingIndex,
 	itemFitFilter,
