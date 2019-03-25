@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // base types
+import appsReducers from '../../state/Apps/reducers';
 import areasReducers from '../../state/Areas/reducers';
 import attributesReducers from '../../state/Attributes/reducers';
 import attributeSetsReducers from '../../state/AttributeSets/reducers';
@@ -23,6 +24,7 @@ import usersReducers from '../../state/Users/reducers';
 
 // Redux store
 export default createStore(combineReducers({
+	apps: appsReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,
