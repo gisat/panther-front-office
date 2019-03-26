@@ -22,33 +22,7 @@ const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(S
 function setActiveKey(key) {
 	return dispatch => {
 		dispatch(setActiveKeyAndEnsureDependencies(key));
-		dispatch(applyScopeConfiguration());
 	};
-}
-
-function applyScopeConfiguration() {
-	return (dispatch, getState) => {
-		let scopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
-		let htmlClass = null;
-		let activeKey = null;
-
-		if (scopeConfig){
-			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)) {
-				dispatch(Action.specific.lpisChangeReviewCases.load());
-			}
-
-			if (scopeConfig.hasOwnProperty('lpisCheckReview')) {
-				dispatch(Action.specific.lpisCheckCases.load());
-			}
-			if (scopeConfig.style){
-				let styleToUse = VisualsConfig[scopeConfig.style];
-				htmlClass = styleToUse && styleToUse.htmlClass ? styleToUse.htmlClass : null;
-				activeKey = scopeConfig.style;
-			}
-		}
-		dispatch(Action.components.setApplicationStyleActiveKey(activeKey));
-		dispatch(Action.components.setApplicationStyleHtmlClass('forScope', htmlClass));
-	}
 }
 
 function loadAll() {
