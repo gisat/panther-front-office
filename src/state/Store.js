@@ -21,6 +21,8 @@ import spatialRelationsReducers from './SpatialRelations/reducers';
 import stylesReducers from './Styles/reducers';
 import tagsReducers from './Tags/reducers';
 import usersReducers from './Users/reducers';
+import viewsReducers from './Views/reducers';
+
 
 // specific types
 import lpisChangeReviewCasesReducers from './_specific/LpisChangeReviewCases/reducers';
@@ -47,6 +49,7 @@ const Store = createStore(combineReducers({
 	styles: stylesReducers,
 	tags: tagsReducers,
 	users: usersReducers,
+	views: viewsReducers,
 	specific: combineReducers({
 		lpisChangeReviewCases: lpisChangeReviewCasesReducers,
 		lpisCheckCases: lpisCheckCasesReducers,
