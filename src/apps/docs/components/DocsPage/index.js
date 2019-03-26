@@ -9,6 +9,7 @@ import ButtonDoc from "../ButtonDoc";
 import InputDoc from "../InputDoc";
 import InputWrapperDoc from "../InputWrapperDoc";
 import SelectDoc from "../SelectDoc";
+import TypoDoc from "../TypoDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -20,6 +21,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'input', title: 'Input', component: InputDoc},
 			{key: 'inputWrapper', title: 'InputWrapper', component: InputWrapperDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
+			{key: 'typo', title: 'Typography', component: TypoDoc},
 		];
 
 		this.paths = {};

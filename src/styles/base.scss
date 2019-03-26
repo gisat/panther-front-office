@@ -7,6 +7,55 @@ html {
 code, pre {
 	font-family: courier new, Courier, monospace;
 }
+h1, h2, h3, h4, h5, h6, p {
+	color: var(--base90);
+}
+h1 {
+	font-size: $b3;
+	font-weight: bold;
+	line-height: 1.05;
+	margin-bottom: 1.7239rem;
+}
+h2 {
+	font-size: $a2;
+	font-weight: bold;
+	line-height: 1.15;
+	margin: 2.1393rem 0 1.5rem;
+}
+h3 {
+	font-size: $b2;
+	font-weight: bold;
+	line-height: 1.25;
+	margin: 1.86375rem 0 1rem;
+}
+h4 {
+	font-size: $a1;
+	font-weight: bold;
+	margin: 1.5rem 0 1rem;
+}
+h5 {
+	font-size: $a1;
+	font-weight: bold;
+	margin-top: 1.5rem
+}
+p {
+	color: var(--base90);
+	font-size: $a1;
+	margin-bottom: m(2/3);
+	max-width: 50rem;
+}
+a {
+	color: var(--accent50);
+}
+a:visited {
+	color: var(--accent70);
+}
+a:hover {
+	color: var(--accent40);
+}
+a:visited:hover {
+	color: var(--accent55);
+}
 
 #ptr, #ptr-app {
 	@include positionFill;
