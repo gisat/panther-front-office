@@ -138,6 +138,43 @@ const getActiveModels = (getSubstate) => {
 	)
 };
 
+const getByFilterOrder = (getSubstate) => {
+	return createSelector(
+		[
+			getAllAsObject(getSubstate),
+			getIndexes(getSubstate),
+			(state, filter) => filter,
+			(state, filter, order) => order
+		],
+		(models, indexes, filter, order) => {
+			if (models && indexes) {
+				let index = commonHelpers.getIndex(indexes, filter, order);
+				if (index && index.index) {
+					let indexedModels = [];
+					for (let i = 1; i <= index.count; i++){
+						let modelKey = index.index[i];
+						if (modelKey){
+							let indexedModel = models[modelKey];
+							if (indexedModel){
+								indexedModels.push(indexedModel);
+							} else {
+								indexedModels.push({key: modelKey});
+							}
+						} else {
+							indexedModels.push(null);
+						}
+					}
+					return indexedModels.length ? indexedModels : null;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 const getByKey = (getSubstate) => {
 	return (state, key) => {
 		let allData = getAllAsObject(getSubstate)(state);
@@ -602,6 +639,7 @@ export default {
 	getAllForActiveApp,
 	getAllForActiveScope,
 
+	getByFilterOrder,
 	getByKey,
 
 	getDataByKey,
