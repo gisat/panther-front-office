@@ -18,6 +18,8 @@ import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
 import Tags from './Tags/actions';
 import Users from './Users/actions';
+import Views from './Views/actions';
+
 
 // specific types
 import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
@@ -42,6 +44,7 @@ export default {
 	spatialRelations: SpatialRelations,
 	styles: Styles,
 	tags: Tags,
+	views: Views,
 	users: Users,
 	specific: {
 		lpisChangeReviewCases: LpisChangeReviewCases,

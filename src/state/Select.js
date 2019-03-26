@@ -18,6 +18,7 @@ import SpatialRelations from './SpatialRelations/selectors';
 import Styles from './Styles/selectors';
 import Tags from './Tags/selectors';
 import Users from './Users/selectors';
+import Views from './Views/selectors';
 
 // specific types
 import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
@@ -43,6 +44,7 @@ export default {
 	styles: Styles,
 	tags: Tags,
 	users: Users,
+	views: Views,
 	specific: {
 		lpisChangeReviewCases: LpisChangeReviewCases,
 		lpisCheckCases: LpisCheckCases
