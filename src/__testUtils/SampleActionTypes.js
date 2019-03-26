@@ -4,7 +4,10 @@ export default utils.deepKeyMirror({
 	SAMPLE: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		DELETE: null,
+		MARK_DELETED: null,
 		EDITED: {
+			REMOVE: null,
 			REMOVE_PROPERTY: null,
 			UPDATE: null,
 		},
@@ -12,7 +15,9 @@ export default utils.deepKeyMirror({
 			ERROR: null
 		},
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_INDEX: null,
+			CLEAR_ALL: null
 		},
 		LOAD: {
 			ERROR: null,

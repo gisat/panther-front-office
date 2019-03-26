@@ -52,7 +52,7 @@ describe('#apiUpdate', () => {
 			let actionAdd = _.find(actions, (action) => action.type === ACTION_TYPES.ADD);
 			let actionRemoveEditedProperty = _.find(actions, (action) => action.type === ACTION_TYPES.EDITED.REMOVE_PROPERTY);
 
-			expect(actions).toHaveLength(2);
+			expect(actions).toHaveLength(3);
 
 			expect(actionAdd).toBeDefined();
 			expect(actionAdd.data).toHaveLength(1);

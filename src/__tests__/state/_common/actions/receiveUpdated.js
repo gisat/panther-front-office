@@ -41,6 +41,10 @@ describe('#receiveUpdated', () => {
 			type: ACTION_TYPES.EDITED.REMOVE_PROPERTY,
 			key: 1,
 			property: 'description'
+		}, {
+			filter: null,
+			order: [["name", "ascending"]],
+			type: ACTION_TYPES.INDEX.CLEAR_INDEX
 		}];
 
 		store.dispatch(commonActions.receiveUpdated(getSubstate, ACTION_TYPES, data, DATA_TYPE));
@@ -69,6 +73,10 @@ describe('#receiveUpdated', () => {
 			type: ACTION_TYPES.EDITED.REMOVE_PROPERTY,
 			key: 1,
 			property: 'name'
+		}, {
+			filter: null,
+			order: [["name", "ascending"]],
+			type: ACTION_TYPES.INDEX.CLEAR_INDEX
 		}];
 
 		store.dispatch(commonActions.receiveUpdated(getSubstate, ACTION_TYPES, data, DATA_TYPE));

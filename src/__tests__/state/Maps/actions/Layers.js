@@ -16,6 +16,7 @@ Object.defineProperty(global.self, 'crypto', {
 });
 
 const INITIAL_STATE = {
+	apps: {},
 	scopes: {},
 	places: {},
 	periods: {},

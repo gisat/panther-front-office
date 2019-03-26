@@ -209,7 +209,8 @@ export const BASIC_STATE = {
 	},
 	themes: {},
 	places: {},
-	periods: {}
+	periods: {},
+	apps: {}
 };
 
 export const ACTIVE_KEYS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, activeKey: null, activeKeys: [1, 2]}};

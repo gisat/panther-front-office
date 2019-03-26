@@ -1,6 +1,7 @@
 export const getSubstate = (state) => state.maps;
 
 export const BASIC_STATE = {
+	apps: {},
 	scopes: {
 		activeKey: 'scope1'
 	},
