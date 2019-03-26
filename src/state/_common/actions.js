@@ -504,6 +504,10 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType) {
 				_.forIn(edited, (value, key) => {
 					if (model.data[key] === value) {
 						dispatch(actionRemovePropertyFromEdited(actionTypes, model.key, key));
+					} else if (_.isObject(value)) {
+						if (JSON.stringify(value) === JSON.stringify(model.data[key])) {
+							dispatch(actionRemovePropertyFromEdited(actionTypes, model.key, key));
+						}
 					}
 				});
 

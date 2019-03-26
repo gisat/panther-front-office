@@ -52,6 +52,9 @@ class Input extends React.PureComponent {
 	onChangeMultiline(value) {
 		if (this.props.hasOwnProperty('value') && this.props.onChange) {
 			// controlled
+			if (value === "") {
+				value = null;
+			}
 			this.props.onChange(value);
 		} else {
 			// uncontrolled
@@ -125,7 +128,7 @@ class Input extends React.PureComponent {
 				invisible
 				disabled={this.props.disabled}
 				unfocusable={this.props.unfocusable}
-				value={this.props.value || this.state && this.state.value || ""}
+				value={this.state.value || ""}
 				name={this.props.name}
 				onChange={this.onChangeMultiline}
 				onFocus={this.onFocus}

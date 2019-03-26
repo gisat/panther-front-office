@@ -121,7 +121,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 						disabled={!this.props.editable}
 						multiline
 						value={configuration}
-						onChange={(evt) => this.onChangeJsonValue('configuration', evt.target.value)}
+						onChange={(val) => this.onChangeJsonValue('configuration', val)}
 					/>
 				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
