@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Action from "../../../state/Action";
 
+const v4regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+
 const mapDispatchToProps = dispatch => {
 	return {
 		apply: (viewKey) => {
-			dispatch(Action.views.apply(viewKey));
+			// dispatch(Action.views.apply(viewKey));
+			console.log('##### Apllying view:', viewKey);
 		}
 	}
 };
@@ -18,7 +21,7 @@ class ReactRouterViewController extends React.PureComponent {
 		this.applyView = this.applyView.bind(this);
 
 		if (props.match && props.match.params && props.match.params.viewKey) {
-			this.applyView(props.match.params.viewKey);
+			this.applyView(props.match.params.viewKey, props);
 		}
 	}
 
@@ -30,9 +33,12 @@ class ReactRouterViewController extends React.PureComponent {
 		}
 	}
 
-	applyView(viewKey) {
-		//apply view
-		console.log('##### Apllying view:', viewKey);
+	applyView(viewKey, props) {
+		let match = viewKey.match(v4regex);
+		if (match) {
+			props = props || this.props;
+			props.apply(viewKey);
+		}
 	}
 
 	render() {
