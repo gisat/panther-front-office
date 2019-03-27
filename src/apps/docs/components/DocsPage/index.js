@@ -10,6 +10,7 @@ import InputDoc from "../InputDoc";
 import InputWrapperDoc from "../InputWrapperDoc";
 import SelectDoc from "../SelectDoc";
 import TypoDoc from "../TypoDoc";
+import FadeInDoc from "../FadeInDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -18,6 +19,7 @@ class DocsPage extends React.PureComponent {
 
 		this.components = [
 			{key: 'button', title: 'Button', component: ButtonDoc},
+			{key: 'fadeIn', title: 'FadeIn', component: FadeInDoc},
 			{key: 'input', title: 'Input', component: InputDoc},
 			{key: 'inputWrapper', title: 'InputWrapper', component: InputWrapperDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
