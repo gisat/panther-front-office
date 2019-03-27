@@ -1,8 +1,9 @@
 import React from "react";
+import classNames from 'classnames';
 
 import "./style.scss";
 
-const renderColumn = column => {
+const renderColumn = (column, index) => {
 
 	let style = {};
 	if (column.width) {
@@ -19,11 +20,16 @@ const renderColumn = column => {
 		content = column.render();
 	}
 
-	return (<div className="ptr-adjustable-column" style={style}><div>{content}</div></div>);
+	let handle = null;
+	if (index) {
+		handle = (<div className={"ptr-adjustable-column-handle handle" + index}><div/></div>)
+	}
+
+	return (<>{handle}<div className="ptr-adjustable-column" style={style}><div className="ptr-adjustable-columns-content">{content}</div></div></>);
 };
 
 export default props => (
-	<div className="ptr-adjustable-columns">
+	<div className={classNames("ptr-adjustable-columns", {fixed: props.fixed})}>
 		{props && props.content && props.content.length && props.content.map(renderColumn) || null}
 	</div>
 );
