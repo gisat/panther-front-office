@@ -24,7 +24,7 @@ class Demo extends React.PureComponent {
 				setKey="demo"
 			>
 				<div id="demo" style={{display: 'flex', height: '100%'}}>
-					<LayersTree layersTreeKey={this.props.treeKey}/>
+					<LayersTree componentKey="Map_LayersTree" layersTreeKey={this.props.treeKey}/>
 					<MapControls />
 					<MapSet
 						mapSetKey="MapSet1"

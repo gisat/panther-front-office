@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Action from '../../state/Action';
+import LayersTreeAction from '../../components/common/maps/LayersTree/actions';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
 
@@ -49,7 +50,6 @@ export default () => {
 
 	Store.dispatch(Action.maps.addLayer('Map2', {layerTemplate: "54b2d81b-9cd2-4409-ac1c-464c864bd1dc"}));
 
-	
-	Store.dispatch(Action.components.updateLayersTree(treeUUID, layerTree));
+	Store.dispatch(LayersTreeAction.updateLayersTree(treeUUID, layerTree, 'Map_LayersTree'));
 
 }

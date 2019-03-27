@@ -1,7 +1,5 @@
 import {createSelector} from 'reselect';
 
-// const getLayersTrees = state => state.components.layersTrees;
-
 const getAllByKey = (state) => state.components;
 
 const getDataByComponentKey = createSelector(
@@ -19,5 +17,5 @@ const getDataByComponentKey = createSelector(
 );
 
 export default {
-	getDataByComponentKey
+	getDataByComponentKey,
 }

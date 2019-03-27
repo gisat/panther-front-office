@@ -23,5 +23,5 @@ function actionUpdate(component, data) {
 // ============ export ===========
 
 export default {
-	update
+	update,
 }
