@@ -27,12 +27,20 @@ class ScopesList extends React.PureComponent {
 	}
 
 	render() {
+		const delay = 200;
+		const duration = 600;
+
+		let style = this.props.scopes ? {
+			maxHeight: this.props.scopes.length * 15 + 'rem',
+			transition: `max-height ${this.props.scopes.length * delay}ms ease-in-out`
+		} : {};
+
 		return (
-			<div className="ptr-fuore-scopes-list">
+			<div className="ptr-fuore-scopes-list" style={style}>
 				{this.props.scopes ?
 					<FadeIn
-						delay={200}
-						duration={1000}
+						delay={delay}
+						duration={duration}
 					>
 						{this.renderCards()}
 					</FadeIn>
@@ -49,7 +57,7 @@ class ScopesList extends React.PureComponent {
 			};
 
 			return (
-				<div className="ptr-fuore-scope-card" style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)}>
+				<div className="ptr-fuore-scope-card" style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)} key={scope.key}>
 					<div className="ptr-fuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 					{scope.data && scope.data.description ? (
 						<div className="ptr-fuore-scope-card-description">
