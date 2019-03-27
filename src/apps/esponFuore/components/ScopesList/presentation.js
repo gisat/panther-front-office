@@ -35,9 +35,13 @@ class ScopesList extends React.PureComponent {
 
 	// TODO implement Read more.. for scope description?
 	renderCards() {
-		return this.props.scopes.map(scope => {
+		return this.props.scopes.map((scope, index) => {
+			let style = {
+				backgroundImage: `url('/fuoreImg/preview_${(index + 2) % 2}.png')`
+			};
+
 			return (
-				<div className="ptr-fuore-scope-card" tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)}>
+				<div className="ptr-fuore-scope-card" style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)}>
 					<div className="ptr-fuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 					{scope.data && scope.data.description ? (
 						<div className="ptr-fuore-scope-card-description">
