@@ -4,6 +4,8 @@ import _ from 'lodash';
 
 import './style.scss';
 
+import Colour from './components/Colour';
+
 class Test extends React.PureComponent {
 	render() {
 		let lightBase;
@@ -97,6 +99,19 @@ class Test extends React.PureComponent {
 
 		return (
 			<div className="ptr-bo-test">
+
+
+				<div className="ptr-test-scale">
+					{scaleBase.map((value, index) => (<Colour light={baseScale(value).css('hsl')} dark={baseScaleDark(value).css('hsl')} no={index*5} />))}
+				</div>
+
+
+
+
+
+
+
+
 
 				<div className="testy ptr-light">
 					<div title="original">
