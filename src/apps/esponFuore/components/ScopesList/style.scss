@@ -1,9 +1,8 @@
 @import '../../../../styles/variables';
 
 .ptr-fuore-scopes-list {
-	display: flex;
-	flex-wrap: wrap;
 	background: var(--base25);
+	min-height: 15rem;
 }
 
 .ptr-fuore-scope-card {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Truncate from 'react-truncate';
 
 import './style.scss';
+import FadeIn from "../../../../components/common/atoms/FadeIn/FadeIn";
 
 class ScopesList extends React.PureComponent {
 
@@ -26,10 +27,17 @@ class ScopesList extends React.PureComponent {
 	}
 
 	render() {
-		return (this.props.scopes ?
+		return (
 			<div className="ptr-fuore-scopes-list">
-				{this.renderCards()}
-			</div> : null
+				{this.props.scopes ?
+					<FadeIn
+						delay={200}
+						duration={1000}
+					>
+						{this.renderCards()}
+					</FadeIn>
+					: null}
+			</div>
 		);
 	}
 
