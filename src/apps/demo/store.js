@@ -20,7 +20,9 @@ import snapshotsReducers from '../../state/Snapshots/reducers';
 import spatialDataSourcesReducers from '../../state/SpatialDataSources/reducers';
 import spatialRelationsReducers from '../../state/SpatialRelations/reducers';
 import stylesReducers from '../../state/Styles/reducers';
+import tagsReducers from '../../state/Tags/reducers';
 import usersReducers from '../../state/Users/reducers';
+import viewsReducers from '../../state/Views/reducers';
 
 // Redux store
 export default createStore(combineReducers({
@@ -42,4 +44,6 @@ export default createStore(combineReducers({
 	spatialRelations: spatialRelationsReducers,
 	styles: stylesReducers,
 	users: usersReducers,
+	tags: tagsReducers,
+	views: viewsReducers
 }), applyMiddleware(thunk, logger));
