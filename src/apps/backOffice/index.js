@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 
-import Action from '../../state/Action';
+import Action from './state/Action';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
@@ -56,6 +56,9 @@ export default (path, managedAppKey) => {
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
+
+	// Set managed app if called with managedAppKey
+	if (managedAppKey) Store.dispatch(Action.specific.apps.setManaged(managedAppKey));
 
 	ReactDOM.render(
 		<Provider store={Store}>

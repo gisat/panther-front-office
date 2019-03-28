@@ -4,19 +4,23 @@
 	height: m(2);
 	width: 12rem;
 
-	cursor: pointer;
-
 	position: relative;
 
 	transition: background .5s ease-in-out;
 }
-.ptr-bo-app-select-item::after {
+.ptr-bo-app-select-item:not(.ptr-bo-app-select-current) {
+	background: rgba(255,255,255,.1);
+}
+.ptr-bo-app-select-item:not(.disabled) {
+	cursor: pointer;
+}
+.ptr-bo-app-select-item:not(.disabled)::after {
 	@include positionFill;
 	pointer-events: none;
 	content: ' ';
 	transition: background .3s ease-in-out;
 }
-.ptr-bo-app-select-item:hover::after {
+.ptr-bo-app-select-item:not(.disabled):hover::after {
 	background: rgba(255,255,255,.15);
 }
 

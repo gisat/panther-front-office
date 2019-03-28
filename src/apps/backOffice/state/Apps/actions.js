@@ -16,7 +16,12 @@ const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependenci
 
 // ============ actions ===========
 
-
+const setManaged = (key) => {
+	return {
+		type: ActionTypes.APPS.SET_MANAGED,
+		key: key
+	}
+};
 
 // ============ export ===========
 
@@ -27,6 +32,7 @@ export default {
 	setActiveKey,
 	setActiveKeyAndEnsureDependencies,
 	setActiveKeys,
+	setManaged,
 	useIndexed,
 	useIndexedClear,
 	useKeys

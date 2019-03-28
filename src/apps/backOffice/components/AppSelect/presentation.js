@@ -54,18 +54,20 @@ class AppSelect extends React.PureComponent {
 	render() {
 		let apps = this.merge(this.props.apps, this.props.storeApps);
 		let activeApp = _.find(apps, {key: this.props.activeKey});
-		let selectStyle = activeApp ? {background: activeApp.data && activeApp.data.color || utils.stringToColours(activeApp.key, 1, {lightness: [30,40]})} : null;
+		let selectStyle = activeApp ? {background: activeApp.data && activeApp.data.color} : null;
 		let selectContent = activeApp ? activeApp.data && activeApp.data.name || activeApp.key : "All apps";
+
+		let icon = this.props.managedAppKey ? null : (<Icon icon="triangle-down"/>);
 
 		return (
 			<>
 				<div
-					className="ptr-bo-app-select-current ptr-bo-app-select-item"
+					className={classNames("ptr-bo-app-select-current ptr-bo-app-select-item", {disabled: !!this.props.managedAppKey})}
 					style={selectStyle}
-					tabIndex="0"
-					onClick={this.onSelectClick}
+					tabIndex={this.props.managedAppKey ? "-1" : "0"}
+					onClick={this.props.managedAppKey ? null : this.onSelectClick}
 				>
-					<span>{selectContent}</span><Icon icon="triangle-down"/>
+					<span>{selectContent}</span>{icon}
 				</div>
 				<div className={classNames("ptr-bo-app-select-list", {open: this.state.open})}><div><div>
 					<div key="allApps" className="ptr-bo-app-select-item" onClick={this.onItemClick.bind(this, null)}>
@@ -82,7 +84,7 @@ class AppSelect extends React.PureComponent {
 			return null;
 		} else {
 			let style = {
-				background: app.data && app.data.color || utils.stringToColours(app.key, 1, {lightness: [30,40]})
+				background: app.data && app.data.color
 			};
 			return (
 				<div key={app.key} className="ptr-bo-app-select-item" style={style} onClick={this.onItemClick.bind(this, app.key)}>

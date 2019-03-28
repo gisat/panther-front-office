@@ -31,7 +31,7 @@ const getActiveOrAll = createSelector(
 );
 
 export default {
-	getActivePeriod: getActive,
+	getActive,
 	getActiveKey,
 	getActiveKeys,
 	getActiveModels,

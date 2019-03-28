@@ -30,7 +30,7 @@ class TopBar extends React.PureComponent {
 		return (
 			<>
 				<div className="ptr-bo-top-bar-app-select">
-					<AppSelect />
+					<AppSelect managedAppKey={this.props.managedAppKey}/>
 				</div>
 				<div className="ptr-bo-top-bar-quick-access">
 					<NavLink
