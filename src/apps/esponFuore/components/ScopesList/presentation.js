@@ -4,6 +4,8 @@ import Truncate from 'react-truncate';
 
 import './style.scss';
 import FadeIn from "../../../../components/common/atoms/FadeIn/FadeIn";
+import scopePreview0 from '../../assets/img/preview_0.png';
+import scopePreview1 from '../../assets/img/preview_1.png';
 
 class ScopesList extends React.PureComponent {
 
@@ -53,7 +55,7 @@ class ScopesList extends React.PureComponent {
 	renderCards() {
 		return this.props.scopes.map((scope, index) => {
 			let style = {
-				backgroundImage: `url('/esponFuore/img/preview_${(index + 2) % 2}.png')`
+				backgroundImage: index % 2 ? `url(${scopePreview0})` : `url(${scopePreview1})`
 			};
 
 			return (

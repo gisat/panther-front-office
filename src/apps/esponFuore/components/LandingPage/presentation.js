@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import esponLogo from './img/espon-logo.png';
-import gisatLogo from './img/gisat-logo.png';
+import esponLogo from '../../assets/img/espon-logo.png';
+import gisatLogo from '../../assets/img/gisat-logo.png';
 import './style.scss';
 import ScopesList from "../ScopesList";
 
