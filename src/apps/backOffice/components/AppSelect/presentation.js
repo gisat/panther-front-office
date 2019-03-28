@@ -11,7 +11,7 @@ import utils from "../../../../utils/utils";
 class AppSelect extends React.PureComponent {
 
 	static propTypes = {
-		apps: PropTypes.object,
+		apps: PropTypes.array,
 		storeApps: PropTypes.object,
 		activeKey: PropTypes.string,
 		onChange: PropTypes.func
