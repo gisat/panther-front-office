@@ -5,7 +5,9 @@ import {Route, Switch} from "react-router";
 import Helmet from "react-helmet";
 
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
+import PlacesList from "../../lists/PlacesList";
 import ScopesList from "../../lists/ScopesList";
+
 import NavList from '../../../../../components/presentation/NavList'
 
 import './metadataBase.scss';
@@ -20,6 +22,7 @@ class MetadataBase extends React.PureComponent {
 
 		this.paths = {
 			layerTemplates: `${this.props.match.path}/layerTemplates`,
+			places: `${this.props.match.path}/places`,
 			scopes: `${this.props.match.path}/scopes`,
 		};
 
@@ -32,6 +35,11 @@ class MetadataBase extends React.PureComponent {
 						type: 'leaf',
 						title: 'Layer Templates',
 						path: this.paths.layerTemplates
+					},
+					{
+						type: 'leaf',
+						title: 'Places',
+						path: this.paths.places
 					},
 					{
 						type: 'leaf',
@@ -59,6 +67,7 @@ class MetadataBase extends React.PureComponent {
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>
 						<Route path={this.paths.layerTemplates} render={() => React.createElement(LayerTemplatesList, props)} />
+						<Route path={this.paths.places} render={() => React.createElement(PlacesList, props)} />
 						<Route path={this.paths.scopes} render={() => React.createElement(ScopesList, props)} />
 					</Switch>
 				</div>
