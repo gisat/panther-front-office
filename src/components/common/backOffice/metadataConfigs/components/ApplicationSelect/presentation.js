@@ -34,7 +34,7 @@ class ApplicationSelect extends React.PureComponent {
 		let data = [{
 			key: 'allApps',
 			data: {
-				name: t('allApps')
+				name: t('metadata.formLabels.allApps')
 			}
 		}];
 		let value = this.props.value ? this.props.value : data[0];
@@ -70,4 +70,4 @@ class ApplicationSelect extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(ApplicationSelect);
+export default withNamespaces(['backOffice'])(ApplicationSelect);

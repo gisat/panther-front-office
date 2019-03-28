@@ -71,7 +71,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
-					label={t("labels.applicationCapitalized")}
+					label={t("metadata.formLabels.application")}
 				>
 					<ApplicationSelect
 						disabled={!this.props.editable}
@@ -82,7 +82,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("nameCapitalized")}
+					label={t("metadata.formLabels.name")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -93,7 +93,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("labels.nameInternal")}
+					label={t("metadata.formLabels.nameInternal")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -104,9 +104,10 @@ class ScopeMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("labels.description")}
+					label={t("metadata.formLabels.description")}
 				>
 					<Input
+						multiline
 						disabled={!this.props.editable}
 						unfocusable={this.props.unfocusable}
 						value={data && data.description || ""}
@@ -114,7 +115,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("labels.configuration")}
+					label={t("metadata.formLabels.configuration")}
 				>
 					<Input
 						unfocusable={this.props.unfocusable}
@@ -147,4 +148,4 @@ class ScopeMetadataConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(ScopeMetadataConfig);
+export default withNamespaces(['backOffice'])(ScopeMetadataConfig);

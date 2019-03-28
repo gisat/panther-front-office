@@ -35,6 +35,7 @@ class MetadataList extends React.PureComponent {
 	}
 
 	render() {
+		const t = this.props.t;
 		const endItems = 
 		[(<span className={'ptr-icon-inline-wrap'} key={'double-angle'}>
 			<Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
@@ -44,7 +45,7 @@ class MetadataList extends React.PureComponent {
 			<div ref={this.list}>
 				<AddValue
 					unfocusable={this.props.unfocusable}
-                    option={{label:"Create"}} 
+                    option={{label:t('createCapitalized')}}
                     onOptionLabelClick={this.props.onAddClick}
                     />
 				{this.props.models ? this.props.models.map(model => {

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import ScopeMetadataConfig from "../../metadataConfigs/ScopeMetadataConfig";
-import ScopeMetadataSwitcher from "../../metadataSwitchers/ScopesMetadataSwitcher";
+import {withNamespaces} from "react-i18next";
 
-import "../style.scss";
+import ScopeMetadataConfig from "../metadataConfigs/ScopeMetadataConfig";
+import ScopeMetadataSwitcher from "../metadataSwitchers/ScopeMetadataSwitcher";
+
+import "./style.scss";
 
 class ScopeMetadataScreen extends React.PureComponent {
 	static propTypes = {
@@ -12,11 +14,13 @@ class ScopeMetadataScreen extends React.PureComponent {
 	};
 
 	render() {
+		const t = this.props.t;
+
 		return (
 			<div className='ptr-bo-colours'>
 				<div className="ptr-screen-content ptr-screen-metadata-header">
 					<div className="ptr-screen-metadata-title">
-						Scope
+						{t('metadata.names.scope')}
 					</div>
 					<div className="ptr-screen-metadata-switcher">
 						<ScopeMetadataSwitcher
@@ -36,4 +40,4 @@ class ScopeMetadataScreen extends React.PureComponent {
 	}
 }
 
-export default ScopeMetadataScreen;
+export default withNamespaces(['backOffice'])(ScopeMetadataScreen);

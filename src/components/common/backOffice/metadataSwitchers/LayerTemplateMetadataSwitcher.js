@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import Select from '../../../../../state/Select';
-import Action from "../../../../../state/Action";
-import presentation from "../presentation";
-import utils from "../../../../../utils/utils";
-import LayerTemplateMetadataScreen from "../../../../../components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
+import Select from '../../../../state/Select';
+import Action from "../../../../state/Action";
+import presentation from "./presentation";
+import utils from "../../../../utils/utils";
+import LayerTemplateMetadataScreen from "../metadataScreens/LayerTemplateMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
 

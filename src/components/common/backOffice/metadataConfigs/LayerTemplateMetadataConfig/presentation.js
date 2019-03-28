@@ -50,7 +50,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
-					label={t("labels.applicationCapitalized")}
+					label={t("metadata.formLabels.application")}
 				>
 					<ApplicationSelect
 						disabled={!this.props.editable}
@@ -61,7 +61,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("nameCapitalized")}
+					label={t("metadata.formLabels.name")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -71,13 +71,25 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("labels.nameInternal")}
+					label={t("metadata.formLabels.nameInternal")}
 				>
 					<Input
 						disabled={!this.props.editable}
 						unfocusable={this.props.unfocusable}
 						value={data && data.nameInternal || ""}
 						onChange={(val) => this.onChange('nameInternal', val)}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					required
+					label={t("metadata.formLabels.description")}
+				>
+					<Input
+						multiline
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={data && data.description || ""}
+						onChange={(val) => this.onChange('description', val)}
 					/>
 				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
@@ -103,4 +115,4 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(LayerTemplateMetadataConfig);
+export default withNamespaces(['backOffice'])(LayerTemplateMetadataConfig);

@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import Select from '../../../../../state/Select';
-import Action from "../../../../../state/Action";
-import presentation from "../presentation";
-import utils from "../../../../../utils/utils";
-import ScopeMetadataScreen from "../../../../../components/common/backOffice/metadataScreens/ScopeMetadataScreen";
+import Select from '../../../../state/Select';
+import Action from "../../../../state/Action";
+import presentation from "./presentation";
+import utils from "../../../../utils/utils";
+import ScopeMetadataScreen from "../metadataScreens/ScopeMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
 

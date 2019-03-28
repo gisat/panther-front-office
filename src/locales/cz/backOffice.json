@@ -1,0 +1,17 @@
+{
+  "metadata": {
+	"names": {
+	  "layerTemplate": "Šablona vrstvy",
+	  "place": "Místo",
+	  "scope": "Scope"
+	},
+	"formLabels": {
+	  "allApps": "Všechny aplikace",
+	  "application": "Aplikace",
+	  "configuration": "Konfigurace",
+	  "description": "Popis",
+	  "name": "Název",
+	  "nameInternal": "Interní název"
+	}
+  }
+}

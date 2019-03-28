@@ -1,0 +1,17 @@
+{
+  "metadata": {
+	"names": {
+	  "layerTemplate": "Layer template",
+	  "place": "Place",
+	  "scope": "Scope"
+	},
+	"formLabels": {
+	  "allApps": "All applications",
+	  "application": "Application",
+	  "configuration": "Configuration",
+	  "description": "Description",
+	  "name": "Name",
+	  "nameInternal": "Internal name"
+	}
+  }
+}

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import LayerTemplateMetadataConfig from "../../metadataConfigs/LayerTemplateMetadataConfig";
-import LayerTemplateMetadataSwitcher from "../../metadataSwitchers/LayerTemplateMetadataSwitcher";
+import {withNamespaces} from "react-i18next";
 
-import "../style.scss";
+import LayerTemplateMetadataConfig from "../metadataConfigs/LayerTemplateMetadataConfig";
+import LayerTemplateMetadataSwitcher from "../metadataSwitchers/LayerTemplateMetadataSwitcher";
+
+import "./style.scss";
 
 class LayerTemplateMetadataScreen extends React.PureComponent {
 	static propTypes = {
@@ -12,11 +14,13 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 	};
 
 	render() {
+		const t = this.props.t;
+
 		return (
 			<div className='ptr-bo-colours'>
 				<div className="ptr-screen-content ptr-screen-metadata-header">
 					<div className="ptr-screen-metadata-title">
-						Layer template
+						{t('metadata.names.layerTemplate')}
 					</div>
 					<div className="ptr-screen-metadata-switcher">
 						<LayerTemplateMetadataSwitcher
@@ -36,4 +40,4 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 	}
 }
 
-export default LayerTemplateMetadataScreen;
+export default withNamespaces(['backOffice'])(LayerTemplateMetadataScreen);

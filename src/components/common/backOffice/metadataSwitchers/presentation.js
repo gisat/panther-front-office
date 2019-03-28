@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Select from '../../atoms/Select/Select';
-import './MetadataSwitcher.scss';
-import Button from "../../atoms/Button";
 import _ from 'lodash';
+import {withNamespaces} from "react-i18next";
+
+import Button from "../../atoms/Button";
+import Select from '../../atoms/Select/Select';
+
+import './MetadataSwitcher.scss';
 
 
 class MetadataSwitcher extends React.PureComponent {
@@ -26,6 +29,7 @@ class MetadataSwitcher extends React.PureComponent {
 	}
 
 	render() {
+		const t = this.props.t;
 		let selectedValue = null;
 
 		// filter null values
@@ -48,6 +52,7 @@ class MetadataSwitcher extends React.PureComponent {
 					withKeyPrefix
 				/>
 				<Button
+					title={t('createCapitalized')}
 					icon="plus"
 					ghost
 					onClick={this.props.onAddClick}
@@ -58,4 +63,4 @@ class MetadataSwitcher extends React.PureComponent {
 	}
 }
 
-export default MetadataSwitcher;
+export default withNamespaces()(MetadataSwitcher);
