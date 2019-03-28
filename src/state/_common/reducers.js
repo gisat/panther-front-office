@@ -146,7 +146,7 @@ export default {
 	markDeleted: (state, action) => {
 		if (state.byKey && state.byKey[action.key]) {
 			const byKey = {...state.byKey};
-			byKey[action.key].removed = action.deleted;
+			byKey[action.key].removed = true;
 
 			return {
 				...state,
