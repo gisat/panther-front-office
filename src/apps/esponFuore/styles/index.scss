@@ -7,9 +7,36 @@
 }
 
 .esponFuore-header {
-	flex: 0;
+	flex: 0 0 m(2);
+	display: flex;
 }
 
 .esponFuore-content {
 	flex: 1;
+}
+
+
+
+.esponFuore-header-home {
+	flex: 0 0 10rem;
+	background-color: #fff;
+}
+.esponFuore-header-region-select {
+	flex: 0 0 12rem;
+	background-color: #fff;
+}
+.esponFuore-header-indicator-select {
+	flex: 0 0 25rem;
+	background-color: var(--accent50);
+}
+.esponFuore-header-toolbar {
+	flex: 1;
+	display: flex;
+	background-color: #3c5772;
+}
+.esponFuore-header-toolbar > div:first-child {
+	flex: 1;
+}
+.esponFuore-header-toolbar-right {
+	flex: 0 0 5rem;
 }
