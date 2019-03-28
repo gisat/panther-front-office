@@ -22,6 +22,7 @@ class Button extends React.PureComponent {
 		secondary: PropTypes.bool,
 		side: PropTypes.string,
 		small: PropTypes.bool,
+		title: PropTypes.string,
 		unfocusable: PropTypes.bool
 	};
 
@@ -128,6 +129,7 @@ class Button extends React.PureComponent {
 				onClick={this.onClick}
 				onKeyPress={this.onKeyPress}
 				tabIndex={(this.props.disabled || this.props.unfocusable) ? "-1" : "0"}
+				title={this.props.title}
 			>
 				{iconInsert}
 				{content}
