@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import Select from '../../state/Select';
+import Action from "../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
 
 import ScopeMetadataScreen
-	from "../../../../components/common/backOffice/metadataScreens/ScopeMetadataScreen";
+	from "../metadata/screens/ScopeMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.scopes.getAllForActiveApp(state, order)
+		models: Select.specific.backOffice.scopes.getAllForActiveApp(state, order)
 	}
 };
 
@@ -25,7 +25,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.scopes.useIndexed({application: true}, null, order, 1, 1000, componentId)); // TODO filter?
+				dispatch(Action.specific.backOffice.scopes.useIndexed({application: true}, null, order, 1, 1000, componentId)); // TODO filter?
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));

@@ -196,7 +196,7 @@ const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			dispatch(actionUseIndexedRegister(actionTypes, componentId, filterByActive, filter, order, start, length));
 			let state = getState();
 			let fullFilter = commonHelpers.mergeFilters({
-				activeApplicationKey: commonSelectors.getActiveKey(state => state.apps)(state),
+				// activeApplicationKey: commonSelectors.getActiveKey(state => state.apps)(state),
 				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
 				activePeriodKey: commonSelectors.getActiveKey(state => state.periods)(state),
 				activePeriodKeys: commonSelectors.getActiveKeys(state => state.periods)(state),
@@ -260,7 +260,10 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 		return (dispatch, getState) => {
 			const state = getState();
 			const apiPath = path.join('backend/rest', categoryPath);
-			let applicationKey = state.apps.activeKey;
+			// TODO BO send app key in model
+			// let applicationKey = state.app.key;
+			let applicationKey = null;
+
 			const payload = getCreatePayload(dataType, key, applicationKey);
 			return request(apiPath, 'POST', null, payload).then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {

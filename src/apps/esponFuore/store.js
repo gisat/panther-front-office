@@ -5,7 +5,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
 // base types
-import appsReducers from '../../state/Apps/reducers';
+import appsReducers from '../backOffice/state/Apps/reducers';
 import areasReducers from '../../state/Areas/reducers';
 import attributesReducers from '../../state/Attributes/reducers';
 import attributeSetsReducers from '../../state/AttributeSets/reducers';

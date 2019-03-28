@@ -9,7 +9,6 @@ const getSubstate = state => state.places;
 
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
-const getAllForActiveApp = common.getAllForActiveApp(getSubstate);
 const getAllForActiveScope = common.getAllForActiveScope(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
@@ -36,7 +35,6 @@ export default {
 	getPlaces: getAll,
 	getAll,
 	getAllAsObject,
-	getAllForActiveApp,
 	getAllForActiveScope,
 	getActiveKey,
 	getActiveKeys,

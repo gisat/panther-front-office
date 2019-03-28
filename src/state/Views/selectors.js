@@ -10,7 +10,6 @@ const getActiveKeys = common.getActiveKeys(getSubstate);
 
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
-const getAllForActiveApp = common.getAllForActiveApp(getSubstate);
 
 const getByKey = common.getByKey(getSubstate);
 
@@ -24,7 +23,6 @@ const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 export default {
 	getActiveKey,
 	getActiveKeys,
-	getAllForActiveApp,
 	getDataByKey,
 	getEditedDataByKey,
 	getScopes: getAll,

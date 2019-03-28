@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import Select from '../../state/Select';
+import Action from "../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
 import PeriodMetadataScreen
-	from "../../../../components/common/backOffice/metadataScreens/PeriodMetadataScreen";
+	from "../metadata/screens/PeriodMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.periods.getAllForActiveApp(state, order)
+		models: Select.specific.backOffice.periods.getAllForActiveApp(state, order)
 	}
 };
 
@@ -24,7 +24,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-periodConfig', 40, 40, PeriodMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.periods.useIndexed({application: true}, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.backOffice.periods.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.periods.useIndexedClear(componentId));

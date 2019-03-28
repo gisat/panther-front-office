@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // base types
-import applicationReducers from './Apps/reducers';
+import applicationReducers from '../apps/backOffice/state/Apps/reducers';
 import areasReducers from './Areas/reducers';
 import attributesReducers from './Attributes/reducers';
 import attributeSetsReducers from './AttributeSets/reducers';

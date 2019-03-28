@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Action from '../../../../state/Action';
-import Select from '../../../../state/Select';
+import Action from '../../state/Action';
+import Select from '../../state/Select';
 import utils from "../../../../utils/utils";
 
 import presentation from "./presentation";
@@ -13,8 +13,8 @@ const mapStateToProps = () => {
 	return state => {
 		return {
 			apps,
-			activeKey: Select.apps.getActiveKey(state),
-			storeApps: Select.apps.getAllAsObject(state)
+			activeKey: Select.specific.apps.getActiveKey(state),
+			storeApps: Select.specific.apps.getAllAsObject(state)
 			// storeApps: Select.apps.get(null, null, order, 1, 100)
 		}
 	}
@@ -26,14 +26,14 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.apps.useIndexed(null, null, order, 1, 100, componentId));
+				dispatch(Action.specific.apps.useIndexed(null, null, order, 1, 100, componentId));
 			},
 			onChange: (key) => {
-				dispatch(Action.apps.setActiveKeyAndEnsureDependencies(key));
+				dispatch(Action.specific.apps.setActiveKeyAndEnsureDependencies(key));
 				dispatch(Action.screens.removeAllScreensFromSet('metadata',));
 			},
 			onUnmount: () => {
-				dispatch(Action.apps.useIndexedClear(componentId));
+				dispatch(Action.specific.apps.useIndexedClear(componentId));
 			}
 		}
 	}

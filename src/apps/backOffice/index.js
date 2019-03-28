@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 
 import Action from '../../state/Action';
-import Store, {history} from './store';
+import Store, {history} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
 
