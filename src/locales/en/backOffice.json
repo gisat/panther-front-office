@@ -1,8 +1,9 @@
 {
   "metadata": {
 	"names": {
+	  "attribute": "Attribute",
 	  "layerTemplate": "Layer template",
-	  "period": "Perioda",
+	  "period": "Period",
 	  "place": "Place",
 	  "scope": "Scope"
 	},
