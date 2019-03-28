@@ -291,12 +291,20 @@ export default utils.deepKeyMirror({
 	PERIODS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		DELETE: null,
+		MARK_DELETED: null,
+		EDITED: {
+			REMOVE: null,
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
 		ENSURE: {
 			ERROR: null
 		},
 		INDEX: {
 			ADD: null,
-			CLEAR_ALL: null
+			CLEAR_ALL: null,
+			CLEAR_INDEX: null,
 		},
 		LOAD: {
 			ERROR: null,

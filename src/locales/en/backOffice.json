@@ -2,6 +2,7 @@
   "metadata": {
 	"names": {
 	  "layerTemplate": "Layer template",
+	  "period": "Perioda",
 	  "place": "Place",
 	  "scope": "Scope"
 	},
@@ -11,7 +12,8 @@
 	  "configuration": "Configuration",
 	  "description": "Description",
 	  "name": "Name",
-	  "nameInternal": "Internal name"
+	  "nameInternal": "Internal name",
+	  "period": "Period"
 	}
   }
 }

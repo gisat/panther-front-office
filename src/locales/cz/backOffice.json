@@ -2,6 +2,7 @@
   "metadata": {
 	"names": {
 	  "layerTemplate": "Šablona vrstvy",
+	  "period": "Perioda",
 	  "place": "Místo",
 	  "scope": "Scope"
 	},
@@ -11,7 +12,8 @@
 	  "configuration": "Konfigurace",
 	  "description": "Popis",
 	  "name": "Název",
-	  "nameInternal": "Interní název"
+	  "nameInternal": "Interní název",
+	  "period": "Perioda"
 	}
   }
 }

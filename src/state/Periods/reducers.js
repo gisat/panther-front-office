@@ -14,8 +14,22 @@ export default (state = INITIAL_STATE, action) => {
 			return common.add(state, action);
 		case ActionTypes.PERIODS.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.PERIODS.DELETE:
+			return common.remove(state, action);
+		case ActionTypes.PERIODS.EDITED.REMOVE:
+			return common.removeEdited(state, action);
+		case ActionTypes.PERIODS.EDITED.REMOVE_PROPERTY:
+			return common.removeEditedProperty(state, action);
+		case ActionTypes.PERIODS.EDITED.UPDATE:
+			return common.updateEdited(state, action);
 		case ActionTypes.PERIODS.INDEX.ADD:
 			return common.addIndex(state, action);
+		case ActionTypes.PERIODS.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
+		case ActionTypes.PERIODS.INDEX.CLEAR_INDEX:
+			return common.clearIndex(state, action);
+		case ActionTypes.PERIODS.MARK_DELETED:
+			return common.markDeleted(state, action);
 		case ActionTypes.PERIODS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
 		case ActionTypes.PERIODS.SET_ACTIVE_KEYS:
