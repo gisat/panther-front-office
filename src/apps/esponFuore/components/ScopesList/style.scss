@@ -1,12 +1,12 @@
 @import '../../../../styles/variables';
 
-.ptr-fuore-scopes-list {
+.esponFuore-scopes-list {
 	background: var(--base25);
 	min-height: 15rem;
 	max-height: 0;
 }
 
-.ptr-fuore-scope-card {
+.esponFuore-scope-card {
 	cursor: pointer;
 	height: m(10);
 	position: relative;
@@ -14,7 +14,7 @@
 	max-width: 35rem;
 }
 
-.ptr-fuore-scope-card:before {
+.esponFuore-scope-card:before {
 	content: "";
 	background: linear-gradient(155deg, rgb(0,0,0), rgb(0,0,0) 55%, transparent);
 	opacity: .7;
@@ -23,7 +23,7 @@
 	@include positionFill;
 }
 
-.ptr-fuore-scope-card-name {
+.esponFuore-scope-card-name {
 	position: relative;
 	display: inline-block;
 	margin: m(1) 0 m(2/3);
@@ -35,7 +35,7 @@
 	z-index: 1;
 }
 
-.ptr-fuore-scope-card-description {
+.esponFuore-scope-card-description {
 	position: relative;
 	margin: 0 3.5rem 0 1.5rem;
 	color: var(--base10);
@@ -46,37 +46,37 @@
 	z-index: 1;
 }
 
-.ptr-fuore-scope-card:hover:before,
-.ptr-fuore-scope-card:focus:before {
+.esponFuore-scope-card:hover:before,
+.esponFuore-scope-card:focus:before {
 	background: linear-gradient(155deg, rgb(0,0,0), rgb(0,0,0) 55%, transparent);
 	opacity: .60;
 }
 
-.ptr-fuore-scope-card:hover .ptr-fuore-scope-card-name,
-.ptr-fuore-scope-card:focus .ptr-fuore-scope-card-name {
+.esponFuore-scope-card:hover .esponFuore-scope-card-name,
+.esponFuore-scope-card:focus .esponFuore-scope-card-name {
 	background: var(--accent45);
 	color: var(--base0);
 }
 
-.ptr-fuore-scope-card:hover .ptr-fuore-scope-card-description,
-.ptr-fuore-scope-card:focus .ptr-fuore-scope-card-description {
+.esponFuore-scope-card:hover .esponFuore-scope-card-description,
+.esponFuore-scope-card:focus .esponFuore-scope-card-description {
 	color: var(--base0);
 }
 
 @media screen and (max-width: 105rem)  {
-	.ptr-fuore-scope-card {
+	.esponFuore-scope-card {
 		flex-basis: calc(100%/3);
 	}
 }
 
 @media screen and (max-width: 60rem)  {
-	.ptr-fuore-scope-card {
+	.esponFuore-scope-card {
 		flex-basis: 50%;
 	}
 }
 
 @media screen and (max-width: 35rem)  {
-	.ptr-fuore-scope-card {
+	.esponFuore-scope-card {
 		flex-basis: 100%;
 	}
 }

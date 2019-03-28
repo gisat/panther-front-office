@@ -36,7 +36,7 @@ class ScopesList extends React.PureComponent {
 		} : {};
 
 		return (
-			<div className="ptr-fuore-scopes-list" style={style}>
+			<div className="esponFuore-scopes-list" style={style}>
 				{this.props.scopes ?
 					<FadeIn
 						delay={delay}
@@ -53,14 +53,14 @@ class ScopesList extends React.PureComponent {
 	renderCards() {
 		return this.props.scopes.map((scope, index) => {
 			let style = {
-				backgroundImage: `url('/fuoreImg/preview_${(index + 2) % 2}.png')`
+				backgroundImage: `url('/esponFuore/img/preview_${(index + 2) % 2}.png')`
 			};
 
 			return (
-				<div className="ptr-fuore-scope-card" style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)} key={scope.key}>
-					<div className="ptr-fuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
+				<div className="esponFuore-scope-card" style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)} key={scope.key}>
+					<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 					{scope.data && scope.data.description ? (
-						<div className="ptr-fuore-scope-card-description">
+						<div className="esponFuore-scope-card-description">
 							<Truncate lines={6}>
 								{scope.data && scope.data.description}
 							</Truncate>
