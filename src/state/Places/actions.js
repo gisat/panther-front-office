@@ -12,69 +12,34 @@ import Action from "../Action";
 
 // ============ creators ===========
 
+const create = common.create(Select.places.getSubstate, 'places', ActionTypes.PLACES);
+const deleteItem = common.delete(Select.places.getSubstate, 'places', ActionTypes.PLACES);
+const saveEdited = common.saveEdited(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PLACES);
+const updateEdited = common.updateEdited(Select.places.getSubstate, ActionTypes.PLACES);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const useIndexedClear = common.useIndexedClear(ActionTypes.PLACES);
 const useKeys = common.useKeys(Select.places.getSubstate, 'places', ActionTypes.PLACES);
+const useKeysClear = common.useKeysClear(ActionTypes.PLACES);
 const refreshUses = common.refreshUses(Select.places.getSubstate, `places`, ActionTypes.PLACES);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.places.getSubstate, 'places', ActionTypes.PLACES);
-
-function setActive(keys) {
-	return (dispatch, getState) => {
-		let state = getState();
-
-		let scope = Select.scopes.getActive(state);
-		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
-		let activeCaseKey = Select.scenarios.cases.getActiveKey(state);
-		let activeChoroplethsKeys = Select.choropleths.getActiveKeys(state);
-
-		if (activeCaseKey){
-			dispatch(ScenariosActions.setActiveCase(null));
-			dispatch(Action.components.windows.scenarios.setActiveScreen('caseList'));
-		}
-
-		if (activeChoroplethsKeys){
-			dispatch(Action.choropleths.removeAllActiveKeys());
-		}
-
-		if (_.isArray(keys)){
-			dispatch(setActiveKeys(keys));
-		} else {
-			dispatch(setActiveKey(keys));
-		}
-
-		if (scopeConfiguration && !scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
-			dispatch(LayerPeriods.loadForPlace(keys)); // TODO what if keys is array?
-		}
-
-		if (scope && scope.data && scope.data.scenarios){
-			dispatch(ScenariosActions.loadCases());
-			let dispatchRelationsLoading = dispatch(SpatialRelationsActions.load());
-
-			// fix: sometimes dispatchRelationsLoading is undfined and I don't know why
-			if (dispatchRelationsLoading){
-				dispatchRelationsLoading.then(() => {
-					let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(getState());
-					if (dataSourcesIds && dataSourcesIds.length){
-						dispatch(SpatialDataSourcesActions.loadFiltered({'id': dataSourcesIds}));
-					}
-				});
-			}
-		}
-	};
-}
 
 // ============ export ===========
 
 export default {
-	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', ActionTypes.PLACES),
+	create,
+	delete: deleteItem,
 	ensureIndexesWithFilterByActive,
 	refreshUses,
-	setActive,
+
+	saveEdited,
 	setActiveKey,
 	setActiveKeys,
+
+	updateEdited,
 	useIndexed,
 	useIndexedClear,
-	useKeys
+	useKeys,
+	useKeysClear
 }

@@ -21,11 +21,13 @@ const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(S
 
 export default {
 	add,
+	clearIndex,
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,
 
 	saveEdited,
+
 	updateEdited,
 	useIndexed,
 	useIndexedClear,

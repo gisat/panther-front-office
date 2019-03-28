@@ -18,10 +18,14 @@ export default {
 	getAll,
 	getAllAsObject,
 	getAllForActiveApp,
+
 	getByKey,
+
 	getDataByKey,
 	getDeletePermissionByKey,
+
 	getEditedDataByKey,
+
 	getUpdatePermissionByKey,
 
 	getSubstate

@@ -25,38 +25,8 @@ function setActiveKey(key) {
 	};
 }
 
-function loadAll() {
-	return dispatch => {
-		dispatch(common.loadAll('scopes', ActionTypes.SCOPES));
-		dispatch(actionLoadRequest());
-	}
-}
-
-function loadForKeys(keys){
-	return (dispatch) => {
-		let filter = {
-			key: {
-				in: keys
-			}
-		};
-		return dispatch(common.loadFiltered('scopes', ActionTypes.SCOPES, filter));
-	}
-}
-
 // ============ actions ===========
 
-function actionLoadRequest() {
-	return {
-		type: ActionTypes.SCOPES.LOAD.REQUEST,
-	}
-}
-
-function actionSetActiveKey(key) {
-	return {
-		type: ActionTypes.SCOPES.SET_ACTIVE_KEY,
-		key: key
-	}
-}
 
 // ============ export ===========
 
@@ -64,13 +34,15 @@ export default {
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,
-	saveEdited,
-	updateEdited,
-	useKeys,
-	useKeysClear,
-	setActiveKey,
-	loadForKeys,
+
 	refreshUses,
+
+	saveEdited,
+	setActiveKey,
+
+	updateEdited,
 	useIndexed,
 	useIndexedClear,
+	useKeys,
+	useKeysClear,
 }

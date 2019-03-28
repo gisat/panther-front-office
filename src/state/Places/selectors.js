@@ -9,12 +9,20 @@ const getSubstate = state => state.places;
 
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
+const getAllForActiveApp = common.getAllForActiveApp(getSubstate);
 const getAllForActiveScope = common.getAllForActiveScope(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActivePlaces = common.getActiveModels(getSubstate);
 
+const getDataByKey = common.getDataByKey(getSubstate);
+const getDeletePermissionByKey = common.getDeletePermissionByKey(getSubstate);
+
+const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
+const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
+
+// TODO refactor
 const getPlacesForActiveScope = createSelector(
 	[getAll, ScopesSelectors.getActiveScopeKey],
 	(models, activeScopeKey) => {
@@ -28,11 +36,18 @@ export default {
 	getPlaces: getAll,
 	getAll,
 	getAllAsObject,
+	getAllForActiveApp,
 	getAllForActiveScope,
 	getActiveKey,
 	getActiveKeys,
 	getActive,
 	getActivePlaces,
+
+	getDataByKey,
+	getDeletePermissionByKey,
+
+	getEditedDataByKey,
 	getPlacesForActiveScope,
+	getUpdatePermissionByKey,
 	getSubstate
 };

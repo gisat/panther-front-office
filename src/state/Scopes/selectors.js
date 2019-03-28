@@ -9,9 +9,9 @@ const getSubstate = state => state.scopes;
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getAllForActiveApp = common.getAllForActiveApp(getSubstate);
+const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 
-const getActive = common.getActive(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 const getByFilterOrder = common.getByFilterOrder(getSubstate);
 
@@ -29,34 +29,28 @@ const getActiveScopeConfiguration = createSelector(
 	}
 );
 
-const getScopesForActiveUser = createSelector([
-	getAll,
-	],(scopes) => {
-		return scopes;
-	}
-);
-
-
 export default {
-	getActiveScopeConfiguration,
-	getActiveScopeData: getActive,
-	getActiveScopeKey: getActiveKey,
-	getAllForActiveApp,
-	getDataByKey,
-	getEditedDataByKey,
-	getScopes: getAll,
-	getScopesForActiveUser,
-	getScopeData: getByKey,
-
+	getActive,
 	getActiveKey,
+	getActiveScopeConfiguration,
 	getAll,
 	getAllAsObject,
-	getActive,
+	getAllForActiveApp,
 
 	getByFilterOrder,
 
+	getDataByKey,
 	getDeletePermissionByKey,
+
+	getEditedDataByKey,
+
 	getUpdatePermissionByKey,
 
 	getSubstate,
+
+	// TODO handle following obsolete exports
+	getActiveScopeData: getActive,
+	getActiveScopeKey: getActiveKey,
+	getScopes: getAll,
+	getScopeData: getByKey,
 };

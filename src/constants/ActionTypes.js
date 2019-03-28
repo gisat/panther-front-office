@@ -217,6 +217,7 @@ export default utils.deepKeyMirror({
 		INDEX: {
 			ADD: null,
 			CLEAR_INDEX: null,
+			CLEAR_ALL: null
 		},
 		LOAD: {
 			ERROR: null,
@@ -321,11 +322,19 @@ export default utils.deepKeyMirror({
 	PLACES: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		DELETE: null,
+		MARK_DELETED: null,
+		EDITED: {
+			REMOVE: null,
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
 		ENSURE: {
 			ERROR: null
 		},
 		INDEX: {
 			ADD: null,
+			CLEAR_INDEX: null,
 			CLEAR_ALL: null
 		},
 		LOAD: {
@@ -343,7 +352,7 @@ export default utils.deepKeyMirror({
 				CLEAR: null,
 				REGISTER: null
 			}
-		}
+		},
 	},
 
 	REDIRECT_TO_VIEW: 'REDIRECT_TO_VIEW',
