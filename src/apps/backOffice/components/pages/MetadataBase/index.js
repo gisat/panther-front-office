@@ -23,54 +23,35 @@ class MetadataBase extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.paths = {
-			attributes: `${this.props.match.path}/attributes`,
-			layerTemplates: `${this.props.match.path}/layerTemplates`,
-			periods: `${this.props.match.path}/periods`,
-			places: `${this.props.match.path}/places`,
-			scopes: `${this.props.match.path}/scopes`,
-			tags: `${this.props.match.path}/tags`,
-		};
+		this.metadata = [
+			{key: 'attributes', title: 'Attributes', component: AttributesList},
+			{key: 'layerTemplates', title: 'Layer Templates', component: LayerTemplatesList},
+			{key: 'periods', title: 'Periods', component: PeriodsList},
+			{key: 'places', title: 'Places', component: PlacesList},
+			{key: 'scopes', title: 'Scopes', component: ScopesList},
+			{key: 'tags', title: 'Tags', component: TagsList},
+		];
+
+		this.paths = {};
+		this.metadata.forEach(item => {
+			this.paths[item.key] = `${this.props.match.path}/${item.key}`;
+		});
 
 		this.navList = [
 			{
 				title: 'Base',
 				type: 'folder',
-				items: [
-					{
+				items: this.metadata.map(item => {
+					return {
 						type: 'leaf',
-						title: 'Attributes',
-						path: this.paths.attributes
-					},
-					{
-						type: 'leaf',
-						title: 'Layer Templates',
-						path: this.paths.layerTemplates
-					},
-					{
-						type: 'leaf',
-						title: 'Periods',
-						path: this.paths.periods
-					},
-					{
-						type: 'leaf',
-						title: 'Places',
-						path: this.paths.places
-					},
-					{
-						type: 'leaf',
-						title: 'Scopes',
-						path: this.paths.scopes
-					},
-					{
-						type: 'leaf',
-						title: 'Tags',
-						path: this.paths.tags
+						title: item.title,
+						path: this.paths[item.key]
 					}
-				]
+				})
 			}
 		]
 	}
+
 	render() {
 		const location = this.props.match.path;
 		let props = {unfocusable: this.props.unfocusable};
@@ -87,12 +68,13 @@ class MetadataBase extends React.PureComponent {
 				</div>
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>
-						<Route path={this.paths.attributes} render={() => React.createElement(AttributesList, props)} />
-						<Route path={this.paths.layerTemplates} render={() => React.createElement(LayerTemplatesList, props)} />
-						<Route path={this.paths.periods} render={() => React.createElement(PeriodsList, props)} />
-						<Route path={this.paths.places} render={() => React.createElement(PlacesList, props)} />
-						<Route path={this.paths.scopes} render={() => React.createElement(ScopesList, props)} />
-						<Route path={this.paths.tags} render={() => React.createElement(TagsList, props)} />
+						{this.metadata.map(item => {
+							return (
+								<Route
+									path={this.paths[item.key]}
+									render={() => React.createElement(item.component, props)}
+								/>);
+						})}
 					</Switch>
 				</div>
 			</div>
