@@ -22,14 +22,15 @@ class MetadataBase extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+		const t = props.t;
 
 		this.metadata = [
-			{key: 'attributes', title: 'Attributes', component: AttributesList},
-			{key: 'layerTemplates', title: 'Layer Templates', component: LayerTemplatesList},
-			{key: 'periods', title: 'Periods', component: PeriodsList},
-			{key: 'places', title: 'Places', component: PlacesList},
-			{key: 'scopes', title: 'Scopes', component: ScopesList},
-			{key: 'tags', title: 'Tags', component: TagsList},
+			{key: 'attributes', title: t('metadata.names.attribute_plural'), component: AttributesList},
+			{key: 'layerTemplates', title: t('metadata.names.layerTemplate_plural'), component: LayerTemplatesList},
+			{key: 'periods', title: t('metadata.names.period_plural'), component: PeriodsList},
+			{key: 'places', title: t('metadata.names.place_plural'), component: PlacesList},
+			{key: 'scopes', title: t('metadata.names.scope_plural'), component: ScopesList},
+			{key: 'tags', title: t('metadata.names.tag_plural'), component: TagsList},
 		];
 
 		this.paths = {};
@@ -82,4 +83,4 @@ class MetadataBase extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(MetadataBase);
+export default withNamespaces(['backOffice'])(MetadataBase);

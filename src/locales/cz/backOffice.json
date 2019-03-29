@@ -2,11 +2,17 @@
   "metadata": {
 	"names": {
 	  "attribute": "Atribut",
+	  "attribute_plural": "Atributy",
 	  "layerTemplate": "Šablona vrstvy",
+	  "layerTemplate_plural": "Šablony vrstev",
 	  "period": "Perioda",
+	  "period_plural": "Periody",
 	  "place": "Místo",
+	  "place_plural": "Místa",
 	  "scope": "Scope",
-	  "tag": "Tag"
+	  "scope_plural": "Scopy",
+	  "tag": "Tag",
+	  "tag_plural": "Tagy"
 	},
 	"formLabels": {
 	  "allApps": "Všechny aplikace",

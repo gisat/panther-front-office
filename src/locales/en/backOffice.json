@@ -2,11 +2,17 @@
   "metadata": {
 	"names": {
 	  "attribute": "Attribute",
+	  "attribute_plural": "Attributes",
 	  "layerTemplate": "Layer template",
+	  "layerTemplate_plural": "Layer templates",
 	  "period": "Period",
+	  "period_plural": "Periods",
 	  "place": "Place",
+	  "place_plural": "Places",
 	  "scope": "Scope",
-	  "tag": "Tag"
+	  "scope_plural": "Scopes",
+	  "tag": "Tag",
+	  "tag_plural": "Tags"
 	},
 	"formLabels": {
 	  "allApps": "All applications",
