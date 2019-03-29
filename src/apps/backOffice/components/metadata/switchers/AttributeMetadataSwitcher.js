@@ -20,7 +20,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.attributes.useIndexed({application: true}, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.backOffice.attributes.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.attributes.useIndexedClear(componentId));

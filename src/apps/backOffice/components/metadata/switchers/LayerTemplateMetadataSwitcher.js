@@ -19,7 +19,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.layerTemplates.useIndexed({application: true}, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.backOffice.layerTemplates.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));
