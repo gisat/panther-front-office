@@ -4,6 +4,8 @@ import {withNamespaces} from "react-i18next";
 import {Route, Switch} from "react-router";
 import Helmet from "react-helmet";
 
+import utils from '../../../../../utils/sort';
+
 import AttributesList from "../../lists/AttributesList";
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
 import PeriodsList from "../../lists/PeriodsList";
@@ -31,7 +33,7 @@ class MetadataBase extends React.PureComponent {
 			{key: 'places', title: t('metadata.names.place_plural'), component: PlacesList},
 			{key: 'scopes', title: t('metadata.names.scope_plural'), component: ScopesList},
 			{key: 'tags', title: t('metadata.names.tag_plural'), component: TagsList},
-		];
+		].sort(utils.czAlphabeticalSort.bind(this, 'title'));
 
 		this.paths = {};
 		this.metadata.forEach(item => {
