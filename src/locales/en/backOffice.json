@@ -17,11 +17,13 @@
 	"formLabels": {
 	  "allApps": "All applications",
 	  "application": "Application",
+	  "color": "Color",
 	  "configuration": "Configuration",
 	  "description": "Description",
 	  "name": "Name",
 	  "nameInternal": "Internal name",
-	  "period": "Period"
+	  "period": "Period",
+	  "type": "Type"
 	}
   }
 }

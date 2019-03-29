@@ -1,0 +1,8 @@
+{
+  "colorDescriptionText": "Color used in thematic maps. Hexadecimal code (e.g. #ff0000 for red).",
+  "types": {
+    "boolean": "Boolean",
+    "numeric": "Numeric",
+    "text": "Text"
+  }
+}

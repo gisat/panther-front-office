@@ -17,11 +17,13 @@
 	"formLabels": {
 	  "allApps": "Všechny aplikace",
 	  "application": "Aplikace",
+	  "color": "Barva",
 	  "configuration": "Konfigurace",
 	  "description": "Popis",
 	  "name": "Název",
 	  "nameInternal": "Interní název",
-	  "period": "Perioda"
+	  "period": "Perioda",
+	  "type": "Typ"
 	}
   }
 }
