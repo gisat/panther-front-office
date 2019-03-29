@@ -5,7 +5,8 @@
 	  "layerTemplate": "Layer template",
 	  "period": "Period",
 	  "place": "Place",
-	  "scope": "Scope"
+	  "scope": "Scope",
+	  "tag": "Tag"
 	},
 	"formLabels": {
 	  "allApps": "All applications",

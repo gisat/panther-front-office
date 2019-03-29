@@ -14,6 +14,8 @@ const useKeysClear = common.useKeysClear(ActionTypes.TAGS);
 const useIndexedClear = common.useIndexedClear(ActionTypes.TAGS);
 const useIndexed = common.useIndexed(Select.tags.getSubstate, 'tags', ActionTypes.TAGS);
 const refreshUses = common.refreshUses(Select.tags.getSubstate, `tags`, ActionTypes.TAGS);
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.tags.getSubstate, 'tags', ActionTypes.TAGS);
+
 
 function loadForKeys(keys){
 	return (dispatch) => {
@@ -33,6 +35,7 @@ function loadForKeys(keys){
 export default {
 	create,
 	delete: deleteItem,
+	ensureIndexesWithFilterByActive,
 	saveEdited,
 	updateEdited,
 	useKeys,

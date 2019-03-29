@@ -59,4 +59,7 @@ export default {
 	scopes: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.scopes.getSubstate)
 	},
+	tags: {
+		getAllForActiveApp: getAllForActiveApp(commonSelect.tags.getSubstate)
+	},
 }

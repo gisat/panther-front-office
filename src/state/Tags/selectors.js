@@ -18,15 +18,14 @@ const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
 
 export default {
-	getDataByKey,
-	getEditedDataByKey,
-	getScopes: getAll,
-	getTagsData: getByKey,
-
 	getAll,
 	getAllAsObject,
+	getByKey,
 
+	getDataByKey,
 	getDeletePermissionByKey,
+
+	getEditedDataByKey,
 	getUpdatePermissionByKey,
 
 	getSubstate,

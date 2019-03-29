@@ -5,7 +5,8 @@
 	  "layerTemplate": "Šablona vrstvy",
 	  "period": "Perioda",
 	  "place": "Místo",
-	  "scope": "Scope"
+	  "scope": "Scope",
+	  "tag": "Tag"
 	},
 	"formLabels": {
 	  "allApps": "Všechny aplikace",

@@ -9,6 +9,7 @@ import LayerTemplatesList from "../../lists/LayerTemplatesList";
 import PeriodsList from "../../lists/PeriodsList";
 import PlacesList from "../../lists/PlacesList";
 import ScopesList from "../../lists/ScopesList";
+import TagsList from "../../lists/TagsList";
 
 import NavList from '../../../../../components/presentation/NavList'
 
@@ -28,6 +29,7 @@ class MetadataBase extends React.PureComponent {
 			periods: `${this.props.match.path}/periods`,
 			places: `${this.props.match.path}/places`,
 			scopes: `${this.props.match.path}/scopes`,
+			tags: `${this.props.match.path}/tags`,
 		};
 
 		this.navList = [
@@ -59,6 +61,11 @@ class MetadataBase extends React.PureComponent {
 						type: 'leaf',
 						title: 'Scopes',
 						path: this.paths.scopes
+					},
+					{
+						type: 'leaf',
+						title: 'Tags',
+						path: this.paths.tags
 					}
 				]
 			}
@@ -85,6 +92,7 @@ class MetadataBase extends React.PureComponent {
 						<Route path={this.paths.periods} render={() => React.createElement(PeriodsList, props)} />
 						<Route path={this.paths.places} render={() => React.createElement(PlacesList, props)} />
 						<Route path={this.paths.scopes} render={() => React.createElement(ScopesList, props)} />
+						<Route path={this.paths.tags} render={() => React.createElement(TagsList, props)} />
 					</Switch>
 				</div>
 			</div>

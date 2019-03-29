@@ -39,5 +39,8 @@ export default {
 	},
 	scopes: {
 		useIndexed: useIndexed(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES)
+	},
+	tags: {
+		useIndexed: useIndexed(Select.tags.getSubstate, 'tags', ActionTypes.TAGS)
 	}
 }
