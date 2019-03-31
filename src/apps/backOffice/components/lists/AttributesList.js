@@ -31,7 +31,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
-				dispatch(Action.attributes.create(itemKey));
+				dispatch(Action.specific.backOffice.attributes.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-attributeConfig', 40, 40, AttributeMetadataScreen, {itemKey}))
 			}
 		}

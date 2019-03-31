@@ -31,7 +31,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
-				dispatch(Action.places.create(itemKey));
+				dispatch(Action.specific.backOffice.places.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-placeConfig', 40, 40, PlaceMetadataScreen, {itemKey}))
 			}
 		}

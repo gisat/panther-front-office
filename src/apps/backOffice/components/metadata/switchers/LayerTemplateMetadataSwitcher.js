@@ -29,7 +29,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onAddClick(item) {
 				const itemKey = utils.uuid();
-				dispatch(Action.layerTemplates.create(itemKey));
+				dispatch(Action.specific.backOffice.layerTemplates.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey}))
 			}
 		}

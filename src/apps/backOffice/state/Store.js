@@ -24,6 +24,7 @@ import spatialRelationsReducers from '../../../state/SpatialRelations/reducers';
 import stylesReducers from '../../../state/Styles/reducers';
 import tagsReducers from '../../../state/Tags/reducers';
 import usersReducers from '../../../state/Users/reducers';
+import viewsReducers from '../../../state/Views/reducers';
 
 export const history = createBrowserHistory();
 
@@ -51,4 +52,5 @@ export default createStore(combineReducers({
 	styles: stylesReducers,
 	tags: tagsReducers,
 	users: usersReducers,
+	views: viewsReducers
 }), applyMiddleware(thunk, logger, routerMiddleware(history)));

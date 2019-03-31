@@ -62,4 +62,7 @@ export default {
 	tags: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.tags.getSubstate)
 	},
+	views: {
+		getAllForActiveApp: getAllForActiveApp(commonSelect.views.getSubstate)
+	},
 }

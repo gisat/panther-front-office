@@ -29,7 +29,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onAddClick(item) {
 				const itemKey = utils.uuid();
-				dispatch(Action.scopes.create(itemKey));
+				dispatch(Action.specific.backOffice.scopes.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey}))
 			}
 		}

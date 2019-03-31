@@ -30,7 +30,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
-				dispatch(Action.periods.create(itemKey));
+				dispatch(Action.specific.backOffice.periods.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-periodConfig', 40, 40, PeriodMetadataScreen, {itemKey}))
 			}
 		}

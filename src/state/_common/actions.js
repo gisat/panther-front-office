@@ -256,13 +256,17 @@ function requestWrapper(apiPath, method, query, payload, successAction, errorAct
 }
 
 function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
-	return (key) => {
+	return (key, appKey) => {
 		return (dispatch, getState) => {
 			const state = getState();
 			const apiPath = path.join('backend/rest', categoryPath);
-			// TODO BO send app key in model
-			// let applicationKey = state.app.key;
+
 			let applicationKey = null;
+			if (appKey) {
+				applicationKey = appKey;
+			} else {
+				// TODO state.app.key
+			}
 
 			const payload = getCreatePayload(dataType, key, applicationKey);
 			return request(apiPath, 'POST', null, payload).then(result => {

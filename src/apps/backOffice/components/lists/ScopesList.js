@@ -34,7 +34,7 @@ const mapDispatchToPropsFactory = () => {
 				const itemKey = utils.uuid();
 				//FIXME - register in index before create?
 				//do not reload index with known filter
-				dispatch(Action.scopes.create(itemKey));
+				dispatch(Action.specific.backOffice.scopes.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey}))
 			}
 		}

@@ -31,7 +31,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
-				dispatch(Action.tags.create(itemKey));
+				dispatch(Action.specific.backOffice.tags.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagMetadataScreen, {itemKey}))
 			}
 		}
