@@ -11,6 +11,7 @@ import InputWrapperDoc from "../InputWrapperDoc";
 import SelectDoc from "../SelectDoc";
 import TypoDoc from "../TypoDoc";
 import FadeInDoc from "../FadeInDoc";
+import MultiSelectDoc from "../MultiSelectDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -22,6 +23,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'fadeIn', title: 'FadeIn', component: FadeInDoc},
 			{key: 'input', title: 'Input', component: InputDoc},
 			{key: 'inputWrapper', title: 'InputWrapper', component: InputWrapperDoc},
+			{key: 'multiSelect', title: 'MultiSelect', component: MultiSelectDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
 			{key: 'typo', title: 'Typography', component: TypoDoc},
 		];
