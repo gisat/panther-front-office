@@ -105,59 +105,59 @@ class Test extends React.PureComponent {
 		return (
 			<div className="ptr-bo-test">
 
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.4).css('hsl')} dark={baseScaleDark(0.6).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.45).css('hsl')} dark={baseScaleDark(0.55).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.46).css('hsl')} dark={baseScaleDark(0.54).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.47).css('hsl')} dark={baseScaleDark(0.53).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.48).css('hsl')} dark={baseScaleDark(0.52).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.49).css('hsl')} dark={baseScaleDark(0.51).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.50).css('hsl')} dark={baseScaleDark(0.50).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={baseScale(0.60).css('hsl')} dark={baseScaleDark(0.40).css('hsl')} no={50} />
-				</div>
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.4).css('hsl')} dark={baseScaleDark(0.6).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.45).css('hsl')} dark={baseScaleDark(0.55).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.46).css('hsl')} dark={baseScaleDark(0.54).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.47).css('hsl')} dark={baseScaleDark(0.53).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.48).css('hsl')} dark={baseScaleDark(0.52).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.49).css('hsl')} dark={baseScaleDark(0.51).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.50).css('hsl')} dark={baseScaleDark(0.50).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={baseScale(0.60).css('hsl')} dark={baseScaleDark(0.40).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.4).css('hsl')} dark={accentScaleDark(0.6).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.45).css('hsl')} dark={accentScaleDark(0.55).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.46).css('hsl')} dark={accentScaleDark(0.54).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.47).css('hsl')} dark={accentScaleDark(0.53).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.48).css('hsl')} dark={accentScaleDark(0.52).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.49).css('hsl')} dark={accentScaleDark(0.51).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.50).css('hsl')} dark={accentScaleDark(0.50).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+				{/*<div className="ptr-test-scale">*/}
+					{/*<Colour light={accentScale(0.60).css('hsl')} dark={accentScaleDark(0.40).css('hsl')} no={50} />*/}
+				{/*</div>*/}
+
 
 				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.4).css('hsl')} dark={accentScaleDark(0.6).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.45).css('hsl')} dark={accentScaleDark(0.55).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.46).css('hsl')} dark={accentScaleDark(0.54).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.47).css('hsl')} dark={accentScaleDark(0.53).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.48).css('hsl')} dark={accentScaleDark(0.52).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.49).css('hsl')} dark={accentScaleDark(0.51).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.50).css('hsl')} dark={accentScaleDark(0.50).css('hsl')} no={50} />
-				</div>
-				<div className="ptr-test-scale">
-					<Colour light={accentScale(0.60).css('hsl')} dark={accentScaleDark(0.40).css('hsl')} no={50} />
-				</div>
-
-
-				<div className="ptr-test-scale">
-					{scaleBase.map((value, index) => (<Colour light={baseScale(value).css('hsl')} dark={baseScaleDark(value).css('hsl')} no={index*5} />))}
+					{scaleBase.map((value, index) => (<Colour light={baseScale(func.poly5_3(value)).css('hsl')} dark={baseScaleDark(value).css('hsl')} no={index*5} />))}
 				</div>
 
 
