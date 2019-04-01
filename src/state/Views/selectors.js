@@ -25,7 +25,6 @@ export default {
 	getActiveKeys,
 	getDataByKey,
 	getEditedDataByKey,
-	getScopes: getAll,
 	getViewsData: getByKey,
 
 	getAll,
