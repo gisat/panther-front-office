@@ -18,17 +18,6 @@ const useIndexed = common.useIndexed(Select.views.getSubstate, 'views', ActionTy
 const refreshUses = common.refreshUses(Select.views.getSubstate, `views`, ActionTypes.VIEWS);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.views.getSubstate, 'views', ActionTypes.VIEWS);
 
-function loadForKeys(keys){
-	return (dispatch) => {
-		let filter = {
-			key: {
-				in: keys
-			}
-		};
-		return dispatch(common.loadFiltered('views', ActionTypes.VIEWS, filter));
-	}
-}
-
 // ============ actions ===========
 
 // ============ export ===========
@@ -43,7 +32,6 @@ export default {
 	updateEdited,
 	useKeys,
 	useKeysClear,
-	loadForKeys,
 	refreshUses,
 	useIndexed,
 	useIndexedClear,
