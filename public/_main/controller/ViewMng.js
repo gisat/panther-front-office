@@ -146,6 +146,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				isUrbanTep: Config.toggles.isUrbanTep,
 				selectedUser: user,
 				selectedGroup: group,
+				name: rec.data.conf.name,
 				url: shareUrl
 			});
 			Stores.notify("DATAVIEWS_ADD", [{

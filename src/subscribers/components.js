@@ -46,7 +46,7 @@ const setEventListeners = store => {
 				store.dispatch(Action.components.update("windows", options.windows));
 				break;
 			case 'sharing#urlReceived':
-				showUrl(options)
+				showUrl(options);
 				break;
 			case 'components#mapsGridChanged':
 				let state = Select.components.getMapsContainer(store.getState());
@@ -59,18 +59,17 @@ const setEventListeners = store => {
 };
 
 const showUrl = (options) =>  {
-	const selectedGroup = options.selectedGroup
-	const isUrbanTep = options.isUrbanTep
-	const selectedUser = options.selectedUser
-	const url = options.url
+	const selectedGroup = options.selectedGroup;
+	const isUrbanTep = options.isUrbanTep;
+	const url = options.url;
 	if(isUrbanTep && selectedGroup) {
 		if(selectedGroup.value !== '1' && selectedGroup.value !== '2' && selectedGroup.value !== '3') {
-			UrbanTepPortalStore.share(url, selectedUser.value, selectedGroup.title);
+			UrbanTepPortalStore.share(url, options.name, selectedGroup.title);
 		}
 	} else {
 		alert(polyglot.t('theStateWasCorrectlyShared') + url);
 	}
-}
+};
 
 const applicationStyleActiveKeyWatcher = (value, previousValue) => {
 	console.log('@@ applicationStyleActiveKeyWatcher', previousValue, '->', value);
