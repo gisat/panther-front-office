@@ -47,6 +47,17 @@ class ViewMetadataConfig extends React.PureComponent {
 		this.props.updateEdited(key, value);
 	}
 
+	onChangeJsonValue(key, value) {
+		try{
+			const parsedValue = JSON.parse(value);
+			this.onChange(key, parsedValue);
+		}
+
+		catch(e) {
+			this.onChange(key, value);
+		}
+	}
+
 	render() {
 		let t = this.props.t;
 		let data = {...this.props.data};
@@ -54,8 +65,72 @@ class ViewMetadataConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
+		const stateObject = data && data.state || "";
+
+		let stateValue;
+		if (stateObject && typeof stateObject === "object") {
+			stateValue = JSON.stringify(stateObject, null, 2)  ;
+		} else {
+			stateValue = stateObject;
+		}
+
 		return (
 			<div>
+				<InputWrapper
+					required
+					label={t("metadata.formLabels.application")}
+				>
+					<ApplicationSelect
+						disabled={!this.props.editable}
+						value={data && data.applicationKey || null}
+						onChange={this.onChange}
+						unfocusable={this.props.unfocusable}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					required
+					label={t("metadata.formLabels.name")}
+				>
+					<Input
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={data && data.nameDisplay || ""}
+						onChange={(val) => this.onChange('nameDisplay', val)}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					label={t("metadata.formLabels.nameInternal")}
+				>
+					<Input
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={data && data.nameInternal || ""}
+						onChange={(val) => this.onChange('nameInternal', val)}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					label={t("metadata.formLabels.description")}
+				>
+					<Input
+						multiline
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={data && data.description || ""}
+						onChange={(val) => this.onChange('description', val)}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					required
+					label={t("metadata.formLabels.state")}
+				>
+					<Input
+						multiline
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={stateValue}
+						onChange={(val) => this.onChangeJsonValue('state', val)}
+					/>
+				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
 					<div className="ptr-screen-metadata-buttons-left">
 						{this.props.editedData && !_.isEmpty(this.props.editedData) ? (

@@ -25,6 +25,7 @@
 	  "name": "Name",
 	  "nameInternal": "Internal name",
 	  "period": "Period",
+	  "state": "State",
 	  "type": "Type"
 	}
   }

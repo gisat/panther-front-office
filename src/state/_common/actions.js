@@ -34,9 +34,9 @@ const addIndex = (action) => {
 	}
 };
 
-const apiDelete = (dataType, data) => {
+const apiDelete = (dataType, categoryPath, data) => {
 	return dispatch => {
-		const apiPath = 'backend/rest/metadata';
+		const apiPath = 'backend/rest/' + categoryPath;
 		const payload = {
 			data: {
 				[dataType]: data
@@ -63,7 +63,7 @@ const apiDelete = (dataType, data) => {
 
 const apiUpdate = (getSubstate, dataType, actionTypes, categoryPath, editedData) => {
 	return dispatch => {
-		const apiPath = 'backend/rest/metadata';
+		const apiPath = 'backend/rest/' + categoryPath;
 		const payload = {
 			data: {
 				[dataType]: editedData
@@ -74,7 +74,7 @@ const apiUpdate = (getSubstate, dataType, actionTypes, categoryPath, editedData)
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
-					dispatch(receiveUpdated(getSubstate, actionTypes, result, dataType));
+					dispatch(receiveUpdated(getSubstate, actionTypes, result, dataType, categoryPath));
 				}
 			})
 			.catch(error => {
@@ -111,7 +111,7 @@ const updateEdited = (getSubstate, actionTypes) => {
 	}
 };
 
-const deleteItem = (getSubstate, dataType, actionTypes) => {
+const deleteItem = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (item) => {
 		return (dispatch, getState) => {
 			if (!item) {
@@ -122,7 +122,7 @@ const deleteItem = (getSubstate, dataType, actionTypes) => {
 				return dispatch(actionGeneralError('common/actions#deleteItem: item key to delete is missing!'));
 			}
 
-			dispatch(apiDelete(dataType, [{key: item.key}])).then((result) => {
+			dispatch(apiDelete(dataType, categoryPath, [{key: item.key}])).then((result) => {
 				const data = result.data[dataType];
 				const deletedKeys = data.map(d => d.key);
 				//Check if item deleted
@@ -140,7 +140,7 @@ const deleteItem = (getSubstate, dataType, actionTypes) => {
 						//invalidate data
 						dispatch(actionClearIndex(actionTypes, index.filter, index.order));
 						//refresh data
-						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes, categoryPath));
 					})
 				}
 			});
@@ -286,7 +286,7 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 						//invalidate data
 						dispatch(actionClearIndex(actionTypes, index.filter, index.order));
 						//refresh data
-						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes, categoryPath));
 					});
 				}
 			})
@@ -495,7 +495,7 @@ function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATE
 	};
 }
 
-function receiveUpdated(getSubstate, actionTypes, result, dataType) {
+function receiveUpdated(getSubstate, actionTypes, result, dataType, categoryPath) {
 	return (dispatch, getState) => {
 		let data = result.data[dataType];
 		if (data.length){
@@ -527,7 +527,7 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType) {
 				//invalidate data
 				dispatch(actionClearIndex(actionTypes, index.filter, index.order));
 				//refresh data
-				dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+				dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes, categoryPath));
 			});
 		} else {
 			console.warn(`No data updated for ${dataType} metadata type`);

@@ -25,6 +25,7 @@
 	  "name": "Název",
 	  "nameInternal": "Interní název",
 	  "period": "Perioda",
+	  "state": "Stav",
 	  "type": "Typ"
 	}
   }
