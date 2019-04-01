@@ -12,6 +12,7 @@ import PeriodsList from "../../lists/PeriodsList";
 import PlacesList from "../../lists/PlacesList";
 import ScopesList from "../../lists/ScopesList";
 import TagsList from "../../lists/TagsList";
+import ViewsList from "../../lists/ViewsList";
 
 import NavList from '../../../../../components/presentation/NavList'
 
@@ -33,6 +34,7 @@ class MetadataBase extends React.PureComponent {
 			{key: 'places', title: t('metadata.names.place_plural'), component: PlacesList},
 			{key: 'scopes', title: t('metadata.names.scope_plural'), component: ScopesList},
 			{key: 'tags', title: t('metadata.names.tag_plural'), component: TagsList},
+			{key: 'views', title: t('metadata.names.view_plural'), component: ViewsList},
 		].sort(utils.czAlphabeticalSort.bind(this, 'title'));
 
 		this.paths = {};
@@ -74,6 +76,7 @@ class MetadataBase extends React.PureComponent {
 						{this.metadata.map(item => {
 							return (
 								<Route
+									key={item.key}
 									path={this.paths[item.key]}
 									render={() => React.createElement(item.component, props)}
 								/>);

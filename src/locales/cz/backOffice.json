@@ -12,7 +12,9 @@
 	  "scope": "Scope",
 	  "scope_plural": "Scopy",
 	  "tag": "Tag",
-	  "tag_plural": "Tagy"
+	  "tag_plural": "Tagy",
+	  "view": "Náhled",
+	  "view_plural": "Náhledy"
 	},
 	"formLabels": {
 	  "allApps": "Všechny aplikace",

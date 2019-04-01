@@ -12,7 +12,9 @@
 	  "scope": "Scope",
 	  "scope_plural": "Scopes",
 	  "tag": "Tag",
-	  "tag_plural": "Tags"
+	  "tag_plural": "Tags",
+	  "view": "View",
+	  "view_plural": "Views"
 	},
 	"formLabels": {
 	  "allApps": "All applications",
