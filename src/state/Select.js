@@ -1,4 +1,5 @@
 // base types
+import App from './App/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
@@ -24,6 +25,7 @@ import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
 import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
+	app: App,
 	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,

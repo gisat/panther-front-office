@@ -12,6 +12,10 @@ export default utils.deepKeyMirror({
 	AOI_GEOMETRY_RECEIVE: 'AOI_GEOMETRY_RECEIVE',
 	AOI_GEOMETRY_REQUEST_ERROR: 'AOI_GEOMETRY_REQUEST_ERROR',
 
+	APP: {
+		SET_KEY: null
+	},
+
 	APPS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,

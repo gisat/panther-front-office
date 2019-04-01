@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // base types
-import applicationReducers from '../apps/backOffice/state/Apps/reducers';
+import appReducers from './App/reducers';
 import areasReducers from './Areas/reducers';
 import attributesReducers from './Attributes/reducers';
 import attributeSetsReducers from './AttributeSets/reducers';
@@ -32,7 +32,7 @@ import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
 
 // Redux store
 const Store = createStore(combineReducers({
-	apps: applicationReducers,
+	app: appReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,

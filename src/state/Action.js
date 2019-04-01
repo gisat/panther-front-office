@@ -1,5 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 
+import App from './App/actions';
 import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
@@ -25,6 +26,7 @@ import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
 import LpisCheckCases from './_specific/LpisCheckCases/actions';
 
 export default {
+	app: App,
 	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,
