@@ -20,6 +20,7 @@ export default (path) => {
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
+	Store.dispatch(Action.app.setKey('docs'));
 
 	ReactDOM.render(
 		<Provider store={Store}>

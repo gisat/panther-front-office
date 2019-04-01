@@ -4,8 +4,11 @@ import logger from 'redux-logger';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
-// base types
+// specific types
 import appsReducers from './Apps/reducers';
+
+// base types
+import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
@@ -33,6 +36,7 @@ export default createStore(combineReducers({
 	specific: combineReducers({
 		apps: appsReducers
 	}),
+	app: appReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,
