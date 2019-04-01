@@ -43,6 +43,10 @@ class Test extends React.PureComponent {
 			poly6_dark_4: x => - 5.913656325270676 * Math.pow(x,6) + 18.547816006153575 * Math.pow(x,5) - 21.573604323432754 * Math.pow(x,4) + 10.821464378481888 * Math.pow(x,3) - 1.9941711031493847 * Math.pow(x,2) + 1.112524159327707 * x,
 			poly6_dark_5: x => - 2.7492605212369323 * Math.pow(x,6) + 10.226891263438196 * Math.pow(x,5) - 13.601426755911348 * Math.pow(x,4) + 7.413848432400486 * Math.pow(x,3) - 1.3623764993605418 * Math.pow(x,2) + 1.0722789264761354 * x,
 
+
+			pol_1: x => 0.6400000000000001*x - 0.49333333333333373*Math.pow(x,2) + 3.2000000000000006*Math.pow(x,3) - 2.346666666666667*Math.pow(x,4),
+			pol_2: x => 0.2133*x + 1.64*Math.pow(x,2) - 0.2133*Math.pow(x,3) - 0.640*Math.pow(x,4)
+
 		};
 
 		const ITEMS = 21;
@@ -163,10 +167,15 @@ class Test extends React.PureComponent {
 
 
 
-
 				<div className="testy ptr-light">
 					<div title="original">
 						{originalScale.map(value => (<div style={{background: baseScale(value).css('hsl')}}/>))}
+					</div>
+					<div title="pol_1">
+						{scale.pol_1.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
+					</div>
+					<div title="pol_2">
+						{scale.pol_2.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
 					</div>
 					<div title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
@@ -219,11 +228,23 @@ class Test extends React.PureComponent {
 					<div title="poly5_dark_2">
 						{scale.poly5_dark_2.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
 					</div>
+					<div title="pol_1">
+						{scale.pol_1.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="pol_2">
+						{scale.pol_2.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
 				</div>
 
 				<div className="testy ptr-light">
 					<div title="original">
 						{originalScale.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
+					</div>
+					<div title="pol_1">
+						{scale.pol_1.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
+					</div>
+					<div title="pol_2">
+						{scale.pol_2.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
 					</div>
 					<div  title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
@@ -263,6 +284,12 @@ class Test extends React.PureComponent {
 					</div>
 					<div title="poly5_dark_2">
 						{scale.poly5_dark_2.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
+					</div>
+					<div title="pol_1">
+						{scale.pol_1.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="pol_2">
+						{scale.pol_2.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
 					</div>
 				</div>
 
