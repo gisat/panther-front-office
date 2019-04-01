@@ -62,6 +62,7 @@ class Test extends React.PureComponent {
 		let baseScale = chroma.scale(['#fffefc','#040300']).mode('lrgb').correctLightness();
 		let baseScaleDark = chroma.scale(['#040300', '#fffefc']).mode('lrgb').correctLightness();
 		let accentScale = chroma.scale(['#fffefc', '#2ab2ad', '#040300']).mode('lab').correctLightness();
+		let accentScaleDark = chroma.scale(['#040300', '#2ab2ad', '#fffefc']).mode('lab').correctLightness();
 		let accentScaleLrgb = chroma.scale(['#fffefc', '#2ab2ad', '#040300']).mode('lrgb').correctLightness();
 		let accentScale2 = chroma.scale(['#fffefc', '#4535b2', '#040300']).mode('lab').correctLightness();
 		let accentScale3 = chroma.scale(['#fffefc', '#b2802d', '#040300']).mode('lab').correctLightness();
@@ -100,6 +101,10 @@ class Test extends React.PureComponent {
 		return (
 			<div className="ptr-bo-test">
 
+				<div className="ptr-test-scale">
+					<Colour light={baseScale(0.47).css('hsl')} dark={baseScaleDark(0.53).css('hsl')} no={50} />
+				</div>
+
 
 				<div className="ptr-test-scale">
 					{scaleBase.map((value, index) => (<Colour light={baseScale(value).css('hsl')} dark={baseScaleDark(value).css('hsl')} no={index*5} />))}
@@ -120,6 +125,9 @@ class Test extends React.PureComponent {
 					<div title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
 					</div>
+					<div title="linear">
+						{scaleBase.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
+					</div>
 				</div>
 
 				<div className="testy ptr-dark">
@@ -128,6 +136,9 @@ class Test extends React.PureComponent {
 					</div>
 					<div>
 						{scale.sin.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
+					</div>
+					<div>
+						{scaleBase.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
 					</div>
 					<div>
 						{darkScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
@@ -171,11 +182,17 @@ class Test extends React.PureComponent {
 					<div  title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
 					</div>
+					<div  title="linear">
+						{scaleBase.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
+					</div>
 				</div>
 
 				<div className="testy ptr-dark">
 					<div title="original">
 						{darkScale.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
+					</div>
+					<div title="linear">
+						{scaleBase.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
 					</div>
 					<div title="poly6_dark_1">
 						{scale.poly6_dark_1.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
