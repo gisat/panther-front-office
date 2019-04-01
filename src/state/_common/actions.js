@@ -265,7 +265,7 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 			if (appKey) {
 				applicationKey = appKey;
 			} else {
-				// TODO state.app.key
+				applicationKey = Select.app.getKey(state);
 			}
 
 			const payload = getCreatePayload(dataType, key, applicationKey);
