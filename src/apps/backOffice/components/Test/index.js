@@ -45,7 +45,48 @@ class Test extends React.PureComponent {
 
 
 			pol_1: x => 0.6400000000000001*x - 0.49333333333333373*Math.pow(x,2) + 3.2000000000000006*Math.pow(x,3) - 2.346666666666667*Math.pow(x,4),
-			pol_2: x => 0.2133*x + 1.64*Math.pow(x,2) - 0.2133*Math.pow(x,3) - 0.640*Math.pow(x,4)
+			pol_2: x => 0.2133*x + 1.64*Math.pow(x,2) - 0.2133*Math.pow(x,3) - 0.640*Math.pow(x,4),
+			dark_1: x => 18.010216631505134 * Math.pow(x,5) - 47.949603924685974 * Math.pow(x,4) + 43.88542214570672 * Math.pow(x,3) - 15.535211897927438 * Math.pow(x,2) + 2.5910694017115667 * x,
+			// 0 0
+			// 0.05 0.1
+			// 0.2 0.15
+			// 0.4 0.33
+			// 0.5 0.45
+			// 0.6 0.6
+			// 0.75 0.8
+			// 0.95 0.9
+			// 1 1
+			dark_2: x => 6.835993537108703 * Math.pow(x,6) - 0.5192326183032243 * Math.pow(x,5) - 27.967124384316897 * Math.pow(x,4) + 32.71921044081888 * Math.pow(x,3) - 12.228220409236972 * Math.pow(x,2) + 2.1485246118122774 * x,
+			// 0 0
+			// 0.05 0.1
+			// 0.2 0.2
+			// 0.5 0.55
+			// 0.75 0.7
+			// 0.85 0.8
+			// 0.95 0.85
+			// 1 1
+			dark_3: x => - 16.771525574481732 * Math.pow(x,6) + 66.7826106223863 * Math.pow(x,5) - 94.58042990007708 * Math.pow(x,4) + 59.11556478149024 * Math.pow(x,3) - 16.073131950412407 * Math.pow(x,2) + 2.512802300179059 * x,
+			// 0 0
+			// 0.05 0.1
+			// 0.2 0.2
+			// 0.4 0.4
+			// 0.5 0.55
+			// 0.6 0.65
+			// 0.75 0.72
+			// 0.85 0.78
+			// 0.95 0.83
+			// 1 1
+			dark_4: x => - 3.471773809194333 * Math.pow(x,6) + 32.51977419830884 * Math.pow(x,5) - 63.5414084279282 * Math.pow(x,4) + 47.52001810382409 * Math.pow(x,3) - 14.503247080420511 * Math.pow(x,2) + 2.4644101794063005 * x,
+			// 0 0
+			// 0.05 0.1
+			// 0.2 0.2
+			// 0.4 0.4
+			// 0.5 0.55
+			// 0.6 0.65
+			// 0.85 0.78
+			// 1 0.9
+			dark_5: x => - 26.751352729025687 * Math.pow(x,6) + 95.25183311174372 * Math.pow(x,5) - 126.53319289285092 * Math.pow(x,4) + + 76.50778803221218 * Math.pow(x,3) - 20.469524829550483 * Math.pow(x,2) + 2.8952879111210823 * x,
+
 
 		};
 
@@ -157,7 +198,15 @@ class Test extends React.PureComponent {
 
 
 				<div className="ptr-test-scale">
-					{scaleBase.map((value, index) => (<Colour light={baseScale(func.poly5_3(value)).css('hsl')} dark={baseScaleDark(value).css('hsl')} no={index*5} />))}
+					<Colour light={baseScale(0.5).css('hsl')} dark={baseScaleDark(0.5).css('hsl')} no={50} />
+				</div>
+
+
+				<div className="ptr-test-scale">
+					{scaleBase.map((value, index) => (<Colour light={baseScale(func.poly5_3(value)).css('hsl')} dark={baseScaleDark(func.dark_3(value)).css('hsl')} no={index*5} />))}
+				</div>
+				<div className="ptr-test-scale">
+					{scaleBase.map((value, index) => (<Colour light={accentScale(func.poly5_3(value)).css('hsl')} dark={accentScaleDark(func.dark_3(value)).css('hsl')} no={index*5} />))}
 				</div>
 
 
@@ -194,6 +243,21 @@ class Test extends React.PureComponent {
 					</div>
 					<div>
 						{scaleBase.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_1">
+						{scale.dark_1.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_2">
+						{scale.dark_2.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_4">
+						{scale.dark_4.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_5">
+						{scale.dark_5.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
 					</div>
 					<div>
 						{darkScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
@@ -260,6 +324,21 @@ class Test extends React.PureComponent {
 					</div>
 					<div title="linear">
 						{scaleBase.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_1">
+						{scale.dark_1.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_2">
+						{scale.dark_2.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_4">
+						{scale.dark_4.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					</div>
+					<div title="dark_5">
+						{scale.dark_5.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
 					</div>
 					<div title="poly6_dark_1">
 						{scale.poly6_dark_1.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
