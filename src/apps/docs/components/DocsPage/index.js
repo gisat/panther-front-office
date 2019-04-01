@@ -72,6 +72,7 @@ class DocsPage extends React.PureComponent {
 				{this.components.map(component => {
 					return (
 						<Route
+							key={component.key}
 							path={this.paths[component.key]}
 							render={() => this.renderPage(component.title, component.component)}
 						/>);
