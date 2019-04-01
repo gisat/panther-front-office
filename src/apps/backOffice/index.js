@@ -52,7 +52,7 @@ export default (path, managedAppKey) => {
 	let page = pageFactory(path, managedAppKey);
 
 	// Set language
-	i18n.changeLanguage("cz");
+	i18n.changeLanguage("en");
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
