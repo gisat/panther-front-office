@@ -6,7 +6,14 @@ import _ from 'lodash';
 import ApplicationSelect from "../formComponents/ApplicationSelect";
 import Button from "../../../../../../components/common/atoms/Button";
 import Input from "../../../../../../components/common/atoms/Input/Input";
-import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+
+import cz from "./locales/cz";
+import en from "./locales/en";
+import utils from "../../../../../../utils/utils";
+
+// add local locales
+utils.addI18nResources('PlaceMetadataConfig', {cz, en});
 
 class PlaceMetadataConfig extends React.PureComponent {
 	static propTypes = {
@@ -40,6 +47,17 @@ class PlaceMetadataConfig extends React.PureComponent {
 		this.props.updateEdited(key, value);
 	}
 
+	onChangeJsonValue(key, value) {
+		try{
+			const parsedValue = JSON.parse(value);
+			this.onChange(key, parsedValue);
+		}
+
+		catch(e) {
+			this.onChange(key, value);
+		}
+	}
+
 	render() {
 		let t = this.props.t;
 		let data = {...this.props.data};
@@ -47,7 +65,9 @@ class PlaceMetadataConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
-		// TODO - geometry, bbox
+		let bbox = utils.getStringFromJson((data && data.bbox || ""));
+		let geometry = utils.getStringFromJson((data && data.geometry || ""));
+
 		return (
 			<div>
 				<InputWrapper
@@ -94,6 +114,31 @@ class PlaceMetadataConfig extends React.PureComponent {
 						onChange={(val) => this.onChange('description', val)}
 					/>
 				</InputWrapper>
+				<InputWrapper
+					required
+					label={t("metadata.formLabels.boundingBox")}
+				>
+					<Input
+						unfocusable={this.props.unfocusable}
+						disabled={!this.props.editable}
+						multiline
+						value={bbox}
+						onChange={(val) => this.onChangeJsonValue('bbox', val)}
+					/>
+					<InputWrapperInfo>{t("PlaceMetadataConfig:geometryDescription")}</InputWrapperInfo>
+				</InputWrapper>
+				<InputWrapper
+					label={t("metadata.formLabels.geometry")}
+				>
+					<Input
+						unfocusable={this.props.unfocusable}
+						disabled={!this.props.editable}
+						multiline
+						value={geometry}
+						onChange={(val) => this.onChangeJsonValue('geometry', val)}
+					/>
+					<InputWrapperInfo>{t("PlaceMetadataConfig:geometryDescription")}</InputWrapperInfo>
+				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
 					<div className="ptr-screen-metadata-buttons-left">
 						{this.props.editedData && !_.isEmpty(this.props.editedData) ? (
@@ -117,4 +162,4 @@ class PlaceMetadataConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['backOffice'])(PlaceMetadataConfig);
+export default withNamespaces(['backOffice', 'PlaceMetadataConfig'])(PlaceMetadataConfig);
