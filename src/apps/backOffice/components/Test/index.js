@@ -117,6 +117,8 @@ class Test extends React.PureComponent {
 		let accentScale6 = chroma.scale(['#fffefc', '#ad162b', '#040300']).mode('lab').correctLightness();
 		let accentScale7 = chroma.scale(['#fffefc', '#90daf8', '#040300']).mode('lab').correctLightness();
 
+		let esponFuore = chroma.scale(['#fffefc', '#4991DD', '#040300']).mode('lab').correctLightness();
+
 		let boBaseScale = chroma.scale(['#c7c5c2', '#040300']).mode('lab').correctLightness();
 		let boAccentScale = chroma.scale(['#c7c5c2', '#227773', '#040300']).mode('lab').correctLightness();
 
@@ -419,6 +421,26 @@ class Test extends React.PureComponent {
 					<div title="dark_3">
 						{scale.dark_3.map(value => (<div style={{background: accentScale2(1 - value).hex()}}/>))}
 					</div>
+				</div>
+
+				<div className="testy ptr-light">
+					<div title="poly5_3">
+						{scale.poly5_3.map(value => (<div style={{background: esponFuore(value).hex()}}/>))}
+					</div>
+				</div>
+				<div className="testy ptr-dark">
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: esponFuore(1 - value).hex()}}/>))}
+					</div>
+				</div>
+				<div className="ptr-test-scale">
+					<Code
+						base={scaleBase}
+						light={x => esponFuore(func.poly5_3(x)).css('hsl')}
+						lightString="lightAccent"
+						dark={x => esponFuore(1 - func.dark_3(x)).css('hsl')}
+						darkString="darkAccent"
+					/>
 				</div>
 
 				<div className="testy ptr-light">
