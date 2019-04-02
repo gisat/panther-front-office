@@ -36,7 +36,9 @@
 }
 
 .esponFuore-header {
-	flex: 0 0 m(2);
+	$height: m(2);
+	flex: 0 0 $height;
+	max-height: $height;
 	display: flex;
 }
 
@@ -47,15 +49,37 @@
 
 
 .esponFuore-header-home {
-	flex: 0 0 10rem;
+	flex: 0 0 7rem;
 	background-color: #fff;
+	position: relative;
+}
+.esponFuore-header-home > a {
+	display: block;
+	width: 6rem;
+	height: 2.125rem;
+	padding: 0 .5rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	cursor: pointer;
+}
+.esponFuore-header-home::after {
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 0;
+	height: 60%;
+	width: 1px;
+	transform: translateY(-50%);
+	background-color: var(--base20);
 }
 .esponFuore-header-region-select {
-	flex: 0 0 12rem;
+	flex: 0 0 16rem;
 	background-color: #fff;
 }
 .esponFuore-header-indicator-select {
-	flex: 0 0 25rem;
+	flex: 0 0 30rem;
 	background-color: var(--accent50);
 }
 .esponFuore-header-toolbar {
