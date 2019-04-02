@@ -3,6 +3,8 @@
 	"names": {
 	  "attribute": "Attribute",
 	  "attribute_plural": "Attributes",
+	  "indicator": "Indicator",
+	  "indicator_plural": "Indicators",
 	  "layerTemplate": "Layer template",
 	  "layerTemplate_plural": "Layer templates",
 	  "period": "Period",
@@ -19,9 +21,11 @@
 	"formLabels": {
 	  "allApps": "All applications",
 	  "application": "Application",
+	  "boundingBox": "Bounding box",
 	  "color": "Color",
 	  "configuration": "Configuration",
 	  "description": "Description",
+	  "geometry": "Geometry",
 	  "name": "Name",
 	  "nameInternal": "Internal name",
 	  "period": "Period",

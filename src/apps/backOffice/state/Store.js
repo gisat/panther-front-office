@@ -7,6 +7,8 @@ import { createBrowserHistory } from 'history';
 // specific types
 import appsReducers from './Apps/reducers';
 
+import indicatorsReducers from '../../esponFuore/state/Indicators/reducers';
+
 // base types
 import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
@@ -34,7 +36,8 @@ export const history = createBrowserHistory();
 // Redux store
 export default createStore(combineReducers({
 	specific: combineReducers({
-		apps: appsReducers
+		apps: appsReducers,
+		indicators: indicatorsReducers
 	}),
 	app: appReducers,
 	areas: areasReducers,

@@ -3,6 +3,8 @@
 	"names": {
 	  "attribute": "Atribut",
 	  "attribute_plural": "Atributy",
+	  "indicator": "Indikátor",
+	  "indicator_plural": "Indikátory",
 	  "layerTemplate": "Šablona vrstvy",
 	  "layerTemplate_plural": "Šablony vrstev",
 	  "period": "Perioda",
@@ -19,9 +21,11 @@
 	"formLabels": {
 	  "allApps": "Všechny aplikace",
 	  "application": "Aplikace",
+	  "boundingBox": "Bounding box",
 	  "color": "Barva",
 	  "configuration": "Konfigurace",
 	  "description": "Popis",
+	  "geometry": "Geometry",
 	  "name": "Název",
 	  "nameInternal": "Interní název",
 	  "period": "Perioda",
