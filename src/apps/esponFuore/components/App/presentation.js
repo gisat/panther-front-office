@@ -4,6 +4,7 @@ import LandingPage from '../LandingPage';
 import Header from '../Header';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
+import MapSet from "../../../../components/common/maps/MapSet";
 
 export default props => {
 	// if (false) {
@@ -22,7 +23,10 @@ export default props => {
 						fixed
 						content={[
 							{
-								render: props => (<div>ONE</div>)
+								component: MapSet,
+								props: {
+									mapSetKey: "esponFuore"
+								}
 							},
 							{
 								width: "25rem",

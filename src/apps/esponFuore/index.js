@@ -33,6 +33,15 @@ export default path => {
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 	Store.dispatch(Action.app.setKey('esponFuore'));
 
+	Store.dispatch(Action.maps.addSet({key: 'esponFuore'}));
+	Store.dispatch(Action.maps.setSetWorldWindNavigator('esponFuore'));
+	Store.dispatch(Action.maps.setSetSync('esponFuore', {
+		location: true,
+		range: true
+	}));
+	Store.dispatch(Action.maps.addMap({key: 'Map1'}));
+	Store.dispatch(Action.maps.addMapToSet('esponFuore', 'Map1'));
+
 	ReactDOM.render(
 		<Provider store={Store}>
 			<AppContainer>
