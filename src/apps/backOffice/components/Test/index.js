@@ -5,6 +5,7 @@ import _ from 'lodash';
 import './style.scss';
 
 import Colour from './components/Colour';
+import Code from "./components/Code";
 
 class Test extends React.PureComponent {
 	render() {
@@ -207,6 +208,17 @@ class Test extends React.PureComponent {
 				</div>
 				<div className="ptr-test-scale">
 					{scaleBase.map((value, index) => (<Colour light={accentScale(func.poly5_3(value)).css('hsl')} dark={accentScaleDark(func.dark_3(value)).css('hsl')} no={index*5} />))}
+				</div>
+
+
+				<div className="ptr-test-scale">
+					<Code
+						base={scaleBase}
+						light={x => accentScale(func.poly5_3(x)).css('hsl')}
+						lightString="lightAccent"
+						dark={x => accentScaleDark(func.dark_3(x)).css('hsl')}
+						darkString="darkAccent"
+					/>
 				</div>
 
 
