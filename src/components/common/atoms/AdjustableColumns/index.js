@@ -15,7 +15,7 @@ const renderColumn = (column, index) => {
 
 	let content = null;
 	if (column.component) {
-		content = React.createElement(column.component);
+		content = React.createElement(column.component, column.props);
 	} else if (column.render) {
 		content = column.render();
 	}
