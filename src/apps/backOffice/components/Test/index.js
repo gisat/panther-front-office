@@ -5,6 +5,7 @@ import _ from 'lodash';
 import './style.scss';
 
 import Colour from './components/Colour';
+import Code from "./components/Code";
 
 class Test extends React.PureComponent {
 	render() {
@@ -116,6 +117,8 @@ class Test extends React.PureComponent {
 		let accentScale6 = chroma.scale(['#fffefc', '#ad162b', '#040300']).mode('lab').correctLightness();
 		let accentScale7 = chroma.scale(['#fffefc', '#90daf8', '#040300']).mode('lab').correctLightness();
 
+		let esponFuore = chroma.scale(['#fffefc', '#4991DD', '#040300']).mode('lab').correctLightness();
+
 		let boBaseScale = chroma.scale(['#c7c5c2', '#040300']).mode('lab').correctLightness();
 		let boAccentScale = chroma.scale(['#c7c5c2', '#227773', '#040300']).mode('lab').correctLightness();
 
@@ -210,6 +213,17 @@ class Test extends React.PureComponent {
 				</div>
 
 
+				<div className="ptr-test-scale">
+					<Code
+						base={scaleBase}
+						light={x => accentScale(func.poly5_3(x)).css('hsl')}
+						lightString="lightAccent"
+						dark={x => accentScaleDark(func.dark_3(x)).css('hsl')}
+						darkString="darkAccent"
+					/>
+				</div>
+
+
 
 
 
@@ -220,12 +234,12 @@ class Test extends React.PureComponent {
 					<div title="original">
 						{originalScale.map(value => (<div style={{background: baseScale(value).css('hsl')}}/>))}
 					</div>
-					<div title="pol_1">
-						{scale.pol_1.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
-					</div>
-					<div title="pol_2">
-						{scale.pol_2.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
-					</div>
+					{/*<div title="pol_1">*/}
+						{/*{scale.pol_1.map(value => (<div style={{background: baseScale(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="pol_2">*/}
+						{/*{scale.pol_2.map(value => (<div style={{background: baseScale(value).hex()}}/>))}*/}
+					{/*</div>*/}
 					<div title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: baseScale(value).hex()}}/>))}
 					</div>
@@ -238,78 +252,78 @@ class Test extends React.PureComponent {
 					<div>
 						{darkScale.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
 					</div>
-					<div>
-						{scale.sin.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div>
-						{scaleBase.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="dark_1">
-						{scale.dark_1.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="dark_2">
-						{scale.dark_2.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
+					{/*<div>*/}
+						{/*{scale.sin.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div>*/}
+						{/*{scaleBase.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="dark_1">*/}
+						{/*{scale.dark_1.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="dark_2">*/}
+						{/*{scale.dark_2.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
 					<div title="dark_3">
 						{scale.dark_3.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
 					</div>
-					<div title="dark_4">
-						{scale.dark_4.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="dark_5">
-						{scale.dark_5.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div>
-						{darkScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div>
-						{darkScale.reverse().map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div>
-						{originalScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_1">
-						{scale.poly6_dark_1.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_2">
-						{scale.poly6_dark_2.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_3">
-						{scale.poly6_dark_3.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_4">
-						{scale.poly6_dark_4.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_5">
-						{scale.poly6_dark_5.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly5_dark_3">
-						{scale.poly5_dark_3.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly5_dark_4">
-						{scale.poly5_dark_4.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly5_dark_2">
-						{scale.poly5_dark_2.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="pol_1">
-						{scale.pol_1.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="pol_2">
-						{scale.pol_2.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}
-					</div>
+					{/*<div title="dark_4">*/}
+						{/*{scale.dark_4.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="dark_5">*/}
+						{/*{scale.dark_5.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div>*/}
+						{/*{darkScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div>*/}
+						{/*{darkScale.reverse().map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div>*/}
+						{/*{originalScale.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_1">*/}
+						{/*{scale.poly6_dark_1.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_2">*/}
+						{/*{scale.poly6_dark_2.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_3">*/}
+						{/*{scale.poly6_dark_3.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_4">*/}
+						{/*{scale.poly6_dark_4.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_5">*/}
+						{/*{scale.poly6_dark_5.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly5_dark_3">*/}
+						{/*{scale.poly5_dark_3.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly5_dark_4">*/}
+						{/*{scale.poly5_dark_4.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly5_dark_2">*/}
+						{/*{scale.poly5_dark_2.map(value => (<div style={{background: baseScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="pol_1">*/}
+						{/*{scale.pol_1.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="pol_2">*/}
+						{/*{scale.pol_2.map(value => (<div style={{background: baseScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
 				</div>
 
 				<div className="testy ptr-light">
 					<div title="original">
 						{originalScale.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
 					</div>
-					<div title="pol_1">
-						{scale.pol_1.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
-					</div>
-					<div title="pol_2">
-						{scale.pol_2.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
-					</div>
+					{/*<div title="pol_1">*/}
+						{/*{scale.pol_1.map(value => (<div style={{background: accentScale(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="pol_2">*/}
+						{/*{scale.pol_2.map(value => (<div style={{background: accentScale(value).hex()}}/>))}*/}
+					{/*</div>*/}
 					<div  title="poly5_3">
 						{scale.poly5_3.map(value => (<div style={{background: accentScale(value).hex()}}/>))}
 					</div>
@@ -325,111 +339,175 @@ class Test extends React.PureComponent {
 					<div title="linear">
 						{scaleBase.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
 					</div>
-					<div title="dark_1">
-						{scale.dark_1.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="dark_2">
-						{scale.dark_2.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
-					</div>
+					{/*<div title="dark_1">*/}
+						{/*{scale.dark_1.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="dark_2">*/}
+						{/*{scale.dark_2.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
 					<div title="dark_3">
 						{scale.dark_3.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
 					</div>
-					<div title="dark_4">
-						{scale.dark_4.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
 					</div>
-					<div title="dark_5">
-						{scale.dark_5.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_1">
-						{scale.poly6_dark_1.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_2">
-						{scale.poly6_dark_2.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_3">
-						{scale.poly6_dark_3.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_4">
-						{scale.poly6_dark_4.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly6_dark_5">
-						{scale.poly6_dark_5.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly5_dark_3">
-						{scale.poly5_dark_3.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly5_dark_4">
-						{scale.poly5_dark_4.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="poly5_dark_2">
-						{scale.poly5_dark_2.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}
-					</div>
-					<div title="pol_1">
-						{scale.pol_1.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
-					</div>
-					<div title="pol_2">
-						{scale.pol_2.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}
-					</div>
+					{/*<div title="dark_4">*/}
+						{/*{scale.dark_4.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="dark_5">*/}
+						{/*{scale.dark_5.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_1">*/}
+						{/*{scale.poly6_dark_1.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_2">*/}
+						{/*{scale.poly6_dark_2.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_3">*/}
+						{/*{scale.poly6_dark_3.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_4">*/}
+						{/*{scale.poly6_dark_4.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly6_dark_5">*/}
+						{/*{scale.poly6_dark_5.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly5_dark_3">*/}
+						{/*{scale.poly5_dark_3.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly5_dark_4">*/}
+						{/*{scale.poly5_dark_4.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="poly5_dark_2">*/}
+						{/*{scale.poly5_dark_2.map(value => (<div style={{background: accentScale(1 - value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="pol_1">*/}
+						{/*{scale.pol_1.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
+					{/*<div title="pol_2">*/}
+						{/*{scale.pol_2.map(value => (<div style={{background: accentScaleDark(value).hex()}}/>))}*/}
+					{/*</div>*/}
 				</div>
 
 				<div className="testy ptr-light">
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScaleLrgb(value).hex()}}/>))}
 					</div>
+					<div title="poly5_3 lrgb">
+						{scale.poly5_3.map(value => (<div style={{background: accentScaleLrgb(value).hex()}}/>))}
+					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScaleLrgb(1 - value).hex()}}/>))}
 					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScaleLrgb(1 - value).hex()}}/>))}
+					</div>
 				</div>
+
 				<div className="testy ptr-light">
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScale2(value).hex()}}/>))}
+					</div>
+					<div title="poly5_3">
+						{scale.poly5_3.map(value => (<div style={{background: accentScale2(value).hex()}}/>))}
 					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScale2(1 - value).hex()}}/>))}
 					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale2(1 - value).hex()}}/>))}
+					</div>
 				</div>
+
+				<div className="testy ptr-light">
+					<div title="poly5_3">
+						{scale.poly5_3.map(value => (<div style={{background: esponFuore(value).hex()}}/>))}
+					</div>
+				</div>
+				<div className="testy ptr-dark">
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: esponFuore(1 - value).hex()}}/>))}
+					</div>
+				</div>
+				<div className="ptr-test-scale">
+					<Code
+						base={scaleBase}
+						light={x => esponFuore(func.poly5_3(x)).css('hsl')}
+						lightString="lightAccent"
+						dark={x => esponFuore(1 - func.dark_3(x)).css('hsl')}
+						darkString="darkAccent"
+					/>
+				</div>
+
 				<div className="testy ptr-light">
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScale3(value).hex()}}/>))}
+					</div>
+					<div title="poly5_3">
+						{scale.poly5_3.map(value => (<div style={{background: accentScale3(value).hex()}}/>))}
 					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScale3(1 - value).hex()}}/>))}
 					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale3(1 - value).hex()}}/>))}
+					</div>
 				</div>
+
 				<div className="testy ptr-light">
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScale4(value).hex()}}/>))}
+					</div>
+					<div title="poly5_3 ">
+						{scale.poly5_3.map(value => (<div style={{background: accentScale4(value).hex()}}/>))}
 					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScale4(1 - value).hex()}}/>))}
 					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale4(1 - value).hex()}}/>))}
+					</div>
 				</div>
+
 				<div className="testy ptr-light">
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScale5(value).hex()}}/>))}
+					</div>
+					<div title="poly5_3 ">
+						{scale.poly5_3.map(value => (<div style={{background: accentScale5(value).hex()}}/>))}
 					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScale5(1 - value).hex()}}/>))}
 					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale5(1 - value).hex()}}/>))}
+					</div>
 				</div>
+
 				<div className="testy ptr-light">
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScale6(value).hex()}}/>))}
+					</div>
+					<div title="poly5_3 ">
+						{scale.poly5_3.map(value => (<div style={{background: accentScale6(value).hex()}}/>))}
 					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScale6(1 - value).hex()}}/>))}
+					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale6(1 - value).hex()}}/>))}
 					</div>
 				</div>
 
@@ -437,10 +515,16 @@ class Test extends React.PureComponent {
 					<div>
 						{originalScale.map(value => (<div style={{background: accentScale7(value).hex()}}/>))}
 					</div>
+					<div title="poly5_3 ">
+						{scale.poly5_3.map(value => (<div style={{background: accentScale7(value).hex()}}/>))}
+					</div>
 				</div>
 				<div className="testy ptr-dark">
 					<div>
 						{darkScale.map(value => (<div style={{background: accentScale7(1 - value).hex()}}/>))}
+					</div>
+					<div title="dark_3">
+						{scale.dark_3.map(value => (<div style={{background: accentScale7(1 - value).hex()}}/>))}
 					</div>
 				</div>
 
@@ -449,10 +533,16 @@ class Test extends React.PureComponent {
 					<div>
 						{originalScale.map(value => (<div style={{background: boBaseScale(value).hex()}}/>))}
 					</div>
+					<div title="poly5_3 ">
+						{scale.poly5_3.map(value => (<div style={{background: boBaseScale(value).hex()}}/>))}
+					</div>
 				</div>
 				<div className="testy t2 ptr-bo-colours">
 					<div>
 						{originalScale.map(value => (<div style={{background: boAccentScale(value).hex()}}/>))}
+					</div>
+					<div title="poly5_3 ">
+						{scale.poly5_3.map(value => (<div style={{background: boAccentScale(value).hex()}}/>))}
 					</div>
 				</div>
 				<div className="testy t3 ptr-bo-colours">
