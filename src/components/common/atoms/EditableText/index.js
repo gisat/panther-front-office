@@ -103,8 +103,9 @@ class EditableText extends React.PureComponent {
 			invisible: this.props.invisible
 		});
 
+		let value = this.props.value || this.state && this.state.value || '';
 		let style = {
-			height: this.state.height
+			height: value.length ? this.state.height : DEFAULT_HEIGHT
 		};
 
 		if (!this.props.disabled) {
@@ -117,7 +118,7 @@ class EditableText extends React.PureComponent {
 						className={classes}
 						style={style}
 						ref={this.ref}
-						value={this.props.value || this.state && this.state.value || ''}
+						value={value}
 						placeholder={this.props.placeholder}
 						onFocus={this.onFocus}
 						onBlur={this.onBlur}
