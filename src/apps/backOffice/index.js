@@ -56,7 +56,6 @@ export default (path, managedAppKey) => {
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
-	Store.dispatch(Action.app.setKey('backOffice'));
 
 	// Set managed app if called with managedAppKey
 	if (managedAppKey) Store.dispatch(Action.specific.apps.setManaged(managedAppKey));
