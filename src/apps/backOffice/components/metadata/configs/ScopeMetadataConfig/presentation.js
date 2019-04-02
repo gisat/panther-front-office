@@ -6,6 +6,7 @@ import InputWrapper from "../../../../../../components/common/atoms/InputWrapper
 import {withNamespaces} from "react-i18next";
 import Button from "../../../../../../components/common/atoms/Button";
 import ApplicationSelect from "../formComponents/ApplicationSelect";
+import utils from "../../../../../../utils/utils";
 
 class ScopeMetadataConfig extends React.PureComponent {
 	static propTypes = {
@@ -58,14 +59,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
-		const configurationObject = data && data.configuration || "";
-
-		let configuration;
-		if (configurationObject && typeof configurationObject === "object") {
-            configuration = JSON.stringify(configurationObject, null, 2)  ;
-        } else {
-			configuration = configurationObject;
-		}
+		let configuration = utils.getStringFromJson((data && data.configuration || ""));
 
 		return (
 			<div>

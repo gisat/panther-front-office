@@ -65,14 +65,7 @@ class ViewMetadataConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
-		const stateObject = data && data.state || "";
-
-		let stateValue;
-		if (stateObject && typeof stateObject === "object") {
-			stateValue = JSON.stringify(stateObject, null, 2)  ;
-		} else {
-			stateValue = stateObject;
-		}
+		let stateValue = utils.getStringFromJson((data && data.state || ""));
 
 		return (
 			<div>

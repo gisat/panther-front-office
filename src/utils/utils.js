@@ -164,6 +164,19 @@ export default {
 	},
 
 	/**
+	 * Get json-like formatted string
+	 * @param json {JSON | string | null}
+	 * @return {string}
+	 */
+	getStringFromJson (json) {
+		if (json && typeof json === "object") {
+			return JSON.stringify(json, null, 2)  ;
+		} else {
+			return json;
+		}
+	},
+
+	/**
 	 * Takes deep object and returns it with values containing path to that key in the object (where value isn't a nested object).
 	 * e.g. {a: null, b: {c: null, d: null}} => {a: 'a', b: {c: 'b.c', d: 'b.d'}}
 	 * Used for constants.
