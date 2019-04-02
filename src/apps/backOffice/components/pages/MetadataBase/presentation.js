@@ -16,7 +16,7 @@ import TagsList from "../../lists/TagsList";
 import ViewsList from "../../lists/ViewsList";
 
 /* Specific types */
-import IndicatorsList from "../../lists/IndicatorsList";
+import EsponFuoreIndicatorsList from "../../lists/EsponFuoreIndicatorsList";
 
 import NavList from '../../../../../components/presentation/NavList'
 
@@ -83,8 +83,8 @@ class MetadataBase extends React.PureComponent {
 		let specificMetadata = [];
 		if (this.props.specificTypes) {
 			this.props.specificTypes.forEach(type => {
-				if (type === 'indicators') {
-					specificMetadata.push({key: 'indicators', title: t('metadata.names.indicator_plural'), component: IndicatorsList})
+				if (type === 'esponFuoreIndicators') {
+					specificMetadata.push({key: 'esponFuoreIndicators', title: t('metadata.names.esponFuoreIndicator_plural'), component: EsponFuoreIndicatorsList})
 				}
 			});
 		}

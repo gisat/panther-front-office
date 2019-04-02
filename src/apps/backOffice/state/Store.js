@@ -7,7 +7,7 @@ import { createBrowserHistory } from 'history';
 // specific types
 import appsReducers from './Apps/reducers';
 
-import indicatorsReducers from '../../esponFuore/state/Indicators/reducers';
+import indicatorsReducers from '../../esponFuore/state/EsponFuoreIndicators/reducers';
 
 // base types
 import appReducers from '../../../state/App/reducers';
@@ -37,7 +37,7 @@ export const history = createBrowserHistory();
 export default createStore(combineReducers({
 	specific: combineReducers({
 		apps: appsReducers,
-		indicators: indicatorsReducers
+		esponFuoreIndicators: indicatorsReducers
 	}),
 	app: appReducers,
 	areas: areasReducers,

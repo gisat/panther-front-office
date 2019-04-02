@@ -2,7 +2,7 @@ import utils from '../../../utils/utils';
 import {commonActionTypesDefinitions} from "../../../constants/ActionTypes";
 
 export const esponFuoreActionTypesDefinitions = {
-	INDICATORS: {
+	ESPON_FUORE_INDICATORS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
 		DELETE: null,

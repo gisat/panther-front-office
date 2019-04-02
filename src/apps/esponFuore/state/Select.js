@@ -1,9 +1,9 @@
 import CommonSelect from '../../../state/Select';
-import indicators from './Indicators/selectors';
+import esponFuoreIndicators from './EsponFuoreIndicators/selectors';
 
 export default {
 	...CommonSelect,
 	specific: {
-		indicators
+		esponFuoreIndicators
 	}
 }

@@ -3,8 +3,8 @@
 	"names": {
 	  "attribute": "Attribute",
 	  "attribute_plural": "Attributes",
-	  "indicator": "Indicator",
-	  "indicator_plural": "Indicators",
+	  "esponFuoreIndicator": "Indicator",
+	  "esponFuoreIndicator_plural": "Indicators",
 	  "layerTemplate": "Layer template",
 	  "layerTemplate_plural": "Layer templates",
 	  "period": "Period",

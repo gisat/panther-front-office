@@ -8,11 +8,11 @@ const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.specific.indicators.getDataByKey(state, props.itemKey),
-		editedData: Select.specific.indicators.getEditedDataByKey(state, props.itemKey),
+		data: Select.specific.esponFuoreIndicators.getDataByKey(state, props.itemKey),
+		editedData: Select.specific.esponFuoreIndicators.getEditedDataByKey(state, props.itemKey),
 
-		deletable: Select.specific.indicators.getDeletePermissionByKey(state, props.itemKey),
-		editable: Select.specific.indicators.getUpdatePermissionByKey(state, props.itemKey),
+		deletable: Select.specific.esponFuoreIndicators.getDeletePermissionByKey(state, props.itemKey),
+		editable: Select.specific.esponFuoreIndicators.getUpdatePermissionByKey(state, props.itemKey),
 
 		attributes: Select.specific.backOffice.attributes.getAllForActiveApp(state, order),
 		views: Select.specific.backOffice.views.getAllForActiveApp(state, order)
@@ -20,29 +20,29 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'IndicatorMetadataConfig_' + utils.randomString(6);
+	const componentId = 'EsponFuoreIndicatorMetadataConfig_' + utils.randomString(6);
 
 	return (dispatch, props) => {
 		return {
 			onMount: () => {
-				dispatch(Action.specific.indicators.useKeys([props.itemKey], componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useKeys([props.itemKey], componentId));
 				dispatch(Action.specific.backOffice.attributes.useIndexed({application: true}, null, order, 1, 1000, componentId));
 				dispatch(Action.specific.backOffice.views.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onSave: () => {
-				dispatch(Action.specific.indicators.saveEdited(props.itemKey));
+				dispatch(Action.specific.esponFuoreIndicators.saveEdited(props.itemKey));
 			},
 			onDelete: (item) => {
-				dispatch(Action.specific.indicators.delete({key: props.itemKey, data: item}));
-				dispatch(Action.screens.close('metadata', 'metadata-indicatorConfig'));
+				dispatch(Action.specific.esponFuoreIndicators.delete({key: props.itemKey, data: item}));
+				dispatch(Action.screens.close('metadata', 'metadata-esponFuoreIndicatorConfig'));
 			},
 			onUnmount: () => {
-				dispatch(Action.specific.indicators.useKeysClear(componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useKeysClear(componentId));
 				dispatch(Action.attributes.useIndexedClear(componentId));
 				dispatch(Action.views.useIndexedClear(componentId));
 			},
 			updateEdited: (key, value) => {
-				dispatch(Action.specific.indicators.updateEdited(props.itemKey, key, value));
+				dispatch(Action.specific.esponFuoreIndicators.updateEdited(props.itemKey, key, value));
 			}
 		}
 	}

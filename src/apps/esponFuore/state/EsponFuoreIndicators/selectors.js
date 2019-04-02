@@ -4,7 +4,7 @@ import _ from 'lodash';
 import common from "../../../../state/_common/selectors";
 import commonHelpers from "../../../../state/_common/helpers";
 
-const getSubstate = state => state.specific.indicators;
+const getSubstate = state => state.specific.esponFuoreIndicators;
 
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);

@@ -3,14 +3,14 @@ import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import utils from "../../../../../utils/utils";
 
-import IndicatorMetadataScreen from "../screens/IndicatorMetadataScreen";
+import IndicatorMetadataScreen from "../screens/EsponFuoreIndicatorMetadataScreen";
 import presentation from "./presentation";
 
 const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.specific.indicators.getAllOrdered(state, order)
+		data: Select.specific.esponFuoreIndicators.getAllOrdered(state, order)
 	}
 };
 
@@ -20,17 +20,17 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.specific.indicators.useIndexed(null, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexed(null, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
-				dispatch(Action.specific.indicators.useIndexedClear(componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
 			},
 			onChange(item) {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-indicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey: item.key}))
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
-				dispatch(Action.specific.indicators.create(itemKey));
+				dispatch(Action.specific.esponFuoreIndicators.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-indicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey}))
 			}
 		}

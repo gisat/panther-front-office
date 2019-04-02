@@ -59,7 +59,7 @@ export default [
 	{
 		key: 'esponFuore',
 		configuration: {
-			specificMetadataTypes: ['indicators']
+			specificMetadataTypes: ['esponFuoreIndicators']
 		},
 		hostname: 'fuore.gisat.cz',
 		path: null,

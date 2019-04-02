@@ -5,7 +5,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
 // specific types
-import indicatorReducers from './Indicators/reducers';
+import indicatorReducers from './EsponFuoreIndicators/reducers';
 
 // base types
 import appReducers from '../../../state/App/reducers';
@@ -34,7 +34,7 @@ export const history = createBrowserHistory();
 // Redux store
 export default createStore(combineReducers({
 	specific: combineReducers({
-		indicators: indicatorReducers
+		esponFuoreIndicators: indicatorReducers
 	}),
 	app: appReducers,
 	areas: areasReducers,

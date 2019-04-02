@@ -1,9 +1,9 @@
 import CommonAction from '../../../state/Action';
-import indicators from './Indicators/actions';
+import esponFuoreIndicators from './EsponFuoreIndicators/actions';
 
 export default {
 	...CommonAction,
 	specific: {
-		indicators
+		esponFuoreIndicators
 	}
 }
