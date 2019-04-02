@@ -265,7 +265,10 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 			if (appKey) {
 				applicationKey = appKey;
 			} else {
-				applicationKey = Select.app.getKey(state);
+				let currentAppKey = Select.app.getKey(state);
+				if (currentAppKey) {
+					applicationKey = currentAppKey;
+				}
 			}
 
 			const payload = getCreatePayload(dataType, key, applicationKey);
@@ -725,12 +728,12 @@ const getCreatePayload = (datatype, key = utils.uuid(), applicationKey) => {
 		"data": {}
 	};
 
-	payload.data[datatype] = [{
-		key,
-		data: {
-			applicationKey
-		},
-	}];
+	let model = {key, data: {}};
+	if (applicationKey) {
+		model.data = {applicationKey};
+	}
+
+	payload.data[datatype] = [model];
 
 	return payload;
 };
