@@ -18,10 +18,19 @@ function actionUpdate(component, data) {
 		update: data
 	}
 }
+function actionSet(component, path, value) {
+	return {
+		type: ActionTypes.COMPONENTS.SET,
+		component,
+		path,
+		value
+	}
+}
 
 
 // ============ export ===========
 
 export default {
 	update,
+	set: actionSet
 }

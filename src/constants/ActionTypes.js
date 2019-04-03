@@ -148,7 +148,8 @@ export const commonActionTypesDefinitions = {
 	},
 
 	COMPONENTS: {
-		UPDATE: null
+		UPDATE: null,
+		SET: null,
 	},
 
 	DATAVIEWS_REMOVE: 'DATAVIEWS_REMOVE',

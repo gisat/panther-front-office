@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import _ from 'lodash';
 
 const getAllByKey = (state) => state.components;
 
@@ -16,6 +17,15 @@ const getDataByComponentKey = createSelector(
 	}
 );
 
+const get = createSelector(
+	[
+		getDataByComponentKey,
+		(state, key, path) => path,
+	],
+	(componentState, path) => _.get(componentState, path, null)
+);
+
 export default {
+	get,
 	getDataByComponentKey,
 }
