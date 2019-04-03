@@ -3,19 +3,19 @@ import Select from '../../../../state/Select';
 import Action from '../../../../state/Action';
 import ComponentAction from './actions';
 import utils from '../../../../utils/utils';
-import {getLayerZindex, getFlattenLayers, getLayersTreesConfig} from '../../../../utils/tree'
+import {getLayerZindex, getFlattenLayers, getLayersTreesConfig} from './utils'
 
 import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	const activeMapKey = Select.maps.getActiveMapKey(state);
-	const layers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey);
+	const mapLayers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey);
 	const layersTemplates = Select.layerTemplates.getAllAsObject(state);
 	const layersTrees = Select.components.getDataByComponentKey(state, ownProps.componentKey);
-	const layersTree = getLayersTreesConfig(layersTrees, layersTemplates, layers, ownProps.layersTreeKey) || [];
-	const flattenLayersTree = getFlattenLayers(layersTree).map(l => l.key);
+	const layersTree = getLayersTreesConfig(layersTrees, layersTemplates, mapLayers, ownProps.layersTreeKey) || [];
+	const layersTemplatesKeys = getFlattenLayers(layersTree).map(l => l.key);
 	return {
-		layersTemplatesKeys: flattenLayersTree,
+		layersTemplatesKeys,
 		layersTreeKey: ownProps.layersTreeKey,
 		layersTree: layersTree,
 		mapKey: activeMapKey,
