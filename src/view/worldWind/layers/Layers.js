@@ -420,26 +420,51 @@ class Layers {
      * @param state {boolean} true, if the layer should be displayed
      */
     addInfoLayer(layerData, group, state) {
-        let layer = new MyWmsLayer({
-            service: Config.url + "geoserver/wms",
-            layerNames: layerData.layerPaths,
-            sector: new WorldWind.Sector(-90, 90, -180, 180),
-            levelZeroDelta: new WorldWind.Location(45, 45),
-            opacity: layerData.opacity || .9,
-            numLevels: 22,
-            format: "image/png",
-            size: 256,
-            styleNames: layerData.stylePaths
-        }, null);
-        layer.urlBuilder.wmsVersion = "1.3.0";
-        layer.metadata = {
-            active: state,
-            id: layerData.id,
-            templateId: layerData.templateId,
-            name: layerData.name,
-            group: group,
-            style: layerData.stylePaths
-        };
+        let layer;
+        if(layerData.customParams && layerData.customParams.crs === 'EPSG:3857') {
+            layer = new MercatorLayer({
+                service: layerData.url,
+                layerNames: layerData.layerPaths,
+                numLevels: 19,
+                format: layerData.customParams && layerData.customParams.format || "image/png",
+                opacity: 1,
+                size: 256,
+                version: "1.1.1",
+                styleNames: layerData.customParams && layerData.customParams.styles || null,
+                customParams: layerData.customParams
+            }, null);
+            layer.urlBuilder.version = "1.1.1";
+            layer.metadata = {
+                active: state,
+                id: layerData.id,
+                templateId: layerData.templateId,
+                name: layerData.name,
+                group: group,
+                style: layerData.stylePaths
+            };
+        } else {
+            let layer = new MyWmsLayer({
+                service: Config.url + "geoserver/wms",
+                layerNames: layerData.layerPaths,
+                sector: new WorldWind.Sector(-90, 90, -180, 180),
+                levelZeroDelta: new WorldWind.Location(45, 45),
+                opacity: layerData.opacity || .9,
+                numLevels: 22,
+                format: "image/png",
+                size: 256,
+                styleNames: layerData.stylePaths
+            }, null);
+            layer.urlBuilder.wmsVersion = "1.3.0";
+            layer.metadata = {
+                active: state,
+                id: layerData.id,
+                templateId: layerData.templateId,
+                name: layerData.name,
+                group: group,
+                style: layerData.stylePaths
+            };
+        }
+
         this.addLayer(layer);
     };
 
