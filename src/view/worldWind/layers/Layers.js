@@ -423,17 +423,17 @@ class Layers {
         let layer;
         if(layerData.customParams && layerData.customParams.crs === 'EPSG:3857') {
             layer = new MercatorLayer({
-                service: layerData.url,
+                service: Config.url + "geoserver/wms",
                 layerNames: layerData.layerPaths,
-                numLevels: 19,
+                numLevels: 22,
                 format: layerData.customParams && layerData.customParams.format || "image/png",
-                opacity: 1,
+                opacity: layerData.opacity || .9,
                 size: 256,
-                version: "1.1.1",
-                styleNames: layerData.customParams && layerData.customParams.styles || null,
+                version: "1.3.0",
+                styleNames: layerData.stylePaths,
                 customParams: layerData.customParams
             }, null);
-            layer.urlBuilder.version = "1.1.1";
+            layer.urlBuilder.version = "1.3.0";
             layer.metadata = {
                 active: state,
                 id: layerData.id,
