@@ -10,7 +10,7 @@ function update(state, action) {
 }
 function set(state, action) {
 	let path = action.path.split('.');
-	return {...state, [action.component]: setHelper(state, path, action.value)};
+	return {...state, [action.component]: setHelper(state[action.component], path, action.value)};
 }
 
 function setHelper(state, path, value) {
