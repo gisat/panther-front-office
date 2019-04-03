@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectBase from 'react-select';
-import SelectCreatable from 'react-select';
+import SelectCreatable from 'react-select/lib/Creatable';
 import classnames from 'classnames';
 import _ from 'lodash';
 
 import './select.scss';
 import Key from "./Key";
+import utils from "../../../../utils/utils";
 
 class Select extends React.PureComponent {
 
@@ -26,39 +27,75 @@ class Select extends React.PureComponent {
             PropTypes.string
         ]),
         valueIsTitle: PropTypes.bool,
-        withKeyPrefix: PropTypes.bool
+        withKeyPrefix: PropTypes.bool,
+
+        // creatable
+        onCreate: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+
         this.getLabel = this.getLabel.bind(this);
-        this.getOptionLabel = this.getOptionLabel.bind(this);
-        this.getOptionValue = this.getOptionValue.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onCreate = this.onCreate.bind(this);
+    }
+
+    getFormattedOptions() {
+        return this.props.options.map(option => {
+            return {
+                value: _.get(option, this.props.optionValue),
+                label: _.get(option, this.props.optionLabel),
+            };
+        });
+    }
+
+    onChange(selectedObject) {
+        if (this.props.optionValue) {
+            let selected =  _.find(this.props.options, (option) => {
+                return (_.get(option, this.props.optionValue) === selectedObject.value)
+            });
+            if (selected) {
+                this.props.onChange(selected);
+            } else {
+                throw new Error('Select#Selected option was not found in original options.');
+            }
+        } else {
+            this.props.onChange(selectedObject);
+        }
+    }
+
+    onCreate(label) {
+        let key = utils.uuid();
+        if (this.props.optionValue && this.props.optionLabel) {
+            let data = {};
+            _.set(data, this.props.optionValue, key);
+            _.set(data, this.props.optionLabel, label);
+            this.props.onCreate(data);
+        } else {
+            this.props.onCreate({label: label, value: key});
+        }
     }
     
     render() {
         let props = {...this.props};
 
+        // prepare options
         if (!props.options) {
             props.options = [];
+        } else if (props.optionLabel && props.optionValue) {
+            props.options = this.getFormattedOptions();
+        }
+
+        // prepare selected value
+        if (typeof props.value === 'string') {
+            props.value = _.find(props.options, {value: props.value});
         }
 
         const classes = classnames(`ptr-select-container ${this.props.className}`, {
             'value-is-title': !!this.props.valueIsTitle,
             'disabled': this.props.disabled
         });
-
-        if (!props.optionValue) {
-            props.optionValue = 'value';
-        }
-
-        if (typeof props.value === 'string') {
-            if (props.optionValue) {
-                props.value = _.find(props.options, (option) => {return _.get(option, props.optionValue) === props.value});
-            } else {
-                props.value = _.find(props.options, {label: props.value});
-            }
-        }
 
         switch (this.props.type) {
             case 'creatable':
@@ -75,11 +112,9 @@ class Select extends React.PureComponent {
                 classNamePrefix={'ptr-select'}
                 components={props.components}
                 formatOptionLabel={this.getLabel}
-                getOptionValue={this.getOptionValue}
-                getOptionLabel={this.getOptionLabel}
                 hideSelectedOptions={props.hideSelectedOptions}
                 isDisabled={this.props.disabled}
-                onChange={props.onChange}
+                onChange={this.onChange}
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}
                 value={props.value}
@@ -87,18 +122,16 @@ class Select extends React.PureComponent {
         );
     }
 
-    // TODO not documented
     renderCreatable(props, classes) {
         return (
             <SelectCreatable
                 className={classes}
                 classNamePrefix={'ptr-select'}
                 components={props.components}
-                formatOptionLabel={this.getLabel}
-                getOptionValue={this.getOptionValue}
                 hideSelectedOptions={props.hideSelectedOptions}
                 isDisabled={this.props.disabled}
-                onChange={props.onChange}
+                onChange={this.onChange}
+                onCreateOption={this.onCreate}
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}
                 value={props.value}
@@ -108,13 +141,24 @@ class Select extends React.PureComponent {
 
     getLabel(option) {
         if (this.props.formatOptionLabel) {
-            return this.props.formatOptionLabel(option);
+            if (this.props.optionValue) {
+                let selected =  _.find(this.props.options, (opt) => {
+                    return (_.get(opt, this.props.optionValue) === option.value)
+                });
+                if (selected) {
+                    return this.props.formatOptionLabel(selected);
+                } else {
+                    throw new Error('Select#Selected option was not found in original options.');
+                }
+            } else {
+                return this.props.formatOptionLabel(option);
+            }
         } else {
             let labelPrefix = null;
-            let labelText = this.getOptionLabel(option);
+            let labelText = option.label;
 
             if (this.props.withKeyPrefix) {
-                labelPrefix = (<Key value={this.getOptionValue(option)}/>)
+                labelPrefix = (<Key value={option.value}/>)
             }
 
             return (
@@ -123,22 +167,6 @@ class Select extends React.PureComponent {
                     {labelText}
                 </div>
             );
-        }
-    }
-
-    getOptionLabel(option) {
-        if (this.props.optionLabel) {
-            return _.get(option, this.props.optionLabel);
-        } else if (option.label) {
-            return option.label;
-        }
-    }
-
-    getOptionValue(option) {
-        if (this.props.optionValue) {
-            return _.get(option, this.props.optionValue);
-        } else if (option.value) {
-            return option.value;
         }
     }
 }

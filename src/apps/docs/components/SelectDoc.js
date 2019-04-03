@@ -1,6 +1,7 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
+import utils from '../../../utils/utils';
 
 import Select from "../../../components/common/atoms/Select/Select";
 
@@ -21,6 +22,12 @@ class SelectDoc extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			basicCreatableOptions: [...baseOptions],
+			basicCreatableValue: 'strawberry',
+
+			customCreatableOptions: [...customOptions],
+			customCreatableValue: 'adsddfsfds',
+
 			basicValue: 'chocolate',
 			basicSelectCustomizedOptionsValue: 'dfgdfg84g',
 			selectAsTitleValue: baseOptions[0],
@@ -39,6 +46,13 @@ class SelectDoc extends React.PureComponent {
 		});
 	}
 
+	onCreate(valueState, optionsState, keyPath, labelPath, option) {
+		this.setState({
+			[optionsState]: [...this.state[optionsState], option]
+		});
+		this.onChange(valueState, keyPath, option);
+	}
+
 	render() {
 		return (
 			<div className="ptr-docs-panel-content">
@@ -46,7 +60,7 @@ class SelectDoc extends React.PureComponent {
 					<h2>Basic select</h2>
 					<p>Basic select with default options format.</p>
 					<Select
-						onChange={this.onChange.bind(this, 'basicValue')}
+						onChange={this.onChange.bind(this, 'basicValue', null)}
 						options={baseOptions}
 						value={this.state.basicValue}
 					/>
@@ -65,13 +79,38 @@ class SelectDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
+					<h2>Creatable select</h2>
+					<Select
+						onChange={this.onChange.bind(this, 'basicCreatableValue', null)}
+						onCreate={this.onCreate.bind(this, 'basicCreatableValue', 'basicCreatableOptions', null, null)}
+						options={this.state.basicCreatableOptions}
+						type="creatable"
+						value={this.state.basicCreatableValue}
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Creatable select - custom options</h2>
+					<Select
+						onChange={this.onChange.bind(this, 'customCreatableValue', 'data.key')}
+						onCreate={this.onCreate.bind(this, 'customCreatableValue', 'customCreatableOptions', 'data.key', 'data.labelCz')}
+						optionLabel="data.labelCz"
+						optionValue="data.key"
+						options={this.state.customCreatableOptions}
+						type="creatable"
+						value={this.state.customCreatableValue}
+					/>
+				</div>
+
+
+				<div className="ptr-docs-panel-section">
 					<h2>Basic select disabled</h2>
 					<Select
 						disabled
 						options={customOptions}
 						optionLabel="data.labelCz"
 						optionValue="data.key"
-						value={customOptions[0]}
+						value='adsddfsfds'
 						withKeyPrefix
 					/>
 				</div>
@@ -80,7 +119,7 @@ class SelectDoc extends React.PureComponent {
 					<h2>Select as title</h2>
 					<Select
 						options={baseOptions}
-						onChange={this.onChange.bind(this, 'selectAsTitleValue')}
+						onChange={this.onChange.bind(this, 'selectAsTitleValue', null)}
 						valueIsTitle
 						value={this.state.selectAsTitleValue}
 					/>
@@ -90,7 +129,7 @@ class SelectDoc extends React.PureComponent {
 					<h2>Select as title (with prefixed key)</h2>
 					<Select
 						options={baseOptions}
-						onChange={this.onChange.bind(this, 'selectAsTitlePrefixedValue')}
+						onChange={this.onChange.bind(this, 'selectAsTitlePrefixedValue', null)}
 						valueIsTitle
 						value={this.state.selectAsTitlePrefixedValue}
 						withKeyPrefix
