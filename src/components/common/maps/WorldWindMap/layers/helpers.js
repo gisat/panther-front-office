@@ -1,6 +1,7 @@
 import WorldWind from "@nasaworldwind/worldwind";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
+import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
 
 const {Location, Sector} = WorldWind;
@@ -42,7 +43,7 @@ function findLayerByKey(wwd, layerKey) {
  * Return layer instance by given type
  * @param layerData {Object}
  * @param layerData.type {string}
- * @returns {ExtendedWmsLayer | ExtendedOsmLayer}
+ * @returns {ExtendedWmsLayer | ExtendedOsmLayer | ColoredLayer}
  */
 function getLayerByType(layerData){
 	if (layerData && layerData.type){
@@ -51,6 +52,8 @@ function getLayerByType(layerData){
 				return getWmsLayer(layerData);
 			case "wmts":
 				return getWmtsOsmBasedLayer(layerData);
+			case "colored":
+				return getColoredLayer(layerData.color);
 			default:
 				return null;
 		}
@@ -107,6 +110,14 @@ function getWmsLayer(layerData) {
  */
 function getWmtsOsmBasedLayer(layerData) {
 	return new ExtendedOsmLayer(layerData, null);
+}
+
+/**
+ * @param layerColor {string}
+ * @returns {ColoredLayer}
+ */
+function getColoredLayer(layerColor) {
+	return new ColoredLayer(layerColor);
 }
 
 /**
