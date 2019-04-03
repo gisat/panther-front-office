@@ -50,6 +50,6 @@ export default () => {
 
 	Store.dispatch(Action.maps.addLayer('Map2', {layerTemplate: "54b2d81b-9cd2-4409-ac1c-464c864bd1dc"}));
 
-	Store.dispatch(LayersTreeAction.updateLayersTree(treeUUID, layerTree, 'Map_LayersTree'));
+	Store.dispatch(LayersTreeAction.updateLayersTree(treeUUID, layerTree, 'LaersTree_demo'));
 
 }
