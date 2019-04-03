@@ -1,16 +1,28 @@
-import React from "react";
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
-import Home from './components/Home';
-import User from '../../../../components/common/controls/User';
+import Action from '../../state/Action';
+import Select from '../../state/Select';
+import utils from '../../../../utils/utils';
 
-export default props => (
-	<div className="esponFuore-header">
-		<div className="esponFuore-header-home"><Home /></div>
-		<div className="esponFuore-header-region-select">region</div>
-		<div className="esponFuore-header-indicator-select">indicator</div>
-		<div className="esponFuore-header-toolbar">
-			<div>tools</div>
-			<div className="esponFuore-header-toolbar-right"><User /></div>
-		</div>
-	</div>
-);
+import presentation from "./presentation";
+
+
+const mapStateToProps = (state, ownProps) => {
+	return {
+		indicatorSelectOpen: Select.components.get(state, 'esponFuore_Header', 'indicatorSelectOpen')
+	}
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		openIndicatorSelect: () => {
+			dispatch(Action.components.set('esponFuore_Header', 'indicatorSelectOpen', true))
+		},
+		closeIndicatorSelect: () => {
+			dispatch(Action.components.set('esponFuore_Header', 'indicatorSelectOpen', false))
+		}
+	}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(presentation);
