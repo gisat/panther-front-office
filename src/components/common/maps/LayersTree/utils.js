@@ -1,5 +1,4 @@
-import {isArray} from 'lodash';
-import {isObject} from 'lodash';
+import {isArray, isObject} from 'lodash';
 
 /**
  * 
@@ -25,12 +24,11 @@ export const getFolderByKey = (layersTreeState = [], folderKey) => {
 
 /**
  * 
- * @param {Array<Object>} layersTree 
+ * @param {Array<Object> | Object} layersTree 
  * @param {string} layerKey
  * @returns {Object|null} 
  */
 export const getFolderByLayerKey = (layersTree, layerKey) => {
-    //layersTree = [] || {}
 
     if(isArray(layersTree)) {
         for (const item of layersTree) {
@@ -113,3 +111,41 @@ export const getLayerZindex = (layersTree, layerTemplateKey) => {
     const zIndex = flattenLayers.findIndex((l) => l.key === layerTemplateKey);
     return zIndex || 0;
 }
+
+/**
+ * Iterate over all tree leaf that are not folder
+ * @param {Object} layerTree 
+ * @param {function} callback 
+ */
+const forAllTreeItems = (layerTree = [], callback) => {
+	layerTree.forEach((item) => {
+		if(item.type === 'folder') {
+			forAllTreeItems(item.items, callback);
+		} else {
+			callback(item);
+		}
+	});
+};
+/**
+ * Merge data from layerTemplates, layersTree and map
+ * @param {Array.<Object>} layersTrees 
+ * @param {Array.<Object>} layerTemplates 
+ * @param {Array.<Object>} layers 
+ * @param {string} layersTreeKey 
+ */
+export const getLayersTreesConfig = (layersTrees, layerTemplates, mapLayers, layersTreeKey) => {
+	const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
+	forAllTreeItems(layersTree, (item) => {
+		if(item && item.type === 'layerTemplate') {
+			//find layer with same layerTemplateKey as key in layersTree
+			const layerInMap = mapLayers.find(l => l.filter.layerTemplateKey.indexOf(item.key) === 0);
+
+			item.visible = !!layerInMap;
+			item.layerKey = layerInMap ? layerInMap.data.key : null; //mapLayerKey
+			if(layerTemplates) {
+				item.title = layerTemplates[item.key] ? layerTemplates[item.key].data.nameDisplay : 'placeholder';
+			}
+		}
+	})
+	return [...layersTree];
+};

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Action from  '../../../../state/Action';
 import ActionTypes from  '../../../../constants/ActionTypes';
 
-const mockStore = configureMockStore([thunk]);
+import {getSubstate, BASIC_STATE, EMPTY_MAPS_STATE, EMPTY_SETS_STATE} from "../../../../__testUtils/sampleStates/maps";
 
 const INITIAL_STATE = {
 	apps: {},

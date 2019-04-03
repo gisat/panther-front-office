@@ -5,6 +5,8 @@ import _ from 'lodash';
 import Action from  '../../../../state/Action';
 import ActionTypes from  '../../../../constants/ActionTypes';
 
+import {getSubstate, BASIC_STATE, EMPTY_MAPS_STATE, EMPTY_SETS_STATE} from "../../../../__testUtils/sampleStates/maps";
+
 const mockStore = configureMockStore([thunk]);
 
 const crypto = require('crypto');
