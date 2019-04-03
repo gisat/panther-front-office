@@ -65,11 +65,12 @@ class MyUrlBuilder extends WmsUrlBuilder {
 
         if (this.isWms130OrGreater) {
             sb = sb + "&crs=" + this.crs;
-            sb = sb + "&bbox=";
             if (this.crs === "CRS:84") {
+                sb = sb + "&bbox=";
                 sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
                 sb = sb + sector.maxLongitude+ "," + sector.maxLatitude;
             } else if(this.crs === "EPSG:4326") {
+                sb = sb + "&bbox=";
                 sb = sb + sector.minLatitude + "," + sector.minLongitude + ",";
                 sb = sb + sector.maxLatitude+ "," + sector.maxLongitude;
             } else {
