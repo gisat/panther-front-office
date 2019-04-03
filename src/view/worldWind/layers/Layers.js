@@ -443,7 +443,7 @@ class Layers {
                 style: layerData.stylePaths
             };
         } else {
-            let layer = new MyWmsLayer({
+            layer = new MyWmsLayer({
                 service: Config.url + "geoserver/wms",
                 layerNames: layerData.layerPaths,
                 sector: new WorldWind.Sector(-90, 90, -180, 180),
