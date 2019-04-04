@@ -43,10 +43,18 @@ class Select extends React.PureComponent {
 
     getFormattedOptions() {
         return this.props.options.map(option => {
-            return {
-                value: _.get(option, this.props.optionValue),
-                label: _.get(option, this.props.optionLabel),
-            };
+        	let label = option;
+        	let value = option;
+
+        	if (this.props.optionValue) {
+        		value = _.get(option, this.props.optionValue);
+			}
+
+        	if (this.props.optionLabel) {
+        		label = _.get(option, this.props.optionLabel)
+			}
+
+            return {value, label};
         });
     }
 
@@ -61,7 +69,7 @@ class Select extends React.PureComponent {
                 throw new Error('Select#Selected option was not found in original options.');
             }
         } else {
-            this.props.onChange(selectedObject);
+            this.props.onChange(selectedObject.value);
         }
     }
 
@@ -73,7 +81,7 @@ class Select extends React.PureComponent {
             _.set(data, this.props.optionLabel, label);
             this.props.onCreate(data);
         } else {
-            this.props.onCreate({label: label, value: key});
+            this.props.onCreate(label);
         }
     }
     
@@ -83,16 +91,18 @@ class Select extends React.PureComponent {
         // prepare options
         if (!props.options) {
             props.options = [];
-        } else if (props.optionLabel && props.optionValue) {
+        } else {
             props.options = this.getFormattedOptions();
         }
 
         // prepare selected value
         if (typeof props.value === 'string') {
             props.value = _.find(props.options, {value: props.value});
-        }
+        } else if (props.optionValue) {
+        	props.value = _.find(props.options, {value: _.get(props.value, props.optionValue)})
+		}
 
-        const classes = classnames(`ptr-select-container ${this.props.className}`, {
+        const classes = classnames(`ptr-select-container ${this.props.className ? this.props.className : ""}`, {
             'value-is-title': !!this.props.valueIsTitle,
             'disabled': this.props.disabled
         });
@@ -151,7 +161,7 @@ class Select extends React.PureComponent {
                     throw new Error('Select#Selected option was not found in original options.');
                 }
             } else {
-                return this.props.formatOptionLabel(option);
+                return this.props.formatOptionLabel(option.label);
             }
         } else {
             let labelPrefix = null;

@@ -5,11 +5,7 @@ import utils from '../../../utils/utils';
 
 import Select from "../../../components/common/atoms/Select/Select";
 
-const baseOptions = [
-	{ value: 'chocolate', label: 'Chocolate'},
-	{ value: 'strawberry', label: 'Strawberry'},
-	{ value: 'vanilla', label: 'Vanilla'}
-];
+const baseOptions = ['Chocolate', 'Strawberry', 'Vanilla'];
 
 const customOptions = [
 	{data: {labelCz: 'Čokoláda', key: 'adsddfsfds'} },
@@ -23,22 +19,22 @@ class SelectDoc extends React.PureComponent {
 
 		this.state = {
 			basicCreatableOptions: [...baseOptions],
-			basicCreatableValue: 'strawberry',
+			basicCreatableValue: 'Strawberry',
 
 			customCreatableOptions: [...customOptions],
 			customCreatableValue: 'adsddfsfds',
 
-			basicValue: 'chocolate',
+			basicValue: 'Chocolate',
 			basicSelectCustomizedOptionsValue: 'dfgdfg84g',
 			selectAsTitleValue: baseOptions[0],
 			selectAsTitlePrefixedValue: baseOptions[1],
 		};
 	}
 
-	onChange(key, keyPath, value) {
-		let val = value;
+	onChange(key, keyPath, option) {
+		let val = option;
 		if (keyPath) {
-			val = _.get(value, keyPath);
+			val = _.get(option, keyPath);
 		}
 
 		this.setState({
