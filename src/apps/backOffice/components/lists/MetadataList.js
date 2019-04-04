@@ -53,10 +53,11 @@ class MetadataList extends React.PureComponent {
 						return (<Value
 							unfocusable={this.props.unfocusable}
 							key={model.key}
-							option={{label: model.data && model.data.nameDisplay, key: model.key, ...model.data}}
+							option={{label: model.data && model.data.nameDisplay, value: model.key, ...model.data}}
 							onOptionLabelClick={this.onItemClick}
 							optionLabelClick={true}
 							endItems = {endItems}
+							withKeyPrefix
 						/>);
 					}
 				}
