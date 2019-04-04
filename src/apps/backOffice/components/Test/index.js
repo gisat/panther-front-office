@@ -208,10 +208,21 @@ class Test extends React.PureComponent {
 				<div className="ptr-test-scale">
 					{scaleBase.map((value, index) => (<Colour light={baseScale(func.poly5_3(value)).css('hsl')} dark={baseScaleDark(func.dark_3(value)).css('hsl')} no={index*5} />))}
 				</div>
+
+				<div className="ptr-test-scale">
+					<Code
+						base={scaleBase}
+						light={x => baseScale(func.poly5_3(x)).css('hsl')}
+						lightString="lightBase"
+						dark={x => baseScaleDark(func.dark_3(x)).css('hsl')}
+						darkString="darkABase"
+					/>
+				</div>
+
+
 				<div className="ptr-test-scale">
 					{scaleBase.map((value, index) => (<Colour light={accentScale(func.poly5_3(value)).css('hsl')} dark={accentScaleDark(func.dark_3(value)).css('hsl')} no={index*5} />))}
 				</div>
-
 
 				<div className="ptr-test-scale">
 					<Code
