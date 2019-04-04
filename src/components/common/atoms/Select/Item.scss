@@ -1,6 +1,8 @@
 @import '../../../../styles/variables';
 @import '../../../../apps/backOffice/styles/variables';
 
+// TODO refactor colors
+
 .ptr-item,
 a.ptr-item {
 	height: m(1 + 1/3);
@@ -11,6 +13,14 @@ a.ptr-item {
 	margin-bottom: m(1/3);
 	color: $accent8;
 	position: relative;
+}
+
+.ptr-item.disabled,
+a.ptr-item.disabled {
+	pointer-events: none;
+	border-color: var(--base30);
+	background: var(--base10);
+	color: var(--base30);
 }
 
 a.ptr-item {

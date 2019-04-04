@@ -1,79 +1,149 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SelectCreatable from 'react-select/lib/Creatable';
+import _ from 'lodash';
 import Value from './Value';
 import Icon from '../Icon';
 import {getLabel} from './utils';
 
 import './select.scss';
-
-const getInitialState = (props) => {
-    return {
-        options: props.options,
-        selectedValues: props.selectedValues || [],
-    };
-}
+import Select from "./Select";
 
 class MultiSelect extends React.PureComponent {
+
+	static propTypes = {
+		creatable: PropTypes.bool,
+		disabled: PropTypes.bool,
+		optionLabel: PropTypes.string, // path to label
+		optionValue: PropTypes.string, // path to value (key)
+		onAdd: PropTypes.func,
+		onChange: PropTypes.func,
+		onOptionLabelClick: PropTypes.func,
+		options: PropTypes.array,
+		selectedValues: PropTypes.array,
+		unfocusable: PropTypes.bool,
+
+		// ordered: PropTypes.bool // ordered values
+	};
+
+
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleOptionLabelClick = this.handleOptionLabelClick.bind(this);
-        this.removeValue = this.removeValue.bind(this);
-        this.moveValue = this.moveValue.bind(this);
+        this.onChange = this.onChange.bind(this);
+		this.onOptionLabelClick = this.onOptionLabelClick.bind(this);
 
-        this.state = getInitialState(props);
-    }
-    
-    handleChange = (selectedOption) => {
-        const selectedValues =  [...this.state.selectedValues, selectedOption.value];
-        this.setState({selectedValues}, this.onChange);
+        // this.moveValue = this.moveValue.bind(this);
     }
 
-    onChange() {
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(this.state.selectedValues);
-        }
+	/**
+	 * Get collection of prepared options {label: 'string', value: 'string'}
+	 * @param options {Array} Array of keys or collection of options
+	 * @return {Array}
+	 */
+	getFormattedOptions(options) {
+		if (!_.isArray(options)) options = [options];
+
+		return options.map(option => {
+			if (option) {
+				return {
+					value: this.getOptionValue(option),
+					label: this.getOptionLabel(option)
+				};
+			} else {
+				return [];
+			}
+		});
+	}
+
+	/**
+	 * Get value(key) from option
+	 * @param option {string | Object}
+	 * @return {string}
+	 */
+	getOptionValue(option) {
+		if (this.props.optionValue && _.isObject(option)) {
+			return _.get(option, this.props.optionValue);
+		} else {
+			return option;
+		}
+	}
+
+	/**
+	 * Get label from option
+	 * @param option {string | Object}
+	 * @return {string}
+	 */
+	getOptionLabel(option) {
+		if (this.props.optionLabel) {
+			return _.get(option, this.props.optionLabel);
+		} else {
+			return option;
+		}
+	}
+
+	/**
+	 * @param selectedOption {Object}
+	 */
+    onChange(selectedOption) {
+		let selectedOptions = this.props.selectedValues ? [...this.props.selectedValues, selectedOption] : [selectedOption];
+		this.props.onChange(selectedOptions);
     }
 
-	renderOptionLabel (op) {
-		return op[this.props.labelKey];
-    }
-    
-    handleOptionLabelClick  (value, event) {
+	/**
+	 * @param option {{value: {string}, label: {string}}}
+	 * @param event {Object}
+	 */
+	onOptionLabelClick(option, event) {
 		if (this.props.onOptionLabelClick) {
 			event.stopPropagation();
 			event.preventDefault();
-			this.props.onOptionLabelClick(value, event);
+
+			let selectedOption = _.find(this.props.options, opt => {
+				let key = this.getOptionValue(opt);
+				return key === option.value;
+			});
+
+			this.props.onOptionLabelClick(selectedOption);
 		}
     }
-    
-    removeValue (valueToRemove) {
-        this.setState({
-            selectedValues: this.state.selectedValues.filter(val => val !== valueToRemove)
-        }, this.onChange);
-    }
-    
-    moveValue(item, direction) {
-		const values = this.state.selectedValues.slice(0);
-		const value = item[this.props.valueKey];
-        const index = values.indexOf(value);
 
-		switch(direction) {
-			case "up":
-				if(index>0) {
-					values.splice((index-1), 0, values.splice(index, 1)[0]);
-				}
-				break;
-			case "down":
-				if(index<(values.length-1)) {
-					values.splice((index+1), 0, values.splice(index, 1)[0]);
-				}
-				break;
-        }
-        this.setState({selectedValues: values}, this.onChange);
-    }
+	/**
+	 * @param option {{value: {string}, label: {string}}}
+	 * @param event {Object}
+	 */
+	onRemoveOptionClick(option, event) {
+		event.stopPropagation();
+		event.preventDefault();
+
+		let selectedOptions = _.filter(this.props.selectedValues, opt => {
+			let key = this.getOptionValue(opt);
+			return key !== option.value;
+		});
+
+		this.props.onChange(selectedOptions);
+	}
+
+
+    
+    // moveValue(item, direction) {
+	// 	const values = this.state.selectedValues.slice(0);
+	// 	const value = item[this.props.valueKey];
+    //     const index = values.indexOf(value);
+	//
+	// 	switch(direction) {
+	// 		case "up":
+	// 			if(index>0) {
+	// 				values.splice((index-1), 0, values.splice(index, 1)[0]);
+	// 			}
+	// 			break;
+	// 		case "down":
+	// 			if(index<(values.length-1)) {
+	// 				values.splice((index+1), 0, values.splice(index, 1)[0]);
+	// 			}
+	// 			break;
+    //     }
+    //     this.setState({selectedValues: values}, this.onChange);
+    // }
 
 	blockEvent (event) {
 		event.stopPropagation();
@@ -84,51 +154,50 @@ class MultiSelect extends React.PureComponent {
 			<span className=" ptr-icon-inline-wrap"
 					key='remove'
 					onMouseDown={this.blockEvent}
-					onClick={() => {this.removeValue(item.value)}}
-					onTouchEnd={() => {this.removeValue(item.value)}}
+					onClick={this.onRemoveOptionClick.bind(this, item)}
+					onTouchEnd={this.onRemoveOptionClick.bind(this, item)}
 				>
 				<Icon icon={'times'} height={'16'}  width={'16'} className={'ptr-inline-icon hover'}/>
 			</span>
 		)
     }
     
-    getOrderControl (item, moveUp, moveDown) {
-        return (
-            <span
-                className="ptr-icon-inline-wrap"
-                key = 'order'
-            >
-                {moveUp ? <span
-                    className="ptr-icon-inline-wrap"
-                    onMouseDown={this.blockEvent}
-                    onClick={() => this.moveValue(item, "up")}
-                    onTouchEnd={() => this.moveValue(item, "up")}
-                    >
-                    <Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
-                </span> : <span className={'ptr-order-placeholder'}></span>}
-                {moveDown ? <span
-                    className=" ptr-icon-inline-wrap"
-                    onMouseDown={this.blockEvent}
-                    onClick={() => this.moveValue(item, "down")}
-                    onTouchEnd={() => this.moveValue(item, "down")}
-                    >
-                    <Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
-                </span> : <span className={'ptr-order-placeholder'}></span>}
-            </span>
-        );
-    }
+    // getOrderControl (item, moveUp, moveDown) {
+    //     return (
+    //         <span
+    //             className="ptr-icon-inline-wrap"
+    //             key = 'order'
+    //         >
+    //             {moveUp ? <span
+    //                 className="ptr-icon-inline-wrap"
+    //                 onMouseDown={this.blockEvent}
+    //                 onClick={() => this.moveValue(item, "up")}
+    //                 onTouchEnd={() => this.moveValue(item, "up")}
+    //                 >
+    //                 <Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
+    //             </span> : <span className={'ptr-order-placeholder'}></span>}
+    //             {moveDown ? <span
+    //                 className=" ptr-icon-inline-wrap"
+    //                 onMouseDown={this.blockEvent}
+    //                 onClick={() => this.moveValue(item, "down")}
+    //                 onTouchEnd={() => this.moveValue(item, "down")}
+    //                 >
+    //                 <Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
+    //             </span> : <span className={'ptr-order-placeholder'}></span>}
+    //         </span>
+    //     );
+    // }
 
-    getSelectedItem(item) {
-        const removeIcon = this.removeValue ? this.getRemoveIcon(item) : null;
-        const itemIndex = this.state.selectedValues.findIndex(i => i === item.value);
+    getSelectedItem(selected, item) {
+        const itemIndex = selected.findIndex(i => i === item.value);
         const moveUp = itemIndex !== 0;
-        const moveDown = itemIndex !== this.state.selectedValues.length - 1;
-		const orderedControls = this.props.ordered ? this.getOrderControl(item, moveUp, moveDown) : null;
+        const moveDown = itemIndex !== selected.length - 1;
+		// const orderedControls = this.props.ordered ? this.getOrderControl(item, moveUp, moveDown) : null;
 
-        const startItems = [
-            removeIcon,
-            orderedControls,
-        ];
+        const startItems = [];
+        if (!this.props.disabled) {
+        	startItems.push(this.getRemoveIcon(item))
+		}
 
         const endItems = [
             <span className={'ptr-icon-inline-wrap'} key={'double-angle'}>
@@ -137,98 +206,77 @@ class MultiSelect extends React.PureComponent {
         ];
         
         return (<Value 
-                    key = {item[this.props.valueKey]}
+                    key = {item.value}
                     option = {item}
-                    onOptionLabelClick = {this.handleOptionLabelClick}
-                    disabled = {this.props.disable}
+                    onOptionLabelClick = {this.onOptionLabelClick}
+					unfocusable={this.props.unfocusable}
                     //FIXME - loading
                     endItems = {endItems}
                     startItems = {startItems}
                 />)
     }
 
-    /**
-     * 
-     * @param {Array} selectedValues 
-     */
-    getSelectedItems(selectedValues) {
-        if(selectedValues && selectedValues.length > 0) {
-            return selectedValues.reduce((accumulator, selectedValue) => {
-                const item = this.state.options.find(item => item.value === selectedValue);
+
+    getSelectedItems(options, selected) {
+        if(selected && selected.length > 0) {
+            return selected.reduce((accumulator, selectedValue) => {
+                const item = options.find(item => item.value === selectedValue.value);
                 return item ? [...accumulator, item] : accumulator;
-            }, []).map(this.getSelectedItem.bind(this))
+            }, []).map(this.getSelectedItem.bind(this, selected))
         } else {
             return null;
         }
     }
 
-    getRestOptions(items) {
-        return items.reduce((accumulator, item) => {
-            return this.state.selectedValues.includes(item.value) ? accumulator : [...accumulator, item];
-        }, [])
-    }
+    getRestOptions(options, selectedOptions) {
+        return _.reject(options, (item) => {
+        	let key = this.getOptionValue(item);
 
-    handleAddValue(value) {
-        const newItem = {value, label: value}
-        this.setState(
-            {
-                selectedValues: [...this.state.selectedValues, value],
-                options: [...this.state.options, newItem],
-            }
-        );
-
-        if(typeof this.props.onAdd === 'function') {
-            this.props.onAdd(value);
-        }
+        	return _.includes(selectedOptions.map(selectedOption => {
+				return this.getOptionValue(selectedOption);
+			}), key);
+		});
     }
 
     render() {
-        const { selectedValues } = this.state;
-        const selectedItems = this.getSelectedItems(selectedValues);
-        const restOptions = this.getRestOptions(this.props.options);
+		let options = this.props.options ? this.props.options : [];
+		let selectedOptions = this.props.selectedValues ? this.props.selectedValues : [];
+
+    	let formattedOptions = this.getFormattedOptions(options);
+    	let formattedSelected = this.getFormattedOptions(selectedOptions);
+
+        let selectedItems = this.getSelectedItems(formattedOptions, formattedSelected);
+        let restOptions = this.getRestOptions(options, selectedOptions);
 
         return (
-            <div>
-                {selectedItems ? <div className='items'>{selectedItems}</div> : null}
-                <SelectCreatable
-                        value={''}
-                        onChange={this.handleChange}
-                        options={restOptions}
-                        isOptionSelected={() => false}
-                        getNewOptionData={(inputValue, optionLabel) => ({value:inputValue, label:optionLabel})}
-                        onCreateOption={(createValue) => {this.handleAddValue(createValue)}}
-                        className={'ptr-select-container'}
-                        classNamePrefix={'ptr-select'}
-                        formatOptionLabel={getLabel}
-                        // menuIsOpen={true}
-                        />
-            </div>
-        )
+        	<div>
+				{selectedItems ? <div className='items'>{selectedItems}</div> : null}
+				{this.props.creatable ? (
+					<Select
+						type='creatable'
+						disabled={this.props.disabled}
+						onChange={this.onChange}
+						onCreate={this.props.onAdd}
+						options={restOptions}
+						optionLabel={this.props.optionLabel}
+						optionValue={this.props.optionValue}
+						unfocusable={this.props.unfocusable}
+						value={null}
+					/>
+				) : (
+					<Select
+						disabled={this.props.disabled}
+						onChange={this.onChange}
+						options={restOptions}
+						optionLabel={this.props.optionLabel}
+						optionValue={this.props.optionValue}
+						unfocusable={this.props.unfocusable}
+						value={null}
+					/>
+				)}
+			</div>
+		);
     }
 }
-
-
-
-MultiSelect.propTypes = {
-    disabled: PropTypes.bool,            // whether the Select is disabled or not
-    labelKey: PropTypes.string,          // path of the label value in option objects
-    onChange: PropTypes.func,            // onChange handler: function (newValue) {}
-    onAdd: PropTypes.func,            // onChange handler: function (newValue) {}
-    onOptionLabelClick: PropTypes.func,  // onCLick handler for value labels: function (value, event) {}
-    options: PropTypes.array,            // array of options
-    ordered: PropTypes.bool,             // ordered values
-    valueKey: PropTypes.string,          // path of the label value in option objects
-}
-
-MultiSelect.defaultProps = {
-    disabled: false,
-    labelKey: 'label',
-    onChange: undefined,
-    onAdd: undefined,
-    onOptionLabelClick: undefined,
-    options: undefined,
-    ordered: false,
-    valueKey: 'value'
-};
 
 export default MultiSelect;

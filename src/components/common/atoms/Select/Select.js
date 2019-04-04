@@ -96,9 +96,9 @@ class Select extends React.PureComponent {
         }
 
         // prepare selected value
-        if (typeof props.value === 'string') {
+        if (props.value && typeof props.value === 'string') {
             props.value = _.find(props.options, {value: props.value});
-        } else if (props.optionValue) {
+        } else if (props.value && props.optionValue) {
         	props.value = _.find(props.options, {value: _.get(props.value, props.optionValue)})
 		}
 

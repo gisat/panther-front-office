@@ -34,8 +34,8 @@ class Value extends React.PureComponent {
 		}
 	}
 
-	onClick() {
-		this.props.onOptionLabelClick(this.props.option);
+	onClick(event) {
+		this.props.onOptionLabelClick(this.props.option, event);
 	}
 
 	render () {
@@ -58,7 +58,7 @@ class Value extends React.PureComponent {
 
 		if (typeof this.props.onOptionLabelClick === 'function') {
 			return(
-				<a className={classes('ptr-item', this.props.option.className)}
+				<a className={classes('ptr-item', this.props.option.className, {'disabled': this.props.disabled})}
 					onMouseDown={this.blockEvent}
 					onTouchEnd={this.onClick}
 					onClick={this.onClick}
@@ -72,7 +72,7 @@ class Value extends React.PureComponent {
 			)
 		} else {
 			return (
-				<div className={classes('ptr-item ptr-icon-inline-wrap', this.props.option.className)} style={{display:'flex'}}>
+				<div className={classes('ptr-item ptr-icon-inline-wrap', this.props.option.className, {'disabled': this.props.disabled})} style={{display:'flex'}}>
 					{itemContent}
 				</div>
 			);
