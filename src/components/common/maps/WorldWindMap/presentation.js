@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import utils from '../../../../utils/utils';
-import _ from 'lodash';
+import _, {isEqual} from 'lodash';
 
 import WorldWind from '@nasaworldwind/worldwind';
 
@@ -64,7 +64,9 @@ class WorldWindMap extends React.PureComponent {
 			if (this.props.backgroundLayer) {
 				this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
 			}
-			if (this.props.layers || this.props.layers === null) {
+
+			//check if already in map?
+			if (!isEqual(prevProps.layers, this.props.layers)) {
 				const layers = this.props.layers || [];
 				this.handleLayers(layers);
 			}
