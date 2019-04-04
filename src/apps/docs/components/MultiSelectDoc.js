@@ -100,7 +100,7 @@ class MultiSelectDoc extends React.PureComponent {
 					/>
 				</div>
 				<div className="ptr-docs-panel-section">
-					<h2>Custom options creatable</h2>
+					<h2>Custom options creatable with key</h2>
 					<MultiSelect
 						creatable
 						onAdd={this.onAdd.bind(this, 'creatableCustomOptions', 'creatableCustomSelectedValues')}
@@ -108,6 +108,7 @@ class MultiSelectDoc extends React.PureComponent {
 						optionLabel = 'data.labelCz'
 						optionValue = 'data.key'
 						selectedValues = {this.state.creatableCustomSelectedValues}
+						withKeyPrefix
 
 						onChange={(evt) => {this.onChange('creatableCustomSelectedValues', evt)}}
 						onOptionLabelClick={(evt) => {this.onOptionClick('data.key', evt)}}

@@ -1,7 +1,8 @@
 import classes from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getLabel} from './utils';
+
+import Key from './Key';
 import './Item.scss';
 
 
@@ -14,7 +15,8 @@ class Value extends React.PureComponent {
 		startItems: PropTypes.arrayOf(PropTypes.element),
 		option: PropTypes.object.isRequired,        // option passed to component
 		renderer: PropTypes.func,
-		unfocusable: PropTypes.bool
+		unfocusable: PropTypes.bool,
+		withKeyPrefix: PropTypes.bool
 	};
 
 	constructor(options) {
@@ -40,7 +42,16 @@ class Value extends React.PureComponent {
 
 	render () {
 
-		const label = getLabel({...this.props.option, renderer: this.props.renderer});
+		let prefix = null;
+		if (this.props.withKeyPrefix) {
+			prefix = (<Key value={this.props.option.value}/>);
+		}
+		let label = (
+			<span className="label" key='label'>
+				{prefix}
+				{this.props.option.label}
+			</span>
+		);
 
 		const itemContent = (
 				[

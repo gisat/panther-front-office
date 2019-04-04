@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Value from './Value';
 import Icon from '../Icon';
-import {getLabel} from './utils';
 
 import './select.scss';
 import Select from "./Select";
@@ -21,6 +20,7 @@ class MultiSelect extends React.PureComponent {
 		options: PropTypes.array,
 		selectedValues: PropTypes.array,
 		unfocusable: PropTypes.bool,
+		withKeyPrefix: PropTypes.bool
 
 		// ordered: PropTypes.bool // ordered values
 	};
@@ -210,6 +210,7 @@ class MultiSelect extends React.PureComponent {
                     option = {item}
                     onOptionLabelClick = {this.onOptionLabelClick}
 					unfocusable={this.props.unfocusable}
+					withKeyPrefix={this.props.withKeyPrefix}
                     //FIXME - loading
                     endItems = {endItems}
                     startItems = {startItems}
@@ -247,7 +248,6 @@ class MultiSelect extends React.PureComponent {
 
         let selectedItems = this.getSelectedItems(formattedOptions, formattedSelected);
         let restOptions = this.getRestOptions(options, selectedOptions);
-
         return (
         	<div>
 				{selectedItems ? <div className='items'>{selectedItems}</div> : null}
@@ -262,6 +262,7 @@ class MultiSelect extends React.PureComponent {
 						optionValue={this.props.optionValue}
 						unfocusable={this.props.unfocusable}
 						value={null}
+						withKeyPrefix={this.props.withKeyPrefix}
 					/>
 				) : (
 					<Select
@@ -272,6 +273,7 @@ class MultiSelect extends React.PureComponent {
 						optionValue={this.props.optionValue}
 						unfocusable={this.props.unfocusable}
 						value={null}
+						withKeyPrefix={this.props.withKeyPrefix}
 					/>
 				)}
 			</div>

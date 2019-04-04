@@ -138,6 +138,7 @@ class Select extends React.PureComponent {
                 className={classes}
                 classNamePrefix={'ptr-select'}
                 components={props.components}
+                formatOptionLabel={this.getLabel}
                 hideSelectedOptions={props.hideSelectedOptions}
                 isDisabled={this.props.disabled}
                 onChange={this.onChange}
