@@ -122,7 +122,7 @@ class ViewsOverlay extends React.PureComponent {
 			groups.push("Urban TEP");
 		}
 		if(containsEO4SD) {
-			groups.push("EO4SD");
+			groups.push("EO4SD Urban");
 		}
 		groups = groups.concat(otherGroups);
 		if(containsOthers) {
