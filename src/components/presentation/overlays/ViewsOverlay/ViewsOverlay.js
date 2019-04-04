@@ -114,7 +114,7 @@ class ViewsOverlay extends React.PureComponent {
 		let containsEO4SD = groups.indexOf('EO4SD Urban') !== -1;
 		let containsOthers = groups.indexOf('Other') !== -1;
 		let otherGroups = groups.filter(group => {
-			return group != "Urban TEP" && group != "Other" && group != "EO4SD" && group != 0;
+			return group != "Urban TEP" && group != "Other" && group != "EO4SD Urban" && group != 0;
 		});
 
 		groups = [];

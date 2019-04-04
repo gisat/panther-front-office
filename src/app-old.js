@@ -102,15 +102,7 @@ function loadApp(initialData) {
         }
 
         let ext;
-        createScript('lib/OpenLayers.js').then(function(){
-            return createScript('gisatlib/OpenLayers/Geoserver23.js');
-        }).then(function(){
-            return createScript('lib/Highcharts-3.0.0/js/highcharts.src.js');
-        }).then(function(){
-            return createScript('lib/Highcharts-3.0.0/js/highcharts-more.js');
-        }).then(function(){
-            return createScript('lib/Highcharts-3.0.0/js/modules/exporting.js');
-        }).then(function(){
+        createScript('appOld.js').then(function(){
             return createScript('extjs-4.1.3/ext-all.js');
         }).then(function(){
             var urlLang = new URL(window.location).searchParams.get('lang');
@@ -139,21 +131,7 @@ function loadApp(initialData) {
             console.error('Loading#', err);
         });
 
-        // load project styles depending on the toggles
-        if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
-            (Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
-            (Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
-            (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies))
-        {
-            createLink("styles/font-awesome.min.css");
-            createLink("styles/jquery-ui.css");
-            createLink("styles/style.css");
-            createLink("styles/select2.min.css");
-        }
-        if(Config.toggles.isNewDesign){
-            createLink("css/newDesign.css");
-            createLink("styles/projects.css");
-        }
+        createLink('appOld.css');
     });
 
     function applyScopeStyle(style) {

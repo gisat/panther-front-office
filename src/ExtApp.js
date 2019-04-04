@@ -13,8 +13,8 @@ class ExtApp {
     constructor() {
         Ext = window.Ext;
         Ext.Loader.setConfig({
-            enabled: true
-            , disableCaching: false
+            enabled: true,
+            disableCaching: false
         });
 
         Ext.Loader.setPath('Ext.ux', 'ux');
