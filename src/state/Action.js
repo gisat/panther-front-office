@@ -3,6 +3,7 @@ import ActionTypes from '../constants/ActionTypes';
 import App from './App/actions';
 import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
+import AttributeRelations from './AttributeRelations/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
@@ -29,6 +30,7 @@ export default {
 	app: App,
 	areas: Areas,
 	attributes: Attributes,
+	attributeRelations: AttributeRelations,
 	attributeSets: AttributeSets,
 	components: Components,
 	layerTemplates: LayerTemplates,

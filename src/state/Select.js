@@ -2,6 +2,7 @@
 import App from './App/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
+import AttributeRelations from './AttributeRelations/selectors';
 import AttributeSets from './AttributeSets/selectors';
 import Components from './Components/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
@@ -28,6 +29,7 @@ export default {
 	app: App,
 	areas: Areas,
 	attributes: Attributes,
+	attributeRelations: AttributeRelations,
 	attributeSets: AttributeSets,
 	components: Components,
 	layerPeriods: LayerPeriods,
