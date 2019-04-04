@@ -81,22 +81,29 @@ class PeriodsSelector extends React.PureComponent {
 			});
 		}
 
+		let scope = this.props.activeScope;
+		const hide = scope.data.removedTools && scope.data.removedTools.indexOf('period') !== -1;
+
 		let classes = classNames("ptr-periods-selector ptr-view-selection-selector", this.props.classes);
-		let content = (
-			<UISelect
-				key='theme-selector'
-				multi={options && options.length > 1}
-				clearable={false}
-				classes={classes}
-				label='left'
-				name={polyglot.t('periods')}
-				onChange={this.onChangePeriods}
-				options={options}
-				placeholder=''
-				value={selected}
-				disabled={!!this.props.disabled}
-			/>
-		);
+		let content;
+
+		if(!hide) {
+			content = (
+				<UISelect
+					key='theme-selector'
+					multi={options && options.length > 1}
+					clearable={false}
+					classes={classes}
+					label='left'
+					name={polyglot.t('periods')}
+					onChange={this.onChangePeriods}
+					options={options}
+					placeholder=''
+					value={selected}
+					disabled={!!this.props.disabled}
+				/>
+			);
+		}
 
 		return (
 			<div className="ptr-view-selection-container">

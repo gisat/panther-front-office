@@ -11,6 +11,7 @@ const mapStateToProps = () => {
 		return {
 			isInIntroMode: Select.components.isAppInIntroMode(state),
 			activePlace: Select.places.getActive(state),
+			activeScope: Select.scopes.getActive(state),
 			places: Select.places.getAllForActiveScope(state, order)
 		}
 	}

@@ -255,7 +255,11 @@ function loadApp(initialData) {
         }
         if(Config.toggles.topLinks) {
             var links = Config.toggles.topLinks.map(function(link){
-                return '<li><a href="'+link.url+'" target="_blank">'+link.text+'</a></li>';
+                if(link.icon) {
+                    return '<a href="' + link.url + '" target="_blank" style="padding: 10px 5px 0 5px;"><img src="'+link.icon+'" width="30px" height="30px"/></a>';
+                } else {
+                    return '<li><a href="' + link.url + '" target="_blank">' + link.text + '</a></li>';
+                }
             });
             $('#header .menu').append(links);
         }

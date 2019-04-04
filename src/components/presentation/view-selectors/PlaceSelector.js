@@ -86,22 +86,27 @@ class PlaceSelector extends React.PureComponent {
 				));
 			}
 
+			let scope = this.props.activeScope;
+			const hide = scope.data.removedTools && scope.data.removedTools.indexOf('place') !== -1;
+
 			let classes = classNames("ptr-place-selector ptr-view-selection-selector", this.props.classes);
 
-			content.push((
-				<UISelect
-					key='place-selector'
-					clearable={false}
-					classes={classes}
-					label='left'
-					name={place}
-					onChange={this.onChangePlace}
-					options={options}
-					placeholder=''
-					value={selected}
-					disabled={!!this.props.disabled}
-				/>
-			));
+			if(!hide) {
+				content.push((
+					<UISelect
+						key='place-selector'
+						clearable={false}
+						classes={classes}
+						label='left'
+						name={place}
+						onChange={this.onChangePlace}
+						options={options}
+						placeholder=''
+						value={selected}
+						disabled={!!this.props.disabled}
+					/>
+				));
+			}
 
 		}
 

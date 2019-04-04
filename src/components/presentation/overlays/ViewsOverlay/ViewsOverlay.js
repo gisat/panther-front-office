@@ -63,12 +63,26 @@ class ViewsOverlay extends React.PureComponent {
 		let scopeKey = selectedScope ? selectedScope.key : null;
 		let scopes = this.renderScopes(selectedScope);
 
+		let styles = {
+			paddingRight: "5px"
+		};
 		if (this.props.active) {
 			return (
 				<div className={classes}>
 					<div className="ptr-overlay-views-top-bar">
 						<div className="ptr-overlay-views-top-bar-header">
-
+							<a className="utep-link" href="/geobrowser/?id=portfolio">
+								<img src="images/utep/urban_geobrowser.png" width="30px" height="30px" style={styles}/>
+							</a>
+							<a className="utep-link" href="/puma/tool">
+								<img src="images/utep/urban_data.png" width="30px" height="30px" style={styles} />
+							</a>
+							<a className="utep-link" href="/geobrowser/?id=eoservices">
+								<img src="images/utep/urban_eoservices.png" width="30px" height="30px" style={styles} />
+							</a>
+							<a className="utep-link" href="/#!communities">
+								<img src="images/utep/urban_community_hub.png" width="30px" height="30px" style={styles} />
+							</a>
 						</div>
 						<div className="ptr-overlay-views-top-bar-user">
 							<User />
