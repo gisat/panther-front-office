@@ -32,13 +32,8 @@ class SelectDoc extends React.PureComponent {
 	}
 
 	onChange(key, keyPath, option) {
-		let val = option;
-		if (keyPath) {
-			val = _.get(option, keyPath);
-		}
-
 		this.setState({
-			[key]: val
+			[key]: option
 		});
 	}
 
