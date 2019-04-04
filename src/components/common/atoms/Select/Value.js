@@ -42,9 +42,10 @@ class Value extends React.PureComponent {
 
 	render () {
 
+		// TODO refactor component
 		let prefix = null;
 		if (this.props.withKeyPrefix) {
-			prefix = (<Key value={this.props.option.value}/>);
+			prefix = (<Key value={this.props.option.value || this.props.option.key}/>);
 		}
 		let label = (
 			<span className="label" key='label'>
