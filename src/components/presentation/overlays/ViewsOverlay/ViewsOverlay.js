@@ -111,14 +111,18 @@ class ViewsOverlay extends React.PureComponent {
 		let groups = Object.keys(this.props.scopes);
 
 		let containsUrbanTep = groups.indexOf('Urban TEP') !== -1;
+		let containsEO4SD = groups.indexOf('EO4SD') !== -1;
 		let containsOthers = groups.indexOf('Other') !== -1;
 		let otherGroups = groups.filter(group => {
-			return group != "Urban TEP" && group != "Other" && group != 0;
+			return group != "Urban TEP" && group != "Other" && group != "EO4SD" && group != 0;
 		});
 
 		groups = [];
 		if(containsUrbanTep) {
-			groups[0] = "Urban TEP";
+			groups.push("Urban TEP");
+		}
+		if(containsEO4SD) {
+			groups.push("EO4SD");
 		}
 		groups = groups.concat(otherGroups);
 		if(containsOthers) {
