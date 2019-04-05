@@ -10,10 +10,13 @@ export default props => (
 		<div className="esponFuore-header-region-select">region</div>
 		<div className="esponFuore-header-indicator-select">
 			<PantherSelect
+				className="esponFuore-indicator-select"
 				open={props.indicatorSelectOpen}
 				onSelectClick={() => {props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()}}
+				currentClasses="esponFuore-indicator-select-current"
 				renderCurrent={p => (<div>current</div>)}
-				renderList={p => (<div>list</div>)}
+				listClasses="esponFuore-indicator-select-list"
+				renderList={p => (<div className="esponFuore-indicator-select-content">content</div>)}
 			/>
 		</div>
 		<div className="esponFuore-header-toolbar">
