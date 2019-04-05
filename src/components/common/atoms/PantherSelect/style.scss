@@ -2,6 +2,12 @@
 
 .ptr-panther-select-current {
 	display: flex;
+	position: relative;
+	z-index: 20;
+}
+.ptr-panther-select-current:focus,
+.ptr-panther-select-current-icon:focus {
+	outline: 0;
 }
 .ptr-panther-select-current > div:first-child {
 	flex: 1;
