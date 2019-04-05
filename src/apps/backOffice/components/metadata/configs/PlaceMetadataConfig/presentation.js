@@ -141,13 +141,12 @@ class PlaceMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
 					<div className="ptr-screen-metadata-buttons-left">
-						{this.props.editedData && !_.isEmpty(this.props.editedData) ? (
-							<Button
-								disabled={this.props.unfocusable}
-								ghost
-								primary
-								onClick={this.props.onSave}
-							>{t("saveCapitalized")}</Button>) : null}
+						<Button
+							disabled={this.props.unfocusable || !this.props.editedData || _.isEmpty(this.props.editedData)}
+							ghost
+							primary
+							onClick={this.props.onSave}
+						>{t("saveCapitalized")}</Button>
 					</div>
 					<div className="ptr-screen-metadata-buttons-right">
 						<Button
