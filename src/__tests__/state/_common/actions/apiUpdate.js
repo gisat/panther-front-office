@@ -46,7 +46,7 @@ describe('#apiUpdate', () => {
 			});
 		});
 
-		store.dispatch(commonActions.apiUpdate(getSubstate, DATA_TYPE, ACTION_TYPES, CATEGORY_TYPE, editedData)).then(() => {
+		return store.dispatch(commonActions.apiUpdate(getSubstate, DATA_TYPE, ACTION_TYPES, CATEGORY_TYPE, editedData)).then(() => {
 			let actions = store.getActions();
 
 			let actionAdd = _.find(actions, (action) => action.type === ACTION_TYPES.ADD);
@@ -88,7 +88,7 @@ describe('#apiUpdate', () => {
 			});
 		});
 
-		store.dispatch(commonActions.apiUpdate(getSubstate, DATA_TYPE, ACTION_TYPES, CATEGORY_TYPE, editedData)).then(() => {
+		return store.dispatch(commonActions.apiUpdate(getSubstate, DATA_TYPE, ACTION_TYPES, CATEGORY_TYPE, editedData)).then(() => {
 			let actions = store.getActions();
 
 			let actionError = _.find(actions, (action) => action.type === "ERROR");
@@ -129,7 +129,7 @@ describe('#apiUpdate', () => {
 			});
 		});
 
-		store.dispatch(commonActions.apiUpdate(getSubstate, DATA_TYPE, ACTION_TYPES, CATEGORY_TYPE, editedData)).then(() => {
+		return store.dispatch(commonActions.apiUpdate(getSubstate, DATA_TYPE, ACTION_TYPES, CATEGORY_TYPE, editedData)).then(() => {
 			let actions = store.getActions();
 
 			let actionError = _.find(actions, (action) => action.type === "ERROR");

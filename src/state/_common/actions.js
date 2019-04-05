@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, {isEqual} from "lodash";
 import path from "path";
 import moment from 'moment';
 
@@ -121,12 +121,13 @@ const deleteItem = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			if (!item.key) {
 				return dispatch(actionGeneralError('common/actions#deleteItem: item key to delete is missing!'));
 			}
-
-			dispatch(apiDelete(dataType, categoryPath, [{key: item.key}])).then((result) => {
+			//dispatch deleting?
+			//TODO
+			return dispatch(apiDelete(dataType, categoryPath, [{key: item.key}])).then((result) => {
 				const data = result.data[dataType];
 				const deletedKeys = data.map(d => d.key);
 				//Check if item deleted
-				if(deletedKeys.includes(item.key)) {
+				if(isEqual(deletedKeys, [item.key])) {
 					// mark deleted items by "deleted" date
 					const deleteDate = moment(new Date().toString()).utc().format();
 					deletedKeys.forEach((key) => 
@@ -142,6 +143,9 @@ const deleteItem = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 						//refresh data
 						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes, categoryPath));
 					})
+				} else {
+					//error
+					return dispatch(actionGeneralError('common/actions#deleteItem: Deleted key is not equal to key to delete!'));
 				}
 			});
 		}
