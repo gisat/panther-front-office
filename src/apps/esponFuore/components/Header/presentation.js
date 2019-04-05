@@ -12,8 +12,8 @@ export default props => (
 			<PantherSelect
 				open={props.indicatorSelectOpen}
 				onSelectClick={() => {props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()}}
-				renderCurrent={p => null}
-				renderList={p => null}
+				renderCurrent={p => (<div>current</div>)}
+				renderList={p => (<div>list</div>)}
 			/>
 		</div>
 		<div className="esponFuore-header-toolbar">
