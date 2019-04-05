@@ -101,6 +101,28 @@
 	height: m(3);
 	background-color: var(--accent50);
 }
+.esponFuore-indicator-select-current .ptr-panther-select-current-icon {
+	position: relative;
+	width: 2rem;
+	flex-basis: 2rem;
+	padding: 1.5rem .25rem;
+}
+.esponFuore-indicator-select-current .ptr-panther-select-current-icon::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 1px;
+	content: '';
+	background-color: #fff3;
+}
+.esponFuore-indicator-select-current .ptr-panther-select-current-icon svg {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+.esponFuore-indicator-select-current .ptr-panther-select-current-icon svg .line {
+	fill: #fffc;
+}
 
 .esponFuore-indicator-select-list {
 	padding-top: 3rem;
