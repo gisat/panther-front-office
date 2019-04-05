@@ -111,7 +111,8 @@ class WorldWindMap extends React.PureComponent {
 		//if no layers, than add colored layer
 		if(nextLayers.length === 0) {
 			const earthBlueColor = '#6fafdc';
-			const layer = layers.getLayerByType({type:'colored', color: earthBlueColor});
+			// const layer = layers.getLayerByType({type:'colored', color: earthBlueColor});
+			const layer = layers.getLayerByType({type:'colored'});
 			nextLayers.push(layer)
 		}
 

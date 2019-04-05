@@ -1,4 +1,5 @@
 import WorldWind from '@nasaworldwind/worldwind';
+import utils from '../../../../../utils/utils';
 
 const Sector = WorldWind.Sector,
     Location = WorldWind.Location,
@@ -33,7 +34,7 @@ class ColoredLayer extends TiledImageLayer {
             result.width = tileWidth;
             const ctx = result.getContext('2d');
             ctx.rect(0, 0, tileWidth, tileHeight);
-            ctx.fillStyle = this._color;
+            ctx.fillStyle = this._color || utils.stringToColours(tile.tileKey, 1, {hue: [20,220], saturation: [35,65], lightness: [40,60]});
             ctx.fill();
 
             const texture = layer.createTexture(dc, tile, result);
