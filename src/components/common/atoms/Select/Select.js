@@ -13,6 +13,7 @@ class Select extends React.PureComponent {
 
     static propTypes = {
         className: PropTypes.string, // className for the outer element
+        clearable: PropTypes.bool,
         components: PropTypes.object,
         disabled: PropTypes.bool,
         formatOptionLabel: PropTypes.func, // custom option rendering
@@ -61,15 +62,15 @@ class Select extends React.PureComponent {
     onChange(selectedObject) {
         if (this.props.optionValue) {
             let selected =  _.find(this.props.options, (option) => {
-                return (_.get(option, this.props.optionValue) === selectedObject.value)
+                return (_.get(option, this.props.optionValue) === (selectedObject && selectedObject.value))
             });
             if (selected) {
                 this.props.onChange(selected);
             } else {
-                throw new Error('Select#Selected option was not found in original options.');
+                this.props.onChange(null);
             }
         } else {
-            this.props.onChange(selectedObject.value);
+            this.props.onChange(selectedObject ? selectedObject.value : null);
         }
     }
 
@@ -120,9 +121,11 @@ class Select extends React.PureComponent {
             <SelectBase
                 className={classes}
                 classNamePrefix={'ptr-select'}
+                clearable={this.props.clearable}
                 components={props.components}
                 formatOptionLabel={this.getLabel}
                 hideSelectedOptions={props.hideSelectedOptions}
+                isClearable={this.props.clearable}
                 isDisabled={this.props.disabled}
                 onChange={this.onChange}
                 options={props.options}
@@ -140,6 +143,7 @@ class Select extends React.PureComponent {
                 components={props.components}
                 formatOptionLabel={this.getLabel}
                 hideSelectedOptions={props.hideSelectedOptions}
+                isClearable={this.props.clearable}
                 isDisabled={this.props.disabled}
                 onChange={this.onChange}
                 onCreateOption={this.onCreate}

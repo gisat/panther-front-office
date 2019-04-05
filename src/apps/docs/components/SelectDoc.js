@@ -25,6 +25,7 @@ class SelectDoc extends React.PureComponent {
 			customCreatableValue: 'adsddfsfds',
 
 			basicValue: 'Chocolate',
+			basicClearableValue: 'Chocolate',
 			basicSelectCustomizedOptionsValue: 'dfgdfg84g',
 			selectAsTitleValue: baseOptions[0],
 			selectAsTitlePrefixedValue: baseOptions[1],
@@ -58,8 +59,19 @@ class SelectDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
+					<h2>Basic select clearable</h2>
+					<Select
+						clearable
+						onChange={this.onChange.bind(this, 'basicClearableValue', null)}
+						options={baseOptions}
+						value={this.state.basicClearableValue}
+					/>
+				</div>
+
+				<div className="ptr-docs-panel-section">
 					<h2>Basic select with prefixed key</h2>
 					<Select
+						clearable
 						onChange={this.onChange.bind(this, 'basicSelectCustomizedOptionsValue', 'data.key')}
 						options={customOptions}
 						optionLabel="data.labelCz"
