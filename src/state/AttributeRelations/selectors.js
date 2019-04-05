@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect';
-import _ from 'lodash';
+import _, {isEmpty} from 'lodash';
 import common from "../_common/selectors";
 
 const getSubstate = (state) => state.attributeRelations;
@@ -20,7 +20,7 @@ const getAllData = createSelector(
  * @param state {Object}
  * @param filter {Object}
  */
-const getFilteredData = createSelector(
+const getFiltered = createSelector(
 	[
 		getAllData,
 		(state, filter) => filter
@@ -50,9 +50,14 @@ const getFilteredData = createSelector(
  * }
  */
 const getDataSourceKeyFiltered = createSelector(
-	[getFilteredData],
+	[getFiltered],
 	(filteredRelations) => {
-		return filteredRelations.dataSourceKey;
+		if(filteredRelations && !isEmpty(filteredRelations)) {
+			//relation is only for one data, so return first
+			return filteredRelations[0].dataSourceKey;
+		} else {
+			return null;
+		}
 		// if (filteredRelations && filteredRelations.length) {
 		// 	return _.find(filteredRelations, relation => relation.dataSourceKey);
 		// } else {
@@ -64,7 +69,7 @@ const getDataSourceKeyFiltered = createSelector(
 export default {
 	getAllData,
 	getDataSourceKeyFiltered,
-	getFilteredData,
+	getFiltered,
 
 	getSubstate
 };
