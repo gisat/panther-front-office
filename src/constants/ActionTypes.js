@@ -505,6 +505,23 @@ export const commonActionTypesDefinitions = {
 		}
 	},
 
+	ATTRIBUTE_DATA_SOURCES: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
+	},
 	ATTRIBUTE_RELATIONS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
