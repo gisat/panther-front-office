@@ -2,7 +2,7 @@ import React from "react";
 
 import Home from './components/Home';
 import User from '../../../../components/common/controls/User';
-import PantherSelect from "../../../../components/common/atoms/PantherSelect";
+import PantherSelect, {PantherSelectItem} from "../../../../components/common/atoms/PantherSelect";
 
 export default props => (
 	<div className="esponFuore-header">
@@ -16,8 +16,13 @@ export default props => (
 				currentClasses="esponFuore-indicator-select-current"
 				renderCurrent={p => (<div>current</div>)}
 				listClasses="esponFuore-indicator-select-list"
-				renderList={p => (<div className="esponFuore-indicator-select-content">content</div>)}
-			/>
+			>
+				<div className="esponFuore-indicator-select-content">
+					<div>content</div>
+					<div>more <i>interesting</i> content</div>
+					<PantherSelectItem itemKey="one">an item</PantherSelectItem>
+				</div>
+			</PantherSelect>
 		</div>
 		<div className="esponFuore-header-toolbar">
 			<div>tools</div>

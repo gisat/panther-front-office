@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './style.scss';
+import Item from './PantherSelectItem';
 import Icon from "../Icon";
 
 class PantherSelect extends React.PureComponent {
@@ -50,6 +51,10 @@ class PantherSelect extends React.PureComponent {
 		}
 	}
 
+	onSelect(itemKey) {
+		console.log('##### selected item', itemKey);
+	}
+
 
 	render() {
 
@@ -75,13 +80,37 @@ class PantherSelect extends React.PureComponent {
 				<div className={classNames("ptr-panther-select-list", this.props.listClasses)}>
 					<div>
 						<div>
-							{this.props.renderList(this.props)}
+							{this.renderList(this.props.children)}
 						</div>
 					</div>
 				</div>
 			</div>
 		);
 	}
+
+	renderList(children) {
+
+		return React.Children.map(children, child => {
+			console.log('####', child);
+			// return child;
+			if (typeof child === 'object') {
+				if (child.type === Item) {
+					let {children, itemKey, ...props} = child.props;
+					if (!itemKey) throw new Error('PantherSelectItem must have itemKey set');
+					return React.cloneElement(child, {...props, onSelect: this.onSelect.bind(this, itemKey)}, children);
+				} else {
+					let {children, ...props} = child.props;
+					return React.cloneElement(child, props, this.renderList(children));
+				}
+			} else {
+				return child;
+			}
+		});
+
+	}
+
+
 }
 
+export const PantherSelectItem = Item;
 export default PantherSelect;
