@@ -146,6 +146,7 @@ class ViewsOverlay extends React.PureComponent {
 	}
 
 	renderCreateNew() {
+		let classes = classNames("scopes-list-item");
 		return <div className={classes} ><a href="/puma/backoffice/">Create My Own Application</a></div>
 	}
 
