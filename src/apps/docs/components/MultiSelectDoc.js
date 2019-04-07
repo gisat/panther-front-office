@@ -27,7 +27,10 @@ class MultiSelectDoc extends React.PureComponent {
 			creatableBaseSelectedValues: null,
 
 			creatableCustomOptions: customOptions,
-			creatableCustomSelectedValues: ['dfgdfg84g']
+			creatableCustomSelectedValues: ['dfgdfg84g'],
+
+			singleValueMultiselectOptions: customOptions,
+			singleValueMultiselectValue: 'dfgdfg84g'
 		};
 	}
 
@@ -111,6 +114,22 @@ class MultiSelectDoc extends React.PureComponent {
 						withKeyPrefix
 
 						onChange={(evt) => {this.onChange('creatableCustomSelectedValues', evt)}}
+						onOptionLabelClick={(evt) => {this.onOptionClick('data.key', evt)}}
+					/>
+				</div>
+				<div className="ptr-docs-panel-section">
+					<h2>Single value multiselect creatable</h2>
+					<MultiSelect
+						creatable
+						onAdd={this.onAdd.bind(this, 'singleValueMultiselectOptions', 'singleValueMultiselectValue')}
+						options = {this.state.singleValueMultiselectOptions}
+						optionLabel = 'data.labelCz'
+						optionValue = 'data.key'
+						selectedValues = {this.state.singleValueMultiselectValue}
+						singleValue
+						withKeyPrefix
+
+						onChange={(evt) => {this.onChange('singleValueMultiselectValue', evt)}}
 						onOptionLabelClick={(evt) => {this.onOptionClick('data.key', evt)}}
 					/>
 				</div>

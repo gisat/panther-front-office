@@ -18,7 +18,11 @@ class MultiSelect extends React.PureComponent {
 		onChange: PropTypes.func,
 		onOptionLabelClick: PropTypes.func,
 		options: PropTypes.array,
-		selectedValues: PropTypes.array,
+		selectedValues: PropTypes.oneOfType([
+			PropTypes.array,
+			PropTypes.string
+		]),
+		singleValue: PropTypes.bool,
 		unfocusable: PropTypes.bool,
 		withKeyPrefix: PropTypes.bool
 
@@ -56,6 +60,29 @@ class MultiSelect extends React.PureComponent {
 	}
 
 	/**
+	 * @return {Array} Collection of selected options
+	 */
+	getSelectedOptions() {
+		let selectedValues = this.props.selectedValues;
+
+		if (selectedValues && this.props.options) {
+			if (!_.isArray(selectedValues)) selectedValues = [selectedValues];
+			if (this.props.optionValue) {
+				return _.filter(this.props.options, (option) => {
+					let optionKey = this.getOptionValue(option);
+					return !!_.find(selectedValues, (selected) => {
+						return optionKey === this.getOptionValue(selected);
+					});
+				});
+			} else {
+				return selectedValues;
+			}
+		} else {
+			return [];
+		}
+	}
+
+	/**
 	 * Get value(key) from option
 	 * @param option {string | Object}
 	 * @return {string}
@@ -85,8 +112,8 @@ class MultiSelect extends React.PureComponent {
 	 * @param selectedOption {Object}
 	 */
     onChange(selectedOption) {
-		let selectedOptions = this.props.selectedValues ? [...this.props.selectedValues, selectedOption] : [selectedOption];
-		this.props.onChange(selectedOptions);
+		let selectedOptions = this.getSelectedOptions();
+		this.props.onChange([...selectedOptions, selectedOption]);
     }
 
 	/**
@@ -115,7 +142,8 @@ class MultiSelect extends React.PureComponent {
 		event.stopPropagation();
 		event.preventDefault();
 
-		let selectedOptions = _.filter(this.props.selectedValues, opt => {
+		let selected = this.getSelectedOptions();
+		let selectedOptions = _.filter(selected, opt => {
 			let key = this.getOptionValue(opt);
 			return key !== option.value;
 		});
@@ -241,44 +269,62 @@ class MultiSelect extends React.PureComponent {
 
     render() {
 		let options = this.props.options ? this.props.options : [];
-		let selectedOptions = this.props.selectedValues ? this.props.selectedValues : [];
+
+		let selectedOptions = [];
+		if (this.props.selectedValues) {
+			if (!_.isArray(this.props.selectedValues)) {
+				selectedOptions = [this.props.selectedValues]
+			} else {
+				selectedOptions = this.props.selectedValues
+			}
+		}
 
     	let formattedOptions = this.getFormattedOptions(options);
     	let formattedSelected = this.getFormattedOptions(selectedOptions);
 
         let selectedItems = this.getSelectedItems(formattedOptions, formattedSelected);
         let restOptions = this.getRestOptions(options, selectedOptions);
+
+        let selectComponent = null;
+        if (!(this.props.singleValue && selectedOptions.length === 1)) {
+        	selectComponent = this.renderSelect(restOptions);
+		}
+
         return (
         	<div>
 				{selectedItems ? <div className='items'>{selectedItems}</div> : null}
-				{this.props.creatable ? (
-					<Select
-						type='creatable'
-						disabled={this.props.disabled}
-						onChange={this.onChange}
-						onCreate={this.props.onAdd}
-						options={restOptions}
-						optionLabel={this.props.optionLabel}
-						optionValue={this.props.optionValue}
-						unfocusable={this.props.unfocusable}
-						value={null}
-						withKeyPrefix={this.props.withKeyPrefix}
-					/>
-				) : (
-					<Select
-						disabled={this.props.disabled}
-						onChange={this.onChange}
-						options={restOptions}
-						optionLabel={this.props.optionLabel}
-						optionValue={this.props.optionValue}
-						unfocusable={this.props.unfocusable}
-						value={null}
-						withKeyPrefix={this.props.withKeyPrefix}
-					/>
-				)}
+				{selectComponent}
 			</div>
 		);
     }
+
+    renderSelect(options) {
+		return this.props.creatable ? (
+			<Select
+				type='creatable'
+				disabled={this.props.disabled}
+				onChange={this.onChange}
+				onCreate={this.props.onAdd}
+				options={options}
+				optionLabel={this.props.optionLabel}
+				optionValue={this.props.optionValue}
+				unfocusable={this.props.unfocusable}
+				value={null}
+				withKeyPrefix={this.props.withKeyPrefix}
+			/>
+		) : (
+			<Select
+				disabled={this.props.disabled}
+				onChange={this.onChange}
+				options={options}
+				optionLabel={this.props.optionLabel}
+				optionValue={this.props.optionValue}
+				unfocusable={this.props.unfocusable}
+				value={null}
+				withKeyPrefix={this.props.withKeyPrefix}
+			/>
+		)
+	}
 }
 
 export default MultiSelect;
