@@ -22,7 +22,8 @@ const mapStateToProps = (state) => {
 		open: Select.components.overlays.isOverlayOpen(state, {key: 'views'}),
 		intro: Select.components.overlays.views.getIntro(state),
 		scopes: filteredScopes ? filteredScopes : [],
-		selectedScope: Select.components.overlays.views.getSelectedScopeData(state)
+		selectedScope: Select.components.overlays.views.getSelectedScopeData(state),
+		currentUser: Select.users.getActiveUser(state)
 	}
 };
 

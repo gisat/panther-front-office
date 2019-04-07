@@ -58,6 +58,7 @@ class ViewsOverlay extends React.PureComponent {
 		});
 
 		let about = this.props.intro ? this.renderAboutItem() : null;
+		let createNew = this.props.currentUser ? this.renderCreateNew(): null;
 		let firstScope = this.props.scopes && this.props.scopes.length ? this.props.scopes[0][0] : null;
 		let selectedScope = this.props.selectedScope ? this.props.selectedScope : (this.props.intro ? null : firstScope);
 		let scopeKey = selectedScope ? selectedScope.key : null;
@@ -92,6 +93,7 @@ class ViewsOverlay extends React.PureComponent {
 						<div className="scopes-list">
 							{about}
 							{scopes}
+							{createNew}
 						</div>
 						<div className="scope-intro-box">
 							<ScopeIntroSwitch
@@ -141,6 +143,10 @@ class ViewsOverlay extends React.PureComponent {
 				})}
 				</div>);
 		});
+	}
+
+	renderCreateNew() {
+		return <div className={classes} ><a href="/puma/backoffice/">Create My Own Application</a></div>
 	}
 
 	renderAboutItem(){
