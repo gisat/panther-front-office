@@ -10,7 +10,8 @@ const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.specific.esponFuoreIndicators.getAllOrdered(state, order)
+		data: Select.specific.esponFuoreIndicators.getAllOrdered(state, order),
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'esponFuoreIndicators', 'specific')
 	}
 };
 

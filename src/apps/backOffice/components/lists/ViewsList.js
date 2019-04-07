@@ -12,7 +12,8 @@ const order = [['nameDisplay', 'ascending']];
 const mapStateToProps = (state, props) => {
 	return {
 		// todo order
-		models: Select.specific.backOffice.views.getAllForActiveApp(state, null)
+		models: Select.specific.backOffice.views.getAllForActiveApp(state, null),
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'views', 'views')
 	}
 };
 

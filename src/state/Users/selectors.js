@@ -5,6 +5,7 @@ import _ from 'lodash';
 import common from "../_common/selectors";
 import ScopeSelectors from '../Scopes/selectors';
 
+const DEFAULT_CATEGORY = 'metadata';
 
 const getSubstate = state => state.users;
 const getGroupsSubstate = state => state.users.groups;
@@ -58,9 +59,13 @@ const getGroupKeysForActiveUser = createSelector(
 );
 
 const hasActiveUserPermissionToCreate = createSelector(
-	[getActiveUserPermissions, (state, type) => type],
-	(permissions, type) => {
-		return (type && permissions && permissions.metadata && permissions.metadata[type] && permissions.metadata[type].create);
+	[
+		getActiveUserPermissions,
+		(state, type) => type,
+		(state, type, category) => category
+	],
+	(permissions, type, category = DEFAULT_CATEGORY) => {
+		return (type && permissions && permissions[category] && permissions[category][type] && permissions[category][type].create);
 	}
 );
 

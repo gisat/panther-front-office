@@ -9,7 +9,8 @@ const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.specific.backOffice.scopes.getAllForActiveApp(state, order), // todo more specific selector
+		data: Select.specific.backOffice.scopes.getAllForActiveApp(state, order),
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'scopes')
 	}
 };
 

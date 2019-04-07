@@ -10,6 +10,7 @@ const order = [['nameDisplay', 'ascending']];
 const mapStateToProps = (state, props) => {
 	return {
 		data: Select.specific.backOffice.layerTemplates.getAllForActiveApp(state, order),
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'layerTemplates')
 	}
 };
 
