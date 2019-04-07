@@ -126,6 +126,8 @@ const deleteItem = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			return dispatch(apiDelete(dataType, categoryPath, [{key: item.key}])).then((result) => {
 				const data = result.data[dataType];
 				const deletedKeys = data.map(d => d.key);
+				// TODO go through all edited metadata and clear deleted key
+
 				//Check if item deleted
 				if(isEqual(deletedKeys, [item.key])) {
 					// mark deleted items by "deleted" date
@@ -521,6 +523,10 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType, categoryPath
 					} else if (_.isObject(value)) {
 						if (JSON.stringify(value) === JSON.stringify(model.data[key])) {
 							dispatch(actionRemovePropertyFromEdited(actionTypes, model.key, key));
+						} else if (_.isArray(value) && _.isEmpty(value)) {
+							if (_.isEmpty(model.data[key]) || (model.data && !model.data[key])) {
+								dispatch(actionRemovePropertyFromEdited(actionTypes, model.key, key));
+							}
 						}
 					}
 				});
