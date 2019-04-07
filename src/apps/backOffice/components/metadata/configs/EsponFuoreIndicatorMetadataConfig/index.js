@@ -21,6 +21,8 @@ const mapStateToProps = (state, props) => {
 
 		// todo selected tags
 		tags: Select.specific.backOffice.tags.getAllForActiveApp(state, order),
+		selectedTags: Select.specific.backOffice.tags.getForEsponFuoreIndicators(state, props.itemKey, 'tagKeys'),
+
 		views: Select.specific.backOffice.views.getAllForActiveApp(state, order),
 
 		enableAttributeCreate: Select.users.hasActiveUserPermissionToCreate(state, 'attributes'),

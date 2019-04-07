@@ -119,7 +119,11 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
-		let tagKeys = data && data.tagKeys;
+		// at least selected tags should by in the store
+		let tagOptions = this.props.tags;
+		if (!this.props.tags) {
+			tagOptions = this.props.selectedTags;
+		}
 
 		return (
 			<div>
@@ -193,11 +197,11 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 					<MultiSelect
 						creatable={this.props.enableTagCreate}
 						disabled={!this.props.editable}
-						onAdd={this.onTagAdd.bind(this, tagKeys)}
-						options = {this.props.tags}
+						onAdd={this.onTagAdd.bind(this, data && data.tagKeys)}
+						options = {tagOptions}
 						optionLabel = 'data.nameDisplay'
 						optionValue = 'key'
-						selectedValues = {tagKeys}
+						selectedValues = {data && data.tagKeys}
 						unfocusable={this.props.unfocusable}
 						withKeyPrefix
 
