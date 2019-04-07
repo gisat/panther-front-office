@@ -48,7 +48,7 @@ class NavList extends React.PureComponent {
 			case 'folder':
 				return ([
 					<li key={descendant.title} className={'ptr-nav-item-folder'}>
-						{descendant.title}
+						<span>{descendant.title}</span>
 					</li>,
 					<ul key={`${descendant.title}-folder`}>
 						{this.getDescendants(descendant.items, descendant)}

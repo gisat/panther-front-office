@@ -45,11 +45,14 @@
     background-color: var(--base30);
 }
 
-.ptr-navlist li.ptr-nav-item-folder {
+.ptr-navlist ul li span,
+.ptr-navlist ul li a {
+    display: inline-block;
     padding: m(1/3) m(1);
 }
 
-.ptr-navlist li.ptr-nav-item a {
+.ptr-navlist ul ul li span,
+.ptr-navlist ul ul a {
     padding: m(1/3) m(1.5);
 }
 

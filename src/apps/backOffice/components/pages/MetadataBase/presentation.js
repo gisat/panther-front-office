@@ -89,7 +89,7 @@ class MetadataBase extends React.PureComponent {
 			});
 		}
 
-		return [...baseMetatadata, ...specificMetadata].sort(utils.czAlphabeticalSort.bind(this, 'title'));
+		return [...baseMetatadata, ...specificMetadata];
 	}
 
 	getPathsForMetadata(metadata) {
@@ -102,19 +102,13 @@ class MetadataBase extends React.PureComponent {
 	}
 
 	getNavigation(metadata, paths) {
-		return [
-			{
-				title: 'Base',
-				type: 'folder',
-				items: metadata.map(item => {
-					return {
-						type: 'leaf',
-						title: item.title,
-						path: paths[item.key]
-					}
-				})
+		return metadata.map(item => {
+			return {
+				type: 'leaf',
+				title: item.title,
+				path: paths[item.key]
 			}
-		]
+		})
 	}
 }
 
