@@ -46,48 +46,6 @@ const getAllForActiveApp = (getSubstate) => {
 	);
 };
 
-const getForMetadataModel = (getSubstate, type, category) => {
-	let getDataByKeySelector;
-	let getEditedDataByKeySelector;
-	if (category) {
-		if (category === "specific" && type === "esponFuoreIndicators")
-		getDataByKeySelector = esponFuoreIndicators.getDataByKey;
-		getEditedDataByKeySelector = esponFuoreIndicators.getEditedDataByKey;
-	} else {
-		getDataByKeySelector = commonSelect[type].getDataByKey;
-		getEditedDataByKeySelector = commonSelect[type].getEditedDataByKey;
-	}
-
-	return createSelector(
-		[
-			commonSelectors.getAllAsObject(getSubstate),
-			getDataByKeySelector,
-			getEditedDataByKeySelector,
-			(state, key, columnKey) => columnKey
-		],
-		(models, indicatorData, editedIndicatorData, columnKey) => {
-			if (models && !_.isEmpty(models) && (indicatorData && indicatorData[columnKey] || editedIndicatorData && editedIndicatorData[columnKey])) {
-				let keys = indicatorData && indicatorData[columnKey];
-				if (editedIndicatorData && editedIndicatorData[columnKey]) {
-					keys = editedIndicatorData[columnKey]
-				}
-
-				if (_.isArray(keys)) {
-					return  _.filter(models, (model) => {
-						return _.includes(keys, model.key);
-					});
-				} else {
-					return  _.filter(models, (model) => {
-						return keys === model.key;
-					});
-				}
-			} else {
-				return null;
-			}
-		}
-	);
-};
-
 export default {
 	attributes: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.attributes.getSubstate)
@@ -105,8 +63,7 @@ export default {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.scopes.getSubstate)
 	},
 	tags: {
-		getAllForActiveApp: getAllForActiveApp(commonSelect.tags.getSubstate),
-		getForEsponFuoreIndicators: getForMetadataModel(commonSelect.tags.getSubstate, 'esponFuoreIndicators', 'specific')
+		getAllForActiveApp: getAllForActiveApp(commonSelect.tags.getSubstate)
 	},
 	views: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.views.getSubstate)

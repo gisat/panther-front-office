@@ -9,6 +9,7 @@ const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
 
 const getByKey = common.getByKey(getSubstate);
+const getByKeys = common.getByKeys(getSubstate);
 
 const getDataByKey = common.getDataByKey(getSubstate);
 const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
@@ -21,6 +22,7 @@ export default {
 	getAll,
 	getAllAsObject,
 	getByKey,
+	getByKeys,
 
 	getDataByKey,
 	getDeletePermissionByKey,

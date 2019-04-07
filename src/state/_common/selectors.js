@@ -148,6 +148,20 @@ const getByKey = (getSubstate) => {
 	}
 };
 
+// TODO test
+const getByKeys = (getSubstate) => {
+	return (state, keys) => {
+		let allData = getAllAsObject(getSubstate)(state);
+		if (keys && keys.length && allData && !_.isEmpty(allData)) {
+			return keys.map(key => {
+				return allData[key];
+			});
+		} else {
+			return null;
+		}
+	}
+};
+
 const getDataByKey = (getSubstate) => {
 	return createSelector(
 		[getByKey(getSubstate)],
@@ -609,6 +623,7 @@ export default {
 
 	getByFilterOrder,
 	getByKey,
+	getByKeys,
 
 	getDataByKey,
 	getDeletePermissionByKey,

@@ -4,7 +4,6 @@ import Action from "../../../../state/Action";
 import presentation from "./presentation";
 import utils from "../../../../../../utils/utils";
 import AttributeMetadataScreen from "../../screens/AttributeMetadataScreen";
-import TagMetadataScreen from "../../screens/TagMetadataScreen";
 import ViewMetadataScreen from "../../screens/ViewMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
@@ -20,13 +19,9 @@ const mapStateToProps = (state, props) => {
 		attributes: Select.specific.backOffice.attributes.getAllForActiveApp(state, order),
 
 		// todo selected tags
-		tags: Select.specific.backOffice.tags.getAllForActiveApp(state, order),
-		selectedTags: Select.specific.backOffice.tags.getForEsponFuoreIndicators(state, props.itemKey, 'tagKeys'),
-
 		views: Select.specific.backOffice.views.getAllForActiveApp(state, order),
 
 		enableAttributeCreate: Select.users.hasActiveUserPermissionToCreate(state, 'attributes'),
-		enableTagCreate: Select.users.hasActiveUserPermissionToCreate(state, 'tags'),
 		// todo check permissions for view creation
 		enableViewCreate: true,
 	}
@@ -41,7 +36,6 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.specific.esponFuoreIndicators.useKeys([props.itemKey], componentId));
 
 				dispatch(Action.specific.backOffice.attributes.useIndexed({application: true}, null, order, 1, 1000, componentId));
-				dispatch(Action.specific.backOffice.tags.useIndexed({application: true}, null, order, 1, 1000, componentId));
 				dispatch(Action.specific.backOffice.views.useIndexed({application: true}, null, order, 1, 1000, componentId));
 			},
 			onSave: () => {
@@ -55,19 +49,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.specific.backOffice.attributes.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-attributeConfig', 40, 40, AttributeMetadataScreen, {itemKey}))
 			},
-			onTagAdd(itemKey) {
-				dispatch(Action.specific.backOffice.tags.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagMetadataScreen, {itemKey}))
-			},
 			onViewAdd(itemKey) {
 				dispatch(Action.specific.backOffice.views.create(itemKey));
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewMetadataScreen, {itemKey}))
 			},
 			onAttributeClick: (key) => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-attributeConfig', 40, 40, AttributeMetadataScreen, {itemKey: key}))
-			},
-			onTagClick: (key) => {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagMetadataScreen, {itemKey: key}))
 			},
 			onViewClick: (key) => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewMetadataScreen, {itemKey: key}))
@@ -76,7 +63,6 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.specific.esponFuoreIndicators.useKeysClear(componentId));
 
 				dispatch(Action.attributes.useIndexedClear(componentId));
-				dispatch(Action.tags.useIndexedClear(componentId));
 				dispatch(Action.views.useIndexedClear(componentId));
 			},
 			updateEdited: (key, value) => {

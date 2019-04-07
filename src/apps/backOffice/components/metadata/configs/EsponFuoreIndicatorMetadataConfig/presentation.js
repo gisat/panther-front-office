@@ -8,6 +8,8 @@ import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 import MultiSelect from "../../../../../../components/common/atoms/Select/MultiSelect";
 
+import TagsSelect from "../formComponents/MetadataMultiSelect/TagsSelect";
+
 class IndicatorsMetadataConfig extends React.PureComponent {
 	static propTypes = {
 		attributes: PropTypes.array,
@@ -45,7 +47,6 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 		this.onAttributeOpen = this.onAttributeOpen.bind(this);
 
 		this.onTagsChange = this.onTagsChange.bind(this);
-		this.onTagOpen = this.onTagOpen.bind(this);
 
 		this.onViewAdd = this.onViewAdd.bind(this);
 		this.onViewChange = this.onViewChange.bind(this);
@@ -83,19 +84,8 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 		this.props.onAttributeClick(option.key);
 	}
 
-	onTagAdd(selectedKeys, option) {
-		this.props.onTagAdd(option.key);
-		let keys = selectedKeys ? [...selectedKeys, option.key] : [option.key];
+	onTagsChange(keys) {
 		this.props.updateEdited('tagKeys', keys);
-	}
-
-	onTagsChange(selectedTags) {
-		let tagKeys = selectedTags.map(tag => tag.key);
-		this.props.updateEdited('tagKeys', tagKeys);
-	}
-
-	onTagOpen(option) {
-		this.props.onTagClick(option.key);
 	}
 
 	onViewAdd(option) {
@@ -117,12 +107,6 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 		let data = {...this.props.data};
 		if (this.props.editedData) {
 			data = {...data, ...this.props.editedData}
-		}
-
-		// at least selected tags should by in the store
-		let tagOptions = this.props.tags;
-		if (!this.props.tags) {
-			tagOptions = this.props.selectedTags;
 		}
 
 		return (
@@ -194,19 +178,12 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 					required
 					label={t("metadata.names.tag_plural")}
 				>
-					<MultiSelect
-						creatable={this.props.enableTagCreate}
+					<TagsSelect
 						disabled={!this.props.editable}
-						onAdd={this.onTagAdd.bind(this, data && data.tagKeys)}
-						options = {tagOptions}
-						optionLabel = 'data.nameDisplay'
-						optionValue = 'key'
-						selectedValues = {data && data.tagKeys}
+						keys={data && data.tagKeys}
+						onChange={this.onTagsChange}
 						unfocusable={this.props.unfocusable}
 						withKeyPrefix
-
-						onChange={this.onTagsChange}
-						onOptionLabelClick={this.onTagOpen}
 					/>
 				</InputWrapper>
 				<div className="ptr-screen-metadata-buttons">
