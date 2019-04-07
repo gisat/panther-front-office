@@ -38,7 +38,8 @@ class MetadataSwitcher extends React.PureComponent {
 		if (relevantData) {
 			selectedValue = relevantData.find(i => i.key === this.props.itemKey);
 		}
-		
+
+		// TODO uncomment when backend is ready
 		return (
 			<div className="ptr-screen-metadata-switcher-content">
 				<Select
@@ -56,6 +57,7 @@ class MetadataSwitcher extends React.PureComponent {
 					icon="plus"
 					ghost
 					onClick={this.props.onAddClick}
+					// disabled={!this.props.enableCreate}
 					unfocusable={this.props.unfocusable}
 				/>
 			</div>

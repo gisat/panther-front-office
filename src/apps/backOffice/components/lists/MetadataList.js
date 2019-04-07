@@ -8,6 +8,7 @@ import AddValue from '../../../../components/common/atoms/Select/AddValue';
 
 class MetadataList extends React.PureComponent {
 	static propTypes = {
+		enableCreate: PropTypes.bool,
 		models: PropTypes.array,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
@@ -23,7 +24,9 @@ class MetadataList extends React.PureComponent {
 
 	componentDidMount() {
 		this.props.onMount();
-		this.list.current.children[0].focus();
+		if (this.list.current.children[0]) {
+			this.list.current.children[0].focus();
+		}
 	}
 
 	componentWillUnmount() {
@@ -41,13 +44,14 @@ class MetadataList extends React.PureComponent {
 			<Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
 		</span>)];
 
+		// TODO enable AddValue if enableCreate = true (waiting for BE)
 		return (
 			<div ref={this.list}>
 				<AddValue
 					unfocusable={this.props.unfocusable}
-                    option={{label:t('createCapitalized')}}
-                    onOptionLabelClick={this.props.onAddClick}
-                    />
+					option={{label:t('createCapitalized')}}
+					onOptionLabelClick={this.props.onAddClick}
+				/>
 				{this.props.models ? this.props.models.map(model => {
 					if (model) {
 						return (<Value

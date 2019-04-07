@@ -10,7 +10,8 @@ const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.specific.backOffice.attributes.getAllForActiveApp(state, order)
+		data: Select.specific.backOffice.attributes.getAllForActiveApp(state, order),
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'attributes')
 	}
 };
 
