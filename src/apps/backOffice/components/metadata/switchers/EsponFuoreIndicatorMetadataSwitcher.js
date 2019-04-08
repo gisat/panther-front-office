@@ -27,12 +27,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
 			},
 			onChange(item) {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-indicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey: item.key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-esponFuoreIndicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey: item.key}))
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.esponFuoreIndicators.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-indicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-esponFuoreIndicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey}))
 			}
 		}
 	}
