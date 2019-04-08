@@ -1,4 +1,5 @@
 import React from "react";
+import Helmet from "react-helmet";
 
 import LandingPage from '../LandingPage';
 import Header from '../Header';
@@ -16,6 +17,7 @@ export default props => {
 
 		return (
 			<div className="esponFuore-app">
+				<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
 				<Header />
 				<div className="esponFuore-content">
 					<WindowsContainer>

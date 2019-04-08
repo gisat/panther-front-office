@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
+import Helmet from "react-helmet";
 
 import Action from './state/Action';
 import Store, {history} from './state/Store';
@@ -44,6 +45,10 @@ export default path => {
 
 	ReactDOM.render(
 		<Provider store={Store}>
+			<Helmet
+				titleTemplate="%s | ESPON FUORE"
+				defaultTitle="ESPON FUORE"
+			/>
 			<AppContainer>
 				<ConnectedRouter history={history}>
 					<>
