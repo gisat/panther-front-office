@@ -91,7 +91,6 @@ class PantherSelect extends React.PureComponent {
 	renderList(children) {
 
 		return React.Children.map(children, child => {
-			console.log('####', child);
 			// return child;
 			if (typeof child === 'object') {
 				if (child.type === Item) {

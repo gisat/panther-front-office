@@ -10,7 +10,8 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen')
+		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
+		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
 	}
 };
 
@@ -21,6 +22,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		closeIndicatorSelect: () => {
 			dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', false))
+		},
+		onChangeSearch: (value) => {
+			dispatch(Action.components.set('esponFuore_IndicatorSelect', 'searchValue', value))
 		}
 	}
 };

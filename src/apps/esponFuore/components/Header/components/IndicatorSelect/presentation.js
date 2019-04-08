@@ -1,6 +1,9 @@
 import React from "react";
 
+import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
+import Input from "../../../../../../components/common/atoms/Input/Input";
+import Icon from "../../../../../../components/common/atoms/Icon";
 
 export default props => (
 
@@ -13,9 +16,21 @@ export default props => (
 		listClasses="esponFuore-indicator-select-list"
 	>
 		<div className="esponFuore-indicator-select-content">
-			<div>content</div>
-			<div>more <i>interesting</i> content</div>
-			<PantherSelectItem itemKey="one">an item</PantherSelectItem>
+			<div className="esponFuore-indicator-select-sidebar">
+				<div className="esponFuore-indicator-select-search">
+					<Input value={props.searchValue} onChange={props.onChangeSearch} ><Icon icon="search" /></Input>
+				</div>
+				<div className="esponFuore-indicator-select-categories">
+					<a>Category</a>
+					<a className="selected">Another</a>
+					<a>A rather embarrassingly badly named category</a>
+				</div>
+			</div>
+			<div className="esponFuore-indicator-select-indicators">
+				<PantherSelectItem itemKey="one">an item</PantherSelectItem>
+				<PantherSelectItem itemKey="two">an item</PantherSelectItem>
+				<PantherSelectItem itemKey="three">an item</PantherSelectItem>
+			</div>
 		</div>
 	</PantherSelect>
 
