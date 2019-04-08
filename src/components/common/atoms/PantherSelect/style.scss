@@ -5,12 +5,16 @@
 	position: relative;
 	z-index: 20;
 }
+.ptr-panther-select-current:not(.disabled) {
+	cursor: pointer;
+}
 .ptr-panther-select-current:focus,
 .ptr-panther-select-current-icon:focus {
 	outline: 0;
 }
 .ptr-panther-select-current > div:first-child {
 	flex: 1;
+	overflow: hidden;
 }
 .ptr-panther-select-current-icon {
 	$width: m(1);
