@@ -16,7 +16,13 @@ describe('#clearIndexes', () => {
 					count: null,
 					filter: {scope: 666},
 					order: null,
-					index: null
+					index: null,
+					"outdated": {
+						"1": 1,
+						"3": 3,
+						"4": 11,
+					},
+					"outdatedCount": 4,
 				}, {
 					changedOn: "2018-12-03T15:25:12.745Z",
 					count: 10,

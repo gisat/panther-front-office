@@ -17,6 +17,6 @@ describe('#getAllData', () => {
 	});
 
 	it('should return null for null relations data', () => {
-		expect(Selector(Select.spatialRelations.getAllData).execute(NULL_DATA_STATE)).toBeNull();
+		expect(Selector(Select.spatialRelations.getAllData).execute(NULL_DATA_STATE).length).toBe(0);
 	});
 });

@@ -1,5 +1,6 @@
 import commonReducers from "../../../../state/_common/reducers";
 import {
+	getState,
 	BASIC_STATE,
 	EMPTY_INDEXES_STATE,
 	NO_INDEXES_STATE
@@ -8,24 +9,43 @@ import {
 describe('#clearIndexes', () => {
 	it('should clear all indexes', () => {
 		const expectedState = {
-			...BASIC_STATE.sample,
+			...getState().sample,
 			indexes: [
 				{
 					changedOn: "2018-12-03T15:25:12.745Z",
 					count: null,
 					filter: {scope: 666},
 					order: null,
-					index: null
+					index: null,
+					"outdated": {
+						"1": 1,
+						"3": 3,
+						"4": 11,
+					},
+					"outdatedCount": 4,
 				}, {
 					changedOn: "2018-12-03T15:25:12.745Z",
 					count: null,
 					filter: null,
 					order: [['name', 'ascending']],
-					index: null
+					index: null,
+					outdated: {
+						"1": 4,
+						"10": 1,
+						"2": 5,
+						"3": 10,
+						"4": 2,
+						"5": 9,
+						"6": 3,
+						"7": 6,
+						"8": 7,
+						"9": 8,
+					},
+					"outdatedCount": 10,
 				}
 			],
 		};
-		expect(commonReducers.clearIndexes(BASIC_STATE.sample)).toEqual(expectedState);
+		expect(commonReducers.clearIndexes(getState().sample)).toEqual(expectedState);
 	});
 
 	it('should not modify state if there are no indexes', () => {

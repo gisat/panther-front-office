@@ -40,7 +40,7 @@ describe('#getFilteredData', () => {
 			layerTemplateKey: "lt2",
 			scopeKey: "scope1"
 		};
-		Selector(Select.spatialRelations.getFilteredData).expect(EMPTY_DATA_STATE, filter).toReturn([]);
+		Selector(Select.spatialRelations.getFilteredData).expect(EMPTY_DATA_STATE, filter).toReturn(null);
 	});
 
 	it('should return null for null relations data', () => {

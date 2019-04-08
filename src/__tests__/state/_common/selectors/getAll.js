@@ -14,8 +14,8 @@ describe('#getAll', () => {
 		expect(commonSelectors.getAll(getSubstate)(BASIC_STATE)).toHaveLength(expectedLength);
 	});
 
-	it('it should select null, if byKey does not exist', () => {
-		expect(commonSelectors.getAll(getSubstate)(NO_MODELS_STATE)).toBeNull();
+	it('it should select empty array, if byKey does not exist', () => {
+		expect(commonSelectors.getAll(getSubstate)(NO_MODELS_STATE).length).toBe(0);
 	});
 
 	it('it should select empty array, if byKey is empty object', () => {

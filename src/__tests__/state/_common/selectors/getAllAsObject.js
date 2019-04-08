@@ -11,7 +11,7 @@ describe('#getAllAsObject', () => {
 	});
 
 	it('should select null, if data does not exist', () => {
-		expect(commonSelectors.getAllAsObject(getSubstate)(NO_MODELS_STATE)).toBeNull();
+		expect(commonSelectors.getAllAsObject(getSubstate)(NO_MODELS_STATE)).toMatchObject({});
 	});
 
 	it('should select empty object, if data data is empty object', () => {

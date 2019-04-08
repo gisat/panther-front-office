@@ -7,6 +7,11 @@ import Select from "../Select";
 const activeScopeKey = state => state.scopes.activeKey;
 const activeThemeKey = state => state.themes.activeKey;
 
+/**
+ * 
+ * @param {*} getSubstate 
+ * @returns {Object}
+ */
 const getAllNotRemovedAsObject = (getSubstate) => {
 	return (state) => {
 		const byKey = getSubstate(state).byKey;
@@ -14,8 +19,19 @@ const getAllNotRemovedAsObject = (getSubstate) => {
 	}
 };
 
+
+/**
+ * 
+ * @param {*} getSubstate 
+ * @returns {Object}
+ */
 const getAllAsObject = getAllNotRemovedAsObject;
 
+/**
+ * 
+ * @param {*} getSubstate 
+ * @returns {Array|null}
+ */
 const getAll = (getSubstate) => {
 	return createSelector(
 		[getAllAsObject(getSubstate)],

@@ -22,6 +22,7 @@ const INITIAL_STATE = {
 
 describe('Maps Actions', () => {
 	describe('#setActiveMapKey', () => {
+		const mockStore = configureMockStore([thunk]);
 		it('should dispatch setActiveMapKey action', () => {
 			const store = mockStore(INITIAL_STATE);
 

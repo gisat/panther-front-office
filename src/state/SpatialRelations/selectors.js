@@ -1,10 +1,13 @@
 import {createSelector} from 'reselect';
-import _ from 'lodash';
+import _, {isEmpty} from 'lodash';
 import common from "../_common/selectors";
 
 const getSubstate = (state) => state.spatialRelations;
 const getAll = common.getAll(getSubstate);
 
+/**
+ * @return {Array|null}
+ */
 const getAllData = createSelector(
 	[getAll],
 	(relations) => {
@@ -19,6 +22,7 @@ const getAllData = createSelector(
 /**
  * @param state {Object}
  * @param filter {Object}
+ * @returns {Array|null}
  */
 const getFilteredData = createSelector(
 	[
@@ -26,7 +30,7 @@ const getFilteredData = createSelector(
 		(state, filter) => filter
 	],
 	(relations, filter) => {
-		if (relations && filter && !_.isEmpty(filter)) {
+		if (relations && relations.length > 0 && filter && !_.isEmpty(filter)) {
 			return _.filter(relations, filter);
 		} else {
 			return null;
