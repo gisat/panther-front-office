@@ -87,7 +87,7 @@ class PlaceSelector extends React.PureComponent {
 			}
 
 			let scope = this.props.activeScope;
-			const hide = scope.data.removedTools && scope.data.removedTools.indexOf('place') !== -1;
+			const hide = scope && scope.data && scope.data.removedTools && scope.data.removedTools.indexOf('place') !== -1;
 
 			let classes = classNames("ptr-place-selector ptr-view-selection-selector", this.props.classes);
 
