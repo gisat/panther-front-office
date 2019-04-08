@@ -44,6 +44,8 @@ class MetadataList extends React.PureComponent {
 			<Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
 		</span>)];
 
+		let models = this.props.models || this.props.outdated;
+
 		// TODO enable AddValue if enableCreate = true (waiting for BE)
 		return (
 			<div ref={this.list}>
@@ -52,7 +54,7 @@ class MetadataList extends React.PureComponent {
 					option={{label:t('createCapitalized')}}
 					onOptionLabelClick={this.props.onAddClick}
 				/>
-				{this.props.models ? this.props.models.map(model => {
+				{models ? models.map(model => {
 					if (model) {
 						return (<Value
 							unfocusable={this.props.unfocusable}

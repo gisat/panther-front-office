@@ -10,8 +10,11 @@ import LayerTemplateMetadataScreen
 const order = [['nameDisplay', 'ascending']];
 
 const mapStateToProps = (state, props) => {
+	let data = Select.specific.backOffice.layerTemplates.getAllWithOutdatedForActiveApp(state, order);
+
 	return {
-		models: Select.specific.backOffice.layerTemplates.getAllForActiveApp(state, order),
+		models: data.current,
+		outdated: data.outdated,
 		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'layerTemplates')
 	}
 };
