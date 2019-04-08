@@ -232,7 +232,7 @@ export default {
 
 	clearIndexes: (state, action) => {
 		let indexes = _.map(state.indexes, index => {
-			return {...index, index: null, count: null}
+			return {...index, index: null, count: null, outdated: index.index, outdatedCount: index.count}
 		});
 
 		return {
@@ -250,6 +250,8 @@ export default {
 		const indexes = state.indexes.map(index => {
 			const correspondIndex = commonHelpers.isCorrespondingIndex(index, action.filter, action.order);
 			if(correspondIndex) {
+				index.outdated = index.index;
+				index.outdatedCount = index.count;
 				index.index = null;
 				index.count = null;
 				index.changedOn = null;
