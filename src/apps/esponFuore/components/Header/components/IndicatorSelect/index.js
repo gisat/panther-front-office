@@ -12,6 +12,12 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
+		indicator: {
+			key: utils.uuid(),
+			data: {
+				nameDisplay: 'Employment in the secondary sector under the current imperial government'
+			}
+		}
 	}
 };
 

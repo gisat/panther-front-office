@@ -5,6 +5,22 @@ import PantherSelect, {PantherSelectItem} from "../../../../../../components/com
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import Icon from "../../../../../../components/common/atoms/Icon";
 
+const renderCurrent = props => {
+	if (props.indicator) {
+		return (
+			<>
+				<div className="esponFuore-indicator-select-current-category">Employment</div>
+				<div className="esponFuore-indicator-select-current-indicator" title={props.indicator.data.nameDisplay}>{props.indicator.data.nameDisplay}</div>
+			</>
+		);
+	} else {
+		//no indicator
+		return (
+			<span className="esponFuore-indicator-select-current-empty">Select indicator</span>
+		);
+	}
+};
+
 export default props => (
 
 	<PantherSelect
@@ -12,7 +28,7 @@ export default props => (
 		open={props.indicatorSelectOpen}
 		onSelectClick={() => {props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()}}
 		currentClasses="esponFuore-indicator-select-current"
-		renderCurrent={p => (<div>current</div>)}
+		renderCurrent={renderCurrent.bind(null, props)}
 		listClasses="esponFuore-indicator-select-list"
 	>
 		<div className="esponFuore-indicator-select-content">
