@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
 		categories: Select.tags.getAll(state),
 		activeCategory: Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeCategory'),
+		indicators: Select.specific.esponFuoreIndicators.getAll(state),
 		indicator: {
 			key: utils.uuid(),
 			data: {
@@ -38,10 +39,11 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'searchValue', value))
 			},
 			onMount: () => {
-				dispatch(Action.tags.useIndexed(null, null, null, 1, 20, componentId))
+				dispatch(Action.tags.useIndexed(null, null, null, 1, 20, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexed(null, null, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
-				dispatch(Action.tags.useIndexedClear(componentId))
+				dispatch(Action.tags.useIndexedClear(componentId));
 			},
 			selectCategory: key => {
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', key))

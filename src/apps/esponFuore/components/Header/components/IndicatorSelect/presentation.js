@@ -78,9 +78,20 @@ class IndicatorSelect extends React.PureComponent {
 						</div>
 					</div>
 					<div className="esponFuore-indicator-select-indicators">
-						<PantherSelectItem itemKey="one">an item</PantherSelectItem>
-						<PantherSelectItem itemKey="two">an item</PantherSelectItem>
-						<PantherSelectItem itemKey="three">an item</PantherSelectItem>
+						{props.indicators && props.indicators.map(indicator => {
+							let className = '';
+							if (indicator.key === props.activeIndicator) {
+								className = 'selected';
+							}
+							return (
+								<PantherSelectItem
+									itemKey={indicator.key}
+									className={className}
+								>
+									{indicator.data.nameDisplay}
+								</PantherSelectItem>
+							);
+						})}
 					</div>
 				</div>
 			</PantherSelect>
