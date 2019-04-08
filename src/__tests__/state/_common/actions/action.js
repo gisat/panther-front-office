@@ -4,13 +4,8 @@ import commonActions from "../../../../state/_common/actions";
 jest.mock('../../../../state/Action');
 
 // TODO
-// deleteByKey
-// apiDelete
-// actionMarkAsDeleted
-// actionClearIndex
 // helpers - isCorrespondingIndex
 // helpers - itemFitFilter
-// reducer - clearIndex
 // selector getAllAsObjectUndeleted
 
 describe('#action', () => {
