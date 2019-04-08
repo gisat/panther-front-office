@@ -33,47 +33,58 @@ function itemFitFilter(filter, item) {
 		return true;
 	}
 
-	for (const [key, value] of Object.entries(filter)) {
-		const itemHasFilterKey = item.data && item.data.hasOwnProperty(key);
-		const itemHasFilterLinkKey = item.data && item.data.hasOwnProperty(`${key}Key`) ;
-		if(itemHasFilterKey) {
-			//apply condition
-			//"column0": "hleda se rovnost",
-    		//"column1": null,
-			if(item.data && item.data[key] === value) {
-				return true;
-			}
+	const entries = Object.entries(filter);
 
-			// "column2": {
-			// 	"like": "hleda se podobnost, castecny vyskyt"
-			// },
-			if(isObject(value) && value['like']) {
-				//now we dont deal like filter, refrest indexes
-				return true;
-			}
-
-			// "column3": {
-			// 	"in": ["existuje", "v", "poli", "prvku"]
-			// },
-			if(isObject(value) && value['in']) {
-				return value.in.includes(item[key]);
-			}
-
-			// "column4": {
-			// 	"notin": ["neexistuje", "v", "poli", "prvku"]
+	return entries.every((entry) => {
+		
+			// for (const [key, value] of entries) {
+				
 			// }
-			if(isObject(value) && value['notin']) {
-				return !value.notin.includes(item[key]);
-			}
-		}
+			const [key, value] = entry;
 
-		//check if filter contains linking like scopeKey, viewKey, ...
-		if(itemHasFilterLinkKey) {
-			if(item.data && item.data[`${key}Key`] === value) {
-				return true;
+			const itemHasFilterKey = item.data && item.data.hasOwnProperty(key);
+			const itemHasFilterLinkKey = item.data && item.data.hasOwnProperty(`${key}Key`) ;
+			if(itemHasFilterKey) {
+				//apply condition
+				//"column0": "hleda se rovnost",
+				//"column1": null,
+				if(item.data && item.data[key] === value) {
+					return true;
+				}
+
+				// "column2": {
+				// 	"like": "hleda se podobnost, castecny vyskyt"
+				// },
+				if(isObject(value) && value['like']) {
+					//now we dont deal like filter, refrest indexes
+					return true;
+				}
+
+				// "column3": {
+				// 	"in": ["existuje", "v", "poli", "prvku"]
+				// },
+				if(isObject(value) && value['in']) {
+					return value.in.includes(item.data[key]);
+				}
+
+				// "column4": {
+				// 	"notin": ["neexistuje", "v", "poli", "prvku"]
+				// }
+				if(isObject(value) && value['notin']) {
+					return !value.notin.includes(item.data[key]);
+				}
 			}
-		}
-	}
+
+			//check if filter contains linking like scopeKey, viewKey, ...
+			if(itemHasFilterLinkKey) {
+				if(item.data && item.data[`${key}Key`] === value) {
+					return true;
+				}
+			}
+
+			//if to filter fit return false
+			return false;
+	})
 }
 
 function mergeFilters(activeKeys, filterByActive, filter) {

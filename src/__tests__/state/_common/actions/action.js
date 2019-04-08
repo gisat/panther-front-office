@@ -3,11 +3,6 @@ import commonActions from "../../../../state/_common/actions";
 
 jest.mock('../../../../state/Action');
 
-// TODO
-// helpers - isCorrespondingIndex
-// helpers - itemFitFilter
-// selector getAllAsObjectUndeleted
-
 describe('#action', () => {
 	it('should return merged action type and payload', () => {
 		const type = 'ADD';
