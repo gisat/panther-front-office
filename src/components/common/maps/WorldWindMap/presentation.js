@@ -158,7 +158,7 @@ class WorldWindMap extends React.PureComponent {
 		if (event && event.worldWindow) {
 			//setActive mapKey
 			const changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event.worldWindow.navigator);
-			if (!_.isEmpty(changedNavigatorParams)) {
+			if (!_.isEmpty(changedNavigatorParams) && this.props.setActiveMapKey) {
 				if(this.setMapKeyTimeout) {
 					clearTimeout(this.setMapKeyTimeout);
 				}

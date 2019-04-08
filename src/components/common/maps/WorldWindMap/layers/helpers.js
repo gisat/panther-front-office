@@ -48,6 +48,8 @@ function findLayerByKey(wwd, layerKey) {
 function getLayerByType(layerData){
 	if (layerData && layerData.type){
 		switch (layerData.type){
+			case "bingAerial":
+				return new WorldWind.BingAerialLayer();
 			case "wms":
 				return getWmsLayer(layerData);
 			case "wmts":

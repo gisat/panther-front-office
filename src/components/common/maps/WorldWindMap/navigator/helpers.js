@@ -42,6 +42,7 @@ function getChangedParams(prev, next) {
  * @param update.tilt {LookAtNavigator.tilt}
  * @param update.roll {LookAtNavigator.roll}
  * @param update.heading {LookAtNavigator.heading}
+ * @param update.elevation {number}
  * @param update.lookAtLocation {LookAtNavigator.lookAtLocation}
  */
 function update(wwd, update) {
@@ -75,6 +76,11 @@ function update(wwd, update) {
 
 	if (state.lookAtLocation.longitude !== update.lookAtLocation.longitude){
 		state.lookAtLocation.longitude = update.lookAtLocation.longitude;
+		shouldRedraw = true;
+	}
+
+	if (wwd.verticalExaggeration && update.elevation && wwd.verticalExaggeration !== update.elevation){
+		wwd.verticalExaggeration = update.elevation;
 		shouldRedraw = true;
 	}
 
