@@ -2,27 +2,14 @@ import React from "react";
 
 import Home from './components/Home';
 import User from '../../../../components/common/controls/User';
-import PantherSelect, {PantherSelectItem} from "../../../../components/common/atoms/PantherSelect";
+import IndicatorSelect from './components/IndicatorSelect';
 
 export default props => (
 	<div className="esponFuore-header">
 		<div className="esponFuore-header-home"><Home /></div>
 		<div className="esponFuore-header-region-select">region</div>
 		<div className="esponFuore-header-indicator-select">
-			<PantherSelect
-				className="esponFuore-indicator-select"
-				open={props.indicatorSelectOpen}
-				onSelectClick={() => {props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()}}
-				currentClasses="esponFuore-indicator-select-current"
-				renderCurrent={p => (<div>current</div>)}
-				listClasses="esponFuore-indicator-select-list"
-			>
-				<div className="esponFuore-indicator-select-content">
-					<div>content</div>
-					<div>more <i>interesting</i> content</div>
-					<PantherSelectItem itemKey="one">an item</PantherSelectItem>
-				</div>
-			</PantherSelect>
+			<IndicatorSelect />
 		</div>
 		<div className="esponFuore-header-toolbar">
 			<div>tools</div>

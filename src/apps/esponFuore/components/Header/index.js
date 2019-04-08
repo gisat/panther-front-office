@@ -10,18 +10,13 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		indicatorSelectOpen: Select.components.get(state, 'esponFuore_Header', 'indicatorSelectOpen')
+
 	}
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		openIndicatorSelect: () => {
-			dispatch(Action.components.set('esponFuore_Header', 'indicatorSelectOpen', true))
-		},
-		closeIndicatorSelect: () => {
-			dispatch(Action.components.set('esponFuore_Header', 'indicatorSelectOpen', false))
-		}
+
 	}
 };
 
