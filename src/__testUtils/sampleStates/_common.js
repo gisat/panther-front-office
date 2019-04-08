@@ -1,3 +1,4 @@
+import {cloneDeep} from 'lodash';
 export const getSubstate = (state) => state.sample;
 
 export const BASIC_STATE = {
@@ -213,6 +214,7 @@ export const BASIC_STATE = {
 	apps: {}
 };
 
+export function getState() {return cloneDeep(BASIC_STATE)};
 export const ACTIVE_KEYS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, activeKey: null, activeKeys: [1, 2]}};
 export const NO_ACTIVE_KEY_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, activeKey: null, activeKeys: null}};
 

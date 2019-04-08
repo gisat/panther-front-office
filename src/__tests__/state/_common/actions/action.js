@@ -4,7 +4,6 @@ import commonActions from "../../../../state/_common/actions";
 jest.mock('../../../../state/Action');
 
 // TODO
-// actionDelete
 // receiveDeleted
 // create
 // deleteByKey
