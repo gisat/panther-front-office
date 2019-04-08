@@ -105,7 +105,8 @@ class Select extends React.PureComponent {
 
         const classes = classnames(`ptr-select-container ${this.props.className ? this.props.className : ""}`, {
             'value-is-title': !!this.props.valueIsTitle,
-            'disabled': this.props.disabled
+            'disabled': this.props.disabled,
+            'clearable': this.props.clearable
         });
 
         switch (this.props.type) {
@@ -131,6 +132,7 @@ class Select extends React.PureComponent {
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}
                 value={props.value}
+                title={props.value}
             />
         );
     }
@@ -150,6 +152,7 @@ class Select extends React.PureComponent {
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}
                 value={props.value}
+                title={props.value}
             />
         )
     }

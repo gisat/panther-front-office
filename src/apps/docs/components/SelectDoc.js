@@ -5,12 +5,12 @@ import utils from '../../../utils/utils';
 
 import Select from "../../../components/common/atoms/Select/Select";
 
-const baseOptions = ['Chocolate', 'Strawberry', 'Vanilla'];
+const baseOptions = ['Chocolate', 'Strawberry very loooooooooooooooooooooooong and tasty and sweet', 'Vanilla'];
 
 const customOptions = [
 	{data: {labelCz: 'Čokoláda', key: 'adsddfsfds'} },
 	{data: {labelCz: 'Jahoda', key: '7457784567'}  },
-	{data: {labelCz: 'Vanilka', key: 'dfgdfg84g'}  }
+	{data: {labelCz: 'Vanilka vanilková nejvanilkovatější ze všech vanilek v celém širém okolí a ještě dál', key: 'dfgdfg84g'}  }
 ];
 
 class SelectDoc extends React.PureComponent {

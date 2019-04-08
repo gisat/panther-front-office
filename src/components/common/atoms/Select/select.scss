@@ -73,6 +73,17 @@
 	background: var(--base70); // todo
 }
 
+.ptr-select-container .ptr-select__control .label {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-right: 2rem;
+}
+
+.ptr-select-container.clearable .ptr-select__control .label {
+	padding-right: 4rem;
+}
+
 /* Options */
 .ptr-select-container .ptr-select__menu {
 	margin-top: 0;

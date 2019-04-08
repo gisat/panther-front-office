@@ -77,14 +77,14 @@ class Value extends React.PureComponent {
 				   	onKeyPress={this.onKeyPress}
 					style={this.props.option.style}
 				    tabIndex={this.props.unfocusable ? -1 : 0}
-					title={this.props.option.title}
+					title={this.props.option.label}
 				>
 					{itemContent}	
 				</a>
 			)
 		} else {
 			return (
-				<div className={classes('ptr-item ptr-icon-inline-wrap', this.props.option.className, {'disabled': this.props.disabled})} style={{display:'flex'}}>
+				<div className={classes('ptr-item ptr-icon-inline-wrap', this.props.option.className, {'disabled': this.props.disabled})} style={{display:'flex'}} title={this.props.option.label}>
 					{itemContent}
 				</div>
 			);
