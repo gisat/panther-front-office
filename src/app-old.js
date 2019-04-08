@@ -131,7 +131,7 @@ function loadApp(initialData) {
             console.error('Loading#', err);
         });
 
-        createLink('appOld.css');
+        createLink('css/appOld.css');
     });
 
     function applyScopeStyle(style) {
