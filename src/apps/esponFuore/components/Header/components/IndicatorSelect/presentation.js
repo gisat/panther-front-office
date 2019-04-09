@@ -29,8 +29,8 @@ class IndicatorSelect extends React.PureComponent {
 		if (props.activeIndicator) {
 			return (
 				<>
-					<div className="esponFuore-indicator-select-current-category">{props.activeIndicatorCategory.data.nameDisplay}</div>
-					<div className="esponFuore-indicator-select-current-indicator" title={props.activeIndicator.data.nameDisplay}>{props.activeIndicator.data.nameDisplay}</div>
+					<div className="esponFuore-indicator-select-current-category">{props.activeIndicatorCategory && props.activeIndicatorCategory.data && props.activeIndicatorCategory.data.nameDisplay}</div>
+					<div className="esponFuore-indicator-select-current-indicator" title={props.activeIndicator && props.activeIndicator.data && props.activeIndicator.data.nameDisplay}>{props.activeIndicator.data.nameDisplay}</div>
 				</>
 			);
 		} else {
