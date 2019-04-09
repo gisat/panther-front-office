@@ -153,6 +153,49 @@ const getByFilterOrder = (getSubstate) => {
 	);
 };
 
+const getIndexed = (getSubstate) => { //todo proper memoization && unify with old getIndexedPage etc.
+	return createSelector(
+		[
+			getAllAsObject(getSubstate),
+			getIndexes(getSubstate),
+			getAllActiveKeys,
+			(state, filterByActive) => filterByActive,
+			(state, filterByActive, filter) => filter,
+			(state, filterByActive, filter, order) => order,
+			(state, filterByActive, filter, order, start) => start,
+			(state, filterByActive, filter, order, start, length) => length,
+		],
+		(models, indexes, activeKeys, filterByActive, filter, order, start, length) => {
+			if (models && indexes) {
+				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
+				let index = commonHelpers.getIndex(indexes, mergedFilter, order);
+				if (index && index.index) {
+					let indexedModels = [];
+					let end = Math.min(start + length - 1, index.count);
+					for (let i = start; i <= end; i++){
+						let modelKey = index.index[i];
+						if (modelKey){
+							let indexedModel = models[modelKey];
+							if (indexedModel){
+								indexedModels.push(indexedModel);
+							} else {
+								indexedModels.push({key: modelKey});
+							}
+						} else {
+							indexedModels.push(null);
+						}
+					}
+					return indexedModels.length ? indexedModels : null;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 const getByKey = (getSubstate) => {
 	return (state, key) => {
 		let allData = getAllAsObject(getSubstate)(state);
@@ -652,6 +695,7 @@ export default {
 	getEditedKeys,
 
 	getIndex,
+	getIndexed,
 	getIndexes,
 	getIndexChangedOn,
 	getIndexPage,
