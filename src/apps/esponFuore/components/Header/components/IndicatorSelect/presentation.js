@@ -43,6 +43,7 @@ class IndicatorSelect extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		let activeCategory = props.activeCategory || props.categories[0] && props.categories[0].key || null;
 
 		return (
 
@@ -64,7 +65,7 @@ class IndicatorSelect extends React.PureComponent {
 						<div className="esponFuore-indicator-select-categories">
 							{props.categories && props.categories.map(category => {
 								let className = '';
-								if (category.key === props.activeCategory) {
+								if (category.key === activeCategory) {
 									className = 'selected';
 								}
 								return (
@@ -79,7 +80,7 @@ class IndicatorSelect extends React.PureComponent {
 						</div>
 					</div>
 					<div className="esponFuore-indicator-select-indicators">
-						<IndicatorList categoryKey={props.activeCategory}/>
+						<IndicatorList categoryKey={activeCategory}/>
 					</div>
 				</div>
 			</PantherSelect>
