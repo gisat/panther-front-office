@@ -126,15 +126,18 @@ const deleteItem = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			return dispatch(apiDelete(dataType, categoryPath, [{key: item.key}])).then((result) => {
 				const data = result.data[dataType];
 				const deletedKeys = data.map(d => d.key);
-				// TODO go through all edited metadata and clear deleted key
 
 				//Check if item deleted
 				if(isEqual(deletedKeys, [item.key])) {
 					// mark deleted items by "deleted" date
 					const deleteDate = moment(new Date().toString()).utc().format();
-					deletedKeys.forEach((key) => 
-						dispatch(actionMarkAsDeleted(actionTypes, key, deleteDate))
-					);
+					deletedKeys.forEach((key) => {
+						dispatch(actionMarkAsDeleted(actionTypes, key, deleteDate));
+					});
+
+					// remove dependencies in all edited metadata
+					dispatch(actionRemovePropertyValuesFromAllEdited(dataType, deletedKeys));
+					// TODO check original metadata dependencies
 
 					//refresh proper indexes
 					const state = getState();
@@ -626,6 +629,14 @@ function actionDataSetOutdated() {
 	return {
 		type: ActionTypes.COMMON.DATA.SET_OUTDATED
 	}
+}
+
+function actionRemovePropertyValuesFromAllEdited(dataType, keys) {
+	return {
+		type: ActionTypes.COMMON.EDITED.REMOVE_PROPERTY_VALUES,
+		dataType,
+		keys
+	};
 }
 
 function actionGeneralError(e) {

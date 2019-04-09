@@ -144,6 +144,9 @@ export const commonActionTypesDefinitions = {
 		DATA: {
 			CLEANUP_ON_LOGOUT: null,
 			SET_OUTDATED: null
+		},
+		EDITED: {
+			REMOVE_PROPERTY_VALUES: null
 		}
 	},
 

@@ -202,6 +202,44 @@ export default {
 
 	},
 
+	// todo test
+	removeEditedPropertyValues: (state, action) => {
+		const dataTypeSingular = action.dataType.slice(0, -1);
+		const keyProperty = dataTypeSingular + "Key";
+		const keysProperty = dataTypeSingular + "Keys";
+
+		let editedData = {...state.editedByKey};
+		if (!_.isEmpty(editedData)) {
+			let updatedEdited = {};
+			let propertyUpdated = false;
+			_.forIn(editedData, (model, key) => {
+				if (model.data && model.data[keyProperty]) {
+					let keyExists = _.includes(action.keys, model.data[keyProperty]);
+					if (keyExists) {
+						updatedEdited[key] = {...model, data: {...model.data, [keyProperty]: null}};
+						propertyUpdated = true;
+					} else {
+						updatedEdited[key] = model;
+					}
+				} else if (model.data && model.data[keysProperty]) {
+					let updatedKeys = _.difference(model.data[keysProperty], action.keys);
+					if (updatedKeys.length !== model.data[keysProperty]) {
+						updatedEdited[key] = {...model, data: {...model.data, [keysProperty]: updatedKeys}};
+						propertyUpdated = true;
+					} else {
+						updatedEdited[key] = model;
+					}
+
+				} else {
+					updatedEdited[key] = model;
+				}
+			});
+			return propertyUpdated ? {...state, editedByKey: updatedEdited} : state;
+		} else {
+			return state;
+		}
+	},
+
 	setActive: (state, action) => {
 		return {...state, activeKey: action.key, activeKeys: null};
 	},
