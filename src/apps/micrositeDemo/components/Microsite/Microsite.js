@@ -4,6 +4,14 @@ import PropTypes from "prop-types";
 import './style.scss';
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 
+const polygonLayer = {
+	key: "snezka_example_layer",
+	type: "wms",
+	layers: "geonode:snezka",
+	opacity: 0.7,
+	url: "http://192.168.2.206/geoserver/geonode/wms"
+};
+
 class Microsite extends React.PureComponent {
 	static propTypes = {
 	};
@@ -26,6 +34,7 @@ class Microsite extends React.PureComponent {
 								type: "wmts",
 								urls: ['http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', 'http://b.tile.openstreetmap.org/{z}/{x}/{y}.png', 'http://c.tile.openstreetmap.org/{z}/{x}/{y}.png']
 							}]}
+							layers={[polygonLayer]}
 							elevationModel={null}
 							navigator={{
 								lookAtLocation: {
@@ -47,6 +56,7 @@ class Microsite extends React.PureComponent {
 							backgroundLayer={[{
 								type: "bingAerial"
 							}]}
+							layers={[polygonLayer]}
 							elevationModel="default"
 							navigator={{
 								lookAtLocation: {
