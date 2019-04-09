@@ -20,6 +20,7 @@ const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
 const getDeletePermissionByKey = common.getDeletePermissionByKey(getSubstate);
 const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
+const getStateToSave = common.getStateToSave(getSubstate);
 
 const getActiveScopeConfiguration = createSelector(
 	[getActive],
@@ -44,6 +45,7 @@ export default {
 
 	getUpdatePermissionByKey,
 
+	getStateToSave,
 	getSubstate,
 
 	// TODO handle following obsolete exports

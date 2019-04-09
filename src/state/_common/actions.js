@@ -353,12 +353,16 @@ function ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath = DEF
 		let state = getState();
 
 		let keysToLoad = commonSelectors.getKeysToLoad(getSubstate)(state, keys);
+		let promises = [];
+
 		if (keysToLoad){
 			keysToLoad = _.chunk(keysToLoad, PAGE_SIZE);
 			_.each(keysToLoad, keysToLoadPage => {
-				dispatch(loadKeysPage(dataType, actionTypes, keysToLoadPage, categoryPath));
+				promises.push(dispatch(loadKeysPage(dataType, actionTypes, keysToLoadPage, categoryPath)));
 			});
 		}
+
+		return Promise.all(promises);
 	}
 }
 
@@ -623,6 +627,30 @@ function ensureIndexesWithActiveKey(filterKey, categoryPath = DEFAULT_CATEGORY_P
 		};
 }
 
+function updateStateFromView(data) {
+	return dispatch => {
+
+		// dispatch updateStateFromView on all stores implementing it and at the same time for stores present in data
+		_.each(Action, (actions, key) => {
+			if (actions.hasOwnProperty('updateStateFromView') && data[key]) {
+				dispatch(actions.updateStateFromView(data[key]));
+			}
+		});
+	}
+}
+
+function updateSubstateFromView(actionTypes) {
+	return (data) => {
+		return dispatch => {
+			if (data && data.activeKey) {
+				dispatch(actionSetActiveKey(actionTypes, data.activeKey));
+			} else if (data && data.activeKeys) {
+				dispatch(actionSetActiveKeys(actionTypes, data.activeKeys));
+			}
+		}
+	}
+}
+
 // ============ common namespace actions ===========
 
 function actionDataSetOutdated() {
@@ -787,6 +815,8 @@ export default {
 	refreshUses,
 	request: requestWrapper,
 	saveEdited,
+	updateStateFromView,
+	updateSubstateFromView,
 	updateEdited,
 	useKeys,
 	useKeysClear: creator(actionUseKeysClear),

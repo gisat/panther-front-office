@@ -16,6 +16,8 @@ const getDeletePermissionByKey = common.getDeletePermissionByKey(getSubstate);
 const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
 const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
+const getStateToSave = common.getStateToSave(getSubstate);
+
 export default {
 	getAttributes,
 
@@ -27,5 +29,7 @@ export default {
 
 	getEditedDataByKey,
 	getUpdatePermissionByKey,
+
+	getStateToSave,
 	getSubstate
 };

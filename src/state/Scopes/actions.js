@@ -18,6 +18,7 @@ const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', Action
 const refreshUses = common.refreshUses(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
 const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.SCOPES, 'scope');
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
+const updateStateFromView = common.updateSubstateFromView(ActionTypes.SCOPES);
 
 function setActiveKey(key) {
 	return dispatch => {
@@ -41,6 +42,7 @@ export default {
 	setActiveKey,
 
 	updateEdited,
+	updateStateFromView,
 	useIndexed,
 	useIndexedClear,
 	useKeys,

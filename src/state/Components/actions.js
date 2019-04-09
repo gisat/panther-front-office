@@ -10,6 +10,17 @@ function update(component, data) {
 	};
 }
 
+function updateStateFromView(components) {
+	return dispatch => {
+		if (components) {
+			// TODO update all store at once
+			_.forIn(components, (data, component) => {
+				dispatch(actionUpdate(component, data));
+			});
+		}
+	};
+}
+
 // ============ actions ===========
 function actionUpdate(component, data) {
 	return {
@@ -32,5 +43,6 @@ function actionSet(component, path, value) {
 
 export default {
 	update,
+	updateStateFromView,
 	set: actionSet
 }

@@ -7,7 +7,7 @@ const v4regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F
 const mapDispatchToProps = dispatch => {
 	return {
 		apply: (viewKey) => {
-			// dispatch(Action.views.apply(viewKey));
+			dispatch(Action.views.apply(viewKey));
 			console.log('##### Apllying view:', viewKey);
 		}
 	}

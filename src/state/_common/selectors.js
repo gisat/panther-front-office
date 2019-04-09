@@ -642,6 +642,19 @@ const getUsesWithActiveDependency = (getSubstate) => {
 	);
 };
 
+const getStateToSave = (getSubstate) => {
+	return (state) => {
+		let selectedState = {};
+		if (getSubstate(state).activeKey) {
+			selectedState.activeKey = getSubstate(state).activeKey;
+		} else if (getSubstate(state).activeKeys) {
+			selectedState.activeKeys = getSubstate(state).activeKeys;
+		}
+
+		return selectedState
+	}
+};
+
 const _mergeIntervals = (intervals) => {
 	//sort intervals
 	let sortedIntervals = _.sortBy(intervals, ['start', 'length']);
@@ -704,6 +717,8 @@ export default {
 	getIndexesByFilteredItem,
 
 	getKeysToLoad,
+
+	getStateToSave,
 
 	getUpdatePermissionByKey,
 	getUsesForIndex,

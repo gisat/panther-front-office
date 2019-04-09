@@ -211,7 +211,15 @@ export const BASIC_STATE = {
 	themes: {},
 	places: {},
 	periods: {},
-	apps: {}
+	apps: {},
+	attributes: {
+		activeKey: null,
+		activeKeys: ['a', 'b']
+	},
+	attributeSets: {
+		activeKey: 'c',
+		activeKeys: null
+	}
 };
 
 export function getState() {return cloneDeep(BASIC_STATE)};

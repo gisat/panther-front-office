@@ -28,4 +28,5 @@ const get = createSelector(
 export default {
 	get,
 	getDataByComponentKey,
+	getStateToSave: getAllByKey
 }
