@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './style.scss';
+import PantherSelectContext from './context';
 import Item from './PantherSelectItem';
 import Icon from "../Icon";
 
@@ -80,7 +81,9 @@ class PantherSelect extends React.PureComponent {
 				<div className={classNames("ptr-panther-select-list", this.props.listClasses)}>
 					<div>
 						<div>
-							{this.renderList(this.props.children)}
+							<PantherSelectContext.Provider value={{onSelect: this.onSelect}}>
+								{this.props.children}
+							</PantherSelectContext.Provider>
 						</div>
 					</div>
 				</div>
@@ -88,25 +91,25 @@ class PantherSelect extends React.PureComponent {
 		);
 	}
 
-	renderList(children) {
-
-		return React.Children.map(children, child => {
-			// return child;
-			if (typeof child === 'object') {
-				if (child.type === Item) {
-					let {children, itemKey, ...props} = child.props;
-					if (!itemKey) throw new Error('PantherSelectItem must have itemKey set');
-					return React.cloneElement(child, {...props, onSelect: this.onSelect.bind(this, itemKey)}, children);
-				} else {
-					let {children, ...props} = child.props;
-					return React.cloneElement(child, props, this.renderList(children));
-				}
-			} else {
-				return child;
-			}
-		});
-
-	}
+	// renderList(children) {
+	//
+	// 	return React.Children.map(children, child => {
+	// 		// return child;
+	// 		if (typeof child === 'object') {
+	// 			if (child.type === Item) {
+	// 				let {children, itemKey, ...props} = child.props;
+	// 				if (!itemKey) throw new Error('PantherSelectItem must have itemKey set');
+	// 				return React.cloneElement(child, {...props, onSelect: this.onSelect.bind(this, itemKey)}, children);
+	// 			} else {
+	// 				let {children, ...props} = child.props;
+	// 				return React.cloneElement(child, props, this.renderList(children));
+	// 			}
+	// 		} else {
+	// 			return child;
+	// 		}
+	// 	});
+	//
+	// }
 
 
 }

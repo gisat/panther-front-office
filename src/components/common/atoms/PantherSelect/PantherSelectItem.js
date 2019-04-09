@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import Icon from "../Icon";
 
+import PantherSelectContext from './context';
+
 class PantherSelectItem extends React.PureComponent {
 
 	static propTypes = {
@@ -15,6 +17,8 @@ class PantherSelectItem extends React.PureComponent {
 		disabled: false
 	};
 
+	static contextType = PantherSelectContext;
+
 	constructor(props) {
 		super(props);
 
@@ -26,8 +30,8 @@ class PantherSelectItem extends React.PureComponent {
 
 	onClick(e) {
 		if (!this.props.disabled) {
-			if (this.props.onSelect) {
-				this.props.onSelect(this.props.item)
+			if (this.context.onSelect) {
+				this.context.onSelect(this.props.itemKey)
 			}
 		}
 	}
