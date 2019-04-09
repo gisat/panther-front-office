@@ -4,6 +4,7 @@ import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import Icon from "../../../../../../components/common/atoms/Icon";
+import IndicatorList from "./components/IndicatorList";
 
 
 class IndicatorSelect extends React.PureComponent {
@@ -78,20 +79,7 @@ class IndicatorSelect extends React.PureComponent {
 						</div>
 					</div>
 					<div className="esponFuore-indicator-select-indicators">
-						{props.indicators && props.indicators.map(indicator => {
-							let className = '';
-							if (indicator.key === props.activeIndicator) {
-								className = 'selected';
-							}
-							return (
-								<PantherSelectItem
-									itemKey={indicator.key}
-									className={className}
-								>
-									{indicator.data.nameDisplay}
-								</PantherSelectItem>
-							);
-						})}
+						<IndicatorList categoryKey={props.activeCategory}/>
 					</div>
 				</div>
 			</PantherSelect>

@@ -40,7 +40,6 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onMount: () => {
 				dispatch(Action.tags.useIndexed(null, null, null, 1, 20, componentId));
-				dispatch(Action.specific.esponFuoreIndicators.useIndexed(null, null, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.tags.useIndexedClear(componentId));
