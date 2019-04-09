@@ -26,11 +26,11 @@ class IndicatorSelect extends React.PureComponent {
 	renderCurrent() {
 		const props = this.props;
 
-		if (props.indicator) {
+		if (props.activeIndicator) {
 			return (
 				<>
-					<div className="esponFuore-indicator-select-current-category">Employment</div>
-					<div className="esponFuore-indicator-select-current-indicator" title={props.indicator.data.nameDisplay}>{props.indicator.data.nameDisplay}</div>
+					<div className="esponFuore-indicator-select-current-category">{props.activeIndicatorCategory.data.nameDisplay}</div>
+					<div className="esponFuore-indicator-select-current-indicator" title={props.activeIndicator.data.nameDisplay}>{props.activeIndicator.data.nameDisplay}</div>
 				</>
 			);
 		} else {
@@ -43,16 +43,17 @@ class IndicatorSelect extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		let activeCategory = props.activeCategory || props.categories[0] && props.categories[0].key || null;
+		let activeCategoryKey = props.activeCategoryKey || props.categories[0] && props.categories[0].key || null;
 
 		return (
 
 			<PantherSelect
 				className="esponFuore-indicator-select"
-				open={props.indicatorSelectOpen}
+				open={props.indicatorSelectOpen || !props.activeIndicator}
 				onSelectClick={() => {
 					props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()
 				}}
+				onSelect={this.props.selectIndicator}
 				currentClasses="esponFuore-indicator-select-current"
 				renderCurrent={this.renderCurrent}
 				listClasses="esponFuore-indicator-select-list"
@@ -65,7 +66,7 @@ class IndicatorSelect extends React.PureComponent {
 						<div className="esponFuore-indicator-select-categories">
 							{props.categories && props.categories.map(category => {
 								let className = '';
-								if (category.key === activeCategory) {
+								if (category.key === activeCategoryKey) {
 									className = 'selected';
 								}
 								return (
@@ -80,7 +81,7 @@ class IndicatorSelect extends React.PureComponent {
 						</div>
 					</div>
 					<div className="esponFuore-indicator-select-indicators">
-						<IndicatorList categoryKey={activeCategory}/>
+						<IndicatorList categoryKey={activeCategoryKey}/>
 					</div>
 				</div>
 			</PantherSelect>

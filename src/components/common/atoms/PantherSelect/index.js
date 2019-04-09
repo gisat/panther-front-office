@@ -29,6 +29,7 @@ class PantherSelect extends React.PureComponent {
 		this.onBlur = this.onBlur.bind(this);
 		this.onClick = this.onClick.bind(this);
 		this.onKeyPress = this.onKeyPress.bind(this);
+		this.onSelect = this.onSelect.bind(this);
 	}
 
 
@@ -53,7 +54,11 @@ class PantherSelect extends React.PureComponent {
 	}
 
 	onSelect(itemKey) {
-		console.log('##### selected item', itemKey);
+		if (!this.props.disabled) {
+			if (this.props.onSelect) {
+				this.props.onSelect(itemKey);
+			}
+		}
 	}
 
 

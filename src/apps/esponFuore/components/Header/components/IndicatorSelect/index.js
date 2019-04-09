@@ -9,18 +9,17 @@ import presentation from "./presentation";
 
 
 const mapStateToProps = (state, ownProps) => {
+	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
+	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
+	let activeIndicatorCategory = activeIndicator && activeIndicator.data.tagKeys && Select.tags.getByKey(state, activeIndicator.data.tagKeys[0]);
 	return {
 		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
 		categories: Select.tags.getAll(state),
-		activeCategory: Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeCategory'),
+		activeCategoryKey: Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeCategory'),
 		indicators: Select.specific.esponFuoreIndicators.getAll(state),
-		indicator: {
-			key: utils.uuid(),
-			data: {
-				nameDisplay: 'Employment in the secondary sector under the current imperial government'
-			}
-		}
+		activeIndicator,
+		activeIndicatorCategory
 	}
 };
 
@@ -46,6 +45,10 @@ const mapDispatchToPropsFactory = () => {
 			},
 			selectCategory: key => {
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', key))
+			},
+			selectIndicator: key => {
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', key));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', false));
 			}
 		}
 	}
