@@ -8,11 +8,9 @@ import presentation from './MetadataList';
 import ScopeMetadataScreen
 	from "../metadata/screens/ScopeMetadataScreen";
 
-const order = [['nameDisplay', 'ascending']];
-
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.specific.backOffice.scopes.getAllForActiveApp(state, order),
+		models: Select.specific.backOffice.scopes.getAllForActiveApp(state, null),
 		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'scopes')
 	}
 };
@@ -26,7 +24,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.specific.backOffice.scopes.useIndexed({application: true}, null, order, 1, 1000, componentId)); // TODO filter?
+				dispatch(Action.specific.backOffice.scopes.useIndexed({application: true}, null, null, 1, 1000, componentId)); // TODO filter?
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));

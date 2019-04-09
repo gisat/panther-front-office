@@ -6,11 +6,9 @@ import utils from "../../../../utils/utils";
 import presentation from './MetadataList';
 import IndicatorMetadataScreen from "../metadata/screens/EsponFuoreIndicatorMetadataScreen";
 
-const order = [['nameDisplay', 'ascending']];
-
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.specific.esponFuoreIndicators.getAllOrdered(state, order),
+		models: Select.specific.esponFuoreIndicators.getAllOrdered(state, null),
 		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'esponFuoreIndicators', 'specific')
 	}
 };
@@ -24,7 +22,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-esponFuoreIndicatorConfig', 40, 40, IndicatorMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.specific.esponFuoreIndicators.useIndexed(null, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexed(null, null, null, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));

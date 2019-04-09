@@ -7,8 +7,6 @@ import presentation from './MetadataList';
 import ViewMetadataScreen
 	from "../metadata/screens/ViewMetadataScreen";
 
-const order = [['nameDisplay', 'ascending']];
-
 const mapStateToProps = (state, props) => {
 	return {
 		// todo order

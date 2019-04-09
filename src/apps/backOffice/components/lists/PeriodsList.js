@@ -7,11 +7,9 @@ import presentation from './MetadataList';
 import PeriodMetadataScreen
 	from "../metadata/screens/PeriodMetadataScreen";
 
-const order = [['nameDisplay', 'ascending']];
-
 const mapStateToProps = (state, props) => {
 	return {
-		models: Select.specific.backOffice.periods.getAllForActiveApp(state, order),
+		models: Select.specific.backOffice.periods.getAllForActiveApp(state, null),
 		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'periods')
 	}
 };
@@ -25,7 +23,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-periodConfig', 40, 40, PeriodMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.specific.backOffice.periods.useIndexed({application: true}, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.backOffice.periods.useIndexed({application: true}, null, null, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.periods.useIndexedClear(componentId));

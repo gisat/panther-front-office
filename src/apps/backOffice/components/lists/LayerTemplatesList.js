@@ -7,10 +7,8 @@ import presentation from './MetadataList';
 import LayerTemplateMetadataScreen
 	from "../metadata/screens/LayerTemplateMetadataScreen";
 
-const order = [['nameDisplay', 'ascending']];
-
 const mapStateToProps = (state, props) => {
-	let data = Select.specific.backOffice.layerTemplates.getAllWithOutdatedForActiveApp(state, order);
+	let data = Select.specific.backOffice.layerTemplates.getAllWithOutdatedForActiveApp(state, null);
 
 	return {
 		models: data.current,
@@ -28,7 +26,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
-				dispatch(Action.specific.backOffice.layerTemplates.useIndexed({application: true}, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.backOffice.layerTemplates.useIndexed({application: true}, null, null, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));
