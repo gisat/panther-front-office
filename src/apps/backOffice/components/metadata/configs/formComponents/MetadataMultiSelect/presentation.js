@@ -10,6 +10,7 @@ class MetadataMultiSelect extends React.PureComponent {
 		disabled: PropTypes.bool,
 		enableCreate: PropTypes.bool,
 		withKeyPrefix: PropTypes.bool,
+		singleValue: PropTypes.bool,
 
 		onAdd: PropTypes.func,
 		onOpen: PropTypes.func,
@@ -65,6 +66,7 @@ class MetadataMultiSelect extends React.PureComponent {
 				optionLabel = 'data.nameDisplay'
 				optionValue = 'key'
 				selectedValues = {this.props.selected}
+				singleValue={this.props.singleValue}
 				unfocusable={this.props.unfocusable}
 				withKeyPrefix={this.props.withKeyPrefix}
 

@@ -6,51 +6,33 @@ import _ from 'lodash';
 import Button from "../../../../../../components/common/atoms/Button";
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
-import MultiSelect from "../../../../../../components/common/atoms/Select/MultiSelect";
 
+import AttributesSelect from "../formComponents/MetadataMultiSelect/AttributesSelect";
 import TagsSelect from "../formComponents/MetadataMultiSelect/TagsSelect";
+import ViewsSelect from "../formComponents/MetadataMultiSelect/ViewsSelect";
 
 class IndicatorsMetadataConfig extends React.PureComponent {
 	static propTypes = {
-		attributes: PropTypes.array,
 		data: PropTypes.object,
 		deletable: PropTypes.bool,
 		editable: PropTypes.bool,
 		editedData: PropTypes.object,
-		enableAttributeCreate: PropTypes.bool,
-		enableTagCreate: PropTypes.bool,
-		enableViewCreate: PropTypes.bool,
 		itemKey: PropTypes.string,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
-		onAttributeAdd: PropTypes.func,
-		onAttributeClick: PropTypes.func,
 		onSave: PropTypes.func,
 		onDelete: PropTypes.func,
-		onTagAdd: PropTypes.func,
-		onTagClick: PropTypes.func,
-		onViewAdd: PropTypes.func,
-		onViewClick: PropTypes.func,
-		tags: PropTypes.array,
 		unfocusable: PropTypes.bool,
 		updateEdited: PropTypes.func,
-		views: PropTypes.array
 	};
 
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-		this.onSelect = this.onSelect.bind(this);
 
-		this.onAttributeAdd = this.onAttributeAdd.bind(this);
 		this.onAttributeChange = this.onAttributeChange.bind(this);
-		this.onAttributeOpen = this.onAttributeOpen.bind(this);
-
 		this.onTagsChange = this.onTagsChange.bind(this);
-
-		this.onViewAdd = this.onViewAdd.bind(this);
 		this.onViewChange = this.onViewChange.bind(this);
-		this.onViewOpen = this.onViewOpen.bind(this);
 	}
 
 	componentDidMount() {
@@ -65,41 +47,18 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 		this.props.updateEdited(columnKey, value);
 	}
 
-	onSelect(columnKey, selected) {
-		let selectedKey = selected ? selected.key : null;
-		this.props.updateEdited(columnKey, selectedKey);
-	}
-
-	onAttributeAdd(option) {
-		this.props.onAttributeAdd(option.key);
-		this.props.updateEdited('attributeKey', option.key);
-	}
-
-	onAttributeChange(selected) {
-		let key = selected && selected.length ? selected[0].key : null;
+	onAttributeChange(keys) {
+		let key = keys && keys.length ? keys[0] : null;
 		this.props.updateEdited('attributeKey', key);
-	}
-
-	onAttributeOpen(option) {
-		this.props.onAttributeClick(option.key);
 	}
 
 	onTagsChange(keys) {
 		this.props.updateEdited('tagKeys', keys);
 	}
 
-	onViewAdd(option) {
-		this.props.onViewAdd(option.key);
-		this.props.updateEdited('viewKey', option.key);
-	}
-
-	onViewChange(selected) {
-		let key = selected && selected.length ? selected[0].key : null;
+	onViewChange(keys) {
+		let key = keys && keys.length ? keys[0] : null;
 		this.props.updateEdited('viewKey', key);
-	}
-
-	onViewOpen(option) {
-		this.props.onViewClick(option.key);
 	}
 
 	render() {
@@ -136,42 +95,26 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 					required
 					label={t("metadata.names.attribute")}
 				>
-					<MultiSelect
-						clearable
-						creatable={this.props.enableAttributeCreate}
+					<AttributesSelect
 						disabled={!this.props.editable}
-						options={this.props.attributes}
-						optionLabel="data.nameDisplay"
-						optionValue="key"
-						selectedValues={data && data.attributeKey}
+						keys={data && data.attributeKey ? [data.attributeKey] : null}
+						onChange={this.onAttributeChange}
 						singleValue
 						unfocusable={this.props.unfocusable}
 						withKeyPrefix
-
-						onAdd={this.onAttributeAdd}
-						onChange={this.onAttributeChange}
-						onOptionLabelClick={this.onAttributeOpen}
 					/>
 				</InputWrapper>
 				<InputWrapper
 					required
 					label={t("metadata.names.view")}
 				>
-					<MultiSelect
-						clearable
-						creatable={this.props.enableViewCreate}
+					<ViewsSelect
 						disabled={!this.props.editable}
-						options={this.props.views}
-						optionLabel="data.nameDisplay"
-						optionValue="key"
-						selectedValues={data && data.viewKey}
+						keys={data && data.viewKey ? [data.viewKey] : null}
+						onChange={this.onViewChange}
 						singleValue
 						unfocusable={this.props.unfocusable}
 						withKeyPrefix
-
-						onAdd={this.onViewAdd}
-						onChange={this.onViewChange}
-						onOptionLabelClick={this.onViewOpen}
 					/>
 				</InputWrapper>
 				<InputWrapper
