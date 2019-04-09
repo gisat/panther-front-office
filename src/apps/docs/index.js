@@ -16,11 +16,14 @@ import Action from "../../state/Action";
 import DocsPage from "./components/DocsPage";
 
 
-export default (path) => {
+export default (path, baseUrl) => {
+
+	Store.dispatch(Action.app.setKey('docs'));
+	Store.dispatch(Action.app.setBaseUrl(baseUrl));
+
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
-	Store.dispatch(Action.app.setKey('docs'));
 
 	ReactDOM.render(
 		<Provider store={Store}>

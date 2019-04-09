@@ -25,14 +25,16 @@ import App from "./components/App";
 utils.addI18nResources('common', {en});
 
 
-export default path => {
+export default (path, baseUrl) => {
+
+	Store.dispatch(Action.app.setKey('esponFuore'));
+	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 
 	// Set language
 	i18n.changeLanguage("en");
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
-	Store.dispatch(Action.app.setKey('esponFuore'));
 
 	Store.dispatch(Action.maps.addSet({key: 'esponFuore'}));
 	Store.dispatch(Action.maps.setSetWorldWindNavigator('esponFuore'));

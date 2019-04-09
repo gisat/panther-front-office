@@ -48,7 +48,10 @@ const pageFactory = (appPath, managedAppKey) => (component, screenSetKey, baseAc
 	)
 };
 
-export default (path, managedAppKey) => {
+export default (path, baseUrl, managedAppKey) => {
+
+	Store.dispatch(Action.app.setBaseUrl(baseUrl));
+
 	let page = pageFactory(path, managedAppKey);
 
 	// Set language

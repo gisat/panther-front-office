@@ -17,8 +17,16 @@ const setKey = (state, action) => {
 	};
 };
 
+const setBaseUrl = (state, action) => {
+	return {
+		...state, baseUrl: action.url
+	};
+};
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case ActionTypes.APP.SET_BASE_URL:
+			return setBaseUrl(state, action);
 		case ActionTypes.APP.SET_KEY:
 			return setKey(state, action);
 		default:

@@ -5,8 +5,8 @@ export default [
 		hostname: 'panther.gisat.cz',
 		path: '/backoffice',
 		devPath: '/backoffice',
-		app: path => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
-			module.default(path);
+		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
+			module.default(path, baseUrl);
 		})
 	},
 	{
@@ -14,8 +14,8 @@ export default [
 		hostname: 'panther.gisat.cz',
 		path: null,
 		devPath: '/demo',
-		app: path => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
-			module.default(path);
+		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
+			module.default(path, baseUrl);
 		})
 	},
 	{
@@ -23,8 +23,8 @@ export default [
 		hostname: 'panther.gisat.cz',
 		path: null,
 		devPath: '/micrositeDemo',
-		app: path => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
-			module.default(path);
+		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
+			module.default(path, baseUrl);
 		})
 	},
 	{
@@ -32,8 +32,8 @@ export default [
 		hostname: 'panther.gisat.cz',
 		path: '/docs',
 		devPath: '/docs',
-		app: path => import(/* webpackChunkName: "docs" */'./apps/docs').then(module => {
-			module.default(path);
+		app: (path, baseUrl) => import(/* webpackChunkName: "docs" */'./apps/docs').then(module => {
+			module.default(path, baseUrl);
 		})
 	},
 	{
@@ -42,8 +42,8 @@ export default [
 		hostname: 'urban-tep.eu',
 		path: '/vac/backoffice',
 		devPath: '/urbanTepVacBackOffice',
-		app: path => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
-			module.default(path, 'urbanTepVac');
+		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
+			module.default(path, baseUrl, 'urbanTepVac');
 		})
 	},
 	{
@@ -51,8 +51,8 @@ export default [
 		hostname: 'urban-tep.eu',
 		path: '/vac',
 		devPath: '/urbanTepVac',
-		app: path => import(/* webpackChunkName: "urbanTepVac" */'./apps/urbanTepVac').then(module => {
-			module.default(path);
+		app: (path, baseUrl) => import(/* webpackChunkName: "urbanTepVac" */'./apps/urbanTepVac').then(module => {
+			module.default(path, baseUrl);
 		})
 	},
 	{
@@ -61,8 +61,8 @@ export default [
 		hostname: 'fuore.gisat.cz',
 		path: '/backoffice',
 		devPath: '/esponFuoreBackOffice',
-		app: path => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
-			module.default(path, 'esponFuore');
+		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
+			module.default(path, baseUrl, 'esponFuore');
 		})
 	},
 	{
@@ -73,8 +73,8 @@ export default [
 		hostname: 'fuore.gisat.cz',
 		path: null,
 		devPath: '/esponFuore',
-		app: path => import(/* webpackChunkName: "esponFuore" */'./apps/esponFuore').then(module => {
-			module.default(path);
+		app: (path, baseUrl) => import(/* webpackChunkName: "esponFuore" */'./apps/esponFuore').then(module => {
+			module.default(path, baseUrl);
 		})
 	}
 ];

@@ -9,9 +9,16 @@ const actionSetKey = (key) => {
 		key
 	}
 };
+const actionSetBaseUrl = (url) => {
+	return {
+		type: ActionTypes.APP.SET_BASE_URL,
+		url
+	}
+};
 
 // ============ export ===========
 
 export default {
-	setKey: actionSetKey
+	setKey: actionSetKey,
+	setBaseUrl: actionSetBaseUrl,
 }

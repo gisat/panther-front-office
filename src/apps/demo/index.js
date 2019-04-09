@@ -16,7 +16,10 @@ import layerTree from './layersTreeConfig_radio'; //test data
 import User from '../../components/common/controls/User';
 
 
-export default () => {
+export default (path, baseUrl) => {
+
+	Store.dispatch(Action.app.setBaseUrl(baseUrl));
+
 	// Set language
 	i18n.changeLanguage("cz");
 

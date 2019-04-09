@@ -13,7 +13,8 @@ export const commonActionTypesDefinitions = {
 	AOI_GEOMETRY_REQUEST_ERROR: 'AOI_GEOMETRY_REQUEST_ERROR',
 
 	APP: {
-		SET_KEY: null
+		SET_KEY: null,
+		SET_BASE_URL: null,
 	},
 
 	AREAS: {
