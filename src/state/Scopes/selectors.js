@@ -20,6 +20,8 @@ const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
 const getDeletePermissionByKey = common.getDeletePermissionByKey(getSubstate);
 const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
+const getIndexed = common.getIndexed(getSubstate);
+
 const getStateToSave = common.getStateToSave(getSubstate);
 
 const getActiveScopeConfiguration = createSelector(
@@ -42,6 +44,8 @@ export default {
 	getDeletePermissionByKey,
 
 	getEditedDataByKey,
+
+	getIndexed,
 
 	getUpdatePermissionByKey,
 
