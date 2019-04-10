@@ -1,0 +1,36 @@
+@import '../../../../../../styles/variables';
+
+.esponFuore-scope-select,
+.esponFuore-scope-select-current {
+	height: 100%;
+}
+
+.esponFuore-scope-select-current > div:first-child {
+	height: 100%;
+	position: relative;
+}
+
+.esponFuore-scope-value {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.esponFuore-scope-select .ptr-panther-select-current-icon {
+	padding-top: .5rem;
+}
+
+.esponFuore-scope-select-list {
+	z-index: 30;
+	left: 7rem;
+	width: 16rem;
+}
+
+.esponFuore-scope-select-list > div > div {
+	background: white;
+}
+
+.esponFuore-scope-select-list .ptr-panther-select-item {
+	padding: .7rem;
+	border-top: 1px solid var(--base20)
+}

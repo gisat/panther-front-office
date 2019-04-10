@@ -8,11 +8,10 @@ import utils from '../../../../utils/utils';
 import presentation from "./presentation";
 
 const order = [['nameDisplay', 'ascending']];
-const filter = {applicationKey: 'esponFuore'};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scopes: Select.scopes.getByFilterOrder(state, filter, order)
+		scopes: Select.scopes.getIndexed(state, {application: true}, null, order, 1, 100)
 	}
 };
 
@@ -22,7 +21,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			onMount: () => {
-				dispatch(Action.scopes.useIndexed(null, filter, order, 1, 100, componentId));
+				dispatch(Action.scopes.useIndexed({application: true}, null, order, 1, 100, componentId));
 			},
 			onScopeSelect: (scopeKey) => {
 				dispatch(Action.scopes.setActiveKey(scopeKey));
