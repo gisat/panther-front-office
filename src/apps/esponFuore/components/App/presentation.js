@@ -20,7 +20,7 @@ export default props => {
 				<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
 				<Header />
 				<div className="esponFuore-content">
-					<WindowsContainer>
+					<WindowsContainer set="esponFuore">
 					<AdjustableColumns
 						fixed
 						content={[
