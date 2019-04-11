@@ -19,10 +19,11 @@ class ScopeSelect extends React.PureComponent {
 	}
 
 	renderCurrent() {
-		if (this.props.activeScope) {
+		const activeScope = this.props.activeScope;
+		if (activeScope) {
 			return (
-				<div className="esponFuore-scope-value">
-					{this.props.activeScope && this.props.activeScope.data && this.props.activeScope.data.nameDisplay}
+				<div className="esponFuore-scope-value" title={activeScope.data && activeScope.data.nameDisplay}>
+					{activeScope.data && activeScope.data.nameDisplay}
 				</div>
 			);
 		} else {

@@ -30,6 +30,9 @@ class PantherSelect extends React.PureComponent {
 		this.onClick = this.onClick.bind(this);
 		this.onKeyPress = this.onKeyPress.bind(this);
 		this.onSelect = this.onSelect.bind(this);
+		this.state = {
+			opening: false
+		}
 	}
 
 
@@ -61,6 +64,15 @@ class PantherSelect extends React.PureComponent {
 		}
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps && !prevProps.open && this.props.open) {
+			this.setState({opening: true});
+			let self = this;
+			setTimeout(() => {
+				self.setState({opening: false});
+			}, 350);
+		}
+	}
 
 	render() {
 
@@ -69,6 +81,7 @@ class PantherSelect extends React.PureComponent {
 		let classes = classNames(
 			'ptr-panther-select', {
 				open: !!this.props.open,
+				opening: this.state.opening
 			},
 			this.props.className
 		);

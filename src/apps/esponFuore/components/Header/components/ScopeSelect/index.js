@@ -36,6 +36,7 @@ const mapDispatchToPropsFactory = () => {
 			},
 			selectScope: (key) => {
 				dispatch(Action.scopes.setActiveKey(key));
+				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false))
 			}
 		}
 	}

@@ -11,26 +11,54 @@
 }
 
 .esponFuore-scope-value {
+	color: var(--base100);
+	padding-left: .7rem;
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 100%;
 }
 
 .esponFuore-scope-select .ptr-panther-select-current-icon {
-	padding-top: .5rem;
+	padding-top: .9rem;
+}
+
+.esponFuore-scope-select .ptr-panther-select-current-icon svg {
+	width: 1.5rem;
+	height: 1rem;
 }
 
 .esponFuore-scope-select-list {
 	z-index: 30;
-	left: 7rem;
-	width: 16rem;
+	left: 6.8rem;
+	width: 16.2rem;
+	height: auto;
+}
+
+.esponFuore-scope-select.open:not(.opening) .esponFuore-scope-select-list {
+	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
 }
 
 .esponFuore-scope-select-list > div > div {
 	background: white;
+	margin: 0 0 0 .2rem;
+}
+
+.esponFuore-scope-select.open .esponFuore-scope-select-list > div > div {
+	box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
 }
 
 .esponFuore-scope-select-list .ptr-panther-select-item {
 	padding: .7rem;
-	border-top: 1px solid var(--base20)
+	border-top: 1px solid var(--base20);
+	transition: background .3s ease-in-out;
+	cursor: pointer;
 }
+
+.esponFuore-scope-select-list .ptr-panther-select-item:hover {
+	background: var(--accent20);
+}
+
