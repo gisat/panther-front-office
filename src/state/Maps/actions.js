@@ -532,7 +532,7 @@ const use = (mapKey) => {
 					.then(() => {
 						let dataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
 						if (dataSourcesKeys && dataSourcesKeys.length) {
-							dispatch(commonActions.ensureKeys(Select.spatialDataSources.getSubstate, 'dataSources', ActionTypes.SPATIAL_DATA_SOURCES, dataSourcesKeys,'dataSources'));
+							dispatch(commonActions.ensureKeys(Select.spatialDataSources.getSubstate, 'spatial', ActionTypes.SPATIAL_DATA_SOURCES, dataSourcesKeys,'dataSources'));
 						}
 					})
 					.catch((err) => {
