@@ -86,7 +86,7 @@ const getDataSourceKeysFiltered = createSelector(
 	[getFilteredData],
 	(filteredRelations) => {
 		if (filteredRelations && filteredRelations.length) {
-			return _.map(filteredRelations, relation => relation.dataSourceKey);
+			return _.map(filteredRelations, relation => relation.spatialDataSourceKey);
 		} else {
 			return null;
 		}
@@ -110,7 +110,7 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 		if (groupedRelations) {
 			let groupedDataSourceKeys = {};
 			_.forIn(groupedRelations, (relationsData, layerKey) => {
-				groupedDataSourceKeys[layerKey] = relationsData.map(relationData => {return relationData ? relationData.dataSourceKey : null});
+				groupedDataSourceKeys[layerKey] = relationsData.map(relationData => {return relationData ? relationData.spatialDataSourceKey : null});
 			});
 			return !_.isEmpty(groupedDataSourceKeys) ? groupedDataSourceKeys : null;
 		} else {
