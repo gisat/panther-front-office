@@ -26,7 +26,7 @@ import viewsReducers from '../../state/Views/reducers';
 
 // Redux store
 export default createStore(combineReducers({
-	// apps: appsReducers,
+	app: appsReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,

@@ -213,6 +213,19 @@ const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	};
 };
 
+const addLayerToEachMapInSet = (layer, zIndex) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const activeSetKey = Select.maps.getActiveSetKey(state);
+		const activeMapKeys = Select.maps.getMapSetMapKeys(state, activeSetKey);
+		if(activeMapKeys) {
+			activeMapKeys.forEach((mapKey) => {
+				dispatch(Action.maps.addLayer(mapKey, layer, zIndex));
+			})
+		}
+	}
+}
+
 const addLayer = (mapKey, layer, index) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -766,6 +779,7 @@ const actionSetMapPeriod = (mapKey, period) => {
 export default {
 	addLayer,
 	addLayers,
+	addLayerToEachMapInSet,
 	addMap,
 	addMapToSet,
 	addSet,

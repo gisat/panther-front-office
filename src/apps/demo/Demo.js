@@ -18,13 +18,17 @@ import LayersTree from "../../components/common/maps/LayersTree";
 utils.addI18nResources('common', {cz, en});
 
 class Demo extends React.PureComponent {
+	constructor() {
+		super();
+		this.treeUUID = utils.uuid();
+	}
 	render() {
 		return (
 			<Screens
 				setKey="demo"
 			>
 				<div id="demo" style={{display: 'flex', height: '100%'}}>
-					<LayersTree componentKey="LaersTree_demo" layersTreeKey={this.props.treeKey}/>
+					<LayersTree componentKey="LaersTree_demo" layersTreeKey={this.treeUUID}/>
 					<MapControls />
 					<MapSet
 						mapSetKey="MapSet1"

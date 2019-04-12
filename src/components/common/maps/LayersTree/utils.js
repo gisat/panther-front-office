@@ -118,13 +118,18 @@ export const getLayerZindex = (layersTree, layerTemplateKey) => {
  * @param {function} callback 
  */
 const forAllTreeItems = (layerTree = [], callback) => {
-	layerTree.forEach((item) => {
+	return layerTree.reduce((accumulator, item) => {
 		if(item.type === 'folder') {
-			forAllTreeItems(item.items, callback);
+			return forAllTreeItems(item.items, callback);
 		} else {
-			callback(item);
+            const transformed = callback(item);
+            if(transformed) {
+                return [...accumulator, transformed];
+            } else {
+                return accumulator;
+            }
 		}
-	});
+	}, []);
 };
 /**
  * Merge data from layerTemplates, layersTree and map
@@ -134,18 +139,30 @@ const forAllTreeItems = (layerTree = [], callback) => {
  * @param {string} layersTreeKey 
  */
 export const getLayersTreesConfig = (layersTrees, layerTemplates, mapLayers, layersTreeKey) => {
-	const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
-	forAllTreeItems(layersTree, (item) => {
+    const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
+	return forAllTreeItems(layersTree, (item) => {
 		if(item && item.type === 'layerTemplate') {
-			//find layer with same layerTemplateKey as key in layersTree
-			const layerInMap = mapLayers.find(l => l.filter.layerTemplateKey.indexOf(item.key) === 0);
+            const itemConfig = {...item};
+            if(Object.keys(layerTemplates).length > 0) {
+                const itemInLayerTemplates = layerTemplates[itemConfig.key];
 
-			item.visible = !!layerInMap;
-			item.layerKey = layerInMap ? layerInMap.data.key : null; //mapLayerKey
-			if(layerTemplates) {
-				item.title = layerTemplates[item.key] ? layerTemplates[item.key].data.nameDisplay : 'placeholder';
-			}
+                if (!itemInLayerTemplates || itemInLayerTemplates && itemInLayerTemplates.hasOwnProperty('unreceived') && itemInLayerTemplates.unreceived === true) {
+                    //hide item if not in layerTemplates
+                    itemConfig.notAllowed = true;
+                    
+                    return;
+                } else {
+                    itemConfig.title = layerTemplates[itemConfig.key] ? layerTemplates[itemConfig.key].data.nameDisplay : 'placeholder';
+                }
+            }
+
+			//find layer with same layerTemplateKey as key in layersTree
+			const layerInMap = mapLayers.find(l => l.filter.layerTemplateKey && l.filter.layerTemplateKey.indexOf(itemConfig.key) === 0);
+
+			itemConfig.visible = !!layerInMap;
+            itemConfig.layerKey = layerInMap ? layerInMap.data.key : null; //mapLayerKey
+            
+            return itemConfig;
 		}
 	})
-	return [...layersTree];
 };

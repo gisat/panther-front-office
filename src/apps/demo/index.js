@@ -2,22 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Action from '../../state/Action';
-import LayersTreeAction from '../../components/common/maps/LayersTree/actions';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
 
 import Store from './store';
 import Demo from './Demo';
 import Select from '../../state/Select';
-import layerTree from './layersTreeConfig_radio'; //test data
-// import layerTree from './layersTreeConfig'; //test data
-// import layerTree from './layersTreeConfig_root'; //test data
 
 import User from '../../components/common/controls/User';
 
 
 export default (path, baseUrl) => {
 
+	Store.dispatch(Action.app.setKey('demo'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 
 	// Set language
@@ -42,17 +39,13 @@ export default (path, baseUrl) => {
 	}));
 
 	Store.dispatch(Action.screens.addSet('demo'));
-	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User', 40, 40, User, null));
-	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-2', 40, 40, User, null));
-	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-3', 40, 40, User, null));
+	// Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User', 40, 40, User, null));
+	// Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-2', 40, 40, User, null));
+	// Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-3', 40, 40, User, null));
 
-	const treeUUID = utils.uuid();
-	ReactDOM.render(<Provider store={Store}><Demo treeKey={treeUUID}/></Provider>,document.getElementById('ptr'));
 
-	Store.dispatch(Action.maps.addLayer('Map1', {layerTemplate: "fcbd3f6b-d376-4e83-a0e2-03bdf36c3b46"}));
+	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 
-	Store.dispatch(Action.maps.addLayer('Map2', {layerTemplate: "54b2d81b-9cd2-4409-ac1c-464c864bd1dc"}));
-
-	Store.dispatch(LayersTreeAction.updateLayersTree(treeUUID, layerTree, 'LaersTree_demo'));
+	// Store.dispatch(LayersTreeAction.updateLayersTree(treeUUID, layerTree, 'LaersTree_demo'));
 
 }

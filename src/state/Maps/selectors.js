@@ -164,6 +164,7 @@ const getLayers = createSelector(
 	 * @return {null | Array} Collection of layers data for map component
 	 */
 	(groupedSources, layers) => {
+		// FIXME - more complex
 		if (groupedSources && layers) {
 			let layersForMap = [];
 			layers.forEach(layer => {

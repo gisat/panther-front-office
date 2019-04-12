@@ -3,6 +3,7 @@ import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
+import config from "../../../../../config/index";
 
 const {Location, Sector} = WorldWind;
 
@@ -56,6 +57,8 @@ function getLayerByType(layerData){
 				return getWmtsOsmBasedLayer(layerData);
 			case "colored":
 				return getColoredLayer(layerData.color);
+			case "vector":
+				return getWmsVectorLayer(layerData);
 			default:
 				return null;
 		}
@@ -104,6 +107,38 @@ function getWmsLayer(layerData) {
 		styleNames: layerData.styles,
 		version: version ? version : "1.3.0",
 	}, null);
+}
+
+/**
+ * @param layerData {Object}
+ * @param layerData.name {string}
+ * @param layerData.layerName {string}
+ * @param layerData.attribution {string}
+ * @param layerData.layerName {string}
+ * @param layerData.nameInternal {string}
+ * @param layerData.tableName {string}
+ * @returns {ExtendedWmsLayer}
+ */
+function getWmsVectorLayer(layerData) {
+	const numLevels = 18;
+	
+//fixme - selector přilepí config.geoserverurl
+	const layer = new ExtendedWmsLayer({
+		format: "image/png",
+		layerNames: layerData.layerName,
+		levelZeroDelta: new Location(45, 45),
+		name: layerData.name,
+		numLevels,
+		opacity: 0,
+		params: null,
+		sector: new Sector(-90, 90, -180, 180),
+		service: `${config.geoServerUrl}wms`,
+		size: 256,
+		styleNames: layerData.styles,
+		styleNames: '',
+		version: "1.3.0",
+	}, null);
+	return layer
 }
 
 /**

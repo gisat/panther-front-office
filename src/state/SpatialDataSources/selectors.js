@@ -46,10 +46,29 @@ const getFilteredGroupedByLayerKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param filter {Object}
+ * @returns {Array|null}
+ */
+const getFilteredData = createSelector(
+	[
+		getAllAsObject,
+		(state, filter) => filter
+	],
+	(spatialDataSources, filter) => {
+		if (spatialDataSources && spatialDataSources.length > 0 && filter && !_.isEmpty(filter)) {
+			return _.filter(spatialDataSources, filter);
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getSubstate,
 
 	getFilteredGroupedByLayerKey,
-
+	getFilteredData,
 	vector: vectorSelectors
 };

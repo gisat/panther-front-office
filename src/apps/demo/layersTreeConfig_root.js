@@ -1,12 +1,13 @@
 export default [
 	{
 		type: 'layerTemplate',
-		key: '54b2d81b-9cd2-4409-ac1c-464c864bd1dc',
-		visible: false,
+		key: '3b92a2da-8efb-42ba-a108-c3307fcb0e84',
+		visible: true,
 	},
 	{
+		//wrong uuid -> not visible in tree
 		type: 'layerTemplate',
-		key: 'fcbd3f6b-d376-4e83-a0e2-03bdf36c3b46',
-		visible: false,
+		key: '4b92a2da-8efb-42ba-a108-c3307fcb0e84',
+		visible: true,
 	},
 ]

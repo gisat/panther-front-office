@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
-import isEqual from 'lodash/isEqual';
 
 import LayerTreeLeaf from './layerTreeLeaf';
 import LayerTreeFolder from './layerTreeFolder';
@@ -15,12 +14,11 @@ class LayersTree extends React.PureComponent {
 	componentWillUnmount() {
 		this.props.onUnmount();
 	}
-
-    componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.layersTemplatesKeys, this.props.layersTemplatesKeys)) {
-            this.props.ensureLayersTemplates(this.props.layersTemplatesKeys);
+	componentDidMount() {
+        if(typeof this.props.onMount === 'function') {
+            this.props.onMount(this.props);
         }
-    }
+	}
 
     getDescendant (descendant, parentProps) {
         switch (descendant.type) {
@@ -31,13 +29,14 @@ class LayersTree extends React.PureComponent {
                             key={descendant.id} 
                             {...descendant} />
             case 'layerTemplate':
-                const {type, ...leafProps} = descendant;
-               return <LayerTreeLeaf 
+                const {type, notAllowed, ...leafProps} = descendant;
+                return notAllowed ? null : (<LayerTreeLeaf 
                             onLayerVisibilityClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.layerKey, descendant.key, !leafProps.visible, this.props.layersTree)}}
                             key={descendant.key}  //layerTemplateKey
                             type={parentProps && parentProps.radio ? 'radio' : 'checkbox'}
                             title={leafProps.title}
                             visible={leafProps.visible} />
+                        )
         }
     }
     getDescendants(structure, parentProps) {
@@ -81,8 +80,10 @@ LayersTree.propTypes = {
     onLayerVisibilityClick: PropTypes.func,
     ensureLayersTemplates: PropTypes.func,
     onUnmount: PropTypes.func,
+    onMount: PropTypes.func,
     mapKey: PropTypes.string,
     layersTemplates: PropTypes.object,
+    visibleLayersKeys: PropTypes.array,
 };
 
 export default LayersTree;
