@@ -14,21 +14,32 @@ import {withNamespaces} from "react-i18next";
 class LoginOverlay extends React.PureComponent {
 
 	static propTypes = {
+		onCancel: PropTypes.func,
+		onLogin: PropTypes.func,
 		open: PropTypes.bool,
+		opening: PropTypes.bool,
 		loginRequired: PropTypes.bool
 	};
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			open: false
 		};
 
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onChangePassword = this.onChangePassword.bind(this);
+		this.cancel = this.cancel.bind(this);
 		this.login = this.login.bind(this);
+	}
+
+	componentDidMount() {
+		if (this.props.opening) {
+			this.setState({open: true});
+		}
 	}
 
 	onChangeEmail(value){
@@ -44,14 +55,28 @@ class LoginOverlay extends React.PureComponent {
 	}
 
 	login(){
-		this.props.login(this.state.email, this.state.password);
+		this.props.onLogin(this.state.email, this.state.password);
+		this.cancel();
+	}
+
+	cancel() {
+		this.setState({
+			open: false
+		});
+
+		if (this.props.onCancel) {
+			let self = this;
+			setTimeout(() => {
+				self.props.onCancel();
+			}, 350);
+		}
 	}
 
 	render() {
 		const t = this.props.t;
 
 		return (
-			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-dark", "ptr-overlay-fix", {open: this.props.open})}>
+			<div className={classNames("ptr-login-overlay", {open: this.state.open || this.props.open})}>
 				<div className="ptr-login">
 					<div>
 						<InputText
@@ -82,7 +107,7 @@ class LoginOverlay extends React.PureComponent {
 							<Button
 								invisible
 								inverted
-								onClick={this.props.close}
+								onClick={this.cancel}
 							>
 								{t('cancelCapitalized')}
 							</Button>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import LoginOverlay from "../overlays/LoginOverlay";
+import LoginOverlay from "../overlays/LoginOverlay/presentation";
 
 class AppContainer extends React.PureComponent {
 
@@ -10,7 +10,9 @@ class AppContainer extends React.PureComponent {
 		activeUser: PropTypes.object,
 		loginRequired: PropTypes.bool,
 		light: PropTypes.bool,
-		dark: PropTypes.bool
+		dark: PropTypes.bool,
+
+		onLoginOverlayCancel: PropTypes.func
 	};
 
 	render() {
@@ -29,7 +31,24 @@ class AppContainer extends React.PureComponent {
 
 	renderContent() {
 		if (this.props.loginRequired && !this.props.activeUser) {
-			return (<LoginOverlay open loginRequired/>);
+			return (
+				<LoginOverlay
+					open
+					loginRequired
+					onLogin={this.props.onLogIn}
+				/>
+			);
+		} else if (this.props.loginOverlayOpen) {
+			return (
+				<>
+					<LoginOverlay
+						onLogin={this.props.onLogIn}
+						onCancel={this.props.onLoginOverlayCancel}
+						opening
+					/>
+					{this.props.children}
+				</>
+			);
 		} else {
 			return (this.props.children);
 		}

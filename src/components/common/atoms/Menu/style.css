@@ -55,6 +55,7 @@
 }
 
 .ptr-menu-item-caption {
+	color: var(--base95);
 	display: inline-block;
 	vertical-align: top;
 	font-size: .9375rem;

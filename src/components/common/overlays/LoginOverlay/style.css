@@ -1,4 +1,5 @@
 .ptr-login-overlay {
+	position: absolute;
 	background: rgba(30,30,30,.95);
 	color: #ccc;
 	display: flex;
@@ -6,6 +7,16 @@
 	align-items: center;
 	z-index: 100000;
 	height: 100%;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+	transition:
+			opacity .3s ease-in-out;
+}
+
+.ptr-login-overlay.open {
+	opacity: 1;
+	pointer-events: all;
 }
 
 .ptr-login {

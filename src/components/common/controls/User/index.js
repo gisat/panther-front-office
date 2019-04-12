@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		login: () => {
-			dispatch(Action.components.overlays.openOverlay('login'));
+			dispatch(Action.components.set('App_Container', 'loginOverlayOpen', true));
 		},
 		logout: () => {
 			dispatch(Action.users.apiLogoutUser());
