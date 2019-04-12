@@ -3,6 +3,7 @@ import React from "react";
 import Select from '../../../../state/Select';
 import Action from '../../../../state/Action';
 import ComponentAction from './actions';
+import Actions from '../../../../state/Action';
 import utils from '../../../../utils/utils';
 import {getLayerZindex, getFlattenLayers, getLayersTreesConfig} from './utils'
 import isEqual from 'lodash/isEqual';
@@ -77,11 +78,12 @@ const mapDispatchToProps = (dispatch, props) => {
 
 		onWrapperMount(componentKey, layersTreeKey) {
 			//TODO load layersTree from BE
-			dispatch(ComponentAction.updateLayersTree(layersTreeKey, layerTree, 'LaersTree_demo'));
+			// dispatch(ComponentAction.updateLayersTree(layersTreeKey, layerTree, 'LaersTree_demo'));
 			
 			//load layersTree
 				// dispatch(ComponentAction.prepareLayersTreeComponentState(componentKey, layersTreeKey));
 				// dispatch(ComponentAction.ensureLayerTree(componentKey, layersTreeKey));
+				dispatch(Action.layersTrees.useIndexed({application: true, scope: true}, null, null, 1, 1000, componentId));
 		},
 
 		ensureLayersTemplates: (layersTemplatesKeys) => {

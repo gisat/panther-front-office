@@ -99,7 +99,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 		}
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
-				fullFilter.scope = activeKeys.activeScopeKey;
+				fullFilter.scopeKey = activeKeys.activeScopeKey;
 			} else {
 				return null;
 			}
@@ -107,18 +107,18 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 		// TODO add case, scenario, ...
 		if (filterByActive.place){
 			if (activeKeys.activePlaceKey){
-				fullFilter.place = activeKeys.activePlaceKey;
+				fullFilter.placeKey = activeKeys.activePlaceKey;
 			} else if (activeKeys.activePlaceKeys){
-				fullFilter.place = {key: {in: activeKeys.activePlaceKeys}};
+				fullFilter.placeKey = {key: {in: activeKeys.activePlaceKeys}};
 			} else {
 				return null;
 			}
 		}
 		if (filterByActive.period){
 			if (activeKeys.activePeriodKey){
-				fullFilter.period = activeKeys.activePeriodKey;
+				fullFilter.periodKey = activeKeys.activePeriodKey;
 			} else if (activeKeys.activePeriodKeys){
-				fullFilter.period = {key: {in: activeKeys.activePeriodKeys}};
+				fullFilter.periodKey = {key: {in: activeKeys.activePeriodKeys}};
 			} else {
 				return null;
 			}
