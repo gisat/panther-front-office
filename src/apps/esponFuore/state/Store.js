@@ -1,6 +1,7 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import { reduxBatch } from '@manaflair/redux-batch';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
@@ -31,6 +32,8 @@ import viewsReducers from '../../../state/Views/reducers';
 
 export const history = createBrowserHistory();
 
+const middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+
 // Redux store
 export default createStore(combineReducers({
 	specific: combineReducers({
@@ -57,4 +60,4 @@ export default createStore(combineReducers({
 	tags: tagsReducers,
 	users: usersReducers,
 	views: viewsReducers
-}), applyMiddleware(thunk, logger, routerMiddleware(history)));
+}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));
