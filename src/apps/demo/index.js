@@ -39,6 +39,7 @@ export default (path, baseUrl) => {
 	}));
 
 	Store.dispatch(Action.screens.addSet('demo'));
+	Store.dispatch(Action.app.setKey('demo'));
 	// Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User', 40, 40, User, null));
 	// Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-2', 40, 40, User, null));
 	// Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-3', 40, 40, User, null));
