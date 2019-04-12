@@ -23,13 +23,15 @@ class AppContainer extends React.PureComponent {
 		});
 
 		return (
-			<div id="ptr-app" className={classes}>
+			<div id="ptr-app" key="ptr-app" className={classes}>
 				{this.renderContent()}
 			</div>
 		);
 	}
 
 	renderContent() {
+		let loginOverlay = this.renderLoginOverlay();
+
 		if (this.props.loginRequired && !this.props.activeUser) {
 			return (
 				<LoginOverlay
@@ -37,20 +39,28 @@ class AppContainer extends React.PureComponent {
 					loginRequired
 					onLogin={this.props.onLogIn}
 				/>
-			);
-		} else if (this.props.loginOverlayOpen) {
+			)
+		}  else {
 			return (
 				<>
-					<LoginOverlay
-						onLogin={this.props.onLogIn}
-						onCancel={this.props.onLoginOverlayCancel}
-						opening
-					/>
+					{loginOverlay}
 					{this.props.children}
 				</>
+			)
+		}
+	}
+
+	renderLoginOverlay() {
+		 if (this.props.loginOverlayOpen) {
+			return (
+				<LoginOverlay
+					onLogin={this.props.onLogIn}
+					onCancel={this.props.onLoginOverlayCancel}
+					opening
+				/>
 			);
 		} else {
-			return (this.props.children);
+			return null;
 		}
 	}
 }

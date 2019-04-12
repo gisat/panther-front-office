@@ -36,7 +36,6 @@ class ScopeSelect extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		console.log(this.props.scopes, this.props.activeKey);
 
 		return (
 

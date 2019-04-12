@@ -630,12 +630,19 @@ function ensureIndexesWithActiveKey(filterKey, categoryPath = DEFAULT_CATEGORY_P
 function updateStateFromView(data) {
 	return dispatch => {
 
+		let actionsss = [{type: 'ATTRIBUTES.SET_ACTIVE_KEY', key: 'ahoj'}, {type: 'PLACE.SET_ACTIVE_KEY', key: 'nazdar'}];
+
+		// TODO go through all stores and find reducers to update state once
+		// TODO dispatch one action to change state
+
 		// dispatch updateStateFromView on all stores implementing it and at the same time for stores present in data
-		_.each(Action, (actions, key) => {
-			if (actions.hasOwnProperty('updateStateFromView') && data[key]) {
-				dispatch(actions.updateStateFromView(data[key]));
-			}
-		});
+		// _.each(Action, (storeActions, key) => {
+		// 	if (storeActions.hasOwnProperty('updateStateFromView') && data[key]) {
+		// 		actions.push((storeActions.updateStateFromView(data[key])));
+		// 	}
+		// });
+
+		dispatch(actionsss);
 	}
 }
 

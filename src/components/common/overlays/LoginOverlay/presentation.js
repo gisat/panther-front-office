@@ -38,7 +38,10 @@ class LoginOverlay extends React.PureComponent {
 
 	componentDidMount() {
 		if (this.props.opening) {
-			this.setState({open: true});
+			let self = this;
+			setTimeout(() => {
+				self.setState({open: true});
+			},10);
 		}
 	}
 

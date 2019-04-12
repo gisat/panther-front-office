@@ -35,8 +35,10 @@ class IndicatorList extends React.PureComponent {
 		this.props.registerUse();
 	}
 
-	componentDidUpdate() {
-		this.props.registerUse();
+	componentDidUpdate(prevProps) {
+		if (this.props.categoryKey && this.props.categoryKey !== prevProps.categoryKey) {
+			this.props.registerUse();
+		}
 	}
 
 	componentWillUnmount() {
