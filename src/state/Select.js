@@ -8,6 +8,7 @@ import AttributeSets from './AttributeSets/selectors';
 import Components from './Components/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
+import LayersTrees from './LayersTrees/selectors';
 import Maps from './Maps/selectors';
 import Periods from './Periods/selectors';
 import Places from './Places/selectors';
@@ -36,6 +37,7 @@ export default {
 	components: Components,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
+	layersTrees: LayersTrees,
 	maps: Maps,
 	periods: Periods,
 	places: Places,

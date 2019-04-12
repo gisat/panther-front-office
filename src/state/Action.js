@@ -7,6 +7,7 @@ import AttributeRelations from './AttributeRelations/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
+import LayersTrees from './LayersTrees/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -34,6 +35,7 @@ export default {
 	attributeSets: AttributeSets,
 	components: Components,
 	layerTemplates: LayerTemplates,
+	layersTrees: LayersTrees,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
