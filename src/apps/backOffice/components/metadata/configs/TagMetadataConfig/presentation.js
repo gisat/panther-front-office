@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
-import ApplicationSelect from "../formComponents/ApplicationSelect";
+import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import Button from "../../../../../../components/common/atoms/Button";
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";

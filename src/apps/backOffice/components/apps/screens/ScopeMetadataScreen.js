@@ -20,7 +20,7 @@ class ScopeMetadataScreen extends React.PureComponent {
 			<div className='ptr-bo-colours'>
 				<div className="ptr-screen-content ptr-screen-metadata-header">
 					<div className="ptr-screen-metadata-title">
-						{t('metadata.names.scope')}
+						{t('apps.names.scope')}
 					</div>
 					<div className="ptr-screen-metadata-switcher">
 						<ScopeMetadataSwitcher

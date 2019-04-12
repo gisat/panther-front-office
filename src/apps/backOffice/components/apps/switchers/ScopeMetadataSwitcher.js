@@ -26,12 +26,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));
 			},
 			onChange(item) {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey: item.key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'apps-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey: item.key}))
 			},
 			onAddClick(item) {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.backOffice.scopes.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'apps-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey}))
 			}
 		}
 	}

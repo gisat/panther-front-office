@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import Select from '../../../../../state/Select';
-import Action from "../../../../../state/Action";
+import Select from '../../../state/Select';
+import Action from "../../../state/Action";
 import presentation from "./presentation";
-import utils from "../../../../../../../utils/utils";
+import utils from "../../../../../utils/utils";
 
-import AttributeMetadataScreen from "../../../screens/AttributeMetadataScreen";
+import AttributeMetadataScreen from "../../metadata/screens/AttributeMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
 

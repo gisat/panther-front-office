@@ -28,7 +28,7 @@ const mapDispatchToPropsFactory = () => {
 			onDelete: (item) => {
 				//TODO - confirm before delete
 				dispatch(Action.scopes.delete({key: props.itemKey, data: item}));
-				dispatch(Action.screens.close('metadata', 'metadata-scopeConfig'));
+				dispatch(Action.screens.close('apps', 'apps-scopeConfig'));
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useKeysClear(componentId));

@@ -5,7 +5,7 @@ import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
 import Button from "../../../../../../components/common/atoms/Button";
-import ApplicationSelect from "../formComponents/ApplicationSelect";
+import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import utils from "../../../../../../utils/utils";
 
 class ScopeMetadataConfig extends React.PureComponent {

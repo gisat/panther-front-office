@@ -7,21 +7,16 @@ import Helmet from "react-helmet";
 import utils from '../../../../../utils/sort';
 
 /* Base types */
-import AttributesList from "../../lists/AttributesList";
-import LayerTemplatesList from "../../lists/LayerTemplatesList";
-import PeriodsList from "../../lists/PeriodsList";
-import PlacesList from "../../lists/PlacesList";
-import TagsList from "../../lists/TagsList";
-import ViewsList from "../../lists/ViewsList";
+import ScopesList from "../../lists/ScopesList";
 
 /* Specific types */
-import EsponFuoreIndicatorsList from "../../lists/EsponFuoreIndicatorsList";
+
 
 import NavList from '../../../../../components/presentation/NavList'
 
-import './metadataBase.scss';
+import './style.scss';
 
-class MetadataBase extends React.PureComponent {
+class Apps extends React.PureComponent {
 	static propTypes = {
 		unfocusable: PropTypes.bool,
 		specificTypes: PropTypes.array
@@ -42,10 +37,10 @@ class MetadataBase extends React.PureComponent {
 
 		return (
 			<div className="ptr-base-page ptr-bo-metadata-base">
-				<Helmet><title>Metadata</title></Helmet>
+				<Helmet><title>Apps</title></Helmet>
 				<div className="ptr-bo-metadata-base-menu">
 					<NavList
-						componentKey="NavList_BackOfficeMetadataBase"
+						componentKey="NavList_BackOfficeApps"
 						items={navList}
 						location={location}
 						unfocusable={this.props.unfocusable}/>
@@ -70,20 +65,12 @@ class MetadataBase extends React.PureComponent {
 		const t = this.props.t;
 
 		let baseMetatadata = [
-			{key: 'attributes', title: t('metadata.names.attribute_plural'), component: AttributesList},
-			{key: 'layerTemplates', title: t('metadata.names.layerTemplate_plural'), component: LayerTemplatesList},
-			{key: 'periods', title: t('metadata.names.period_plural'), component: PeriodsList},
-			{key: 'places', title: t('metadata.names.place_plural'), component: PlacesList},
-			{key: 'tags', title: t('metadata.names.tag_plural'), component: TagsList},
-			{key: 'views', title: t('metadata.names.view_plural'), component: ViewsList},
+			{key: 'scopes', title: t('apps.names.scope_plural'), component: ScopesList},
 		];
 
 		let specificMetadata = [];
 		if (this.props.specificTypes) {
 			this.props.specificTypes.forEach(type => {
-				if (type === 'esponFuoreIndicators') {
-					specificMetadata.push({key: 'esponFuoreIndicators', title: t('metadata.names.esponFuoreIndicator_plural'), component: EsponFuoreIndicatorsList})
-				}
 			});
 		}
 
@@ -110,4 +97,4 @@ class MetadataBase extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['backOffice'])(MetadataBase);
+export default withNamespaces(['backOffice'])(Apps);

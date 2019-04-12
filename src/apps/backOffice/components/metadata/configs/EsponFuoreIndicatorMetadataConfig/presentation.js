@@ -7,9 +7,9 @@ import Button from "../../../../../../components/common/atoms/Button";
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 
-import AttributesSelect from "../formComponents/MetadataMultiSelect/AttributesSelect";
-import TagsSelect from "../formComponents/MetadataMultiSelect/TagsSelect";
-import ViewsSelect from "../formComponents/MetadataMultiSelect/ViewsSelect";
+import AttributesSelect from "../../../formComponents/MetadataMultiSelect/AttributesSelect";
+import TagsSelect from "../../../formComponents/MetadataMultiSelect/TagsSelect";
+import ViewsSelect from "../../../formComponents/MetadataMultiSelect/ViewsSelect";
 
 class IndicatorsMetadataConfig extends React.PureComponent {
 	static propTypes = {
