@@ -8,13 +8,13 @@ import presentation from "./presentation";
 import apps from '../../../../../apps';
 
 const mapStateToProps = (state, ownProps) => {
-	let props = {specificTypes: null};
+	let props = {specificDataTypes: null};
 	let activeApp = Select.specific.apps.getActive(state);
 
 	if (activeApp) {
 		let app = _.find(apps, {key: activeApp.key});
 		// if (app && app.configuration && app.configuration.specificMetadataTypes) {
-		// 	props.specificTypes = app.configuration.specificMetadataTypes
+		// 	props.specificDataTypes = app.configuration.specificMetadataTypes
 		// }
 	}
 

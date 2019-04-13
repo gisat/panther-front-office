@@ -19,7 +19,7 @@ import './style.scss';
 class Apps extends React.PureComponent {
 	static propTypes = {
 		unfocusable: PropTypes.bool,
-		specificTypes: PropTypes.array
+		specificDataTypes: PropTypes.array
 	};
 
 	constructor(props) {
@@ -27,9 +27,9 @@ class Apps extends React.PureComponent {
 	}
 
 	render() {
-		let settings = this.getSettings();
-		let paths = this.getPathsForSettings(settings);
-		let navList = this.getNavigation(settings, paths);
+		let dataTypes = this.getDataTypes();
+		let paths = this.getPathsForDataTypes(dataTypes);
+		let navList = this.getNavigation(dataTypes, paths);
 
 
 		const location = this.props.match.path;
@@ -47,7 +47,7 @@ class Apps extends React.PureComponent {
 				</div>
 				<div className="ptr-bo-page-base-list">
 					<Switch>
-						{settings.map(item => {
+						{dataTypes.map(item => {
 							return (
 								<Route
 									key={item.key}
@@ -61,33 +61,33 @@ class Apps extends React.PureComponent {
 		);
 	}
 
-	getSettings() {
+	getDataTypes() {
 		const t = this.props.t;
 
-		let baseSettings = [
+		let baseDataTypes = [
 			{key: 'scopes', title: t('apps.names.scope_plural'), component: ScopesList},
 		];
 
-		let specificSettings = [];
-		if (this.props.specificTypes) {
-			this.props.specificTypes.forEach(type => {
+		let specificDataTypes = [];
+		if (this.props.specificDataTypes) {
+			this.props.specificDataTypes.forEach(type => {
 			});
 		}
 
-		return [...baseSettings, ...specificSettings];
+		return [...baseDataTypes, ...specificDataTypes];
 	}
 
-	getPathsForSettings(settings) {
+	getPathsForDataTypes(dataTypes) {
 		let paths = {};
-		settings.forEach(item => {
+		dataTypes.forEach(item => {
 			paths[item.key] = `${this.props.match.path}/${item.key}`;
 		});
 
 		return paths;
 	}
 
-	getNavigation(settings, paths) {
-		return settings.map(item => {
+	getNavigation(dataTypes, paths) {
+		return dataTypes.map(item => {
 			return {
 				type: 'leaf',
 				title: item.title,

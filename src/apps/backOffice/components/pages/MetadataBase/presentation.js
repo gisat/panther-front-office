@@ -24,7 +24,7 @@ import './style.scss';
 class MetadataBase extends React.PureComponent {
 	static propTypes = {
 		unfocusable: PropTypes.bool,
-		specificTypes: PropTypes.array
+		specificDataTypes: PropTypes.array
 	};
 
 	constructor(props) {
@@ -32,9 +32,9 @@ class MetadataBase extends React.PureComponent {
 	}
 
 	render() {
-		let metadata = this.getMetadata();
-		let paths = this.getPathsForMetadata(metadata);
-		let navList = this.getNavigation(metadata, paths);
+		let dataTypes = this.getDataTypes();
+		let paths = this.getPathsForDataTypes(dataTypes);
+		let navList = this.getNavigation(dataTypes, paths);
 
 
 		const location = this.props.match.path;
@@ -52,7 +52,7 @@ class MetadataBase extends React.PureComponent {
 				</div>
 				<div className="ptr-bo-page-base-list">
 					<Switch>
-						{metadata.map(item => {
+						{dataTypes.map(item => {
 							return (
 								<Route
 									key={item.key}
@@ -66,10 +66,10 @@ class MetadataBase extends React.PureComponent {
 		);
 	}
 
-	getMetadata() {
+	getDataTypes() {
 		const t = this.props.t;
 
-		let baseMetatadata = [
+		let baseDataTypes = [
 			{key: 'attributes', title: t('metadata.names.attribute_plural'), component: AttributesList},
 			{key: 'layerTemplates', title: t('metadata.names.layerTemplate_plural'), component: LayerTemplatesList},
 			{key: 'periods', title: t('metadata.names.period_plural'), component: PeriodsList},
@@ -78,29 +78,29 @@ class MetadataBase extends React.PureComponent {
 			{key: 'views', title: t('metadata.names.view_plural'), component: ViewsList},
 		];
 
-		let specificMetadata = [];
-		if (this.props.specificTypes) {
-			this.props.specificTypes.forEach(type => {
+		let spacificDataTypes = [];
+		if (this.props.specificDataTypes) {
+			this.props.specificDataTypes.forEach(type => {
 				if (type === 'esponFuoreIndicators') {
-					specificMetadata.push({key: 'esponFuoreIndicators', title: t('metadata.names.esponFuoreIndicator_plural'), component: EsponFuoreIndicatorsList})
+					spacificDataTypes.push({key: 'esponFuoreIndicators', title: t('metadata.names.esponFuoreIndicator_plural'), component: EsponFuoreIndicatorsList})
 				}
 			});
 		}
 
-		return [...baseMetatadata, ...specificMetadata];
+		return [...baseDataTypes, ...spacificDataTypes];
 	}
 
-	getPathsForMetadata(metadata) {
+	getPathsForDataTypes(dataTypes) {
 		let paths = {};
-		metadata.forEach(item => {
+		dataTypes.forEach(item => {
 			paths[item.key] = `${this.props.match.path}/${item.key}`;
 		});
 
 		return paths;
 	}
 
-	getNavigation(metadata, paths) {
-		return metadata.map(item => {
+	getNavigation(dataTypes, paths) {
+		return dataTypes.map(item => {
 			return {
 				type: 'leaf',
 				title: item.title,
