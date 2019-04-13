@@ -14,22 +14,22 @@
 	  "type": "Type"
 	},
   "metadata": {
-	"names": {
-	  "attribute": "Attribute",
-	  "attribute_plural": "Attributes",
-	  "esponFuoreIndicator": "Indicator",
-	  "esponFuoreIndicator_plural": "Indicators",
-	  "layerTemplate": "Layer template",
-	  "layerTemplate_plural": "Layer templates",
-	  "period": "Period",
-	  "period_plural": "Periods",
-	  "place": "Place",
-	  "place_plural": "Places",
-	  "tag": "Tag",
-	  "tag_plural": "Tags",
-	  "view": "View",
-	  "view_plural": "Views"
-	}
+		"names": {
+			"attribute": "Attribute",
+			"attribute_plural": "Attributes",
+			"esponFuoreIndicator": "Indicator",
+			"esponFuoreIndicator_plural": "Indicators",
+			"layerTemplate": "Layer template",
+			"layerTemplate_plural": "Layer templates",
+			"period": "Period",
+			"period_plural": "Periods",
+			"place": "Place",
+			"place_plural": "Places",
+			"tag": "Tag",
+			"tag_plural": "Tags",
+			"view": "View",
+			"view_plural": "Views"
+		}
   },
 	"apps": {
 		"names": {
