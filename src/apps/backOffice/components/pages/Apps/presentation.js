@@ -27,27 +27,27 @@ class Apps extends React.PureComponent {
 	}
 
 	render() {
-		let metadata = this.getMetadata();
-		let paths = this.getPathsForMetadata(metadata);
-		let navList = this.getNavigation(metadata, paths);
+		let settings = this.getSettings();
+		let paths = this.getPathsForSettings(settings);
+		let navList = this.getNavigation(settings, paths);
 
 
 		const location = this.props.match.path;
 		let props = {unfocusable: this.props.unfocusable};
 
 		return (
-			<div className="ptr-base-page ptr-bo-metadata-base">
+			<div className="ptr-base-page ptr-bo-page-base">
 				<Helmet><title>Apps</title></Helmet>
-				<div className="ptr-bo-metadata-base-menu">
+				<div className="ptr-bo-page-base-menu">
 					<NavList
 						componentKey="NavList_BackOfficeApps"
 						items={navList}
 						location={location}
 						unfocusable={this.props.unfocusable}/>
 				</div>
-				<div className="ptr-bo-metadata-base-list">
+				<div className="ptr-bo-page-base-list">
 					<Switch>
-						{metadata.map(item => {
+						{settings.map(item => {
 							return (
 								<Route
 									key={item.key}
@@ -61,33 +61,33 @@ class Apps extends React.PureComponent {
 		);
 	}
 
-	getMetadata() {
+	getSettings() {
 		const t = this.props.t;
 
-		let baseMetatadata = [
+		let baseSettings = [
 			{key: 'scopes', title: t('apps.names.scope_plural'), component: ScopesList},
 		];
 
-		let specificMetadata = [];
+		let specificSettings = [];
 		if (this.props.specificTypes) {
 			this.props.specificTypes.forEach(type => {
 			});
 		}
 
-		return [...baseMetatadata, ...specificMetadata];
+		return [...baseSettings, ...specificSettings];
 	}
 
-	getPathsForMetadata(metadata) {
+	getPathsForSettings(settings) {
 		let paths = {};
-		metadata.forEach(item => {
+		settings.forEach(item => {
 			paths[item.key] = `${this.props.match.path}/${item.key}`;
 		});
 
 		return paths;
 	}
 
-	getNavigation(metadata, paths) {
-		return metadata.map(item => {
+	getNavigation(settings, paths) {
+		return settings.map(item => {
 			return {
 				type: 'leaf',
 				title: item.title,

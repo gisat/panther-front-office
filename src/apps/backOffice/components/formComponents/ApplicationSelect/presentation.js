@@ -34,7 +34,7 @@ class ApplicationSelect extends React.PureComponent {
 		let data = [{
 			key: 'allApps',
 			data: {
-				name: t('metadata.formLabels.allApps')
+				name: t('formLabels.allApps')
 			}
 		}];
 		let value = this.props.value ? this.props.value : data[0];

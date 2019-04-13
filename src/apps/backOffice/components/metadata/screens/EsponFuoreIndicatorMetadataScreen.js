@@ -5,7 +5,7 @@ import {withNamespaces} from "react-i18next";
 import IndicatorMetadataConfig from "../configs/EsponFuoreIndicatorMetadataConfig";
 import IndicatorMetadataSwitcher from "../switchers/EsponFuoreIndicatorMetadataSwitcher";
 
-import "./style.scss";
+import "../../screens/style.scss";
 
 class EsponFuoreIndicatorMetadataScreen extends React.PureComponent {
 	static propTypes = {
@@ -18,18 +18,18 @@ class EsponFuoreIndicatorMetadataScreen extends React.PureComponent {
 
 		return (
 			<div className='ptr-bo-colours'>
-				<div className="ptr-screen-content ptr-screen-metadata-header">
-					<div className="ptr-screen-metadata-title">
+				<div className="ptr-screen-content ptr-bo-screen-header">
+					<div className="ptr-bo-screen-title">
 						{t('metadata.names.esponFuoreIndicator')}
 					</div>
-					<div className="ptr-screen-metadata-switcher">
+					<div className="ptr-bo-screen-switcher">
 						<IndicatorMetadataSwitcher
 							itemKey={this.props.itemKey}
 							unfocusable={this.props.unfocusable}
 						/>
 					</div>
 				</div>
-				<div className="ptr-screen-content ptr-screen-metadata-content">
+				<div className="ptr-screen-content ptr-bo-screen-content">
 					<IndicatorMetadataConfig
 						itemKey={this.props.itemKey}
 						unfocusable={this.props.unfocusable}

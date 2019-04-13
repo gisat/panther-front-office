@@ -19,7 +19,7 @@ import EsponFuoreIndicatorsList from "../../lists/EsponFuoreIndicatorsList";
 
 import NavList from '../../../../../components/presentation/NavList'
 
-import './metadataBase.scss';
+import './style.scss';
 
 class MetadataBase extends React.PureComponent {
 	static propTypes = {
@@ -41,16 +41,16 @@ class MetadataBase extends React.PureComponent {
 		let props = {unfocusable: this.props.unfocusable};
 
 		return (
-			<div className="ptr-base-page ptr-bo-metadata-base">
+			<div className="ptr-base-page ptr-bo-page-base">
 				<Helmet><title>Metadata</title></Helmet>
-				<div className="ptr-bo-metadata-base-menu">
+				<div className="ptr-bo-page-base-menu">
 					<NavList
 						componentKey="NavList_BackOfficeMetadataBase"
 						items={navList}
 						location={location}
 						unfocusable={this.props.unfocusable}/>
 				</div>
-				<div className="ptr-bo-metadata-base-list">
+				<div className="ptr-bo-page-base-list">
 					<Switch>
 						{metadata.map(item => {
 							return (

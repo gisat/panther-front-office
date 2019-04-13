@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
-import presentation from "./presentation";
+import presentation from "../../switchers/presentation";
 import utils from "../../../../../utils/utils";
-import ScopeMetadataScreen from "../screens/ScopeMetadataScreen";
+import ScopeAppsScreen from "../screens/ScopeAppsScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'ScopeMetadataSwitcher_' + utils.randomString(6);
+	const componentId = 'ScopeAppsSwitcher_' + utils.randomString(6);
 
 	return (dispatch) => {
 		return {
@@ -26,12 +26,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));
 			},
 			onChange(item) {
-				dispatch(Action.screens.addOrUpdate('metadata', 'apps-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey: item.key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey: item.key}))
 			},
 			onAddClick(item) {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.backOffice.scopes.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'apps-scopeConfig', 40, 40, ScopeMetadataScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey}))
 			}
 		}
 	}

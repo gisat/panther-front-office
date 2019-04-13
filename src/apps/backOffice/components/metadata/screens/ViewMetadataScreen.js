@@ -5,7 +5,7 @@ import {withNamespaces} from "react-i18next";
 import ViewMetadataConfig from "../configs/ViewMetadataConfig";
 import ViewMetadataSwitcher from "../switchers/ViewMetadataSwitcher";
 
-import "./style.scss";
+import "../../screens/style.scss";
 
 class ViewMetadataScreen extends React.PureComponent {
 	static propTypes = {
@@ -18,18 +18,18 @@ class ViewMetadataScreen extends React.PureComponent {
 
 		return (
 			<div className='ptr-bo-colours'>
-				<div className="ptr-screen-content ptr-screen-metadata-header">
-					<div className="ptr-screen-metadata-title">
+				<div className="ptr-screen-content ptr-bo-screen-header">
+					<div className="ptr-bo-screen-title">
 						{t('metadata.names.view')}
 					</div>
-					<div className="ptr-screen-metadata-switcher">
+					<div className="ptr-bo-screen-switcher">
 						<ViewMetadataSwitcher
 							itemKey={this.props.itemKey}
 							unfocusable={this.props.unfocusable}
 						/>
 					</div>
 				</div>
-				<div className="ptr-screen-content ptr-screen-metadata-content">
+				<div className="ptr-screen-content ptr-bo-screen-content">
 					<ViewMetadataConfig
 						itemKey={this.props.itemKey}
 						unfocusable={this.props.unfocusable}

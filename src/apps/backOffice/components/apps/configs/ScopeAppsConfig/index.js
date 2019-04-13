@@ -14,7 +14,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'ScopeMetadataConfig_' + utils.randomString(6);
+	const componentId = 'ScopeAppsConfig_' + utils.randomString(6);
 
 	return (dispatch, props) => {
 		return {

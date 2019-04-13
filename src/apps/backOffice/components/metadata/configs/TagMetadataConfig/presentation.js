@@ -58,7 +58,7 @@ class TagMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.application")}
+					label={t("formLabels.application")}
 				>
 					<ApplicationSelect
 						disabled={!this.props.editable}
@@ -69,7 +69,7 @@ class TagMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.name")}
+					label={t("formLabels.name")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -79,7 +79,7 @@ class TagMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.nameInternal")}
+					label={t("formLabels.nameInternal")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -89,7 +89,7 @@ class TagMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.description")}
+					label={t("formLabels.description")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -99,7 +99,7 @@ class TagMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.color")}
+					label={t("formLabels.color")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -111,8 +111,8 @@ class TagMetadataConfig extends React.PureComponent {
 						{t('TagMetadataConfig:colorDescriptionText')}
 					</InputWrapperInfo>
 				</InputWrapper>
-				<div className="ptr-screen-metadata-buttons">
-					<div className="ptr-screen-metadata-buttons-left">
+				<div className="ptr-bo-screen-buttons">
+					<div className="ptr-bo-screen-buttons-left">
 						<Button
 							disabled={this.props.unfocusable || !this.props.editedData || _.isEmpty(this.props.editedData)}
 							ghost
@@ -120,7 +120,7 @@ class TagMetadataConfig extends React.PureComponent {
 							onClick={this.props.onSave}
 						>{t("saveCapitalized")}</Button>
 					</div>
-					<div className="ptr-screen-metadata-buttons-right">
+					<div className="ptr-bo-screen-buttons-right">
 						<Button
 							disabled={this.props.unfocusable || !this.props.deletable}
 							ghost

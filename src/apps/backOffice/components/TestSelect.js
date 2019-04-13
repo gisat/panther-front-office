@@ -17,8 +17,8 @@ class Test extends React.PureComponent {
 
 
 		return (
-			<div className={'ptr-base-page ptr-bo-metadata-base'}>
-			  <div className={'ptr-bo-metadata-base-list'}>
+			<div className={'ptr-base-page ptr-bo-page-base'}>
+			  <div className={'ptr-bo-page-base-list'}>
                 test select
                 <div>
                   <AddValue

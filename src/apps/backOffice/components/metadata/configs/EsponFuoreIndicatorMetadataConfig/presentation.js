@@ -72,7 +72,7 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.name")}
+					label={t("formLabels.name")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -82,7 +82,7 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.description")}
+					label={t("formLabels.description")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -129,8 +129,8 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 						withKeyPrefix
 					/>
 				</InputWrapper>
-				<div className="ptr-screen-metadata-buttons">
-					<div className="ptr-screen-metadata-buttons-left">
+				<div className="ptr-bo-screen-buttons">
+					<div className="ptr-bo-screen-buttons-left">
 						<Button
 							disabled={this.props.unfocusable || !this.props.editedData || _.isEmpty(this.props.editedData)}
 							ghost
@@ -138,7 +138,7 @@ class IndicatorsMetadataConfig extends React.PureComponent {
 							onClick={this.props.onSave}
 						>{t("saveCapitalized")}</Button>
 					</div>
-					<div className="ptr-screen-metadata-buttons-right">
+					<div className="ptr-bo-screen-buttons-right">
 						<Button
 							disabled={this.props.unfocusable || !this.props.deletable}
 							ghost

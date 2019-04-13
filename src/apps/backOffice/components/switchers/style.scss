@@ -1,0 +1,11 @@
+@import '../../../../styles/variables';
+
+.ptr-bo-screen-switcher-content {
+	display: flex;
+	align-items: flex-end;
+}
+
+.ptr-bo-screen-switcher-content > div:first-child {
+	flex-grow: 1;
+	margin-right: .5rem;
+}

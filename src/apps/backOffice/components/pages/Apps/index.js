@@ -13,9 +13,9 @@ const mapStateToProps = (state, ownProps) => {
 
 	if (activeApp) {
 		let app = _.find(apps, {key: activeApp.key});
-		if (app && app.configuration && app.configuration.specificMetadataTypes) {
-			props.specificTypes = app.configuration.specificMetadataTypes
-		}
+		// if (app && app.configuration && app.configuration.specificMetadataTypes) {
+		// 	props.specificTypes = app.configuration.specificMetadataTypes
+		// }
 	}
 
 	return props;

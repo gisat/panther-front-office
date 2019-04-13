@@ -8,7 +8,7 @@ import Button from "../../../../../../components/common/atoms/Button";
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import utils from "../../../../../../utils/utils";
 
-class ScopeMetadataConfig extends React.PureComponent {
+class ScopeAppsConfig extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
 		deletable: PropTypes.bool,
@@ -65,7 +65,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.application")}
+					label={t("formLabels.application")}
 				>
 					<ApplicationSelect
 						disabled={!this.props.editable}
@@ -76,7 +76,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.name")}
+					label={t("formLabels.name")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -87,7 +87,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.nameInternal")}
+					label={t("formLabels.nameInternal")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -98,7 +98,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.description")}
+					label={t("formLabels.description")}
 				>
 					<Input
 						multiline
@@ -109,7 +109,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.configuration")}
+					label={t("formLabels.configuration")}
 				>
 					<Input
 						unfocusable={this.props.unfocusable}
@@ -119,8 +119,8 @@ class ScopeMetadataConfig extends React.PureComponent {
 						onChange={(val) => this.onChangeJsonValue('configuration', val)}
 					/>
 				</InputWrapper>
-				<div className="ptr-screen-metadata-buttons">
-					<div className="ptr-screen-metadata-buttons-left">
+				<div className="ptr-bo-screen-buttons">
+					<div className="ptr-bo-screen-buttons-left">
 						<Button
 							disabled={this.props.unfocusable || !this.props.editedData || _.isEmpty(this.props.editedData)}
 							ghost
@@ -128,7 +128,7 @@ class ScopeMetadataConfig extends React.PureComponent {
 							onClick={this.props.onSave}
 						>{t("saveCapitalized")}</Button>
 					</div>
-					<div className="ptr-screen-metadata-buttons-right">
+					<div className="ptr-bo-screen-buttons-right">
 						<Button
 							disabled={this.props.unfocusable || !this.props.deletable}
 							ghost
@@ -141,4 +141,4 @@ class ScopeMetadataConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['backOffice'])(ScopeMetadataConfig);
+export default withNamespaces(['backOffice'])(ScopeAppsConfig);

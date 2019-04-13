@@ -72,7 +72,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 			<div>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.application")}
+					label={t("formLabels.application")}
 				>
 					<ApplicationSelect
 						disabled={!this.props.editable}
@@ -83,7 +83,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.name")}
+					label={t("formLabels.name")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -93,7 +93,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.nameInternal")}
+					label={t("formLabels.nameInternal")}
 				>
 					<Input
 						disabled={!this.props.editable}
@@ -104,7 +104,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.description")}
+					label={t("formLabels.description")}
 				>
 					<Input
 						multiline
@@ -116,7 +116,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 				</InputWrapper>
 				<InputWrapper
 					required
-					label={t("metadata.formLabels.boundingBox")}
+					label={t("formLabels.boundingBox")}
 				>
 					<Input
 						unfocusable={this.props.unfocusable}
@@ -128,7 +128,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 					<InputWrapperInfo>{t("PlaceMetadataConfig:geometryDescription")}</InputWrapperInfo>
 				</InputWrapper>
 				<InputWrapper
-					label={t("metadata.formLabels.geometry")}
+					label={t("formLabels.geometry")}
 				>
 					<Input
 						unfocusable={this.props.unfocusable}
@@ -139,8 +139,8 @@ class PlaceMetadataConfig extends React.PureComponent {
 					/>
 					<InputWrapperInfo>{t("PlaceMetadataConfig:geometryDescription")}</InputWrapperInfo>
 				</InputWrapper>
-				<div className="ptr-screen-metadata-buttons">
-					<div className="ptr-screen-metadata-buttons-left">
+				<div className="ptr-bo-screen-buttons">
+					<div className="ptr-bo-screen-buttons-left">
 						<Button
 							disabled={this.props.unfocusable || !this.props.editedData || _.isEmpty(this.props.editedData)}
 							ghost
@@ -148,7 +148,7 @@ class PlaceMetadataConfig extends React.PureComponent {
 							onClick={this.props.onSave}
 						>{t("saveCapitalized")}</Button>
 					</div>
-					<div className="ptr-screen-metadata-buttons-right">
+					<div className="ptr-bo-screen-buttons-right">
 						<Button
 							disabled={this.props.unfocusable || !this.props.deletable}
 							ghost

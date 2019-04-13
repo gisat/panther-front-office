@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import _ from 'lodash';
 import {withNamespaces} from "react-i18next";
 
-import Button from "../../../../../components/common/atoms/Button";
-import Select from '../../../../../components/common/atoms/Select/Select';
+import Button from "../../../../components/common/atoms/Button";
+import Select from '../../../../components/common/atoms/Select/Select';
 
-import './MetadataSwitcher.scss';
+import './style.scss';
 
 
 class MetadataSwitcher extends React.PureComponent {
@@ -41,7 +41,7 @@ class MetadataSwitcher extends React.PureComponent {
 
 		// TODO uncomment when backend is ready
 		return (
-			<div className="ptr-screen-metadata-switcher-content">
+			<div className="ptr-bo-screen-switcher-content">
 				<Select
 					unfocusable={this.props.unfocusable}
                     options = {relevantData}

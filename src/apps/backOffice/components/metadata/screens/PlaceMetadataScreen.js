@@ -5,7 +5,7 @@ import {withNamespaces} from "react-i18next";
 import PlaceMetadataConfig from "../configs/PlaceMetadataConfig";
 import PlaceMetadataSwitcher from "../switchers/PlaceMetadataSwitcher";
 
-import "./style.scss";
+import "../../screens/style.scss";
 
 class PlaceMetadataScreen extends React.PureComponent {
 	static propTypes = {
@@ -18,18 +18,18 @@ class PlaceMetadataScreen extends React.PureComponent {
 
 		return (
 			<div className='ptr-bo-colours'>
-				<div className="ptr-screen-content ptr-screen-metadata-header">
-					<div className="ptr-screen-metadata-title">
+				<div className="ptr-screen-content ptr-bo-screen-header">
+					<div className="ptr-bo-screen-title">
 						{t('metadata.names.place')}
 					</div>
-					<div className="ptr-screen-metadata-switcher">
+					<div className="ptr-bo-screen-switcher">
 						<PlaceMetadataSwitcher
 							itemKey={this.props.itemKey}
 							unfocusable={this.props.unfocusable}
 						/>
 					</div>
 				</div>
-				<div className="ptr-screen-content ptr-screen-metadata-content">
+				<div className="ptr-screen-content ptr-bo-screen-content">
 					<PlaceMetadataConfig
 						itemKey={this.props.itemKey}
 						unfocusable={this.props.unfocusable}

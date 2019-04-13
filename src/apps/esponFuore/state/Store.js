@@ -15,6 +15,7 @@ import attributeSetsReducers from '../../../state/AttributeSets/reducers';
 import componentsReducers from '../../../state/Components/reducers';
 import layerPeriodsReducers from '../../../state/LayerPeriods/reducers';
 import layerTemplatesReducers from '../../../state/LayerTemplates/reducers';
+import layerTreeReducers from '../../../state/LayersTrees/reducers';
 import mapsReducers from '../../../state/Maps/reducers';
 import periodsReducers from '../../../state/Periods/reducers';
 import placesReducers from '../../../state/Places/reducers';
@@ -43,6 +44,7 @@ export default createStore(combineReducers({
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
+	layersTrees: layerTreeReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,
