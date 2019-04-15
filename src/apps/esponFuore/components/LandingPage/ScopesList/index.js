@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import Action from '../../state/Action';
-import Select from '../../state/Select';
-import utils from '../../../../utils/utils';
+import Action from '../../../state/Action';
+import Select from '../../../state/Select';
+import utils from '../../../../../utils/utils';
 
 import presentation from "./presentation";
 

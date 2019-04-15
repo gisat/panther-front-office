@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Truncate from 'react-truncate';
 
 import './style.scss';
-import FadeIn from "../../../../components/common/atoms/FadeIn/FadeIn";
-import scopePreview0 from '../../assets/img/preview_0.png';
-import scopePreview1 from '../../assets/img/preview_1.png';
+import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
+import scopePreview0 from '../../../assets/img/preview_0.png';
+import scopePreview1 from '../../../assets/img/preview_1.png';
 
 class ScopesList extends React.PureComponent {
 
