@@ -61,6 +61,7 @@ class PantherSelectItem extends React.PureComponent {
 		return (
 			<div
 				className={classes}
+				style={this.props.style}
 				onClick={this.onClick}
 			>
 				{this.props.children}
