@@ -45,7 +45,8 @@ class ScopeSelect extends React.PureComponent {
 				onSelectClick={() => {
 					props.scopeSelectOpen ? props.closeSelect() : props.openSelect()
 				}}
-				onSelect={this.props.selectScope}
+				onBlur={props.closeSelect}
+				onSelect={props.selectScope}
 				currentClasses="esponFuore-scope-select-current"
 				renderCurrent={this.renderCurrent}
 				listClasses="esponFuore-scope-select-list"

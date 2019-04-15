@@ -12,7 +12,9 @@ class PantherSelect extends React.PureComponent {
 	static propTypes = {
 		disabled: PropTypes.bool,
 		open: PropTypes.bool,
+		onBlur: PropTypes.func,
 		onSelectClick: PropTypes.func,
+		onSelect: PropTypes.func,
 		renderCurrent: PropTypes.func,
 		renderList: PropTypes.func,
 		currentClasses: PropTypes.string,
@@ -30,9 +32,6 @@ class PantherSelect extends React.PureComponent {
 		this.onClick = this.onClick.bind(this);
 		this.onKeyPress = this.onKeyPress.bind(this);
 		this.onSelect = this.onSelect.bind(this);
-		this.state = {
-			opening: false
-		}
 	}
 
 
@@ -44,8 +43,13 @@ class PantherSelect extends React.PureComponent {
 		}
 	}
 
-	onBlur() {
-
+	onBlur(e) {
+		if (this.props.onBlur) {
+			// timout needed, otherwise onBlur prevents onClick
+			setTimeout(() => {
+				this.props.onBlur();
+			}, 100);
+		}
 	}
 
 	onKeyPress(e) {
@@ -64,30 +68,19 @@ class PantherSelect extends React.PureComponent {
 		}
 	}
 
-	componentDidUpdate(prevProps) {
-		if (prevProps && !prevProps.open && this.props.open) {
-			this.setState({opening: true});
-			let self = this;
-			setTimeout(() => {
-				self.setState({opening: false});
-			}, 350);
-		}
-	}
-
 	render() {
 
 
 
 		let classes = classNames(
 			'ptr-panther-select', {
-				open: !!this.props.open,
-				opening: this.state.opening
+				open: !!this.props.open
 			},
 			this.props.className
 		);
 
 		return (
-			<div className={classes}>
+			<div className={classes} onBlur={this.onBlur}>
 				<div
 					className={classNames("ptr-panther-select-current", this.props.currentClasses, {disabled: !!this.props.disabled})}
 					tabIndex={this.props.disabled ? "-1" : "0"}
