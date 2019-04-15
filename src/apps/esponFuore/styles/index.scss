@@ -87,20 +87,20 @@
 	flex: 1;
 	display: flex;
 	background-color: #3c5772;
+  align-items: center;
 
 }
 .esponFuore-header-toolbar > div {
 	padding: 0 .5rem 0 1.5rem;
-	padding-top: .5rem; //todo unfake this
 }
 .esponFuore-header-toolbar > div:first-child {
 	flex: 1;
-	padding-top: .8rem;
 }
 .esponFuore-header-toolbar-right {
 	flex: 0 0 5rem;
 }
-.esponFuore-header-toolbar {
+.esponFuore-header-toolbar,
+.esponFuore-header-toolbar .ptr-button.invisible.inverted {
 	color: rgba(255,255,255,.75);
 }
 
