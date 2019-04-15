@@ -49,6 +49,7 @@
 	transform: translateY(-100%);
 	transition: transform .3s ease-in-out;
 	pointer-events: none;
+	overflow: hidden;
 }
 .ptr-panther-select.open .ptr-panther-select-list > div > div {
 	transform: none;
