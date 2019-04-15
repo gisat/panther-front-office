@@ -8,6 +8,7 @@ import utils from '../../../../../utils/sort';
 
 /* Base types */
 import ScopesList from "../../lists/ScopesList";
+import LayerTreesList from "../../lists/LayerTreesList";
 
 /* Specific types */
 
@@ -66,6 +67,7 @@ class Apps extends React.PureComponent {
 
 		let baseDataTypes = [
 			{key: 'scopes', title: t('apps.names.scope_plural'), component: ScopesList},
+			{key: 'layerTrees', title: t('apps.names.layerTrees'), component: LayerTreesList},
 		];
 
 		let specificDataTypes = [];

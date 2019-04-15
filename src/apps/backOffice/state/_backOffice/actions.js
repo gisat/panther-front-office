@@ -42,6 +42,10 @@ export default {
 		create: create(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES),
 		useIndexed: useIndexed(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES)
 	},
+	layerTrees: {
+		create: create(Select.layersTrees.getSubstate, 'layerTrees', ActionTypes.LAYERSTREES, 'applications'),
+		useIndexed: useIndexed(Select.layersTrees.getSubstate, 'layerTrees', ActionTypes.LAYERSTREES, 'applications')
+	},
 	periods: {
 		create: create(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS),
 		useIndexed: useIndexed(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS)

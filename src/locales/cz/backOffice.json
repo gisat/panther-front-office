@@ -32,7 +32,10 @@
 		}
 	},
 	"apps": {
-		"scope": "Scope",
-		"scope_plural": "Scopy"
+		"names": {
+			"scope": "Scope",
+			"scope_plural": "Scopy",
+			"layerTrees": "Stromy vrstev"
+		}
 	}
 }

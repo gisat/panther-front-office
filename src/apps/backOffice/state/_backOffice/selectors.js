@@ -90,6 +90,9 @@ export default {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.layerTemplates.getSubstate),
 		getAllWithOutdatedForActiveApp: getAllWithOutdatedForActiveApp(commonSelect.layerTemplates.getSubstate),
 	},
+	layerTrees: {
+		getAllForActiveApp: getAllForActiveApp(commonSelect.layersTrees.getSubstate)
+	},
 	periods: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.periods.getSubstate)
 	},
