@@ -27,6 +27,8 @@ utils.addI18nResources('common', {en});
 
 export default (path, baseUrl) => {
 
+	let componentId = 'Fuore-LayersTree';
+
 	Store.dispatch(Action.app.setKey('esponFuore'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 
@@ -44,21 +46,26 @@ export default (path, baseUrl) => {
 	}));
 	Store.dispatch(Action.maps.addMap({key: 'Map1'}));
 	Store.dispatch(Action.maps.addMapToSet('esponFuore', 'Map1'));
+	//applyLayerTree	
+	Store.dispatch(Action.layersTrees.useIndexed({application: true}, null, null, 1, 1000, componentId)).then(() => {
+		//add visible layers
 
-	ReactDOM.render(
-		<Provider store={Store}>
-			<Helmet
-				titleTemplate="%s | ESPON FUORE"
-				defaultTitle="ESPON FUORE"
-			/>
-			<AppContainer>
-				<ConnectedRouter history={history}>
-					<>
-						<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
-						<Route component={App} />
-					</>
-				</ConnectedRouter>
-			</AppContainer>
-		</Provider>, document.getElementById('ptr')
-	);
+		ReactDOM.render(
+			<Provider store={Store}>
+				<Helmet
+					titleTemplate="%s | ESPON FUORE"
+					defaultTitle="ESPON FUORE"
+				/>
+				<AppContainer>
+					<ConnectedRouter history={history}>
+						<>
+							<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
+							<Route component={App} />
+						</>
+					</ConnectedRouter>
+				</AppContainer>
+			</Provider>, document.getElementById('ptr')
+		);
+	})
+
 }

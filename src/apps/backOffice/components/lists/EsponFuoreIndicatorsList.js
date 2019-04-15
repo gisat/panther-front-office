@@ -4,7 +4,7 @@ import Action from "../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
-import IndicatorMetadataScreen from "../metadata/screens/EsponFuoreIndicatorMetadataScreen";
+import IndicatorMetadataScreen from "../metadata/screens/EsponFuoreIndicatorScreen";
 
 const mapStateToProps = (state, props) => {
 	return {

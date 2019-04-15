@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {withNamespaces} from "react-i18next";
-import Helmet from "react-helmet";
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import Action from '../../../state/Action';
+import Select from '../../../state/Select';
+import utils from "../../../../../utils/utils";
 
-import './style.scss';
+import presentation from "./presentation";
+import apps from '../../../../../apps';
 
-class AppsPage extends React.PureComponent {
-	static propTypes = {
-		unfocusable: PropTypes.bool
-	};
+const mapStateToProps = (state, ownProps) => {
+	let props = {specificDataTypes: null};
+	let activeApp = Select.specific.apps.getActive(state);
 
-	render() {
-
-		return (
-			<div className="ptr-base-page">
-				<Helmet><title>Apps</title></Helmet>
-				Apps! Scopes!
-			</div>
-		);
+	if (activeApp) {
+		let app = _.find(apps, {key: activeApp.key});
+		// if (app && app.configuration && app.configuration.specificMetadataTypes) {
+		// 	props.specificDataTypes = app.configuration.specificMetadataTypes
+		// }
 	}
-}
 
-export default withNamespaces()(AppsPage);
+	return props;
+};
+
+export default connect(mapStateToProps)(presentation);

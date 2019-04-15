@@ -69,7 +69,7 @@ export default (path, baseUrl, managedAppKey) => {
 				<ConnectedRouter history={history}>
 					<Switch>
 						<Route exact path={path + "/"} render={page(Dashboard, "base")} />
-						<Route path={path + "/apps"} render={page(Apps, "base")} />
+						<Route path={path + "/apps"} render={page(Apps, "apps", 40)} />
 						<Route path={path + "/places"} render={page(Places, "base")} />
 						<Route path={path + "/spatialDataSources"} render={page(SpatialDataSources, "base")} />
 						<Route path={path + "/attributeDataSources"} render={page(AttributeDataSources, "base")} />

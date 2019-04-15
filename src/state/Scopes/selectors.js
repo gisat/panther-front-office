@@ -12,6 +12,7 @@ const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 
 const getByKey = common.getByKey(getSubstate);
+const getByKeys = common.getByKeys(getSubstate);
 const getByFilterOrder = common.getByFilterOrder(getSubstate);
 
 const getDataByKey = common.getDataByKey(getSubstate);
@@ -41,6 +42,7 @@ export default {
 	getByFilterOrder,
 
 	getDataByKey,
+	getByKeys,
 	getDeletePermissionByKey,
 
 	getEditedDataByKey,

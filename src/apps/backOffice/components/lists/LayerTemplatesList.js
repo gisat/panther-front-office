@@ -4,8 +4,7 @@ import Action from "../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
-import LayerTemplateMetadataScreen
-	from "../metadata/screens/LayerTemplateMetadataScreen";
+import LayerTemplateScreen from "../metadata/screens/LayerTemplateScreen";
 
 const mapStateToProps = (state, props) => {
 	let data = Select.specific.backOffice.layerTemplates.getAllWithOutdatedForActiveApp(state, null);
@@ -23,7 +22,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, props) => {
 		return {
 			onItemClick: (key) => {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.specific.backOffice.layerTemplates.useIndexed({application: true}, null, null, 1, 1000, componentId));
@@ -34,7 +33,7 @@ const mapDispatchToPropsFactory = () => {
 			onAddClick(item) {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.backOffice.layerTemplates.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateScreen, {itemKey}))
 			}
 		}
 	}

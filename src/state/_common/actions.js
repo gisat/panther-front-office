@@ -102,7 +102,8 @@ const updateEdited = (getSubstate, actionTypes) => {
 			let originalModel = commonSelectors.getByKey(getSubstate)(getState(), modelKey);
 
 			// delete property from edited, if the value in update is the same as in state
-			if (originalModel && (value === originalModel.data[key] || (!originalModel.data[key] && value.length === 0))){
+			//TODO - test
+			if (originalModel && (value === originalModel.data[key] || isEqual(originalModel.data[key], value))){
 				dispatch(actionRemovePropertyFromEdited(actionTypes, modelKey, key));
 			} else {
 				dispatch(actionUpdateEdited(actionTypes, [{key: modelKey, data: {[key]: value}}]));

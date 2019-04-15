@@ -4,8 +4,8 @@ import Action from "../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
-import ViewMetadataScreen
-	from "../metadata/screens/ViewMetadataScreen";
+import ViewScreen
+	from "../metadata/screens/ViewScreen";
 
 const mapStateToProps = (state, props) => {
 	return {
@@ -21,7 +21,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, props) => {
 		return {
 			onItemClick: (key) => {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewMetadataScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				// todo order
@@ -33,7 +33,7 @@ const mapDispatchToPropsFactory = () => {
 			onAddClick() {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.backOffice.views.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewMetadataScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewScreen, {itemKey}))
 			}
 		}
 	}
