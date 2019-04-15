@@ -4,7 +4,7 @@ import Action from "../../../state/Action";
 import presentation from "./presentation";
 import utils from "../../../../../utils/utils";
 
-import ViewMetadataScreen from "../../metadata/screens/ViewMetadataScreen";
+import ViewScreen from "../../metadata/screens/ViewScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
@@ -24,10 +24,10 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onAdd(key) {
 				dispatch(Action.specific.backOffice.views.create(key));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewMetadataScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewScreen, {itemKey: key}))
 			},
 			onOpen: (key) => {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewMetadataScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-viewConfig', 40, 40, ViewScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.specific.backOffice.views.useIndexed({application: true}, null, order, 1, 1000, componentId));

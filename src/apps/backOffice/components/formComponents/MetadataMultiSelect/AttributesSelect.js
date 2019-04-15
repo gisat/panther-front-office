@@ -4,7 +4,7 @@ import Action from "../../../state/Action";
 import presentation from "./presentation";
 import utils from "../../../../../utils/utils";
 
-import AttributeMetadataScreen from "../../metadata/screens/AttributeMetadataScreen";
+import AttributeMetadataScreen from "../../metadata/screens/AttributeScreen";
 
 const order = [['nameDisplay', 'ascending']];
 

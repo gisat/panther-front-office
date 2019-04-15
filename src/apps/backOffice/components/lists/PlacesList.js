@@ -4,8 +4,7 @@ import Action from "../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
-import PlaceMetadataScreen
-	from "../metadata/screens/PlaceMetadataScreen";
+import PlaceMetadataScreen from "../metadata/screens/PlaceScreen";
 
 const mapStateToProps = (state, props) => {
 	return {

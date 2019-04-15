@@ -4,7 +4,7 @@ import Action from "../../../state/Action";
 import presentation from "./presentation";
 import utils from "../../../../../utils/utils";
 
-import TagMetadataScreen from "../../metadata/screens/TagMetadataScreen";
+import TagScreen from "../../metadata/screens/TagScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
@@ -24,10 +24,10 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onAdd(key) {
 				dispatch(Action.specific.backOffice.tags.create(key));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagMetadataScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagScreen, {itemKey: key}))
 			},
 			onOpen: (key) => {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagMetadataScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-tagConfig', 40, 40, TagScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.specific.backOffice.tags.useIndexed({application: true}, null, order, 1, 1000, componentId));
