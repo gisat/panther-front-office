@@ -34,21 +34,33 @@
 .esponFuore-scope-select-list {
 	z-index: 30;
 	left: 6.8rem;
-	width: 16.2rem;
+	width: 16.4rem;
 	height: auto;
 }
 
 .esponFuore-scope-select.open:not(.opening) .esponFuore-scope-select-list {
-	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
+
 }
 
 .esponFuore-scope-select-list > div > div {
 	background: white;
-	margin: 0 0 0 .2rem;
+	margin: 0 .2rem .2rem .2rem;
+	position: relative;
+	transform: translateY(-105%);
+}
+.esponFuore-scope-select-list > div > div > div {
+	position: relative;
+	z-index: 2;
+	background-color: white;
 }
 
-.esponFuore-scope-select.open .esponFuore-scope-select-list > div > div {
+.esponFuore-scope-select .esponFuore-scope-select-list > div > div:before {
+	content: " ";
+	@include positionFill;
+	z-index: 1;
+	background-color: #ff0;
 	box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
+	transform: perspective(10rem) rotateX(1deg) scale(.987);
 }
 
 .esponFuore-scope-select-list .ptr-panther-select-item {

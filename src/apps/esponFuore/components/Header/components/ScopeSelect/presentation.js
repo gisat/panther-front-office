@@ -50,13 +50,13 @@ class ScopeSelect extends React.PureComponent {
 				renderCurrent={this.renderCurrent}
 				listClasses="esponFuore-scope-select-list"
 			>
-				<>
+				<div>
 					{props.scopes && props.scopes.map((scope) => {
 						return (<PantherSelectItem itemKey={scope.key}>
 							{scope.data.nameDisplay}
 						</PantherSelectItem>)
 					})}
-				</>
+				</div>
 			</PantherSelect>
 
 		);
