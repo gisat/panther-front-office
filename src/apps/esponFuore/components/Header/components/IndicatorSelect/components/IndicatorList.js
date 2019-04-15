@@ -6,6 +6,7 @@ import Select from '../../../../../state/Select';
 import utils from '../../../../../../../utils/utils';
 import {PantherSelectItem} from "../../../../../../../components/common/atoms/PantherSelect";
 import React from "react";
+import scopePreview0 from "../../../../../assets/img/preview_0.png";
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -55,8 +56,9 @@ class IndicatorList extends React.PureComponent {
 				<PantherSelectItem
 					itemKey={indicator.key}
 					className={className}
+					style={{backgroundImage: `url(${scopePreview0})`}}
 				>
-					{indicator.data.nameDisplay}
+					<span>{indicator.data.nameDisplay}</span>
 				</PantherSelectItem>
 			);
 		}) || null;

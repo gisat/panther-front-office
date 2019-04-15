@@ -105,9 +105,13 @@
 	align-content: flex-start;
 }
 .esponFuore-indicator-select-indicators > div {
-	width: 18rem;
+	width: 28rem;
 	height: 12rem;
 	margin: 0 1rem 1rem 0;
+	cursor: pointer;
+}
+.esponFuore-indicator-select-indicators > div > span {
+	display: block;
 	font-size: 1.309rem;
 	font-weight: bold;
 	line-height: 1.1;
