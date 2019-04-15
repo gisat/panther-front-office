@@ -3,20 +3,32 @@
 .ptr-user {
 	display: flex;
 	justify-content: flex-end;
-	height: m(4/3);
+	align-items: center;
+	height: m(5/3);
 }
 
 .ptr-user > div {
 	flex-grow: 0;
 }
 
+.ptr-user-options {
+	display: flex;
+	align-items: center;
+}
+
 .ptr-user-name, .ptr-user-login {
 	display: flex;
 	height: m(4/3);
 	padding: .25rem;
+	font-size: $a1;
 	white-space: nowrap;
 	overflow: hidden;
-	font-size: $a1;
+}
+
+.ptr-user-login {
+	height: 2.5rem;
+	display: flex;
+	align-items: center;
 }
 
 .ptr-user-login {
