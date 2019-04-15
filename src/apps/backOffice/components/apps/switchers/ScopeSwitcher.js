@@ -3,7 +3,7 @@ import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import utils from "../../../../../utils/utils";
 
-import ScopeAppsScreen from "../screens/ScopeAppsScreen";
+import ScopeScreen from "../screens/ScopeScreen";
 import presentation from "../../switchers/presentation";
 
 const order = [['nameDisplay', 'ascending']];
@@ -16,7 +16,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'ScopeAppsSwitcher_' + utils.randomString(6);
+	const componentId = 'ScopeSwitcher_' + utils.randomString(6);
 
 	return (dispatch) => {
 		return {
@@ -28,12 +28,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));
 			},
 			onChange(item) {
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey: item.key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeScreen, {itemKey: item.key}))
 			},
 			onAddClick() {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.backOffice.scopes.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeScreen, {itemKey}))
 			}
 		}
 	}

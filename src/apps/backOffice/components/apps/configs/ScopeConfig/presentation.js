@@ -8,7 +8,7 @@ import Button from "../../../../../../components/common/atoms/Button";
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import utils from "../../../../../../utils/utils";
 
-class ScopeAppsConfig extends React.PureComponent {
+class ScopeConfig extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
 		deletable: PropTypes.bool,
@@ -141,4 +141,4 @@ class ScopeAppsConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['backOffice'])(ScopeAppsConfig);
+export default withNamespaces(['backOffice'])(ScopeConfig);

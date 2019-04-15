@@ -3,7 +3,7 @@ import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import presentation from "../../switchers/presentation";
 import utils from "../../../../../utils/utils";
-import LayerTreesAppsScreen from "../screens/LayerTreesAppsScreen";
+import LayerTreesScreen from "../screens/LayerTreesScreen";
 
 const order = null;
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'LayerTreesAppsSwitcher_' + utils.randomString(6);
+	const componentId = 'LayerTreesSwitcher_' + utils.randomString(6);
 
 	return (dispatch) => {
 		return {
@@ -26,12 +26,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.layersTrees.useIndexedClear(componentId));
 			},
 			onChange(item) {
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesAppsScreen, {itemKey: item.key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesScreen, {itemKey: item.key}))
 			},
 			onAddClick(item) {
 				const itemKey = utils.uuid();
 				dispatch(Action.specific.backOffice.layerTrees.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesAppsScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesScreen, {itemKey}))
 			}
 		}
 	}

@@ -9,7 +9,7 @@ import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import ScopeSelect from "../../../formComponents/MetadataMultiSelect/ScopeSelect";
 import utils from "../../../../../../utils/utils";
 
-class LayerTreesAppsConfig extends React.PureComponent {
+class LayerTreesConfig extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
 		deletable: PropTypes.bool,
@@ -129,4 +129,4 @@ class LayerTreesAppsConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['backOffice'])(LayerTreesAppsConfig);
+export default withNamespaces(['backOffice'])(LayerTreesConfig);

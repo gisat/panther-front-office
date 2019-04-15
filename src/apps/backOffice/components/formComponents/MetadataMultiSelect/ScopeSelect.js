@@ -4,7 +4,7 @@ import Action from "../../../state/Action";
 import presentation from "./presentation";
 import utils from "../../../../../utils/utils";
 
-import ScopeAppsScreen from "../../apps/screens/ScopeAppsScreen";
+import ScopeScreen from "../../apps/screens/ScopeScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
@@ -24,10 +24,10 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onAdd(key) {
 				dispatch(Action.specific.backOffice.scopes.create(key));
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeScreen, {itemKey: key}))
 			},
 			onOpen: (key) => {
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.specific.backOffice.scopes.useIndexed({application: true}, null, order, 1, 1000, componentId));

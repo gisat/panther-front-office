@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {withNamespaces} from "react-i18next";
 
-import LayerTreesAppsConfig from "../configs/LayerTreesAppsConfig";
-import LayerTreesAppsSwitcher from "../switchers/LayerTreesAppsSwitcher";
+import ScopeConfig from "../configs/ScopeConfig";
+import ScopeSwitcher from "../switchers/ScopeSwitcher";
 
 import "../../screens/style.scss";
 
-class LayerTreesAppsScreen extends React.PureComponent {
+class ScopeScreen extends React.PureComponent {
 	static propTypes = {
 		itemKey: PropTypes.string,
 		unfocusable: PropTypes.bool,
@@ -20,17 +20,17 @@ class LayerTreesAppsScreen extends React.PureComponent {
 			<div className='ptr-bo-colours'>
 				<div className="ptr-screen-content ptr-bo-screen-header">
 					<div className="ptr-bo-screen-title">
-						{t('apps.names.layerTrees')}
+						{t('apps.names.scope')}
 					</div>
 					<div className="ptr-bo-screen-switcher">
-						<LayerTreesAppsSwitcher
+						<ScopeSwitcher
 							itemKey={this.props.itemKey}
 							unfocusable={this.props.unfocusable}
 						/>
 					</div>
 				</div>
 				<div className="ptr-screen-content ptr-bo-screen-content">
-					<LayerTreesAppsConfig
+					<ScopeConfig
 						itemKey={this.props.itemKey}
 						unfocusable={this.props.unfocusable}
 					/>
@@ -40,4 +40,4 @@ class LayerTreesAppsScreen extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['backOffice'])(LayerTreesAppsScreen);
+export default withNamespaces(['backOffice'])(ScopeScreen);

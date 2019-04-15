@@ -5,7 +5,7 @@ import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
 
-import LayerTreesAppsScreen from "../apps/screens/LayerTreesAppsScreen";
+import LayerTreesScreen from "../apps/screens/LayerTreesScreen";
 
 const mapStateToProps = (state, props) => {
 	return {
@@ -20,7 +20,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, props) => {
 		return {
 			onItemClick: (key) => {
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesAppsScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.specific.backOffice.layerTrees.useIndexed({application: true}, null, null, 1, 1000, componentId)); // TODO filter?
@@ -33,7 +33,7 @@ const mapDispatchToPropsFactory = () => {
 				//FIXME - register in index before create?
 				//do not reload index with known filter
 				dispatch(Action.specific.backOffice.layerTrees.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesAppsScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-layerTreesConfig', 40, 40, LayerTreesScreen, {itemKey}))
 			}
 		}
 	}

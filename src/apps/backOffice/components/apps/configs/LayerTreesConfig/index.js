@@ -14,7 +14,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'LayerTreesAppsConfig_' + utils.randomString(6);
+	const componentId = 'LayerTreesConfig_' + utils.randomString(6);
 
 	return (dispatch, props) => {
 		return {

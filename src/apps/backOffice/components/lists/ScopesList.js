@@ -5,8 +5,7 @@ import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
 
-import ScopeAppsScreen
-	from "../apps/screens/ScopeAppsScreen";
+import ScopeScreen from "../apps/screens/ScopeScreen";
 
 const mapStateToProps = (state, props) => {
 	return {
@@ -21,7 +20,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, props) => {
 		return {
 			onItemClick: (key) => {
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey: key}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.specific.backOffice.scopes.useIndexed({application: true}, null, null, 1, 1000, componentId)); // TODO filter?
@@ -34,7 +33,7 @@ const mapDispatchToPropsFactory = () => {
 				//FIXME - register in index before create?
 				//do not reload index with known filter
 				dispatch(Action.specific.backOffice.scopes.create(itemKey));
-				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeAppsScreen, {itemKey}))
+				dispatch(Action.screens.addOrUpdate('apps', 'apps-scopeConfig', 40, 40, ScopeScreen, {itemKey}))
 			}
 		}
 	}
