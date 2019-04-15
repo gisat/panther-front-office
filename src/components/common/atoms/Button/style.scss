@@ -78,6 +78,23 @@
   pointer-events: none;
 }
 
+.ptr-button:focus::after,
+.ptr-button.inverted.primary:focus::after,
+.ptr-button.inverted.secondary:focus::after {
+  border: 1px solid rgba(var(--base100rgb),.5);
+}
+
+.ptr-button.primary:focus::after,
+.ptr-button.secondary:focus::after,
+.ptr-button.inverted:focus::after {
+  border: 1px solid rgba(var(--base0rgb),.5);
+}
+
+.ptr-button.ghost:focus::after,
+.ptr-button.invisible:focus::after {
+  border: 0;
+}
+
 .ptr-button-caption {
   display: inline-block;
   vertical-align: top;
