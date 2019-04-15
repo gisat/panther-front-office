@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 		onLogIn: (email, password) => {
 			dispatch(Action.users.apiLoginUser(email, password));
 		},
-		onLoginOverlayCancel: () => {
+		onLoginOverlayClose: () => {
 			dispatch(Action.components.set('App_Container', 'loginOverlayOpen', false));
 		}
 	}

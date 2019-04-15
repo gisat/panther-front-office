@@ -14,7 +14,7 @@ import {withNamespaces} from "react-i18next";
 class LoginOverlay extends React.PureComponent {
 
 	static propTypes = {
-		onCancel: PropTypes.func,
+		onClose: PropTypes.func,
 		onLogin: PropTypes.func,
 		open: PropTypes.bool,
 		opening: PropTypes.bool,
@@ -59,18 +59,22 @@ class LoginOverlay extends React.PureComponent {
 
 	login(){
 		this.props.onLogin(this.state.email, this.state.password);
-		this.cancel();
+		this.closeOverlay();
 	}
 
 	cancel() {
+		this.closeOverlay();
+	}
+
+	closeOverlay() {
 		this.setState({
 			open: false
 		});
 
-		if (this.props.onCancel) {
+		if (this.props.onClose) {
 			let self = this;
 			setTimeout(() => {
-				self.props.onCancel();
+				self.props.onClose();
 			}, 350);
 		}
 	}

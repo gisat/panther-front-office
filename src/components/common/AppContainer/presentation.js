@@ -12,7 +12,7 @@ class AppContainer extends React.PureComponent {
 		light: PropTypes.bool,
 		dark: PropTypes.bool,
 
-		onLoginOverlayCancel: PropTypes.func
+		onLoginOverlayClose: PropTypes.func
 	};
 
 	render() {
@@ -55,7 +55,7 @@ class AppContainer extends React.PureComponent {
 			return (
 				<LoginOverlay
 					onLogin={this.props.onLogIn}
-					onCancel={this.props.onLoginOverlayCancel}
+					onClose={this.props.onLoginOverlayClose}
 					opening
 				/>
 			);
