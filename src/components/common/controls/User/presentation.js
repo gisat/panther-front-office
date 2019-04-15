@@ -14,7 +14,8 @@ import {withNamespaces} from "react-i18next";
 class User extends React.PureComponent {
 
 	static propTypes = {
-		user: PropTypes.object
+		user: PropTypes.object,
+		inverted: PropTypes.bool
 	};
 
 	render() {
@@ -29,7 +30,7 @@ class User extends React.PureComponent {
 					<div className="ptr-user-image"></div>
 					<div className="ptr-user-name">{name}</div>
 					<div className="ptr-user-options">
-						<Button icon="dots" invisible>
+						<Button icon="dots" invisible inverted={this.props.inverted}>
 							<Menu bottom left>
 								<MenuItem onClick={this.props.logout}>{t("user.logout")}</MenuItem>
 							</Menu>
@@ -43,7 +44,7 @@ class User extends React.PureComponent {
 			return (
 				<div className="ptr-user">
 					<div className="ptr-user-login">
-						<Button invisible inverted onClick={this.props.login}>{t("user.login")}</Button>
+						<Button invisible inverted={this.props.inverted} onClick={this.props.login}>{t("user.login")}</Button>
 					</div>
 				</div>
 			);

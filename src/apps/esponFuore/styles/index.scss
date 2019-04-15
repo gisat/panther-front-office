@@ -100,12 +100,16 @@
 .esponFuore-header-toolbar-right {
 	flex: 0 0 5rem;
 }
-.esponFuore-header-toolbar, .esponFuore-header-toolbar .ptr-button {
+.esponFuore-header-toolbar {
 	color: rgba(255,255,255,.75);
 }
 
 .esponFuore-header-toolbar .ptr-menu {
 	z-index: 40;
+}
+
+.esponFuore-header-toolbar .ptr-button.invisible.inverted:hover {
+  background-color: rgba(255,255,255,.15);
 }
 
 

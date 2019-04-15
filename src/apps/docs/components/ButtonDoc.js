@@ -158,6 +158,31 @@ class ButtonDoc extends React.PureComponent {
 					<Button ghost disabled primary>Primary</Button>
 				</div>
 
+				<h2>Inverted</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Button inverted>Basic</Button>
+					<Button inverted primary>Primary</Button>
+					<Button inverted secondary>Primary</Button>
+				</div>
+
+				<h2>Inverted disabled</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Button inverted disabled>Basic</Button>
+					<Button inverted disabled primary>Primary</Button>
+					<Button inverted disabled secondary>Primary</Button>
+				</div>
+
+				<h2>Inverted invisible</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Button inverted invisible>Basic</Button>
+				</div>
+
+				<h2>Inverted ghost</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Button ghost inverted >Basic</Button>
+					<Button ghost inverted primary>Primary</Button>
+				</div>
+
 				<h2>Side icon</h2>
 				<div className="ptr-docs-panel-section">
 					<Button side="left" icon="times"/>

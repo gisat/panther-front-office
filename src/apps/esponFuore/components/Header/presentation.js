@@ -16,7 +16,7 @@ export default props => (
 		</div>
 		<div className="esponFuore-header-toolbar">
 			<div>tools</div>
-			<div className="esponFuore-header-toolbar-right"><User /></div>
+			<div className="esponFuore-header-toolbar-right"><User inverted/></div>
 		</div>
 	</div>
 );

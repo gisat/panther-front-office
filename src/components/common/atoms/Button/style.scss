@@ -12,6 +12,7 @@
 		Circular
 		Side
 		Ghost
+		Inverted
 		Disability
 
 	Button menu
@@ -21,7 +22,7 @@
 
 /* General */
 .ptr-button {
-  background: var(--base25);
+  background: var(--base30);
   color: var(--base100);
   //border: 1px solid rgba(0,0,0,.02); // TODO why?
   border-radius: .2rem;
@@ -63,7 +64,8 @@
   border-color: transparent;
 }
 
-.ptr-button:not(.ghost):hover:after {
+.ptr-button:not(.ghost):not(.invisible):hover:after,
+.ptr-button.inverted:not(.ghost):not(.invisible):hover:after {
   background: rgba(255,255,255,.15);
 }
 
@@ -171,7 +173,7 @@
 }
 
 .ptr-button.invisible:hover {
-  background: var(--base25);
+  background: var(--base20);
 }
 
 
@@ -357,6 +359,60 @@
   margin: calc(.2rem - 1px) calc(.625rem - 1px);
 }
 
+/* Inverted */
+.ptr-button.inverted {
+  background: var(--base70);
+  color: var(--base0);
+  border-radius: .2rem;
+}
+
+.ptr-button.primary.inverted {
+  background: var(--accent50);
+  color: var(--base100);
+}
+
+.ptr-button.primary.inverted:hover {
+  color: var(--base100);
+}
+
+.ptr-button.secondary.inverted {
+  background: var(--base50);
+  color: var(--base90);
+}
+
+.ptr-button.secondary.inverted:hover {
+  color: var(--base100);
+}
+
+.ptr-button.inverted.invisible {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.ptr-button.invisible.inverted:hover {
+  background: var(--base80);
+}
+
+.ptr-button.inverted.ghost {
+  border-color: var(--base30);
+  background: transparent;
+  box-shadow: none;
+}
+
+.ptr-button.inverted.ghost:hover {
+  background: var(--base85);
+}
+
+.ptr-button.inverted.ghost.primary {
+  border-color: var(--accent50);
+  color: var(--accent50);
+}
+
+.ptr-button.inverted.ghost.primary:hover {
+  background: var(--accent95);
+}
+
 /* Disability */
 .ptr-button:not(.disabled) {
   cursor: pointer;
@@ -369,6 +425,14 @@
   background: var(--base15);
   color: var(--base35);
 }
+
+.ptr-button.inverted.disabled,
+.ptr-button.primary.inverted.disabled,
+.ptr-button.secondary.inverted.disabled {
+  background: var(--base85);
+  color: var(--base65);
+}
+
 
 .ptr-button.ghost.disabled {
   background: transparent;

@@ -25,6 +25,12 @@
   margin-bottom: m(1);
 }
 
+.ptr-docs-panel-section.inverted {
+  background: var(--base100);
+  padding: m(2/3) m(1/3);
+  border-radius: .2rem;
+}
+
 .ptr-docs-panel-section .ptr-button {
   margin: .2rem;
 }
