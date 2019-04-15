@@ -83,6 +83,7 @@ class LoginOverlay extends React.PureComponent {
 				<div className="ptr-login">
 					<div>
 						<InputText
+							inverted
 							email
 							transparent
 							placeholder="E-mail"
@@ -92,6 +93,7 @@ class LoginOverlay extends React.PureComponent {
 					</div>
 					<div>
 						<InputText
+							inverted
 							password
 							transparent
 							placeholder={t('user.passphrase')}

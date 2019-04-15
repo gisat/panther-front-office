@@ -11,50 +11,80 @@ class InputDoc extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-docs-panel-content">
+				<h2>Basic text</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Basic text</h2>
 					<Input/>
 				</div>
 
+				<h2>Basic text with deafult value</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Basic text with deafult value</h2>
 					<Input
 						value="Strawberry"
 					/>
 				</div>
 
+				<h2>Basic text with placeholder</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Basic text with placeholder</h2>
 					<Input
 						placeholder="Placeholder"
 					/>
 				</div>
 
+				<h2>Basic text disabled</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Basic text disabled</h2>
 					<Input
 						disabled
 						value="Strawberry"
 					/>
 				</div>
 
+				<h2>Basic text</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Input inverted/>
+				</div>
+
+				<h2>Basic text with deafult value</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Input
+						inverted
+						value="Strawberry"
+					/>
+				</div>
+
+				<h2>Basic text with placeholder</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Input
+						inverted
+						placeholder="Placeholder"
+					/>
+				</div>
+
+				<h2>Basic text disabled</h2>
+				<div className="ptr-docs-panel-section inverted">
+					<Input
+						disabled
+						inverted
+						value="Strawberry"
+					/>
+				</div>
+
+				<h2>Multiline text</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Multiline text</h2>
 					<Input
 						multiline
 					/>
 				</div>
 
+				<h2>Multiline text with value</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Multiline text with value</h2>
 					<Input
 						multiline
 						value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
 					/>
 				</div>
 
+				<h2>Multiline text disabled</h2>
 				<div className="ptr-docs-panel-section">
-					<h2>Multiline text disabled</h2>
 					<Input
 						disabled
 						multiline

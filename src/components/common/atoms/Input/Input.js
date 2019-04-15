@@ -12,6 +12,7 @@ class Input extends React.PureComponent {
 	static propTypes = {
 		disabled: PropTypes.bool,
 		focus: PropTypes.bool,
+		inverted: PropTypes.bool,
 		name: PropTypes.string,
 		onChange: PropTypes.func,
 		placeholder: PropTypes.string,
@@ -81,6 +82,7 @@ class Input extends React.PureComponent {
 			'empty': !this.state.value,
 			'focus': this.state.focus,
 			'input': !this.props.multiline,
+			'inverted': !!this.props.inverted,
 			'multiline': this.props.multiline,
 			'disabled': this.props.disabled
 		});
