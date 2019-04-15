@@ -21,7 +21,7 @@
 
 /* General */
 .ptr-button {
-  background: var(--base30);
+  background: var(--base25);
   color: var(--base100);
   //border: 1px solid rgba(0,0,0,.02); // TODO why?
   border-radius: .2rem;
@@ -33,9 +33,9 @@
   position: relative;
 
   transition:
-	  background .3s ease-in-out,
-      border-color .3s ease-in-out,
-	  color .3s ease-in-out;
+          background .3s ease-in-out,
+          border-color .3s ease-in-out,
+          color .3s ease-in-out;
 }
 
 .ptr-button > * {
@@ -147,7 +147,7 @@
 /* Levels */
 .ptr-button.primary {
   background: var(--accent50);
-  color: var(--base10);
+  color: var(--base0);
 }
 
 .ptr-button.primary:hover {
@@ -171,7 +171,7 @@
 }
 
 .ptr-button.invisible:hover {
-  background: var(--base30);
+  background: var(--base25);
 }
 
 
@@ -290,7 +290,7 @@
 }
 
 .ptr-button.ghost:hover {
-  background: var(--base30);
+  background: var(--base20);
 }
 
 .ptr-button.ghost.small {
@@ -324,8 +324,7 @@
 }
 
 .ptr-button.ghost.primary:hover {
-  background: var(--accent20);
-  color: var(--accent70);
+  background: var(--accent15);
 }
 
 .ptr-button.ghost.side {
@@ -367,39 +366,41 @@
 .ptr-button.primary.disabled,
 .ptr-button.secondary.disabled {
   pointer-events: none;
-  background: var(--base20);
-  color: var(--base40);
+  background: var(--base15);
+  color: var(--base35);
 }
 
 .ptr-button.ghost.disabled {
   background: transparent;
-  border-color: var(--base30);
-  color: var(--base40);
+  border-color: var(--base25);
+  color: var(--base35);
 }
 
 .ptr-button.disabled .ptr-icon .line {
-  fill: var(--base40);
+  fill: var(--base35);
 }
+
+// TODO remove after all icons will be refactored
 .ptr-button.disabled .ptr-icon .polygon {
-  stroke: var(--base40);
+  stroke: var(--base35);
 }
 
 
 /* ==== Button menu ============================ */
 
 .ptr-button-menu {
-	position: absolute;
-	z-index: 2;
+  position: absolute;
+  z-index: 2;
 }
 .ptr-button-menu.bottom {
-	top: 100%;
+  top: 100%;
 }
 .ptr-button-menu.top {
-	bottom: 100%;
+  bottom: 100%;
 }
 .ptr-button-menu.left {
-	right: 0;
+  right: 0;
 }
 .ptr-button-menu.right {
-	left: 0;
+  left: 0;
 }
