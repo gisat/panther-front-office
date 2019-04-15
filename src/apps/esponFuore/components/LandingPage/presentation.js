@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import esponLogo from '../../assets/img/espon-logo.png';
+import esponLogoFull from '../../assets/img/espon-logo-full.png';
 import gisatLogo from '../../assets/img/gisat-logo.png';
 import './style.scss';
 import ScopesList from "./ScopesList";
@@ -29,7 +30,7 @@ class LandingPage extends React.PureComponent {
 					</div>
 					<ScopesList/>
 					<div className="esponFuore-landing-page-footer">
-						<a href="https://espon.eu" target="_blank"><img src={esponLogo}/></a>
+						<a href="https://espon.eu" target="_blank"><img src={esponLogoFull}/></a>
 						<a href="http://gisat.cz/content/en" target="_blank"><img src={gisatLogo}/></a>
 					</div>
 				</div>
