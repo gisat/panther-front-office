@@ -19,12 +19,12 @@ const refreshUses = common.refreshUses(Select.views.getSubstate, `views`, Action
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.views.getSubstate, 'views', ActionTypes.VIEWS, 'views');
 
 // ============ actions ===========
-const apply = (key) => {
+const apply = (key, actions) => {
 	return (dispatch, getState) => {
 		dispatch(common.ensureKeys(Select.views.getSubstate, 'views', ActionTypes.VIEWS, [key], 'views')).then(() => {
 			let data = Select.views.getDataByKey(getState(), key);
 			if (data && data.state) {
-				dispatch(common.updateStateFromView(data.state));
+				dispatch(common.updateStateFromView(data.state, actions));
 			} else {
 				dispatch(common.actionGeneralError("Views#apply: View or state of view doesn't exist! View key: " + key));
 			}

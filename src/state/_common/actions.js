@@ -628,22 +628,26 @@ function ensureIndexesWithActiveKey(filterKey, categoryPath = DEFAULT_CATEGORY_P
 		};
 }
 
-function updateStateFromView(data) {
+function updateStateFromView(data, actionCreators) {
 	return dispatch => {
 
-		let actionsss = [{type: 'ATTRIBUTES.SET_ACTIVE_KEY', key: 'ahoj'}, {type: 'PLACE.SET_ACTIVE_KEY', key: 'nazdar'}];
+		let actions = [];
 
-		// TODO go through all stores and find reducers to update state once
-		// TODO dispatch one action to change state
+		_.each(actionCreators, (storeActions, key) => {
+			if (storeActions.hasOwnProperty('updateStateFromView') && data[key]) {
+				actions.push(storeActions.updateStateFromView(data[key]));
+			}
+		});
 
-		// dispatch updateStateFromView on all stores implementing it and at the same time for stores present in data
-		// _.each(Action, (storeActions, key) => {
-		// 	if (storeActions.hasOwnProperty('updateStateFromView') && data[key]) {
-		// 		actions.push((storeActions.updateStateFromView(data[key])));
-		// 	}
-		// });
+		if (actionCreators.specific) {
+			_.each(actionCreators.specific, (storeActions, key) => {
+				if (storeActions.hasOwnProperty('updateStateFromView') && data[key]) {
+					actions.push(storeActions.updateStateFromView(data[key]));
+				}
+			});
+		}
 
-		dispatch(actionsss);
+		dispatch(actions);
 	}
 }
 
