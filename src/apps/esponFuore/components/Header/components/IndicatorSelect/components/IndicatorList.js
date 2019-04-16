@@ -54,6 +54,7 @@ class IndicatorList extends React.PureComponent {
 			}
 			return (
 				<PantherSelectItem
+					key={indicator.key}
 					itemKey={indicator.key}
 					className={className}
 					style={{backgroundImage: `url(${scopePreview0})`}}

@@ -71,6 +71,7 @@ class IndicatorSelect extends React.PureComponent {
 								}
 								return (
 									<a
+										key={category.key}
 										onClick={props.selectCategory.bind(null, category.key)}
 										className={className}
 									>

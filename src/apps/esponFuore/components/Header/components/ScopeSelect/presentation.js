@@ -53,7 +53,7 @@ class ScopeSelect extends React.PureComponent {
 			>
 				<div>
 					{props.scopes && props.scopes.map((scope) => {
-						return (<PantherSelectItem itemKey={scope.key}>
+						return (<PantherSelectItem itemKey={scope.key} key={scope.key}>
 							{scope.data.nameDisplay}
 						</PantherSelectItem>)
 					})}
