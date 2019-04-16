@@ -18,7 +18,7 @@ const EXTENDED_BASIC_STATE = {
 			...BASIC_STATE.sample.inUse,
 			indexes: {
 				Component_a: [{
-					filter: {scope: 666},
+					filter: {scopeKey: 666},
 					filterByActive: null,
 					order: null,
 					start: 1,
@@ -58,7 +58,7 @@ const EXTENDED_BASIC_STATE = {
 					length: 5
 				}],
 				Component_e: [{
-					filter: {period: 666},
+					filter: {periodKey: 666},
 					filterByActive: {scope: true},
 					order: [['name', 'ascending']],
 					start: 3,
@@ -71,7 +71,7 @@ const EXTENDED_BASIC_STATE = {
 					length: 5
 				}],
 				Component_f: [{
-					filter: {period: 666},
+					filter: {periodKey: 666},
 					filterByActive: {scope: true},
 					order: [['name', 'ascending']],
 					start: 2,
@@ -93,7 +93,7 @@ describe('#getUsesWithActiveDependency', () => {
 		const filterByActive = {scope: true};
 		const expectedOutput = [
 			{
-				filter: {scope: 666},
+				filter: {scopeKey: 666},
 				order: null,
 				uses: [{
 					start: 1,
@@ -103,14 +103,14 @@ describe('#getUsesWithActiveDependency', () => {
 					length: 5
 				}]
 			}, {
-				filter: {scope: 666, period: 777},
+				filter: {scopeKey: 666, periodKey: 777},
 				order: [['name', 'ascending']],
 				uses: [{
 					start: 3,
 					length: 5
 				}]
 			}, {
-				filter: {period: 666, scope: 666},
+				filter: {periodKey: 666, scopeKey: 666},
 				order: [['name', 'ascending']],
 				uses: [{
 					start: 2,
@@ -124,7 +124,7 @@ describe('#getUsesWithActiveDependency', () => {
 	it('should select uses with active dependency on period', () => {
 		const filterByActive = {period: true};
 		const expectedOutput = [{
-			filter: {scope: 666, period: 777},
+			filter: {scopeKey: 666, periodKey: 777},
 			order: [['name', 'ascending']],
 			uses: [{
 				start: 3,
@@ -137,7 +137,7 @@ describe('#getUsesWithActiveDependency', () => {
 	it('should select uses with active dependency both on scope and period', () => {
 		const filterByActive = {period: true, scope: true};
 		const expectedOutput = [{
-			filter: {scope: 666, period: 777},
+			filter: {scopeKey: 666, periodKey: 777},
 			order: [['name', 'ascending']],
 			uses: [{
 				start: 3,

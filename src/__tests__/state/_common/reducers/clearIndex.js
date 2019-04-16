@@ -14,7 +14,7 @@ describe('#clearIndexes', () => {
 				{
 					changedOn: null,
 					count: null,
-					filter: {scope: 666},
+					filter: {scopeKey: 666},
 					order: null,
 					index: null,
 					"outdated": {
@@ -34,7 +34,7 @@ describe('#clearIndexes', () => {
 		};
 
 		const action = {
-			filter: {scope: 666},
+			filter: {scopeKey: 666},
 			order: null,
 		}
 		expect(commonReducers.clearIndex(state.sample, action)).toEqual(expectedState);
@@ -43,7 +43,7 @@ describe('#clearIndexes', () => {
 		const state = getState();
 
 		const action = {
-			filter: {scope: 'wrong'},
+			filter: {scopeKey: 'wrong'},
 			order: null,
 		}
 		expect(commonReducers.clearIndex(state.sample, action)).toEqual(state.sample);

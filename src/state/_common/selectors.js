@@ -48,7 +48,7 @@ const getAllForActiveScope = (getSubstate) => {
 		(models, indexes, activeScopeKey, order) => {
 			if (models && indexes && activeScopeKey) {
 				let filter = {
-					scope: activeScopeKey
+					scopeKey: activeScopeKey
 				};
 				let index = commonHelpers.getIndex(indexes, filter, order);
 				if (index && index.index) {

@@ -12,7 +12,7 @@ describe('#useIndexedClear', () => {
 				...BASIC_STATE.sample.inUse,
 				indexes: {
 					Component_a: [{
-						filter: {scope: 666},
+						filter: {scopeKey: 666},
 						filterByActive: null,
 						order: null,
 						start: 1,

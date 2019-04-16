@@ -20,7 +20,7 @@ describe('#getIndexPage', () => {
 	});
 
 	it('should select index', () => {
-		const filter = {scope: 666};
+		const filter = {scopeKey: 666};
 		const order = null;
 		const start = 4;
 		const length = 3;

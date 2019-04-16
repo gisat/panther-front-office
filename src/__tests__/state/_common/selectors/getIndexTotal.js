@@ -15,7 +15,7 @@ describe('#getIndexTotal', () => {
 	});
 
 	it('should select 4 as index total', () => {
-		const filter = {scope: 666};
+		const filter = {scopeKey: 666};
 		const order = null;
 		expect(commonSelectors.getIndexTotal(getSubstate)(BASIC_STATE, filter, order)).toBe(4);
 	});

@@ -14,7 +14,7 @@ describe('#clearIndexes', () => {
 				{
 					changedOn: null,
 					count: null,
-					filter: {scope: 666},
+					filter: {scopeKey: 666},
 					order: null,
 					index: null,
 					"outdated": {
