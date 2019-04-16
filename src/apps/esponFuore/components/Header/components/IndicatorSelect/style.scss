@@ -3,6 +3,7 @@
 .esponFuore-indicator-select-content {
 	display: flex;
 	padding: 3rem;
+	overflow-y: auto;
 }
 .esponFuore-indicator-select-sidebar {
 	flex: 0 0 12rem;
@@ -28,6 +29,10 @@
 .esponFuore-indicator-select-search > .ptr-input-text > input {
 	border-radius: 0;
 	color: #fff;
+}
+
+.esponFuore-indicator-select-current {
+	height: 4.5rem;
 }
 
 .esponFuore-indicator-select-current > div {
@@ -122,4 +127,21 @@
 	//color: #fff;
 	//background-color: rgba(var(--accent50rgb), 0.7);
 	//margin-top: .5rem;
+}
+
+
+@media screen and (max-width: 70rem)  {
+	.esponFuore-indicator-select-indicators > div {
+		width: 18rem;
+	}
+	.esponFuore-indicator-select-current {
+		height: 4rem;
+	}
+	.esponFuore-indicator-select-content {
+		padding: 3rem 1.5rem;
+	}
+	.esponFuore-indicator-select-current-indicator,
+	.esponFuore-indicator-select-indicators > div > span {
+		font-size: 1rem;
+	}
 }

@@ -160,3 +160,14 @@
 	//background: linear-gradient(var(--accent50) 10%, var(--accent100) 100%);
 	background-position: 0 100%;
 }
+
+
+@media screen and (max-width: 70rem)  {
+	.esponFuore-header-region-select {
+		flex: 0 0 12rem;
+	}
+	.esponFuore-header-indicator-select {
+		flex: 0 0 20rem;
+		max-width: 20rem;
+	}
+}
