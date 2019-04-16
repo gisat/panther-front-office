@@ -21,7 +21,6 @@
 
 .ptr-login {
 	width: 20rem;
-	height: 15rem;
 	flex-grow:0;
 }
 .ptr-login > div {
