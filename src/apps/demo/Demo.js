@@ -32,6 +32,7 @@ class Demo extends React.PureComponent {
 					<MapControls />
 					<MapSet
 						mapSetKey="MapSet1"
+						layerTreesFilter={{scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0', applicationKey: 'esponFuore'}}
 					/>
 				</div>
 			</Screens>

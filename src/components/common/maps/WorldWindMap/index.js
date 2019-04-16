@@ -4,6 +4,8 @@ import Action from "../../../../state/Action";
 
 import wrapper from '../MapWrapper';
 
+import utils from '../../../../utils/utils';
+
 const mapStateToProps = (state, props) => {
 	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
 	let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
@@ -18,13 +20,22 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => {
+	const componentId = 'WorldWindMapSelector_' + utils.randomString(6);
+
 	return {
 		onMount: () => {
 			dispatch(Action.maps.use(props.mapKey));
+			const layerTreesFilter = props.layerTreesFilter;
+			//action to load LT data and add visible layers to map store
+			dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
+				//parse map LT data
+				dispatch(Action.maps.loadLayerTreesData(layerTreesFilter, [props.mapKey]));
+			});
 		},
 
 		onUnmount: () => {
 			dispatch(Action.maps.useClear(props.mapKey));
+			dispatch(Action.layersTrees.useIndexedClear(componentId));
 		},
 
 		onWorldWindNavigatorChange: (updates) => {

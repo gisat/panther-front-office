@@ -4,6 +4,7 @@ import Select from '../../state/Select';
 import commonActions from '../_common/actions';
 import commonSelectors from '../_common/selectors';
 import utils from '../../utils/utils';
+import * as layerTreeUtils from '../../utils/layerTreeUtils';
 import Action from "../Action";
 
 const {actionGeneralError} = commonActions;
@@ -71,6 +72,38 @@ const addSet = (set) => {
 
 	};
 };
+
+/**
+ * {Object} layerTreesFilter
+ * {Array} mapKeys
+ */
+const loadLayerTreesData = (layerTreesFilter, mapKeys) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const layerTreesData = Select.layersTrees.getByFilterOrder(state, layerTreesFilter, null);
+		//BE should return only one record, but could be bore fore scopeKey and applicationKey. 
+		//Take last record
+		const lastLTdata = layerTreesData[layerTreesData.length - 1];
+		
+		//parse to map state
+		if(lastLTdata && lastLTdata.data && lastLTdata.data.structure && lastLTdata.data.structure.length > 0) {
+			const layerTreeStructure = lastLTdata.data.structure;
+			const flattenLT = layerTreeUtils.getFlattenLayers(layerTreeStructure);
+			const visibleLayers = flattenLT.filter((l) => l.visible);
+			//add all visible layers in layerTree to map
+			const visibleLayersKeys = visibleLayers.map(l => l.key);
+			if(mapKeys) {
+				mapKeys.forEach((mapKey) => {
+					visibleLayersKeys.forEach((layerKey) => {
+						const zIndex = layerTreeUtils.getLayerZindex(layerTreeStructure, layerKey);
+						const layer = {layerTemplate: layerKey};
+						dispatch(addLayer(mapKey, layer, zIndex));
+					}) 
+				})
+			}
+		}
+	}
+}
 
 const removeSet = (setKey) => {
 	return (dispatch, getState) => {
@@ -783,6 +816,8 @@ export default {
 	addMap,
 	addMapToSet,
 	addSet,
+
+	loadLayerTreesData,
 
 	removeLayer,
 	removeLayers,

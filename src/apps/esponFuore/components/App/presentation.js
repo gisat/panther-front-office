@@ -27,7 +27,11 @@ export default props => {
 							{
 								component: MapSet,
 								props: {
-									mapSetKey: "esponFuore"
+									mapSetKey: "esponFuore",
+									layerTreesFilter: {
+										scopeKey: props.activeScopeKey,
+										applicationKey: 'esponFuore'
+									}
 								}
 							},
 							{

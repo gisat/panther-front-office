@@ -10,7 +10,8 @@ class MapSet extends React.PureComponent {
 
 	static propTypes = {
 		mapSetKey: PropTypes.string,
-		maps: PropTypes.array
+		maps: PropTypes.array,
+		layerTreesFilter: PropTypes.object
 	};
 
 	render() {
@@ -29,6 +30,7 @@ class MapSet extends React.PureComponent {
 					mapKey={mapKey}
 					elevationModel={null}
 					delayedWorldWindNavigatorSync={null} // miliseconds to wait until synchronize navigator change with store
+					layerTreesFilter={this.props.layerTreesFilter}
 				/>
 			});
 		} else {

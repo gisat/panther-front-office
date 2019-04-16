@@ -18,13 +18,19 @@ const refreshUses = common.refreshUses(Select.layersTrees.getSubstate, 'layerTre
 const updateStateFromView = common.updateSubstateFromView(ActionTypes.LAYERSTREES);
 
 // ============ actions ===========
-
+function ensureData(filter, componentId) {
+	return (dispatch) => {
+		return dispatch(useIndexed(null, filter, null, 1, 100, componentId)).then()
+	}
+}
 
 // ============ export ===========
 
 export default {
 	create,
 	delete: deleteItem,
+
+	ensureData,
 
 	refreshUses,
 
