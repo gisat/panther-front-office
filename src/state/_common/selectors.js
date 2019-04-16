@@ -468,7 +468,7 @@ const getAllActiveKeys = state => {
 	// for BO usage
 	if (state.hasOwnProperty('specific') && state.specific.hasOwnProperty('apps')){
 		activeKeys.activeApplicationKey = state.specific.apps.activeKey;
-	} else if (state.app.key){
+	} else if (state.app && state.app.key){
 		activeKeys.activeApplicationKey = state.app.key;
 	}
 
