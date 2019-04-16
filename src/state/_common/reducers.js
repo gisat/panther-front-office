@@ -270,7 +270,7 @@ export default {
 
 	clearIndexes: (state, action) => {
 		let indexes = _.map(state.indexes, index => {
-			return {...index, index: null, count: null, outdated: index.index, outdatedCount: index.count}
+			return {...index, index: null, count: null, changedOn: null, outdated: index.index, outdatedCount: index.count}
 		});
 
 		return {
