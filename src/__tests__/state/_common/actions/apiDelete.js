@@ -91,7 +91,7 @@ describe('#apiDelete', () => {
 			let actionRemoveEditedProperty = _.find(actions, (action) => action.type === ACTION_TYPES.INDEX.CLEAR_INDEX);
 
 			//expect
-			expect(actions).toHaveLength(2);
+			expect(actions).toHaveLength(3);
 
 			expect(actionDelete).toBeDefined();
 			expect(actionDelete.key).toBe(2);
