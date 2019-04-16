@@ -12,7 +12,7 @@ describe('#clearIndexes', () => {
 			...getState().sample,
 			indexes: [
 				{
-					changedOn: "2018-12-03T15:25:12.745Z",
+					changedOn: null,
 					count: null,
 					filter: {scope: 666},
 					order: null,
@@ -24,7 +24,7 @@ describe('#clearIndexes', () => {
 					},
 					"outdatedCount": 4,
 				}, {
-					changedOn: "2018-12-03T15:25:12.745Z",
+					changedOn: null,
 					count: null,
 					filter: null,
 					order: [['name', 'ascending']],
