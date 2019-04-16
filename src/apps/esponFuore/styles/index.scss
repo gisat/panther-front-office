@@ -91,13 +91,14 @@
 
 }
 .esponFuore-header-toolbar > div {
-	padding: 0 .5rem 0 1.5rem;
+	//padding: 0 .5rem 0 1.5rem;
 }
 .esponFuore-header-toolbar > div:first-child {
 	flex: 1;
 }
 .esponFuore-header-toolbar-right {
 	flex: 0 0 5rem;
+	padding: 0 .5rem;
 }
 .esponFuore-header-toolbar,
 .esponFuore-header-toolbar .ptr-button.invisible.inverted {

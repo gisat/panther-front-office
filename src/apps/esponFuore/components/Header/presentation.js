@@ -4,6 +4,7 @@ import Home from './components/Home';
 import User from '../../../../components/common/controls/User';
 import IndicatorSelect from './components/IndicatorSelect';
 import ScopeSelect from "./components/ScopeSelect";
+import Tools from "./components/Tools";
 
 export default props => (
 	<div className="esponFuore-header">
@@ -15,7 +16,7 @@ export default props => (
 			<IndicatorSelect />
 		</div>
 		<div className="esponFuore-header-toolbar">
-			<div>tools</div>
+			<Tools/>
 			<div className="esponFuore-header-toolbar-right"><User inverted/></div>
 		</div>
 	</div>
