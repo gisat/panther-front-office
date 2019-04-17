@@ -6,6 +6,7 @@ import Header from '../Header';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/MapSet";
+import Window from "../../../../components/common/WindowsContainer/components/Window";
 
 export default props => {
 	// if (false) {
@@ -21,25 +22,41 @@ export default props => {
 				<Header />
 				<div className="esponFuore-content">
 					<WindowsContainer set="esponFuore">
-					<AdjustableColumns
-						fixed
-						content={[
-							{
-								component: MapSet,
-								props: {
-									mapSetKey: "esponFuore",
-									layerTreesFilter: {
-										scopeKey: props.activeScopeKey,
-										applicationKey: 'esponFuore'
+						<AdjustableColumns
+							fixed
+							content={[
+								{
+									component: MapSet,
+									props: {
+										mapSetKey: "esponFuore",
+										layerTreesFilter: {
+											scopeKey: props.activeScopeKey,
+											applicationKey: 'esponFuore'
+										}
 									}
-								}
-							},
-							{
-								width: "25rem",
-								render: props => (<div>TWO</div>)
-							},
-						]}
-					/>
+								},
+								{
+									width: "25rem",
+									render: props => (<div>TWO</div>)
+								},
+							]}
+						/>
+						{/*<Window*/}
+							{/*title="Very looooooooong test title of the window"*/}
+						{/*>*/}
+							{/*<div>Blablabla</div>*/}
+						{/*</Window>*/}
+						{/*<Window*/}
+							{/*withoutHeader*/}
+						{/*>*/}
+							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
+							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
+							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
+							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
+							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
+							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
+
+						{/*</Window>*/}
 					</WindowsContainer>
 				</div>
 			</div>

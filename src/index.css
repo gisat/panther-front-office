@@ -30,7 +30,7 @@
 			Aoi Overlay
 		Table
 		View Selector
-		Windows
+		WindowContainer
 
 		screen
 
@@ -707,7 +707,7 @@ todo merge with overlay
 	align-items: center;
 }
 
-/* == Windows =================================== */
+/* == WindowContainer =================================== */
 .ptr-window-container {
 	height: 100%;
 }

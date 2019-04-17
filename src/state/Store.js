@@ -25,6 +25,7 @@ import stylesReducers from './Styles/reducers';
 import tagsReducers from './Tags/reducers';
 import usersReducers from './Users/reducers';
 import viewsReducers from './Views/reducers';
+import windowsReducers from './Windows/reducers';
 
 
 // specific types
@@ -56,6 +57,7 @@ const Store = createStore(combineReducers({
 	tags: tagsReducers,
 	users: usersReducers,
 	views: viewsReducers,
+	windowsReducers: windowsReducers,
 	specific: combineReducers({
 		lpisChangeReviewCases: lpisChangeReviewCasesReducers,
 		lpisCheckCases: lpisCheckCasesReducers,

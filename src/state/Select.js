@@ -22,6 +22,7 @@ import Styles from './Styles/selectors';
 import Tags from './Tags/selectors';
 import Users from './Users/selectors';
 import Views from './Views/selectors';
+import Windows from './Windows/selectors';
 
 // specific types
 import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
@@ -51,6 +52,7 @@ export default {
 	tags: Tags,
 	users: Users,
 	views: Views,
+	windows: Windows,
 	specific: {
 		lpisChangeReviewCases: LpisChangeReviewCases,
 		lpisCheckCases: LpisCheckCases
