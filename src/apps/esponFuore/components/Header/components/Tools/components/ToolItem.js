@@ -12,7 +12,9 @@ class ToolItem extends React.PureComponent {
 		icon: PropTypes.string,
 		itemKey: PropTypes.string,
 		name: PropTypes.string,
-		onClick: PropTypes.func
+
+		closeWindow: PropTypes.func,
+		openWindow: PropTypes.func
 	};
 
 	constructor(props) {
@@ -21,14 +23,16 @@ class ToolItem extends React.PureComponent {
 	}
 
 	onClick() {
-		if (this.props.onClick) {
-			this.props.onClick(this.props.itemKey);
+		if (this.props.isOpen) {
+			this.props.closeWindow();
+		} else {
+			this.props.openWindow();
 		}
 	}
 
 	render() {
 		let classes = classnames("esponFuore-header-tool", {
-			active: !!this.props.active,
+			active: !!this.props.isOpen,
 			disabled: !!this.props.disabled
 		});
 

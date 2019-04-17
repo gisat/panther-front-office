@@ -2,48 +2,42 @@ import React from "react";
 
 import './style.scss';
 import ToolItem from "./components/ToolItem";
+import AreasToolItem from "./components/AreasToolItem";
+import LayersToolItem from "./components/LayersToolItem";
 
 class Tools extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-
-		this.onToolClick = this.onToolClick.bind(this);
 	}
 
-	onToolClick(toolKey) {
-		console.log("**** Tool: " + toolKey);
-	}
-
+	// TODO pass windowSetKey from context?
 	render() {
 		return (
 			<div className="esponFuore-header-toolbar-tools">
-				<ToolItem
+				<LayersToolItem
 					itemKey="layers"
 					name="Layers"
 					icon="pushpin"
-					onClick={this.onToolClick}
+					windowsSetKey="esponFuore"
 				/>
-				<ToolItem
-					disabled
+				<AreasToolItem
 					itemKey="areas"
 					name="Areas"
 					icon="times"
-					onClick={this.onToolClick}
+					windowsSetKey="esponFuore"
 				/>
 				<ToolItem
 					disabled
 					itemKey="information"
 					name="Information"
 					icon="edit"
-					onClick={this.onToolClick}
 				/>
 				<ToolItem
 					disabled
 					itemKey="share"
 					name="Share"
 					icon="chevron-left"
-					onClick={this.onToolClick}
 				/>
 			</div>
 		);
