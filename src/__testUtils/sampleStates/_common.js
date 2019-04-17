@@ -144,7 +144,7 @@ export const BASIC_STATE = {
 		inUse: {
 			indexes: {
 				Component_a: [{
-					filter: {scope: 666},
+					filter: {scopeKey: 666},
 					filterByActive: null,
 					order: null,
 					start: 1,
@@ -193,7 +193,7 @@ export const BASIC_STATE = {
 			{
 				changedOn: "2018-12-03T15:25:12.745Z",
 				count: 4,
-				filter: {scope: 666},
+				filter: {scopeKey: 666},
 				order: null,
 				index: {1: 1, 3: 3, 4: 11}
 			}, {

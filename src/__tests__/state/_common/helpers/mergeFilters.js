@@ -16,7 +16,7 @@ describe('#mergeFilters', () => {
 		const filter = null;
 
 		const expectedOutput = {
-			scope: 1
+			scopeKey: 1
 		};
 
 		expect(commonHelpers.mergeFilters(activeKeys, filterByActive, filter)).toEqual(expectedOutput);
@@ -35,12 +35,12 @@ describe('#mergeFilters', () => {
 			place: true
 		};
 		const filter = {
-			scope: 2
+			scopeKey: 2
 		};
 
 		const expectedOutput = {
-			scope: 2,
-			place: 3
+			scopeKey: 2,
+			placeKey: 3
 		};
 
 		expect(commonHelpers.mergeFilters(activeKeys, filterByActive, filter)).toEqual(expectedOutput);
@@ -60,12 +60,12 @@ describe('#mergeFilters', () => {
 			period: true
 		};
 		const filter = {
-			scope: 2
+			scopeKey: 2
 		};
 
 		const expectedOutput = {
-			scope: 1,
-			period: {
+			scopeKey: 1,
+			periodKey: {
 				key: {
 					in: [4, 5]
 				}
@@ -86,7 +86,7 @@ describe('#mergeFilters', () => {
 		};
 		const filterByActive = null;
 		const filter = {
-			scope: 2
+			scopeKey: 2
 		};
 
 		expect(commonHelpers.mergeFilters(activeKeys, filterByActive, filter)).toEqual(filter);

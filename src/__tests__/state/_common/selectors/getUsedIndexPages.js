@@ -10,7 +10,7 @@ import {
 describe('#getUsedIndexPages', () => {
 	it('should select used index pages with merged uses', () => {
 		const expectedBasicStateOutput = [{
-			filter: {scope: 666},
+			filter: {scopeKey: 666},
 			order: null,
 			uses: [{
 				length: 10,

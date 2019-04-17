@@ -48,7 +48,7 @@ const getAllForActiveScope = (getSubstate) => {
 		(models, indexes, activeScopeKey, order) => {
 			if (models && indexes && activeScopeKey) {
 				let filter = {
-					scope: activeScopeKey
+					scopeKey: activeScopeKey
 				};
 				let index = commonHelpers.getIndex(indexes, filter, order);
 				if (index && index.index) {
@@ -468,7 +468,7 @@ const getAllActiveKeys = state => {
 	// for BO usage
 	if (state.hasOwnProperty('specific') && state.specific.hasOwnProperty('apps')){
 		activeKeys.activeApplicationKey = state.specific.apps.activeKey;
-	} else if (state.app.key){
+	} else if (state.app && state.app.key){
 		activeKeys.activeApplicationKey = state.app.key;
 	}
 
