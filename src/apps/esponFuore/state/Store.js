@@ -30,6 +30,7 @@ import stylesReducers from '../../../state/Styles/reducers';
 import tagsReducers from '../../../state/Tags/reducers';
 import usersReducers from '../../../state/Users/reducers';
 import viewsReducers from '../../../state/Views/reducers';
+import windowsReducers from '../../../state/Windows/reducers';
 
 export const history = createBrowserHistory();
 
@@ -61,5 +62,6 @@ export default createStore(combineReducers({
 	styles: stylesReducers,
 	tags: tagsReducers,
 	users: usersReducers,
-	views: viewsReducers
+	views: viewsReducers,
+	windows: windowsReducers
 }), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));

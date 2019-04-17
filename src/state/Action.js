@@ -21,6 +21,7 @@ import Styles from './Styles/actions';
 import Tags from './Tags/actions';
 import Users from './Users/actions';
 import Views from './Views/actions';
+import Windows from './Windows/actions';
 
 
 // specific types
@@ -49,6 +50,7 @@ export default {
 	tags: Tags,
 	views: Views,
 	users: Users,
+	windows: Windows,
 	specific: {
 		lpisChangeReviewCases: LpisChangeReviewCases,
 		lpisCheckCases: LpisCheckCases,

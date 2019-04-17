@@ -802,6 +802,17 @@ export const commonActionTypesDefinitions = {
 		}
 	},
 
+	WINDOWS: {
+		ADD: null,
+		REMOVE: null,
+		SETS: {
+			ADD: null,
+			REMOVE: null
+		},
+		TOP: null,
+		UPDATE: null
+	},
+
 	LPIS_CASES_ADD: 'LPIS_CASES_ADD',
 	LPIS_CASE_CHANGES_ADD: 'LPIS_CASE_CHANGES_ADD',
 	LPIS_CASES_SEARCH_STRING_CHANGE: 'LPIS_CASES_SEARCH_STRING_CHANGE',
