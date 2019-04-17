@@ -59,7 +59,7 @@ const ensureData = (layerTreesFilter, componentId, layersTreeKey) => {
         return dispatch(Actions.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {            
             const state = getState();
             const tree = Select.layersTrees.getByFilterOrder(state, layerTreesFilter, null);
-            dispatch(updateLayersTree(layersTreeKey, tree[0].data.structure[0], 'LaersTree_demo'));
+            dispatch(updateLayersTree(layersTreeKey, tree[0].data.structure[0], 'LayersTree_demo'));
         });
     }
 }

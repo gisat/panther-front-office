@@ -33,7 +33,7 @@ class Demo extends React.PureComponent {
 				setKey="demo"
 			>
 				<div id="demo" style={{display: 'flex', height: '100%'}}>
-					<LayersTree componentKey="LaersTree_demo" layersTreeKey={this.treeUUID} layerTreesFilter={layersFilter}/>
+					<LayersTree componentKey="LayersTree_demo" layersTreeKey={this.treeUUID} layerTreesFilter={layersFilter}/>
 					<MapControls />
 					<MapSet
 						mapSetKey="MapSet1"
