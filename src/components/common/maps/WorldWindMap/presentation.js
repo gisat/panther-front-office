@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import utils from '../../../../utils/utils';
-import _, {isEqual} from 'lodash';
+import _, {isEqual, isNull} from 'lodash';
 
 import WorldWind from '@nasaworldwind/worldwind';
 
@@ -71,21 +71,30 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	handleBackgroundLayers(prevLayerData, nextLayerData) {
-		//try to remove colored layer
-		layers.removeLayer(this.wwd, 'colored');
+		
 
-		if (!prevLayerData && nextLayerData) {
-			nextLayerData.forEach(layer => {
-				layers.addLayer(this.wwd, layer, 0);
-			});
-		} else if (nextLayerData && !_.isEqual(prevLayerData, nextLayerData)){
-			nextLayerData.forEach(layer => {
-				layers.addLayer(this.wwd, layer, 0);
-			});
+		const newBackgroundLayer = isNull(prevLayerData) && !isNull(nextLayerData);
+		const removeBackgroundLayer = !isNull(prevLayerData) && isNull(nextLayerData);
+		const changedBackgroundLayer = !isNull(prevLayerData) && !isNull(nextLayerData) && !_.isEqual(prevLayerData, nextLayerData);
+		const noBackgroundLayer = isNull(prevLayerData) && isNull(nextLayerData);
+
+		// Clear section
+		if (newBackgroundLayer) {
+			//try to remove colored layer
+			layers.removeLayer(this.wwd, 'colored');
+
+		} else if(removeBackgroundLayer || changedBackgroundLayer) {
 			prevLayerData.forEach(layer => {
 				layers.removeLayer(this.wwd, layer.key);
 			});
-		} else if(!prevLayerData && !nextLayerData) {
+		}
+
+		//Add section
+		if (newBackgroundLayer || changedBackgroundLayer) {
+			nextLayerData.forEach(layer => {
+				layers.addLayer(this.wwd, layer, 0);
+			});
+		} else if (noBackgroundLayer || removeBackgroundLayer){
 			//if no layers, than add colored layer
 			const earthBlueColor = '#6fafdc';
 			// const layer = layers.getLayerByType({type:'colored', color: earthBlueColor});

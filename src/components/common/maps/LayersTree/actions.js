@@ -3,6 +3,7 @@ import Select from '../../../../state/Select';
 import cloneDeep from 'lodash/cloneDeep';
 import {getFolderByLayerKey, getFolderByKey, getLayersInFolder} from './utils';
 import mapsActions from '../../../../state/Maps/actions';
+import Actions from '../../../../state/Action';
 
 // ============ creators ===========
 const hideRadioFolderLayersByLayerTemplateKey = (layersTree, layerTemplateKey, mapKey) => {
@@ -53,6 +54,16 @@ function updateLayersTree(layersTreeKey, tree, componentKey) {
 	};
 }
 
+const ensureData = (layerTreesFilter, componentId, layersTreeKey) => {
+    return (dispatch, getState) => {
+        return dispatch(Actions.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {            
+            const state = getState();
+            const tree = Select.layersTrees.getByFilterOrder(state, layerTreesFilter, null);
+            dispatch(updateLayersTree(layersTreeKey, tree[0].data.structure[0], 'LaersTree_demo'));
+        });
+    }
+}
+
 // ============ actions ===========
     function update(componentKey, tree) {
         return dispatch => {
@@ -71,6 +82,7 @@ function updateLayersTree(layersTreeKey, tree, componentKey) {
 // ============ export ===========
 
 export default {
+    ensureData,
     updateLayersTree,
     setFolderVisibility,
     hideLayersInFolder,

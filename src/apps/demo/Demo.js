@@ -23,16 +23,21 @@ class Demo extends React.PureComponent {
 		this.treeUUID = utils.uuid();
 	}
 	render() {
+		const layersFilter = {
+			scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0',
+			applicationKey: 'esponFuore'
+		};
+
 		return (
 			<Screens
 				setKey="demo"
 			>
 				<div id="demo" style={{display: 'flex', height: '100%'}}>
-					<LayersTree componentKey="LaersTree_demo" layersTreeKey={this.treeUUID}/>
+					<LayersTree componentKey="LaersTree_demo" layersTreeKey={this.treeUUID} layerTreesFilter={layersFilter}/>
 					<MapControls />
 					<MapSet
 						mapSetKey="MapSet1"
-						layerTreesFilter={{scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0', applicationKey: 'esponFuore'}}
+						layerTreesFilter={layersFilter}
 					/>
 				</div>
 			</Screens>

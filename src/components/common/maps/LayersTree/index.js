@@ -3,26 +3,23 @@ import React from "react";
 import Select from '../../../../state/Select';
 import Action from '../../../../state/Action';
 import ComponentAction from './actions';
-import Actions from '../../../../state/Action';
 import utils from '../../../../utils/utils';
-import {getLayerZindex, getFlattenLayers, getLayersTreesConfig} from './utils'
+import * as layerTreeUtils from '../../../../utils/layerTreeUtils';
 import isEqual from 'lodash/isEqual';
 
 import Presentation from './presentation';
 
-// import layerTree from './layersTreeConfig_radio'; //test data
-// import layerTree from './layersTreeConfig'; //test data
-import layerTree from '../../../../apps/demo/layersTreeConfig_root'; //test data
+// FIXME -> add support for control mapKey or mapSet
 
 const mapStateToProps = (state, ownProps) => {
 	//TODO merge to one selector
 	const activeMapKey = Select.maps.getActiveMapKey(state);
 	const mapLayers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey);
 	const layersTemplates = Select.layerTemplates.getAllAsObject(state);
-	const layersTrees = Select.components.getDataByComponentKey(state, ownProps.componentKey);
-	const layersTree = getLayersTreesConfig(layersTrees, layersTemplates, mapLayers, ownProps.layersTreeKey) || [];
-	const layersTemplatesKeys = getFlattenLayers(layersTree).map(l => l.key);
-	const visibleLayersKeys = layersTrees ? getFlattenLayers(layersTrees[ownProps.layersTreeKey]).filter((l) => l.visible && layersTemplatesKeys.includes(l.key)).map(l => l.key) : [];
+	const layersTrees = Select.components.getDataByComponentKey(state, ownProps.componentKey) || {};
+	const layersTree = layerTreeUtils.getLayersTreesConfig(layersTrees, layersTemplates, mapLayers, ownProps.layersTreeKey) || [];
+
+	const layersTemplatesKeys = layerTreeUtils.getFlattenLayerTree(layersTree).map(l => l.key);
 	
 	return {
 		layersTemplatesKeys,
@@ -30,7 +27,6 @@ const mapStateToProps = (state, ownProps) => {
 		layersTree: layersTree,
 		mapKey: activeMapKey,
 		layersTemplates: Select.layerTemplates.getAllAsObject(state),
-		visibleLayersKeys,
 	}
 };
 
@@ -50,42 +46,38 @@ const mapDispatchToProps = (dispatch, props) => {
 		 * 
 		 */
 		onLayerVisibilityClick: (mapKey, layerKey, layerTemplateKey, visibility, layersTree) => {
-			//FIXME - special behaviour for background layers?
-			if (visibility) {
-				dispatch(ComponentAction.hideRadioFolderLayersByLayerTemplateKey(layersTree, layerTemplateKey, mapKey));
+			const isBackgroundLayer = layersTree.backgroundLayers && layersTree.backgroundLayers.some((l) => l.key === layerTemplateKey);
+			if(isBackgroundLayer) {
+				if (visibility) {
+					dispatch(ComponentAction.hideRadioFolderLayersByLayerTemplateKey(layersTree, layerTemplateKey, mapKey));
 
-				//addLayerWithIndex
-				const zIndex = getLayerZindex(layersTree, layerTemplateKey);
-				dispatch(Action.maps.addLayer(mapKey, {key: layerKey, layerTemplate: layerTemplateKey}, zIndex));
+					dispatch(Action.maps.setMapBackgroundLayer(mapKey, {key: layerKey, layerTemplate: layerTemplateKey}));
+				} else {
+					dispatch(Action.maps.setMapBackgroundLayer(mapKey, null));
+				}
 			} else {
-				dispatch(Action.maps.removeLayer(mapKey, layerKey));
+				if (visibility) {
+					dispatch(ComponentAction.hideRadioFolderLayersByLayerTemplateKey(layersTree, layerTemplateKey, mapKey));
+
+					const zIndex = layerTreeUtils.getLayerZindex(layersTree, layerTemplateKey);
+					dispatch(Action.maps.addLayer(mapKey, {key: layerKey, layerTemplate: layerTemplateKey}, zIndex));
+				} else {
+					dispatch(Action.maps.removeLayer(mapKey, layerKey));
+				}
 			}
 		},
 		onUnmount: () => {
 			dispatch(Action.layerTemplates.useIndexedClear(componentId));
 		},
 		onMount: (props) => {
-			const {visibleLayersKeys, layersTree} = props;
-			
-			//If layer visible in layersTree, add to active mapSet
-			for (const layerKey of visibleLayersKeys) {
-				const zIndex = getLayerZindex(layersTree, layerKey);
-				//add to each map
-				dispatch(Action.maps.addLayerToEachMapInSet({layerTemplate: layerKey}, zIndex));
-			}
 			
 		},
 
 		onWrapperMount(componentKey, layersTreeKey) {
-			//TODO load layersTree from BE
-			// dispatch(ComponentAction.updateLayersTree(layersTreeKey, layerTree, 'LaersTree_demo'));
-			
-			//load layersTree
-				// dispatch(ComponentAction.prepareLayersTreeComponentState(componentKey, layersTreeKey));
-				// dispatch(ComponentAction.ensureLayerTree(componentKey, layersTreeKey));
-				// dispatch(Action.layersTrees.useIndexed({application: true, scope: true}, null, null, 1, 1000, componentId));
-				//then
-		},
+			//TODO remove
+			const layerTreesFilter = props.layerTreesFilter;
+			dispatch(ComponentAction.ensureData(layerTreesFilter, componentId, layersTreeKey));
+			},
 
 		ensureLayersTemplates: (layersTemplatesKeys) => {
 			dispatch(Action.layerTemplates.useKeys(layersTemplatesKeys, componentId));
@@ -97,10 +89,11 @@ class LayersTreeWrapper extends React.PureComponent {
 	render() {
 		const {layersTree, layersTemplates} = this.props;
 		const loadedLayersTemplates = Object.keys(layersTemplates);
-		
+		const layersTreeKeys = Object.keys(layersTree);
+
 		return (
 			<>
-				{layersTree.length > 0 && loadedLayersTemplates.length > 0 ? <Presentation {...this.props}/> : null}
+				{layersTree && layersTreeKeys.length > 0 && loadedLayersTemplates.length > 0 ? <Presentation {...this.props}/> : null}
 			</>
 		)
 	}

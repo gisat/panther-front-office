@@ -18,5 +18,11 @@
 	"login": "Log in",
 	"logout": "Log out",
 	"passphrase": "Passphrase"
-  }
+  },
+  "layers": {
+    "backgroundLayer": "Background layer",
+    "backgroundLayer_plural": "Background layers",
+    "layers": "Layers",
+    "layer": "Layer"
+}
 }

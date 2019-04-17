@@ -81,6 +81,18 @@ export const getLayersInFolder = (folder = {}) => {
     }
 }
 
+export const getFlattenLayerTree = (layersTree = {}) => {
+    const layerTreeKeys = Object.entries(layersTree);
+    const flattenLayers = layerTreeKeys.reduce((acc, val) => {
+        const [key, tree] = val;
+        const flattenLayers = getFlattenLayers(tree);
+        return [...acc, ...flattenLayers];
+    }, [])
+
+    return flattenLayers;
+}
+
+
 /**
  * Return ordered layers from given layerTree from bottom to top.
  * @param {*} layersTree 
@@ -111,19 +123,14 @@ export const getFlattenLayers = (layersTree = []) => {
  * @returns {Number}
  */
 export const getLayerZindex = (layersTree, layerTemplateKey) => {
-    const layerTreeKeys = Object.entries(layersTree);
-    const flattenLayers = layerTreeKeys.reduce((acc, val) => {
-        const [key, tree] = val;
-        const flattenLayers = getFlattenLayers(tree);
-        return [...acc, ...flattenLayers];
-    }, [])
+    const flattenLayers = getFlattenLayerTree(layersTree);
     const zIndex = flattenLayers.findIndex((l) => l.key === layerTemplateKey);
     return zIndex || 0;
 }
 
 /**
  * Iterate over all tree leaf that are not folder
- * @param {Object} layerTree 
+ * @param {Object} tree 
  * @param {function} callback 
  */
 const forAllTreeItems = (layerTree = [], callback) => {
@@ -140,6 +147,20 @@ const forAllTreeItems = (layerTree = [], callback) => {
 		}
 	}, []);
 };
+
+/**
+ * Iterate over all tree leaf that are not folder
+ * @param {Object} layerTree 
+ * @param {function} callback 
+ */
+const forAllLayerTreeItems = (layerTree = {}, callback) => {
+    const newTree = {};
+    for (const [key, tree] of Object.entries(layerTree)) {
+        newTree[key] = forAllTreeItems(tree, callback);
+    }
+    return newTree;
+};
+
 /**
  * Merge data from layerTemplates, layersTree and map
  * @param {Array.<Object>} layersTrees 
@@ -148,8 +169,8 @@ const forAllTreeItems = (layerTree = [], callback) => {
  * @param {string} layersTreeKey 
  */
 export const getLayersTreesConfig = (layersTrees, layerTemplates, mapLayers, layersTreeKey) => {
-    const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
-	return forAllTreeItems(layersTree, (item) => {
+    const layersTree = layersTrees ? layersTrees[layersTreeKey] : {};
+	return forAllLayerTreeItems(layersTree, (item) => {
 		if(item && item.type === 'layerTemplate') {
             const itemConfig = {...item};
             if(Object.keys(layerTemplates).length > 0) {

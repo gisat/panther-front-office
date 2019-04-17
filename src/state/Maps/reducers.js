@@ -218,8 +218,8 @@ const addLayer = (state, mapKey, layerState, index) => {
 
 const removeLayer = (state, mapKey, layerKey) => {
 	const mapState = getMapByKey(state, mapKey);
-	const layerIndex = mapState.data.layers.findIndex(l => l.key ===layerKey);
-	return setMap(state, {...mapState, data: {layers: removeItemByIndex(mapState.data.layers, layerIndex)}});
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	return setMap(state, {...mapState, data: {...mapState.data, layers: removeItemByIndex(mapState.data.layers, layerIndex)}});
 };
 
 const removeLayers = (state, mapKey, layersKeys = [])=> {

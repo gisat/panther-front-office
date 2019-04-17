@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import {withNamespaces} from "react-i18next";
 
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
@@ -50,12 +51,32 @@ class LayersTree extends React.PureComponent {
     }
 
     render () {
+        let t = this.props.t;
         return (
                 this.props.layersTemplates ? (
                     <div>
-                        <ul className={'ptr-tree layersTree'}>
-                            {this.getDescendants(this.props.layersTree)}
-                        </ul>
+                        {
+                            this.props.layersTree.layers ? 
+                                (
+                                <>
+                                    <h3>{t("layers.layers")}</h3>
+                                    <ul className={'ptr-tree layersTree'}>
+                                        {this.getDescendants(this.props.layersTree.layers)}
+                                    </ul>
+                                </>
+                                ) : null
+                        }
+                        {
+                            this.props.layersTree.backgroundLayers ? 
+                                (
+                                <>
+                                    <h3>{t("layers.backgroundLayer_plural")}</h3>
+                                    <ul className={'ptr-tree layersTree'}>
+                                        {this.getDescendants(this.props.layersTree.backgroundLayers)}
+                                    </ul>
+                                </>
+                                ) : null
+                        }
                     </div>) : null
         )
     }
@@ -74,7 +95,7 @@ LayersTree.defaultProps = {
   
 LayersTree.propTypes = {
     layersTemplatesKeys: PropTypes.array,
-    layersTree: PropTypes.array.isRequired,
+    layersTree: PropTypes.object.isRequired,
     layersTreeKey: PropTypes.string.isRequired,
     onLayerFolderExpandClick: PropTypes.func,
     onLayerVisibilityClick: PropTypes.func,
@@ -86,4 +107,4 @@ LayersTree.propTypes = {
     visibleLayersKeys: PropTypes.array,
 };
 
-export default LayersTree;
+export default withNamespaces()(LayersTree);

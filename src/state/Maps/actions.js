@@ -557,7 +557,7 @@ const setMapCase = (mapKey, caseKey) => {
 const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		if (!backgroundLayer.key){
+		if (backgroundLayer && !backgroundLayer.key){
 			backgroundLayer.key = utils.uuid();
 		}
 		const mapByKey = Select.maps.getMapByKey(state, mapKey);

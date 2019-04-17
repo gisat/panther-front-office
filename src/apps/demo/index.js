@@ -25,7 +25,7 @@ export default (path, baseUrl) => {
 
 
 	// TODO only for testing
-	Store.dispatch(Action.scopes.setActiveKey("b612fb63-ba4f-4e1f-b1df-ad63c2ff8cf0"));
+	Store.dispatch(Action.scopes.setActiveKey("c883e330-deb2-4bc4-b1e3-6b412791e5c0"));
 
 	Store.dispatch(Action.maps.addMap({key: 'Map1'}));
 	Store.dispatch(Action.maps.addMap({key: 'Map2'}));

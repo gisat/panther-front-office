@@ -94,6 +94,7 @@ function getWmsLayer(layerData) {
 	}
 
 	return new ExtendedWmsLayer({
+		key: layerData.key,
 		format: imageFormat ? imageFormat : "image/png",
 		layerNames: layerData.layers,
 		levelZeroDelta: new Location(45, 45),
@@ -124,6 +125,7 @@ function getWmsVectorLayer(layerData) {
 	
 //fixme - selector přilepí config.geoserverurl
 	const layer = new ExtendedWmsLayer({
+		key: layerData.key,
 		format: "image/png",
 		layerNames: layerData.layerName,
 		levelZeroDelta: new Location(45, 45),
