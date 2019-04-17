@@ -27,7 +27,7 @@ export default props => {
 				<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
 				<Header />
 				<div className="esponFuore-content">
-					<WindowsContainer set="esponFuore">
+					<WindowsContainer setKey="esponFuore">
 						<AdjustableColumns
 							fixed
 							content={[
@@ -46,7 +46,7 @@ export default props => {
 									render: props => (
 									<div>
 										<LayersTree 
-											componentKey="LaersTree_demo"
+											componentKey="LayersTree_demo"
 											layerTreesFilter={layersFilter}
 											/>
 									</div>)

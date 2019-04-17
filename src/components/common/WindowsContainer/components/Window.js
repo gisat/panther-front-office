@@ -14,9 +14,10 @@ class Window extends React.PureComponent {
 			PropTypes.array
 		]),
 		onCloseClick: PropTypes.func,
+		title: PropTypes.string,
 		windowKey: PropTypes.string,
 		withoutHeader: PropTypes.bool,
-		zIndex: PropTypes.number // TODO pass
+		zIndex: PropTypes.number
 	};
 
 	constructor(props){
@@ -89,7 +90,7 @@ class Window extends React.PureComponent {
 	renderContent() {
 		return (
 			<div className="ptr-window-content">
-				{this.props.children}
+				{this.props.content}
 			</div>
 		);
 	}

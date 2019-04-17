@@ -10,12 +10,16 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		// windows: Select.windows.get(ownProps.set),
+		set: Select.windows.getSetByKey(state, ownProps.setKey),
+		windows: Select.windows.getWindowsBySetKeyAsObject(state, ownProps.setKey),
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		onWindowClose: (windowKey) => {
+			dispatch(Action.windows.remove(ownProps.setKey, windowKey));
+		},
 		update: (windowKey, update) => {
 			// dispatch(Action.windows.update(ownProps.set, windowKey, update));
 		},
