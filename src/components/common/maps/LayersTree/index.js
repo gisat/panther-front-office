@@ -111,10 +111,10 @@ class LayersTreeWrapper extends React.PureComponent {
     }
 }
 
-const MyConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(LayersTreeWrapper);
+const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(LayersTreeWrapper);
 
-MyConnectedComponent.defaultProps = {
+ConnectedComponent.defaultProps = {
 	layersTreeKey: utils.uuid(),
 };
 
-export default MyConnectedComponent;
+export default ConnectedComponent;
