@@ -6,6 +6,7 @@ import Header from '../Header';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/MapSet";
+import LayersTree from "../../../../components/common/maps/LayersTree";
 import Window from "../../../../components/common/WindowsContainer/components/Window";
 
 export default props => {
@@ -15,6 +16,11 @@ export default props => {
 		return React.createElement(LandingPage);
 
 	} else {
+
+		const layersFilter = {
+			scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0',
+			applicationKey: 'esponFuore'
+		};
 
 		return (
 			<div className="esponFuore-app">
@@ -37,7 +43,13 @@ export default props => {
 								},
 								{
 									width: "25rem",
-									render: props => (<div>TWO</div>)
+									render: props => (
+									<div>
+										<LayersTree 
+											componentKey="LaersTree_demo"
+											layerTreesFilter={layersFilter}
+											/>
+									</div>)
 								},
 							]}
 						/>
