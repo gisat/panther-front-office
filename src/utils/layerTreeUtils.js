@@ -87,17 +87,21 @@ export const getLayersInFolder = (folder = {}) => {
  * @returns {Array}
  */
 export const getFlattenLayers = (layersTree = []) => {
-    const layers = layersTree.reduce((acc, item) => {
+
+    const flatLayers = (branch) => branch.reduce((acc, item) => {
         switch (item.type) {
             case 'folder':
-                return [...acc, ...getFlattenLayers(item.items)];
+                return [...acc, ...flatLayers(item.items)];
             case 'layerTemplate':
                 return [...acc, item];
             default:
                 return acc;
         }
     }, [])
-    return layers.reverse();
+
+    return [
+        ...flatLayers(layersTree).reverse()
+    ]
 }
 
 /**
@@ -107,7 +111,12 @@ export const getFlattenLayers = (layersTree = []) => {
  * @returns {Number}
  */
 export const getLayerZindex = (layersTree, layerTemplateKey) => {
-    const flattenLayers = getFlattenLayers(layersTree);
+    const layerTreeKeys = Object.entries(layersTree);
+    const flattenLayers = layerTreeKeys.reduce((acc, val) => {
+        const [key, tree] = val;
+        const flattenLayers = getFlattenLayers(tree);
+        return [...acc, ...flattenLayers];
+    }, [])
     const zIndex = flattenLayers.findIndex((l) => l.key === layerTemplateKey);
     return zIndex || 0;
 }

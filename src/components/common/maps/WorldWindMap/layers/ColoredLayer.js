@@ -6,11 +6,19 @@ const Sector = WorldWind.Sector,
     TiledImageLayer = WorldWind.TiledImageLayer,
     WWUtil = WorldWind.WWUtil;
 
+/**
+ * Class extending WorldWind.OpenStreetMapImageLayer.
+ * @param options {Object}
+ * @param options.key {String}
+ * @param options.color {String} 
+ * @constructor
+ */
 class ColoredLayer extends TiledImageLayer {
-    constructor(color) {
-        super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'Colored ' + color + WWUtil.guid(), 256, 256);
+    constructor(options) {
+        super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'Colored ' + options.color + WWUtil.guid(), 256, 256);
 
-        this._color = color;
+        this._color = options.color;
+        this.key = options.key;
     }
 
     /**

@@ -44,11 +44,7 @@ class WorldWindMap extends React.PureComponent {
 			navigator.update(this.wwd, this.props.navigator);
 		}
 
-		if (this.props.backgroundLayer) {
-			this.props.backgroundLayer.forEach(layer => {
-				layers.addLayer(this.wwd, layer, 0);
-			});
-		}
+		this.handleBackgroundLayers(null, this.props.backgroundLayer);
 
 		if (this.props.layers || this.props.layers === null) {
 			const layers = this.props.layers || [];
@@ -61,7 +57,8 @@ class WorldWindMap extends React.PureComponent {
 			if (this.props.navigator) {
 				navigator.update(this.wwd, this.props.navigator);
 			}
-			if (this.props.backgroundLayer) {
+
+			if (!isEqual(prevProps.backgroundLayer, this.props.backgroundLayer)) {
 				this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
 			}
 
@@ -74,8 +71,11 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	handleBackgroundLayers(prevLayerData, nextLayerData) {
-		if (!prevLayerData) {
-			this.props.backgroundLayer.forEach(layer => {
+		//try to remove colored layer
+		layers.removeLayer(this.wwd, 'colored');
+
+		if (!prevLayerData && nextLayerData) {
+			nextLayerData.forEach(layer => {
 				layers.addLayer(this.wwd, layer, 0);
 			});
 		} else if (nextLayerData && !_.isEqual(prevLayerData, nextLayerData)){
@@ -85,7 +85,14 @@ class WorldWindMap extends React.PureComponent {
 			prevLayerData.forEach(layer => {
 				layers.removeLayer(this.wwd, layer.key);
 			});
+		} else if(!prevLayerData && !nextLayerData) {
+			//if no layers, than add colored layer
+			const earthBlueColor = '#6fafdc';
+			// const layer = layers.getLayerByType({type:'colored', color: earthBlueColor});
+			const layerData = {type:'colored', key: 'colored'};
+			layers.addLayer(this.wwd, layerData, 0);
 		}
+		
 	}
 
 	handleLayers(nextLayersData = []) {
@@ -108,12 +115,11 @@ class WorldWindMap extends React.PureComponent {
 			nextLayers = backgroundLayer.concat(nextLayers);
 		}
 
-		//if no layers, than add colored layer
-		if(nextLayers.length === 0) {
-			const earthBlueColor = '#6fafdc';
-			// const layer = layers.getLayerByType({type:'colored', color: earthBlueColor});
-			const layer = layers.getLayerByType({type:'colored'});
-			nextLayers.push(layer)
+		// if no background layers, then check if map conteins colored layer
+		const coloredLayer = layers.findLayerByKey(this.wwd, 'colored');
+		if (coloredLayer) {
+			// let backgroundLayer = this.wwd.layers.slice(0, this.props.backgroundLayer.length);
+			nextLayers = [coloredLayer, ...nextLayers];
 		}
 
 		this.wwd.layers = nextLayers;

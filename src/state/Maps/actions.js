@@ -80,30 +80,53 @@ const addSet = (set) => {
 const loadLayerTreesData = (layerTreesFilter, mapKeys) => {
 	return (dispatch, getState) => {
 		const state = getState();
+		// getIndexed
 		const layerTreesData = Select.layersTrees.getByFilterOrder(state, layerTreesFilter, null);
-		//BE should return only one record, but could be bore fore scopeKey and applicationKey. 
-		//Take last record
-		const lastLTdata = layerTreesData[layerTreesData.length - 1];
 		
-		//parse to map state
-		if(lastLTdata && lastLTdata.data && lastLTdata.data.structure && lastLTdata.data.structure.length > 0) {
-			const layerTreeStructure = lastLTdata.data.structure;
-			const flattenLT = layerTreeUtils.getFlattenLayers(layerTreeStructure);
-			const visibleLayers = flattenLT.filter((l) => l.visible);
-			//add all visible layers in layerTree to map
-			const visibleLayersKeys = visibleLayers.map(l => l.key);
-			if(mapKeys) {
-				mapKeys.forEach((mapKey) => {
-					visibleLayersKeys.forEach((layerKey) => {
-						const zIndex = layerTreeUtils.getLayerZindex(layerTreeStructure, layerKey);
-						const layer = {layerTemplate: layerKey};
-						dispatch(addLayer(mapKey, layer, zIndex));
-					}) 
-				})
+		if(layerTreesData) {
+			//BE should return only one record, but could be bore fore scopeKey and applicationKey. 
+			//Take last record
+			const lastLTdata = layerTreesData[layerTreesData.length - 1];
+			
+			//parse to map state
+			if(lastLTdata && lastLTdata.data && lastLTdata.data.structure && lastLTdata.data.structure.length > 0) {
+				const layerTreeStructure = lastLTdata.data.structure;
+	
+				dispatch(addTreeLayers(layerTreeStructure, 'layers', mapKeys));
+				dispatch(addTreeLayers(layerTreeStructure, 'backgroundLayers', mapKeys));
 			}
 		}
 	}
 }
+
+const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys) => {
+	return (dispatch) => {
+		//no array but object
+		const flattenLT = layerTreeUtils.getFlattenLayers(treeLayers[0][layerTreeBranchKey]);
+		const visibleLayers = flattenLT.filter((l) => l.visible);
+		//add all visible layers in layerTree to map
+		const visibleLayersKeys = visibleLayers.map(l => l.key);
+
+
+		if(mapKeys) {
+			mapKeys.forEach((mapKey) => {
+				visibleLayersKeys.forEach((layerKey) => {
+					const zIndex = layerTreeUtils.getLayerZindex(treeLayers[0], layerKey);
+					const layer = {layerTemplate: layerKey};
+
+					switch (layerTreeBranchKey) {
+						case 'backgroundLayers':
+							return dispatch(setMapBackgroundLayer(mapKey, layer, zIndex));
+						case 'layers':
+							return dispatch(addLayer(mapKey, layer, zIndex));
+						default:
+							return dispatch(addLayer(mapKey, layer, zIndex));
+					}
+				}) 
+			})
+		}
+	}
+};
 
 const removeSet = (setKey) => {
 	return (dispatch, getState) => {
@@ -534,6 +557,9 @@ const setMapCase = (mapKey, caseKey) => {
 const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	return (dispatch, getState) => {
 		const state = getState();
+		if (!backgroundLayer.key){
+			backgroundLayer.key = utils.uuid();
+		}
 		const mapByKey = Select.maps.getMapByKey(state, mapKey);
 		if(!mapByKey) {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));

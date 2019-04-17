@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
 		onWrapperMount(componentKey, layersTreeKey) {
 			//TODO load layersTree from BE
-			dispatch(ComponentAction.updateLayersTree(layersTreeKey, layerTree, 'LaersTree_demo'));
+			// dispatch(ComponentAction.updateLayersTree(layersTreeKey, layerTree, 'LaersTree_demo'));
 			
 			//load layersTree
 				// dispatch(ComponentAction.prepareLayersTreeComponentState(componentKey, layersTreeKey));

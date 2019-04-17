@@ -219,7 +219,7 @@ const getBackgroundLayerStateByMapKey = createSelector(
 		}
 
 		if (layerTemplate) {
-			return getFiltersForUse({...filter, layerTemplate: layerTemplate, key: layerTemplate}, activeKeys)
+			return getFiltersForUse({...filter, layerTemplate: layerTemplate.layerTemplate, key: layerTemplate.key}, activeKeys)
 		} else {
 			return null;
 		}

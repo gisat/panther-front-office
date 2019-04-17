@@ -56,7 +56,7 @@ function getLayerByType(layerData){
 			case "wmts":
 				return getWmtsOsmBasedLayer(layerData);
 			case "colored":
-				return getColoredLayer(layerData.color);
+				return getColoredLayer(layerData);
 			case "vector":
 				return getWmsVectorLayer(layerData);
 			default:
@@ -153,8 +153,8 @@ function getWmtsOsmBasedLayer(layerData) {
  * @param layerColor {string}
  * @returns {ColoredLayer}
  */
-function getColoredLayer(layerColor) {
-	return new ColoredLayer(layerColor);
+function getColoredLayer(layerData) {
+	return new ColoredLayer(layerData);
 }
 
 /**

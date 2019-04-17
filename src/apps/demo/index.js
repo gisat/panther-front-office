@@ -47,6 +47,4 @@ export default (path, baseUrl) => {
 
 	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 
-	// Store.dispatch(LayersTreeAction.updateLayersTree(treeUUID, layerTree, 'LaersTree_demo'));
-
 }
