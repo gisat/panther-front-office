@@ -7,6 +7,7 @@ class WindowsContainer extends React.PureComponent {
 	static propTypes = {
 		onWindowClick: PropTypes.func,
 		onWindowClose: PropTypes.func,
+		onWindowDragStop: PropTypes.func,
 		onWindowResize: PropTypes.func,
 		set: PropTypes.shape({
 			orderByHistory: PropTypes.array
@@ -18,6 +19,7 @@ class WindowsContainer extends React.PureComponent {
 		super(props);
 		this.onWindowClick = this.props.onWindowClick.bind(this);
 		this.onWindowCloseClick = this.onWindowCloseClick.bind(this);
+		this.onWindowDragStop = this.onWindowDragStop.bind(this);
 		this.onWindowResize = this.onWindowResize.bind(this);
 	}
 
@@ -27,6 +29,10 @@ class WindowsContainer extends React.PureComponent {
 
 	onWindowCloseClick(windowKey) {
 		this.props.onWindowClose(windowKey);
+	}
+
+	onWindowDragStop(windowKey) {
+		this.props.onWindowDragStop(windowKey);
 	}
 
 	onWindowResize(windowKey, width, height) {
@@ -68,6 +74,7 @@ class WindowsContainer extends React.PureComponent {
 				content={content}
 				onClick={this.onWindowClick}
 				onCloseClick={this.onWindowCloseClick}
+				onDragStop={this.onWindowDragStop}
 				onResize={this.onWindowResize}
 				windowKey={key}
 				withoutTilte={!settings.title}

@@ -18,6 +18,7 @@ class Window extends React.PureComponent {
 			PropTypes.element,
 			PropTypes.array
 		]),
+		onDragStop: PropTypes.func,
 		onClick: PropTypes.func,
 		onCloseClick: PropTypes.func,
 		onResize: PropTypes.func,
@@ -30,23 +31,30 @@ class Window extends React.PureComponent {
 	constructor(props){
 		super(props);
 
+		this.onDragStop = this.onDragStop.bind(this);
 		this.onClick = this.onClick.bind(this);
 		this.onClose = this.onClose.bind(this);
 		this.onResize = this.onResize.bind(this);
 	}
 
-	// todo onDrag
+	// todo onDragStop
 
 	onClick() {
 		if (this.props.onClick) {
-			this.props.onClick(this.props.windowKey)
+			this.props.onClick(this.props.windowKey);
 		}
 	}
 
 	onClose(e) {
 		e.stopPropagation();
 		if (this.props.onCloseClick) {
-			this.props.onCloseClick(this.props.windowKey)
+			this.props.onCloseClick(this.props.windowKey);
+		}
+	}
+
+	onDragStop() {
+		if (this.props.onDragStop) {
+			this.props.onDragStop(this.props.windowKey);
 		}
 	}
 
@@ -76,6 +84,7 @@ class Window extends React.PureComponent {
 				minHeight={props.minHeight ? props.minHeight : MIN_HEIGHT}
 				maxWidth={props.maxWidth ? props.maxWidth : MAX_WIDTH}
 				maxHeight={props.maxHeight ? props.maxHeight : MAX_HEIGHT}
+				onDragStop={this.onDragStop}
 				onClick={this.onClick}
 				onResize={this.onResize}
 				size={{width, height}}
