@@ -14,19 +14,19 @@ import Presentation from './presentation';
 const mapStateToProps = (state, ownProps) => {
 	//TODO merge to one selector
 	const activeMapKey = Select.maps.getActiveMapKey(state);
-	const mapLayers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey);
-	const layersTemplates = Select.layerTemplates.getAllAsObject(state);
-	const layersTrees = Select.components.getDataByComponentKey(state, ownProps.componentKey) || {};
+	const mapLayers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey); //active layers in map
+	const layersTemplates = Select.layerTemplates.getAllAsObject(state); //loaded layerTemplates
+	const layersTrees = Select.components.getDataByComponentKey(state, ownProps.componentKey) || {}; //loaded layerTrees
+
 	const layersTree = layerTreeUtils.getLayersTreesConfig(layersTrees, layersTemplates, mapLayers, ownProps.layersTreeKey) || [];
 
-	const layersTemplatesKeys = layerTreeUtils.getFlattenLayerTree(layersTree).map(l => l.key);
+	const layersTemplatesKeys = layerTreeUtils.getFlattenLayerTreeKeys(layersTree);
 	
 	return {
-		layersTemplatesKeys,
-		layersTreeKey: ownProps.layersTreeKey,
-		layersTree: layersTree,
-		mapKey: activeMapKey,
-		layersTemplates: Select.layerTemplates.getAllAsObject(state),
+		layersTemplatesKeys, //keys to be loaded
+		layersTree: layersTree, //object representing layerTree view structure
+		layersTreeKey: ownProps.layersTreeKey, //component key
+		mapKey: activeMapKey, //or map setKey
 	}
 };
 
@@ -66,10 +66,12 @@ const mapDispatchToProps = (dispatch, props) => {
 				}
 			}
 		},
+
 		onUnmount: () => {
 			dispatch(Action.layerTemplates.useIndexedClear(componentId));
 			dispatch(Action.layerTemplates.useKeysClear(componentId));
 		},
+
 		onMount: (props) => {
 			const layerTreesFilter = props.layerTreesFilter;
 			dispatch(ComponentAction.ensureData(layerTreesFilter, componentId, props.layersTreeKey));

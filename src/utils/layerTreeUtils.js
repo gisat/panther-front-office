@@ -81,6 +81,10 @@ export const getLayersInFolder = (folder = {}) => {
     }
 }
 
+export const getFlattenLayerTreeKeys = (layersTree = {}) => {
+    return getFlattenLayerTree(layersTree).map(l => l.key);
+}
+
 export const getFlattenLayerTree = (layersTree = {}) => {
     const layerTreeKeys = Object.entries(layersTree);
     const flattenLayers = layerTreeKeys.reduce((acc, val) => {

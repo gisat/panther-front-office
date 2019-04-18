@@ -1,7 +1,7 @@
 import ActionTypes from '../../../../constants/ActionTypes';
 import Select from '../../../../state/Select';
 import cloneDeep from 'lodash/cloneDeep';
-import {getFolderByLayerKey, getFolderByKey, getLayersInFolder} from './utils';
+import {getFolderByLayerKey, getFolderByKey, getLayersInFolder}  from '../../../../utils/layerTreeUtils';
 import mapsActions from '../../../../state/Maps/actions';
 import Actions from '../../../../state/Action';
 

@@ -14,7 +14,8 @@ class LayersTree extends React.PureComponent {
     
 	componentWillUnmount() {
 		this.props.onUnmount();
-	}
+    }
+
 	componentDidMount() {
         if(typeof this.props.onMount === 'function') {
             this.props.onMount(this.props);
@@ -46,6 +47,7 @@ class LayersTree extends React.PureComponent {
                         )
         }
     }
+
     getDescendants(structure, parentProps) {
         if(isArray(structure)) {
             return structure.map((item) => this.getDescendant(item, parentProps));
@@ -59,7 +61,6 @@ class LayersTree extends React.PureComponent {
     render () {
         let t = this.props.t;
         return (
-                this.props.layersTemplates ? (
                     <div>
                         {
                             this.props.layersTree.layers ? 
@@ -83,7 +84,7 @@ class LayersTree extends React.PureComponent {
                                 </>
                                 ) : null
                         }
-                    </div>) : null
+                    </div>
         )
     }
 }
@@ -93,7 +94,6 @@ LayersTree.defaultProps = {
     layersTree: [],
     layersTemplatesKeys: [],
     layersTreeKey: '',
-    layersTemplates: {},
     onLayerFolderExpandClick: () => {},
     onLayerVisibilityClick: () => {},
     mapKey: '',
@@ -109,7 +109,6 @@ LayersTree.propTypes = {
     onUnmount: PropTypes.func,
     onMount: PropTypes.func,
     mapKey: PropTypes.string,
-    layersTemplates: PropTypes.object,
     visibleLayersKeys: PropTypes.array,
 };
 
