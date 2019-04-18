@@ -19,11 +19,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.windows.remove(ownProps.windowsSetKey, ownProps.itemKey));
 		},
 		openWindow: () => {
-			dispatch(Action.windows.add(ownProps.windowsSetKey, ownProps.itemKey, 'Layers', LayersTree, {
-				componentKey: "LayersTree_demo",
-				scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0',
-				applicationKey: 'esponFuore'
-			}))
+			dispatch(Action.windows.addOrOpen(
+				ownProps.windowsSetKey,
+				ownProps.itemKey,
+				{
+					title: "Layers"
+				},
+				LayersTree,
+				{
+					componentKey: "LayersTree_demo",
+					scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0',
+					applicationKey: 'esponFuore'
+				})
+			);
 		}
 	}
 };

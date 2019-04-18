@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.windowsSetKey,
 				ownProps.itemKey,
 				{
-					title: 'Areas'
+					title: 'Information'
 				},
 				Button,
 				null)

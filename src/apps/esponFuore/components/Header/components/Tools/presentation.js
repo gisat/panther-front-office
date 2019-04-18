@@ -4,6 +4,7 @@ import './style.scss';
 import ToolItem from "./components/ToolItem";
 import AreasToolItem from "./components/AreasToolItem";
 import LayersToolItem from "./components/LayersToolItem";
+import InformationToolItem from "./components/InformationToolItem";
 
 class Tools extends React.PureComponent {
 
@@ -27,11 +28,11 @@ class Tools extends React.PureComponent {
 					icon="times"
 					windowsSetKey="esponFuore"
 				/>
-				<ToolItem
-					disabled
+				<InformationToolItem
 					itemKey="information"
 					name="Information"
 					icon="edit"
+					windowsSetKey="esponFuore"
 				/>
 				<ToolItem
 					disabled
