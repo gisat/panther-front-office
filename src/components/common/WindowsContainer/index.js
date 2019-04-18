@@ -23,9 +23,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		onWindowClose: (windowKey) => {
 			dispatch(Action.windows.remove(ownProps.setKey, windowKey));
 		},
-		onWindowDragStop: (windowKey) => {
+		onWindowDragStop: (windowKey, position) => {
 			dispatch(Action.windows.topWindow(ownProps.setKey, windowKey));
-			// todo position
+			dispatch(Action.windows.updateSettings(windowKey, {position: position}));
 		},
 		onWindowResize: (windowKey, width, height) => {
 			dispatch(Action.windows.updateSettings(windowKey, {width, height}));

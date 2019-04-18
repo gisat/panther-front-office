@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import Icon from "../../atoms/Icon";
 
+// TODO handle sizes in rem
 const MIN_WIDTH = 100;
 const MIN_HEIGHT = 100;
 const MAX_WIDTH = "auto";
@@ -14,6 +15,8 @@ const MAX_HEIGHT = "auto";
 class Window extends React.PureComponent {
 
 	static propTypes = {
+		containerHeight: PropTypes.number,
+		containerWidth: PropTypes.number,
 		content: PropTypes.oneOfType([
 			PropTypes.element,
 			PropTypes.array
@@ -37,8 +40,6 @@ class Window extends React.PureComponent {
 		this.onResize = this.onResize.bind(this);
 	}
 
-	// todo onDragStop
-
 	onClick() {
 		if (this.props.onClick) {
 			this.props.onClick(this.props.windowKey);
@@ -52,7 +53,9 @@ class Window extends React.PureComponent {
 		}
 	}
 
-	onDragStop(e) {
+	onDragStop(e, data) {
+		let position = this.calculatePositionFromXY(data.x, data.y);
+
 		// TODO find better way
 		let isTargetCloseButton = e.target.className && e.target.className === "ptr-window-control close";
 		let isParentCloseButton = _.find(e.path, (element) => {return element.className === "ptr-window-control close"});
@@ -62,7 +65,7 @@ class Window extends React.PureComponent {
 		}
 
 		else if (this.props.onDragStop) {
-			this.props.onDragStop(this.props.windowKey);
+			this.props.onDragStop(this.props.windowKey, position);
 		}
 	}
 
@@ -83,6 +86,16 @@ class Window extends React.PureComponent {
 		let width = this.props.width ? this.props.width : 'auto';
 		let height = this.props.height ? this.props.height : 'auto';
 
+		if (width > this.props.containerWidth) {
+			width = this.props.containerWidth;
+		}
+
+		if (height > this.props.containerHeight) {
+			height = this.props.containerHeight;
+		}
+
+		let position = this.calculateXYfromPosition(width, height);
+
 		return (
 			<Rnd
 				bounds="parent"
@@ -95,6 +108,10 @@ class Window extends React.PureComponent {
 				onDragStop={this.onDragStop}
 				onClick={this.onClick}
 				onResize={this.onResize}
+				position={{
+					x: position.x,
+					y: position.y
+				}}
 				size={{width, height}}
 			>
 				{this.props.withoutHeader ? this.renderControls(true) : this.renderHeader(handleClass)}
@@ -136,6 +153,78 @@ class Window extends React.PureComponent {
 				{this.props.content}
 			</div>
 		);
+	}
+
+	calculateXYfromPosition(width, height) {
+		const containerWidth = this.props.containerWidth;
+		const containerHeight = this.props.containerHeight;
+
+		const top = this.props.position.top;
+		const bottom = this.props.position.bottom;
+		const left = this.props.position.left;
+		const right = this.props.position.right;
+
+		let x = 0;
+		let y = 0;
+
+		if (top || top === 0) {
+			if ((top + height) < containerHeight) {
+				y = top;
+			} else {
+				y = containerHeight - height;
+			}
+		} else {
+			if ((bottom + height) < containerHeight) {
+				y = containerHeight - (bottom + height);
+			} else {
+				y = 0;
+			}
+		}
+
+		if (left || left === 0) {
+			if ((left + width) < containerWidth) {
+				x = left;
+			} else {
+				x = containerWidth - width;
+			}
+		} else {
+			if ((right + width) < containerWidth) {
+				x = containerWidth - (right + width);
+			} else {
+				x = 0;
+			}
+		}
+
+		return {x, y};
+	}
+
+	calculatePositionFromXY(x, y) {
+		const containerWidth = this.props.containerWidth;
+		const containerHeight = this.props.containerHeight;
+
+		const width = this.props.width;
+		const height = this.props.height;
+
+		let topDiff = y;
+		let bottomDiff = containerHeight - (y + height);
+		let leftDiff = x;
+		let rightDiff = containerWidth - (x + width);
+
+		let position = {top: null, bottom: null, left: null, right: null};
+
+		if (topDiff > bottomDiff && bottomDiff > 0) {
+			position.bottom = bottomDiff;
+		} else {
+			position.top = topDiff;
+		}
+
+		if (leftDiff > rightDiff && rightDiff > 0) {
+			position.right = rightDiff;
+		} else {
+			position.left = leftDiff;
+		}
+
+		return position;
 	}
 }
 

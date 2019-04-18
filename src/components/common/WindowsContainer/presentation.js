@@ -17,10 +17,50 @@ class WindowsContainer extends React.PureComponent {
 
 	constructor (props) {
 		super(props);
+
+		this.state = {
+			width: null,
+			height: null
+		};
+
 		this.onWindowClick = this.props.onWindowClick.bind(this);
 		this.onWindowCloseClick = this.onWindowCloseClick.bind(this);
 		this.onWindowDragStop = this.onWindowDragStop.bind(this);
 		this.onWindowResize = this.onWindowResize.bind(this);
+
+		this.ref = this.ref.bind(this);
+		this.resize = this.resize.bind(this);
+	}
+
+	componentDidMount() {
+		this.resize();
+		if (window) window.addEventListener('resize', this.resize, {passive: true}); //todo IE
+	}
+
+	componentWillUnmount() {
+		if (window) window.removeEventListener('resize', this.resize);
+	}
+
+	resize() {
+		// TODO handle sizes in rem
+		let pxWidth = null;
+		let pxHeight = null;
+
+		// get available width and height
+		if (this.el && typeof this.el.clientWidth !== 'undefined' && typeof this.el.clientHeight !== 'undefined') {
+			pxHeight = this.el.clientHeight;
+			pxWidth = this.el.clientWidth;
+		}
+
+		if (pxWidth || pxHeight) {
+			if (pxWidth !== this.state.width || pxHeight !== this.state.height) {
+				this.setState({width: pxWidth, height: pxHeight});
+			}
+		}
+	}
+
+	ref(el) {
+		this.el = el;
 	}
 
 	onWindowClick(windowKey) {
@@ -31,8 +71,8 @@ class WindowsContainer extends React.PureComponent {
 		this.props.onWindowClose(windowKey);
 	}
 
-	onWindowDragStop(windowKey) {
-		this.props.onWindowDragStop(windowKey);
+	onWindowDragStop(windowKey, position) {
+		this.props.onWindowDragStop(windowKey, position);
 	}
 
 	onWindowResize(windowKey, width, height) {
@@ -42,7 +82,7 @@ class WindowsContainer extends React.PureComponent {
 	// TODO what if any child is Window component?
 	render() {
 		return (
-			<div className="ptr-windows-container">
+			<div className="ptr-windows-container" ref={this.ref}>
 				{this.props.children}
 				{this.renderWindows()}
 			</div>
@@ -71,6 +111,8 @@ class WindowsContainer extends React.PureComponent {
 		return (
 			<Window
 				key={key}
+				containerHeight={this.state.height}
+				containerWidth={this.state.width}
 				content={content}
 				onClick={this.onWindowClick}
 				onCloseClick={this.onWindowCloseClick}

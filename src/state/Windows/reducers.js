@@ -13,7 +13,6 @@ const INITIAL_SET_STATE = {
 const INITIAL_WINDOW_STATE = null; // opening/open/closing/closed
 
 // TODO handle sizes in rem
-// TODO handle sizes restrictions
 const INITIAL_WINDOW_SETTINGS = {
 	minWidth: 100,
 	minHeight: 200,
@@ -23,9 +22,7 @@ const INITIAL_WINDOW_SETTINGS = {
 	height: 300,
 	position: {
 		top: 50,
-		left: 50,
-		bottom: "auto",
-		right: "auto"
+		left: 50
 	}
 };
 
