@@ -19,7 +19,13 @@ class LayersTree extends React.PureComponent {
         if(typeof this.props.onMount === 'function') {
             this.props.onMount(this.props);
         }
-	}
+    }
+    
+    componentDidUpdate(prevProps) {
+        if(typeof this.props.ensureLayersTemplates === 'function') {
+            this.props.ensureLayersTemplates(prevProps.layersTemplatesKeys, this.props.layersTemplatesKeys);
+        }
+    }
 
     getDescendant (descendant, parentProps) {
         switch (descendant.type) {

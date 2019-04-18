@@ -68,50 +68,22 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 		onUnmount: () => {
 			dispatch(Action.layerTemplates.useIndexedClear(componentId));
+			dispatch(Action.layerTemplates.useKeysClear(componentId));
 		},
 		onMount: (props) => {
-			
-		},
-
-		onWrapperMount(componentKey, layersTreeKey) {
-			//TODO remove
 			const layerTreesFilter = props.layerTreesFilter;
-			dispatch(ComponentAction.ensureData(layerTreesFilter, componentId, layersTreeKey));
-			},
-
-		ensureLayersTemplates: (layersTemplatesKeys) => {
-			dispatch(Action.layerTemplates.useKeys(layersTemplatesKeys, componentId));
+			dispatch(ComponentAction.ensureData(layerTreesFilter, componentId, props.layersTreeKey));
 		},
+
+		ensureLayersTemplates(prevLayersTemplatesKeys, layersTemplatesKeys) {
+			if (layersTemplatesKeys && layersTemplatesKeys.length > 0 && !isEqual(prevLayersTemplatesKeys, layersTemplatesKeys)) {
+				dispatch(Action.layerTemplates.useKeys(layersTemplatesKeys, componentId));
+			}
+		}
 	}
 };
 
-class LayersTreeWrapper extends React.PureComponent {
-	render() {
-		const {layersTree, layersTemplates} = this.props;
-		const loadedLayersTemplates = Object.keys(layersTemplates);
-		const layersTreeKeys = Object.keys(layersTree);
-
-		return (
-			<>
-				{layersTree && layersTreeKeys.length > 0 && loadedLayersTemplates.length > 0 ? <Presentation {...this.props}/> : null}
-			</>
-		)
-	}
-
-	componentDidMount() {
-		if(typeof this.props.onWrapperMount === 'function') {
-			this.props.onWrapperMount(this.props.componentKey, this.props.layersTreeKey);
-		}
-	}
-
-	componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.layersTemplatesKeys, this.props.layersTemplatesKeys)) {
-            this.props.ensureLayersTemplates(this.props.layersTemplatesKeys);
-        }
-    }
-}
-
-const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(LayersTreeWrapper);
+const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(Presentation);
 
 ConnectedComponent.defaultProps = {
 	layersTreeKey: utils.uuid(),
