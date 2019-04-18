@@ -52,8 +52,16 @@ class Window extends React.PureComponent {
 		}
 	}
 
-	onDragStop() {
-		if (this.props.onDragStop) {
+	onDragStop(e) {
+		// TODO find better way
+		let isTargetCloseButton = e.target.className && e.target.className === "ptr-window-control close";
+		let isParentCloseButton = _.find(e.path, (element) => {return element.className === "ptr-window-control close"});
+
+		if (isTargetCloseButton || isParentCloseButton) {
+			this.onClose(e);
+		}
+
+		else if (this.props.onDragStop) {
 			this.props.onDragStop(this.props.windowKey);
 		}
 	}
@@ -115,7 +123,7 @@ class Window extends React.PureComponent {
 
 		return (
 			<div className={classes}>
-				<div className="ptr-window-control" onClick={this.onClose}>
+				<div className="ptr-window-control close" onClick={this.onClose}>
 					<Icon icon="close"/>
 				</div>
 			</div>
