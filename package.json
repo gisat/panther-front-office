@@ -5,7 +5,6 @@
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@manaflair/redux-batch": "1.0.0",
-    "@nasaworldwind/worldwind": "0.9.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-preset-env": "1.7.0",
     "chroma-js": "2.0.3",
@@ -44,7 +43,8 @@
     "redux-thunk": "2.3.0",
     "regenerator-runtime": "0.13.1",
     "reselect": "4.0.0",
-    "uri-templates": "0.2.0"
+    "uri-templates": "0.2.0",
+    "webworldwind-esa": "0.10.0-alpha.3"
   },
   "scripts": {
     "start": "react-scripts start",

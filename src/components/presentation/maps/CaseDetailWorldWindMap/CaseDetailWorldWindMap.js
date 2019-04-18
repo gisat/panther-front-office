@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mapUtils from '../../../../utils/map';
 import _ from 'lodash';
-import WorldWind from '@nasaworldwind/worldwind';
+import WorldWind from 'webworldwind-esa';
 
 import Layers from '../../../../view/worldWind/layers/Layers';
 import Controls from '../../../../view/worldWind/controls/Controls';

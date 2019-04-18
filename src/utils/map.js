@@ -1,7 +1,7 @@
 import config from '../config';
 import _ from 'lodash';
 import {geoBounds, geoCentroid, geoDistance} from 'd3-geo';
-import WorldWind from '@nasaworldwind/worldwind';
+import WorldWind from 'webworldwind-esa';
 
 const RANGE_COEFF = 140000;
 const DEFAULT_RANGE = 10000000;

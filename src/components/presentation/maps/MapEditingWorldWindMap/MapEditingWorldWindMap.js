@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
-import WorldWind from '@nasaworldwind/worldwind';
+import WorldWind from 'webworldwind-esa';
 import GeoJSONParser from '../../../../worldwind/formats/geojson/GeoJSONParser';
 import utils from '../../../../utils/utils';
 

@@ -1,4 +1,4 @@
-import WorldWind from "@nasaworldwind/worldwind";
+import WorldWind from "webworldwind-esa";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ColoredLayer from "./ColoredLayer";

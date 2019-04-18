@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _, {isEqual, isNull} from 'lodash';
 
-import WorldWind from '@nasaworldwind/worldwind';
+import WorldWind from 'webworldwind-esa';
 
 import layers from './layers/helpers';
 import navigator from './navigator/helpers';
@@ -13,7 +13,7 @@ import Attribution from './Attribution/Attribution';
 
 import './style.css'
 
-const {WorldWindow, ZeroElevationModel} = WorldWind;
+const {WorldWindow, ElevationModel} = WorldWind;
 
 class WorldWindMap extends React.PureComponent {
 
@@ -165,7 +165,9 @@ class WorldWindMap extends React.PureComponent {
 			case "default":
 				return null;
 			case null:
-				return new ZeroElevationModel();
+				const elevation = new ElevationModel();
+				elevation.removeAllCoverages();
+				return elevation;
 		}
 	}
 

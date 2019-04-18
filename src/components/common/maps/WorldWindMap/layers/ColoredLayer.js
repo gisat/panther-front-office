@@ -1,4 +1,4 @@
-import WorldWind from '@nasaworldwind/worldwind';
+import WorldWind from 'webworldwind-esa';
 import utils from '../../../../../utils/utils';
 
 const Sector = WorldWind.Sector,

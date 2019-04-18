@@ -1,4 +1,4 @@
-import WorldWind from '@nasaworldwind/worldwind';
+import WorldWind from 'webworldwind-esa';
 import uriTemplates from 'uri-templates';
 
 const {OpenStreetMapImageLayer, WWUtil} = WorldWind;
