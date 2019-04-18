@@ -89,5 +89,5 @@
 
 .ptr-window-content {
 	overflow: auto;
-	height: 100%;
+	height: calc(100% - 2.5rem);
 }

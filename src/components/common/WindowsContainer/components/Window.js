@@ -6,6 +6,11 @@ import _ from 'lodash';
 
 import Icon from "../../atoms/Icon";
 
+const MIN_WIDTH = 100;
+const MIN_HEIGHT = 100;
+const MAX_WIDTH = "auto";
+const MAX_HEIGHT = "auto";
+
 class Window extends React.PureComponent {
 
 	static propTypes = {
@@ -13,7 +18,9 @@ class Window extends React.PureComponent {
 			PropTypes.element,
 			PropTypes.array
 		]),
+		onClick: PropTypes.func,
 		onCloseClick: PropTypes.func,
+		onResize: PropTypes.func,
 		title: PropTypes.string,
 		windowKey: PropTypes.string,
 		withoutHeader: PropTypes.bool,
@@ -23,33 +30,55 @@ class Window extends React.PureComponent {
 	constructor(props){
 		super(props);
 
+		this.onClick = this.onClick.bind(this);
 		this.onClose = this.onClose.bind(this);
+		this.onResize = this.onResize.bind(this);
 	}
 
-	onClose() {
+	// todo onDrag
+
+	onClick() {
+		if (this.props.onClick) {
+			this.props.onClick(this.props.windowKey)
+		}
+	}
+
+	onClose(e) {
+		e.stopPropagation();
 		if (this.props.onCloseClick) {
 			this.props.onCloseClick(this.props.windowKey)
 		}
 	}
 
+	onResize(e, direction, ref, delta, position) {
+		if (this.props.onResize) {
+			this.props.onResize(this.props.windowKey, ref.offsetWidth, ref.offsetHeight); // TODO check
+		}
+	}
+
 	render() {
+		const props = this.props;
 		const handleClass = "ptr-window-handle";
 
 		let classes = classNames("ptr-window", {
 			[handleClass]: !!this.props.withoutHeader
 		});
 
-		// TODO max/min sizes just for testing
+		let width = this.props.width ? this.props.width : 'auto';
+		let height = this.props.height ? this.props.height : 'auto';
+
 		return (
 			<Rnd
 				bounds="parent"
 				className={classes}
 				dragHandleClassName={handleClass}
-				minWidth={100}
-				minHeight={100}
-
-				maxWidth={500}
-				maxHeight={300}
+				minWidth={props.minWidth ? props.minWidth : MIN_WIDTH}
+				minHeight={props.minHeight ? props.minHeight : MIN_HEIGHT}
+				maxWidth={props.maxWidth ? props.maxWidth : MAX_WIDTH}
+				maxHeight={props.maxHeight ? props.maxHeight : MAX_HEIGHT}
+				onClick={this.onClick}
+				onResize={this.onResize}
+				size={{width, height}}
 			>
 				{this.props.withoutHeader ? this.renderControls(true) : this.renderHeader(handleClass)}
 				{this.renderContent()}
@@ -77,9 +106,6 @@ class Window extends React.PureComponent {
 
 		return (
 			<div className={classes}>
-				<div className="ptr-window-control" onClick={this.onClose}>
-					<Icon icon="close"/>
-				</div>
 				<div className="ptr-window-control" onClick={this.onClose}>
 					<Icon icon="close"/>
 				</div>

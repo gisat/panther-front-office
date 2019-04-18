@@ -51,6 +51,7 @@ const isOpen = createSelector(
 
 export default {
 	getSetByKey,
+	getWindow,
 	getWindowsBySetKeyAsObject,
 	isOpen
 }

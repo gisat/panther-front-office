@@ -804,6 +804,7 @@ export const commonActionTypesDefinitions = {
 
 	WINDOWS: {
 		ADD: null,
+		OPEN: null,
 		REMOVE: null,
 		SETS: {
 			ADD: null,

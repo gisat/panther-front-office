@@ -5,7 +5,9 @@ import Window from "./components/Window";
 class WindowsContainer extends React.PureComponent {
 
 	static propTypes = {
+		onWindowClick: PropTypes.func,
 		onWindowClose: PropTypes.func,
+		onWindowResize: PropTypes.func,
 		set: PropTypes.shape({
 			orderByHistory: PropTypes.array
 		}),
@@ -14,11 +16,21 @@ class WindowsContainer extends React.PureComponent {
 
 	constructor (props) {
 		super(props);
+		this.onWindowClick = this.props.onWindowClick.bind(this);
 		this.onWindowCloseClick = this.onWindowCloseClick.bind(this);
+		this.onWindowResize = this.onWindowResize.bind(this);
+	}
+
+	onWindowClick(windowKey) {
+		this.props.onWindowClick(windowKey);
 	}
 
 	onWindowCloseClick(windowKey) {
-		this.props.onWindowClose(windowKey)
+		this.props.onWindowClose(windowKey);
+	}
+
+	onWindowResize(windowKey, width, height) {
+		this.props.onWindowResize(windowKey, width, height);
 	}
 
 	// TODO what if any child is Window component?
@@ -38,11 +50,10 @@ class WindowsContainer extends React.PureComponent {
 			return order.map((windowKey, index) => {
 				let window = this.props.windows[windowKey];
 
-				// TODO solve props passing
 				if (window.data.component) {
-					return this.renderWindow(window.key, index, window.data.title, React.createElement(window.data.component, {...window.data.props}));
+					return this.renderWindow(window.key, index, window.data.settings, React.createElement(window.data.component, {...window.data.props}));
 				} else {
-					return this.renderWindow(window.key, index, window.data.title, null);
+					return this.renderWindow(window.key, index, window.data.settings, null);
 				}
 			});
 		} else {
@@ -50,15 +61,18 @@ class WindowsContainer extends React.PureComponent {
 		}
 	}
 
-	renderWindow(key, index, title, content) {
+	renderWindow(key, index, settings, content) {
 		return (
 			<Window
+				key={key}
 				content={content}
+				onClick={this.onWindowClick}
 				onCloseClick={this.onWindowCloseClick}
-				title={title}
+				onResize={this.onWindowResize}
 				windowKey={key}
-				withoutTilte={!title}
+				withoutTilte={!settings.title}
 				zIndex={index}
+				{...settings}
 			/>
 		);
 	}

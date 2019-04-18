@@ -17,9 +17,17 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		onWindowClick: (windowKey) => {
+			dispatch(Action.windows.topWindow(ownProps.setKey, windowKey));
+		},
 		onWindowClose: (windowKey) => {
 			dispatch(Action.windows.remove(ownProps.setKey, windowKey));
 		},
+		onWindowResize: (windowKey, width, height) => {
+			dispatch(Action.windows.updateSettings(windowKey, {width, height}));
+		},
+
+
 		update: (windowKey, update) => {
 			// dispatch(Action.windows.update(ownProps.set, windowKey, update));
 		},
