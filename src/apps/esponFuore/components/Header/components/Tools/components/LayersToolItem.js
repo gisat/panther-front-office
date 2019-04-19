@@ -23,7 +23,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.windowSetKey,
 				ownProps.itemKey,
 				{
-					title: "Layers"
+					title: "Layers",
+					icon: "layers"
 				},
 				LayersTree,
 				{

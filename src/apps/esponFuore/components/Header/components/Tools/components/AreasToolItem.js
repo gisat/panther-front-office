@@ -24,7 +24,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.windowSetKey,
 				ownProps.itemKey,
 				{
-					title: 'Areas'
+					title: 'Areas',
+					icon: 'map-pin'
 				},
 				Button,
 				null)

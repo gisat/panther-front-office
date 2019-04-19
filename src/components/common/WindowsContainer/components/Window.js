@@ -21,6 +21,7 @@ class Window extends React.PureComponent {
 			PropTypes.element,
 			PropTypes.array
 		]),
+		icon: PropTypes.string,
 		onDragStart: PropTypes.func,
 		onDragStop: PropTypes.func,
 		onClick: PropTypes.func,
@@ -137,6 +138,7 @@ class Window extends React.PureComponent {
 		return (
 			<div className={headerClasses}>
 				<div className="ptr-window-title" title={this.props.title}>
+					{this.props.icon ? <Icon icon={this.props.icon}/> : null}
 					{this.props.title}
 				</div>
 				{this.renderControls()}

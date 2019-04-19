@@ -21,26 +21,27 @@ class Tools extends React.PureComponent {
 				<LayersToolItem
 					itemKey="layers"
 					name="Layers"
-					icon="pushpin"
+					icon="layers"
 					windowSetKey={this.context.windowSetKey}
 				/>
 				<AreasToolItem
 					itemKey="areas"
 					name="Areas"
-					icon="times"
+					icon="map-pin"
 					windowSetKey={this.context.windowSetKey}
 				/>
 				<InformationToolItem
+					disabled
 					itemKey="information"
 					name="Information"
-					icon="edit"
+					icon="times"
 					windowSetKey={this.context.windowSetKey}
 				/>
 				<ToolItem
 					disabled
 					itemKey="share"
 					name="Share"
-					icon="chevron-left"
+					icon="times"
 				/>
 			</div>
 		);

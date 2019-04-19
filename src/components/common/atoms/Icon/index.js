@@ -19,6 +19,8 @@ import Edit from './components/Edit';
 import Expand from './components/Expand';
 import ExpandRow from './components/ExpandRow';
 import Opacity from './components/Opacity';
+import Layers from './components/Layers';
+import MapPin from './components/MapPin';
 import Minus from './components/Minus';
 import NorthArrow from './components/NorthArrow';
 import Plus from './components/Plus';
@@ -77,6 +79,10 @@ const icon = key => {
 			return <Expand />; //todo
 		case 'expand-row':
 			return <ExpandRow />;
+		case 'layers':
+			return <Layers/>;
+		case 'map-pin':
+			return <MapPin/>;
 		case 'minus':
 			return <Minus />;
 		case 'north-arrow':
