@@ -31,6 +31,17 @@
 	color: #fff;
 }
 
+.esponFuore-indicator-select-search > .ptr-input-text > .ptr-icon {
+	width: 1.25rem;
+	margin-right: .25rem;
+}
+.esponFuore-indicator-select-search > .ptr-input-text > .ptr-icon .line {
+	fill: rgba(255,255,255,.75);
+}
+.esponFuore-indicator-select-search > .ptr-input-text.focus > .ptr-icon .line {
+	fill: rgba(255,255,255,1);
+}
+
 .esponFuore-indicator-select-current {
 	height: 4.5rem;
 }
