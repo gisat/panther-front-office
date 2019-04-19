@@ -2,7 +2,7 @@ import React from 'react';
 
 export default props => (
 	<g>
-		<circle className="polygon" cx="13" cy="13" r="9" strokeWidth="2" fill="none"/>
-		<path className="line" d="M20 20 l7 7" strokeWidth="3" strokeLinecap="round"/>
+		<path className="line" d="M 13,3 C 7.4889972,3 3,7.4889972 3,13 3,18.511003 7.4889972,23 13,23 18.511003,23 23,18.511003 23,13 23,7.4889972 18.511003,3 13,3 Z m 0,2 c 4.430123,0 8,3.5698773 8,8 0,4.430123 -3.569877,8 -8,8 C 8.5698773,21 5,17.430123 5,13 5,8.5698773 8.5698773,5 13,5 Z"/>
+		<path className="line" d="m 20.707031,19.292969 -1.414062,1.414062 9,9 1.414062,-1.414062 z"/>
 	</g>
 );
