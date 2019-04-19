@@ -35,8 +35,8 @@ import Times from './components/Times';
 import TriangleDown from "./components/TriangleDown";
 import getTimes from './components/times-solid';
 import Upload from './components/Upload';
-import RotateLeftCircularArrow from './components/rotateLeftCircularArrow';
-import RotateRightCircularArrow from './components/rotateRightCircularArrow';
+import RotateLeftCircularArrow from './components/RotateLeftCircularArrow';
+import RotateRightCircularArrow from './components/RotateRightCircularArrow';
 
 import './icon.css';
 

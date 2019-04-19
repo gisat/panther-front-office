@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import Icon from '../../atoms/Icon'
 import HoldButton from '../../../presentation/atoms/HoldButton'
-import './mapControls.css';
+import './mapControls.scss';
 class MapControls extends React.PureComponent {
     constructor() {
         super()
@@ -88,7 +88,7 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='plus' width={22} height={22} viewBox={'0 0 34 34'}/>
+                            <Icon icon='plus'/>
                         </HoldButton>
                         <HoldButton 
                                 pressCallback={() => {this.handleZoomOut()}}
@@ -97,7 +97,7 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='minus' width={22} height={22} viewBox={'0 0 34 34'}/>
+                            <Icon icon='minus'/>
                         </HoldButton>
                     </div>
                     <div className="rotate-control control">
@@ -108,11 +108,11 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='rotate-left-circular-arrow' width={22} height={22}/>
+                            <Icon icon='rotate-left-circular-arrow'/>
                         </HoldButton>
-                        <button onClick={() => {this.handleResetHeading()}}>
-                            <Icon style={{transform: `rotate(${-this.props.navigator.heading}deg)`}} icon='north-arrow' width={22} height={22}/>
-                        </button>
+                        <HoldButton onClick={() => {this.handleResetHeading()}}>
+                            <Icon style={{transform: `rotate(${-this.props.navigator.heading}deg)`}} icon='north-arrow'/>
+                        </HoldButton>
                         <HoldButton 
                                 pressCallback={() => {this.handleHeadingRight()}}
                                 onClick={() => {this.handleHeadingRight()}}
@@ -120,7 +120,7 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='rotate-right-circular-arrow' width={22} height={22}/>
+                            <Icon icon='rotate-right-circular-arrow'/>
                         </HoldButton>
                     </div>
                     <div className="tilt-control control">
@@ -132,7 +132,7 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                                <Icon icon='tilt-more' width={22} height={22}/>
+                                <Icon icon='tilt-more'/>
                             </HoldButton>
                             <HoldButton 
                                 className="tilt-more-control"
@@ -142,7 +142,7 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='tilt-less' width={22} height={22}/>
+                            <Icon icon='tilt-less'/>
                         </HoldButton>
                     </div>
                 </div>

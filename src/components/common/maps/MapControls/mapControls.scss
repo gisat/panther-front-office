@@ -1,15 +1,17 @@
+@import '../../../../styles/variables';
+
 .control {
-	background: rgba(255, 255, 255, 0.85);
+	background: rgba(255, 255, 255, 0.8);
 	border-radius: .3rem;
 	z-index: 15;
 	box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);
-	margin-bottom: 7px;
+	margin-bottom: m(1/3);
 }
 
 .map-controls {
 	position: absolute;
-	bottom: 20px;
-	right: 7px;
+	bottom: 0;
+	right: m(1/3);
 	z-index: 3;
 }
 .map-controls.small {
@@ -25,7 +27,7 @@
 
 .map-controls .control > button,
 .menu-control > button {
-	padding: 4px;
+	padding: 0;
 	background: none;
 	border: 0;
 	user-select: none;
@@ -34,16 +36,23 @@
 	height: 2rem;
 	text-align: center;
 	font-size: 1.125rem;
-	color: #666;
+	color: var(--base60);
+	cursor: pointer;
 
 	transition:
 			color .2s ease-in-out,
 			background .2s ease-in-out;
 }
 
-.map-controls .control > button:hover,
-.menu-control > button:hover {
-	cursor: pointer;
+.map-controls .control .hold-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.map-controls .control .ptr-icon {
+	width: 1.75rem;
+	height: 1.75rem;
 }
 
 .map-controls.small .control > button {
@@ -65,8 +74,8 @@
 
 .map-controls .control > button:hover,
 .menu-control > button:hover {
-	background-color: rgba(255, 255, 255, .5);
-	color: #c92d42;
+	background-color: rgba(255, 255, 255, 1);
+	color: var(--accent50);
 }
 
 .rotate-needle-control i {
@@ -86,19 +95,13 @@
 	background-repeat: no-repeat;
 }
 
-.control button svg path,
-.control button svg polygon,
-.control button svg rect {
-	fill: #666;
+.map-controls .hold-button .ptr-icon .line {
+	fill: var(--base60);
 
 	transition:
 			fill .2s ease-in-out;
 }
 
-.control button:hover svg path,
-.control button:hover svg polygon,
-.control button:hover svg rect {
-	fill: #c92d42;
-	color: #c92d42;
-	stroke: #c92d42;
+.map-controls .hold-button:hover .ptr-icon .line {
+	fill: var(--accent50);
 }
