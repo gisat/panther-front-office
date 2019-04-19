@@ -10,6 +10,7 @@ import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/MapSet";
 import LayersTree from "../../../../components/common/maps/LayersTree";
 import Window from "../../../../components/common/WindowsContainer/components/Window";
+import MapControls from "../../../../components/common/maps/MapControls";
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -37,13 +38,15 @@ class EsponFuoreApp extends React.PureComponent {
 								fixed
 								content={[
 									{
-										component: MapSet,
-										props: {
-											mapSetKey: this.context.mapSetKey,
-											layerTreesFilter: {
-												applicationKey: 'esponFuore'
-											}
-										}
+										render: props => (
+											<>
+												<MapSet
+													mapSetKey={this.context.mapSetKey}
+													layerTreesFilter={{applicationKey: 'esponFuore'}}
+												/>
+												<MapControls/>
+											</>
+										)
 									},
 									{
 										width: "25rem",
