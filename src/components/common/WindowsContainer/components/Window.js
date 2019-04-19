@@ -21,6 +21,7 @@ class Window extends React.PureComponent {
 			PropTypes.element,
 			PropTypes.array
 		]),
+		onDragStart: PropTypes.func,
 		onDragStop: PropTypes.func,
 		onClick: PropTypes.func,
 		onCloseClick: PropTypes.func,
@@ -34,6 +35,7 @@ class Window extends React.PureComponent {
 	constructor(props){
 		super(props);
 
+		this.onDragStart = this.onDragStart.bind(this);
 		this.onDragStop = this.onDragStop.bind(this);
 		this.onClick = this.onClick.bind(this);
 		this.onClose = this.onClose.bind(this);
@@ -53,8 +55,14 @@ class Window extends React.PureComponent {
 		}
 	}
 
+	onDragStart() {
+		if (this.props.onDragStart) {
+			this.props.onDragStart(this.props.windowKey);
+		}
+	}
+
 	onDragStop(e, data) {
-		let position = this.calculatePositionFromXY(data.x, data.y);
+		let position = this.calculatePositionFromXY(data.x, data.y, this.props.width, this.props.height);
 
 		// TODO find better way
 		let isTargetCloseButton = e.target.className && e.target.className === "ptr-window-control close";
@@ -69,9 +77,11 @@ class Window extends React.PureComponent {
 		}
 	}
 
-	onResize(e, direction, ref, delta, position) {
+	onResize(e, direction, ref, delta, coord) {
 		if (this.props.onResize) {
-			this.props.onResize(this.props.windowKey, ref.offsetWidth, ref.offsetHeight); // TODO check
+			let position = this.calculatePositionFromXY(coord.x, coord.y, ref.offsetWidth, ref.offsetHeight);
+			// console.log(position, ref.offsetWidth, ref.offsetHeight , direction, delta);
+			this.props.onResize(this.props.windowKey, ref.offsetWidth, ref.offsetHeight, position); // TODO check
 		}
 	}
 
@@ -106,6 +116,7 @@ class Window extends React.PureComponent {
 				maxWidth={props.maxWidth ? props.maxWidth : MAX_WIDTH}
 				maxHeight={props.maxHeight ? props.maxHeight : MAX_HEIGHT}
 				onDragStop={this.onDragStop}
+				onDragStart={this.onDragStart}
 				onClick={this.onClick}
 				onResize={this.onResize}
 				position={{
@@ -198,12 +209,9 @@ class Window extends React.PureComponent {
 		return {x, y};
 	}
 
-	calculatePositionFromXY(x, y) {
+	calculatePositionFromXY(x, y, width, height) {
 		const containerWidth = this.props.containerWidth;
 		const containerHeight = this.props.containerHeight;
-
-		const width = this.props.width;
-		const height = this.props.height;
 
 		let topDiff = y;
 		let bottomDiff = containerHeight - (y + height);

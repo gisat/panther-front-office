@@ -7,6 +7,7 @@ class WindowsContainer extends React.PureComponent {
 	static propTypes = {
 		onWindowClick: PropTypes.func,
 		onWindowClose: PropTypes.func,
+		onWindowDragStart: PropTypes.func,
 		onWindowDragStop: PropTypes.func,
 		onWindowResize: PropTypes.func,
 		set: PropTypes.shape({
@@ -25,6 +26,7 @@ class WindowsContainer extends React.PureComponent {
 
 		this.onWindowClick = this.props.onWindowClick.bind(this);
 		this.onWindowCloseClick = this.onWindowCloseClick.bind(this);
+		this.onWindowDragStart = this.onWindowDragStart.bind(this);
 		this.onWindowDragStop = this.onWindowDragStop.bind(this);
 		this.onWindowResize = this.onWindowResize.bind(this);
 
@@ -71,12 +73,16 @@ class WindowsContainer extends React.PureComponent {
 		this.props.onWindowClose(windowKey);
 	}
 
+	onWindowDragStart(windowKey) {
+		this.props.onWindowDragStart(windowKey);
+	}
+
 	onWindowDragStop(windowKey, position) {
 		this.props.onWindowDragStop(windowKey, position);
 	}
 
-	onWindowResize(windowKey, width, height) {
-		this.props.onWindowResize(windowKey, width, height);
+	onWindowResize(windowKey, width, height, position) {
+		this.props.onWindowResize(windowKey, width, height, position);
 	}
 
 	// TODO what if any child is Window component?
@@ -116,6 +122,7 @@ class WindowsContainer extends React.PureComponent {
 				content={content}
 				onClick={this.onWindowClick}
 				onCloseClick={this.onWindowCloseClick}
+				onDragStart={this.onWindowDragStart}
 				onDragStop={this.onWindowDragStop}
 				onResize={this.onWindowResize}
 				windowKey={key}
