@@ -5,14 +5,16 @@ import ToolItem from "./components/ToolItem";
 import AreasToolItem from "./components/AreasToolItem";
 import LayersToolItem from "./components/LayersToolItem";
 import InformationToolItem from "./components/InformationToolItem";
+import AppContext from '../../../../context';
 
 class Tools extends React.PureComponent {
+
+	static contextType = AppContext;
 
 	constructor(props) {
 		super(props);
 	}
 
-	// TODO pass windowSetKey from context?
 	render() {
 		return (
 			<div className="esponFuore-header-toolbar-tools">
@@ -20,19 +22,19 @@ class Tools extends React.PureComponent {
 					itemKey="layers"
 					name="Layers"
 					icon="pushpin"
-					windowsSetKey="esponFuore"
+					windowSetKey={this.context.windowSetKey}
 				/>
 				<AreasToolItem
 					itemKey="areas"
 					name="Areas"
 					icon="times"
-					windowsSetKey="esponFuore"
+					windowSetKey={this.context.windowSetKey}
 				/>
 				<InformationToolItem
 					itemKey="information"
 					name="Information"
 					icon="edit"
-					windowsSetKey="esponFuore"
+					windowSetKey={this.context.windowSetKey}
 				/>
 				<ToolItem
 					disabled

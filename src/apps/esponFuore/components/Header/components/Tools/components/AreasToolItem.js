@@ -17,11 +17,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		closeWindow: () => {
-			dispatch(Action.windows.remove(ownProps.windowsSetKey, ownProps.itemKey));
+			dispatch(Action.windows.remove(ownProps.windowSetKey, ownProps.itemKey));
 		},
 		openWindow: () => {
 			dispatch(Action.windows.addOrOpen(
-				ownProps.windowsSetKey,
+				ownProps.windowSetKey,
 				ownProps.itemKey,
 				{
 					title: 'Areas'

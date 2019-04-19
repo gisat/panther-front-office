@@ -1,6 +1,8 @@
 import React from "react";
 import Helmet from "react-helmet";
 
+import AppContext from '../../context';
+
 import LandingPage from '../LandingPage';
 import Header from '../Header';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
@@ -9,56 +11,60 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import LayersTree from "../../../../components/common/maps/LayersTree";
 import Window from "../../../../components/common/WindowsContainer/components/Window";
 
-export default props => {
-	// if (false) {
-	if (!props.activeScopeKey) {
+class EsponFuoreApp extends React.PureComponent {
+	static contextType = AppContext;
 
-		return React.createElement(LandingPage);
+	render() {
+		const props = this.props;
 
-	} else {
+		if (!props.activeScopeKey) {
 
-		const layersFilter = {
-			applicationKey: 'esponFuore'
-		};
+			return React.createElement(LandingPage);
 
-		return (
-			<div className="esponFuore-app">
-				<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
-				<Header />
-				<div className="esponFuore-content">
-					<WindowsContainer setKey="esponFuore">
-						<AdjustableColumns
-							fixed
-							content={[
-								{
-									component: MapSet,
-									props: {
-										mapSetKey: "esponFuore",
-										layerTreesFilter: {
-											applicationKey: 'esponFuore'
+		} else {
+
+			const layersFilter = {
+				applicationKey: 'esponFuore'
+			};
+
+			return (
+				<div className="esponFuore-app">
+					<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
+					<Header />
+					<div className="esponFuore-content">
+						<WindowsContainer setKey={this.context.windowSetKey}>
+							<AdjustableColumns
+								fixed
+								content={[
+									{
+										component: MapSet,
+										props: {
+											mapSetKey: this.context.mapSetKey,
+											layerTreesFilter: {
+												applicationKey: 'esponFuore'
+											}
 										}
-									}
-								},
-								{
-									width: "25rem",
-									render: props => (
-									<div>
-										<LayersTree 
-											componentKey="LayersTree_demo"
-											layerTreesFilter={layersFilter}
-											/>
-									</div>)
-								},
-							]}
-						/>
-						{/*<Window*/}
+									},
+									{
+										width: "25rem",
+										render: props => (
+											<div>
+												<LayersTree
+													componentKey="LayersTree_demo"
+													layerTreesFilter={layersFilter}
+												/>
+											</div>)
+									},
+								]}
+							/>
+							{/*<Window*/}
 							{/*title="Very looooooooong test title of the window"*/}
-						{/*>*/}
+							{/*>*/}
 							{/*<div>Blablabla</div>*/}
-						{/*</Window>*/}
-						{/*<Window*/}
+							{/*</Window>*/}
+							{/*<Window*/}
 							{/*withoutHeader*/}
-						{/*>*/}
+							{/*>*/}
 							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
 							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
 							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
@@ -66,11 +72,14 @@ export default props => {
 							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
 							{/*<div>Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg Blablabla fsdsdgsdg dfggsdgsdgsdg</div>*/}
 
-						{/*</Window>*/}
-					</WindowsContainer>
+							{/*</Window>*/}
+						</WindowsContainer>
+					</div>
 				</div>
-			</div>
-		);
-
+			);
+		}
 	}
 }
+
+
+export default EsponFuoreApp;

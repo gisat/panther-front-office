@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import './style.scss';
 import Select from "../../../apps/esponFuore/state/Select";
-import utils from "../../../utils/utils";
 import Action from "../../../apps/esponFuore/state/Action";
 
 import presentation from './presentation';
@@ -31,12 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		onWindowResize: (windowKey, width, height, position) => {
 			dispatch(Action.windows.updateSettings(windowKey, {width, height, position}));
-		},
-
-
-		update: (windowKey, update) => {
-			// dispatch(Action.windows.update(ownProps.set, windowKey, update));
-		},
+		}
 	}
 };
 
