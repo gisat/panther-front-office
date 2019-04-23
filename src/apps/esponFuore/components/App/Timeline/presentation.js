@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classnames from 'classnames';
+import _ from 'lodash';
 
 import './style.scss';
 
@@ -8,6 +10,14 @@ const BUTTON_WIDTH_NARROW = 2;
 const BUTTON_GAP = .35;
 
 class EsponFuoreTimeline extends React.PureComponent {
+	static propTypes = {
+		activePeriodKeys: PropTypes.array,
+		onActivePeriodaChange: PropTypes.func,
+		onMount: PropTypes.func,
+		onUnmount: PropTypes.func,
+		periods: PropTypes.array,
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -23,10 +33,24 @@ class EsponFuoreTimeline extends React.PureComponent {
 	componentDidMount() {
 		this.resize();
 		if (window) window.addEventListener('resize', this.resize, {passive: true});
+		this.props.onMount();
 	}
 
 	componentWillUnmount() {
 		if (window) window.removeEventListener('resize', this.resize);
+		this.props.onUnmount();
+	}
+
+	onPeriodClick(key) {
+		let activePeriods = this.props.activePeriodKeys ? [...this.props.activePeriodKeys] : [];
+
+		if (activePeriods && _.includes(activePeriods, key)) {
+			activePeriods = _.without(activePeriods, key);
+		} else {
+			activePeriods.push(key)
+		}
+
+		this.props.onActivePeriodsChange(activePeriods);
 	}
 
 	resize() {
@@ -74,13 +98,19 @@ class EsponFuoreTimeline extends React.PureComponent {
 		};
 
 		return this.props.periods.map(period => {
+			console.log(this.props.activePeriodKeys);
+			let active = _.includes(this.props.activePeriodKeys, period.key);
 			let caption = period.data && period.data.nameDisplay;
 			if (caption && small) {
 				caption = caption.toString().slice(-2);
 			}
 
+			let classes = classnames("esponFuore-timeline-period", {
+				active
+			});
+
 			return (
-				<div className="esponFuore-timeline-period" style={style}>
+				<div key={period.key} className={classes} style={style} onClick={this.onPeriodClick.bind(this, period.key)}>
 					{caption}
 				</div>
 			);

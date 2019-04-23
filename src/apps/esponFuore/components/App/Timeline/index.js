@@ -7,12 +7,12 @@ import utils from '../../../../../utils/utils';
 
 import presentation from "./presentation";
 
-const PERIODS = [{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}},{data: {nameDisplay: 2005}},{data: {nameDisplay: 2006}},{data: {nameDisplay: 1997}}];
+const order = [['period', 'ascending']];
 
 const mapStateToProps = (state, ownProps) => {
-	// TODO replace mock
 	return {
-		periods: PERIODS
+		activePeriodKeys: Select.periods.getActiveKeys(state),
+		periods: Select.periods.getIndexed(state, {application: true}, null, order, 1, 100)
 	}
 };
 
@@ -21,7 +21,15 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch, ownProps) => {
 		return {
-
+			onActivePeriodsChange: (keys) => {
+				dispatch(Action.periods.setActiveKeys(keys));
+			},
+			onMount: () => {
+				dispatch(Action.periods.useIndexed({application: true}, null, order, 1, 100, componentId));
+			},
+			onUnmount: () => {
+				dispatch(Action.periods.useIndexedClear(componentId));
+			}
 		}
 	}
 };
