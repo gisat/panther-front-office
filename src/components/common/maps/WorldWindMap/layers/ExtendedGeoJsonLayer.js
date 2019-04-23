@@ -4,15 +4,16 @@ const {RenderableLayer} = WorldWind;
 
 /**
  * Class extending WorldWind.WmsLayer.
- * @param displayName {string}
  * @param options {Object}
  * @param options.key {String}
+ * @param options.name {String}
  * @augments WorldWind.RenderableLayer
  * @constructor
  */
 class ExtendedRenderableLayer extends RenderableLayer {
-	constructor(displayName, options) {
-		super(displayName);
+	constructor(options) {
+		const name = options.name || '';
+		super(name);
 		this.key = options.key;
 	};
 }

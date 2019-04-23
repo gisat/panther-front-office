@@ -165,6 +165,7 @@ var shapeConfigurationCallback = function (geometry, properties) {
  * @param layerData.layerName {string}
  * @param layerData.nameInternal {string}
  * @param layerData.tableName {string}
+ * @param layerData.mapServerUrl {string}
  * @returns {ExtendedWmsLayer}
  */
 function getVectorLayer(layerData) {
@@ -174,8 +175,7 @@ function getVectorLayer(layerData) {
 	});
 
 	const name = layerData.tableName
-	//fixme - selector přilepí config.geoserverurl
-	const url = `${config.geoServerUrl}/wfs?request=GetFeature&service=WFS&version=1.0.0&outputFormat=application/json&typeName=${name}`;
+	const url = `${layerData.mapServerConfig.wfsMapServerUrl}?request=GetFeature&service=WFS&version=1.0.0&outputFormat=application/json&typeName=${name}`;
 	const parser = new WorldWind.GeoJSONParser(url);
 
 	parser.load(null, shapeConfigurationCallback, layer);
@@ -191,12 +191,12 @@ function getVectorLayer(layerData) {
  * @param layerData.layerName {string}
  * @param layerData.nameInternal {string}
  * @param layerData.tableName {string}
+ * @param layerData.mapServerUrl {string}
  * @returns {ExtendedWmsLayer}
  */
 function getWmsVectorLayer(layerData) {
 	const numLevels = 18;
 	
-//fixme - selector přilepí config.geoserverurl
 	const layer = new ExtendedWmsLayer({
 		key: layerData.key,
 		format: "image/png",
@@ -207,7 +207,7 @@ function getWmsVectorLayer(layerData) {
 		opacity: 0,
 		params: null,
 		sector: new Sector(-90, 90, -180, 180),
-		service: `${config.geoServerUrl}wms`,
+		service: layerData.mapServerConfig.wmsMapServerUrl,
 		size: 256,
 		styleNames: layerData.styles,
 		styleNames: '',

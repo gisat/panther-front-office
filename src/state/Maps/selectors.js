@@ -5,6 +5,8 @@ import LayerTemplatesSelectors from '../LayerTemplates/selectors';
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import commonSelectors from "../_common/selectors";
 
+import config from "../../config/index";
+
 const getSubstate = state => state.maps;
 
 const getMapsAsObject = state => state.maps.maps;
@@ -172,16 +174,22 @@ const getLayers = createSelector(
 				if (sourcesForLayer) {
 					sourcesForLayer.forEach(source => {
 						let key = `${layer.data.key}`;
+						let mapServerConfig = {
+							wmsMapServerUrl: `${config.apiGeoserverWMSProtocol}://${config.apiGeoserverWMSHost}/${config.apiGeoserverWMSPath}`,
+							wfsMapServerUrl: `${config.apiGeoserverWFSProtocol}://${config.apiGeoserverWFSHost}/${config.apiGeoserverWFSPath}`
+						};
 
 						if (source) {
 							key += `-${source.key}`;
 							layersForMap.push({
 								...source.data,
-								key
+								key,
+								mapServerConfig
 							});
 						} else {
 							layersForMap.push({
-								key
+								key,
+								mapServerConfig
 							});
 						}
 					});

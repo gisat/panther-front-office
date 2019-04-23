@@ -26,9 +26,6 @@ export default {
 	apiBackendAoiLayerPeriodsPath: 'backend/rest/imagemosaic/getDates',
 	apiBackendSzifPath: 'backend/rest/szif/case',
 
-	geoServerUrl: 'http://localhost/geoserver/',
-	serverUrl: 'http://localhost/backend/',
-
 	devHostnames: [],
 
 	pucsInputVectorTemplateId: 3332,
