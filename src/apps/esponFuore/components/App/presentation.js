@@ -11,6 +11,8 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import LayersTree from "../../../../components/common/maps/LayersTree";
 import Window from "../../../../components/common/WindowsContainer/components/Window";
 import MapControls from "../../../../components/common/maps/MapControls";
+import Button from "../../../../components/common/atoms/Button";
+import EsponFuoreTimeline from "./Timeline";
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -60,6 +62,7 @@ class EsponFuoreApp extends React.PureComponent {
 									},
 								]}
 							/>
+							<EsponFuoreTimeline/>
 							{/*<Window*/}
 							{/*title="Very looooooooong test title of the window"*/}
 							{/*>*/}

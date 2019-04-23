@@ -1,0 +1,34 @@
+@import '../../../../../styles/variables';
+
+.esponFuore-timeline {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	background: rgba(var(--base50rgb),.20);
+	position: absolute;
+	bottom: 0;
+	padding: .35rem .35rem 0;
+	z-index: 5;
+}
+
+.esponFuore-timeline-period {
+	background: rgba(var(--base0rgb),.8);
+	border-radius: .2rem;
+	color: var(--base50);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	padding: .1rem .35rem;
+	transition: background-color .3s ease-in-out, color .3s ease-in-out;
+}
+
+.esponFuore-timeline-period:hover {
+	background: var(--base0);
+	color: var(--base70);
+}
+
+.esponFuore-timeline-period.active {
+	background: var(--accent50);
+	color: var(--base0);
+}
+

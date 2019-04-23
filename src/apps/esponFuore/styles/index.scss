@@ -163,8 +163,12 @@
 	background-position: 0 100%;
 }
 
+/* map controls */
+.esponFuore-app .map-controls {
+	bottom: m(5/3)
+}
 
-@media screen and (max-width: 70rem)  {
+@media screen and (max-width: 75rem)  {
 	.esponFuore-header-region-select {
 		flex: 0 0 12rem;
 	}
