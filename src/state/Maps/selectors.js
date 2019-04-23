@@ -15,6 +15,17 @@ const getMapSetsAsObject = state => state.maps.sets;
 const getActiveSetKey = state => state.maps.activeSetKey;
 const getActiveMapKey = state => state.maps.activeMapKey;
 
+const getMaps = createSelector(
+	[getMapsAsObject],
+	(maps) => {
+		if (maps && !_.isEmpty(maps)) {
+			return Object.values(maps);
+		} else {
+			return null;
+		}
+	}
+);
+
 const getMapSets = createSelector(
 	[getMapSetsAsObject],
 	(sets) => {
@@ -36,6 +47,32 @@ const getMapByKey = createSelector(
 	(maps, key) => {
 		if (maps && !_.isEmpty(maps) && key) {
 			return maps[key] ? maps[key] : null;
+		} else {
+			return null;
+		}
+	}
+);
+
+// TODO test
+const getMapByMetadata = createSelector(
+	[
+		getMaps,
+		(state, metadata) => metadata
+	],
+	(maps, metadata) => {
+		if (maps && metadata) {
+			let filtered =  _.filter(maps, (map) => {
+				if (map.data && map.data.metadataModifiers) {
+					return _.isMatch(map.data.metadataModifiers, metadata);
+				} else {
+					return false;
+				}
+			});
+			if (filtered && filtered.length) {
+				return filtered[0]; //TODO what if more maps are selected based on filter
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}
@@ -366,6 +403,7 @@ export default {
 	getLayersStateByMapKey,
 
 	getMapByKey,
+	getMapByMetadata,
 	getMapSetByKey,
 	getMapSetByMapKey,
 	getMapSetMapKeys,

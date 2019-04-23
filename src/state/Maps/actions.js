@@ -221,6 +221,28 @@ const addMap = (map) => {
 	};
 };
 
+const addMapForPeriod = (periodKey, setKey) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		let map = Select.maps.getMapByMetadata(state, {period: periodKey});
+
+		if (!map) {
+			let mapKey = utils.uuid();
+			map = {
+				key: mapKey,
+				data: {
+					metadataModifiers: {
+						period: periodKey
+					}
+				}
+			};
+			dispatch(addMap(map));
+		}
+
+		dispatch(addMapToSet(setKey, map.key));
+	};
+};
+
 const removeMap = (mapKey) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -229,6 +251,18 @@ const removeMap = (mapKey) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			return dispatch(actionRemoveMap(mapKey));
+		}
+	};
+};
+
+const removeMapForPeriod = (periodKey, setKey) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const map = Select.maps.getMapByMetadata(state, {period: periodKey});
+		if(!map) {
+			dispatch(actionGeneralError(`No map found for period ${periodKey}.`));
+		} else {
+			dispatch(removeMapKeyFromSet(setKey, map.key));
 		}
 	};
 };
@@ -840,6 +874,7 @@ export default {
 	addLayers,
 	addLayerToEachMapInSet,
 	addMap,
+	addMapForPeriod,
 	addMapToSet,
 	addSet,
 
@@ -848,6 +883,7 @@ export default {
 	removeLayer,
 	removeLayers,
 	removeMap,
+	removeMapForPeriod,
 	removeMapKeyFromSet,
 	removeSet,
 

@@ -11,11 +11,13 @@ const BUTTON_GAP = .35;
 
 class EsponFuoreTimeline extends React.PureComponent {
 	static propTypes = {
+		addMap: PropTypes.func,
 		activePeriodKeys: PropTypes.array,
 		onActivePeriodaChange: PropTypes.func,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
 		periods: PropTypes.array,
+		removeMap: PropTypes.func
 	};
 
 	constructor(props) {
@@ -41,13 +43,15 @@ class EsponFuoreTimeline extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
-	onPeriodClick(key) {
+	onPeriodClick(periodKey) {
 		let activePeriods = this.props.activePeriodKeys ? [...this.props.activePeriodKeys] : [];
 
-		if (activePeriods && _.includes(activePeriods, key)) {
-			activePeriods = _.without(activePeriods, key);
+		if (activePeriods && _.includes(activePeriods, periodKey)) {
+			activePeriods = _.without(activePeriods, periodKey);
+			this.props.removeMap(periodKey);
 		} else {
-			activePeriods.push(key)
+			activePeriods.push(periodKey);
+			this.props.addMap(periodKey);
 		}
 
 		this.props.onActivePeriodsChange(activePeriods);

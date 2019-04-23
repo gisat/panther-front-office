@@ -21,6 +21,9 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch, ownProps) => {
 		return {
+			addMap: (periodKey) => {
+				dispatch(Action.maps.addMapForPeriod(periodKey, ownProps.mapSetKey));
+			},
 			onActivePeriodsChange: (keys) => {
 				dispatch(Action.periods.setActiveKeys(keys));
 			},
@@ -29,7 +32,10 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onUnmount: () => {
 				dispatch(Action.periods.useIndexedClear(componentId));
-			}
+			},
+			removeMap: (periodKey) => {
+				dispatch(Action.maps.removeMapForPeriod(periodKey, ownProps.mapSetKey));
+			},
 		}
 	}
 };

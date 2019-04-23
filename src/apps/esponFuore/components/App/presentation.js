@@ -62,7 +62,9 @@ class EsponFuoreApp extends React.PureComponent {
 									},
 								]}
 							/>
-							<EsponFuoreTimeline/>
+							<EsponFuoreTimeline
+								mapSetKey={this.context.mapSetKey}
+							/>
 							{/*<Window*/}
 							{/*title="Very looooooooong test title of the window"*/}
 							{/*>*/}
