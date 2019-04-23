@@ -88,7 +88,7 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='plus'/>
+                            <Icon icon='plus-thick'/>
                         </HoldButton>
                         <HoldButton 
                                 pressCallback={() => {this.handleZoomOut()}}
@@ -97,31 +97,31 @@ class MapControls extends React.PureComponent {
                                 pressCallbackTimeout={20}
                                 finite={false}
                             >
-                            <Icon icon='minus'/>
+                            <Icon icon='minus-thick'/>
                         </HoldButton>
                     </div>
                     <div className="rotate-control control">
-                        <HoldButton 
-                                pressCallback={() => {this.handleHeadingLeft()}}
-                                onClick={() => {this.handleHeadingLeft()}}
-                                onMouseDown={200}
-                                pressCallbackTimeout={20}
-                                finite={false}
-                            >
-                            <Icon icon='rotate-left-circular-arrow'/>
-                        </HoldButton>
+											<HoldButton
+												pressCallback={() => {this.handleHeadingRight()}}
+												onClick={() => {this.handleHeadingRight()}}
+												onMouseDown={200}
+												pressCallbackTimeout={20}
+												finite={false}
+											>
+												<Icon icon='rotate-right'/>
+											</HoldButton>
                         <HoldButton onClick={() => {this.handleResetHeading()}}>
                             <Icon style={{transform: `rotate(${this.props.navigator ? -this.props.navigator.heading : 0}deg)`}} icon='north-arrow'/>
                         </HoldButton>
-                        <HoldButton 
-                                pressCallback={() => {this.handleHeadingRight()}}
-                                onClick={() => {this.handleHeadingRight()}}
-                                onMouseDown={200}
-                                pressCallbackTimeout={20}
-                                finite={false}
-                            >
-                            <Icon icon='rotate-right-circular-arrow'/>
-                        </HoldButton>
+											<HoldButton
+												pressCallback={() => {this.handleHeadingLeft()}}
+												onClick={() => {this.handleHeadingLeft()}}
+												onMouseDown={200}
+												pressCallbackTimeout={20}
+												finite={false}
+											>
+												<Icon icon='rotate-left'/>
+											</HoldButton>
                     </div>
                     <div className="tilt-control control">
                         <HoldButton 

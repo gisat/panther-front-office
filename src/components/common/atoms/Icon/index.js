@@ -22,10 +22,14 @@ import Opacity from './components/Opacity';
 import Layers from './components/Layers';
 import MapPin from './components/MapPin';
 import Minus from './components/Minus';
+import MinusThick from './components/MinusThick';
 import NorthArrow from './components/NorthArrow';
 import Plus from './components/Plus';
+import PlusThick from './components/PlusThick';
 import Pushpin from './components/Pushpin';
 import Restore from './components/Restore';
+import RotateLeft from "./components/RotateLeft";
+import RotateRight from "./components/RotateRight";
 import Search from './components/Search';
 import getSortDown from './components/sort-down-solid';
 import getSortUp from './components/sort-up-solid';
@@ -85,20 +89,24 @@ const icon = key => {
 			return <MapPin/>;
 		case 'minus':
 			return <Minus />;
+		case 'minus-thick':
+			return <MinusThick />;
 		case 'north-arrow':
-			return <NorthArrow />; //todo
+			return <NorthArrow />;
 		case 'opacity':
 			return <Opacity />; //todo
 		case 'plus':
 			return <Plus />;
+		case 'plus-thick':
+			return <PlusThick />;
 		case 'pushpin':
 			return <Pushpin />; //todo
 		case 'restore':
 			return <Restore />;
-		case 'rotate-left-circular-arrow':
-			return <RotateLeftCircularArrow />; //todo
-		case 'rotate-right-circular-arrow':
-			return <RotateRightCircularArrow />; //todo
+		case 'rotate-left':
+			return <RotateLeft />;
+		case 'rotate-right':
+			return <RotateRight />;
 		case 'search':
 			return <Search />; //todo
 		case 'tilt-less':
