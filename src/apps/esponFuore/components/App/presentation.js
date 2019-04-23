@@ -57,7 +57,8 @@ class EsponFuoreApp extends React.PureComponent {
 												<LayersTree
 													componentKey="LayersTree_demo"
 													layerTreesFilter={layersFilter}
-												/>
+												>
+												</LayersTree>
 											</div>)
 									},
 								]}

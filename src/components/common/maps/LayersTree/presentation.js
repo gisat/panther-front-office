@@ -2,11 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {withNamespaces} from "react-i18next";
 
-import isArray from 'lodash/isArray';
-import isObject from 'lodash/isObject';
-
-import LayerTreeLeaf from './layerTreeLeaf';
-import LayerTreeFolder from './layerTreeFolder';
+import DefaultLayerTree from './layerTreePresentation';
 
 import './layersTree.css';
 
@@ -28,62 +24,15 @@ class LayersTree extends React.PureComponent {
         }
     }
 
-    getDescendant (descendant, parentProps) {
-        switch (descendant.type) {
-            case 'folder':
-                return <LayerTreeFolder 
-                            onClickExpand={() => {this.props.onLayerFolderExpandClick(this.props.layersTreeKey, descendant.key, !descendant.expanded)}} 
-                            children={this.getDescendants(descendant.items, descendant)} 
-                            key={descendant.id} 
-                            {...descendant} />
-            case 'layerTemplate':
-                const {type, notAllowed, ...leafProps} = descendant;
-                return notAllowed ? null : (<LayerTreeLeaf 
-                            onLayerVisibilityClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.layerKey, descendant.key, !leafProps.visible, this.props.layersTree)}}
-                            key={descendant.key}  //layerTemplateKey
-                            type={parentProps && parentProps.radio ? 'radio' : 'checkbox'}
-                            title={leafProps.title}
-                            visible={leafProps.visible} />
-                        )
-        }
-    }
-
-    getDescendants(structure, parentProps) {
-        if(isArray(structure)) {
-            return structure.map((item) => this.getDescendant(item, parentProps));
-        }
-
-        if(isObject(structure)) {
-            return [this.getDescendant(structure, parentProps)];
-        }
-    }
-
     render () {
-        let t = this.props.t;
+        const childrensTrees = React.Children.map(this.props.children, (children) => 
+            React.cloneElement(children, { ...this.props })
+        );
+
+
         return (
                     <div>
-                        {
-                            this.props.layersTree.layers ? 
-                                (
-                                <>
-                                    <h3>{t("layers.layers")}</h3>
-                                    <ul className={'ptr-tree layersTree'}>
-                                        {this.getDescendants(this.props.layersTree.layers)}
-                                    </ul>
-                                </>
-                                ) : null
-                        }
-                        {
-                            this.props.layersTree.backgroundLayers ? 
-                                (
-                                <>
-                                    <h3>{t("layers.backgroundLayer_plural")}</h3>
-                                    <ul className={'ptr-tree layersTree'}>
-                                        {this.getDescendants(this.props.layersTree.backgroundLayers)}
-                                    </ul>
-                                </>
-                                ) : null
-                        }
+                        {childrensTrees ? childrensTrees : <DefaultLayerTree {...this.props}/>}
                     </div>
         )
     }
