@@ -5,16 +5,27 @@ import PropTypes from "prop-types";
 class LayerTreeNode extends React.PureComponent {
     render() {
         //FIXME - remove
-        const title = this.props.layerTemplate ? this.props.layerTemplate.data.nameDisplay : 'placeholder';
+        const title = this.props.title ? this.props.title : 'placeholder';
+
+        const leafProps = {
+            onLeafClick: this.props.onLeafClick,
+            visible: this.props.visible,
+            type: this.props.type,
+            title: title
+        }
+
+        const CustomChildren = this.props.children ? React.cloneElement(this.props.children, {...leafProps}) : null;
+
         return (
-            <TreeLeaf onCheckClicked={this.props.onLayerVisibilityClick} title={title} {...this.props}/>
+            CustomChildren ? CustomChildren : (<TreeLeaf {...leafProps}/>)
         )
     }
 }
 
 LayerTreeNode.propTypes = {
-    onLayerVisibilityClick: PropTypes.func,
+    onLeafClick: PropTypes.func,
     type: PropTypes.string,
+    title: PropTypes.string,
     visible: PropTypes.bool,
 }
 

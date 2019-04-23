@@ -23,7 +23,7 @@ class LayersTree extends React.PureComponent {
             case 'layerTemplate':
                 const {type, notAllowed, ...leafProps} = descendant;
                 return notAllowed ? null : (<LayerTreeLeaf 
-                            onLayerVisibilityClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.layerKey, descendant.key, !leafProps.visible, this.props.layersTree)}}
+                            onLeafClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.layerKey, descendant.key, !leafProps.visible, this.props.layersTree)}}
                             key={descendant.key}  //layerTemplateKey
                             type={parentProps && parentProps.radio ? 'radio' : 'checkbox'}
                             title={leafProps.title}

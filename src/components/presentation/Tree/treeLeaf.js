@@ -9,7 +9,7 @@ class TreeLeaf extends React.PureComponent {
         if (this.props.type === 'radio' && this.props.visible) {
             return;
         } else {
-            this.props.onCheckClicked();
+            this.props.onLeafClick();
         }
     }
     render() {
@@ -22,7 +22,7 @@ class TreeLeaf extends React.PureComponent {
                         </span>) : null
                 }
                 {
-                    <input type={this.props.type} className={'hover'} checked={this.props.visible} onClick={(evt) => {evt.stopPropagation();}} onChange={(evt) => {this.props.onCheckClicked()}} />
+                    <input type={this.props.type} className={'hover'} checked={this.props.visible} onClick={(evt) => {evt.stopPropagation();}} onChange={(evt) => {this.props.onLeafClick()}} />
                 }
                 <span className="title">
                     {this.props.title || 'placeholder'}
@@ -34,7 +34,7 @@ class TreeLeaf extends React.PureComponent {
 
 
 TreeLeaf.propTypes = {
-    onCheckClicked: PropTypes.func,
+    onLeafClick: PropTypes.func,
     type: PropTypes.string,
     visible: PropTypes.bool,
 }
