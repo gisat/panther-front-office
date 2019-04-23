@@ -18,6 +18,7 @@ import Download from './components/Download';
 import Edit from './components/Edit';
 import Expand from './components/Expand';
 import ExpandRow from './components/ExpandRow';
+import Info from "./components/Info";
 import Opacity from './components/Opacity';
 import Layers from './components/Layers';
 import MapPin from './components/MapPin';
@@ -31,6 +32,7 @@ import Restore from './components/Restore';
 import RotateLeft from "./components/RotateLeft";
 import RotateRight from "./components/RotateRight";
 import Search from './components/Search';
+import Share from "./components/Share";
 import getSortDown from './components/sort-down-solid';
 import getSortUp from './components/sort-up-solid';
 import TiltMore from './components/TiltMore';
@@ -83,6 +85,8 @@ const icon = key => {
 			return <Expand />; //todo
 		case 'expand-row':
 			return <ExpandRow />;
+		case 'info':
+			return <Info />;
 		case 'layers':
 			return <Layers/>;
 		case 'map-pin':
@@ -109,6 +113,8 @@ const icon = key => {
 			return <RotateRight />;
 		case 'search':
 			return <Search />; //todo
+		case 'share':
+			return <Share />;
 		case 'tilt-less':
 			return <TiltLess />; //todo
 		case 'tilt-more':
