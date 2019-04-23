@@ -121,13 +121,12 @@ class WorldWindMap extends React.PureComponent {
 		// add background layer
 		if (this.props.backgroundLayer) {
 			let backgroundLayer = this.wwd.layers.slice(0, this.props.backgroundLayer.length);
-			nextLayers = backgroundLayer.concat(nextLayers);
+			nextLayers = [...backgroundLayer, ...nextLayers];
 		}
 
 		// if no background layers, then check if map conteins colored layer
 		const coloredLayer = layers.findLayerByKey(this.wwd, 'colored');
 		if (coloredLayer) {
-			// let backgroundLayer = this.wwd.layers.slice(0, this.props.backgroundLayer.length);
 			nextLayers = [coloredLayer, ...nextLayers];
 		}
 
