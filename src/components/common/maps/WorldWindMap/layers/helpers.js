@@ -1,6 +1,7 @@
 import WorldWind from "webworldwind-esa";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
+import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
 import config from "../../../../../config/index";
@@ -58,7 +59,8 @@ function getLayerByType(layerData){
 			case "colored":
 				return getColoredLayer(layerData);
 			case "vector":
-				return getWmsVectorLayer(layerData);
+				// return getWmsVectorLayer(layerData);
+				return getVectorLayer(layerData);
 			default:
 				return null;
 		}
@@ -108,6 +110,77 @@ function getWmsLayer(layerData) {
 		styleNames: layerData.styles,
 		version: version ? version : "1.3.0",
 	}, null);
+}
+
+var shapeConfigurationCallback = function (geometry, properties) {
+	geometry.bbbox = properties.bbox;
+	var configuration = {};
+
+	if (geometry.isPointType() || geometry.isMultiPointType()) {
+		// configuration.attributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
+
+		if (properties && (properties.name || properties.Name || properties.NAME)) {
+			configuration.name = properties.name || properties.Name || properties.NAME;
+		}
+		if (properties && properties.POP_MAX) {
+			var population = properties.POP_MAX;
+			configuration.attributes.imageScale = 0.01 * Math.log(population);
+		}
+	}
+	else if (geometry.isLineStringType() || geometry.isMultiLineStringType()) {
+		configuration.attributes = new WorldWind.ShapeAttributes(null);
+		configuration.attributes.drawOutline = true;
+		configuration.attributes.outlineColor = new WorldWind.Color(
+			0.1 * configuration.attributes.interiorColor.red,
+			0.3 * configuration.attributes.interiorColor.green,
+			0.7 * configuration.attributes.interiorColor.blue,
+			1.0);
+		configuration.attributes.outlineWidth = 2.0;
+	}
+	else if (geometry.isPolygonType() || geometry.isMultiPolygonType()) {
+		configuration.attributes = new WorldWind.ShapeAttributes(null);
+
+		// Fill the polygon with a random pastel color.
+		configuration.attributes.interiorColor = new WorldWind.Color(
+			0.375 + 0.5 * Math.random(),
+			0.375 + 0.5 * Math.random(),
+			0.375 + 0.5 * Math.random(),
+			0.5);
+		// Paint the outline in a darker variant of the interior color.
+		configuration.attributes.outlineColor = new WorldWind.Color(
+			0.5 * configuration.attributes.interiorColor.red,
+			0.5 * configuration.attributes.interiorColor.green,
+			0.5 * configuration.attributes.interiorColor.blue,
+			1.0);
+	}
+
+	return configuration;
+};
+
+/**
+ * @param layerData {Object}
+ * @param layerData.name {string}
+ * @param layerData.layerName {string}
+ * @param layerData.attribution {string}
+ * @param layerData.layerName {string}
+ * @param layerData.nameInternal {string}
+ * @param layerData.tableName {string}
+ * @returns {ExtendedWmsLayer}
+ */
+function getVectorLayer(layerData) {
+	const layer = new ExtendedGeoJsonLayer({
+		key: layerData.key,
+		layerName: layerData.layerName
+	});
+
+	const name = layerData.tableName
+	//fixme - selector přilepí config.geoserverurl
+	const url = `${config.geoServerUrl}/wfs?request=GetFeature&service=WFS&version=1.0.0&outputFormat=application/json&typeName=${name}`;
+	const parser = new WorldWind.GeoJSONParser(url);
+
+	parser.load(null, shapeConfigurationCallback, layer);
+
+	return layer;
 }
 
 /**
