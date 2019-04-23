@@ -98,7 +98,6 @@ class EsponFuoreTimeline extends React.PureComponent {
 		};
 
 		return this.props.periods.map(period => {
-			console.log(this.props.activePeriodKeys);
 			let active = _.includes(this.props.activePeriodKeys, period.key);
 			let caption = period.data && period.data.nameDisplay;
 			if (caption && small) {
