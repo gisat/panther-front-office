@@ -99,8 +99,8 @@ class PeriodConfig extends React.PureComponent {
 					<Input
 						disabled={!this.props.editable}
 						unfocusable={this.props.unfocusable}
-						value={data && data.description || ""}
-						onChange={(val) => this.onChange('description', val)}
+						value={data && data.period || ""}
+						onChange={(val) => this.onChange('period', val)}
 					/>
 				</InputWrapper>
 				<div className="ptr-bo-screen-buttons">
