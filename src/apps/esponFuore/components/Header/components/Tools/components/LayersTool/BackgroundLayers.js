@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {withNamespaces} from "react-i18next";
 
-import LayerTreeLeaf from '../../../../../components/common/maps/LayersTree/layerTreeLeaf';
+import LayerTreeLeaf from '../../../../../../../../components/common/maps/LayersTree/layerTreeLeaf';
 import BackgroundLayer from "./BackgroundLayer";
 
 class BackgroundLayers extends React.PureComponent {

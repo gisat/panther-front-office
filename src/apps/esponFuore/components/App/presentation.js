@@ -8,8 +8,6 @@ import Header from '../Header';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/MapSet";
-import LayersTree from "../../../../components/common/maps/LayersTree";
-import BackgroundLayers from "./LayerTree/BackgroundLayers.js";
 import Window from "../../../../components/common/WindowsContainer/components/Window";
 import MapControls from "../../../../components/common/maps/MapControls";
 import Button from "../../../../components/common/atoms/Button";
@@ -26,10 +24,6 @@ class EsponFuoreApp extends React.PureComponent {
 			return React.createElement(LandingPage);
 
 		} else {
-
-			const layersFilter = {
-				applicationKey: 'esponFuore'
-			};
 
 			return (
 				<div className="esponFuore-app">
@@ -55,12 +49,7 @@ class EsponFuoreApp extends React.PureComponent {
 										width: "25rem",
 										render: props => (
 											<div>
-												<LayersTree
-													componentKey="LayersTree_demo"
-													layerTreesFilter={layersFilter}
-												>
-													<BackgroundLayers type="checkbox"/>
-												</LayersTree>
+												content
 											</div>)
 									},
 								]}

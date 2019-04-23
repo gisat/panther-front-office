@@ -6,6 +6,7 @@ import Select from '../../../../../state/Select';
 
 import presentation from "./ToolItem";
 import LayersTree from "../../../../../../../components/common/maps/LayersTree";
+import LayersTool from './LayersTool/presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -26,12 +27,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					title: "Layers",
 					icon: "layers"
 				},
-				LayersTree,
-				{
-					componentKey: "LayersTree_demo",
-					scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0',
-					applicationKey: 'esponFuore'
-				})
+				LayersTool,
+				null
+				)
 			);
 		}
 	}
