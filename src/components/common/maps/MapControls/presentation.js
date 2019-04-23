@@ -111,7 +111,7 @@ class MapControls extends React.PureComponent {
                             <Icon icon='rotate-left-circular-arrow'/>
                         </HoldButton>
                         <HoldButton onClick={() => {this.handleResetHeading()}}>
-                            <Icon style={{transform: `rotate(${-this.props.navigator.heading}deg)`}} icon='north-arrow'/>
+                            <Icon style={{transform: `rotate(${this.props.navigator ? -this.props.navigator.heading : 0}deg)`}} icon='north-arrow'/>
                         </HoldButton>
                         <HoldButton 
                                 pressCallback={() => {this.handleHeadingRight()}}
