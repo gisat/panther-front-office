@@ -1,0 +1,30 @@
+@import '../../../styles/variables';
+
+.ptr-charts-container {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem 0 2rem 0;
+	align-items: center;
+}
+
+.ptr-chart {
+	margin-bottom: 1rem;
+}
+
+.ptr-column-chart {
+	border: 1px solid var(--base30);
+}
+
+.ptr-column-chart-bar {
+	fill: #e57b78;
+	transition: fill .3s ease-in-out;
+}
+
+.ptr-column-chart-bar:hover {
+	fill: #e55552;
+}
+
+.ptr-column-chart-path {
+	fill: #e57b78;
+}
+

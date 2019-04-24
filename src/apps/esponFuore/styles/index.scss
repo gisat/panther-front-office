@@ -35,16 +35,18 @@
 	flex-direction: column;
 }
 
+$headerHeight: m(2);
+
 .esponFuore-header {
-	$height: m(2);
-	flex: 0 0 $height;
-	max-height: $height;
+	flex: 0 0 $headerHeight;
+	max-height: $headerHeight;
 	display: flex;
 	z-index: 20;
 }
 
 .esponFuore-content {
 	flex: 1;
+	max-height: calc(100% - #{$headerHeight});
 }
 
 
