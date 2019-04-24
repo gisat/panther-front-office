@@ -25,6 +25,13 @@ function czAlphabeticalSort(path, prev, next) {
 	return charsOrder[prev[idx]] > charsOrder[next[idx]] ? 1 : (charsOrder[prev[idx]] < charsOrder[next[idx]] ? -1 : 0);
 }
 
+function sortByOrder (data, order) {
+	let keys = order.map(rule => rule[0]);
+	let orders = order.map(rule => rule[1]);
+	return _.orderBy(data, keys, orders);
+}
+
 export default {
-	czAlphabeticalSort
+	czAlphabeticalSort,
+	sortByOrder
 };

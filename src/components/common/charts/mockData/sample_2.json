@@ -1,0 +1,14 @@
+[
+  {
+    "key": "700bb024-a3fa-4d08-becb-4ebd30b16b71",
+    "name": "Arkansas",
+    "some_value_1": 15061,
+    "some_value_2": 1.7902
+  },
+  {
+    "key": "233c6290-a244-47f7-b03a-578b28a4f87c",
+    "name": "West Virginia",
+    "some_value_1": 17568,
+    "some_value_2": 6.0304
+  }
+]

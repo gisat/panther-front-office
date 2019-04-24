@@ -1,0 +1,62 @@
+[
+  {
+    "key": "700bb024-a3fa-4d08-becb-4ebd30b16b71",
+    "name": "Arkansas",
+    "some_value_1": 15061,
+    "some_value_2": 1.7902
+  },
+  {
+    "key": "233c6290-a244-47f7-b03a-578b28a4f87c",
+    "name": "West Virginia",
+    "some_value_1": 17568,
+    "some_value_2": 6.0304
+  },
+  {
+    "key": "8f869a5d-820a-4266-bb8c-dd3cd5feeb9a",
+    "name": "Alaska",
+    "some_value_1": 80134,
+    "some_value_2": 4.6259
+  },
+  {
+    "key": "1e2bd327-d844-48e5-b187-ccb50c44e15b",
+    "name": "Tennessee",
+    "some_value_1": 41023,
+    "some_value_2": 5.5268
+  },
+  {
+    "key": "88f9f90d-9fe3-4d77-85ae-1bc6898f2439",
+    "name": "Illinois",
+    "some_value_1": 73101,
+    "some_value_2": 9.5739
+  },
+  {
+    "key": "be288bbc-83de-4c03-bd27-52b49f903468",
+    "name": "Oklahoma",
+    "some_value_1": 1578,
+    "some_value_2": 8.5692
+  },
+  {
+    "key": "fb2b61c5-8aac-45d0-9545-e709815e57fe",
+    "name": "Kentucky",
+    "some_value_1": 61277,
+    "some_value_2": 7.6447
+  },
+  {
+    "key": "719d82c3-888a-48e4-a9d8-13cf7d52de6a",
+    "name": "Minnesota",
+    "some_value_1": 69662,
+    "some_value_2": 3.1218
+  },
+  {
+    "key": "4c649fc4-48fe-4105-a184-b3ebfffd40a8",
+    "name": "Nebraska",
+    "some_value_1": 60375,
+    "some_value_2": 6.8072
+  },
+  {
+    "key": "576d8c7f-afc1-4a70-b4a1-f5d37803d4ad",
+    "name": "Puerto Rico",
+    "some_value_1": 65197,
+    "some_value_2": 2.5916
+  }
+]

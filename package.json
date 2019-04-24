@@ -10,7 +10,7 @@
     "chroma-js": "2.0.3",
     "classnames": "2.2.6",
     "connected-react-router": "6.2.2",
-    "d3": "5.7.0",
+    "d3": "5.9.2",
     "fuzzysort": "1.1.4",
     "history": "4.7.2",
     "i18next": "13.1.2",
