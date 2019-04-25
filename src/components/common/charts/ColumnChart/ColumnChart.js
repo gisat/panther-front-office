@@ -12,11 +12,13 @@ import AxisY from "./AxisY";
 const MIN_BAR_WIDTH = 4;
 const BAR_GAP_RATIO = 0.4;
 
-const HORIZONTAL_MARGIN = 100;
-const VERTICAL_MARGIN = 100;
+const MARGIN_LEFT = 70;
+const MARGIN_RIGHT = 10;
+const MARGIN_BOTTOM = 50;
+const MARGIN_TOP = 10; // TODO apply
 
-const HORIZONTAL_PADDING = 10;
-const VERTICAL_PADDING = 0;
+const PADDING_LEFT = 10;
+const PADDING_RIGHT = 10;
 
 class ColumnChart extends React.PureComponent {
 
@@ -40,10 +42,10 @@ class ColumnChart extends React.PureComponent {
 
 		/* dimensions */
 		// TODO custom?
-		const plotWidth = props.width - HORIZONTAL_MARGIN;
-		const plotHeight = props.height - VERTICAL_MARGIN;
-		const innerPlotWidth = plotWidth - 2*HORIZONTAL_PADDING;
-		const innerPlotHeight = plotHeight - VERTICAL_PADDING;
+		const plotWidth = props.width - (MARGIN_LEFT + MARGIN_RIGHT);
+		const plotHeight = props.height - (MARGIN_TOP + MARGIN_BOTTOM);
+		const innerPlotWidth = plotWidth - (PADDING_LEFT + PADDING_RIGHT);
+		const innerPlotHeight = plotHeight;
 
 		/* data preparation */
 		let data = props.sorting ? utils.sortByOrder(props.data, props.sorting) : props.data;
@@ -79,10 +81,10 @@ class ColumnChart extends React.PureComponent {
 					scale={yScale}
 					sourceName={props.ySourceName}
 
-					bottomMargin={VERTICAL_MARGIN}
+					bottomMargin={MARGIN_BOTTOM}
 					height={plotHeight}
 					plotWidth={plotWidth}
-					width={HORIZONTAL_MARGIN}
+					width={MARGIN_LEFT}
 
 					// ticks
 					gridlines
@@ -93,12 +95,12 @@ class ColumnChart extends React.PureComponent {
 					scale={xScale}
 					sourceName={props.xSourceName}
 
-					leftMargin={HORIZONTAL_MARGIN} //TODO right margin for right oriented
-					height={VERTICAL_MARGIN}
+					leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
+					height={MARGIN_BOTTOM}
 					plotHeight={plotHeight}
 					width={plotWidth}
 				/>
-				<g transform={`translate(${HORIZONTAL_MARGIN + HORIZONTAL_PADDING},${VERTICAL_PADDING})`}>
+				<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},0)`}>
 					{barWidth >= MIN_BAR_WIDTH ? this.renderBars(data, props, xScale, yScale, innerPlotHeight) : this.renderPath(data, props, xScale, yScale, innerPlotHeight)}
 				</g>
 			</svg>

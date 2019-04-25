@@ -28,7 +28,7 @@ class AxisX extends React.PureComponent {
 		return (
 			<g className="ptr-column-chart-axis-x" transform={`translate(${props.leftMargin},0)`}>
 				<path
-					className="ptr-column-chart-axis-x-line"
+					className="ptr-axis-baseline"
 					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
 				/>
 			</g>
