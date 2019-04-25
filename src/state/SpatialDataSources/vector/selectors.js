@@ -1,6 +1,15 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
+import common from "../../_common/selectors";
+
+const getSubstate = state => state.spatialVectorDataSources;
+
+const getAll = common.getAll(getSubstate);
+const getAllAsObject = common.getAllAsObject(getSubstate);
+const getByKey = common.getByKey(getSubstate);
+const getDataByKey = common.getDataByKey(getSubstate);
+
 const getEditedFeatures = state => state.spatialDataSources.vector.editedFeaturesBySourceKey;
 
 const noMemoGetFeaturesBySourceKey = (state, props) => state.spatialDataSources.vector.featuresBySourceKey[props.dataSourceKey];
@@ -18,5 +27,11 @@ export default {
 	noMemoGetFeaturesBySourceKey: noMemoGetFeaturesBySourceKey,
 	noMemoGetEditedFeaturesBySourceKey: noMemoGetEditedFeaturesBySourceKey,
 	noMemoGetSelectedFeaturesBySourceKey: noMemoGetSelectedFeaturesBySourceKey,
-	getEditedFeatures: getEditedFeatures
+	
+	getSubstate,
+	getEditedFeatures: getEditedFeatures,
+	getAll,
+	getAllAsObject,
+	getByKey,
+	getDataByKey,
 };

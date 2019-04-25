@@ -8,9 +8,18 @@ import queryString from 'query-string';
 import config from '../../../config';
 import Select from '../../Select';
 
+import common from '../../_common/actions';
+
 import utils from '../../../utils/utils';
 
 const TTL = 3;
+
+const useKeys = common.useKeys(Select.spatialDataSources.vector.getSubstate, 'spatial', ActionTypes.SPATIAL_DATA_SOURCES.VECTOR, 'data');
+const useKeysClear = common.useKeysClear(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
+const useIndexed = common.useIndexed(Select.spatialDataSources.vector.getSubstate, 'spatial', ActionTypes.SPATIAL_DATA_SOURCES.VECTOR, 'data');
+const useIndexedClear = common.useIndexedClear(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
+const clearIndex = common.clearIndex(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
+
 
 
 // ============ creators ===========
@@ -323,5 +332,11 @@ export default {
 	loadFeaturesForBbox: loadFeaturesForBbox,
 	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect,
 	updateSelectedFeatures: updateSelectedFeatures,
-	loadFeaturesForPointAndSelect
+	loadFeaturesForPointAndSelect,
+
+	useKeys,
+	useKeysClear,
+	useIndexed,
+	useIndexedClear,
+	clearIndex
 }

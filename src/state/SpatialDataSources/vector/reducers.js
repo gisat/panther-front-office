@@ -1,12 +1,14 @@
 import ActionTypes from '../../../constants/ActionTypes';
 import Action from '../../Action';
+import common,  {DEFAULT_INITIAL_STATE} from '../../_common/reducers';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
 	featuresBySourceKey: {},
 	editedFeaturesBySourceKey: {},
 	selectedFeaturesKeysBySourceKey: {},
-	loading: false
+	loading: false,
+	...DEFAULT_INITIAL_STATE
 };
 
 function receive(state, action) {
@@ -56,6 +58,32 @@ export default (state = INITIAL_STATE, action) => {
 			return select(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD:
 			return addEdited(state, action);
+
+
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.ADD:
+			return common.add(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.ADD:
+			return common.addIndex(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.CLEAR_INDEX:
+			return common.clearIndex(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.INDEXED.REGISTER:
+			return common.registerUseIndexed(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
+
+		case ActionTypes.COMMON.DATA.SET_OUTDATED:
+			return common.dataSetOutdated(state, action);
+		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
+			return common.cleanupOnLogout(state, action);
+		
 		default:
 			return state;
 	}

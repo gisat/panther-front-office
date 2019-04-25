@@ -506,6 +506,32 @@ export const commonActionTypesDefinitions = {
 		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
+		},
+		VECTOR: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
+			ENSURE: {
+				ERROR: null
+			},
+			INDEX: {
+				ADD: null,
+				CLEAR_INDEX: null,
+				CLEAR_ALL: null
+			},
+			LOAD: {
+				ERROR: null,
+				REQUEST: null
+			},
+			USE: {
+				INDEXED: {
+					CLEAR: null,
+					REGISTER: null
+				},
+				KEYS: {
+					CLEAR: null,
+					REGISTER: null
+				}
+			}
 		}
 	},
 
