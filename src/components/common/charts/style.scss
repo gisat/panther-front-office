@@ -11,20 +11,35 @@
 	margin-bottom: 1rem;
 }
 
+/* Column chart */
+
 .ptr-column-chart {
 	border: 1px solid var(--base30);
 }
 
 .ptr-column-chart-bar {
-	fill: #e57b78;
+	fill: #9bd3cb;
 	transition: fill .3s ease-in-out;
 }
 
 .ptr-column-chart-bar:hover {
-	fill: #e55552;
+	fill: #129a7d;
 }
 
 .ptr-column-chart-path {
-	fill: #e57b78;
+	fill: #9bd3cb;
+}
+
+.ptr-column-chart-axis-x-line,
+.ptr-column-chart-axis-y-line {
+	stroke-width: 2px;
+	stroke-linecap: square;
+	stroke: var(--base30);
+}
+
+.ptr-column-chart-axis-gridline {
+	stroke-width: 1px;
+	stroke-linecap: square;
+	stroke: var(--base25);
 }
 

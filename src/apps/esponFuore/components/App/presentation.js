@@ -11,7 +11,7 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import MapControls from "../../../../components/common/maps/MapControls";
 import ChartsContainer from '../../../../components/common/charts/ChartsContainer';
 import EsponFuoreTimeline from "./Timeline";
-import ColumnChart from "../../../../components/common/charts/ColumnChart";
+import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 
 import sample_2 from "../../../../components/common/charts/mockData/sample_2.json";
 import sample_10 from "../../../../components/common/charts/mockData/sample_10.json";
@@ -25,18 +25,21 @@ class EsponFuoreApp extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
+			chartsHeight: 300,
 			chartsWidth: 500
 		}
 	}
 
 	onChartsClick() {
 		this.setState({
+			chartsHeight: this.state.chartsHeight * 0.9,
 			chartsWidth: this.state.chartsWidth * 0.9
 		});
 	}
 
 	onChartsRightClick() {
 		this.setState({
+			chartsHeight: this.state.chartsHeight / 0.9,
 			chartsWidth: this.state.chartsWidth / 0.9
 		});
 	}
@@ -79,7 +82,7 @@ class EsponFuoreApp extends React.PureComponent {
 													<ColumnChart
 														key="test1"
 														width={this.state.chartsWidth}
-														height={300}
+														height={this.state.chartsHeight}
 														data={sample_2}
 														keySourceName="key"
 														xSourceName="name"
@@ -90,7 +93,7 @@ class EsponFuoreApp extends React.PureComponent {
 													<ColumnChart
 														key="test2"
 														width={this.state.chartsWidth}
-														height={300}
+														height={this.state.chartsHeight}
 														data={sample_10}
 														keySourceName="key"
 														xSourceName="name"
@@ -101,7 +104,7 @@ class EsponFuoreApp extends React.PureComponent {
 													<ColumnChart
 														key="test3"
 														width={this.state.chartsWidth}
-														height={300}
+														height={this.state.chartsHeight}
 														data={sample_50}
 														keySourceName="key"
 														xSourceName="name"
@@ -112,7 +115,7 @@ class EsponFuoreApp extends React.PureComponent {
 													<ColumnChart
 														key="test7"
 														width={this.state.chartsWidth}
-														height={300}
+														height={this.state.chartsHeight}
 														data={sample_200}
 														keySourceName="key"
 														xSourceName="name"
@@ -123,7 +126,7 @@ class EsponFuoreApp extends React.PureComponent {
 													<ColumnChart
 														key="test4"
 														width={this.state.chartsWidth}
-														height={300}
+														height={this.state.chartsHeight}
 														data={sample_500}
 														keySourceName="key"
 														xSourceName="name"
