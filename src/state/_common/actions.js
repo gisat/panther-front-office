@@ -249,7 +249,7 @@ function receiveIndexed(actionTypes, result, dataType, filter, order, start) {
 			}
 
 			// add to index
-			dispatch(actionAddIndex(actionTypes, filter, order, result.total, start, result.data[dataType], result.changes[dataType]));
+			dispatch(actionAddIndex(actionTypes, filter, order, result.total, start, result.data[dataType], result.changes && result.changes[dataType]));
 		}
 }
 

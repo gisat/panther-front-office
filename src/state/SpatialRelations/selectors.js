@@ -93,13 +93,14 @@ const getDataSourceKeysFiltered = createSelector(
 	}
 );
 
+
 /**
- * Collect and prepare data sources keys grouped by layer key
+ * Collect and prepare data relations grouped by layer key
  *
  * @param state {Object}
  * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
-const getDataSourceKeysGroupedByLayerKey = createSelector(
+const getDataSourcRelationsGroupedByLayerKey = createSelector(
 	[getFilteredDataGroupedByLayerKey],
 
 	/**
@@ -110,9 +111,35 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 		if (groupedRelations) {
 			let groupedDataSourceKeys = {};
 			_.forIn(groupedRelations, (relationsData, layerKey) => {
-				groupedDataSourceKeys[layerKey] = relationsData.map(relationData => {return relationData ? relationData.spatialDataSourceKey : null});
+				groupedDataSourceKeys[layerKey] = relationsData;
 			});
 			return !_.isEmpty(groupedDataSourceKeys) ? groupedDataSourceKeys : null;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * Collect and prepare data sources keys grouped by layer key
+ *
+ * @param state {Object}
+ * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
+ */
+const getDataSourceKeysGroupedByLayerKey = createSelector(
+	[getDataSourcRelationsGroupedByLayerKey],
+
+	/**
+	 * @param groupedRelations {null | Object} Relations grouped by layer key
+	 * @return {null | Object} Data sources keys grouped by layer key
+	 */
+	(groupedRelations) => {
+		if (groupedRelations) {
+			const groupedRelationsDataSource = {};
+			for (const [key, value] of Object.entries(groupedRelations)) {
+				groupedRelationsDataSource[key] = value.map(r => r ? r.spatialDataSourceKey : null);
+			}
+			return groupedRelationsDataSource;
 		} else {
 			return null;
 		}
@@ -123,6 +150,7 @@ export default {
 	getAllData,
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
+	getDataSourcRelationsGroupedByLayerKey,
 	getFilteredData,
 	getFilteredDataGroupedByLayerKey,
 	getSubstate
