@@ -18,6 +18,7 @@ class AxisY extends React.PureComponent {
 		sourceName: PropTypes.string,
 
 		bottomMargin: PropTypes.number,
+		topMargin: PropTypes.number,
 		height: PropTypes.bool,
 		plotWidth: PropTypes.number,
 		width: PropTypes.number,
@@ -56,7 +57,7 @@ class AxisY extends React.PureComponent {
 		let ticks = this.props.scale.ticks(TICK_COUNT);
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},0)`}>
+			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},${this.props.topMargin})`}>
 				{ticks.map(value => {
 					let yCoord = this.props.scale(value);
 

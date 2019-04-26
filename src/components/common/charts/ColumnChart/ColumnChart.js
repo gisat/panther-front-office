@@ -14,8 +14,8 @@ const BAR_GAP_RATIO = 0.4;
 
 const MARGIN_LEFT = 70;
 const MARGIN_RIGHT = 10;
-const MARGIN_BOTTOM = 50;
-const MARGIN_TOP = 10; // TODO apply
+const MARGIN_BOTTOM = 70;
+const MARGIN_TOP = 10;
 
 const PADDING_LEFT = 10;
 const PADDING_RIGHT = 10;
@@ -82,6 +82,7 @@ class ColumnChart extends React.PureComponent {
 					sourceName={props.ySourceName}
 
 					bottomMargin={MARGIN_BOTTOM}
+					topMargin={MARGIN_TOP}
 					height={plotHeight}
 					plotWidth={plotWidth}
 					width={MARGIN_LEFT}
@@ -96,11 +97,12 @@ class ColumnChart extends React.PureComponent {
 					sourceName={props.xSourceName}
 
 					leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
+					topMargin={MARGIN_TOP}
 					height={MARGIN_BOTTOM}
 					plotHeight={plotHeight}
 					width={plotWidth}
 				/>
-				<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},0)`}>
+				<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
 					{barWidth >= MIN_BAR_WIDTH ? this.renderBars(data, props, xScale, yScale, innerPlotHeight) : this.renderPath(data, props, xScale, yScale, innerPlotHeight)}
 				</g>
 			</svg>
