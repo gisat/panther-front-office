@@ -15,7 +15,7 @@ class AxisY extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		scale: PropTypes.func,
-		sourceName: PropTypes.string,
+		sourcePath: PropTypes.string,
 
 		bottomMargin: PropTypes.number,
 		topMargin: PropTypes.number,

@@ -27,11 +27,11 @@ class ColumnChart extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		height: PropTypes.number,
-		keySourceName: PropTypes.string, // TODO path?
+		keySourcePath: PropTypes.string,
 		sorting: PropTypes.array,
 		width: PropTypes.number,
-		xSourceName: PropTypes.string, // TODO path?
-		ySourceName: PropTypes.string // TODO path?
+		xSourcePath: PropTypes.string,
+		ySourcePath: PropTypes.string
 	};
 
 	constructor(props) {
@@ -42,12 +42,12 @@ class ColumnChart extends React.PureComponent {
 		this.onBarOver = this.onBarOver.bind(this);
 	}
 
-	onBarOver(itemKey, x, y) {
+	onBarOver(itemKeys, x, y) {
 		let state = this.state.popup;
 
-		if (!state || state.itemKey !== itemKey || state.x !== x || state.y !== y) {
+		if (!state || !_.isEqual(state.itemKeys, itemKeys)  || state.x !== x || state.y !== y) {
 			this.setState({
-				popup: {itemKey, x, y}
+				popup: {itemKeys, x, y}
 			});
 		}
 	}
@@ -70,12 +70,12 @@ class ColumnChart extends React.PureComponent {
 		/* data preparation */
 		let data = props.sorting ? utils.sortByOrder(props.data, props.sorting) : props.data;
 
-		let maximum = _.maxBy(data, props.ySourceName)[props.ySourceName];
-		let minimum = _.minBy(data, props.ySourceName)[props.ySourceName];
+		let maximum = _.get(_.maxBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
+		let minimum = _.get(_.minBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
 		if (minimum > 0) minimum = 0; // TODO custom option - forceMinimum?
 
 		/* domain and scales */
-		let xDomain = data.map(i  => i[props.keySourceName]);
+		let xDomain = data.map(i  => _.get(i, props.keySourcePath));
 		let yDomain = [minimum, maximum];
 
 		let xScale = d3
@@ -90,8 +90,29 @@ class ColumnChart extends React.PureComponent {
 			.range([innerPlotHeight, 0]);
 
 		let barWidth = xScale.bandwidth();
+		/* gap ratio between bars */
 		if (barWidth < 10) {
 			xScale = xScale.padding(0.1);
+		}
+
+		let aggregatedData = [];
+		if (barWidth < MIN_BAR_WIDTH) {
+			let itemsInGroup = Math.ceil(MIN_BAR_WIDTH/barWidth);
+			let keys = [];
+			let originalData = [];
+			data.forEach((item, index) => {
+				keys.push(_.get(item, props.keySourcePath));
+				originalData.push(item);
+				if (index % itemsInGroup === (itemsInGroup - 1) || index === (data.length - 1)) {
+					aggregatedData.push({keys, originalData});
+					keys = [];
+					originalData = [];
+				}
+			});
+
+			// adjust domain
+			xDomain = aggregatedData.map(i  => i.keys);
+			xScale = xScale.domain(xDomain).padding(0);
 		}
 
 		return (
@@ -100,7 +121,7 @@ class ColumnChart extends React.PureComponent {
 					<AxisY
 						data={data}
 						scale={yScale}
-						sourceName={props.ySourceName}
+						sourcePath={props.ySourcePath}
 
 						bottomMargin={MARGIN_BOTTOM}
 						topMargin={MARGIN_TOP}
@@ -115,7 +136,7 @@ class ColumnChart extends React.PureComponent {
 					<AxisX
 						data={data}
 						scale={xScale}
-						sourceName={props.xSourceName}
+						sourceName={props.xSourcePath}
 
 						leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
 						topMargin={MARGIN_TOP}
@@ -124,7 +145,7 @@ class ColumnChart extends React.PureComponent {
 						width={plotWidth}
 					/>
 					<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
-						{barWidth >= MIN_BAR_WIDTH ? this.renderBars(data, props, xScale, yScale, innerPlotHeight) : this.renderPath(data, props, xScale, yScale, innerPlotHeight)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
 					</g>
 				</svg>
 				{this.state.popup ? this.renderPopup() : null}
@@ -132,31 +153,63 @@ class ColumnChart extends React.PureComponent {
 		);
 	}
 
+	renderAggregated(data, props, xScale, yScale, availableHeight, availableWidth) {
+		return (
+			<>
+				{this.renderPath(data, props, xScale, yScale, availableHeight, availableWidth)}
+				{this.renderBarsFromAggregated(data, props, xScale, yScale, availableHeight)}
+			</>
+		)
+	}
+
 	renderBars(data, props, xScale, yScale, availableHeight) {
 		return data.map((item) => {
 			return (
 				<Bar
-					itemKey={item.key}
-					key={item.key}
+					itemKeys={[_.get(item, props.keySourcePath)]}
+					key={_.get(item, props.keySourcePath)}
 					onMouseOut={this.onBarOut}
 					onMouseOver={this.onBarOver}
 					onMouseMove={this.onBarOver}
 
-					y={yScale(item[props.ySourceName])}
-					x={xScale(item[props.keySourceName])}
+					y={yScale(_.get(item, props.ySourcePath))}
+					x={xScale(_.get(item, props.keySourcePath))}
 					width={xScale.bandwidth()}
-					height={availableHeight - yScale(item[props.ySourceName])}
+					height={availableHeight - yScale(_.get(item, props.ySourcePath))}
 				/>
 			);
 		});
 	}
 
-	renderPath(data, props, xScale, yScale, availableHeight) {
+	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, availableHeight) {
+		return aggregatedData.map((group) => {
+			let firstItemFromGroup = group.originalData[0];
+
+			return (
+				<Bar
+					hidden
+					itemKeys={group.keys}
+					key={_.get(firstItemFromGroup, props.keySourcePath)}
+					onMouseOut={this.onBarOut}
+					onMouseOver={this.onBarOver}
+					onMouseMove={this.onBarOver}
+
+					y={yScale(_.get(firstItemFromGroup, props.ySourcePath))}
+					x={xScale(group.keys)}
+					width={xScale.bandwidth()}
+					height={availableHeight - yScale(_.get(firstItemFromGroup, props.ySourcePath))}
+				/>
+			);
+		});
+	}
+
+	renderPath(aggregatedData, props, xScale, yScale, availableHeight, availableWidth) {
 		return (
 			<path className="ptr-column-chart-path"
-				d={`M0 ${availableHeight} L${data.map((item) => {
-						return `${xScale(item[props.keySourceName])} ${yScale(item[props.ySourceName])}`
-					}).join(' L')}`
+				d={`M0 ${availableHeight} L${aggregatedData.map((group) => {
+						let firstValueFromGroup = _.get(group.originalData[0], props.ySourcePath);
+						return `${xScale(group.keys)} ${yScale(firstValueFromGroup)}`
+					}).join(' L')} L${availableWidth} ${availableHeight}`
 				}
 			/>
 		);
@@ -164,13 +217,31 @@ class ColumnChart extends React.PureComponent {
 
 	renderPopup() {
 		const state = this.state.popup;
-		let data = _.find(this.props.data, item => {return item[this.props.keySourceName] === state.itemKey});
-		let content = (
-			<>
-				<div>{data[this.props.xSourceName]}</div>
-				<div>{data[this.props.ySourceName]}</div>
-			</>
-		);
+		let content = null;
+
+		if (state.itemKeys.length === 1) {
+			let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === state.itemKeys[0]});
+			content = (
+				<>
+					<div>{_.get(data, this.props.xSourcePath)}</div>
+					<div>{_.get(data, this.props.ySourcePath)}</div>
+				</>
+			);
+		} else {
+			let units = [];
+			let values = [];
+			state.itemKeys.map((key) => {
+				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
+				units.push(_.get(data, this.props.xSourcePath));
+				values.push(_.get(data, this.props.ySourcePath));
+			});
+			content = (
+				<>
+					<div>{units.length < 10 ? units.join(", ") : `${units.length} items`}</div>
+					<div>{`From ${_.min(values)} to ${_.max(values)}`}</div>
+				</>
+			);
+		}
 
 		return (
 			<Popup

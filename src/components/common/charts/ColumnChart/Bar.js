@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
@@ -8,7 +9,7 @@ import '../style.scss';
 class Bar extends React.PureComponent {
 
 	static propTypes = {
-		itemKey: PropTypes.string,
+		itemKeys: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
 		onMouseOver: PropTypes.func,
@@ -16,6 +17,7 @@ class Bar extends React.PureComponent {
 		y: PropTypes.number,
 		height: PropTypes.number,
 		width: PropTypes.number,
+		hidden: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -27,21 +29,18 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseMove(e) {
-		console.log("mousemove");
 		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
 	}
 
 	onMouseOver(e) {
-		console.log("mouseover");
 		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
 	}
 
 	onMouseOut(e) {
-		console.log("mouseout");
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
 		}
@@ -49,10 +48,13 @@ class Bar extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		let classes = classnames("ptr-column-chart-bar", {
+			hidden: props.hidden
+		});
 
 		return (
-			<rect className="ptr-column-chart-bar"
-				  key={this.props.itemKey}
+			<rect className={classes}
+				  key={this.props.itemKeys[0]}
 				  onMouseOver={this.onMouseOver}
 				  onMouseMove={this.onMouseMove}
 				  onMouseOut={this.onMouseOut}

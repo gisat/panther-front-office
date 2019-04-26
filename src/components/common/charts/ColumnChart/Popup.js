@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 import '../style.scss';
 
-const WIDTH = 200;
+const WIDTH = 250;
 
 class Popup extends React.PureComponent {
 

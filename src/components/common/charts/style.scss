@@ -33,12 +33,16 @@
 /* Column chart */
 
 .ptr-column-chart {
-	border: 1px solid var(--base30);
+	border: 1px solid var(--base20);
 }
 
 .ptr-column-chart-bar {
 	fill: #9bd3cb;
 	transition: fill .3s ease-in-out;
+}
+
+.ptr-column-chart-bar.hidden {
+	fill: transparent;
 }
 
 .ptr-column-chart-bar:hover {

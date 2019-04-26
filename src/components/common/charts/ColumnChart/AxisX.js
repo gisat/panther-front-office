@@ -10,7 +10,7 @@ class AxisX extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		scale: PropTypes.func,
-		sourceName: PropTypes.string,
+		sourcePath: PropTypes.string,
 
 		leftMargin: PropTypes.number,
 		topMargin: PropTypes.number,
@@ -32,6 +32,7 @@ class AxisX extends React.PureComponent {
 					className="ptr-axis-baseline"
 					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
 				/>
+				{/*<text className="ptr-svg-text" x={0} y={325} transform="rotate(-45)">Caption</text>*/}
 			</g>
 		);
 	}
