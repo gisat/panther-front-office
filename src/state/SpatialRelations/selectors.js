@@ -93,14 +93,13 @@ const getDataSourceKeysFiltered = createSelector(
 	}
 );
 
-
 /**
  * Collect and prepare data relations grouped by layer key
  *
  * @param state {Object}
  * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
-const getDataSourcRelationsGroupedByLayerKey = createSelector(
+const getDataSourceRelationsGroupedByLayerKey = createSelector(
 	[getFilteredDataGroupedByLayerKey],
 
 	/**
@@ -127,7 +126,7 @@ const getDataSourcRelationsGroupedByLayerKey = createSelector(
  * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
 const getDataSourceKeysGroupedByLayerKey = createSelector(
-	[getDataSourcRelationsGroupedByLayerKey],
+	[getDataSourceRelationsGroupedByLayerKey],
 
 	/**
 	 * @param groupedRelations {null | Object} Relations grouped by layer key
@@ -146,11 +145,38 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 	}
 );
 
+/**
+ * Collect and prepare data sources keys grouped by layer key
+ *
+ * @param state {Object}
+ * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
+ */
+const getDataSourceRelationsForLayerKey = createSelector(
+	[
+		getDataSourceRelationsGroupedByLayerKey,
+		(state, layers) => layers, //FIXME -> create selector for layers
+		(state, layerKey) => layerKey
+	],
+
+	/**
+	 * @param groupedRelations {null | Object} Relations grouped by layer key
+	 * @return {null | Object} Data sources keys grouped by layer key
+	 */
+	(groupedRelations, layerKey) => {
+		if (groupedRelations) {
+			return groupedRelations[layerKey] || null;
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getAllData,
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
-	getDataSourcRelationsGroupedByLayerKey,
+	getDataSourceRelationsGroupedByLayerKey,
+	getDataSourceRelationsForLayerKey,
 	getFilteredData,
 	getFilteredDataGroupedByLayerKey,
 	getSubstate

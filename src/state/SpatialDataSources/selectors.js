@@ -18,7 +18,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 	[
 		getAllAsObject,
 		SpatialRelations.getDataSourceKeysGroupedByLayerKey,
-		SpatialRelations.getDataSourcRelationsGroupedByLayerKey,
+		SpatialRelations.getDataSourceRelationsGroupedByLayerKey,
 	],
 
 	/**

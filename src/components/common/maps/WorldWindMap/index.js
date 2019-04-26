@@ -12,9 +12,23 @@ const mapStateToProps = (state, props) => {
 
 	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
 	let layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : null;
+	let layers = Select.maps.getLayers(state, layersData);
+
+	let layersVectorData = layers ? layers.reduce((acc, layerData) => {
+		if(layerData.type === 'vector' && layerData.spatialRelationsData) {
+			const filter = {
+				spatialDataSourceKey: layerData.spatialDataSourceKey,
+				fidColumnName: layerData.spatialRelationsData.fidColumnName
+			};
+			acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, filter, null);	
+			return acc
+		}
+	}, {}) : null;
+
 	return {
 		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
-		layers: Select.maps.getLayers(state, layersData),
+		layers,
+		layersVectorData,
 		navigator: Select.maps.getNavigator(state, props.mapKey)
 	}
 };
@@ -36,6 +50,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onUnmount: () => {
 			dispatch(Action.maps.useClear(props.mapKey));
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
+			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));
 		},
 
 		onWorldWindNavigatorChange: (updates) => {
@@ -44,6 +59,15 @@ const mapDispatchToProps = (dispatch, props) => {
 
 		setActiveMapKey: () => {
 			dispatch(Action.maps.setActiveMapKey(props.mapKey));
+		},
+
+		loadLayerData: (layer) => {
+			const filter = {
+				spatialDataSourceKey: layer.spatialDataSourceKey,
+				fidColumnName: layer.spatialRelationsData.fidColumnName
+			};
+
+			dispatch(Action.spatialDataSources.vector.loadLayerData(filter, componentId));
 		}
 	}
 };
