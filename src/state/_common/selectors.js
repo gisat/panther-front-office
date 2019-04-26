@@ -153,6 +153,42 @@ const getByFilterOrder = (getSubstate) => {
 	);
 };
 
+const getBatchByFilterOrder = (getSubstate) => {
+	return createSelector(
+		[
+			getAllAsObject(getSubstate),
+			getIndexes(getSubstate),
+			(state, filter) => filter,
+			(state, filter, order) => order
+		],
+		(models, indexes, filter, order) => {
+			if (models && indexes) {
+				let index = commonHelpers.getIndex(indexes, filter, order);
+				if (index && index.index) {
+					let indexedModels = [];
+					for (const [key, value] of Object.entries(index.index)) {
+						if (value) {
+							let indexedModel = models[value];
+							if (indexedModel) {
+								indexedModels.push(indexedModel);
+							} else {
+								indexedModels.push(null);
+							}
+						} else {
+							indexedModels.push(null);
+						}
+					}
+					return indexedModels.length ? indexedModels : null;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 const getIndexed = (getSubstate) => { //todo proper memoization && unify with old getIndexedPage etc.
 	return createSelector(
 		[
@@ -696,6 +732,7 @@ export default {
 	getAllForActiveScope,
 
 	getByFilterOrder,
+	getBatchByFilterOrder,
 	getByKey,
 	getByKeys,
 

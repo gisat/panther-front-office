@@ -16,22 +16,18 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	constructor(options, url, onLoadEndCallback) {
 		const name = options.layerName || '';
 		super(name);
+		this.key = options.key;
 		this.filterFunction = options.filterFunction || null;
 		this.styleFunction = options.styleFunction || {};
-
-		const parser = new WorldWind.GeoJSONParser(url);
-	
-		parser.load(null, (geometry, properties) => this.shapeConfigurationCallback(geometry, properties, onLoadEndCallback), this);
 	};
 
-	shapeConfigurationCallback(geometry, properties, onLoadEndCallback) {
-		let configuration;
-		if(typeof onLoadEndCallback === 'function') {
-			configuration = onLoadEndCallback(geometry, properties)
-		}
-
-		// this.doRender(dc); //rerender layer
-		return configuration;
+	/**
+	 * 
+	 * @param {Object|Array} renderablesData - GeoJSON data
+	 */
+	setRenderables(renderablesData) {
+		const parser = new WorldWind.GeoJSONParser(renderablesData);
+		parser.load(null, null, this);
 	}
 
 	doRender(dc) {

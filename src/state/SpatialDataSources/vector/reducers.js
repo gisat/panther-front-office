@@ -62,10 +62,14 @@ export default (state = INITIAL_STATE, action) => {
 
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.ADD:
 			return common.add(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.ADD_BATCH:
+			return common.addBatch(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.ADD:
 			return common.addIndex(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.ADD_BATCH:
+			return common.addBatchIndex(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.CLEAR_ALL:
 			return common.clearIndexes(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.INDEX.CLEAR_INDEX:
@@ -76,6 +80,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.useKeysClear(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.INDEXED.REGISTER:
 			return common.registerUseIndexed(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.INDEXED_BATCH.REGISTER:
+			return common.registerBatchUseIndexed(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.VECTOR.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
 

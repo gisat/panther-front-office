@@ -218,6 +218,24 @@ const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 	}
 };
 
+const useIndexedBatch = (dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
+	return (filterByActive, filter, order, componentId, key) => {
+		return (dispatch, getState) => {
+			dispatch(actionUseIndexedBatchRegister(actionTypes, componentId, filterByActive, filter, order));
+			let state = getState();
+			let fullFilter = commonHelpers.mergeFilters({
+				activeApplicationKey: state.app.key,
+				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
+				activePeriodKey: commonSelectors.getActiveKey(state => state.periods)(state),
+				activePeriodKeys: commonSelectors.getActiveKeys(state => state.periods)(state),
+				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
+				activePlaceKeys: commonSelectors.getActiveKeys(state => state.places)(state),
+			}, filterByActive, filter);
+			return dispatch(ensureIndexedBatch(dataType, fullFilter, order, actionTypes, categoryPath, key));
+		};
+	}
+};
+
 const setActiveKeyAndEnsureDependencies = (actionTypes, filterKey) => {
 	return key => {
 		return dispatch => {
@@ -249,7 +267,19 @@ function receiveIndexed(actionTypes, result, dataType, filter, order, start) {
 			}
 
 			// add to index
-			dispatch(actionAddIndex(actionTypes, filter, order, result.total, start, result.data[dataType], result.changes[dataType]));
+			dispatch(actionAddIndex(actionTypes, filter, order, result.total, start, result.data[dataType], result.changes && result.changes[dataType]));
+		}
+}
+
+function receiveIndexedBatch(actionTypes, result, dataType, filter, order, key) {
+		return dispatch => {
+			// add data to store
+			if (result.data[dataType].length){
+				dispatch(actionAddBatch(actionTypes, result.data[dataType], key));
+			}
+
+			// add to index
+			dispatch(actionAddBatchIndex(actionTypes, filter, order, result.data[dataType], key));
 		}
 }
 
@@ -418,6 +448,16 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 	};
 }
 
+function ensureIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key) {
+	return (dispatch) => {
+		return dispatch(loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath, key)).then((response) => {
+				//success
+			}).catch((err)=>{
+				throw new Error(`_common/actions#ensure: ${err}`);
+		});
+	};
+}
+
 function loadKeysPage(dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return dispatch => {
 		const apiPath = getAPIPath(categoryPath, dataType);
@@ -462,6 +502,29 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 					throw new Error('Index outdated');
 				} else {
 					dispatch(receiveIndexed(actionTypes, result, dataType, filter, order, start));
+				}
+			})
+			.catch(error => {
+				dispatch(actionGeneralError(error));
+				return error;
+			});
+	};
+}
+
+function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key) {
+	return dispatch => {
+		const apiPath = getAPIPath(categoryPath, dataType);
+
+		let payload = {
+			filter: {...filter},
+			order: order
+		};
+		return request(apiPath, 'POST', null, payload)
+			.then(result => {
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					throw new Error(result.errors[dataType] || 'no data');
+				} else {
+					dispatch(receiveIndexedBatch(actionTypes, result, dataType, filter, order, key));
 				}
 			})
 			.catch(error => {
@@ -714,6 +777,15 @@ function actionAdd(actionTypes, data) {
 	return action(actionTypes, 'ADD', {data});
 }
 
+function actionAddBatch(actionTypes, data, key) {
+	if (!_.isArray(data)) data = [data];
+	const payload = {
+		data,
+		key //FIXME - key should be union of filter and key?
+	}
+	return action(actionTypes, 'ADD_BATCH', payload);
+}
+
 function actionAddUnreceivedKeys(actionTypes, keys) {
 	if (!_.isArray(keys)) keys = [keys];
 	return action(actionTypes, 'ADD_UNRECEIVED', {keys});
@@ -721,6 +793,10 @@ function actionAddUnreceivedKeys(actionTypes, keys) {
 
 function actionAddIndex(actionTypes, filter, order, count, start, data, changedOn) {
 	return action(actionTypes, 'INDEX.ADD', {filter, order, count, start, data, changedOn});
+}
+
+function actionAddBatchIndex(actionTypes, filter, order, data, key) {
+	return action(actionTypes, 'INDEX.ADD_BATCH', {filter, order, data, key});
 }
 
 /**
@@ -765,6 +841,10 @@ function actionRemovePropertyFromEdited(actionTypes, key, property) {
 
 function actionUseIndexedRegister(actionTypes, componentId, filterByActive, filter, order, start, length) {
 	return action(actionTypes, 'USE.INDEXED.REGISTER', {componentId, filterByActive, filter, order, start, length});
+}
+
+function actionUseIndexedBatchRegister(actionTypes, componentId, filterByActive, filter, order) {
+	return action(actionTypes, 'USE.INDEXED_BATCH.REGISTER', {componentId, filterByActive, filter, order});
 }
 
 function actionUseIndexedClear(actionTypes, componentId) {
@@ -816,6 +896,7 @@ export default {
 	ensureKeys,
 	loadAll,
 	loadFiltered,
+	useIndexedBatch,
 	loadIndexedPage,
 	loadKeysPage,
 	setActiveKey: creator(actionSetActiveKey),
@@ -840,3 +921,15 @@ export default {
 	actionDataSetOutdated,
 	actionSetActiveKey
 }
+
+// useIndexedBatch
+// ensureIndexedBatch
+// actionUseIndexedBatchRegister
+// loadIndexedBatch
+// receiveIndexedBatch
+//actionAddBatchIndex
+
+//reducer
+// - USE.INDEXED_BATCH.REGISTER
+// - INDEX.ADD_BATCH
+// - ADD_BATCH

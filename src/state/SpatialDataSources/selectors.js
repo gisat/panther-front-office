@@ -17,7 +17,8 @@ const getAllAsObject = common.getAllAsObject(getSubstate);
 const getFilteredGroupedByLayerKey = createSelector(
 	[
 		getAllAsObject,
-		SpatialRelations.getDataSourceKeysGroupedByLayerKey
+		SpatialRelations.getDataSourceKeysGroupedByLayerKey,
+		SpatialRelations.getDataSourceRelationsGroupedByLayerKey,
 	],
 
 	/**
@@ -25,14 +26,14 @@ const getFilteredGroupedByLayerKey = createSelector(
 	 * @param groupedKeys {null | Object} Data sources keys grouped by layer key
 	 * @return {null | Object} Data sources grouped by layer key
 	 */
-	(dataSources, groupedKeys) => {
+	(dataSources, groupedKeys, groupedRelations) => {
 		if (groupedKeys) {
 			let groupedSources = {};
 			_.forIn(groupedKeys, (keys, layerKey) => {
 				let sources = [];
 				keys.forEach(key => {
-					if (key && dataSources && !_.isEmpty(dataSources) && dataSources[key]) {
-						sources.push(dataSources[key]);
+					if (key && dataSources && !_.isEmpty(dataSources) && dataSources[key] && !_.isEmpty(groupedRelations) && groupedRelations[layerKey]) {
+						sources.push({...dataSources[key], spatialRelationData: _.find(groupedRelations[layerKey], o => o.spatialDataSourceKey === key) || null});
 					} else {
 						sources.push(null);
 					}

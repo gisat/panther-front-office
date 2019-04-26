@@ -8,6 +8,7 @@ const getSubstate = state => state.spatialVectorDataSources;
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getByKey = common.getByKey(getSubstate);
+const getBatchByFilterOrder = common.getBatchByFilterOrder(getSubstate);
 const getDataByKey = common.getDataByKey(getSubstate);
 
 const getEditedFeatures = state => state.spatialDataSources.vector.editedFeaturesBySourceKey;
@@ -28,6 +29,7 @@ export default {
 	noMemoGetEditedFeaturesBySourceKey: noMemoGetEditedFeaturesBySourceKey,
 	noMemoGetSelectedFeaturesBySourceKey: noMemoGetSelectedFeaturesBySourceKey,
 	
+	getBatchByFilterOrder,
 	getSubstate,
 	getEditedFeatures: getEditedFeatures,
 	getAll,

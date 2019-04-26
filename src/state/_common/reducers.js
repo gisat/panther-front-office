@@ -29,6 +29,18 @@ export default {
 		return {...state, byKey: newData}
 	},
 
+	addBatch: (state, action) => {
+		let newData = {...state.byKey};
+		if (action.data && action.data.length) {
+			action.data.forEach(model => {
+				newData[model[action.key]] = {...newData[model[action.key]], ...model};
+				delete newData[model[action.key]].outdated;
+				delete newData[model[action.key]].unreceived;
+			});
+		}
+		return {...state, byKey: newData}
+	},
+
 	addUnreceivedKeys: (state, action) => {
 		let newData = {...state.byKey};
 		if (action.keys && action.keys.length) {
@@ -73,6 +85,38 @@ export default {
 		return {...state, indexes: indexes};
 	},
 
+	addBatchIndex: (state, action) => {
+		let indexes = [];
+		let selectedIndex = {};
+
+		if (state.indexes){
+			state.indexes.forEach(index => {
+				if (_.isEqual(index.filter, action.filter) && _.isEqual(index.order, action.order)){
+					selectedIndex = index;
+				} else {
+					indexes.push(index);
+				}
+			});
+		}
+
+		let index;
+		if (action.data.length){
+			index = {...selectedIndex.index};
+			action.data.forEach((model, i) => {
+				index[i] = model[action.key];
+			});
+		}
+
+		selectedIndex = {
+			filter: selectedIndex.filter || action.filter,
+			order: selectedIndex.order || action.order,
+			index: index || selectedIndex.index
+		};
+		indexes.push(selectedIndex);
+
+		return {...state, indexes: indexes};
+	},
+
 	registerUseIndexed: (state, action) => {
 		let newUse = {
 			filterByActive: action.filterByActive,
@@ -80,6 +124,37 @@ export default {
 			order: action.order,
 			start: action.start,
 			length: action.length
+		};
+
+		let existingUse = false;
+		if (state.inUse.indexes && state.inUse.indexes[action.componentId]) {
+			existingUse = _.find(state.inUse.indexes[action.componentId], newUse);
+		}
+
+		// add use if it doesn't already exist
+		if (!existingUse) {
+			return {...state,
+				inUse: {
+					...state.inUse,
+					indexes: {
+						...state.inUse.indexes,
+						[action.componentId]: (
+							(state.inUse.indexes && state.inUse.indexes[action.componentId]) ?
+								[...state.inUse.indexes[action.componentId], newUse] : [newUse]
+						)
+					}
+				}
+			};
+		} else {
+			return state;
+		}
+	},
+
+	registerBatchUseIndexed: (state, action) => {
+		let newUse = {
+			filterByActive: action.filterByActive,
+			filter: action.filter,
+			order: action.order,
 		};
 
 		let existingUse = false;

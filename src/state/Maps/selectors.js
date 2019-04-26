@@ -220,6 +220,8 @@ const getLayers = createSelector(
 							key += `-${source.key}`;
 							layersForMap.push({
 								...source.data,
+								spatialDataSourceKey: source.key,
+								spatialRelationsData: source.spatialRelationData,
 								key,
 								mapServerConfig
 							});

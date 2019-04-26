@@ -130,7 +130,7 @@ function getVectorLayer(layerData) {
 		key: layerData.key,
 		layerName: layerData.layerName,
 		...layerData,
-		filterFunction: (renderable) => renderable.userProperties.NAME_2 === 'Ain',
+		// filterFunction: (renderable) => renderable.userProperties.NAME_2 === 'Ain',
 		styleFunction: (renderable) => {
 			let attributes = new ShapeAttributes();
 			attributes.interiorColor = new Color(0.5,0.5,0.5,1);

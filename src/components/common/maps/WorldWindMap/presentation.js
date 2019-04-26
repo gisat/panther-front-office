@@ -9,6 +9,9 @@ import WorldWind from 'webworldwind-esa';
 import layers from './layers/helpers';
 import navigator from './navigator/helpers';
 
+import ExtendedRenderableLayer from './layers/ExtendedGeoJsonLayer';
+import {defaultVectorStyle} from "./layers/utils/vectorStyle";
+
 import Attribution from './Attribution/Attribution';
 
 import './style.css'
@@ -21,11 +24,13 @@ class WorldWindMap extends React.PureComponent {
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
 		layers: PropTypes.array,
+		layersVectorData: PropTypes.object,
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
 		onWorldWindNavigatorChange: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
-		delayedWorldWindNavigatorSync: PropTypes.number
+		delayedWorldWindNavigatorSync: PropTypes.number,
+		loadLayerData: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -48,7 +53,7 @@ class WorldWindMap extends React.PureComponent {
 
 		if (this.props.layers || this.props.layers === null) {
 			const layers = this.props.layers || [];
-			this.handleLayers(layers);
+			this.handleLayers(layers, this.props.layersVectorData);
 		}
 }
 
@@ -63,9 +68,15 @@ class WorldWindMap extends React.PureComponent {
 			}
 
 			//check if already in map?
-			if (!isEqual(prevProps.layers, this.props.layers)) {
+			if (!isEqual(prevProps.layers, this.props.layers) || !isEqual(prevProps.layersVectorData, this.props.layersVectorData)) {
 				const layers = this.props.layers || [];
-				this.handleLayers(layers);
+				this.handleLayers(layers, this.props.layersVectorData);
+			}
+
+			//check if new data comes
+			if (!isEqual(prevProps.layersVectorData, this.props.layersVectorData)) {
+				const layers = this.props.layers || [];
+				this.handleVectorData(layers, this.props.layersVectorData);
 			}
 		}
 	}
@@ -104,20 +115,27 @@ class WorldWindMap extends React.PureComponent {
 		
 	}
 
-	handleLayers(nextLayersData = []) {
+	handleLayers(nextLayersData = [], layersVectorData) {
 		let nextLayers = [];
-		nextLayersData.forEach(data => {
-			let existingLayer = layers.findLayerByKey(this.wwd, data.key);
+		nextLayersData.forEach(layerData => {
+			let existingLayer = layers.findLayerByKey(this.wwd, layerData.key);
 			if (existingLayer){
 				nextLayers.push(existingLayer);
 			} else {
-				let layer = layers.getLayerByType(data);
+				if(layerData.type === 'vector') {
+					//FIXME - prevent load more times
+					//add loading info
+					const layersVectorDataLaded = layersVectorData && layerData && layerData.spatialRelationsData && layersVectorData[layerData.key];					
+					if(!layersVectorDataLaded) {
+						this.props.loadLayerData(layerData);
+					}
+				}
+				let layer = layers.getLayerByType(layerData);
 				if (layer){
 					nextLayers.push(layer);
 				}
 			}
 		});
-
 		// add background layer
 		if (this.props.backgroundLayer) {
 			let backgroundLayer = this.wwd.layers.slice(0, this.props.backgroundLayer.length);
@@ -132,6 +150,28 @@ class WorldWindMap extends React.PureComponent {
 
 		this.wwd.layers = nextLayers;
 		this.wwd.redraw();
+	}
+
+	handleVectorData(LayersData = [], layersVectorData = {}) {
+		for (const [key, data] of Object.entries(layersVectorData)) {
+			const layer = LayersData.find(l => l.key === key);
+			let existingLayer = layers.findLayerByKey(this.wwd, key);
+
+			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer) {
+				if(data && data.length > 0) {
+					const dataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
+					//merge with attributes
+					existingLayer.setRenderables(dataSourceData.spatialData, defaultVectorStyle);
+				} else {
+					//Data are empty, set empty GoeJSON as renderable
+					const emptyGeoJSON = {
+						"type": "FeatureCollection",
+						"features": []
+					}
+					existingLayer.setRenderables(emptyGeoJSON);
+				}
+			}
+		}
 	}
 
 	/**
