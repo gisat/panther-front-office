@@ -8,6 +8,8 @@ import utils from "../../../../utils/sort";
 
 import AxisX from './AxisX';
 import AxisY from "./AxisY";
+import Bar from "./Bar";
+import Popup from "./Popup";
 
 const MIN_BAR_WIDTH = 4;
 const BAR_GAP_RATIO = 0.4;
@@ -34,6 +36,24 @@ class ColumnChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+		this.state = {popup: null};
+
+		this.onBarOut = this.onBarOut.bind(this);
+		this.onBarOver = this.onBarOver.bind(this);
+	}
+
+	onBarOver(itemKey, x, y) {
+		let state = this.state.popup;
+
+		if (!state || state.itemKey !== itemKey || state.x !== x || state.y !== y) {
+			this.setState({
+				popup: {itemKey, x, y}
+			});
+		}
+	}
+
+	onBarOut() {
+		this.setState({popup: null});
 	}
 
 	// TODO axis orientation
@@ -75,47 +95,55 @@ class ColumnChart extends React.PureComponent {
 		}
 
 		return (
-			<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height}>
-				<AxisY
-					data={data}
-					scale={yScale}
-					sourceName={props.ySourceName}
+			<div className="ptr-chart-wrapper">
+				<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height} onMouseMove={this.onMouseOver}>
+					<AxisY
+						data={data}
+						scale={yScale}
+						sourceName={props.ySourceName}
 
-					bottomMargin={MARGIN_BOTTOM}
-					topMargin={MARGIN_TOP}
-					height={plotHeight}
-					plotWidth={plotWidth}
-					width={MARGIN_LEFT}
+						bottomMargin={MARGIN_BOTTOM}
+						topMargin={MARGIN_TOP}
+						height={plotHeight}
+						plotWidth={plotWidth}
+						width={MARGIN_LEFT}
 
-					// ticks
-					gridlines
-					hiddenBaseline
-				/>
-				<AxisX
-					data={data}
-					scale={xScale}
-					sourceName={props.xSourceName}
+						// ticks
+						gridlines
+						hiddenBaseline
+					/>
+					<AxisX
+						data={data}
+						scale={xScale}
+						sourceName={props.xSourceName}
 
-					leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
-					topMargin={MARGIN_TOP}
-					height={MARGIN_BOTTOM}
-					plotHeight={plotHeight}
-					width={plotWidth}
-				/>
-				<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
-					{barWidth >= MIN_BAR_WIDTH ? this.renderBars(data, props, xScale, yScale, innerPlotHeight) : this.renderPath(data, props, xScale, yScale, innerPlotHeight)}
-				</g>
-			</svg>
+						leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
+						topMargin={MARGIN_TOP}
+						height={MARGIN_BOTTOM}
+						plotHeight={plotHeight}
+						width={plotWidth}
+					/>
+					<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
+						{barWidth >= MIN_BAR_WIDTH ? this.renderBars(data, props, xScale, yScale, innerPlotHeight) : this.renderPath(data, props, xScale, yScale, innerPlotHeight)}
+					</g>
+				</svg>
+				{this.state.popup ? this.renderPopup() : null}
+			</div>
 		);
 	}
 
 	renderBars(data, props, xScale, yScale, availableHeight) {
 		return data.map((item) => {
 			return (
-				<rect className="ptr-column-chart-bar"
+				<Bar
+					itemKey={item.key}
+					key={item.key}
+					onMouseOut={this.onBarOut}
+					onMouseOver={this.onBarOver}
+					onMouseMove={this.onBarOver}
+
 					y={yScale(item[props.ySourceName])}
 					x={xScale(item[props.keySourceName])}
-					key={item.key}
 					width={xScale.bandwidth()}
 					height={availableHeight - yScale(item[props.ySourceName])}
 				/>
@@ -131,6 +159,27 @@ class ColumnChart extends React.PureComponent {
 					}).join(' L')}`
 				}
 			/>
+		);
+	}
+
+	renderPopup() {
+		const state = this.state.popup;
+		let data = _.find(this.props.data, item => {return item[this.props.keySourceName] === state.itemKey});
+		let content = (
+			<>
+				<div>{data[this.props.xSourceName]}</div>
+				<div>{data[this.props.ySourceName]}</div>
+			</>
+		);
+
+		return (
+			<Popup
+				x={state.x}
+				y={state.y}
+				maxX={this.props.width}
+			>
+				{content}
+			</Popup>
 		);
 	}
 }

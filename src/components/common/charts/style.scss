@@ -7,8 +7,27 @@
 	align-items: center;
 }
 
-.ptr-chart {
+.ptr-chart-wrapper {
+	position: relative;
 	margin-bottom: 1rem;
+}
+
+.ptr-chart {
+}
+
+.ptr-chart-popup {
+	position: absolute;
+	background: rgba(var(--base0rgb), .85);
+	z-index: 1;
+	padding: .35rem;
+	border: 1px solid var(--base30);
+	box-shadow: 0 5px 7px 0 rgba(var(--base100rgb), 0.25);
+	font-size: $b1;
+	color: var(--base80);
+}
+
+.ptr-chart-popup > div:first-child {
+	font-weight: bold;
 }
 
 /* Column chart */
@@ -47,8 +66,9 @@
 	font-size: $b1;
 }
 
-.svg-text {
-	width: 20px;
-	overflow: hidden;
+.ptr-svg-text {
+	fill: var(--base45);
+	font-size: $b1;
+	text-anchor: end;
 }
 
