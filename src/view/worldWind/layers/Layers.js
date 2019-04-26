@@ -518,6 +518,7 @@ class Layers {
             opacity: layerData.opacity / 100,
             format: "image/png",
             size: 256,
+            styleNames: styles.join(','),
             version: "1.1.0"
         }, null);
         layer.urlBuilder.wmsVersion = "1.1.0";
