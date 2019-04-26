@@ -509,6 +509,7 @@ export const commonActionTypesDefinitions = {
 		},
 		VECTOR: {
 			ADD: null,
+			ADD_BATCH: null,
 			ADD_UNRECEIVED: null,
 			ENSURE: {
 				ERROR: null
@@ -516,7 +517,8 @@ export const commonActionTypesDefinitions = {
 			INDEX: {
 				ADD: null,
 				CLEAR_INDEX: null,
-				CLEAR_ALL: null
+				CLEAR_ALL: null,
+				ADD_BATCH: null
 			},
 			LOAD: {
 				ERROR: null,
@@ -529,6 +531,9 @@ export const commonActionTypesDefinitions = {
 				},
 				KEYS: {
 					CLEAR: null,
+					REGISTER: null
+				},
+				INDEXED_BATCH: {
 					REGISTER: null
 				}
 			}

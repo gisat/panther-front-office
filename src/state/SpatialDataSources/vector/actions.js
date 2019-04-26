@@ -17,6 +17,7 @@ const TTL = 3;
 const useKeys = common.useKeys(Select.spatialDataSources.vector.getSubstate, 'spatial', ActionTypes.SPATIAL_DATA_SOURCES.VECTOR, 'data');
 const useKeysClear = common.useKeysClear(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
 const useIndexed = common.useIndexed(Select.spatialDataSources.vector.getSubstate, 'spatial', ActionTypes.SPATIAL_DATA_SOURCES.VECTOR, 'data');
+const useIndexedBatch = common.useIndexedBatch('spatial', ActionTypes.SPATIAL_DATA_SOURCES.VECTOR, 'data');
 const useIndexedClear = common.useIndexedClear(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
 const clearIndex = common.clearIndex(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
 
@@ -272,6 +273,12 @@ function updateFeatures(dataSourceKey, featureKeys) { //todo
 	};
 }
 
+function loadLayerData(filter, componentId) {
+	return (dispatch, getState) => {
+		return dispatch(useIndexedBatch(null, filter, null, componentId, 'spatialDataSourceKey'));
+	}
+}
+
 // ============ actions ===========
 
 
@@ -334,6 +341,7 @@ export default {
 	updateSelectedFeatures: updateSelectedFeatures,
 	loadFeaturesForPointAndSelect,
 
+	loadLayerData,
 	useKeys,
 	useKeysClear,
 	useIndexed,
