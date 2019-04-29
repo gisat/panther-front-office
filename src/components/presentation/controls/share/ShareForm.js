@@ -9,7 +9,7 @@ const LANGUAGES = [
 
 const getSelect = (items, selected, name, onChange, defaultEmpty = false) => {
     const options = items.map((item) => {
-        return <option value={item.key} key={item.key}>{item.name || item.data.name}</option>;
+        return <option value={item.key} key={item.key} identifier={item.identifier}>{item.name || item.data.name}</option>;
     });
 
     if (defaultEmpty) {
@@ -93,7 +93,7 @@ class ShareForm extends React.PureComponent {
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const title = target.type.includes('select') ? event.target.options[event.target.selectedIndex].text : null;
+        const title = target.type.includes('select') ? event.target.options[event.target.selectedIndex].getAttribute('identifier') : null;
         const name = target.name;
     
         this.setState({
