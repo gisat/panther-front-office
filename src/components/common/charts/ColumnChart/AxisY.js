@@ -19,7 +19,7 @@ class AxisY extends React.PureComponent {
 
 		bottomMargin: PropTypes.number,
 		topMargin: PropTypes.number,
-		height: PropTypes.bool,
+		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		width: PropTypes.number,
 
@@ -64,7 +64,7 @@ class AxisY extends React.PureComponent {
 					// avoid too top grid lines
 					if (yCoord > 20) {
 						return (
-							<>
+							<g key={value}>
 								<line
 									className="ptr-axis-gridline"
 									x1={TICK_CAPTION_OFFSET_VERTICAL}
@@ -80,7 +80,7 @@ class AxisY extends React.PureComponent {
 								>
 									{value}
 								</text>
-							</>
+							</g>
 						)
 					} else {
 						return null;
