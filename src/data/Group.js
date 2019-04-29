@@ -15,6 +15,9 @@ class Group extends Model {
             name: {
                 serverName: 'name'
             },
+            identifier: {
+                serverName: 'identifier'
+            },
             permissions: {
                 serverName: 'permissions'
             },
