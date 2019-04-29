@@ -10,15 +10,22 @@ import AxisX from './AxisX';
 import AxisY from "./AxisY";
 import Bar from "./Bar";
 import Popup from "./Popup";
+import ChartWrapper from "../ChartWrapper/ChartWrapper";
 
 const MIN_BAR_WIDTH = 4;
 const BAR_GAP_RATIO = 0.4;
 
-const MARGIN_LEFT = 70;
-const MARGIN_RIGHT = 10;
-const MARGIN_BOTTOM = 20; // TODO xAxis caption
-const MARGIN_TOP = 20;
+const WIDTH = 500;
+const HEIGHT = 250;
 
+const MIN_WIDTH = 300;
+const MAX_WIDTH = 700;
+
+// TODO optional
+const MARGIN_LEFT = 80;
+const MARGIN_RIGHT = 35;
+const MARGIN_BOTTOM = 25; // TODO xAxis caption
+const MARGIN_TOP = 15;
 const PADDING_LEFT = 10;
 const PADDING_RIGHT = 10;
 
@@ -30,6 +37,8 @@ class ColumnChart extends React.PureComponent {
 		keySourcePath: PropTypes.string,
 		sorting: PropTypes.array,
 		width: PropTypes.number,
+		minWidth: PropTypes.number,
+		maxWidth: PropTypes.number,
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string
 	};
@@ -61,11 +70,19 @@ class ColumnChart extends React.PureComponent {
 		const props = this.props;
 
 		/* dimensions */
-		// TODO custom?
-		const plotWidth = props.width - (MARGIN_LEFT + MARGIN_RIGHT);
-		const plotHeight = props.height - (MARGIN_TOP + MARGIN_BOTTOM);
-		const innerPlotWidth = plotWidth - (PADDING_LEFT + PADDING_RIGHT);
-		const innerPlotHeight = plotHeight;
+		let width = props.width ? props.width : WIDTH;
+		let height = props.height ? props.height : HEIGHT;
+
+		let minWidth = props.minWidth ? props.minWidth : MIN_WIDTH;
+		let maxWidth = props.maxWidth ? props.maxWidth: MAX_WIDTH;
+
+		if (width > maxWidth) width = maxWidth;
+		if (width < minWidth) width = minWidth;
+
+		let plotWidth = width - (MARGIN_LEFT + MARGIN_RIGHT);
+		let plotHeight = height - (MARGIN_TOP + MARGIN_BOTTOM);
+		let innerPlotWidth = plotWidth - (PADDING_LEFT + PADDING_RIGHT);
+		let innerPlotHeight = plotHeight;
 
 		/* data preparation */
 		let data = props.sorting ? utils.sortByOrder(props.data, props.sorting) : props.data;
@@ -95,6 +112,7 @@ class ColumnChart extends React.PureComponent {
 			xScale = xScale.padding(0.1);
 		}
 
+		/* aggregation, if needed */
 		let aggregatedData = [];
 		if (barWidth < MIN_BAR_WIDTH) {
 			let itemsInGroup = Math.ceil(MIN_BAR_WIDTH/barWidth);
@@ -117,7 +135,7 @@ class ColumnChart extends React.PureComponent {
 
 		return (
 			<>
-				<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height} onMouseMove={this.onMouseOver}>
+				<svg className="ptr-chart ptr-column-chart" width={width} height={height} onMouseMove={this.onMouseOver}>
 					<AxisY
 						data={data}
 						scale={yScale}
@@ -148,7 +166,7 @@ class ColumnChart extends React.PureComponent {
 						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
 					</g>
 				</svg>
-				{this.state.popup ? this.renderPopup() : null}
+				{this.state.popup ? this.renderPopup(width) : null}
 			</>
 		);
 	}
@@ -215,7 +233,7 @@ class ColumnChart extends React.PureComponent {
 		);
 	}
 
-	renderPopup() {
+	renderPopup(maxX) {
 		const state = this.state.popup;
 		let content = null;
 
@@ -247,7 +265,7 @@ class ColumnChart extends React.PureComponent {
 			<Popup
 				x={state.x}
 				y={state.y}
-				maxX={this.props.width}
+				maxX={maxX}
 			>
 				{content}
 			</Popup>

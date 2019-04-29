@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import ReactResizeDetector from 'react-resize-detector';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
@@ -34,7 +35,12 @@ class ChartWrapper extends React.PureComponent {
 						</div>
 					</div>
 				</div>
-				<div className="ptr-chart-wrapper-content">{this.props.children}</div>
+				<div className="ptr-chart-wrapper-content">
+					<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
+						React.cloneElement(this.props.children, {width})
+					)}>
+					</ReactResizeDetector>
+				</div>
 			</div>
 		);
 	}

@@ -102,10 +102,10 @@ class WindowsContainer extends React.PureComponent {
 			return order.map((windowKey, index) => {
 				let window = this.props.windows[windowKey];
 
-				if (window.data.component) {
+				if (window.data.component && typeof window.data.component === "function") {
 					return this.renderWindow(window.key, index, window.data.settings, React.createElement(window.data.component, {...window.data.props}));
 				} else {
-					return this.renderWindow(window.key, index, window.data.settings, null);
+					return this.renderWindow(window.key, index, window.data.settings, React.cloneElement(window.data.component));
 				}
 			});
 		} else {

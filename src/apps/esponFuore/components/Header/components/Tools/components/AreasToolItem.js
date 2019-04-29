@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
+import React from 'react';
 import _ from 'lodash';
 
 import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 
-import Button from '../../../../../../../components/common/atoms/Button'
-
 import presentation from "./ToolItem";
+import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
+import ChartWrapper from "../../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
+import sample_50 from "../../../../../../../components/common/charts/mockData/sample_50";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -14,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 	}
 };
 
+// TODO change components. Charts just for testing
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		closeWindow: () => {
@@ -25,10 +28,23 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.itemKey,
 				{
 					title: 'Areas',
-					icon: 'map-pin'
+					icon: 'map-pin',
+					width: 600,
+					maxWidth: 1000,
+					height: 500
 				},
-				Button,
-				null)
+				(
+					<ChartWrapper title="Extraordinary looooooooooooooong unusual specific column chart title">
+						<ColumnChart
+							key="test7"
+							data={sample_50}
+							keySourcePath="key"
+							xSourcePath="data.name"
+							ySourcePath="data.some_value_1"
+							sorting={[["data.some_value_1", "desc"]]}
+						/>
+					</ChartWrapper>
+				))
 			);
 		}
 	}
