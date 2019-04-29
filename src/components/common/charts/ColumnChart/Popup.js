@@ -22,10 +22,14 @@ class Popup extends React.PureComponent {
 	render() {
 		let x = this.props.x + 15;
 
+		// positioning
 		if ((x + WIDTH) > this.props.maxX) {
 			x = this.props.x - WIDTH - 5;
 		}
 
+		if (x < 0) {
+			x = this.props.x - WIDTH/2;
+		}
 
 		let style = {
 			top: this.props.y + 15,
