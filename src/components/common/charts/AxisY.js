@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
-import '../style.scss';
+import './style.scss';
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 5; // TODO optional?
@@ -47,7 +47,7 @@ class AxisY extends React.PureComponent {
 		return (
 			<path
 				className="ptr-axis-baseline"
-				d={`M${this.props.width} ${this.props.height} L${this.props.width} 0`}
+				d={`M${this.props.width} ${this.props.height + this.props.topMargin} L${this.props.width} ${this.props.topMargin}`}
 			/>
 		);
 	}

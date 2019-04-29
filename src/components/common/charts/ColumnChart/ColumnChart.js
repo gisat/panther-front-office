@@ -6,10 +6,10 @@ import * as d3 from 'd3';
 import '../style.scss';
 import utils from "../../../../utils/sort";
 
-import AxisX from './AxisX';
-import AxisY from "./AxisY";
+import AxisX from '../AxisX';
+import AxisY from "../AxisY";
 import Bar from "./Bar";
-import Popup from "./Popup";
+import Popup from "../Popup";
 import ChartWrapper from "../ChartWrapper/ChartWrapper";
 
 const MIN_BAR_WIDTH = 4;
@@ -147,20 +147,26 @@ class ColumnChart extends React.PureComponent {
 						plotWidth={plotWidth}
 						width={MARGIN_LEFT}
 
-						// ticks
+						ticks
 						gridlines
-						hiddenBaseline
+						// hiddenBaseline
 					/>
 					<AxisX
 						data={data}
 						scale={xScale}
-						sourceName={props.xSourcePath}
+						domain={xDomain}
+						sourcePath={props.xSourcePath}
+						keySourcePath={props.keySourcePath}
 
 						leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
 						topMargin={MARGIN_TOP}
+						leftPadding={PADDING_LEFT}
 						height={MARGIN_BOTTOM}
 						plotHeight={plotHeight}
 						width={plotWidth}
+
+						// ticks
+						gridlines
 					/>
 					<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
 						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
