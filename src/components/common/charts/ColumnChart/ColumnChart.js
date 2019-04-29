@@ -16,8 +16,8 @@ const BAR_GAP_RATIO = 0.4;
 
 const MARGIN_LEFT = 70;
 const MARGIN_RIGHT = 10;
-const MARGIN_BOTTOM = 70;
-const MARGIN_TOP = 10;
+const MARGIN_BOTTOM = 20; // TODO xAxis caption
+const MARGIN_TOP = 20;
 
 const PADDING_LEFT = 10;
 const PADDING_RIGHT = 10;
@@ -116,7 +116,7 @@ class ColumnChart extends React.PureComponent {
 		}
 
 		return (
-			<div className="ptr-chart-wrapper">
+			<>
 				<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height} onMouseMove={this.onMouseOver}>
 					<AxisY
 						data={data}
@@ -149,7 +149,7 @@ class ColumnChart extends React.PureComponent {
 					</g>
 				</svg>
 				{this.state.popup ? this.renderPopup() : null}
-			</div>
+			</>
 		);
 	}
 

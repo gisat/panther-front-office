@@ -15,6 +15,7 @@ import ColumnChart from "../../../../components/common/charts/ColumnChart/Column
 
 import sample_50 from "../../../../components/common/charts/mockData/sample_50.json";
 import sample_200 from "../../../../components/common/charts/mockData/sample_200.json";
+import ChartWrapper from "../../../../components/common/charts/ChartWrapper/ChartWrapper";
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -73,9 +74,10 @@ class EsponFuoreApp extends React.PureComponent {
 									{
 										width: "35rem",
 										render: props => (
-											<div onClick={this.onChartsClick.bind(this)} onContextMenu={this.onChartsRightClick.bind(this)}>
-												<ChartsContainer>
-													<h3>50</h3>
+											<ChartsContainer>
+												<ChartWrapper
+													title="Specific column chart title"
+												>
 													<ColumnChart
 														key="test3"
 														width={this.state.chartsWidth}
@@ -86,7 +88,10 @@ class EsponFuoreApp extends React.PureComponent {
 														ySourcePath="data.some_value_1"
 														sorting={[["data.some_value_1", "desc"]]}
 													/>
-													<h3>200</h3>
+												</ChartWrapper>
+												<ChartWrapper
+													title="Extraordinary looooooooooooooong unusual specific column chart title"
+												>
 													<ColumnChart
 														key="test7"
 														width={this.state.chartsWidth}
@@ -97,8 +102,8 @@ class EsponFuoreApp extends React.PureComponent {
 														ySourcePath="data.some_value_1"
 														sorting={[["data.some_value_1", "desc"]]}
 													/>
-												</ChartsContainer>
-											</div>
+												</ChartWrapper>
+											</ChartsContainer>
 											)
 									},
 								]}

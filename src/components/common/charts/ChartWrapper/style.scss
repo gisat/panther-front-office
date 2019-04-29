@@ -1,0 +1,38 @@
+@import '../../../../styles/variables';
+
+.ptr-chart-wrapper {
+	position: relative;
+	margin-bottom: m(1);
+	border-radius: .2rem;
+	width: 100%;
+	background: var(--base0);
+}
+
+.ptr-chart-wrapper-header {
+	display: flex;
+	height: m(5/3);
+	color: var(--base70);
+}
+
+.ptr-chart-wrapper-title {
+	padding: .55rem .75rem;
+	flex-grow: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ptr-chart-wrapper-tools {
+	display: flex;
+	justify-content: flex-end;
+	padding: .25rem;
+	//background: red;
+}
+
+.ptr-chart-wrapper-tool .ptr-icon .line {
+	fill: var(--base70);
+}
+
+.ptr-chart-wrapper-content {
+	position: relative;
+}

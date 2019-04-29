@@ -3,13 +3,9 @@
 .ptr-charts-container {
 	display: flex;
 	flex-direction: column;
-	padding: 1rem 0 2rem 0;
+	padding: m(1) m(1) m(2);
 	align-items: center;
-}
-
-.ptr-chart-wrapper {
-	position: relative;
-	margin-bottom: 1rem;
+	background: var(--base15);
 }
 
 .ptr-chart {
@@ -33,7 +29,6 @@
 /* Column chart */
 
 .ptr-column-chart {
-	border: 1px solid var(--base20);
 }
 
 .ptr-column-chart-bar {
