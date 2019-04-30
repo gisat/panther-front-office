@@ -13,23 +13,27 @@ const mapStateToProps = (state, props) => {
 	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
 	let layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : null;
 	let layers = Select.maps.getLayers(state, layersData);
+	let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
 
-	let layersVectorData = layers ? layers.reduce((acc, layerData) => {
-		if(layerData.type === 'vector' && layerData.spatialRelationsData) {
+	//TODO -> select
+	let layersVectorData = vectorLayers.reduce((acc, layerData) => {
+		if(layerData.spatialRelationsData) {
 			const filter = {
 				spatialDataSourceKey: layerData.spatialDataSourceKey,
 				fidColumnName: layerData.spatialRelationsData.fidColumnName
 			};
 			acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, filter, null);	
+			// acc[layerData.key] = Select.attributeDataSources.vector.getBatchByFilterOrder(state, filter, null);	
 			return acc
 		}
-	}, {}) : null;
+	}, {});
 
 	return {
 		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
 		layers,
 		layersVectorData,
-		navigator: Select.maps.getNavigator(state, props.mapKey)
+		navigator: Select.maps.getNavigator(state, props.mapKey),
+		activeAttributeKey: Select.attributes.getActiveKey(state)
 	}
 };
 
@@ -50,6 +54,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onUnmount: () => {
 			dispatch(Action.maps.useClear(props.mapKey));
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
+			dispatch(Action.attributesDataSources.useIndexedClear(componentId));
 			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));
 		},
 
@@ -62,12 +67,21 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 
 		loadLayerData: (layer) => {
-			const filter = {
+			const spatialFilter = {
 				spatialDataSourceKey: layer.spatialDataSourceKey,
 				fidColumnName: layer.spatialRelationsData.fidColumnName
+				//by active period
 			};
 
-			dispatch(Action.spatialDataSources.vector.loadLayerData(filter, componentId));
+			const attributeFilter = {
+				attributeDataSourceKey: props.activeAttributeKey,
+				fidColumnName: layer.spatialRelationsData.fidColumnName,
+				//by active period
+			};
+
+			dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
+			dispatch(Action.attributesDataSources.useIndexed(null, attributeFilter, null, 1, 100, componentId));
+			//load statistics
 		}
 	}
 };

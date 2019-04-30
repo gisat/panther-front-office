@@ -9,15 +9,15 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.ATTRIBUTE_DATA_SOURCE.ADD:
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.ADD:
 			return common.add(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCE.ADD_UNRECEIVED:
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCE.INDEX.ADD:
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.INDEX.ADD:
 			return common.addIndex(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCE.USE.INDEXED.REGISTER:
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.INDEXED.REGISTER:
 			return common.registerUseIndexed(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCE.USE.INDEXED.CLEAR:
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
 
 		default:

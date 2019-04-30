@@ -6,6 +6,7 @@ import common from '../_common/selectors';
 const getSubstate = state => state.attributes;
 
 const getAttributes =  common.getAll(getSubstate);
+const getActiveKey = common.getActiveKey(getSubstate);
 
 const getByKey = common.getByKey(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
@@ -20,6 +21,8 @@ const getStateToSave = common.getStateToSave(getSubstate);
 
 export default {
 	getAttributes,
+
+	getActiveKey,
 
 	getByKey,
 	getByKeys,

@@ -4,6 +4,7 @@ import App from './App/actions';
 import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
 import AttributeRelations from './AttributeRelations/actions';
+import AttributeDataSources from './AttributeDataSources/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
@@ -32,6 +33,7 @@ export default {
 	app: App,
 	areas: Areas,
 	attributes: Attributes,
+	attributesDataSources: AttributeDataSources,
 	attributeRelations: AttributeRelations,
 	attributeSets: AttributeSets,
 	components: Components,
