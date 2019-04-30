@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch, props) => {
 			};
 
 			dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
-			dispatch(Action.attributesDataSources.useIndexed(null, attributeFilter, null, 1, 100, componentId));
+			dispatch(Action.attributesDataSources.loadFilteredData(attributeFilter, componentId));
 			//load statistics
 		}
 	}
