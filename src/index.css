@@ -959,10 +959,6 @@ todo merge with overlay
 	background-color: rgba(55,55,55,.9);
 }
 
-.dlr .ptr-intro-header-overlay {
-	background-color: rgba(55,55,55,.9);
-}
-
 .un .ptr-intro-header-overlay {
 	background-color: rgba(91,146,229,1);
 }
@@ -972,5 +968,21 @@ todo merge with overlay
 }
 
 .eow2 .ptr-intro-header-overlay {
+	background-color: rgba(0,0,0,.5);
+}
+
+.dlr.views-inline .ptr-intro-header-overlay {
+	background-color: rgba(55,55,55,.9);
+}
+
+.un.views-inline .ptr-intro-header-overlay {
+	background-color: rgba(91,146,229,1);
+}
+
+.tep.views-inline .ptr-intro-header-overlay {
+	background-color: rgba(153,55,64,.9);
+}
+
+.eow2.views-inline .ptr-intro-header-overlay {
 	background-color: rgba(0,0,0,.5);
 }

@@ -9,7 +9,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		scope: Select.scopes.getScopeData(state, ownProps.scopeKey),
 		intro: Select.components.overlays.views.getIntro(state),
-		styleClass: Select.components.getApplicationStyleHtmlClass(state)
+		styleClass: Select.components.getApplicationStyleHtmlClass(state),
+		isInIntroMode: Select.components.isAppInIntroMode(state)
 	};
 };
 

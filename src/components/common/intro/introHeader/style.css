@@ -8,6 +8,11 @@
 	display: flex;
 	flex-direction: column;
 }
+
+.views-inline .ptr-intro-header {
+	min-height: 18rem;
+}
+
 .ptr-intro-header.small {
 	min-height: 5rem;
 }

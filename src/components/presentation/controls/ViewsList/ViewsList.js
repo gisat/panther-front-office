@@ -55,7 +55,6 @@ class ViewsList extends React.PureComponent {
 					description={this.props.selectedScopeData && this.props.selectedScopeData.description}
 					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
-					withBackgroundOverlay
 				/>
 			);
 		} else if (scopeStyle === "eo4sd" || scopeStyle === "puma" || scopeStyle === "eow2" || scopeStyle === "dlr" ||
