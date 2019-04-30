@@ -6,11 +6,7 @@ import _, {isEqual, isNull} from 'lodash';
 
 import WorldWind from 'webworldwind-esa';
 
-import layers from './layers/helpers';
 import navigator from './navigator/helpers';
-
-import ExtendedRenderableLayer from './layers/ExtendedGeoJsonLayer';
-import {defaultVectorStyle} from "./layers/utils/vectorStyle";
 
 import Attribution from './Attribution/Attribution';
 
@@ -49,11 +45,9 @@ class WorldWindMap extends React.PureComponent {
 			navigator.update(this.wwd, this.props.navigator);
 		}
 
-		this.handleBackgroundLayers(null, this.props.backgroundLayer);
-
 		if (this.props.layers || this.props.layers === null) {
 			const layers = this.props.layers || [];
-			this.handleLayers(layers, this.props.layersVectorData);
+			this.handleLayers(layers);
 		}
 }
 
@@ -63,115 +57,16 @@ class WorldWindMap extends React.PureComponent {
 				navigator.update(this.wwd, this.props.navigator);
 			}
 
-			if (!isEqual(prevProps.backgroundLayer, this.props.backgroundLayer)) {
-				this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
-			}
-
-			//check if already in map?
-			if (!isEqual(prevProps.layers, this.props.layers) || !isEqual(prevProps.layersVectorData, this.props.layersVectorData)) {
+			if (!isEqual(prevProps.layers, this.props.layers)) {
 				const layers = this.props.layers || [];
-				this.handleLayers(layers, this.props.layersVectorData);
-			}
-
-			//check if new data comes
-			if (!isEqual(prevProps.layersVectorData, this.props.layersVectorData)) {
-				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData);
+				this.handleLayers(layers);
 			}
 		}
 	}
 
-	handleBackgroundLayers(prevLayerData, nextLayerData) {
-		
-
-		const newBackgroundLayer = isNull(prevLayerData) && !isNull(nextLayerData);
-		const removeBackgroundLayer = !isNull(prevLayerData) && isNull(nextLayerData);
-		const changedBackgroundLayer = !isNull(prevLayerData) && !isNull(nextLayerData) && !_.isEqual(prevLayerData, nextLayerData);
-		const noBackgroundLayer = isNull(prevLayerData) && isNull(nextLayerData);
-
-		// Clear section
-		if (newBackgroundLayer) {
-			//try to remove colored layer
-			layers.removeLayer(this.wwd, 'colored');
-
-		} else if(removeBackgroundLayer || changedBackgroundLayer) {
-			prevLayerData.forEach(layer => {
-				layers.removeLayer(this.wwd, layer.key);
-			});
-		}
-
-		//Add section
-		if (newBackgroundLayer || changedBackgroundLayer) {
-			nextLayerData.forEach(layer => {
-				layers.addLayer(this.wwd, layer, 0);
-			});
-		} else if (noBackgroundLayer || removeBackgroundLayer){
-			//if no layers, than add colored layer
-			const earthBlueColor = '#6fafdc';
-			// const layer = layers.getLayerByType({type:'colored', color: earthBlueColor});
-			const layerData = {type:'colored', key: 'colored'};
-			layers.addLayer(this.wwd, layerData, 0);
-		}
-		
-	}
-
-	handleLayers(nextLayersData = [], layersVectorData) {
-		let nextLayers = [];
-		nextLayersData.forEach(layerData => {
-			let existingLayer = layers.findLayerByKey(this.wwd, layerData.key);
-			if (existingLayer){
-				nextLayers.push(existingLayer);
-			} else {
-				if(layerData.type === 'vector') {
-					//FIXME - prevent load more times
-					//add loading info
-					const layersVectorDataLaded = layersVectorData && layerData && layerData.spatialRelationsData && layersVectorData[layerData.key];					
-					if(!layersVectorDataLaded) {
-						this.props.loadLayerData(layerData);
-					}
-				}
-				let layer = layers.getLayerByType(layerData);
-				if (layer){
-					nextLayers.push(layer);
-				}
-			}
-		});
-		// add background layer
-		if (this.props.backgroundLayer) {
-			let backgroundLayer = this.wwd.layers.slice(0, this.props.backgroundLayer.length);
-			nextLayers = [...backgroundLayer, ...nextLayers];
-		}
-
-		// if no background layers, then check if map conteins colored layer
-		const coloredLayer = layers.findLayerByKey(this.wwd, 'colored');
-		if (coloredLayer) {
-			nextLayers = [coloredLayer, ...nextLayers];
-		}
-
-		this.wwd.layers = nextLayers;
+	handleLayers(nextLayersData = []) {
+		this.wwd.layers = nextLayersData;
 		this.wwd.redraw();
-	}
-
-	handleVectorData(LayersData = [], layersVectorData = {}) {
-		for (const [key, data] of Object.entries(layersVectorData)) {
-			const layer = LayersData.find(l => l.key === key);
-			let existingLayer = layers.findLayerByKey(this.wwd, key);
-
-			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer) {
-				if(data && data.length > 0) {
-					const dataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
-					//merge with attributes
-					existingLayer.setRenderables(dataSourceData.spatialData, defaultVectorStyle);
-				} else {
-					//Data are empty, set empty GoeJSON as renderable
-					const emptyGeoJSON = {
-						"type": "FeatureCollection",
-						"features": []
-					}
-					existingLayer.setRenderables(emptyGeoJSON);
-				}
-			}
-		}
 	}
 
 	/**

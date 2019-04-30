@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import './style.scss';
-import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
+import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentationWithHandlers";
 
 const polygonLayer = {
 	key: "snezka_example_layer",
