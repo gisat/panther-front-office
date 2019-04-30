@@ -24,12 +24,15 @@ class MapWrapper extends React.PureComponent {
 	}
 
 	render() {
-		return (
-			<WorldWindMap
+		//If childrens passed
+		if(this.props.children) {
+			const {children, ...propsWithoutChildren} = this.props;
+			return React.cloneElement(this.props.children, {...propsWithoutChildren});
+		} else {
+			return (<WorldWindMap
 				{...this.props}
-			/>
-		);
-
+			/>)
+		}
 	}
 }
 

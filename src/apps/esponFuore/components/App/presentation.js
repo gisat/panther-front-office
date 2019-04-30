@@ -8,6 +8,8 @@ import Header from '../Header';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/MapSet";
+import FuoreMap from "./Map";
+import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
 import ChartsContainer from '../../../../components/common/charts/ChartsContainer';
 import EsponFuoreTimeline from "./Timeline";
@@ -52,7 +54,11 @@ class EsponFuoreApp extends React.PureComponent {
 												<MapSet
 													mapSetKey={this.context.mapSetKey}
 													layerTreesFilter={{applicationKey: 'esponFuore'}}
-												/>
+												>
+													<FuoreMap>
+														<FuoreMapPresentation />
+													</FuoreMap>
+												</MapSet>
 												<MapControls/>
 											</>
 										)

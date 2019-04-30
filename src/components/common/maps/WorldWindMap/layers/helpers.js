@@ -4,41 +4,68 @@ import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
-import config from "../../../../../config/index";
+import {removeItemByIndex, addItemToIndex, addItem} from '../../../../../utils/stateManagement';
 import {defaultVectorStyle} from "./utils/vectorStyle";
 
 const {Location, Sector, Color, ShapeAttributes} = WorldWind;
 
 /**
- * Add layer to given wwd
- * @param wwd {WorldWindow}
+ * Add layer to given layers collection
+ * @param layers {Array}
  * @param layerData {Object}
  * @param [position] {number}
  */
-function addLayer(wwd, layerData, position) {
+function addLayer(layers, layerData, position) {
 	if (layerData){
 		let layer = getLayerByType(layerData);
 		if (layer) {
-			if (position || position === 0){
-				wwd.insertLayer(position, layer);
+			if (position || position === 0) {
+				return addItemToIndex(layers, position, layer)
 			} else {
-				wwd.addLayer(layer);
+				return addItem(layers, layer)
 			}
-			wwd.redraw();
+		} else {
+			return layers;
 		}
 	} else {
 		throw new Error("WorldWindMap/layers/helpers#addLayer: Layer data missing!");
+		return layers;
+	}
+}
+
+/**
+ * Return layer index
+ * @param layers {Array}
+ * @param layerKey {string}
+ * @returns {null | Layer}
+ */
+function findLayerIndexByKey(layers, layerKey) {
+	let layer = _.findIndex(layers, {key: layerKey});
+	return layer ? layer : null;
+}
+
+/**
+ * Remove layer from given World Window
+ * @param layers {Array}
+ * @param layerKey {string}
+ */
+function removeLayer(layers, layerKey) {
+	let layerIndex = findLayerIndexByKey(layers, layerKey);
+	if (layerIndex > -1){
+		return removeItemByIndex(layers, layerIndex);
+	} else {
+		return layers;
 	}
 }
 
 /**
  * Return layer, if exists in given wwd
- * @param wwd {WorldWindow}
+ * @param layers {Array}
  * @param layerKey {string}
  * @returns {null | Layer}
  */
-function findLayerByKey(wwd, layerKey) {
-	let layer = _.find(wwd.layers, {key: layerKey});
+function findLayerByKey(layers, layerKey) {
+	let layer = _.find(layers, {key: layerKey});
 	return layer ? layer : null;
 }
 
@@ -189,19 +216,6 @@ function getWmtsOsmBasedLayer(layerData) {
  */
 function getColoredLayer(layerData) {
 	return new ColoredLayer(layerData);
-}
-
-/**
- * Remove layer from given World Window
- * @param wwd {WorldWindow}
- * @param layerKey {string}
- */
-function removeLayer(wwd, layerKey) {
-	let layer = findLayerByKey(wwd, layerKey);
-	if (layer){
-		wwd.removeLayer(layer);
-		wwd.redraw();
-	}
 }
 
 export default {

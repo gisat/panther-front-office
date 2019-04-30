@@ -1,9 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
-import Action from '../Action';
 import _ from 'lodash';
+import {removeItemByIndex, addItemToIndex, replaceItemOnIndex, removeItemByKey} from '../../utils/stateManagement';
 import {isNumber} from 'lodash';
-// import { removeListener } from 'cluster';
-// import { getPackedSettings } from 'http2';
 
 //pridat praci s layers i na set
 
@@ -93,13 +91,6 @@ const setSetSync = (state, setKey, syncData) => {
 
 //helpers
 const getSetByKey = (state, setKey) => state.sets[setKey];
-const removeItemByIndex = (array, index) => [...array.slice(0, index), ...array.slice(index + 1)];
-const addItemToIndex = (array, index, item) => [...array.slice(0, index), item, ...array.slice(index)];
-const replaceItemOnIndex = (array, index, item) => [...array.slice(0, index), item, ...array.slice(index + 1)];
-const removeItemByKey = (object, key) => {
-	const {[key]: value, ...withoutKey} = object;
-	return withoutKey;
-};
 const getMapByKey = (state, mapKey) => state.maps[mapKey];
 
 
