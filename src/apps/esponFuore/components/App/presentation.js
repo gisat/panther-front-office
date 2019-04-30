@@ -80,7 +80,6 @@ class EsponFuoreApp extends React.PureComponent {
 														xGridlines
 														yGridlines
 														xTicks
-														yTicks
 														yCaptions
 														withoutYbaseline
 													/>

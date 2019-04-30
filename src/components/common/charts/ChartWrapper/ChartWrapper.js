@@ -36,10 +36,12 @@ class ChartWrapper extends React.PureComponent {
 					</div>
 				</div>
 				<div className="ptr-chart-wrapper-content">
-					<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
-						React.cloneElement(this.props.children, {width})
-					)}>
-					</ReactResizeDetector>
+					<div>
+						<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
+							React.cloneElement(this.props.children, {width})
+						)}>
+						</ReactResizeDetector>
+					</div>
 				</div>
 			</div>
 		);
