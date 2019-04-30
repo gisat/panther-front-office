@@ -77,6 +77,12 @@ class EsponFuoreApp extends React.PureComponent {
 														xSourcePath="data.name"
 														ySourcePath="data.some_value_1"
 														sorting={[["data.some_value_1", "desc"]]}
+														xGridlines
+														yGridlines
+														xTicks
+														yTicks
+														yCaptions
+														withoutYbaseline
 													/>
 												</ChartWrapper>
 												<ChartWrapper title="Specific column chart title">
@@ -87,6 +93,9 @@ class EsponFuoreApp extends React.PureComponent {
 														xSourcePath="data.name"
 														ySourcePath="data.some_value_1"
 														sorting={[["data.some_value_1", "desc"]]}
+														xCaptions
+														// yCaptions
+														yGridlines
 													/>
 												</ChartWrapper>
 												<ChartWrapper title="Specific column chart title">

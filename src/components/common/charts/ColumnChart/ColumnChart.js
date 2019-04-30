@@ -10,10 +10,9 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Bar from "./Bar";
 import Popup from "../Popup";
-import ChartWrapper from "../ChartWrapper/ChartWrapper";
 
-const MIN_BAR_WIDTH = 4;
-const BAR_GAP_RATIO = 0.4;
+const MIN_BAR_WIDTH = 4; // TODO optional
+const BAR_GAP_RATIO = 0.4; // TODO optional
 
 const WIDTH = 500;
 const HEIGHT = 250;
@@ -21,24 +20,39 @@ const HEIGHT = 250;
 const MIN_WIDTH = 300;
 const MAX_WIDTH = 700;
 
-// TODO optional and based on captions
-const MARGIN_LEFT = 80;
-const MARGIN_RIGHT = 35;
-const MARGIN_BOTTOM = 70; // TODO xAxis caption
-const MARGIN_TOP = 15;
-const PADDING_LEFT = 10;
-const PADDING_RIGHT = 10;
+const Y_CAPTIONS_SIZE = 70;
+const X_CAPTIONS_SIZE = 70;
+
+// TODO optional
+const INNER_PADDING_LEFT = 10;
+const INNER_PADDING_RIGHT = 10;
 
 class ColumnChart extends React.PureComponent {
 
 	static propTypes = {
 		data: PropTypes.array,
-		height: PropTypes.number,
-		keySourcePath: PropTypes.string,
 		sorting: PropTypes.array,
+
+		height: PropTypes.number,
 		width: PropTypes.number,
 		minWidth: PropTypes.number,
 		maxWidth: PropTypes.number,
+
+		xCaptionsSize: PropTypes.number, // space for captions along axis X
+		yCaptionsSize: PropTypes.number, // space for captions along axis Y
+
+		xCaptions: PropTypes.bool,
+		yCaptions: PropTypes.bool,
+
+		xTicks: PropTypes.bool,
+		yTicks: PropTypes.bool,
+
+		xGridlines: PropTypes.bool,
+		yGridlines: PropTypes.bool,
+
+		withoutYbaseline: PropTypes.bool,
+
+		keySourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string
 	};
@@ -76,12 +90,23 @@ class ColumnChart extends React.PureComponent {
 		let minWidth = props.minWidth ? props.minWidth : MIN_WIDTH;
 		let maxWidth = props.maxWidth ? props.maxWidth: MAX_WIDTH;
 
+		let xCaptionsSize = props.xCaptionsSize ? props.xCaptionsSize : X_CAPTIONS_SIZE;
+		let yCaptionsSize = props.yCaptionsSize ? props.yCaptionsSize : Y_CAPTIONS_SIZE;
+
+		if (!props.xCaptions && !props.xCaptionsSize) {
+			xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
+		}
+
+		if (!props.yCaptions && !props.yCaptionsSize) {
+			yCaptionsSize = props.xCaptions ? 30 : 0; // space for labels
+		}
+
 		if (width > maxWidth) width = maxWidth;
 		if (width < minWidth) width = minWidth;
 
-		let plotWidth = width - (MARGIN_LEFT + MARGIN_RIGHT);
-		let plotHeight = height - (MARGIN_TOP + MARGIN_BOTTOM);
-		let innerPlotWidth = plotWidth - (PADDING_LEFT + PADDING_RIGHT);
+		let plotWidth = width - (yCaptionsSize);
+		let plotHeight = height - (xCaptionsSize);
+		let innerPlotWidth = plotWidth - (INNER_PADDING_LEFT + INNER_PADDING_RIGHT);
 		let innerPlotHeight = plotHeight;
 
 		/* data preparation */
@@ -141,16 +166,15 @@ class ColumnChart extends React.PureComponent {
 						scale={yScale}
 						sourcePath={props.ySourcePath}
 
-						bottomMargin={MARGIN_BOTTOM}
-						topMargin={MARGIN_TOP}
+						bottomMargin={xCaptionsSize}
 						height={plotHeight}
 						plotWidth={plotWidth}
-						width={MARGIN_LEFT}
+						width={yCaptionsSize}
 
-						// ticks
-						gridlines
-						withCaption
-						// hiddenBaseline
+						ticks={props.yTicks}
+						gridlines={props.yGridlines}
+						withCaption={props.yCaptions}
+						hiddenBaseline={props.withoutYbaseline}
 					/>
 					<AxisX
 						data={data}
@@ -159,18 +183,17 @@ class ColumnChart extends React.PureComponent {
 						sourcePath={props.xSourcePath}
 						keySourcePath={props.keySourcePath}
 
-						leftMargin={MARGIN_LEFT} //TODO right margin for right oriented
-						topMargin={MARGIN_TOP}
-						leftPadding={PADDING_LEFT}
-						height={MARGIN_BOTTOM}
+						leftMargin={yCaptionsSize} //TODO right margin for right oriented
+						leftPadding={INNER_PADDING_LEFT}
+						height={xCaptionsSize}
 						plotHeight={plotHeight}
 						width={plotWidth}
 
-						// ticks
-						// gridlines
-						withCaption
+						ticks={props.xTicks}
+						gridlines={props.xGridlines}
+						withCaption={props.xCaptions}
 					/>
-					<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
+					<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
 						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
 					</g>
 				</svg>

@@ -18,7 +18,6 @@ class AxisY extends React.PureComponent {
 		sourcePath: PropTypes.string,
 
 		bottomMargin: PropTypes.number,
-		topMargin: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		width: PropTypes.number,
@@ -48,7 +47,7 @@ class AxisY extends React.PureComponent {
 		return (
 			<path
 				className="ptr-axis-baseline"
-				d={`M${this.props.width} ${this.props.height + this.props.topMargin} L${this.props.width} ${this.props.topMargin}`}
+				d={`M${this.props.width} ${this.props.height} L${this.props.width} 0`}
 			/>
 		);
 	}
@@ -58,7 +57,7 @@ class AxisY extends React.PureComponent {
 		let ticks = this.props.scale.ticks(TICK_COUNT);
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},${this.props.topMargin})`}>
+			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},0)`}>
 				{ticks.map(value => {
 					let yCoord = this.props.scale(value);
 

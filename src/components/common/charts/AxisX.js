@@ -20,7 +20,6 @@ class AxisX extends React.PureComponent {
 		keySourcePath: PropTypes.string,
 
 		leftMargin: PropTypes.number,
-		topMargin: PropTypes.number,
 		leftPadding: PropTypes.number,
 		plotHeight: PropTypes.number,
 		height: PropTypes.number,
@@ -39,7 +38,7 @@ class AxisX extends React.PureComponent {
 		const props = this.props;
 
 		return (
-			<g className="ptr-column-chart-axis-x" transform={`translate(${props.leftMargin},${props.topMargin})`}>
+			<g className="ptr-column-chart-axis-x" transform={`translate(${props.leftMargin},0)`}>
 				<path
 					className="ptr-axis-baseline"
 					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
@@ -81,10 +80,6 @@ class AxisX extends React.PureComponent {
 
 	renderCaption(x, yShift, availableHeight, text) {
 		if (availableHeight > 18) {
-			let classes = classnames("ptr-tick-caption", {
-				small: availableHeight < 24
-			});
-
 			return (
 				<g
 					transform={`

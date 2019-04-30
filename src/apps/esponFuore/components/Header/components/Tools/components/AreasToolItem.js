@@ -43,6 +43,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 							xSourcePath="data.name"
 							ySourcePath="data.some_value_1"
 							sorting={[["data.some_value_1", "desc"]]}
+							xCaptions
+							xGridlines
+							xTicks
+							yCaptions
+							yGridlines
+							yTicks
 						/>
 					</ChartWrapper>
 				))
