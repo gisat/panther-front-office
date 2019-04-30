@@ -15,6 +15,7 @@ const useIndexedClear = common.useIndexedClear(ActionTypes.ATTRIBUTES);
 const useKeys = common.useKeys(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
 const useKeysClear = common.useKeysClear(ActionTypes.ATTRIBUTES);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
+const updateStateFromView = common.updateSubstateFromView(ActionTypes.ATTRIBUTES);
 
 // ============ export ===========
 
@@ -22,6 +23,7 @@ export default {
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,
+	updateStateFromView,
 
 	refreshUses,
 
