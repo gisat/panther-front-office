@@ -28,11 +28,11 @@ class Popup extends React.PureComponent {
 		}
 
 		if (x < 0) {
-			x = this.props.x - WIDTH/2;
+			x = 0;
 		}
 
 		let style = {
-			top: this.props.y + 15,
+			top: this.props.y + 20,
 			left: x,
 			width: WIDTH
 		};
