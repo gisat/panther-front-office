@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import {withNamespaces} from "react-i18next";
 import {Route, Switch} from "react-router";
 import NavList from '../../../../components/presentation/NavList';
@@ -12,6 +13,7 @@ import SelectDoc from "../SelectDoc";
 import TypoDoc from "../TypoDoc";
 import FadeInDoc from "../FadeInDoc";
 import MultiSelectDoc from "../MultiSelectDoc";
+import ColumnChartDoc from "../ColumnChartDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -26,6 +28,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'multiSelect', title: 'MultiSelect', component: MultiSelectDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
 			{key: 'typo', title: 'Typography', component: TypoDoc},
+			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {unresponsive: true}},
 		];
 
 		this.paths = {};
@@ -56,14 +59,7 @@ class DocsPage extends React.PureComponent {
 				<div className="ptr-docs-nav ptr-light">
 					<NavList items={this.navList} location={location}/>
 				</div>
-				<div className="ptr-docs-content">
-					<div className="ptr-docs-panel ptr-light">
-						{this.renderRoutes()}
-					</div>
-					<div className="ptr-docs-panel ptr-dark">
-						{this.renderRoutes()}
-					</div>
-				</div>
+				{this.renderRoutes()}
 			</div>
 		);
 	}
@@ -76,18 +72,32 @@ class DocsPage extends React.PureComponent {
 						<Route
 							key={component.key}
 							path={this.paths[component.key]}
-							render={() => this.renderPage(component.title, component.component)}
+							render={() => this.renderPage(component.title, component.component, component.props)}
 						/>);
 				})}
 			</Switch>
 		);
 	}
 
-	renderPage(title, component) {
+	renderPage(title, component, props) {
+		let classes = classnames("ptr-docs-content",{
+			unresponsive: props.unresponsive
+		});
+
 		return (
-			<div>
-				<h1>{title}</h1>
-				{React.createElement(component)}
+			<div className={classes}>
+				<div className="ptr-docs-panel ptr-light">
+					<div>
+						<h1>{title}</h1>
+						{React.createElement(component)}
+					</div>
+				</div>
+				<div className="ptr-docs-panel ptr-dark">
+					<div>
+						<h1>{title}</h1>
+						{React.createElement(component)}
+					</div>
+				</div>
 			</div>
 		);
 	}

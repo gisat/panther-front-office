@@ -159,7 +159,7 @@ class ColumnChart extends React.PureComponent {
 		}
 
 		return (
-			<>
+			<div className="ptr-chart-container">
 				<svg className="ptr-chart ptr-column-chart" width={width} height={height} onMouseMove={this.onMouseOver}>
 					<AxisY
 						data={data}
@@ -198,7 +198,7 @@ class ColumnChart extends React.PureComponent {
 					</g>
 				</svg>
 				{this.state.popup ? this.renderPopup(width) : null}
-			</>
+			</div>
 		);
 	}
 

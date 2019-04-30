@@ -39,4 +39,8 @@
   .ptr-docs-content {
     flex-direction: column;
   }
+
+  .ptr-docs-content.unresponsive {
+    flex-direction: row;
+  }
 }
