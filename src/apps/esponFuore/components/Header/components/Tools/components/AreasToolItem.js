@@ -8,7 +8,7 @@ import Select from '../../../../../state/Select';
 import presentation from "./ToolItem";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import ChartWrapper from "../../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import sample_50 from "../../../../../../../components/common/charts/mockData/sample_50";
+import sample_15 from "../../../../../../../components/common/charts/mockData/sample_50";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -30,14 +30,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					title: 'Areas',
 					icon: 'map-pin',
 					width: 600,
-					maxWidth: 1000,
+					maxWidth: 1200,
 					height: 500
 				},
 				(
 					<ChartWrapper title="Extraordinary looooooooooooooong unusual specific column chart title">
 						<ColumnChart
 							key="test7"
-							data={sample_50}
+							data={sample_15}
+							maxWidth={1200}
 							keySourcePath="key"
 							xSourcePath="data.name"
 							ySourcePath="data.some_value_1"

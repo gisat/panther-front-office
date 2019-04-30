@@ -21,10 +21,10 @@ const HEIGHT = 250;
 const MIN_WIDTH = 300;
 const MAX_WIDTH = 700;
 
-// TODO optional
+// TODO optional and based on captions
 const MARGIN_LEFT = 80;
 const MARGIN_RIGHT = 35;
-const MARGIN_BOTTOM = 25; // TODO xAxis caption
+const MARGIN_BOTTOM = 70; // TODO xAxis caption
 const MARGIN_TOP = 15;
 const PADDING_LEFT = 10;
 const PADDING_RIGHT = 10;
@@ -147,8 +147,9 @@ class ColumnChart extends React.PureComponent {
 						plotWidth={plotWidth}
 						width={MARGIN_LEFT}
 
-						ticks
+						// ticks
 						gridlines
+						withCaption
 						// hiddenBaseline
 					/>
 					<AxisX
@@ -166,7 +167,8 @@ class ColumnChart extends React.PureComponent {
 						width={plotWidth}
 
 						// ticks
-						gridlines
+						// gridlines
+						withCaption
 					/>
 					<g transform={`translate(${MARGIN_LEFT + PADDING_LEFT},${MARGIN_TOP})`}>
 						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}

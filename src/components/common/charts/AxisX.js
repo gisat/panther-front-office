@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
+import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
+const TICK_CAPTION_OFFSET_TOP = 10;
+const TICK_CAPTION_OFFSET_LEFT = 5;
 
 class AxisX extends React.PureComponent {
 
@@ -23,7 +27,8 @@ class AxisX extends React.PureComponent {
 		width: PropTypes.number,
 
 		gridlines: PropTypes.bool,
-		ticks: PropTypes.bool
+		ticks: PropTypes.bool,
+		withCaption: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -39,8 +44,7 @@ class AxisX extends React.PureComponent {
 					className="ptr-axis-baseline"
 					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
 				/>
-				{(props.ticks || props.gridlines) ? this.renderGrid() : null}
-				{/*<text className="ptr-svg-text" x={0} y={325} transform="rotate(-45)">Caption</text>*/}
+				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
 			</g>
 		);
 	}
@@ -48,21 +52,24 @@ class AxisX extends React.PureComponent {
 	renderGrid() {
 		let shift = this.props.ticks ? (TICK_SIZE) : 0;
 		let barWidth = this.props.scale.bandwidth();
+		let gap = 2*barWidth*this.props.scale.padding();
 
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
 				{this.props.data.map(item => {
-					let xCoord = this.props.scale(item[this.props.keySourcePath]);
+					let xCoord = this.props.scale(_.get(item, this.props.keySourcePath));
 					if (xCoord) {
 						return (
-							<line
-								key={item[this.props.keySourcePath]}
-								className="ptr-axis-gridline"
-								x1={xCoord}
-								x2={xCoord}
-								y1={this.props.plotHeight + shift}
-								y2={this.props.gridlines ? 0 : this.props.plotHeight}
-							/>
+							<g key={_.get(item, this.props.keySourcePath)}>
+								<line
+									className="ptr-axis-gridline"
+									x1={xCoord}
+									x2={xCoord}
+									y1={this.props.plotHeight + shift}
+									y2={this.props.gridlines ? 0 : this.props.plotHeight}
+								/>
+								{this.props.withCaption ? this.renderCaption(xCoord, shift, barWidth + gap, _.get(item, this.props.sourcePath)) : null}
+							</g>
 						);
 					} else {
 						return null;
@@ -70,6 +77,32 @@ class AxisX extends React.PureComponent {
 				})}
 			</g>
 		);
+	}
+
+	renderCaption(x, yShift, availableHeight, text) {
+		if (availableHeight > 18) {
+			let classes = classnames("ptr-tick-caption", {
+				small: availableHeight < 24
+			});
+
+			return (
+				<g
+					transform={`
+						rotate(-45 ${x + TICK_CAPTION_OFFSET_LEFT} ${this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP})
+						translate(${x + TICK_CAPTION_OFFSET_LEFT} ${this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP})
+					`}
+				>
+					<AxisLabel
+						maxWidth={((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2))}
+						maxHeight={availableHeight}
+						text={text}
+						textAnchor="end"
+					/>
+				</g>
+			);
+		} else {
+			return null;
+		}
 	}
 }
 

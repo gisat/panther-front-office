@@ -25,7 +25,8 @@ class AxisY extends React.PureComponent {
 
 		hiddenBaseline: PropTypes.bool,
 		gridlines: PropTypes.bool,
-		ticks: PropTypes.bool
+		ticks: PropTypes.bool,
+		withCaption: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -38,7 +39,7 @@ class AxisY extends React.PureComponent {
 		return (
 			<g className="ptr-column-chart-axis-y">
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
-				{(props.ticks || props.gridlines) ? this.renderGrid() : null}
+				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
 			</g>
 		);
 	}
@@ -72,14 +73,16 @@ class AxisY extends React.PureComponent {
 									y1={yCoord}
 									y2={yCoord}
 								/>
-								<text
-									className="ptr-tick-caption"
-									textAnchor="end"
-									x={0}
-									y={yCoord + TICK_CAPTION_OFFSET_HORIZONTAL}
-								>
-									{value}
-								</text>
+								{this.props.withCaption ? (
+									<text
+										className="ptr-tick-caption"
+										textAnchor="end"
+										x={0}
+										y={yCoord + TICK_CAPTION_OFFSET_HORIZONTAL}
+									>
+										{value}
+									</text>
+								) : null}
 							</g>
 						)
 					} else {

@@ -65,9 +65,7 @@
 	font-size: $b1;
 }
 
-.ptr-svg-text {
-	fill: var(--base45);
-	font-size: $b1;
-	text-anchor: end;
+.ptr-tick-caption.small {
+	font-size: $a0;
 }
 

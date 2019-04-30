@@ -13,6 +13,8 @@ import ChartsContainer from '../../../../components/common/charts/ChartsContaine
 import EsponFuoreTimeline from "./Timeline";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 
+import sample_4 from "../../../../components/common/charts/mockData/sample_4.json";
+import sample_15 from "../../../../components/common/charts/mockData/sample_15.json";
 import sample_50 from "../../../../components/common/charts/mockData/sample_50.json";
 import sample_200 from "../../../../components/common/charts/mockData/sample_200.json";
 import ChartWrapper from "../../../../components/common/charts/ChartWrapper/ChartWrapper";
@@ -61,6 +63,26 @@ class EsponFuoreApp extends React.PureComponent {
 										width: "35rem",
 										render: props => (
 											<ChartsContainer>
+												<ChartWrapper title="Specific column chart title">
+													<ColumnChart
+														key="test3"
+														data={sample_4}
+														keySourcePath="key"
+														xSourcePath="data.name"
+														ySourcePath="data.some_value_1"
+														sorting={[["data.some_value_1", "desc"]]}
+													/>
+												</ChartWrapper>
+												<ChartWrapper title="Specific column chart title">
+													<ColumnChart
+														key="test3"
+														data={sample_15}
+														keySourcePath="key"
+														xSourcePath="data.name"
+														ySourcePath="data.some_value_1"
+														sorting={[["data.some_value_1", "desc"]]}
+													/>
+												</ChartWrapper>
 												<ChartWrapper title="Specific column chart title">
 													<ColumnChart
 														key="test3"

@@ -1,0 +1,122 @@
+[
+  {
+	"key": "29a0d9fc-314e-414e-bf7a-5b11acfc6c26",
+	"data": {
+	  "name": "Wisconsin",
+	  "some_value_1": 9278,
+	  "some_value_2": -3.8201
+	}
+  },
+  {
+	"key": "9334d966-b988-4056-a645-e16159b41d3d",
+	"data": {
+	  "name": "Arizona",
+	  "some_value_1": 30830,
+	  "some_value_2": -9.8079
+	}
+  },
+  {
+	"key": "6ff2101d-c804-4b4e-95c2-9164b837a951",
+	"data": {
+	  "name": "North Carolina",
+	  "some_value_1": 96822,
+	  "some_value_2": 1.4988
+	}
+  },
+  {
+	"key": "7cbb6c73-3e1c-46fe-8381-825d159e0875",
+	"data": {
+	  "name": "Alabama",
+	  "some_value_1": 69823,
+	  "some_value_2": -2.6835
+	}
+  },
+  {
+	"key": "e9e33bf1-bb40-44b1-987e-b6d124b20731",
+	"data": {
+	  "name": "Palau",
+	  "some_value_1": 8804,
+	  "some_value_2": -2.8804
+	}
+  },
+  {
+	"key": "05a6f0ce-5954-4b67-863c-2a006d36ad46",
+	"data": {
+	  "name": "Northern Mariana Islands",
+	  "some_value_1": 87122,
+	  "some_value_2": 0.2764
+	}
+  },
+  {
+	"key": "54c3bebd-bc35-423d-8ddb-58bdc7fe3c39",
+	"data": {
+	  "name": "South Dakota",
+	  "some_value_1": 65159,
+	  "some_value_2": 7.859
+	}
+  },
+  {
+	"key": "6ff77bb0-4f8b-4e66-85c5-d5469b535539",
+	"data": {
+	  "name": "Tennessee",
+	  "some_value_1": 83674,
+	  "some_value_2": -0.1147
+	}
+  },
+  {
+	"key": "3462d97e-4dc0-4c57-a49f-b518e62f5e87",
+	"data": {
+	  "name": "New Mexico",
+	  "some_value_1": 55220,
+	  "some_value_2": -6.5399
+	}
+  },
+  {
+	"key": "612e5627-7e5f-4e1c-9ef4-e9c81bd1adaa",
+	"data": {
+	  "name": "Virgin Islands",
+	  "some_value_1": 46017,
+	  "some_value_2": 1.491
+	}
+  },
+  {
+	"key": "d1785364-e67c-424e-b25d-242680992de5",
+	"data": {
+	  "name": "Louisiana",
+	  "some_value_1": 62525,
+	  "some_value_2": 5.391
+	}
+  },
+  {
+	"key": "515fe65a-d531-43e8-89e5-d820ff37531a",
+	"data": {
+	  "name": "Virginia",
+	  "some_value_1": 67060,
+	  "some_value_2": -6.9654
+	}
+  },
+  {
+	"key": "bcda3300-b847-40d9-b97f-f499197b6524",
+	"data": {
+	  "name": "Idaho",
+	  "some_value_1": 80962,
+	  "some_value_2": 1.1477
+	}
+  },
+  {
+	"key": "2f084fed-8968-44d1-8e7d-cea4a1d72f92",
+	"data": {
+	  "name": "Vermont",
+	  "some_value_1": 79233,
+	  "some_value_2": -3.1173
+	}
+  },
+  {
+	"key": "1ff3d830-9b07-4ee4-943b-ec1e37518f16",
+	"data": {
+	  "name": "Oklahoma",
+	  "some_value_1": 75542,
+	  "some_value_2": 3.2472
+	}
+  }
+]
