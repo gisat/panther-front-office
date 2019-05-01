@@ -1,5 +1,6 @@
 @import '../../../styles/variables';
 
+/* General */
 .ptr-charts-container {
 	display: flex;
 	flex-direction: column;
@@ -33,27 +34,7 @@
 	font-weight: bold;
 }
 
-/* Column chart */
-.ptr-column-chart {
-}
-
-.ptr-column-chart-bar {
-	fill: var(--accent50);
-	transition: fill .3s ease-in-out;
-}
-
-.ptr-column-chart-bar.hidden {
-	fill: transparent;
-}
-
-.ptr-column-chart-bar:hover {
-	fill: var(--accent65);
-}
-
-.ptr-column-chart-path {
-	fill: var(--accent50);
-}
-
+/* Axis */
 .ptr-axis-baseline {
 	stroke-width: 2px;
 	stroke-linecap: square;
@@ -75,3 +56,39 @@
 	font-size: $a0;
 }
 
+/* Column chart */
+.ptr-column-chart {
+}
+
+.ptr-column-chart-bar {
+	fill: var(--accent50);
+	transition: fill .3s ease-in-out;
+}
+
+.ptr-column-chart-bar.hidden {
+	fill: transparent;
+}
+
+.ptr-column-chart-bar:hover {
+	fill: var(--accent65);
+}
+
+.ptr-column-chart-path {
+	fill: var(--accent50);
+}
+
+/* Line chart */
+.ptr-line-chart {
+	//background: red;
+}
+
+.ptr-line-chart-line {
+	fill: none;
+	stroke-width: 2;
+	transition: stroke-width .3s ease-in-out, stroke .3s ease-in-out;
+}
+
+.ptr-line-chart-line:hover {
+	stroke-width: 3;
+	z-index: 1;
+}

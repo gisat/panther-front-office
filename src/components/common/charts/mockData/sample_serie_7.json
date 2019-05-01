@@ -1,0 +1,290 @@
+[
+  {
+	"key": "230bd221-5384-4c09-bfa3-069eacbcfff8",
+	"data": {
+	  "name": "Missouri",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -843
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1574
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 659
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -652
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1766
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -484
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1002
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -408
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 7
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -746
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 983
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -717
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1919
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 122
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -467
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1532
+		}
+	  ]
+	}
+  },
+  {
+	"key": "91c6851e-c5ef-4165-9b15-8cd987a92904",
+	"data": {
+	  "name": "Louisiana",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 927
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1576
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -1056
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1565
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1909
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1774
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -246
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1589
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1411
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 231
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 489
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1417
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 366
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1389
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 631
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -1464
+		}
+	  ]
+	}
+  },
+  {
+	"key": "041bd7c7-a98c-479a-85b3-0c83fdda0a4e",
+	"data": {
+	  "name": "Florida",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1798
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 176
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1018
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1598
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1649
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 1486
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1576
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -273
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1720
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1043
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 392
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1593
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -935
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 893
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -889
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1239
+		}
+	  ]
+	}
+  },
+  {
+	"key": "49fe6b68-d39e-4fe7-9c82-aa603061ebe9",
+	"data": {
+	  "name": "Pennsylvania",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1291
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1454
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -514
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1283
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1068
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1127
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 22
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1221
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1986
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1873
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 249
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -994
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 456
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -314
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1342
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 286
+		}
+	  ]
+	}
+  }
+]

@@ -14,6 +14,7 @@ import TypoDoc from "../TypoDoc";
 import FadeInDoc from "../FadeInDoc";
 import MultiSelectDoc from "../MultiSelectDoc";
 import ColumnChartDoc from "../ColumnChartDoc";
+import LineChartDoc from "../LineChartDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -29,6 +30,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'select', title: 'Select', component: SelectDoc},
 			{key: 'typo', title: 'Typography', component: TypoDoc},
 			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {forceColumns: true}},
+			{key: 'lineChart', title: 'Line Chart', component: LineChartDoc, props: {forceColumns: true}},
 		];
 
 		this.paths = {};

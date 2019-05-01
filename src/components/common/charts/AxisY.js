@@ -13,9 +13,7 @@ const TICK_CAPTION_OFFSET_HORIZONTAL = 4;
 class AxisY extends React.PureComponent {
 
 	static propTypes = {
-		data: PropTypes.array,
 		scale: PropTypes.func,
-		sourcePath: PropTypes.string,
 
 		bottomMargin: PropTypes.number,
 		height: PropTypes.number,

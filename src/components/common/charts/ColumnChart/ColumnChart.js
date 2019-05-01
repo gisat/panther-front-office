@@ -27,6 +27,8 @@ const X_CAPTIONS_SIZE = 70;
 const INNER_PADDING_LEFT = 10;
 const INNER_PADDING_RIGHT = 10;
 
+// TODO custom max, min
+
 class ColumnChart extends React.PureComponent {
 
 	static propTypes = {
@@ -110,92 +112,97 @@ class ColumnChart extends React.PureComponent {
 		let innerPlotHeight = plotHeight;
 
 		/* data preparation */
-		let data = props.sorting ? utils.sortByOrder(props.data, props.sorting) : props.data;
+		let data, yScale, xScale, xDomain, yDomain, aggregatedData = null;
+		if (props.data) {
+			data = props.sorting ? utils.sortByOrder(props.data, props.sorting) : props.data;
 
-		let maximum = _.get(_.maxBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
-		let minimum = _.get(_.minBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
-		if (minimum > 0) minimum = 0; // TODO custom option - forceMinimum?
+			let maximum = _.get(_.maxBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
+			let minimum = _.get(_.minBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
+			if (minimum > 0) minimum = 0; // TODO custom option - forceMinimum?
 
-		/* domain and scales */
-		let xDomain = data.map(i  => _.get(i, props.keySourcePath));
-		let yDomain = [minimum, maximum];
+			/* domain and scales */
+			xDomain = data.map(i  => _.get(i, props.keySourcePath));
+			yDomain = [minimum, maximum];
 
-		let xScale = d3
-			.scaleBand()
-			.padding(BAR_GAP_RATIO)
-			.domain(xDomain)
-			.range([0, innerPlotWidth]);
+			xScale = d3
+				.scaleBand()
+				.padding(BAR_GAP_RATIO)
+				.domain(xDomain)
+				.range([0, innerPlotWidth]);
 
-		let yScale = d3
-			.scaleLinear()
-			.domain(yDomain)
-			.range([innerPlotHeight, 0]);
+			yScale = d3
+				.scaleLinear()
+				.domain(yDomain)
+				.range([innerPlotHeight, 0]);
 
-		let barWidth = xScale.bandwidth();
-		/* gap ratio between bars */
-		if (barWidth < 10) {
-			xScale = xScale.padding(0.1);
-		}
+			let barWidth = xScale.bandwidth();
+			/* gap ratio between bars */
+			if (barWidth < 10) {
+				xScale = xScale.padding(0.1);
+			}
 
-		/* aggregation, if needed */
-		let aggregatedData = [];
-		if (barWidth < MIN_BAR_WIDTH) {
-			let itemsInGroup = Math.ceil(MIN_BAR_WIDTH/barWidth);
-			let keys = [];
-			let originalData = [];
-			data.forEach((item, index) => {
-				keys.push(_.get(item, props.keySourcePath));
-				originalData.push(item);
-				if (index % itemsInGroup === (itemsInGroup - 1) || index === (data.length - 1)) {
-					aggregatedData.push({keys, originalData});
-					keys = [];
-					originalData = [];
-				}
-			});
+			/* aggregation, if needed */
+			aggregatedData = [];
+			if (barWidth < MIN_BAR_WIDTH) {
+				let itemsInGroup = Math.ceil(MIN_BAR_WIDTH/barWidth);
+				let keys = [];
+				let originalData = [];
+				data.forEach((item, index) => {
+					keys.push(_.get(item, props.keySourcePath));
+					originalData.push(item);
+					if (index % itemsInGroup === (itemsInGroup - 1) || index === (data.length - 1)) {
+						aggregatedData.push({keys, originalData});
+						keys = [];
+						originalData = [];
+					}
+				});
 
-			// adjust domain
-			xDomain = aggregatedData.map(i  => i.keys);
-			xScale = xScale.domain(xDomain).padding(0);
+				// adjust domain
+				xDomain = aggregatedData.map(i  => i.keys);
+				xScale = xScale.domain(xDomain).padding(0);
+			}
 		}
 
 		return (
 			<div className="ptr-chart-container">
-				<svg className="ptr-chart ptr-column-chart" width={width} height={height} onMouseMove={this.onMouseOver}>
-					<AxisY
-						data={data}
-						scale={yScale}
-						sourcePath={props.ySourcePath}
+				<svg className="ptr-chart ptr-column-chart" width={width} height={height}>
+					{data ?
+						<>
+							<AxisY
+								scale={yScale}
 
-						bottomMargin={xCaptionsSize}
-						height={plotHeight}
-						plotWidth={plotWidth}
-						width={yCaptionsSize}
+								bottomMargin={xCaptionsSize}
+								height={plotHeight}
+								plotWidth={plotWidth}
+								width={yCaptionsSize}
 
-						ticks={props.yTicks}
-						gridlines={props.yGridlines}
-						withCaption={props.yCaptions}
-						hiddenBaseline={props.withoutYbaseline}
-					/>
-					<AxisX
-						data={data}
-						scale={xScale}
-						domain={xDomain}
-						sourcePath={props.xSourcePath}
-						keySourcePath={props.keySourcePath}
+								ticks={props.yTicks}
+								gridlines={props.yGridlines}
+								withCaption={props.yCaptions}
+								hiddenBaseline={props.withoutYbaseline}
+							/>
+							<AxisX
+								data={data}
+								scale={xScale}
+								domain={xDomain}
+								sourcePath={props.xSourcePath}
+								keySourcePath={props.keySourcePath}
 
-						leftMargin={yCaptionsSize} //TODO right margin for right oriented
-						leftPadding={INNER_PADDING_LEFT}
-						height={xCaptionsSize}
-						plotHeight={plotHeight}
-						width={plotWidth}
+								leftMargin={yCaptionsSize} //TODO right margin for right oriented
+								leftPadding={INNER_PADDING_LEFT}
+								height={xCaptionsSize}
+								plotHeight={plotHeight}
+								width={plotWidth}
 
-						ticks={props.xTicks}
-						gridlines={props.xGridlines}
-						withCaption={props.xCaptions}
-					/>
-					<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
-					</g>
+								ticks={props.xTicks}
+								gridlines={props.xGridlines}
+								withCaption={props.xCaptions}
+							/>
+							<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
+								{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
+							</g>
+						</> : null
+					}
 				</svg>
 				{this.state.popup ? this.renderPopup(width) : null}
 			</div>
