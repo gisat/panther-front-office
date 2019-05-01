@@ -96,6 +96,7 @@
 	animation-fill-mode: forwards;
 	animation-delay: 2s;
 	fill-opacity: 0;
+	stroke-opacity: 0;
 	stroke-width: 1px;
 	stroke: var(--base10);
 }
@@ -114,5 +115,6 @@
 @keyframes pointDraw {
 	to {
 		fill-opacity: 1;
+		stroke-opacity: 1;
 	}
 }
