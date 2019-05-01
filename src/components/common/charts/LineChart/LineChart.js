@@ -24,6 +24,7 @@ const X_CAPTIONS_SIZE = 70;
 // TODO optional
 const INNER_PADDING_LEFT = 10;
 const INNER_PADDING_RIGHT = 10;
+const INNER_PADDING_TOP = 10;
 
 class LineChart extends React.PureComponent {
 
@@ -41,6 +42,8 @@ class LineChart extends React.PureComponent {
 
 		xCaptions: PropTypes.bool,
 		yCaptions: PropTypes.bool,
+
+		withPoints: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -51,12 +54,12 @@ class LineChart extends React.PureComponent {
 		this.onLineOver = this.onLineOver.bind(this);
 	}
 
-	onLineOver(itemKey, x, y) {
+	onLineOver(itemKey, x, y, data) {
 		let state = this.state.popup;
 
 		if (!state || !_.isEqual(state.itemKey, itemKey)  || state.x !== x || state.y !== y) {
 			this.setState({
-				popup: {itemKey, x, y}
+				popup: {itemKey, x, y, data}
 			});
 		}
 	}
@@ -93,7 +96,7 @@ class LineChart extends React.PureComponent {
 		let plotWidth = width - (yCaptionsSize);
 		let plotHeight = height - (xCaptionsSize);
 		let innerPlotWidth = plotWidth - (INNER_PADDING_LEFT + INNER_PADDING_RIGHT);
-		let innerPlotHeight = plotHeight;
+		let innerPlotHeight = plotHeight - INNER_PADDING_TOP;
 
 		/* data preparation */
 		let xDomain, yDomain, xScale, yScale, colors, firstSerieData = null;
@@ -144,10 +147,10 @@ class LineChart extends React.PureComponent {
 							scale={yScale}
 
 							bottomMargin={xCaptionsSize}
+							topPadding={INNER_PADDING_TOP}
 							height={plotHeight}
 							plotWidth={plotWidth}
 							width={yCaptionsSize}
-
 							ticks={props.yTicks}
 							gridlines={props.yGridlines}
 							withCaption={props.yCaptions}
@@ -170,7 +173,7 @@ class LineChart extends React.PureComponent {
 							gridlines={props.xGridlines}
 							withCaption={props.xCaptions}
 						/>
-						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
+						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},${INNER_PADDING_TOP})`}>
 							{this.renderLines(data, props, xScale, yScale, colors)}
 						</g>
 					</> : null}
@@ -191,7 +194,7 @@ class LineChart extends React.PureComponent {
 			let coordinates = serie.map(record => {
 				let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
 				let y = yScale(_.get(record, props.ySourcePath));
-				return {x,y};
+				return {x,y, originalData: record};
 			});
 
 			return (
@@ -203,6 +206,7 @@ class LineChart extends React.PureComponent {
 					onMouseOut={this.onLineOut}
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
+					withPoints={this.props.withPoints}
 				/>
 			);
 		});
@@ -217,6 +221,9 @@ class LineChart extends React.PureComponent {
 			content = (
 				<>
 					<div>{_.get(data, this.props.serieNameSourcePath)}</div>
+					{state.data ? (
+						<div>{`${_.get(state.data, this.props.xSourcePath)}: ${_.get(state.data, this.props.ySourcePath)}`}</div>
+					) : null}
 				</>
 			);
 		}

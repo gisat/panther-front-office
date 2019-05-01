@@ -49,8 +49,35 @@ class LineChartDoc extends React.PureComponent {
 							yTicks
 							yGridlines
 							yCaptions
+							withoutYbaseline
 
 							xCaptionsSize={50}
+						/>, {width: this.state.width})}
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>With points</h2>
+					{React.cloneElement(
+						<LineChart
+							key="test1"
+							data={sample_serie_7}
+							serieKeySourcePath="key"
+							serieNameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
+
+							xTicks
+							xGridlines
+							xCaptions
+							yTicks
+							yGridlines
+							yCaptions
+							withoutYbaseline
+
+							xCaptionsSize={50}
+
+							withPoints
 						/>, {width: this.state.width})}
 				</div>
 			</div>

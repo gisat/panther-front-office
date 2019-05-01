@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import '../style.scss';
+import Point from "./Point";
 
 class Line extends React.PureComponent {
 
@@ -15,7 +16,8 @@ class Line extends React.PureComponent {
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
 		onMouseOver: PropTypes.func,
-		color: PropTypes.string
+		color: PropTypes.string,
+		withPoints: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -33,16 +35,18 @@ class Line extends React.PureComponent {
 		}
 	}
 
-	onMouseMove(e) {
+	onMouseMove(e, data) {
 		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.onMouseMove(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
-		this.setState({color: this.props.color});
+		this.setState({
+			color: this.props.color
+		});
 	}
 
-	onMouseOver(e) {
+	onMouseOver(e, data) {
 		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.onMouseOver(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
 		this.setState({color: this.props.color});
 	}
@@ -65,23 +69,48 @@ class Line extends React.PureComponent {
 		});
 
 		return (
-			<path
-				ref={this.ref}
-				className={classes}
-				key={props.itemKey}
-				onMouseOver={this.onMouseOver}
-				onMouseMove={this.onMouseMove}
-				onMouseOut={this.onMouseOut}
-				d={`M${props.coordinates.map(point => {
-					return `${point.x} ${point.y}`;
-				}).join(" L")}`}
-				style={{
-					stroke: this.state.color,
-					strokeDasharray: this.state.length,
-					strokeDashoffset: this.state.length
-				}}
-			/>
+			<g
+				className="ptr-line-chart-line-wrapper"
+			>
+				<path
+					onMouseOver={this.onMouseOver}
+					onMouseMove={this.onMouseMove}
+					onMouseOut={this.onMouseOut}
+					ref={this.ref}
+					className={classes}
+					key={props.itemKey}
+					d={`M${props.coordinates.map(point => {
+						return `${point.x} ${point.y}`;
+					}).join(" L")}`}
+					style={{
+						stroke: this.state.color,
+						strokeDasharray: this.state.length,
+						strokeDashoffset: this.state.length
+					}}
+				/>
+				{props.withPoints ? this.renderPoints() : null}
+			</g>
 		);
+	}
+
+	renderPoints() {
+		const props = this.props;
+
+		return props.coordinates.map((point) => {
+			return (
+				<Point
+					key={point.x + '-' + point.y}
+					x={point.x}
+					y={point.y}
+					data={point.originalData}
+					r={5}
+					color={this.state.color}
+					onMouseOver={this.onMouseOver}
+					onMouseMove={this.onMouseMove}
+					onMouseOut={this.onMouseOut}
+				/>
+			);
+		});
 	}
 }
 

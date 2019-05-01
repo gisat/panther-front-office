@@ -12,10 +12,15 @@ const TICK_CAPTION_OFFSET_HORIZONTAL = 4;
 
 class AxisY extends React.PureComponent {
 
+	static defaultProps = {
+		topPadding: 0
+	};
+
 	static propTypes = {
 		scale: PropTypes.func,
 
 		bottomMargin: PropTypes.number,
+		topPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		width: PropTypes.number,
@@ -34,7 +39,7 @@ class AxisY extends React.PureComponent {
 		const props = this.props;
 
 		return (
-			<g className="ptr-column-chart-axis-y">
+			<g className="ptr-column-chart-axis-y" transform={`translate(0,${this.props.topPadding})`}>
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
 			</g>
