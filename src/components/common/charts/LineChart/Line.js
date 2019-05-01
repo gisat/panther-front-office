@@ -10,7 +10,7 @@ import '../style.scss';
 class Line extends React.PureComponent {
 
 	static propTypes = {
-		itemKey: PropTypes.array,
+		itemKey: PropTypes.string,
 		coordinates: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
@@ -21,12 +21,15 @@ class Line extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.ref = React.createRef();
+
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onMouseOver = this.onMouseOver.bind(this);
 
 		this.state = {
-			color: chroma(this.props.color).luminance(.5)
+			color: chroma(this.props.color).luminance(.5),
+			length: null
 		}
 	}
 
@@ -51,6 +54,11 @@ class Line extends React.PureComponent {
 		this.setState({color: chroma(this.props.color).luminance(.4)});
 	}
 
+	componentDidUpdate() {
+		let length = this.ref.current.getTotalLength();
+		this.setState({length});
+	}
+
 	render() {
 		const props = this.props;
 		let classes = classnames("ptr-line-chart-line", {
@@ -58,6 +66,7 @@ class Line extends React.PureComponent {
 
 		return (
 			<path
+				ref={this.ref}
 				className={classes}
 				key={props.itemKey}
 				onMouseOver={this.onMouseOver}
@@ -66,7 +75,11 @@ class Line extends React.PureComponent {
 				d={`M${props.coordinates.map(point => {
 					return `${point.x} ${point.y}`;
 				}).join(" L")}`}
-				style={{stroke: this.state.color}}
+				style={{
+					stroke: this.state.color,
+					strokeDasharray: this.state.length,
+					strokeDashoffset: this.state.length
+				}}
 			/>
 		);
 	}

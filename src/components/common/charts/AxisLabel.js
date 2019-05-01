@@ -11,7 +11,10 @@ class AxisLabel extends React.PureComponent {
 	static propTypes = {
 		maxHeight: PropTypes.number,
 		maxWidth: PropTypes.number,
-		text: PropTypes.string,
+		text: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 		textAnchor: PropTypes.string
 	};
 

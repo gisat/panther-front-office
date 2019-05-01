@@ -26,6 +26,10 @@ class Bar extends React.PureComponent {
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onMouseOver = this.onMouseOver.bind(this);
+
+		this.state = {
+			height: 0
+		}
 	}
 
 	onMouseMove(e) {
@@ -46,6 +50,12 @@ class Bar extends React.PureComponent {
 		}
 	}
 
+	componentDidUpdate() {
+		this.setState({
+			height: this.props.height
+		})
+	}
+
 	render() {
 		const props = this.props;
 		let classes = classnames("ptr-column-chart-bar", {
@@ -61,7 +71,7 @@ class Bar extends React.PureComponent {
 				  y={props.y}
 				  x={props.x}
 				  width={props.width}
-				  height={props.height}
+				  height={this.state.height}
 			/>
 		);
 	}

@@ -196,6 +196,7 @@ class LineChart extends React.PureComponent {
 
 			return (
 				<Line
+					key={key}
 					itemKey={key}
 					coordinates={coordinates}
 					color={color}

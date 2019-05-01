@@ -219,22 +219,26 @@ class ColumnChart extends React.PureComponent {
 	}
 
 	renderBars(data, props, xScale, yScale, availableHeight) {
-		return data.map((item) => {
-			return (
-				<Bar
-					itemKeys={[_.get(item, props.keySourcePath)]}
-					key={_.get(item, props.keySourcePath)}
-					onMouseOut={this.onBarOut}
-					onMouseOver={this.onBarOver}
-					onMouseMove={this.onBarOver}
+		return (
+			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
+				{data.map((item) => {
+					return (
+						<Bar
+							itemKeys={[_.get(item, props.keySourcePath)]}
+							key={_.get(item, props.keySourcePath)}
+							onMouseOut={this.onBarOut}
+							onMouseOver={this.onBarOver}
+							onMouseMove={this.onBarOver}
 
-					y={yScale(_.get(item, props.ySourcePath))}
-					x={xScale(_.get(item, props.keySourcePath))}
-					width={xScale.bandwidth()}
-					height={availableHeight - yScale(_.get(item, props.ySourcePath))}
-				/>
-			);
-		});
+							y={0}
+							x={xScale(_.get(item, props.keySourcePath))}
+							width={xScale.bandwidth()}
+							height={availableHeight - yScale(_.get(item, props.ySourcePath))}
+						/>
+					);
+				})}
+			</g>
+		);
 	}
 
 	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, availableHeight) {
