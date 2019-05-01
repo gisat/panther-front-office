@@ -28,7 +28,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'multiSelect', title: 'MultiSelect', component: MultiSelectDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
 			{key: 'typo', title: 'Typography', component: TypoDoc},
-			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {unresponsive: true}},
+			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {forceColumns: true}},
 		];
 
 		this.paths = {};
@@ -81,7 +81,7 @@ class DocsPage extends React.PureComponent {
 
 	renderPage(title, component, props) {
 		let classes = classnames("ptr-docs-content",{
-			unresponsive: props.unresponsive
+			forceColumns: props.forceColumns
 		});
 
 		return (

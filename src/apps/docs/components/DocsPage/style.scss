@@ -15,6 +15,10 @@
   flex: 1;
 }
 
+.ptr-docs-content.forceColumns {
+  flex-direction: column;
+}
+
 .ptr-docs-panel {
   flex: 1;
   padding: m(1) m(1) m(5);
@@ -35,12 +39,12 @@
   margin: .2rem;
 }
 
+.ptr-docs-panel-section .chart {
+  border: 2px dashed var(--base25);
+}
+
 @media screen and (max-width: 60rem) {
   .ptr-docs-content {
     flex-direction: column;
-  }
-
-  .ptr-docs-content.unresponsive {
-    flex-direction: row;
   }
 }

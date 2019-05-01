@@ -17,8 +17,8 @@ const BAR_GAP_RATIO = 0.4; // TODO optional
 const WIDTH = 500;
 const HEIGHT = 250;
 
-const MIN_WIDTH = 300;
-const MAX_WIDTH = 700;
+const MIN_WIDTH = 200;
+const MAX_WIDTH = 1000;
 
 const Y_CAPTIONS_SIZE = 70;
 const X_CAPTIONS_SIZE = 70;
