@@ -16,6 +16,14 @@ const useKeys = common.useKeys(Select.attributes.getSubstate, 'attributes', Acti
 const useKeysClear = common.useKeysClear(ActionTypes.ATTRIBUTES);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
 const updateStateFromView = common.updateSubstateFromView(ActionTypes.ATTRIBUTES);
+const useIndexedBatch = common.useIndexedBatch('spatial', ActionTypes.ATTRIBUTES, 'data');
+
+
+function loadAttributeData(filter, componentId) {
+	return (dispatch, getState) => {
+		return dispatch(useIndexedBatch(null, filter, null, componentId, 'attributeDataSourceKey'));
+	}
+}
 
 // ============ export ===========
 
@@ -33,5 +41,8 @@ export default {
 	useIndexed,
 	useIndexedClear,
 	useKeys,
-	useKeysClear
+	useKeysClear,
+	useIndexedBatch,
+
+	loadAttributeData
 }

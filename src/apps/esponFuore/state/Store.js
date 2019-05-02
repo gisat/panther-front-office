@@ -11,6 +11,7 @@ import indicatorReducers from './EsponFuoreIndicators/reducers';
 // base types
 import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
+import attributeRelationsReducers from '../../../state/AttributeRelations/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
 import attributeDataSources from '../../../state/AttributeDataSources/reducers';
@@ -46,6 +47,7 @@ export default createStore(combineReducers({
 	app: appReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
+	attributeRelations: attributeRelationsReducers,
 	attributeSets: attributeSetsReducers,
 	attributeDataSources: attributeDataSources,
 	components: componentsReducers,

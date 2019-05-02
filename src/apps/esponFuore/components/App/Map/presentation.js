@@ -16,6 +16,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		elevationModel: PropTypes.string,
 		layers: PropTypes.array,
 		layersVectorData: PropTypes.object,
+		layersAttributeData: PropTypes.object,
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
 		onWorldWindNavigatorChange: PropTypes.func,
@@ -47,7 +48,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//todo check if layer already in map
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
-			this.handleVectorData(layers, this.props.layersVectorData,  [...backgroundLayers, ...thematicLayers]);
+			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, [...backgroundLayers, ...thematicLayers]);
 		}
 
 		this.setState({
@@ -75,7 +76,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			//todo check if layer already in map
 			if (!isEqual(prevProps.layersVectorData, this.props.layersVectorData)) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData,  [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			if(backgroundLayersChanged && !isEqual(this.state.backgroundLayers, backgroundLayers)) {
@@ -157,16 +158,28 @@ class FuoreWorldWindMap extends React.PureComponent {
 	 * 
 	 * Join spatial vector data with map layers.
 	 */
-	handleVectorData(LayersData = [], layersVectorData = {}, layersState = []) {
+	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {}, layersState = []) {
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 
 			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer) {
 				if(data && data.length > 0) {
-					const dataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
+					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
+					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
 					//merge with attributes
-					existingLayer.setRenderables(dataSourceData.spatialData, defaultVectorStyle);
+					const fl = spatialDataSourceData.spatialData.features.length;
+					for(let i = 0; i < fl; i++) {
+						const feature = spatialDataSourceData.spatialData.features[i];
+						const featureId = feature.properties[data.fidColumnName];
+
+						//get attribute by value
+						// attributes
+						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[data.fidColumnName] === featureId);
+						feature.properties = {...feature.properties, ...attributeFeatureData.properties};
+					}
+
+					existingLayer.setRenderables(spatialDataSourceData.spatialData, defaultVectorStyle);
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
 					const emptyGeoJSON = {

@@ -7,6 +7,7 @@ import SpatialRelations from "../SpatialRelations/selectors";
 
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
+const getByKeys = common.getByKeys(getSubstate);
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -71,5 +72,6 @@ export default {
 
 	getFilteredGroupedByLayerKey,
 	getFilteredData,
+	getByKeys,
 	vector: vectorSelectors
 };

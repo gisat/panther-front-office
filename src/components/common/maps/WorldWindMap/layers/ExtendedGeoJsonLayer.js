@@ -27,7 +27,11 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 */
 	setRenderables(renderablesData) {
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
-		parser.load(null, null, this);
+		const shapeConfigurationCallback = (geometry, properties) => {
+			//add properties to renderable
+			return {userProperties: properties}
+		}
+		parser.load(null, shapeConfigurationCallback, this);
 	}
 
 	doRender(dc) {

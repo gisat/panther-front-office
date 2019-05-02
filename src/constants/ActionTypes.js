@@ -507,6 +507,24 @@ export const commonActionTypesDefinitions = {
 		ENSURE: {
 			ERROR: null
 		},
+		USE: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			INDEXED_BATCH: {
+				REGISTER: null
+			}
+		},
+
+
+
 		VECTOR: {
 			ADD: null,
 			ADD_BATCH: null,

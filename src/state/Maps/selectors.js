@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import LayerTemplatesSelectors from '../LayerTemplates/selectors';
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
+import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
 import commonSelectors from "../_common/selectors";
 
 import config from "../../config/index";
@@ -195,6 +196,7 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 const getLayers = createSelector(
 	[
 		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
+		AttributeDataSourcesSelectors.getFilteredGroupedByLayerKey,
 		(state, layers) => (layers)
 	],
 	/**
@@ -202,14 +204,14 @@ const getLayers = createSelector(
 	 * @param layers {null | Array}
 	 * @return {null | Array} Collection of layers data for map component
 	 */
-	(groupedSources, layers) => {
+	(groupedSpatialSources, groupedAttributeSources, layers) => {
 		// FIXME - more complex
-		if (groupedSources && layers) {
+		if (groupedSpatialSources && groupedAttributeSources && layers) {
 			let layersForMap = [];
 			layers.forEach(layer => {
-				let sourcesForLayer = groupedSources[layer.data.key];
-				if (sourcesForLayer) {
-					sourcesForLayer.forEach(source => {
+				let spatialSourcesForLayer = groupedSpatialSources[layer.data.key];
+				if (spatialSourcesForLayer) {
+					spatialSourcesForLayer.forEach(source => {
 						let key = `${layer.data.key}`;
 						let mapServerConfig = {
 							wmsMapServerUrl: `${config.apiGeoserverWMSProtocol}://${config.apiGeoserverWMSHost}/${config.apiGeoserverWMSPath}`,
@@ -230,6 +232,25 @@ const getLayers = createSelector(
 								key,
 								mapServerConfig
 							});
+						}
+					});
+				}
+
+				//add attribute relations data
+				let attributeSourcesForLayer = groupedAttributeSources[layer.data.key];
+				if (attributeSourcesForLayer) {
+					attributeSourcesForLayer.forEach(source => {
+						if (source) {
+							const attributeLayerTemplateKey = source.attributeRelationData && source.attributeRelationData.layerTemplateKey;
+							if(attributeLayerTemplateKey) {
+								//get layer by layerTemplate
+								const layerByLayerTemplateKey = layersForMap.find((l) => {
+									return l.spatialRelationsData && l.spatialRelationsData.layerTemplateKey === attributeLayerTemplateKey;
+								});
+
+								layerByLayerTemplateKey.attributeRelationsData = source.attributeRelationData;
+
+							}
 						}
 					});
 				}

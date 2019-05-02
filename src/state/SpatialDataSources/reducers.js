@@ -13,6 +13,11 @@ export default (state = INITIAL_STATE, action) => {
 			return common.add(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
+
 		default:
 			return state;
 	}
