@@ -35,160 +35,160 @@ class LineChartDoc extends React.PureComponent {
 				<div className="ptr-docs-panel-section">
 					<h2>Basic settings</h2>
 					<p>Resize window to see responsiveness.</p>
-					{React.cloneElement(
-						<LineChart
-							key="test1"
-							data={sample_serie_7}
-							serieKeySourcePath="key"
-							serieNameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+					<LineChart
+						key="test1"
+						data={sample_serie_7}
+						serieKeySourcePath="key"
+						serieNameSourcePath="data.name"
+						serieDataSourcePath="data.data"
+						xSourcePath="period" // in context of serie
+						ySourcePath="someStrangeValue" // in context of serie
 
-							xTicks
-							xGridlines
-							xCaptions
-							yTicks
-							yGridlines
-							yCaptions
-							withoutYbaseline
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						withoutYbaseline
 
-							xCaptionsSize={50}
-						/>, {width: this.state.width})}
+						xCaptionsSize={50}
+						width={this.state.width}
+					/>
 				</div>
 
 				<div className="ptr-docs-panel-section">
 					<h2>With points</h2>
-					{React.cloneElement(
-						<LineChart
-							key="test2"
-							data={sample_serie_7}
-							serieKeySourcePath="key"
-							serieNameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+					<LineChart
+						key="test2"
+						data={sample_serie_7}
+						serieKeySourcePath="key"
+						serieNameSourcePath="data.name"
+						serieDataSourcePath="data.data"
+						xSourcePath="period" // in context of serie
+						ySourcePath="someStrangeValue" // in context of serie
 
-							xTicks
-							xGridlines
-							xCaptions
-							yTicks
-							yGridlines
-							yCaptions
-							withoutYbaseline
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						withoutYbaseline
 
-							xCaptionsSize={50}
+						xCaptionsSize={50}
 
-							withPoints
-						/>, {width: this.state.width})}
+						withPoints
+						width={this.state.width}
+					/>
 				</div>
 
 				<div className="ptr-docs-panel-section">
 					<h2>Force aggregated</h2>
-					{React.cloneElement(
-						<LineChart
-							key="test4"
-							data={sample_serie_7}
-							serieKeySourcePath="key"
-							serieNameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+					<LineChart
+						key="test4"
+						data={sample_serie_7}
+						serieKeySourcePath="key"
+						serieNameSourcePath="data.name"
+						serieDataSourcePath="data.data"
+						xSourcePath="period" // in context of serie
+						ySourcePath="someStrangeValue" // in context of serie
 
-							forceMode="aggregated"
+						forceMode="aggregated"
 
-							xTicks
-							xGridlines
-							xCaptions
-							yTicks
-							yGridlines
-							yCaptions
-							withoutYbaseline
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						withoutYbaseline
 
-							xCaptionsSize={50}
+						xCaptionsSize={50}
 
-							withPoints
-						/>, {width: this.state.width})}
+						withPoints
+						width={this.state.width}
+					/>
 				</div>
 
 				<div className="ptr-docs-panel-section">
 					<h2>Force gray</h2>
-					{React.cloneElement(
-						<LineChart
-							key="test5"
-							data={sample_serie_7}
-							serieKeySourcePath="key"
-							serieNameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+					<LineChart
+						key="test5"
+						data={sample_serie_7}
+						serieKeySourcePath="key"
+						serieNameSourcePath="data.name"
+						serieDataSourcePath="data.data"
+						xSourcePath="period" // in context of serie
+						ySourcePath="someStrangeValue" // in context of serie
 
-							forceMode="gray"
+						forceMode="gray"
 
-							xTicks
-							xGridlines
-							xCaptions
-							yTicks
-							yGridlines
-							yCaptions
-							withoutYbaseline
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						withoutYbaseline
 
-							xCaptionsSize={50}
+						xCaptionsSize={50}
 
-							withPoints
-						/>, {width: this.state.width})}
+						withPoints
+						width={this.state.width}
+					/>
 				</div>
 
 				<div className="ptr-docs-panel-section">
 					<h2>More than 10 series</h2>
-					{React.cloneElement(
-						<LineChart
-							key="test3"
-							data={sample_serie_30}
-							serieKeySourcePath="key"
-							serieNameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+					<LineChart
+						key="test3"
+						data={sample_serie_30}
+						serieKeySourcePath="key"
+						serieNameSourcePath="data.name"
+						serieDataSourcePath="data.data"
+						xSourcePath="period" // in context of serie
+						ySourcePath="someStrangeValue" // in context of serie
 
-							xTicks
-							xGridlines
-							xCaptions
-							yTicks
-							yGridlines
-							yCaptions
-							withoutYbaseline
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						withoutYbaseline
 
-							xCaptionsSize={50}
+						xCaptionsSize={50}
 
-							withPoints
-						/>, {width: this.state.width})}
+						withPoints
+						width={this.state.width}
+					/>
 				</div>
 
 				<div className="ptr-docs-panel-section">
 					<h2>More than 50 series</h2>
-					{React.cloneElement(
-						<LineChart
-							key="test500"
-							data={sample_serie_500}
-							serieKeySourcePath="key"
-							serieNameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+					<LineChart
+						key="test500"
+						data={sample_serie_500}
+						serieKeySourcePath="key"
+						serieNameSourcePath="data.name"
+						serieDataSourcePath="data.data"
+						xSourcePath="period" // in context of serie
+						ySourcePath="someStrangeValue" // in context of serie
 
-							xTicks
-							xGridlines
-							xCaptions
-							yTicks
-							yGridlines
-							yCaptions
-							withoutYbaseline
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						withoutYbaseline
 
-							xCaptionsSize={50}
+						xCaptionsSize={50}
 
-							withPoints
-						/>, {width: this.state.width})}
+						withPoints
+						width={this.state.width}
+					/>
 				</div>
 			</div>
 		);
