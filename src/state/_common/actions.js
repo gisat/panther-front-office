@@ -195,7 +195,7 @@ const useKeys = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATE
 	return (keys, componentId) => {
 		return dispatch => {
 			dispatch(actionUseKeysRegister(actionTypes, componentId, keys));
-			dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath));
+			return dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath));
 		};
 	}
 };

@@ -157,10 +157,15 @@ function getVectorLayer(layerData) {
 		key: layerData.key,
 		layerName: layerData.layerName,
 		...layerData,
-		// filterFunction: (renderable) => renderable.userProperties.NAME_2 === 'Ain',
+		filterFunction: (renderable) => renderable.userProperties.NAME_3 === 'Belley',
 		styleFunction: (renderable) => {
 			let attributes = new ShapeAttributes();
 			attributes.interiorColor = new Color(0.5,0.5,0.5,1);
+
+			if(renderable.userProperties.NAME_3=== "Belley"){
+				attributes.interiorColor = Color.colorFromByteArray([27, 224, 33, 255])
+			}
+
 			return attributes;
 		}
 	}, url, defaultVectorStyle);

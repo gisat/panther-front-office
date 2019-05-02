@@ -2,7 +2,6 @@ import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
 import commonActions from '../_common/actions';
-import commonSelectors from '../_common/selectors';
 import utils from '../../utils/utils';
 import * as layerTreeUtils from '../../utils/layerTreeUtils';
 import Action from "../Action";
@@ -632,13 +631,36 @@ const use = (mapKey) => {
 		}
 
 		if (finalLayers.length) {
+			const componentId = `map_${mapKey}`;
+
 			finalLayers.forEach(filters => {
-				dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filters.filterByActive, filters.filter, null, 1, 100));
-				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filters.mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'))
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, filters.filter, null, 1, 100));
+				dispatch(Action.spatialRelations.ensureIndexed(filters.mergedFilter, null, 1, 100,))
 					.then(() => {
-						let dataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
-						if (dataSourcesKeys && dataSourcesKeys.length) {
-							dispatch(commonActions.ensureKeys(Select.spatialDataSources.getSubstate, 'spatial', ActionTypes.SPATIAL_DATA_SOURCES, dataSourcesKeys,'dataSources'));
+						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
+						if (spatialDataSourcesKeys && spatialDataSourcesKeys.length) {
+
+							dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
+								let dataSource = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
+								//datasource is only one
+								//if vector dataSource, then load attribute data
+								if(dataSource && dataSource[0] && dataSource[0].data.type === 'vector') {
+									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, filters.filter, null, 1, 100));
+									dispatch(Action.attributeRelations.ensureIndexed(filters.mergedFilter, null, 1, 100,)).then(() => {
+										let attributeDataSources = Select.attributeRelations.getFiltered(getState(), filters.mergedFilter);
+										
+										const attributeDataFilter = {
+											attributeDataSourceKey: attributeDataSources[0].attributeDataSourceKey,
+											fidColumnName: attributeDataSources[0].fidColumnName
+										}
+										//get data
+										Action.attributes.loadAttributeData(attributeDataFilter, componentId);
+										//get statistics
+										//FIXME
+									})
+								}
+								
+							});
 						}
 					})
 					.catch((err) => {

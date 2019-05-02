@@ -18,20 +18,36 @@ const mapStateToProps = (state, props) => {
 	//TODO -> select
 	let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.spatialRelationsData) {
-			const filter = {
-				spatialDataSourceKey: layerData.spatialDataSourceKey,
+			const spatialDataSourceFilter = {
+				spatialDataSourceKey: layerData.spatialRelationsData.spatialDataSourceKey,
 				fidColumnName: layerData.spatialRelationsData.fidColumnName
 			};
-			acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, filter, null);	
-			// acc[layerData.key] = Select.attributeDataSources.vector.getBatchByFilterOrder(state, filter, null);	
-			return acc
+
+			acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, spatialDataSourceFilter, null);
+			if (acc[layerData.key]) {
+				acc[layerData.key]['fidColumnName'] = layerData.spatialRelationsData.fidColumnName;
+			}
 		}
+		return acc
+	}, {});
+	
+	let layersAttributeData = vectorLayers.reduce((acc, layerData) => {
+		if(layerData.attributeRelationsData) {
+			const attributeDataSourceFilter = {
+				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
+				fidColumnName: layerData.spatialRelationsData.fidColumnName
+			};
+
+			acc[layerData.key] = Select.attributeDataSources.getBatchByFilterOrder(state, attributeDataSourceFilter, null);
+		}
+		return acc
 	}, {});
 
 	return {
 		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
 		layers,
 		layersVectorData,
+		layersAttributeData,
 		navigator: Select.maps.getNavigator(state, props.mapKey),
 		activeAttributeKey: Select.attributes.getActiveKey(state)
 	}
@@ -56,6 +72,8 @@ const mapDispatchToProps = (dispatch, props) => {
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
 			dispatch(Action.attributesDataSources.useIndexedClear(componentId));
 			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));
+
+			//FIXME - clear spatial, attributes data, relations...
 		},
 
 		onWorldWindNavigatorChange: (updates) => {
