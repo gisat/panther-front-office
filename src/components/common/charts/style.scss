@@ -85,13 +85,12 @@
 .ptr-line-chart-line {
 	fill: none;
 	stroke-width: 2;
-	transition: stroke-width .3s ease-in-out, stroke .3s ease-in-out;
+	stroke: var(--base50);
 	animation: pathDraw 2s ease-in-out 1;
 	animation-fill-mode: forwards;
 }
 
 .ptr-chart-point {
-	transition: fill .3s ease-in-out, r .3s ease-in-out, stroke-width .3s ease-in-out;
 	animation: pointDraw .3s ease-in-out 1;
 	animation-fill-mode: forwards;
 	animation-delay: 2s;
@@ -101,8 +100,21 @@
 	stroke: var(--base10);
 }
 
-.ptr-line-chart-line-wrapper:hover .ptr-line-chart-line {
+.ptr-line-chart-line-wrapper:hover .ptr-line-chart-line,
+.ptr-line-chart-line-wrapper.gray:hover .ptr-line-chart-line {
 	stroke-width: 3;
+}
+
+.ptr-line-chart-line-wrapper.gray .ptr-line-chart-line {
+	stroke-width: 1;
+}
+
+.ptr-line-chart-line-wrapper.gray .ptr-chart-point {
+	opacity: 0;
+}
+
+.ptr-line-chart-line-wrapper.gray:hover .ptr-chart-point {
+	opacity: 1;
 }
 
 

@@ -59,13 +59,14 @@ class LineChart extends React.PureComponent {
 
 		if (!state || !_.isEqual(state.itemKey, itemKey)  || state.x !== x || state.y !== y) {
 			this.setState({
-				popup: {itemKey, x, y, data}
+				popup: {itemKey, x, y, data},
+				hoveredItemKey: itemKey
 			});
 		}
 	}
 
 	onLineOut() {
-		this.setState({popup: null});
+		this.setState({popup: null, hoveredItemKey: null});
 	}
 
 	// TODO axis orientation
@@ -207,6 +208,8 @@ class LineChart extends React.PureComponent {
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
+					suppressed={this.state.hoveredItemKey && this.state.hoveredItemKey !== key}
+					gray={data.length > 10}
 				/>
 			);
 		});

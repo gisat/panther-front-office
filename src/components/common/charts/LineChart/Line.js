@@ -17,7 +17,9 @@ class Line extends React.PureComponent {
 		onMouseOut: PropTypes.func,
 		onMouseOver: PropTypes.func,
 		color: PropTypes.string,
-		withPoints: PropTypes.bool
+		withPoints: PropTypes.bool,
+		suppressed: PropTypes.bool,
+		gray: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -30,7 +32,7 @@ class Line extends React.PureComponent {
 		this.onMouseOver = this.onMouseOver.bind(this);
 
 		this.state = {
-			color: chroma(this.props.color).luminance(.5),
+			color: !props.gray ? chroma(this.props.color).luminance(.3) : null,
 			length: null
 		}
 	}
@@ -55,7 +57,7 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
 		}
-		this.setState({color: chroma(this.props.color).luminance(.4)});
+		this.setState({color: !this.props.gray ? chroma(this.props.color).luminance(.3) : null});
 	}
 
 	componentDidUpdate() {
@@ -65,19 +67,24 @@ class Line extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		let classes = classnames("ptr-line-chart-line", {
+		let classes = classnames("ptr-line-chart-line-wrapper", {
+			gray: this.props.gray
 		});
 
 		return (
 			<g
-				className="ptr-line-chart-line-wrapper"
+				className={classes}
+				id={props.itemKey}
+				style={{
+					opacity: this.props.suppressed ? .3 : 1
+				}}
 			>
 				<path
 					onMouseOver={this.onMouseOver}
 					onMouseMove={this.onMouseMove}
 					onMouseOut={this.onMouseOut}
 					ref={this.ref}
-					className={classes}
+					className={"ptr-line-chart-line"}
 					key={props.itemKey}
 					d={`M${props.coordinates.map(point => {
 						return `${point.x} ${point.y}`;
