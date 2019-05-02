@@ -12,6 +12,7 @@ class Line extends React.PureComponent {
 
 	static propTypes = {
 		itemKey: PropTypes.string,
+		name: PropTypes.string,
 		coordinates: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
@@ -32,14 +33,14 @@ class Line extends React.PureComponent {
 		this.onMouseOver = this.onMouseOver.bind(this);
 
 		this.state = {
-			color: !props.gray ? chroma(this.props.color).luminance(.3) : null,
+			color: (!props.gray && props.color) ? chroma(this.props.color).luminance(.3) : null,
 			length: null
 		}
 	}
 
 	onMouseMove(e, data) {
 		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
+			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
 		this.setState({
 			color: this.props.color
@@ -48,7 +49,7 @@ class Line extends React.PureComponent {
 
 	onMouseOver(e, data) {
 		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKey, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
+			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
 		this.setState({color: this.props.color});
 	}
@@ -57,7 +58,7 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
 		}
-		this.setState({color: !this.props.gray ? chroma(this.props.color).luminance(.3) : null});
+		this.setState({color: (!this.props.gray && this.props.color) ? chroma(this.props.color).luminance(.3) : null});
 	}
 
 	componentDidUpdate() {

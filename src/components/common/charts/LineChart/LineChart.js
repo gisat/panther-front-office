@@ -10,7 +10,6 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Popup from "../Popup";
 import Line from "./Line";
-import Bar from "../ColumnChart/ColumnChart";
 
 const WIDTH = 500;
 const HEIGHT = 250;
@@ -25,6 +24,12 @@ const X_CAPTIONS_SIZE = 70;
 const INNER_PADDING_LEFT = 10;
 const INNER_PADDING_RIGHT = 10;
 const INNER_PADDING_TOP = 10;
+
+// If series count is greater than threshold, lines will be gray
+const GRAYING_THRESHOLD = 10;
+
+// If series count is greater than threshold, lines will be aggregated to maximum, minimum and average
+const AGGREGATION_THRESHOLD = 50;
 
 class LineChart extends React.PureComponent {
 
@@ -54,12 +59,12 @@ class LineChart extends React.PureComponent {
 		this.onLineOver = this.onLineOver.bind(this);
 	}
 
-	onLineOver(itemKey, x, y, data) {
+	onLineOver(itemKey, name, x, y, data) {
 		let state = this.state.popup;
 
 		if (!state || !_.isEqual(state.itemKey, itemKey)  || state.x !== x || state.y !== y) {
 			this.setState({
-				popup: {itemKey, x, y, data},
+				popup: {itemKey, name, x, y, data},
 				hoveredItemKey: itemKey
 			});
 		}
@@ -175,7 +180,10 @@ class LineChart extends React.PureComponent {
 							withCaption={props.xCaptions}
 						/>
 						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},${INNER_PADDING_TOP})`}>
-							{this.renderLines(data, props, xScale, yScale, colors)}
+							{data.length < AGGREGATION_THRESHOLD ?
+								this.renderLines(data, props, xScale, yScale, colors) :
+								this.renderAggregated(data, props, xScale, yScale)
+							}
 						</g>
 					</> : null}
 				</svg>
@@ -190,6 +198,7 @@ class LineChart extends React.PureComponent {
 		return data.map((item, index) => {
 			let serie = _.get(item, props.serieDataSourcePath);
 			let key = _.get(item, props.serieKeySourcePath);
+			let name = _.get(item, props.serieNameSourcePath);
 			let color = colors(_.get(item, props.serieKeySourcePath));
 
 			let coordinates = serie.map(record => {
@@ -202,6 +211,7 @@ class LineChart extends React.PureComponent {
 				<Line
 					key={key}
 					itemKey={key}
+					name={name}
 					coordinates={coordinates}
 					color={color}
 					onMouseOut={this.onLineOut}
@@ -209,10 +219,137 @@ class LineChart extends React.PureComponent {
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
 					suppressed={this.state.hoveredItemKey && this.state.hoveredItemKey !== key}
-					gray={data.length > 10}
+					gray={data.length > GRAYING_THRESHOLD}
 				/>
 			);
 		});
+	}
+
+	renderAggregated(data, props, xScale, yScale, colors) {
+		let leftOffset = xScale.bandwidth()/2;
+
+		let maxValues = {};
+		let minValues = {};
+		let values = {};
+
+		data.forEach((record) => {
+			let serie = _.get(record, props.serieDataSourcePath);
+			serie.forEach((item) => {
+				let key = _.get(item, props.xSourcePath);
+				let value = _.get(item, props.ySourcePath);
+
+				if (!maxValues[key] || maxValues[key] < value) {
+					maxValues[key] = value;
+				}
+
+				if (!minValues[key] || minValues[key] > value) {
+					minValues[key] = value;
+				}
+
+				if (!values[key]) {
+					values[key] = [value];
+				} else {
+					values[key].push(value);
+				}
+			});
+		});
+
+		let components = [];
+
+		// prepare max data for chart
+		let maxValuesForChart = [];
+		_.forIn(maxValues, (value, key) => {
+			maxValuesForChart.push({
+				[props.xSourcePath]: key,
+				[props.ySourcePath]: value
+			});
+		});
+
+		let maxCoordinates = maxValuesForChart.map(record => {
+			let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+			let y = yScale(_.get(record, props.ySourcePath));
+			return {x,y, originalData: record};
+		});
+
+		// prepare min data for chart
+		let minValuesForChart = [];
+		_.forIn(minValues, (value, key) => {
+			minValuesForChart.push({
+				[props.xSourcePath]: key,
+				[props.ySourcePath]: value
+			});
+		});
+
+		let minCoordinates = minValuesForChart.map(record => {
+			let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+			let y = yScale(_.get(record, props.ySourcePath));
+			return {x,y, originalData: record};
+		});
+
+		// prepare average data for chart
+		let averageValuesForChart = [];
+		_.forIn(values, (values, key) => {
+			averageValuesForChart.push({
+				[props.xSourcePath]: key,
+				[props.ySourcePath]: _.sum(values)/values.length
+			});
+		});
+
+		let averageCoordinates = averageValuesForChart.map(record => {
+			let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+			let y = yScale(_.get(record, props.ySourcePath));
+			return {x,y, originalData: record};
+		});
+
+		let reverseMinCoordinates = _.reverse([...minCoordinates]);
+
+		return (
+			<>
+				<path
+					className="ptr-line-chart-area"
+					d={`M${maxCoordinates.map(point => {
+						return `${point.x} ${point.y}`;
+					}).join(" L")} L${reverseMinCoordinates.map(point => {
+						return `${point.x} ${point.y}`;
+					}).join(" L")}`}
+				/>
+				<Line
+					key={'minimum'}
+					itemKey={'minimum'}
+					name={'Minimum'}
+					coordinates={minCoordinates}
+					color={"#777777"}
+					onMouseOut={this.onLineOut}
+					onMouseOver={this.onLineOver}
+					onMouseMove={this.onLineOver}
+					withPoints={this.props.withPoints}
+					gray
+				/>
+				<Line
+					key={'average'}
+					itemKey={'average'}
+					name={'Average'}
+					coordinates={averageCoordinates}
+					onMouseOut={this.onLineOut}
+					onMouseOver={this.onLineOver}
+					onMouseMove={this.onLineOver}
+					withPoints={this.props.withPoints}
+					color={"#ff0000"}
+				/>
+				<Line
+					key={'maximum'}
+					itemKey={'maximum'}
+					name={'Maximum'}
+					coordinates={maxCoordinates}
+					color={"#777777"}
+					onMouseOut={this.onLineOut}
+					onMouseOver={this.onLineOver}
+					onMouseMove={this.onLineOver}
+					withPoints={this.props.withPoints}
+					gray
+				/>
+			</>
+		);
 	}
 
 	renderPopup(maxX) {
@@ -220,10 +357,9 @@ class LineChart extends React.PureComponent {
 		let content = null;
 
 		if (state.itemKey) {
-			let data = _.find(this.props.data, item => {return _.get(item, this.props.serieKeySourcePath) === state.itemKey});
 			content = (
 				<>
-					<div>{_.get(data, this.props.serieNameSourcePath)}</div>
+					<div>{state.name}</div>
 					{state.data ? (
 						<div>{`${_.get(state.data, this.props.xSourcePath)}: ${_.get(state.data, this.props.ySourcePath)}`}</div>
 					) : null}

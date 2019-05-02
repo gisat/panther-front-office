@@ -5,6 +5,7 @@ import LineChart from "../../../components/common/charts/LineChart/LineChart";
 
 import sample_serie_7 from "../../../components/common/charts/mockData/sample_serie_7";
 import sample_serie_30 from "../../../components/common/charts/mockData/sample_serie_30";
+import sample_serie_500 from "../../../components/common/charts/mockData/sample_serie_500";
 
 class LineChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -88,6 +89,32 @@ class LineChartDoc extends React.PureComponent {
 						<LineChart
 							key="test3"
 							data={sample_serie_30}
+							serieKeySourcePath="key"
+							serieNameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
+
+							xTicks
+							xGridlines
+							xCaptions
+							yTicks
+							yGridlines
+							yCaptions
+							withoutYbaseline
+
+							xCaptionsSize={50}
+
+							withPoints
+						/>, {width: this.state.width})}
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>More than 50 series</h2>
+					{React.cloneElement(
+						<LineChart
+							key="test500"
+							data={sample_serie_500}
 							serieKeySourcePath="key"
 							serieNameSourcePath="data.name"
 							serieDataSourcePath="data.data"
