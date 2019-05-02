@@ -84,6 +84,62 @@ class LineChartDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
+					<h2>Force aggregated</h2>
+					{React.cloneElement(
+						<LineChart
+							key="test4"
+							data={sample_serie_7}
+							serieKeySourcePath="key"
+							serieNameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
+
+							forceMode="aggregated"
+
+							xTicks
+							xGridlines
+							xCaptions
+							yTicks
+							yGridlines
+							yCaptions
+							withoutYbaseline
+
+							xCaptionsSize={50}
+
+							withPoints
+						/>, {width: this.state.width})}
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Force gray</h2>
+					{React.cloneElement(
+						<LineChart
+							key="test5"
+							data={sample_serie_7}
+							serieKeySourcePath="key"
+							serieNameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
+
+							forceMode="gray"
+
+							xTicks
+							xGridlines
+							xCaptions
+							yTicks
+							yGridlines
+							yCaptions
+							withoutYbaseline
+
+							xCaptionsSize={50}
+
+							withPoints
+						/>, {width: this.state.width})}
+				</div>
+
+				<div className="ptr-docs-panel-section">
 					<h2>More than 10 series</h2>
 					{React.cloneElement(
 						<LineChart

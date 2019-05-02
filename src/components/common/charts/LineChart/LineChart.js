@@ -35,6 +35,7 @@ class LineChart extends React.PureComponent {
 
 	static propTypes = {
 		data: PropTypes.array,
+		forceMode: PropTypes.string,
 
 		serieKeySourcePath: PropTypes.string,
 		serieNameSourcePath: PropTypes.string,
@@ -105,7 +106,7 @@ class LineChart extends React.PureComponent {
 		let innerPlotHeight = plotHeight - INNER_PADDING_TOP;
 
 		/* data preparation */
-		let xDomain, yDomain, xScale, yScale, colors, firstSerieData = null;
+		let xDomain, yDomain, xScale, yScale, colors, firstSerieData, mode = null;
 		let data = props.data;
 
 		if (data) {
@@ -142,6 +143,14 @@ class LineChart extends React.PureComponent {
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
 				.domain(data.map(record => {return _.get(record, props.serieKeySourcePath)}));
+
+			if (props.forceMode){
+				mode = props.forceMode;
+			} else if (data.length > AGGREGATION_THRESHOLD) {
+				mode = 'aggregated';
+			} else if (data.length > GRAYING_THRESHOLD) {
+				mode = 'gray';
+			}
 		}
 
 
@@ -180,9 +189,9 @@ class LineChart extends React.PureComponent {
 							withCaption={props.xCaptions}
 						/>
 						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},${INNER_PADDING_TOP})`}>
-							{data.length < AGGREGATION_THRESHOLD ?
-								this.renderLines(data, props, xScale, yScale, colors) :
-								this.renderAggregated(data, props, xScale, yScale)
+							{mode === 'aggregated' ?
+								this.renderAggregated(data, props, xScale, yScale) :
+								this.renderLines(data, props, xScale, yScale, colors, mode)
 							}
 						</g>
 					</> : null}
@@ -192,7 +201,7 @@ class LineChart extends React.PureComponent {
 		);
 	}
 
-	renderLines(data, props, xScale, yScale, colors) {
+	renderLines(data, props, xScale, yScale, colors, mode) {
 		let leftOffset = xScale.bandwidth()/2;
 
 		return data.map((item, index) => {
@@ -219,7 +228,7 @@ class LineChart extends React.PureComponent {
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
 					suppressed={this.state.hoveredItemKey && this.state.hoveredItemKey !== key}
-					gray={data.length > GRAYING_THRESHOLD}
+					gray={mode === 'gray'}
 				/>
 			);
 		});
@@ -253,8 +262,6 @@ class LineChart extends React.PureComponent {
 				}
 			});
 		});
-
-		let components = [];
 
 		// prepare max data for chart
 		let maxValuesForChart = [];
