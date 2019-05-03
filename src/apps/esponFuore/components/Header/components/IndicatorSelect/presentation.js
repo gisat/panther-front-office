@@ -43,7 +43,7 @@ class IndicatorSelect extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		let activeCategoryKey = props.activeCategoryKey || props.categories[0] && props.categories[0].key || null;
+		let activeCategoryKey = props.activeCategoryKey || props.categories && props.categories[0] && props.categories[0].key || null;
 
 		return (
 
