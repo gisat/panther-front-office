@@ -20,6 +20,7 @@ import sample_15 from "../../../../components/common/charts/mockData/sample_15.j
 import sample_50 from "../../../../components/common/charts/mockData/sample_50.json";
 import sample_200 from "../../../../components/common/charts/mockData/sample_200.json";
 import ChartWrapper from "../../../../components/common/charts/ChartWrapper/ChartWrapper";
+import ReactResizeDetector from 'react-resize-detector';
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -52,18 +53,27 @@ class EsponFuoreApp extends React.PureComponent {
 								content={[
 									{
 										render: props => (
-											<>
-												<MapSet
-													mapSetKey={this.context.mapSetKey}
-													activeAttributeKey={this.props.activeAttributeKey}
-													layerTreesFilter={{applicationKey: 'esponFuore'}}
-												>
-													<FuoreMap>
-														<FuoreMapPresentation />
-													</FuoreMap>
-												</MapSet>
-												<MapControls/>
-											</>
+											<ReactResizeDetector
+												handleWidth
+												handleHeight
+												render={({ width, height }) => {return (
+													<>
+														<MapSet
+															mapSetKey={this.context.mapSetKey}
+															activeAttributeKey={this.props.activeAttributeKey}
+															layerTreesFilter={{applicationKey: 'esponFuore'}}
+															width={width}
+															height={height}
+														>
+															<FuoreMap>
+																<FuoreMapPresentation />
+															</FuoreMap>
+														</MapSet>
+														<MapControls/>
+													</>
+													)
+												}}
+											/>
 										)
 									},
 									{
