@@ -23,6 +23,7 @@ import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from './SpatialDataSources/vector/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
 import stylesReducers from './Styles/reducers';
+import attributeStatisticsReducers from './AttributeStatistics/reducers';
 import tagsReducers from './Tags/reducers';
 import usersReducers from './Users/reducers';
 import viewsReducers from './Views/reducers';
@@ -40,6 +41,7 @@ const Store = createStore(combineReducers({
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeRelations: attributeRelationsReducers,
+	attributeStatistics: attributeStatisticsReducers,
 	attributeSets: attributeSetsReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,

@@ -19,6 +19,7 @@ import Snapshots from './Snapshots/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
 import Styles from './Styles/selectors';
+import AttributeStatistics from './AttributeStatistics/selectors';
 import Tags from './Tags/selectors';
 import Users from './Users/selectors';
 import Views from './Views/selectors';
@@ -33,6 +34,7 @@ export default {
 	areas: Areas,
 	attributes: Attributes,
 	attributeDataSources: AttributeDataSources,
+	attributeStatistics: AttributeStatistics,
 	attributeRelations: AttributeRelations,
 	attributeSets: AttributeSets,
 	components: Components,

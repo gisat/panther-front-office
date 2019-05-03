@@ -16,7 +16,7 @@ const useKeys = common.useKeys(Select.attributes.getSubstate, 'attributes', Acti
 const useKeysClear = common.useKeysClear(ActionTypes.ATTRIBUTES);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
 const updateStateFromView = common.updateSubstateFromView(ActionTypes.ATTRIBUTES);
-const useIndexedBatch = common.useIndexedBatch('spatial', ActionTypes.ATTRIBUTES, 'data');
+const useIndexedBatch = common.useIndexedBatch('attributes', ActionTypes.ATTRIBUTES, 'data');
 
 
 function loadAttributeData(filter, componentId) {

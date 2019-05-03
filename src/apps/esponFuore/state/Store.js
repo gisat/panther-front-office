@@ -30,6 +30,7 @@ import spatialDataSourcesReducers from '../../../state/SpatialDataSources/reduce
 import spatialVectorDataSourcesReducers from '../../../state/SpatialDataSources/vector/reducers';
 import spatialRelationsReducers from '../../../state/SpatialRelations/reducers';
 import stylesReducers from '../../../state/Styles/reducers';
+import attributeStatisticsReducers from '../../../state/AttributeStatistics/reducers';
 import tagsReducers from '../../../state/Tags/reducers';
 import usersReducers from '../../../state/Users/reducers';
 import viewsReducers from '../../../state/Views/reducers';
@@ -48,6 +49,7 @@ export default createStore(combineReducers({
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeRelations: attributeRelationsReducers,
+	attributeStatistics: attributeStatisticsReducers,
 	attributeSets: attributeSetsReducers,
 	attributeDataSources: attributeDataSources,
 	components: componentsReducers,

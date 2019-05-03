@@ -19,6 +19,7 @@ import Snapshots from './Snapshots/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
+import AttributeStatistics from './AttributeStatistics/actions';
 import Tags from './Tags/actions';
 import Users from './Users/actions';
 import Views from './Views/actions';
@@ -35,6 +36,7 @@ export default {
 	attributes: Attributes,
 	attributesDataSources: AttributeDataSources,
 	attributeRelations: AttributeRelations,
+	attributeStatistics: AttributeStatistics,
 	attributeSets: AttributeSets,
 	components: Components,
 	layerTemplates: LayerTemplates,
