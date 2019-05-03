@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Truncate from 'react-truncate';
+import classnames from 'classnames';
 
 import './style.scss';
 import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
@@ -58,8 +59,12 @@ class ScopesList extends React.PureComponent {
 				backgroundImage: index % 2 ? `url(${scopePreview0})` : `url(${scopePreview1})`
 			};
 
+			let classes = classnames("esponFuore-scope-card", {
+				disabled: scope && scope.data && scope.data.configuration && scope.data.configuration.fuoreMockScope
+			});
+
 			return (
-				<div className="esponFuore-scope-card" style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)} key={scope.key}>
+				<div className={classes} style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)} key={scope.key}>
 					<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 					{scope.data && scope.data.description ? (
 						<div className="esponFuore-scope-card-description">

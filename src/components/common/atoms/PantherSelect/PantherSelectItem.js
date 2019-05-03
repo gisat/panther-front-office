@@ -54,6 +54,7 @@ class PantherSelectItem extends React.PureComponent {
 		let classes = classNames(
 			'ptr-panther-select-item', {
 				selected: !!this.props.selected,
+				disabled: this.props.disabled
 			},
 			this.props.className
 		);

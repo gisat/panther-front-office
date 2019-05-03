@@ -74,6 +74,10 @@
 	background: var(--accent20);
 }
 
+.esponFuore-scope-select-list .ptr-panther-select-item.disabled {
+	pointer-events: none;
+	color: var(--base40);
+}
 
 @media screen and (max-width: 75rem)  {
 	.esponFuore-scope-select-list {

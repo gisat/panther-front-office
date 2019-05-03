@@ -2,6 +2,7 @@ import React from "react";
 
 import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
+import classnames from "classnames";
 
 class ScopeSelect extends React.PureComponent {
 
@@ -53,9 +54,15 @@ class ScopeSelect extends React.PureComponent {
 			>
 				<div>
 					{props.scopes && props.scopes.map((scope) => {
-						return (<PantherSelectItem itemKey={scope.key} key={scope.key}>
-							{scope.data && scope.data.nameDisplay}
-						</PantherSelectItem>)
+						return (
+							<PantherSelectItem
+								itemKey={scope.key}
+								key={scope.key}
+								disabled={scope && scope.data && scope.data.configuration && scope.data.configuration.fuoreMockScope}
+							>
+								{scope.data && scope.data.nameDisplay}
+							</PantherSelectItem>
+						);
 					})}
 				</div>
 			</PantherSelect>

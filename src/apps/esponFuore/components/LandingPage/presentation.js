@@ -23,8 +23,8 @@ class LandingPage extends React.PureComponent {
 							<p>Policy decisions and actions reach beyond administrative borders. This means geographies for policy making are not aligned with the geographies affected. Policy-making using functional areas should overcome these challenges.</p>
 							<p>In order to improve the relevance, efficiency and effectiveness of the policy making and implementation process regarding functional areas, it is essential to have data, indicators and analysis tools that can help to better understand the drivers for growth and inclusive social development in these areas across Europe. By now significant data gaps exist to be able to understand their contribution to polycentric and balanced territorial development. The results of this project, as presented in this web tool, should help to fill the existing data gaps, complement the work of Eurostat, OECD and DG Joint Research Center in this field and facilitate policy debates at various levels, for instance within Urban Agenda for the EU Partnership on Sustainable Use of Land.</p>
 							<div className="esponFuore-landing-page-links">
-								<div className="bottom-link"><a href="https://www.espon.eu/" target="_blank">Project information</a></div>
-								<div className="bottom-link"><a href="#" target="_blank">Guidance materials</a></div>
+								<div className="bottom-link"><a href="https://www.espon.eu/functional-urban-areas-tool" target="_blank">Project information</a></div>
+								{/*<div className="bottom-link"><a href="#" target="_blank">Guidance materials</a></div>*/}
 							</div>
 						</div>
 					</div>

@@ -14,6 +14,10 @@
 	max-width: 35rem;
 }
 
+.esponFuore-scope-card.disabled {
+	pointer-events: none;
+}
+
 .esponFuore-scope-card:before {
 	content: "";
 	background: linear-gradient(155deg, rgb(0,0,0), rgb(0,0,0) 55%, transparent);
