@@ -102,21 +102,26 @@ class EsponFuoreTimeline extends React.PureComponent {
 		};
 
 		return this.props.periods.map(period => {
-			let active = _.includes(this.props.activePeriodKeys, period.key);
-			let caption = period.data && period.data.nameDisplay;
-			if (caption && small) {
-				caption = caption.toString().slice(-2);
+			if(period) {
+				let active = _.includes(this.props.activePeriodKeys, period.key);
+				let caption = period.data && period.data.nameDisplay;
+				if (caption && small) {
+					caption = caption.toString().slice(-2);
+				}
+	
+				let classes = classnames("esponFuore-timeline-period", {
+					active
+				});
+	
+				return (
+					<div key={period.key} className={classes} style={style} onClick={this.onPeriodClick.bind(this, period.key)}>
+						{caption}
+					</div>
+				);
+			} else {
+				return null
 			}
 
-			let classes = classnames("esponFuore-timeline-period", {
-				active
-			});
-
-			return (
-				<div key={period.key} className={classes} style={style} onClick={this.onPeriodClick.bind(this, period.key)}>
-					{caption}
-				</div>
-			);
 		});
 	}
 }
