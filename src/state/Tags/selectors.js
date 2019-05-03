@@ -14,7 +14,7 @@ const getByKeys = common.getByKeys(getSubstate);
 const getDataByKey = common.getDataByKey(getSubstate);
 const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
 
-const getIndexed = common.getIndex(getSubstate);
+const getIndexed = common.getIndexed(getSubstate);
 
 const getDeletePermissionByKey = common.getDeletePermissionByKey(getSubstate);
 const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
