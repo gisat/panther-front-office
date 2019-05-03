@@ -20,29 +20,29 @@ class Tools extends React.PureComponent {
 			<div className="esponFuore-header-toolbar-tools">
 				<AreasToolItem
 					itemKey="areas"
-					name="Areas"
-					icon="map-pin"
+					name="Areas filter"
+					icon="filter"
 					windowSetKey={this.context.windowSetKey}
 				/>
-				<LayersToolItem
-					itemKey="layers"
-					name="Layers"
-					icon="layers"
-					windowSetKey={this.context.windowSetKey}
-				/>
-				<InformationToolItem
-					disabled
-					itemKey="information"
-					name="Information"
-					icon="info"
-					windowSetKey={this.context.windowSetKey}
-				/>
-				<ToolItem
-					disabled
-					itemKey="share"
-					name="Share"
-					icon="share"
-				/>
+				{/*<LayersToolItem*/}
+					{/*itemKey="layers"*/}
+					{/*name="Layers"*/}
+					{/*icon="layers"*/}
+					{/*windowSetKey={this.context.windowSetKey}*/}
+				{/*/>*/}
+				{/*<InformationToolItem*/}
+					{/*disabled*/}
+					{/*itemKey="information"*/}
+					{/*name="Information"*/}
+					{/*icon="info"*/}
+					{/*windowSetKey={this.context.windowSetKey}*/}
+				{/*/>*/}
+				{/*<ToolItem*/}
+					{/*disabled*/}
+					{/*itemKey="share"*/}
+					{/*name="Share"*/}
+					{/*icon="share"*/}
+				{/*/>*/}
 			</div>
 		);
 	}

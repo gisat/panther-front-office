@@ -18,6 +18,7 @@ import Download from './components/Download';
 import Edit from './components/Edit';
 import Expand from './components/Expand';
 import ExpandRow from './components/ExpandRow';
+import Filter from './components/Filter';
 import Info from "./components/Info";
 import Opacity from './components/Opacity';
 import Layers from './components/Layers';
@@ -85,6 +86,8 @@ const icon = key => {
 			return <Expand />; //todo
 		case 'expand-row':
 			return <ExpandRow />;
+		case 'filter':
+			return <Filter />;
 		case 'info':
 			return <Info />;
 		case 'layers':
