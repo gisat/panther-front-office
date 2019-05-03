@@ -287,7 +287,7 @@ function loadApp(initialData) {
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
-            var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
+            var evaluationTool = buildEvaluationWidget(filter, stateStore, mapStore, aggregatedWidget);
             widgets.push(evaluationTool);
             widgets.push(aggregatedWidget);
         }
@@ -467,7 +467,7 @@ function loadApp(initialData) {
      * @param aggregatedChart {StateStore}
      * @returns {EvaluationWidget}
      */
-    function buildEvaluationWidget(filter, stateStore, aggregatedChart) {
+    function buildEvaluationWidget(filter, stateStore, mapStore, aggregatedChart) {
         let isOpen = false;
         if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis) {
             isOpen = true;
@@ -483,7 +483,8 @@ function loadApp(initialData) {
 			isPinnable: true,
             dispatcher: window.Stores,
             store: {
-                state: stateStore
+                state: stateStore,
+                map: mapStore
             }
         });
     }

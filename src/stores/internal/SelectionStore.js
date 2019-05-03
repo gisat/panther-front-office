@@ -69,7 +69,7 @@ class SelectionStore {
             layer = new FilterLayer({
                 style: style,
                 serverUrl: self._serverUrl,
-                wmsUrl: self._wmsUrl,
+                wmsUrl: self._serverUrl + 'geoserver/wms',
                 stateStore: self._stateStore
             });
 

@@ -54,6 +54,7 @@ class EvaluationWidget extends Widget {
         }
         this._filter = options.filter;
         this._stateStore = options.store.state;
+        this._map = options.store.map;
         this._settings = null;
 
         this._categorize = new CategorizeSettings({
@@ -678,10 +679,15 @@ class EvaluationWidget extends Widget {
 	addUnselectButtonListener() {
 		let self = this;
 		$('#evaluation-unselect').off("click.unselect").on("click.unselect", function () {
-			SelectedAreasExchange.data.data = [];
+		    SelectedAreasExchange.data.data = [];
 			if (OneLevelAreas.hasOneLevel) {
-				self._map.removeLayers();
-				Observer.notify('selectInternal');
+			    const map = self._map.getAll()[0];
+			    const layersToRemove = map._wwd.layers.filter(layer => !layer.displayName);
+				layersToRemove.forEach(layer => {
+                    map._wwd.removeLayer(layer);
+                });
+
+                self._dispatcher.notify("selection#clearAll");
 			} else {
 				self._dispatcher.notify("selection#clearAll");
 			}
