@@ -22,7 +22,7 @@ class ShareWindow extends React.PureComponent{
                 minWidth={400}
                 width={400}
                 floating={true}
-                height={655}
+                height={875}
                 minHeight={655}
                 elementId="share-window"
                 expandable={false}

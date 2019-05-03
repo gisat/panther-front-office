@@ -115,7 +115,7 @@ class ViewsList extends React.PureComponent {
 
 	renderContent(){
 		return this.props.views && this.props.views.length ? (this.props.views.map(view => {
-			return (view && view.data) ? (<ViewCard
+			return (view && view.data && view.data.shareInVisat) ? (<ViewCard
 				key={view.key}
 				viewKey={view.key}
 				data={view.data}

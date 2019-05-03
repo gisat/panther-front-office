@@ -62,10 +62,19 @@ const showUrl = (options) =>  {
 	const selectedGroup = options.selectedGroup;
 	const isUrbanTep = options.isUrbanTep;
 	const url = options.url;
-	if(isUrbanTep && selectedGroup) {
-		if(selectedGroup.value !== '1' && selectedGroup.value !== '2' && selectedGroup.value !== '3') {
-			UrbanTepPortalStore.share(url, options.name, selectedGroup.title);
-		}
+	// Sharing In Portal - How does it look like?
+	if(isUrbanTep && options.shareInPortal && selectedGroup && selectedGroup.value && selectedGroup.value.length > 0) {
+		let promises = [];
+		selectedGroup.value.forEach((group, index) => {
+			if(group !== '1' && group !== '2' && group !== '3') {
+				promises.push(UrbanTepPortalStore.share(url, options.name, selectedGroup.title[index]));
+			}
+		});
+		Promise.all(promises).then(() => {
+			alert(polyglot.t('theStateWasCorrectlyShared') + url);
+		}).catch(err => {
+			alert('Error with sharing: ' + err);
+		})
 	} else {
 		alert(polyglot.t('theStateWasCorrectlyShared') + url);
 	}
@@ -112,6 +121,8 @@ const shareWatcher = (value, previousValue) => {
 				group: value.toSave.groupsSelect,
 				user: value.toSave.usersSelect,
 				dataviewId: value.toSave.dataviewId,
+				shareInPortal: value.toSave.shareInPortal,
+				shareInVisat: value.toSave.shareInVisat
 			});
 	
 		}

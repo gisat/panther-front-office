@@ -7,7 +7,7 @@ const LANGUAGES = [
     {key: 'en', name: 'EN'},
 ]
 
-const getSelect = (items, selected, name, onChange, defaultEmpty = false) => {
+const getSelect = (items, selected, name, onChange, defaultEmpty = false, multiple = false) => {
     const options = items.map((item) => {
         return <option value={item.key} key={item.key} data-group={item.identifier || item.data && item.data.identifier}>{item.name || item.data.name}</option>;
     });
@@ -16,7 +16,11 @@ const getSelect = (items, selected, name, onChange, defaultEmpty = false) => {
         options.unshift(<option value="null" key="null"></option>);
     }
 
-    return (<select onChange={onChange} name={name} value={selected}>{options}</select>);
+    if(!multiple) {
+        return (<select onChange={onChange} name={name} value={selected}>{options}</select>);
+    } else {
+        return (<select multiple={true} onChange={onChange} name={name} value={selected} style={{height: "10rem"}}>{options}</select>);
+    }
 }
 
 const BASE_STATE = {
@@ -35,6 +39,14 @@ const BASE_STATE = {
     description: {
         value: '',
         required: false,
+    },
+    shareInPortal: {
+        value: true,
+        required: false
+    },
+    shareInVisat: {
+        value: true,
+        required: false
     },
     name: {
         value: '',
@@ -64,6 +76,7 @@ class ShareForm extends React.PureComponent {
         this.handleClearForm = this.handleClearForm.bind(this);
     
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputChangeMultiple = this.handleInputChangeMultiple.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isDisabled = this.isDisabled.bind(this);
     }
@@ -105,6 +118,29 @@ class ShareForm extends React.PureComponent {
         });
     }
 
+    handleInputChangeMultiple(event) {
+        const target = event.target;
+        const name = target.name;
+
+        const options = event.target.options;
+        const values = [];
+        const titles = [];
+        for (let i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                values.push(options[i].value);
+                titles.push(options[i].getAttribute('data-group'));
+            }
+        }
+
+        this.setState({
+            [name]: {
+                ...this.state[name],
+                value: values,
+                title: titles,
+            }
+        });
+    }
+
     isDisabled() {
         const fieldsFilled = Object.entries(this.state).filter(i => i[1].required).every(i => i[1].value && i[1].value !== 'null' && i[1].value !== '');
         Object.entries(this.state).filter(i => i[1].required).every(i => valueFilled(i[1].value));
@@ -118,6 +154,8 @@ class ShareForm extends React.PureComponent {
         const dataviewMetadataDescription = polyglot.t('sharingMetadataDescription');
         const nameLabel = polyglot.t('sharingNameLabel');
         const descriptionLabel = polyglot.t('sharingDescriptionLabel');
+        const shareInPortalCatalogue = polyglot.t('sharingInPortalLabel');
+        const shareInVisatCatalogue = polyglot.t('sharingInVisatLabel');
         const langLabel = polyglot.t('sharingLangLabel');
         const permissionsTitle = polyglot.t('sharingPermissionsTitle');
         const permissionsDescription = polyglot.t('sharingPermissionsDescription');
@@ -125,9 +163,9 @@ class ShareForm extends React.PureComponent {
         const groupLabel = polyglot.t('sharingGroupLabel');
         const shareLabel = polyglot.t('share');
         
-        const LanguageSelect = LANGUAGES ? getSelect(LANGUAGES, this.state['langSelect'].value, 'langSelect', this.handleInputChange) : null;
-        const GroupsSelect = this.props.groups ? getSelect(this.props.groups, this.state['groupsSelect'].value, 'groupsSelect', this.handleInputChange, true) : null;
-        const UsersSelect = this.props.users ? getSelect(this.props.users, this.state['usersSelect'].value, 'usersSelect', this.handleInputChange, true) : null;
+        const LanguageSelect = LANGUAGES ? getSelect(LANGUAGES, this.state['langSelect'].value, 'langSelect', this.handleInputChange, false) : null;
+        const GroupsSelect = this.props.groups ? getSelect(this.props.groups, this.state['groupsSelect'].value, 'groupsSelect', this.handleInputChangeMultiple, true, true) : null;
+        const UsersSelect = this.props.users ? getSelect(this.props.users, this.state['usersSelect'].value, 'usersSelect', this.handleInputChange, true, false) : null;
 
         return (
             <form className="basic-form" onSubmit={this.handleSubmit}>
@@ -144,6 +182,18 @@ class ShareForm extends React.PureComponent {
                         <label>
                             <span>{descriptionLabel}</span>
                             <textarea value={this.state.description.value} onChange={this.handleInputChange} name="description"/>
+                        </label>
+                    </div>
+                    <div className="widget-form-row">
+                        <label>
+                            <span>{shareInPortalCatalogue}</span>
+                            <input type="checkbox" checked={this.state.shareInPortal.value} onChange={this.handleInputChange} name="shareInPortal"/>
+                        </label>
+                    </div>
+                    <div className="widget-form-row">
+                        <label>
+                            <span>{shareInVisatCatalogue}</span>
+                            <input type="checkbox" checked={this.state.shareInVisat.value} onChange={this.handleInputChange} name="shareInVisat"/>
                         </label>
                     </div>
                     <div className="widget-form-row">

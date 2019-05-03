@@ -14,13 +14,10 @@ class UrbanTepPortalStore {
     };
 
     static share(url, name, community) {
-        $.post('https://urban-tep.eu/t2api/apps/puma', {
+        return $.post('https://urban-tep.eu/t2api/apps/puma', {
             url: url,
             name: name,
             community: community
-        }, function () {
-            UrbanTepCommunitiesStore.share(url, community);
-            alert(`Application was published on the portal. Direct URL is ${url}`);
         })
     };
 }

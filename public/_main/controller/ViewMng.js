@@ -97,15 +97,19 @@ Ext.define('PumaMain.controller.ViewMng', {
     onShare: function(options) {
 		const onSave = (rec,operation) => {
 
-			const promises = []
+			const promises = [];
 			if(options.group.value && options.group.value !== 'null') {
-				promises.push(store.groups.share(options.group.value, options.state.scope, options.state.places, rec.data._id));
+				if(options.group.value.length > 0) {
+					options.group.value.forEach(function(group) {
+						promises.push(store.groups.share(group, options.state.scope, options.state.places, rec.data._id));
+					});
+				}
 			}
 			if(options.user.value && options.user.value !== 'null') {
 				promises.push(store.users.share(options.user.value, options.state.scope, options.state.places, rec.data._id));
 			}
 			Promise.all(promises).then(() => {
-				this.onSaveFinish(rec, operation, options.group, options.user, options.language);
+				this.onSaveFinish(rec, operation, options.group, options.user, options.language, options.shareInPortal.value);
 				window.Stores.notify('components#shareSetVisible', false);
 			})
 		}
@@ -113,6 +117,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 		const store = window.store;
 		options.state = window.stateStore.current();
 		var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
+		view.data.conf.shareInVisat = options.shareInVisat.value;
 
 		//Clear view options from share window
 		view.data.conf.components.share = null;
@@ -134,7 +139,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 	},
 
-    onSaveFinish: function(rec, operation, group, user, language) {
+    onSaveFinish: function(rec, operation, group, user, language, shareInPortal) {
         var isView = rec.modelName == 'Puma.model.DataView';
         var store = Ext.StoreMgr.lookup(isView ? 'dataview' : 'visualization');
         store.addWithSlaves(rec);
@@ -146,6 +151,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				isUrbanTep: Config.toggles.isUrbanTep,
 				selectedUser: user,
 				selectedGroup: group,
+				shareInPortal: shareInPortal,
 				name: rec.data.conf.name,
 				url: shareUrl
 			});
