@@ -62,7 +62,7 @@
 
 .ptr-column-chart-bar {
 	fill: var(--accent50);
-	transition: height 1.5s ease-in-out;
+	transition: height 1.5s ease-in-out .5s;
 }
 
 .ptr-column-chart-bar.hidden {
@@ -88,12 +88,13 @@
 	stroke: var(--base50);
 	animation: pathDraw 2s ease-in-out 1;
 	animation-fill-mode: forwards;
+	animation-delay: .5s;
 }
 
 .ptr-chart-point {
 	animation: pointDraw .3s ease-in-out 1;
 	animation-fill-mode: forwards;
-	animation-delay: 2s;
+	animation-delay: 2.5s;
 	fill-opacity: 0;
 	stroke-opacity: 0;
 	stroke-width: 1px;
@@ -104,7 +105,7 @@
 	fill: rgba(var(--base50rgb), .2);
 	fill-opacity: 0;
 	animation: pathFill .3s ease-in-out 1;
-	animation-delay: 2s;
+	animation-delay: 2.5s;
 	animation-fill-mode: forwards;
 }
 

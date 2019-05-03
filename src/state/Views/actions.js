@@ -2,6 +2,7 @@ import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 
 import common from '../_common/actions';
+import _ from "lodash";
 
 // ============ creators ===========
 
@@ -24,7 +25,24 @@ const apply = (key, actions) => {
 		dispatch(common.ensureKeys(Select.views.getSubstate, 'views', ActionTypes.VIEWS, [key], 'views')).then(() => {
 			let data = Select.views.getDataByKey(getState(), key);
 			if (data && data.state) {
-				dispatch(common.updateStateFromView(data.state, actions));
+
+				let actionCreators = [];
+				_.each(actions, (storeActions, key) => {
+					if (storeActions.hasOwnProperty('updateStateFromView') && data.state[key]) {
+						actionCreators.push(storeActions.updateStateFromView(data.state[key]));
+					}
+				});
+
+				if (actions.specific) {
+					_.each(actions.specific, (storeActions, key) => {
+						if (storeActions.hasOwnProperty('updateStateFromView') && data.state[key]) {
+							actionCreators.push(storeActions.updateStateFromView(data.state[key]));
+						}
+					});
+				}
+				dispatch(actionCreators);
+
+
 			} else {
 				dispatch(common.actionGeneralError("Views#apply: View or state of view doesn't exist! View key: " + key));
 			}

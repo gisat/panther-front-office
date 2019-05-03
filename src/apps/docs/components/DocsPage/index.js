@@ -83,7 +83,7 @@ class DocsPage extends React.PureComponent {
 
 	renderPage(title, component, props) {
 		let classes = classnames("ptr-docs-content",{
-			forceColumns: props.forceColumns
+			forceColumns: props && props.forceColumns
 		});
 
 		return (
