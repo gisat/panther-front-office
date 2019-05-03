@@ -42,12 +42,24 @@ const mapStateToProps = (state, props) => {
 		}
 		return acc
 	}, {});
+	
+	let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
+		if(layerData.attributeRelationsData) {
+			const attributeStatisticsFilter = {
+				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey
+			};
+
+			acc[layerData.key] = Select.attributeStatistics.getBatchByFilterOrder(state, attributeStatisticsFilter, null);
+		}
+		return acc
+	}, {});
 
 	return {
 		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
 		layers,
 		layersVectorData,
 		layersAttributeData,
+		layersAttributeStatistics,
 		navigator: Select.maps.getNavigator(state, props.mapKey),
 		activeAttributeKey: Select.attributes.getActiveKey(state)
 	}

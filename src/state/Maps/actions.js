@@ -649,14 +649,18 @@ const use = (mapKey) => {
 									dispatch(Action.attributeRelations.ensureIndexed(filters.mergedFilter, null, 1, 100,)).then(() => {
 										let attributeDataSources = Select.attributeRelations.getFiltered(getState(), filters.mergedFilter);
 										
+										//get data
 										const attributeDataFilter = {
 											attributeDataSourceKey: attributeDataSources[0].attributeDataSourceKey,
 											fidColumnName: attributeDataSources[0].fidColumnName
 										}
-										//get data
-										Action.attributes.loadAttributeData(attributeDataFilter, componentId);
+										dispatch(Action.attributesDataSources.loadFilteredData(attributeDataFilter, componentId));
+
 										//get statistics
-										//FIXME
+										const attributeStatisticsDataFilter = {
+											attributeDataSourceKey: attributeDataSources[0].attributeDataSourceKey
+										}
+										dispatch(Action.attributeStatistics.loadFilteredData(attributeStatisticsDataFilter, componentId));
 									})
 								}
 								

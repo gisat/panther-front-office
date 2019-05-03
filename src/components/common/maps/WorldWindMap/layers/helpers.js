@@ -157,12 +157,24 @@ function getVectorLayer(layerData) {
 		key: layerData.key,
 		layerName: layerData.layerName,
 		...layerData,
-		filterFunction: (renderable) => renderable.userProperties.NAME_3 === 'Belley',
-		styleFunction: (renderable) => {
+		// filterFunction: (renderable) => renderable.userProperties.NAME_3 === 'Belley',
+		//highlight features with attribute
+		// styleFunction: (renderable, layer) => {
+		// 	let attributes = new ShapeAttributes();
+		// 	attributes.interiorColor = new Color(0.5,0.5,0.5,1);
+
+		// 	if(renderable.userProperties.NAME_3=== "Belley"){
+		// 		attributes.interiorColor = Color.colorFromByteArray([27, 224, 33, 255])
+		// 	}
+
+		// 	return attributes;
+		// }
+		//highlight features with attribute
+		styleFunction: (renderable, layer) => {
 			let attributes = new ShapeAttributes();
 			attributes.interiorColor = new Color(0.5,0.5,0.5,1);
 
-			if(renderable.userProperties.NAME_3=== "Belley"){
+			if(renderable.userProperties.NAME_3 === layer.attributeStatistics.median){
 				attributes.interiorColor = Color.colorFromByteArray([27, 224, 33, 255])
 			}
 

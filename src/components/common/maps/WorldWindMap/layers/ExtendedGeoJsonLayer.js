@@ -19,6 +19,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.key = options.key;
 		this.filterFunction = options.filterFunction || null;
 		this.styleFunction = options.styleFunction || {};
+		this.attributeStatistics = {};
 	};
 
 	/**
@@ -32,6 +33,14 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			return {userProperties: properties}
 		}
 		parser.load(null, shapeConfigurationCallback, this);
+	}
+	
+	/**
+	 * 
+	 * @param {Object} statistics - Statistics for attribute data
+	 */
+	setAttributeStatistics(statistics) {
+		this.attributeStatistics = statistics;
 	}
 
 	doRender(dc) {
@@ -51,7 +60,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 
 			//style fearure
 			if(styleFunctionExists) {
-				let attribution = this.styleFunction(renderable); //return 
+				let attribution = this.styleFunction(renderable, this); //return 
 				renderable.attributes = attribution;
 			}
 		}
