@@ -691,29 +691,6 @@ function ensureIndexesWithActiveKey(filterKey, categoryPath = DEFAULT_CATEGORY_P
 		};
 }
 
-function updateStateFromView(data, actionCreators) {
-	return dispatch => {
-
-		let actions = [];
-
-		_.each(actionCreators, (storeActions, key) => {
-			if (storeActions.hasOwnProperty('updateStateFromView') && data[key]) {
-				actions.push(storeActions.updateStateFromView(data[key]));
-			}
-		});
-
-		if (actionCreators.specific) {
-			_.each(actionCreators.specific, (storeActions, key) => {
-				if (storeActions.hasOwnProperty('updateStateFromView') && data[key]) {
-					actions.push(storeActions.updateStateFromView(data[key]));
-				}
-			});
-		}
-
-		dispatch(actions);
-	}
-}
-
 function updateSubstateFromView(actionTypes) {
 	return (data) => {
 		return dispatch => {
@@ -908,7 +885,6 @@ export default {
 	refreshUses,
 	request: requestWrapper,
 	saveEdited,
-	updateStateFromView,
 	updateSubstateFromView,
 	updateEdited,
 	useKeys,
