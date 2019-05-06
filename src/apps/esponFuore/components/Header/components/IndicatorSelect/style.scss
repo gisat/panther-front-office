@@ -17,6 +17,7 @@
 
 .esponFuore-indicator-select-search {
 	flex: 0 0 5rem;
+	display: none; // TODO temporary
 }
 .esponFuore-indicator-select-search > .ptr-input-text {
 	border: 1px solid rgba(255,255,255,.5);
