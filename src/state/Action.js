@@ -6,6 +6,7 @@ import Attributes from './Attributes/actions';
 import AttributeRelations from './AttributeRelations/actions';
 import AttributeDataSources from './AttributeDataSources/actions';
 import AttributeSets from './AttributeSets/actions';
+import Charts from './Charts/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
 import LayersTrees from './LayersTrees/actions';
@@ -38,6 +39,7 @@ export default {
 	attributeRelations: AttributeRelations,
 	attributeStatistics: AttributeStatistics,
 	attributeSets: AttributeSets,
+	charts: Charts,
 	components: Components,
 	layerTemplates: LayerTemplates,
 	layersTrees: LayersTrees,

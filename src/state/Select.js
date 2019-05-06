@@ -5,6 +5,7 @@ import Attributes from './Attributes/selectors';
 import AttributeDataSources from './AttributeDataSources/selectors';
 import AttributeRelations from './AttributeRelations/selectors';
 import AttributeSets from './AttributeSets/selectors';
+import Charts from './Charts/selectors';
 import Components from './Components/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
@@ -37,6 +38,7 @@ export default {
 	attributeStatistics: AttributeStatistics,
 	attributeRelations: AttributeRelations,
 	attributeSets: AttributeSets,
+	charts: Charts,
 	components: Components,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,

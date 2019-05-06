@@ -15,6 +15,7 @@ import attributeRelationsReducers from '../../../state/AttributeRelations/reduce
 import attributesReducers from '../../../state/Attributes/reducers';
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
 import attributeDataSources from '../../../state/AttributeDataSources/reducers';
+import chartsReducers from '../../../state/Charts/reducers';
 import componentsReducers from '../../../state/Components/reducers';
 import layerPeriodsReducers from '../../../state/LayerPeriods/reducers';
 import layerTemplatesReducers from '../../../state/LayerTemplates/reducers';
@@ -52,6 +53,7 @@ export default createStore(combineReducers({
 	attributeStatistics: attributeStatisticsReducers,
 	attributeSets: attributeSetsReducers,
 	attributeDataSources: attributeDataSources,
+	charts: chartsReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,

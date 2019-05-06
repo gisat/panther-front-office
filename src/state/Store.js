@@ -9,6 +9,7 @@ import attributesReducers from './Attributes/reducers';
 import attributeRelationsReducers from './attributeRelations/reducers';
 import attributeSetsReducers from './AttributeSets/reducers';
 import componentsReducers from './Components/reducers';
+import chartsReducers from './Charts/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import layerTemplatesReducers from './LayerTemplates/reducers';
 import layersTreesReducers from './LayersTrees/reducers';
@@ -43,6 +44,7 @@ const Store = createStore(combineReducers({
 	attributeRelations: attributeRelationsReducers,
 	attributeStatistics: attributeStatisticsReducers,
 	attributeSets: attributeSetsReducers,
+	charts: chartsReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
