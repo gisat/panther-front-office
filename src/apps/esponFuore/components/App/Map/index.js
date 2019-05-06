@@ -55,7 +55,8 @@ const mapStateToProps = (state, props) => {
 	}, {});
 
 	return {
-		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+		// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+		backgroundLayer: [{type:'wikimedia'}],
 		layers,
 		layersVectorData,
 		layersAttributeData,
