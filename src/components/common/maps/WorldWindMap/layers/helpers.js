@@ -78,6 +78,9 @@ function findLayerByKey(layers, layerKey) {
 function getLayerByType(layerData){
 	if (layerData && layerData.type){
 		switch (layerData.type){
+			case "wikimedia":
+				//TODO - add wikimedia 
+				return new WorldWind.BingAerialLayer();
 			case "bingAerial":
 				return new WorldWind.BingAerialLayer();
 			case "wms":
