@@ -248,7 +248,9 @@ const getLayers = createSelector(
 									return l.spatialRelationsData && l.spatialRelationsData.layerTemplateKey === attributeLayerTemplateKey;
 								});
 
-								layerByLayerTemplateKey.attributeRelationsData = source.attributeRelationData;
+								if(layerByLayerTemplateKey) {
+									layerByLayerTemplateKey.attributeRelationsData = source.attributeRelationData;
+								}
 
 							}
 						}

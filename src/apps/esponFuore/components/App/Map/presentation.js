@@ -23,8 +23,6 @@ class FuoreWorldWindMap extends React.PureComponent {
 		onWorldWindNavigatorChange: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
-		loadLayerSpatialData: PropTypes.func,
-		loadLayerAttributeData: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -141,15 +139,6 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (existingLayer){
 				changedLayers.push(existingLayer);
 			} else {
-				if(layerData.type === 'vector') {
-					//FIXME - prevent load more times
-					//add loading info
-					const layersVectorDataLaded = layersVectorData && layerData && layersVectorData[layerData.key];					
-					if(!layersVectorDataLaded && layerData.spatialRelationsData && layerData.attributeRelationsData) {
-						//TODO -> move
-						this.props.loadLayerSpatialData(layerData);
-					}
-				}
 				let layer = layersHelper.getLayerByType(layerData);
 				if (layer){
 					changedLayers.push(layer);
@@ -173,7 +162,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 
-			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer) {
+			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer && layersAttributeData[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;

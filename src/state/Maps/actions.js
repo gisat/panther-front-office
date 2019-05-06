@@ -634,10 +634,17 @@ const use = (mapKey) => {
 			const componentId = `map_${mapKey}`;
 
 			finalLayers.forEach(filters => {
-				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, filters.filter, null, 1, 100));
-				dispatch(Action.spatialRelations.ensureIndexed(filters.mergedFilter, null, 1, 100,))
+
+				//assume, that spatial data dont need period
+				const spatialRelationsFilter = _.cloneDeep(filters.mergedFilter);
+				if(spatialRelationsFilter.periodKey) {
+					delete spatialRelationsFilter.periodKey;
+				}
+
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 100));
+				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 100,))
 					.then(() => {
-						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
+						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), spatialRelationsFilter);
 						if (spatialDataSourcesKeys && spatialDataSourcesKeys.length) {
 
 							dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
@@ -645,14 +652,30 @@ const use = (mapKey) => {
 								//datasource is only one
 								//if vector dataSource, then load attribute data
 								if(dataSource && dataSource[0] && dataSource[0].data.type === 'vector') {
+									let spatialDataSources = Select.spatialRelations.getFilteredData(getState(), spatialRelationsFilter);
+
+									const spatialFilter = {
+										spatialDataSourceKey: dataSource[0].key,
+										fidColumnName: spatialDataSources[0].fidColumnName
+									};
+
+									const spatialData = Select.spatialDataSources.vector.getBatchByFilterOrder(getState(), spatialFilter, null);
+									//if data already loaded, skip loading
+									if(!spatialData) {
+										dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
+									}
+
 									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, filters.filter, null, 1, 100));
-									dispatch(Action.attributeRelations.ensureIndexed(filters.mergedFilter, null, 1, 100,)).then(() => {
-										let attributeDataSources = Select.attributeRelations.getFiltered(getState(), filters.mergedFilter);
+									const attributeFilter = _.cloneDeep(filters.mergedFilter);
+
+									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 100,)).then(() => {
+										let attributeDataSources = Select.attributeRelations.getFiltered(getState(), attributeFilter);
 										
 										//get data
 										const attributeDataFilter = {
 											attributeDataSourceKey: attributeDataSources[0].attributeDataSourceKey,
 											fidColumnName: attributeDataSources[0].fidColumnName
+											//add active attribute
 										}
 										dispatch(Action.attributesDataSources.loadFilteredData(attributeDataFilter, componentId));
 

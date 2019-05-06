@@ -26,7 +26,7 @@ const getFiltered = createSelector(
 		(state, filter) => filter
 	],
 	(relations, filter) => {
-		if (relations && filter && !_.isEmpty(filter)) {
+		if (relations && relations.length > 0 && filter && !_.isEmpty(filter)) {
 			return _.filter(relations, filter);
 		} else {
 			return null;

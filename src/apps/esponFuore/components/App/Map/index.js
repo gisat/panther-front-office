@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import Select from '../../../../../state/Select';
 import Action from "../../../../../state/Action";
 
+import {cloneDeep} from 'lodash';
+
 import wrapper from '../../../../../components/common/maps/MapWrapper';
 
 import utils from '../../../../../utils/utils';
@@ -11,7 +13,12 @@ const mapStateToProps = (state, props) => {
 	let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 
 	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
-	let layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : null;
+	let layersData = layersState ? layersState.map(layer => {
+		const filter = cloneDeep(layer.mergedFilter)
+		//assume, that spatial data dont need period
+		delete filter.periodKey;
+		return {filter, data: layer.layer}
+	}) : null;
 	let layers = Select.maps.getLayers(state, layersData);
 	let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
 
@@ -96,26 +103,6 @@ const mapDispatchToProps = (dispatch, props) => {
 		setActiveMapKey: () => {
 			dispatch(Action.maps.setActiveMapKey(props.mapKey));
 		},
-
-		loadLayerSpatialData: (layer) => {
-			const spatialFilter = {
-				spatialDataSourceKey: layer.spatialDataSourceKey,
-				fidColumnName: layer.spatialRelationsData.fidColumnName
-				//by active period
-			};
-
-			dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
-		},
-		loadLayerAttributeData: (layer) => {
-			const attributeFilter = {
-				attributeDataSourceKey: props.activeAttributeKey,
-				fidColumnName: layer.attributeRelationsData.fidColumnName,
-				//by active period
-			};
-
-			dispatch(Action.attributesDataSources.loadFilteredData(attributeFilter, componentId));
-			//load statistics
-		}
 	}
 };
 
