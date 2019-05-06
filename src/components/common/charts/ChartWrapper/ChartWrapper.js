@@ -14,12 +14,28 @@ import {MenuItem} from "../../atoms/Menu";
 
 class ChartWrapper extends React.PureComponent {
 	static propTypes = {
-		title: PropTypes.string
+		title: PropTypes.string,
+		onMount: PropTypes.func,
+		onUnmount: PropTypes.func,
 	};
+
+	componentDidMount() {
+		if (this.props.onMount) {
+			this.props.onMount();
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.props.onUnmount) {
+			this.props.onUnmount();
+		}
+	}
 
 	render() {
 		let classes = classnames("ptr-chart-wrapper", {
 		});
+
+		const {children, ...propsWithoutChildren} = this.props;
 
 		return (
 			<div className={classes}>
@@ -37,7 +53,7 @@ class ChartWrapper extends React.PureComponent {
 				</div>
 				<div className="ptr-chart-wrapper-content">
 					<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
-						React.cloneElement(this.props.children, {width})
+						React.cloneElement(this.props.children, {...propsWithoutChildren, width})
 					)}>
 					</ReactResizeDetector>
 				</div>
