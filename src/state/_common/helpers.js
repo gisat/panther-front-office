@@ -97,6 +97,13 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				return null;
 			}
 		}
+		if (filterByActive.case){
+			if (activeKeys.activeCaseKey){
+				fullFilter.activeCaseKey = activeKeys.activeCaseKey;
+			} else {
+				return null;
+			}
+		}
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
 				fullFilter.scopeKey = activeKeys.activeScopeKey;
