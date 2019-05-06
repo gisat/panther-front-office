@@ -11,7 +11,7 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
-import ChartsContainer from '../../../../components/common/charts/ChartsContainer';
+import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 
@@ -79,7 +79,7 @@ class EsponFuoreApp extends React.PureComponent {
 									{
 										width: "35rem",
 										render: props => (
-											<ChartsContainer>
+											<ChartSet>
 												<ChartWrapper title="Specific column chart title">
 													<ColumnChart
 														key="test3"
@@ -95,40 +95,7 @@ class EsponFuoreApp extends React.PureComponent {
 														withoutYbaseline
 													/>
 												</ChartWrapper>
-												<ChartWrapper title="Specific column chart title">
-													<ColumnChart
-														key="test3"
-														data={sample_15}
-														keySourcePath="key"
-														xSourcePath="data.name"
-														ySourcePath="data.some_value_1"
-														sorting={[["data.some_value_1", "desc"]]}
-														xCaptions
-														// yCaptions
-														yGridlines
-													/>
-												</ChartWrapper>
-												<ChartWrapper title="Specific column chart title">
-													<ColumnChart
-														key="test3"
-														data={sample_50}
-														keySourcePath="key"
-														xSourcePath="data.name"
-														ySourcePath="data.some_value_1"
-														sorting={[["data.some_value_1", "desc"]]}
-													/>
-												</ChartWrapper>
-												<ChartWrapper title="Extraordinary looooooooooooooong unusual specific column chart title">
-													<ColumnChart
-														key="test7"
-														data={sample_200}
-														keySourcePath="key"
-														xSourcePath="data.name"
-														ySourcePath="data.some_value_1"
-														sorting={[["data.some_value_1", "desc"]]}
-													/>
-												</ChartWrapper>
-											</ChartsContainer>
+											</ChartSet>
 											)
 									},
 								]}
