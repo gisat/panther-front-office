@@ -2,6 +2,7 @@ import WorldWind from "webworldwind-esa";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
+import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
 import {removeItemByIndex, addItemToIndex, addItem} from '../../../../../utils/stateManagement';
@@ -73,14 +74,19 @@ function findLayerByKey(layers, layerKey) {
  * Return layer instance by given type
  * @param layerData {Object}
  * @param layerData.type {string}
- * @returns {ExtendedWmsLayer | ExtendedOsmLayer | ColoredLayer}
+ * @returns {ExtendedWmsLayer | ExtendedOsmLayer | ColoredLayer | OsmLayer}
  */
 function getLayerByType(layerData){
 	if (layerData && layerData.type){
 		switch (layerData.type){
 			case "wikimedia":
-				//TODO - add wikimedia 
-				return new WorldWind.BingAerialLayer();
+				return new WikimediaLayer({
+					attribution: "Wikimedia maps - Map data \u00A9 OpenStreetMap contributors",
+					sourceObject: {
+						host: "maps.wikimedia.org",
+						path: "osm-intl"
+					}
+				});
 			case "bingAerial":
 				return new WorldWind.BingAerialLayer();
 			case "wms":
@@ -216,7 +222,6 @@ function getWmsVectorLayer(layerData) {
 		service: layerData.mapServerConfig.wmsMapServerUrl,
 		size: 256,
 		styleNames: layerData.styles,
-		styleNames: '',
 		version: "1.3.0",
 	}, null);
 	return layer
