@@ -35,7 +35,7 @@ const mapStateToProps = (state, props) => {
 		if(layerData.attributeRelationsData) {
 			const attributeDataSourceFilter = {
 				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
-				fidColumnName: layerData.spatialRelationsData.fidColumnName
+				fidColumnName: layerData.attributeRelationsData.fidColumnName
 			};
 
 			acc[layerData.key] = Select.attributeDataSources.getBatchByFilterOrder(state, attributeDataSourceFilter, null);
@@ -97,20 +97,22 @@ const mapDispatchToProps = (dispatch, props) => {
 			dispatch(Action.maps.setActiveMapKey(props.mapKey));
 		},
 
-		loadLayerData: (layer) => {
+		loadLayerSpatialData: (layer) => {
 			const spatialFilter = {
 				spatialDataSourceKey: layer.spatialDataSourceKey,
 				fidColumnName: layer.spatialRelationsData.fidColumnName
 				//by active period
 			};
 
+			dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
+		},
+		loadLayerAttributeData: (layer) => {
 			const attributeFilter = {
 				attributeDataSourceKey: props.activeAttributeKey,
-				fidColumnName: layer.spatialRelationsData.fidColumnName,
+				fidColumnName: layer.attributeRelationsData.fidColumnName,
 				//by active period
 			};
 
-			dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
 			dispatch(Action.attributesDataSources.loadFilteredData(attributeFilter, componentId));
 			//load statistics
 		}

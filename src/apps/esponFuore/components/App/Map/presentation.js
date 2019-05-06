@@ -23,7 +23,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 		onWorldWindNavigatorChange: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
-		loadLayerData: PropTypes.func,
+		loadLayerSpatialData: PropTypes.func,
+		loadLayerAttributeData: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -75,7 +76,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 			//check if new data comes
 			//todo check if layer already in map
-			if (!isEqual(prevProps.layersVectorData, this.props.layersVectorData)) {
+			const layersVectorDataChanged = !isEqual(prevProps.layersVectorData, this.props.layersVectorData);
+			if (layersVectorDataChanged) {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
@@ -86,6 +88,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 			if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
 				this.setState({thematicLayers});
+
+				//if vector data comes before layer
+				if(this.props.layersVectorData) {
+					const layers = this.props.layers || [];
+					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...thematicLayers]);
+				}
 			}
 		}
 	}
@@ -136,9 +144,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 				if(layerData.type === 'vector') {
 					//FIXME - prevent load more times
 					//add loading info
-					const layersVectorDataLaded = layersVectorData && layerData && layerData.spatialRelationsData && layersVectorData[layerData.key];					
-					if(!layersVectorDataLaded) {
-						this.props.loadLayerData(layerData);
+					const layersVectorDataLaded = layersVectorData && layerData && layersVectorData[layerData.key];					
+					if(!layersVectorDataLaded && layerData.spatialRelationsData && layerData.attributeRelationsData) {
+						//TODO -> move
+						this.props.loadLayerSpatialData(layerData);
 					}
 				}
 				let layer = layersHelper.getLayerByType(layerData);
@@ -164,7 +173,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 
-			if(layersAttributeData.length && layersAttributeStatistics.length && existingLayer && existingLayer instanceof ExtendedRenderableLayer) {
+			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
@@ -180,9 +189,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 					
 						
 						//get attribute by value
-						// attributes
-						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[data.fidColumnName] === featureId);
-						feature.properties = {...feature.properties, ...attributeFeatureData.properties};
+						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
+						if(attributeFeatureData){
+							feature.properties = {...feature.properties, ...attributeFeatureData.properties};
+						}
 					}
 
 					existingLayer.setRenderables(spatialData, defaultVectorStyle);
