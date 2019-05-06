@@ -315,6 +315,7 @@ export const commonActionTypesDefinitions = {
 				SET_INDEX: null,
 			}
 		},
+		UPDATE: null
 	},
 
 	PERIODS: {

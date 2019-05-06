@@ -677,6 +677,14 @@ const use = (mapKey) => {
 	};
 };
 
+function updateStateFromView(data) {
+	return dispatch => {
+		if (data) {
+			dispatch(actionUpdate(data));
+		}
+	};
+}
+
 // ============ actions ===========
 
 const actionSetActiveMapKey = (mapKey) => {
@@ -893,6 +901,13 @@ const actionSetMapPeriod = (mapKey, period) => {
 	}
 };
 
+const actionUpdate = (data) => {
+	return {
+		type: ActionTypes.MAPS.UPDATE,
+		data
+	}
+};
+
 // ============ export ===========
 
 export default {
@@ -935,6 +950,7 @@ export default {
 	setSetWorldWindNavigator,
 
 	updateMapLayer,
+	updateStateFromView,
 	updateWorldWindNavigator,
 	use,
 	useClear

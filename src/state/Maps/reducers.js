@@ -307,6 +307,10 @@ const setSetBackgroundLayer = (state, setKey, backgroundLayer) => {
 	};
 };
 
+const update = (state, data) => {
+	return {...state, ...data};
+};
+
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.MAPS.SET_ACTIVE_MAP_KEY:
@@ -365,6 +369,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setMapCase(state, action.mapKey, action.case);
 		case ActionTypes.MAPS.SET_BACKGROUND_LAYER:
 			return setMapBackgroundLayer(state, action.mapKey, action.backgroundLayer);
+		case ActionTypes.MAPS.UPDATE:
+			return update(state, action.data);
 		default:
 			return state;
 	}

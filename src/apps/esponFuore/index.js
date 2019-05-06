@@ -42,14 +42,14 @@ export default (path, baseUrl) => {
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
-	Store.dispatch(Action.maps.addSet({key: MAP_SET_KEY}));
-	Store.dispatch(Action.maps.setSetWorldWindNavigator(MAP_SET_KEY));
-	Store.dispatch(Action.maps.setSetSync(MAP_SET_KEY, {
-		location: true,
-		range: true
-	}));
-	Store.dispatch(Action.maps.addMap({key: 'Map1'}));
-	Store.dispatch(Action.maps.addMapToSet(MAP_SET_KEY, 'Map1'));
+	// Store.dispatch(Action.maps.addSet({key: MAP_SET_KEY}));
+	// Store.dispatch(Action.maps.setSetWorldWindNavigator(MAP_SET_KEY));
+	// Store.dispatch(Action.maps.setSetSync(MAP_SET_KEY, {
+	// 	location: true,
+	// 	range: true
+	// }));
+	// Store.dispatch(Action.maps.addMap({key: 'Map1'}));
+	// Store.dispatch(Action.maps.addMapToSet(MAP_SET_KEY, 'Map1'));
 	//applyLayerTree	
 	Store.dispatch(Action.layersTrees.useIndexed({application: true}, null, null, 1, 1000, componentId)).then(() => {
 		//add visible layers
