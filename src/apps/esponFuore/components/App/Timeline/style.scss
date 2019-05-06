@@ -27,8 +27,13 @@
 	color: var(--base70);
 }
 
-.esponFuore-timeline-period.active {
+.esponFuore-timeline-period.active,.esponFuore-timeline-period.active.disabled {
 	background: var(--accent50);
 	color: var(--base0);
 }
 
+.esponFuore-timeline-period.disabled {
+	pointer-events: none;
+	color: var(--base35);
+	background: rgba(var(--base0rgb),.6);
+}

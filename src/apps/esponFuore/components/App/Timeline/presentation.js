@@ -9,6 +9,10 @@ const BUTTON_WIDTH_WIDE = 3;
 const BUTTON_WIDTH_NARROW = 2;
 const BUTTON_GAP = .35;
 
+// todo optional
+const MIN_ACTIVE = 1;
+const MAX_ACTIVE = 9;
+
 class EsponFuoreTimeline extends React.PureComponent {
 	static propTypes = {
 		addMap: PropTypes.func,
@@ -101,6 +105,9 @@ class EsponFuoreTimeline extends React.PureComponent {
 			width: (small ? BUTTON_WIDTH_NARROW : BUTTON_WIDTH_WIDE) * this.state.remSize
 		};
 
+		let numOfActive = this.props.activePeriodKeys && this.props.activePeriodKeys.length;
+		let disabled = !!(numOfActive <= MIN_ACTIVE || numOfActive >= MAX_ACTIVE);
+
 		return this.props.periods.map(period => {
 			if(period) {
 				let active = _.includes(this.props.activePeriodKeys, period.key);
@@ -108,9 +115,12 @@ class EsponFuoreTimeline extends React.PureComponent {
 				if (caption && small) {
 					caption = caption.toString().slice(-2);
 				}
+
+				let disabled = (numOfActive <= MIN_ACTIVE && active) || (numOfActive >= MAX_ACTIVE && !active);
 	
 				let classes = classnames("esponFuore-timeline-period", {
-					active
+					active,
+					disabled
 				});
 	
 				return (
