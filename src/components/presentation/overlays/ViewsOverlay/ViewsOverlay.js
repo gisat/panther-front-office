@@ -72,7 +72,7 @@ class ViewsOverlay extends React.PureComponent {
 				<div className={classes}>
 					<div className="ptr-overlay-views-top-bar">
 						<div className="ptr-overlay-views-top-bar-header">
-							<a className="utep-link" href="/geobrowser/?id=portfolio">
+							<a className="utep-link" href="/puma/tool/?id=567873922&lang=en">
 								<img src="images/utep/urban_geobrowser.png" width="30px" height="30px" style={styles}/>
 							</a>
 							<a className="utep-link" href="/puma/tool">
