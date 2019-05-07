@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Select from '../../../../../state/Select';
+import Select from '../../../state/Select';
 import Action from "../../../../../state/Action";
 
 import {cloneDeep} from 'lodash';
@@ -22,12 +22,12 @@ const mapStateToProps = (state, props) => {
 
 	//TODO -> select
 	//active indicator type absolute/relative
-	// let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
-	// let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
+	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
+	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
 	const indicatorData = 'relative';
 	const attributeDataKey = '2015';
 	// const hueColor = 113; //green
-	const hueColor = 17; //red
+	const hueColor = 0; //red
 	
 
 	let layersVectorData = vectorLayers.reduce((acc, layerData) => {
