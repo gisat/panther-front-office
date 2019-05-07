@@ -10,22 +10,7 @@ const use = (chartKey) => {
 
 		if (chart) {
 			dispatch(Action.attributeRelations.useIndexedRegister( componentId, chart.filterByActive, chart.mergedFilter, null, 1, 1000));
-			dispatch(Action.attributeRelations.ensureIndexed(chart.mergedFilter, null, 1, 1000)).then(() => {
-				let filteredRelations = Select.attributeRelations.getFilteredRelations(getState(), chart.mergedFilter);
-				let dataSources = filteredRelations.map(relation => {
-					return {
-						fidColumnName: relation.fidColumnName,
-						attributeDataSourceKey: relation.attributeDataSourceKey
-					}
-				});
-
-				dataSources.forEach(source => {
-					dispatch(Action.attributeData.loadFilteredData(source, componentId));
-				});
-
-			}).catch((err) => {
-				dispatch(commonActions.actionGeneralError(err));
-			});
+			dispatch(Action.attributeRelations.ensureIndexedForChart(chart.mergedFilter, null, 1, 1000, componentId));
 		}
 	}
 };

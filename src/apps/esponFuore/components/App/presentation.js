@@ -86,45 +86,11 @@ class EsponFuoreApp extends React.PureComponent {
 												<EsponFuoreChart
 													chartKey="fuoreTestChart"
 													title="Put chart title here"
-												>
-													<ColumnChart
-														key="fuoreTestChart"
-														keySourcePath="key"
-														xSourcePath="data.name"
-														ySourcePath="data.values[0].value"
-														sorting={[["data.values[0].value", "desc"]]}
-														xGridlines
-														yGridlines
-														xTicks
-														yCaptions
-														withoutYbaseline
-													/>
-												</EsponFuoreChart>
+												/>
 												<EsponFuoreChart
 													chartKey="fuoreTestAllPeriods"
 													title="Put chart title here"
-												>
-													<LineChart
-														key="fuoreTestAllPeriods"
-														keySourcePath="key"
-														serieKeySourcePath="key"
-														serieNameSourcePath="data.name"
-														serieDataSourcePath="data.values"
-														xSourcePath="key" // in context of serie
-														ySourcePath="value" // in context of serie
-
-														xTicks
-														xGridlines
-														xCaptions
-														yTicks
-														yGridlines
-														yCaptions
-														withoutYbaseline
-
-														xCaptionsSize={50}
-														withPoints
-													/>
-												</EsponFuoreChart>
+												/>
 											</ChartSet>
 											)
 									},

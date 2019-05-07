@@ -2,13 +2,14 @@ import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import utils from "../../../../../../utils/utils";
-import wrapper from '../../../../../../components/common/charts/ChartWrapper/ChartWrapper';
+import wrapper from './presentation';
 
 
 const mapStateToProps = (state, ownProps) => {
 	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
 
 	return {
+		attribute: Select.attributes.getActive(state),
 		data: Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation)
 	}
 };
