@@ -671,19 +671,19 @@ const use = (mapKey) => {
 									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 100));
 
 									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 100,)).then(() => {
-										let attributeDataSources = Select.attributeRelations.getFiltered(getState(), attributeFilter);
+										let attributeData = Select.attributeRelations.getFiltered(getState(), attributeFilter);
 										
 										//get data
 										const attributeDataFilter = {
-											attributeDataSourceKey: attributeDataSources[0].attributeDataSourceKey,
-											fidColumnName: attributeDataSources[0].fidColumnName
+											attributeDataSourceKey: attributeData[0].attributeDataSourceKey,
+											fidColumnName: attributeData[0].fidColumnName
 											//add active attribute
 										}
-										dispatch(Action.attributesDataSources.loadFilteredData(attributeDataFilter, componentId));
+										dispatch(Action.attributeData.loadFilteredData(attributeDataFilter, componentId));
 
 										//get statistics
 										const attributeStatisticsDataFilter = {
-											attributeDataSourceKey: attributeDataSources[0].attributeDataSourceKey
+											attributeDataSourceKey: attributeData[0].attributeDataSourceKey
 										}
 										dispatch(Action.attributeStatistics.loadFilteredData(attributeStatisticsDataFilter, componentId));
 									})

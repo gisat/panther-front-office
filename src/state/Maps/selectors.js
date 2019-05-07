@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import LayerTemplatesSelectors from '../LayerTemplates/selectors';
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
-import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
+import AttributeDataSelectors from '../AttributeData/selectors';
 import commonSelectors from "../_common/selectors";
 
 import config from "../../config/index";
@@ -196,7 +196,7 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 const getLayers = createSelector(
 	[
 		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
-		AttributeDataSourcesSelectors.getFilteredGroupedByLayerKey,
+		AttributeDataSelectors.getFilteredGroupedByLayerKey,
 		(state, layers) => (layers)
 	],
 	/**

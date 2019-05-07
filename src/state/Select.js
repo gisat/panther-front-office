@@ -3,6 +3,7 @@ import App from './App/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeDataSources from './AttributeDataSources/selectors';
+import AttributeData from './AttributeData/selectors';
 import AttributeRelations from './AttributeRelations/selectors';
 import AttributeSets from './AttributeSets/selectors';
 import Charts from './Charts/selectors';
@@ -34,6 +35,7 @@ export default {
 	app: App,
 	areas: Areas,
 	attributes: Attributes,
+	attributeData: AttributeData,
 	attributeDataSources: AttributeDataSources,
 	attributeStatistics: AttributeStatistics,
 	attributeRelations: AttributeRelations,

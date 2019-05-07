@@ -5,6 +5,7 @@ import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
 import AttributeRelations from './AttributeRelations/actions';
 import AttributeDataSources from './AttributeDataSources/actions';
+import AttributeData from './AttributeData/actions';
 import AttributeSets from './AttributeSets/actions';
 import Charts from './Charts/actions';
 import Components from './Components/actions';
@@ -35,7 +36,8 @@ export default {
 	app: App,
 	areas: Areas,
 	attributes: Attributes,
-	attributesDataSources: AttributeDataSources,
+	attributeData: AttributeData,
+	attributeDataSources: AttributeDataSources,
 	attributeRelations: AttributeRelations,
 	attributeStatistics: AttributeStatistics,
 	attributeSets: AttributeSets,

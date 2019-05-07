@@ -43,7 +43,7 @@ const mapStateToProps = (state, props) => {
 				fidColumnName: layerData.attributeRelationsData.fidColumnName
 			};
 
-			acc[layerData.key] = Select.attributeDataSources.getBatchByFilterOrder(state, attributeDataSourceFilter, null);
+			acc[layerData.key] = Select.attributeData.getBatchByFilterOrder(state, attributeDataSourceFilter, null);
 		}
 		return acc
 	}, {});
@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onUnmount: () => {
 			dispatch(Action.maps.useClear(props.mapKey));
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
-			dispatch(Action.attributesDataSources.useIndexedClear(componentId));
+			dispatch(Action.attributeData.useIndexedClear(componentId));
 			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));
 
 			//FIXME - clear spatial, attributes data, relations...
