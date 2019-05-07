@@ -6,7 +6,8 @@ import logger from 'redux-logger';
 import appReducers from './App/reducers';
 import areasReducers from './Areas/reducers';
 import attributesReducers from './Attributes/reducers';
-import attributeRelationsReducers from './attributeRelations/reducers';
+import attributeDataReducers from './AttributeData/reducers';
+import attributeRelationsReducers from './AttributeRelations/reducers';
 import attributeSetsReducers from './AttributeSets/reducers';
 import componentsReducers from './Components/reducers';
 import chartsReducers from './Charts/reducers';
@@ -41,6 +42,7 @@ const Store = createStore(combineReducers({
 	app: appReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
+	attributeData: attributeDataReducers,
 	attributeRelations: attributeRelationsReducers,
 	attributeStatistics: attributeStatisticsReducers,
 	attributeSets: attributeSetsReducers,

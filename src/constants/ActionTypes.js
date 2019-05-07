@@ -588,6 +588,28 @@ export const commonActionTypesDefinitions = {
 			}
 		}
 	},
+	ATTRIBUTE_DATA: {
+		ADD: null,
+		ADD_BATCH: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null,
+			ADD_BATCH: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			INDEXED_BATCH: {
+				REGISTER: null
+			}
+		}
+	},
 	ATTRIBUTE_STATISTICS: {
 		ADD: null,
 		ADD_BATCH: null,
