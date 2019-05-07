@@ -21,6 +21,14 @@ const mapStateToProps = (state, props) => {
 	let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
 
 	//TODO -> select
+	//active indicator type absolute/relative
+	// let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
+	// let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
+	const indicatorData = 'relative';
+	const attributeDataKey = '2015';
+	const hueColor = 113;
+	
+
 	let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.spatialRelationsData) {
 			const spatialDataSourceFilter = {
@@ -48,6 +56,17 @@ const mapStateToProps = (state, props) => {
 		return acc
 	}, {});
 	
+	let layersMetadata = vectorLayers.reduce((acc, layerData) => {
+		if(layerData.attributeRelationsData) {
+			acc[layerData.key] = {
+				dataType: indicatorData,
+				attributeDataKey,
+				hueColor,
+			}
+		}
+		return acc
+	}, {});
+	
 	let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.attributeRelationsData) {
 			const attributeStatisticsFilter = {
@@ -66,6 +85,7 @@ const mapStateToProps = (state, props) => {
 		layersVectorData,
 		layersAttributeData,
 		layersAttributeStatistics,
+		layersMetadata,
 		navigator: Select.maps.getNavigator(state, props.mapKey),
 		activeAttributeKey: Select.attributes.getActiveKey(state)
 	}

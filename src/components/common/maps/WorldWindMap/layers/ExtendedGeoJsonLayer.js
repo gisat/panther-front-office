@@ -20,6 +20,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.filterFunction = options.filterFunction || null;
 		this.styleFunction = options.styleFunction || {};
 		this.attributeStatistics = {};
+		this.metadata = {};
 	};
 
 	/**
@@ -41,6 +42,14 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 */
 	setAttributeStatistics(statistics) {
 		this.attributeStatistics = statistics;
+	}
+
+	/**
+	 * 
+	 * @param {Object} metadata - Metadata for attribute data
+	 */
+	setMetadata(metadata) {
+		this.metadata = metadata;
 	}
 
 	doRender(dc) {

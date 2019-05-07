@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
+import {getKartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
 import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
@@ -18,6 +19,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		layersVectorData: PropTypes.object,
 		layersAttributeData: PropTypes.object,
 		layersAttributeStatistics: PropTypes.object,
+		layersMetadata: PropTypes.object,
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
 		onWorldWindNavigatorChange: PropTypes.func,
@@ -48,7 +50,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//todo check if layer already in map
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
-			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...backgroundLayers, ...thematicLayers]);
+			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers]);
 		}
 
 		this.setState({
@@ -77,19 +79,19 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layersVectorDataChanged = !isEqual(prevProps.layersVectorData, this.props.layersVectorData);
 			if (layersVectorDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 			//check if new attribute data comes
 			const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
 			if (layersAttributeDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 			//check if new attribute statistics data comes
 			const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
 			if (layersAttributeStatisticsDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			if(backgroundLayersChanged && !isEqual(this.state.backgroundLayers, backgroundLayers)) {
@@ -102,7 +104,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 				//if vector data comes before layer
 				if(this.props.layersVectorData) {
 					const layers = this.props.layers || [];
-					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...thematicLayers]);
+					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers]);
 				}
 			}
 		}
@@ -169,7 +171,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	 * 
 	 * Join spatial vector data with map layers.
 	 */
-	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersState = []) {
+	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersMetadata = {}, layersState = []) {
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
@@ -179,6 +181,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
 					const attributeStatisticsData = layersAttributeStatistics[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeStatistic;
+					const metadata = layersMetadata[key];
 					//merge with attributes
 					const fl = spatialDataSourceData.spatialData.features.length;
 
@@ -200,6 +203,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 					if(attributeStatisticsData) {
 						existingLayer.setAttributeStatistics(attributeStatisticsData);
+					}
+					if(metadata) {
+						existingLayer.setMetadata(metadata);
+
+						//set layerstyle
+						existingLayer.styleFunction = getKartodiagramStyleFunction(metadata.hueColor, 200, attributeStatisticsData, metadata.attributeDataKey);
 					}
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
