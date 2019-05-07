@@ -65,13 +65,18 @@ const getFilteredGroupedByFid = createSelector(
 							values.push({key, value});
 						});
 
-						data.push({
-							key: feature.properties[keySource],
-							data: {
-								name: feature.properties[nameSource],
-								values
-							}
-						})
+						let existingKey = _.find(data, {key: feature.properties[keySource]});
+						if (existingKey) {
+							existingKey.data.values = [...existingKey.data.values, ...values];
+						} else {
+							data.push({
+								key: feature.properties[keySource],
+								data: {
+									name: feature.properties[nameSource],
+									values
+								}
+							});
+						}
 					});
 				}
 			});

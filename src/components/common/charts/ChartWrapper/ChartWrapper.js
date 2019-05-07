@@ -43,11 +43,11 @@ class ChartWrapper extends React.PureComponent {
 					<div className="ptr-chart-wrapper-title" title={this.props.title}>{this.props.title}</div>
 					<div className="ptr-chart-wrapper-tools">
 						<div className="ptr-chart-wrapper-tool">
-							<Button icon="dots" invisible>
-								<Menu bottom left>
-									<MenuItem disabled>All periods</MenuItem>
-								</Menu>
-							</Button>
+							{/*<Button icon="dots" invisible>*/}
+								{/*<Menu bottom left>*/}
+									{/*<MenuItem disabled>All periods</MenuItem>*/}
+								{/*</Menu>*/}
+							{/*</Button>*/}
 						</div>
 					</div>
 				</div>

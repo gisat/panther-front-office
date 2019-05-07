@@ -71,7 +71,11 @@ function getFiltersForUse(data, activeKeys) {
 	}
 
 	if (data && data.hasOwnProperty('periods')){
-		filter.periodKey = data.periods;
+		if (data.periods.length > 1) {
+			filter.periodKey = {in: data.periods};
+		} else {
+			filter.periodKey = data.periods;
+		}
 	} else {
 		filterByActive.period = true;
 		if (activeKeys && activeKeys.activePeriodKey) {
@@ -82,7 +86,11 @@ function getFiltersForUse(data, activeKeys) {
 	}
 
 	if (data && data.hasOwnProperty('attributes')){
-		filter.attributeKey = data.attributes;
+		if (data.attributes.length > 1) {
+			filter.attributeKey = {in: data.attributes};
+		} else {
+			filter.attributeKey = data.attributes;
+		}
 	} else {
 		filterByActive.attribute = true;
 		if (activeKeys && activeKeys.activeAttributeKey) {

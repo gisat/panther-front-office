@@ -23,6 +23,7 @@ import sample_200 from "../../../../components/common/charts/mockData/sample_200
 import ChartWrapper from "../../../../components/common/charts/ChartWrapper/ChartWrapper";
 
 import ReactResizeDetector from 'react-resize-detector';
+import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -84,7 +85,7 @@ class EsponFuoreApp extends React.PureComponent {
 											<ChartSet>
 												<EsponFuoreChart
 													chartKey="fuoreTestChart"
-													title="TODO"
+													title="Put chart title here"
 												>
 													<ColumnChart
 														key="fuoreTestChart"
@@ -97,6 +98,31 @@ class EsponFuoreApp extends React.PureComponent {
 														xTicks
 														yCaptions
 														withoutYbaseline
+													/>
+												</EsponFuoreChart>
+												<EsponFuoreChart
+													chartKey="fuoreTestAllPeriods"
+													title="Put chart title here"
+												>
+													<LineChart
+														key="fuoreTestAllPeriods"
+														keySourcePath="key"
+														serieKeySourcePath="key"
+														serieNameSourcePath="data.name"
+														serieDataSourcePath="data.values"
+														xSourcePath="key" // in context of serie
+														ySourcePath="value" // in context of serie
+
+														xTicks
+														xGridlines
+														xCaptions
+														yTicks
+														yGridlines
+														yCaptions
+														withoutYbaseline
+
+														xCaptionsSize={50}
+														withPoints
 													/>
 												</EsponFuoreChart>
 											</ChartSet>
