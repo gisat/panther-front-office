@@ -640,6 +640,9 @@ const use = (mapKey) => {
 				if(spatialRelationsFilter.periodKey) {
 					delete spatialRelationsFilter.periodKey;
 				}
+				if(spatialRelationsFilter.attributeKey) {
+					delete spatialRelationsFilter.attributeKey;
+				}
 
 				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 100));
 				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 100,))
@@ -647,7 +650,7 @@ const use = (mapKey) => {
 						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), spatialRelationsFilter);
 						if (spatialDataSourcesKeys && spatialDataSourcesKeys.length) {
 
-							dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
+							dispatch(Action.spatialDataSources.useKeys([spatialDataSourcesKeys[0]], componentId)).then(() => {
 								let dataSource = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
 								//datasource is only one
 								//if vector dataSource, then load attribute data
@@ -664,9 +667,8 @@ const use = (mapKey) => {
 									if(!spatialData) {
 										dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
 									}
-
-									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, filters.filter, null, 1, 100));
 									const attributeFilter = _.cloneDeep(filters.mergedFilter);
+									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 100));
 
 									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 100,)).then(() => {
 										let attributeDataSources = Select.attributeRelations.getFiltered(getState(), attributeFilter);

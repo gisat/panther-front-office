@@ -497,7 +497,8 @@ const getAllActiveKeys = state => {
 		activePlaceKey: state.places.activeKey,
 		activePlaceKeys: state.places.activeKeys,
 		activePeriodKey: state.periods.activeKey,
-		activePeriodKeys: state.periods.activeKeys
+		activePeriodKeys: state.periods.activeKeys,
+		activeAttributeKey: state.attributes.activeKey
 	};
 
 

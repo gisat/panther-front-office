@@ -15,8 +15,6 @@ const mapStateToProps = (state, props) => {
 	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
 	let layersData = layersState ? layersState.map(layer => {
 		const filter = cloneDeep(layer.mergedFilter)
-		//assume, that spatial data dont need period
-		delete filter.periodKey;
 		return {filter, data: layer.layer}
 	}) : null;
 	let layers = Select.maps.getLayers(state, layersData);

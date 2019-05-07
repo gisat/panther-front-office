@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect';
-import _, {isEmpty} from 'lodash';
+import _, {isEmpty, cloneDeep} from 'lodash';
 import common from "../_common/selectors";
 
 const getSubstate = (state) => state.spatialRelations;
@@ -60,7 +60,12 @@ const getFilteredDataGroupedByLayerKey = createSelector(
 			layers.forEach(layer => {
 				if (layer.data && layer.data.key) {
 					if (relations) {
-						let filteredRelations = _.filter(relations, layer.filter);
+						const filter = cloneDeep(layer.filter);
+						//TODO
+						//sapatial data should not be filtered by period and attributeKey
+						delete filter.periodKey;
+						delete filter.attributeKey;
+						let filteredRelations = _.filter(relations, filter);
 						if (!_.isEmpty(filteredRelations)) {
 							groupedRelations[layer.data.key] = filteredRelations;
 						} else {

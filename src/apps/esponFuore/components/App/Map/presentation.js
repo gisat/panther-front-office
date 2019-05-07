@@ -79,6 +79,18 @@ class FuoreWorldWindMap extends React.PureComponent {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
+			//check if new attribute data comes
+			const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
+			if (layersAttributeDataChanged) {
+				const layers = this.props.layers || [];
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+			}
+			//check if new attribute statistics data comes
+			const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
+			if (layersAttributeStatisticsDataChanged) {
+				const layers = this.props.layers || [];
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+			}
 
 			if(backgroundLayersChanged && !isEqual(this.state.backgroundLayers, backgroundLayers)) {
 				this.setState({backgroundLayers});
@@ -162,7 +174,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 
-			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer && layersAttributeData[key]) {
+			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer && layersAttributeData[key] && layersAttributeStatistics[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;

@@ -211,7 +211,10 @@ const getLayers = createSelector(
 			layers.forEach(layer => {
 				let spatialSourcesForLayer = groupedSpatialSources[layer.data.key];
 				if (spatialSourcesForLayer) {
-					spatialSourcesForLayer.forEach(source => {
+					//TODO
+					//take only first datasource for now
+					// spatialSourcesForLayer.forEach(source => {
+					[spatialSourcesForLayer[0]].forEach(source => {
 						let key = `${layer.data.key}`;
 						let mapServerConfig = {
 							wmsMapServerUrl: `${config.apiGeoserverWMSProtocol}://${config.apiGeoserverWMSHost}/${config.apiGeoserverWMSPath}`,
@@ -402,8 +405,18 @@ function getFiltersForUse(layer, activeKeys) {
 			mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
 		}
 	}
+
 	if (layer && layer.hasOwnProperty('layerTemplate')){
 		filter.layerTemplateKey = layer.layerTemplate;
+	}
+	
+	if (layer && layer.hasOwnProperty('attribute')){
+		filter.attributeKey = layer.attribute;
+	} else {
+		filterByActive.attribute = true;
+		if (activeKeys && activeKeys.activeAttributeKey) {
+			mergedFilter.attributeKey = activeKeys.activeAttributeKey;
+		}
 	}
 
 	mergedFilter = {...filter, ...mergedFilter};
