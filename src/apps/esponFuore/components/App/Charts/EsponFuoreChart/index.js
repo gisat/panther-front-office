@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 
 		onUnmount: () => {
-			// dispatch(Action.charts.useClear(ownProps.chartKey));
+			dispatch(Action.charts.useClear(ownProps.chartKey));
 		}
 	}
 };

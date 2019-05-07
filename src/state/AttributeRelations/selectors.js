@@ -34,6 +34,34 @@ const getFiltered = createSelector(
 	}
 );
 
+const getFilteredRelations = createSelector(
+	[
+		getAllData,
+		(state, filter) => filter
+	],
+	(relations, filter) => {
+		if (relations && relations.length > 0 && filter && !_.isEmpty(filter)) {
+			return _.filter(relations, (relation) => {
+				let fitsFilter = true;
+				_.forIn(filter, (value, key) => {
+					if (relation.hasOwnProperty(key)){
+						if (_.isObject(value) && value.in && _.isArray(value.in)){
+							if (!_.includes(value.in, relation[key])){
+								fitsFilter = false;
+							}
+						} else if (relation[key] !== value){
+							fitsFilter = false;
+						}
+					}
+				});
+				return fitsFilter;
+			});
+		} else {
+			return null;
+		}
+	}
+);
+
 /**
  * @param state {Object}
  * @param filter {Object}
@@ -165,6 +193,7 @@ export default {
 	getAllData,
 	getDataSourceKeyFiltered,
 	getFiltered,
+	getFilteredRelations,
 	getFilteredDataGroupedByLayerKey,
 	getDataSourceRelationsGroupedByLayerKey,
 	getDataSourceKeysGroupedByLayerKey,
