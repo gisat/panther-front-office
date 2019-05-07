@@ -48,39 +48,44 @@ const getFilteredGroupedByFid = createSelector(
 	(allDataSources, filtered) => {
 		if (allDataSources && !_.isEmpty(allDataSources) && filtered) {
 
-			let data = [];
-			filtered.forEach(filteredSource => {
+			let data = {};
+			_.forEach(filtered, filteredSource => {
 				let source = allDataSources[filteredSource.attributeDataSourceKey];
 				let keySource = filteredSource.fidColumnName;
 				let nameSource = filteredSource.fidColumnName; // TODO titleColumnName
 
 				if (source && source.attributeData && source.attributeData.features) {
 					let features = source.attributeData.features;
-					features.forEach((feature) => {
-						let props = _.cloneDeep(feature.properties);
-						delete props[keySource];
+					_.forEach(features, (feature) => {
+						let key = feature.properties[keySource];
+						let props = {};
+						_.forEach(feature.properties, (value, key) => {
+							if (key !== keySource) {
+								props[key] = value;
+							}
+						});
 
 						let values = [];
-						_.forIn(props, (value, key) => {
+						_.forEach(props, (value, key) => {
 							values.push({key, value});
 						});
 
-						let existingKey = _.find(data, {key: feature.properties[keySource]});
+						let existingKey = data[key];
 						if (existingKey) {
 							existingKey.data.values = [...existingKey.data.values, ...values];
 						} else {
-							data.push({
-								key: feature.properties[keySource],
+							data[key] = {
+								key,
 								data: {
 									name: feature.properties[nameSource],
 									values
 								}
-							});
+							};
 						}
 					});
 				}
 			});
-			return data.length ? data : null;
+			return !_.isEmpty(data) ? Object.values(data) : null;
 		} else {
 			return null;
 		}
