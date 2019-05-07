@@ -244,6 +244,15 @@ const setActiveKeyAndEnsureDependencies = (actionTypes, filterKey) => {
 		};
 	};
 };
+
+const setActiveKeysAndEnsureDependencies = (actionTypes, filterKey) => {
+	return keys => {
+		return dispatch => {
+			dispatch(actionSetActiveKeys(actionTypes, keys));
+			dispatch(ensureIndexesWithActiveKey(filterKey));
+		};
+	};
+};
 /**
  * If not refresh data, call clearIndex to invalidate data.
  */
@@ -878,6 +887,7 @@ export default {
 	loadKeysPage,
 	setActiveKey: creator(actionSetActiveKey),
 	setActiveKeyAndEnsureDependencies,
+	setActiveKeysAndEnsureDependencies,
 	setActiveKeys: creator(actionSetActiveKeys),
 	receiveUpdated,
 	receiveIndexed,

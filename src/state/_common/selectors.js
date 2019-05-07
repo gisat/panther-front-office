@@ -639,7 +639,7 @@ const getUsesWithActiveDependency = (getSubstate) => {
 						if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive && usedIndex.filterByActive[index], true)) {
 							// if usedIndex.filterByActive has all the properties of filterByActive
 
-							let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+							let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, usedIndex.filter);
 
 							let existingIndex = _.find(groupedUses, (use) => {
 								return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;

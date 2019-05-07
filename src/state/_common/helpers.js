@@ -116,7 +116,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 			if (activeKeys.activePlaceKey){
 				fullFilter.placeKey = activeKeys.activePlaceKey;
 			} else if (activeKeys.activePlaceKeys){
-				fullFilter.placeKey = {key: {in: activeKeys.activePlaceKeys}};
+				fullFilter.placeKey = {in: activeKeys.activePlaceKeys};
 			} else {
 				return null;
 			}
@@ -125,7 +125,14 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 			if (activeKeys.activePeriodKey){
 				fullFilter.periodKey = activeKeys.activePeriodKey;
 			} else if (activeKeys.activePeriodKeys){
-				fullFilter.periodKey = {key: {in: activeKeys.activePeriodKeys}};
+				fullFilter.periodKey = {in: activeKeys.activePeriodKeys};
+			} else {
+				return null;
+			}
+		}
+		if (filterByActive.attribute){
+			if (activeKeys.activeAttributeKey){
+				fullFilter.attributeKey = activeKeys.activeAttributeKey;
 			} else {
 				return null;
 			}

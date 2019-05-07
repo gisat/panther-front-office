@@ -7,6 +7,8 @@ import common from "../_common/actions";
 const useIndexedRegister = (componentId, filterByActive, filter, order, start, length) => common.useIndexedRegister(ActionTypes.ATTRIBUTE_RELATIONS, componentId, filterByActive, filter, order, start, length);
 const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Select.attributeRelations.getSubstate, 'attribute', filter, order, start, length, ActionTypes.ATTRIBUTE_RELATIONS, 'relations');
 
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.attributeRelations.getSubstate, 'attribute', ActionTypes.ATTRIBUTE_RELATIONS, 'relations');
+
 // ============ actions ===========
 
 
@@ -14,5 +16,6 @@ const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Sel
 
 export default {
     useIndexedRegister,
-    ensureIndexed
+    ensureIndexed,
+    ensureIndexesWithFilterByActive
 }

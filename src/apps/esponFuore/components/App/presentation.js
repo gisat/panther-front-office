@@ -13,6 +13,7 @@ import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
 import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
+import EsponFuoreChart from "./Charts/EsponFuoreChart";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 
 import sample_4 from "../../../../components/common/charts/mockData/sample_4.json";
@@ -20,6 +21,7 @@ import sample_15 from "../../../../components/common/charts/mockData/sample_15.j
 import sample_50 from "../../../../components/common/charts/mockData/sample_50.json";
 import sample_200 from "../../../../components/common/charts/mockData/sample_200.json";
 import ChartWrapper from "../../../../components/common/charts/ChartWrapper/ChartWrapper";
+
 import ReactResizeDetector from 'react-resize-detector';
 
 class EsponFuoreApp extends React.PureComponent {
@@ -95,6 +97,24 @@ class EsponFuoreApp extends React.PureComponent {
 														withoutYbaseline
 													/>
 												</ChartWrapper>
+												<EsponFuoreChart
+													chartKey="fuoreTestChart"
+													title="TODO"
+												>
+													<ColumnChart
+														key="fuoreTestChart"
+														// data={sample_4}
+														// keySourcePath="key"
+														// xSourcePath="data.name"
+														// ySourcePath="data.some_value_1"
+														// sorting={[["data.some_value_1", "desc"]]}
+														xGridlines
+														yGridlines
+														xTicks
+														yCaptions
+														withoutYbaseline
+													/>
+												</EsponFuoreChart>
 											</ChartSet>
 											)
 									},
