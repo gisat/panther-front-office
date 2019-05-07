@@ -7,6 +7,7 @@ import AttributeRelations from "../AttributeRelations/selectors";
 const getSubstate = (state) => state.attributeData;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getBatchByFilterOrder = common.getBatchByFilterOrder(getSubstate);
+const getByKey = common.getByKey(getSubstate);
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -134,6 +135,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 
 export default {
 	getSubstate,
+	getByKey,
 	getFiltered,
 	getBatchByFilterOrder,
 	getFilteredGroupedByLayerKey,

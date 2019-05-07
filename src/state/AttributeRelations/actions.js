@@ -28,16 +28,15 @@ function ensureIndexedForChart(filter, order, start, length, componentId) {
 
 				let attributeKeys = filteredRelations.map(relation => relation.attributeKey);
 
-				// TODO should be here?
-				// TODO check if data are already in store
-
 				if (attributeKeys && attributeKeys.length) {
 					dispatch(attributeActions.useKeys(attributeKeys, componentId));
 				}
 
-				// todo check if data are already in store
 				dataSources.forEach(source => {
-					dispatch(attributeDataActions.loadFilteredData(source, componentId));
+					let existingSource = Select.attributeData.getByKey(getState(), source.attributeDataSourceKey);
+					if (!existingSource) {
+						dispatch(attributeDataActions.loadFilteredData(source, componentId));
+					}
 				});
 
 			}
