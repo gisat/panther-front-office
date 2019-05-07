@@ -1,6 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
 
 import Select from '../Select';
+import attributeActions from '../../../../state/Attributes/actions';
 import common from '../../../../state/_common/actions';
 
 // ============ creators ===========
@@ -15,6 +16,15 @@ const useIndexedClear = common.useIndexedClear(ActionTypes.ESPON_FUORE_INDICATOR
 const useIndexed = common.useIndexed(Select.specific.esponFuoreIndicators.getSubstate, 'esponFuoreIndicators', ActionTypes.ESPON_FUORE_INDICATORS, 'specific');
 const refreshUses = common.refreshUses(Select.specific.esponFuoreIndicators.getSubstate, `esponFuoreIndicators`, ActionTypes.ESPON_FUORE_INDICATORS, 'specific');
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.specific.esponFuoreIndicators.getSubstate, 'esponFuoreIndicators', ActionTypes.ESPON_FUORE_INDICATORS, 'specific');
+
+function setActiveAttributeByIndicatorKey(key) {
+	return (dispatch, getState) => {
+		let indicator = Select.specific.esponFuoreIndicators.getByKey(getState(), key);
+		if (indicator && indicator.data && indicator.data.attributeKey) {
+			dispatch(attributeActions.setActiveKey(indicator.data.attributeKey));
+		}
+	}
+}
 
 // ============ actions ===========
 
@@ -31,4 +41,5 @@ export default {
 	refreshUses,
 	useIndexed,
 	useIndexedClear,
+	setActiveAttributeByIndicatorKey
 }
