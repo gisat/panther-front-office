@@ -18,6 +18,13 @@ const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(S
 const updateStateFromView = common.updateSubstateFromView(ActionTypes.ATTRIBUTES);
 const useIndexedBatch = common.useIndexedBatch('attributes', ActionTypes.ATTRIBUTES, 'data');
 
+const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.ATTRIBUTES, 'attribute');
+
+function setActiveKey(key) {
+	return dispatch => {
+		dispatch(setActiveKeyAndEnsureDependencies(key));
+	};
+}
 
 function loadAttributeData(filter, componentId) {
 	return (dispatch, getState) => {
@@ -36,6 +43,7 @@ export default {
 	refreshUses,
 
 	saveEdited,
+	setActiveKey,
 
 	updateEdited,
 	useIndexed,
