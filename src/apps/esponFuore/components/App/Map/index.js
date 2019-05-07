@@ -26,7 +26,8 @@ const mapStateToProps = (state, props) => {
 	// let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
 	const indicatorData = 'relative';
 	const attributeDataKey = '2015';
-	const hueColor = 113;
+	// const hueColor = 113; //green
+	const hueColor = 17; //red
 	
 
 	let layersVectorData = vectorLayers.reduce((acc, layerData) => {

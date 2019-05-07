@@ -13,14 +13,13 @@ const getColorByValue = (value, min, max, palette) => {
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
 export const getKartodiagramStyleFunction = (hue, fillTransparency, statistics, attributeDataKey) => {
-    //classes
-    // .luminance(.3)
     const colorScale = chroma.scale([chroma.hsl(hue, 1, .92), chroma.hsl(hue, 1, .14)]);
     return (renderable, layer) => {
         let attributes = new ShapeAttributes();
         const valueColor = getColorByValue(Number.parseInt(renderable.userProperties[attributeDataKey]), Number.parseInt(layer.attributeStatistics.min), Number.parseInt(layer.attributeStatistics.max), colorScale);
         attributes.interiorColor = Color.colorFromByteArray([...valueColor.rgb(), fillTransparency]);
-        attributes.outlineColor = Color.colorFromByteArray(240, 240, 240, 120); //gray
+        // attributes.outlineColor = Color.colorFromByteArray(240, 240, 240, 120); //gray
+        attributes.outlineColor = Color.colorFromByteArray([...valueColor.darken().rgb(), 120]); //gray
         return attributes;
     }
 }

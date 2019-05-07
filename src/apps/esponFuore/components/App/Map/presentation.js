@@ -208,7 +208,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 						existingLayer.setMetadata(metadata);
 
 						//set layerstyle
-						existingLayer.styleFunction = getKartodiagramStyleFunction(metadata.hueColor, 200, attributeStatisticsData, metadata.attributeDataKey);
+						existingLayer.styleFunction = getKartodiagramStyleFunction(metadata.hueColor, 220, attributeStatisticsData, metadata.attributeDataKey);
 					}
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
