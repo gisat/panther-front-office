@@ -7,10 +7,11 @@ import wrapper from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
+	let data = Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation);
 
 	return {
 		attribute: Select.attributes.getActive(state),
-		data: Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation)
+		data
 	}
 };
 

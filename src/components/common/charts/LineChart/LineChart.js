@@ -36,6 +36,7 @@ class LineChart extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		forceMode: PropTypes.string,
+		loading: PropTypes.bool,
 
 		serieKeySourcePath: PropTypes.string,
 		serieNameSourcePath: PropTypes.string,
@@ -49,7 +50,9 @@ class LineChart extends React.PureComponent {
 		xCaptions: PropTypes.bool,
 		yCaptions: PropTypes.bool,
 
-		withPoints: PropTypes.bool
+		withPoints: PropTypes.bool,
+
+		sorting: PropTypes.array
 	};
 
 	constructor(props) {
@@ -109,7 +112,7 @@ class LineChart extends React.PureComponent {
 		let xDomain, yDomain, xScale, yScale, colors, firstSerieData, mode = null;
 		let data = props.data;
 
-		if (data) {
+		if (data && !this.props.loading) {
 			/* domain */
 			let yMaximum = _.max(data.map(item => {
 				let serie = _.get(item, props.serieDataSourcePath);
@@ -127,6 +130,8 @@ class LineChart extends React.PureComponent {
 
 			/* domain and scales */
 			firstSerieData = _.get(data[0], props.serieDataSourcePath); // TODO have all series same range?
+			firstSerieData = _.sortBy(firstSerieData, [props.xSourcePath]);
+
 			xDomain = firstSerieData.map(record => {return _.get(record, props.xSourcePath)});
 			yDomain = [yMinimum, yMaximum];
 
@@ -157,7 +162,7 @@ class LineChart extends React.PureComponent {
 		return (
 			<div className="ptr-chart-container">
 				<svg className="ptr-chart ptr-line-chart" width={width} height={height}>
-					{data ? <>
+					{(data && !this.props.loading) ? <>
 						<AxisY
 							scale={yScale}
 
@@ -209,6 +214,8 @@ class LineChart extends React.PureComponent {
 			let key = _.get(item, props.serieKeySourcePath);
 			let name = _.get(item, props.serieNameSourcePath);
 			let color = colors(_.get(item, props.serieKeySourcePath));
+
+			serie = this.props.sorting ? utils.sortByOrder(serie, props.sorting) : serie;
 
 			let coordinates = serie.map(record => {
 				let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;

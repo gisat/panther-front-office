@@ -52,6 +52,8 @@ class LineChartDoc extends React.PureComponent {
 						yCaptions
 						withoutYbaseline
 
+						sorting={[["period", "asc"]]}
+
 						xCaptionsSize={50}
 						width={this.state.width}
 					/>
@@ -75,6 +77,8 @@ class LineChartDoc extends React.PureComponent {
 						yGridlines
 						yCaptions
 						withoutYbaseline
+
+						sorting={[["period", "asc"]]}
 
 						xCaptionsSize={50}
 

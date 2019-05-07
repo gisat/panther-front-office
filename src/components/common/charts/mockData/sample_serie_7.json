@@ -5,6 +5,10 @@
 	  "name": "Missouri",
 	  "data": [
 		{
+		  "period": 2006,
+		  "someStrangeValue": 1532
+		},
+		{
 		  "period": 1991,
 		  "someStrangeValue": -843
 		},
@@ -63,10 +67,6 @@
 		{
 		  "period": 2005,
 		  "someStrangeValue": -467
-		},
-		{
-		  "period": 2006,
-		  "someStrangeValue": 1532
 		}
 	  ]
 	}

@@ -18,27 +18,29 @@ function ensureIndexedForChart(filter, order, start, length, componentId) {
         dispatch(common.ensureIndexed(Select.attributeRelations.getSubstate, 'attribute', filter, order, start, length, ActionTypes.ATTRIBUTE_RELATIONS, 'relations')).then(() => {
         	let filteredRelations = Select.attributeRelations.getFilteredRelations(getState(), filter);
 
-        	let dataSources = filteredRelations.map(relation => {
-        		return {
-        			fidColumnName: relation.fidColumnName,
-        			attributeDataSourceKey: relation.attributeDataSourceKey
-        		}
-        	});
+        	if (filteredRelations) {
+				let dataSources = filteredRelations.map(relation => {
+					return {
+						fidColumnName: relation.fidColumnName,
+						attributeDataSourceKey: relation.attributeDataSourceKey
+					}
+				});
 
-        	let attributeKeys = filteredRelations.map(relation => relation.attributeKey);
+				let attributeKeys = filteredRelations.map(relation => relation.attributeKey);
 
-        	// TODO should be here?
-            // TODO check if data are already in store
+				// TODO should be here?
+				// TODO check if data are already in store
 
-            if (attributeKeys && attributeKeys.length) {
-                dispatch(attributeActions.useKeys(attributeKeys, componentId));
-            }
+				if (attributeKeys && attributeKeys.length) {
+					dispatch(attributeActions.useKeys(attributeKeys, componentId));
+				}
 
-        	// todo check if data are already in store
-        	dataSources.forEach(source => {
-        		dispatch(attributeDataActions.loadFilteredData(source, componentId));
-        	});
+				// todo check if data are already in store
+				dataSources.forEach(source => {
+					dispatch(attributeDataActions.loadFilteredData(source, componentId));
+				});
 
+			}
         }).catch((err) => {
         	dispatch(common.actionGeneralError(err));
         });

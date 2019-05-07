@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 
 class EsponFuoreChart extends React.PureComponent {
+	static propTypes = {
+		loading: PropTypes.bool,
+		data: PropTypes.array
+	};
+
 	componentDidMount() {
 		if (this.props.onMount) {
 			this.props.onMount();
@@ -67,9 +73,12 @@ class EsponFuoreChart extends React.PureComponent {
 				yCaptions
 				withoutYbaseline
 
+				sorting={[["key", "asc"]]}
+
 				xCaptionsSize={40}
 				withPoints
 				data={this.props.data}
+				loading={this.props.loading}
 			/>
 		);
 	}
