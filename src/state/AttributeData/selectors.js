@@ -40,6 +40,48 @@ const getFiltered = createSelector(
 	}
 );
 
+const getFilteredGroupedByFid = createSelector(
+	[
+		getAllAsObject,
+		AttributeRelations.getDataSourcesFromFilteredRelations
+	],
+	(allDataSources, filtered) => {
+		if (allDataSources && !_.isEmpty(allDataSources) && filtered) {
+
+			let data = [];
+			filtered.forEach(filteredSource => {
+				let source = allDataSources[filteredSource.attributeDataSourceKey];
+				let keySource = filteredSource.fidColumnName;
+				let nameSource = filteredSource.fidColumnName; // TODO titleColumnName
+
+				if (source && source.attributeData && source.attributeData.features) {
+					let features = source.attributeData.features;
+					features.forEach((feature) => {
+						let props = _.cloneDeep(feature.properties);
+						delete props[keySource];
+
+						let values = [];
+						_.forIn(props, (value, key) => {
+							values.push({key, value});
+						});
+
+						data.push({
+							key: feature.properties[keySource],
+							data: {
+								name: feature.properties[nameSource],
+								values
+							}
+						})
+					});
+				}
+			});
+			return data.length ? data : null;
+		} else {
+			return null;
+		}
+	}
+);
+
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -85,4 +127,6 @@ export default {
 	getFiltered,
 	getBatchByFilterOrder,
 	getFilteredGroupedByLayerKey,
+
+	getFilteredGroupedByFid
 };

@@ -82,32 +82,16 @@ class EsponFuoreApp extends React.PureComponent {
 										width: "35rem",
 										render: props => (
 											<ChartSet>
-												<ChartWrapper title="Specific column chart title">
-													<ColumnChart
-														key="test3"
-														data={sample_4}
-														keySourcePath="key"
-														xSourcePath="data.name"
-														ySourcePath="data.some_value_1"
-														sorting={[["data.some_value_1", "desc"]]}
-														xGridlines
-														yGridlines
-														xTicks
-														yCaptions
-														withoutYbaseline
-													/>
-												</ChartWrapper>
 												<EsponFuoreChart
 													chartKey="fuoreTestChart"
 													title="TODO"
 												>
 													<ColumnChart
 														key="fuoreTestChart"
-														// data={sample_4}
-														// keySourcePath="key"
-														// xSourcePath="data.name"
-														// ySourcePath="data.some_value_1"
-														// sorting={[["data.some_value_1", "desc"]]}
+														keySourcePath="key"
+														xSourcePath="data.name"
+														ySourcePath="data.values[0].value"
+														sorting={[["data.values[0].value", "desc"]]}
 														xGridlines
 														yGridlines
 														xTicks

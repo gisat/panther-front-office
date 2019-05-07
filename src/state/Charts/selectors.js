@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import AttributeDataSelectors from "../AttributeData/selectors";
 
 // TODO test all selectors
 
@@ -30,6 +31,20 @@ const getChartConfiguration = createSelector(
 	}
 );
 
+const getDataForChart = createSelector(
+	[
+		AttributeDataSelectors.getFilteredGroupedByFid,
+		(state, filter, chart) => chart
+	],
+	(data, chart) => {
+		if (chart && data) {
+			return data;
+		} else {
+			return null;
+		}
+	}
+);
+
 /* helpers */
 
 /**
@@ -40,6 +55,7 @@ const getChartConfiguration = createSelector(
  */
 
 // TODO other metadata types
+// TODO pass filterByActive?
 function getFiltersForUse(data, activeKeys) {
 	let filter = {};
 	let filterByActive = {};
@@ -90,5 +106,6 @@ function getFiltersForUse(data, activeKeys) {
 }
 
 export default {
-	getChartConfiguration
+	getChartConfiguration,
+	getDataForChart
 }

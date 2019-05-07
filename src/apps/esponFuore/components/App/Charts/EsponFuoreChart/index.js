@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
 
 	return {
-		// data: Select.charts.getChartConfiguration(state, ownProps.chartKey)
+		data: Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation)
 	}
 };
 

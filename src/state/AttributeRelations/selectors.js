@@ -62,6 +62,24 @@ const getFilteredRelations = createSelector(
 	}
 );
 
+const getDataSourcesFromFilteredRelations = createSelector(
+	[
+		getFilteredRelations
+	],
+	(filteredRelations) => {
+		if (filteredRelations) {
+			return filteredRelations.map(relation => {
+				return {
+					attributeDataSourceKey: relation.attributeDataSourceKey,
+					fidColumnName: relation.fidColumnName
+				}
+			});
+		} else {
+			return null
+		}
+	}
+);
+
 /**
  * @param state {Object}
  * @param filter {Object}
@@ -197,7 +215,7 @@ export default {
 	getFilteredDataGroupedByLayerKey,
 	getDataSourceRelationsGroupedByLayerKey,
 	getDataSourceKeysGroupedByLayerKey,
-
+	getDataSourcesFromFilteredRelations,
 
 	getSubstate
 };
