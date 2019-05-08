@@ -13,9 +13,9 @@ const noDataColor = chroma('#ccc');
  */
 export const getKartodiagramStyleFunction = (hue, fillTransparency, statistics, attributeDataKey) => {
     const classCount = 5;
-    const colorScale = chroma.scale([chroma.hsl(hue, 1, .80), chroma.hsl(hue, 1, .40)]);
+    const colorScale = chroma.scale([chroma.hsl(hue, 1, .84), chroma.hsl(hue, 1, .35)]);
     const statisticsClasses = getValueClassesByStatistics(statistics, classCount);
-    const colorClasses = colorScale.colors(classCount, null);
+    const colorClasses = colorScale.colors(classCount, null).map(c => c.saturate(1));
     
 
     //create 5 classes
