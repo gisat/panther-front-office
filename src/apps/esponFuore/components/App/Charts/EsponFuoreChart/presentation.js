@@ -31,11 +31,11 @@ class EsponFuoreChart extends React.PureComponent {
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
-		let title = attr && attr.description;
+		let title = attr && attr.nameDisplay;
 		let subtitle = [];
 
-		if (attr && attr.unit) {
-			subtitle.push(attr.unit);
+		if (attr && attr.description) {
+			subtitle.push(attr.description);
 		}
 
 		if (props.periods) {
