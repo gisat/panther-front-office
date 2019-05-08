@@ -284,7 +284,7 @@ class ColumnChart extends React.PureComponent {
 				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
 				let unit = _.get(data, this.props.xSourcePath);
 				let value = _.get(data, this.props.ySourcePath);
-				content.push(<div><i>{unit}:</i> {value}</div>);
+				content.push(<div key={unit}><i>{unit}:</i> {value}</div>);
 			});
 		} else {
 			let units = [];

@@ -134,7 +134,7 @@ class MapSet extends React.PureComponent {
 					content = <WorldWindMap {...mapProps}/>
 				}
 
-				return <div className="ptr-map-wrapper" style={style}>{content}</div>
+				return <div key={mapKey} className="ptr-map-wrapper" style={style}>{content}</div>
 			});
 		} else {
 			return null;
