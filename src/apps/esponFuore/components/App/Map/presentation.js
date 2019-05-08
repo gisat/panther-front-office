@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {isEqual, isNull, cloneDeep} from 'lodash';
+import {isEqual, isNull, cloneDeep, isEmpty} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getKartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartodiagram';
@@ -40,9 +40,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 		let thematicLayers = [];
 		const backgroundLayers = this.handleBackgroundLayers(null, this.props.backgroundLayer, this.state.backgroundLayers);
 
-		if (this.props.layers || this.props.layers === null) {
+		if (this.props.layers || this.props.layers === null && this.props.layersMetadata) {
 			const layers = this.props.layers || [];
-			thematicLayers = this.handleLayers(layers, this.props.layersVectorData);
+			thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
 		}
 
 
@@ -69,9 +69,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 			}
 
 			const thematicLayersChanged = !isEqual(prevProps.layers, this.props.layers);
-			if (thematicLayersChanged) {
+			if (thematicLayersChanged && !isEmpty(this.props.layersMetadata)) {
 				const layers = this.props.layers || [];
-				thematicLayers = this.handleLayers(layers, this.props.layersVectorData);
+				thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
 			}
 
 			//check if new data comes
@@ -146,13 +146,17 @@ class FuoreWorldWindMap extends React.PureComponent {
 		
 	}
 
-	handleLayers(nextLayersData = [], layersVectorData) {
+	handleLayers(nextLayersData = [], layersMetadata = {}) {
 		let changedLayers = [];
 		nextLayersData.forEach(layerData => {
 			let existingLayer = layersHelper.findLayerByKey(changedLayers, layerData.key);
 			if (existingLayer){
 				changedLayers.push(existingLayer);
 			} else {
+				const metadata = layersMetadata[layerData.key];
+				if(layerData.type === 'vector' && metadata) {
+					layerData.type = `${layerData.type}-${metadata.dataType}`		
+				}
 				let layer = layersHelper.getLayerByType(layerData);
 				if (layer){
 					changedLayers.push(layer);

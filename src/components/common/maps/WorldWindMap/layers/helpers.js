@@ -96,7 +96,10 @@ function getLayerByType(layerData){
 			case "colored":
 				return getColoredLayer(layerData);
 			case "vector":
-				// return getWmsVectorLayer(layerData);
+				return getVectorLayer(layerData);
+			case "vector-absolute":
+				return getVectorLayer(layerData);
+			case "vector-relative":
 				return getVectorLayer(layerData);
 			default:
 				return null;
