@@ -310,7 +310,7 @@ class LineChart extends React.PureComponent {
 		_.forIn(values, (values, key) => {
 			averageValuesForChart.push({
 				[props.xSourcePath]: key,
-				[props.ySourcePath]: _.sum(values)/values.length
+				[props.ySourcePath]: (_.sum(values)/values.length).toFixed(2)
 			});
 		});
 
@@ -377,12 +377,12 @@ class LineChart extends React.PureComponent {
 
 		if (state.itemKey) {
 			content = (
-				<>
-					<div>{state.name}</div>
+				<div>
+					<div><i>{state.name}</i></div>
 					{state.data ? (
-						<div>{`${_.get(state.data, this.props.xSourcePath)}: ${_.get(state.data, this.props.ySourcePath)}`}</div>
+						<div><i>{`${_.get(state.data, this.props.xSourcePath)}:`}</i> {`${_.get(state.data, this.props.ySourcePath)}`}</div>
 					) : null}
-				</>
+				</div>
 			);
 		}
 

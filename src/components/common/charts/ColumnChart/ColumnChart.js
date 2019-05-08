@@ -277,16 +277,15 @@ class ColumnChart extends React.PureComponent {
 
 	renderPopup(maxX) {
 		const state = this.state.popup;
-		let content = null;
+		let content = [];
 
-		if (state.itemKeys.length === 1) {
-			let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === state.itemKeys[0]});
-			content = (
-				<>
-					<div>{_.get(data, this.props.xSourcePath)}</div>
-					<div>{_.get(data, this.props.ySourcePath)}</div>
-				</>
-			);
+		if (state.itemKeys.length < 15){
+			state.itemKeys.map((key) => {
+				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
+				let unit = _.get(data, this.props.xSourcePath);
+				let value = _.get(data, this.props.ySourcePath);
+				content.push(<div><i>{unit}:</i> {value}</div>);
+			});
 		} else {
 			let units = [];
 			let values = [];
@@ -296,10 +295,10 @@ class ColumnChart extends React.PureComponent {
 				values.push(_.get(data, this.props.ySourcePath));
 			});
 			content = (
-				<>
-					<div>{units.length < 10 ? units.join(", ") : `${units.length} items`}</div>
-					<div>{`From ${_.min(values)} to ${_.max(values)}`}</div>
-				</>
+				<div>
+					<i>{units.length < 10 ? units.join(", ") : `${units.length} items`}</i>
+					{`From ${_.min(values)} to ${_.max(values)}`}
+				</div>
 			);
 		}
 
