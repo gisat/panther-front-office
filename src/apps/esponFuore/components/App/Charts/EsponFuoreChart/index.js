@@ -7,11 +7,19 @@ import wrapper from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
+
 	let data = Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation);
+	let periods = null;
+	if (chartConfiguation && chartConfiguation.mergedFilter && chartConfiguation.mergedFilter.periodKey && chartConfiguation.mergedFilter.periodKey.in) {
+
+		// TODO ensure periods
+		periods = Select.periods.getByKeys(state, chartConfiguation.mergedFilter.periodKey.in);
+	}
 
 	return {
 		attribute: Select.attributes.getActive(state),
-		data
+		data,
+		periods
 	}
 };
 

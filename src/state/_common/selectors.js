@@ -248,9 +248,14 @@ const getByKeys = (getSubstate) => {
 	return (state, keys) => {
 		let allData = getAllAsObject(getSubstate)(state);
 		if (keys && keys.length && allData && !_.isEmpty(allData)) {
-			return keys.map(key => {
-				return allData[key];
+			let data = [];
+			_.each(keys, key => {
+				if (allData[key]) {
+					data.push(allData[key])
+				}
 			});
+
+			return data.length ? data : null;
 		} else {
 			return null;
 		}

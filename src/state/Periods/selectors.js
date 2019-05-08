@@ -13,6 +13,8 @@ const getActiveKey = common.getActiveKey(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActiveModels = common.getActiveModels(getSubstate);
 
+const getByKeys = common.getByKeys(getSubstate);
+
 const getDataByKey = common.getDataByKey(getSubstate);
 const getDeletePermissionByKey = common.getDeletePermissionByKey(getSubstate);
 
@@ -27,6 +29,8 @@ export default {
 	getAll,
 	getAllAsObject,
 	getAllForActiveScope,
+
+	getByKeys,
 
 	getDataByKey,
 	getDeletePermissionByKey,

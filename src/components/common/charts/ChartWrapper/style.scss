@@ -11,22 +11,35 @@
 .ptr-chart-wrapper-header {
 	display: flex;
 	height: m(5/3);
-	color: var(--base70);
+	color: var(--base90);
+}
+
+.ptr-chart-wrapper-header.with-subtitle {
+	height: m(7/3);
+}
+
+.ptr-chart-wrapper-titles {
+	flex-grow: 1;
+	padding: .55rem .75rem;
 }
 
 .ptr-chart-wrapper-title {
-	padding: .55rem .75rem;
 	flex-grow: 1;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
+.ptr-chart-wrapper-subtitle {
+	color: var(--base50);
+	font-size: $b1;
+	margin-top: .1rem;
+}
+
 .ptr-chart-wrapper-tools {
 	display: flex;
 	justify-content: flex-end;
 	padding: .25rem;
-	//background: red;
 }
 
 .ptr-chart-wrapper-tool .ptr-icon .line {

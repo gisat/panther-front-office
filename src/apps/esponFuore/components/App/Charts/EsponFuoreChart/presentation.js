@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
+		attribute: PropTypes.object,
 		loading: PropTypes.bool,
-		data: PropTypes.array
+		data: PropTypes.array,
+		periods: PropTypes.array
 	};
 
 	componentDidMount() {
@@ -23,13 +26,32 @@ class EsponFuoreChart extends React.PureComponent {
 	}
 
 	render() {
-		const data = this.props.data;
+		const props = this.props;
+		const data = props.data;
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
-		let title = this.props.attribute && this.props.attribute.data && this.props.attribute.data.nameDisplay;
+		let attr = props.attribute && props.attribute.data;
+
+		let title = attr && attr.nameDisplay;
+		let subtitle = [];
+
+		if (attr && attr.unit) {
+			subtitle.push(attr.unit);
+		}
+
+		if (props.periods) {
+			let names = props.periods.map(period => period.data && period.data.nameDisplay);
+			if (names.length > 1) {
+				let sortedNames = _.sortBy(names);
+				subtitle.push(`from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`);
+			} else {
+				subtitle.push(`in ${names[0]}`);
+			}
+		}
 
 		return (
 			<ChartWrapper
 				title={title}
+				subtitle={subtitle.length ? subtitle.join(" ") : null}
 			>
 				{singleValue ? this.renderColumnChart() : this.renderLineChart()}
 			</ChartWrapper>

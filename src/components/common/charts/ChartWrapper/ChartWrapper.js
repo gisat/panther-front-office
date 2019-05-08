@@ -15,6 +15,7 @@ import {MenuItem} from "../../atoms/Menu";
 class ChartWrapper extends React.PureComponent {
 	static propTypes = {
 		title: PropTypes.string,
+		subtitle: PropTypes.string,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
 	};
@@ -32,22 +33,28 @@ class ChartWrapper extends React.PureComponent {
 	}
 
 	render() {
-		let classes = classnames("ptr-chart-wrapper", {
+		let classes = classnames("ptr-chart-wrapper-header", {
+			'with-subtitle': !!this.props.subtitle
 		});
 
 		const {children, ...propsWithoutChildren} = this.props;
 
 		return (
-			<div className={classes}>
-				<div className="ptr-chart-wrapper-header">
-					<div className="ptr-chart-wrapper-title" title={this.props.title}>{this.props.title}</div>
+			<div className="ptr-chart-wrapper">
+				<div className={classes}>
+					<div className="ptr-chart-wrapper-titles">
+						<div className="ptr-chart-wrapper-title" title={this.props.title}>{this.props.title}</div>
+						{this.props.subtitle ? (
+							<div className="ptr-chart-wrapper-subtitle" title={this.props.subtitle}>{this.props.subtitle}</div>
+						) : null}
+					</div>
 					<div className="ptr-chart-wrapper-tools">
 						<div className="ptr-chart-wrapper-tool">
-							{/*<Button icon="dots" invisible>*/}
-								{/*<Menu bottom left>*/}
-									{/*<MenuItem disabled>All periods</MenuItem>*/}
-								{/*</Menu>*/}
-							{/*</Button>*/}
+							<Button icon="dots" invisible>
+								<Menu bottom left>
+									<MenuItem disabled>All periods</MenuItem>
+								</Menu>
+							</Button>
 						</div>
 					</div>
 				</div>
