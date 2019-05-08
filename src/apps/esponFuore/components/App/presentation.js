@@ -83,10 +83,11 @@ class EsponFuoreApp extends React.PureComponent {
 										width: "35rem",
 										render: props => (
 											<ChartSet>
-												<EsponFuoreChart
-													chartKey="fuoreTestChart"
-													title="Put chart title here"
-												/>
+												Temporarly not rendered
+												{/*<EsponFuoreChart*/}
+													{/*chartKey="fuoreTestChart"*/}
+													{/*title="Put chart title here"*/}
+												{/*/>*/}
 												{/*<EsponFuoreChart*/}
 													{/*chartKey="fuoreTestAllPeriods"*/}
 													{/*title="Put chart title here"*/}
