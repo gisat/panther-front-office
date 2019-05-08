@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 class ChartSet extends React.PureComponent {
 
 	static propTypes = {
-		charts: PropTypes.array,
+		charts: PropTypes.object,
 		set: PropTypes.object
 	};
 

@@ -159,10 +159,10 @@ MapControls.defaultProps = {
   };
   
 MapControls.propTypes = {
-    navigator: PropTypes.object.isRequired,
-    setNavigator: PropTypes.func.isRequired,
-    resetHeading: PropTypes.func.isRequired,
-    activeMapKey:PropTypes.string.isRequired,
+    navigator: PropTypes.object,
+    setNavigator: PropTypes.func,
+    resetHeading: PropTypes.func,
+    activeMapKey:PropTypes.string,
 };
 
 export default MapControls;
