@@ -11,20 +11,12 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.ATTRIBUTE_DATA_SOURCES.ADD:
 			return common.add(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCES.ADD_BATCH:
-			return common.addBatch(state, action);
 		case ActionTypes.ATTRIBUTE_DATA_SOURCES.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCES.INDEX.ADD:
-			return common.addIndex(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCES.INDEX.ADD_BATCH:
-			return common.addBatchIndex(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.INDEXED.REGISTER:
-			return common.registerUseIndexed(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.INDEXED_BATCH.REGISTER:
-			return common.registerBatchUseIndexed(state, action);
-		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.INDEXED.CLEAR:
-			return common.useIndexedClear(state, action);
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.ATTRIBUTE_DATA_SOURCES.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
 
 		default:
 			return state;

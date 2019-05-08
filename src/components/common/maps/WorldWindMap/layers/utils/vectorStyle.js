@@ -17,7 +17,6 @@ export const defaultVectorStyle = (geometry, properties) => {
 		configuration.name = properties.name || properties.Name || properties.NAME;
 	}
 
-
 	if (geometry.isPointType() || geometry.isMultiPointType()) {
 		configuration.attributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
 	}

@@ -568,18 +568,18 @@ export const commonActionTypesDefinitions = {
 
 	ATTRIBUTE_DATA_SOURCES: {
 		ADD: null,
-		ADD_BATCH: null,
 		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
-		INDEX: {
-			ADD: null,
-			CLEAR_ALL: null,
-			ADD_BATCH: null
-		},
 		USE: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
 			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
 				CLEAR: null,
 				REGISTER: null
 			},

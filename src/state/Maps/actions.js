@@ -673,9 +673,12 @@ const use = (mapKey) => {
 									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 100,)).then(() => {
 										let attributeData = Select.attributeRelations.getFiltered(getState(), attributeFilter);
 										
+										const attributeDataSourcesKey = attributeData[0].attributeDataSourceKey;
+										dispatch(Action.attributeDataSources.useKeys([attributeDataSourcesKey], componentId));
+
 										//get data
 										const attributeDataFilter = {
-											attributeDataSourceKey: attributeData[0].attributeDataSourceKey,
+											attributeDataSourceKey: attributeDataSourcesKey,
 											fidColumnName: attributeData[0].fidColumnName
 											//add active attribute
 										}

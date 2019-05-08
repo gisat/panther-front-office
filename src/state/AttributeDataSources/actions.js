@@ -4,18 +4,11 @@ import Select from '../Select';
 import common from "../_common/actions";
 
 // ============ creators ===========
-const useIndexed = common.useIndexed(Select.attributeDataSources.getSubstate, 'attribute', ActionTypes.ATTRIBUTE_DATA_SOURCES, 'data');
-const useIndexedClear = common.useIndexedClear(ActionTypes.ATTRIBUTE_DATA_SOURCES);
-const useIndexedBatch = common.useIndexedBatch('attribute', ActionTypes.ATTRIBUTE_DATA_SOURCES, 'data');
-
-function loadFilteredData(filter, componentId) {
-	return (dispatch) => dispatch(useIndexedBatch(null, filter, null, componentId, 'attributeDataSourceKey'));
-}
-
+const useKeys = common.useKeys(Select.attributeDataSources.getSubstate, 'attribute', ActionTypes.ATTRIBUTE_DATA_SOURCES, 'dataSources');
+const useKeysClear = common.useKeysClear(ActionTypes.ATTRIBUTE_DATA_SOURCES);
 // ============ export ===========
 
 export default {
-    useIndexed,
-    useIndexedClear,
-    loadFilteredData
+    useKeys,
+    useKeysClear,
 }
