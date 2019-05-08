@@ -135,6 +135,8 @@ class LineChartDoc extends React.PureComponent {
 						yGridlines
 						yCaptions
 						withoutYbaseline
+						sorting={[["period", "asc"]]}
+
 
 						xCaptionsSize={50}
 

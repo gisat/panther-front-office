@@ -46,8 +46,9 @@ class EsponFuoreChart extends React.PureComponent {
 				sorting={[["data.values[0].value", "desc"]]}
 				xGridlines
 				yGridlines
-				xTicks
 				yCaptions
+				xCaptions
+				xCaptionsSize={50}
 				withoutYbaseline
 				data={this.props.data}
 			/>

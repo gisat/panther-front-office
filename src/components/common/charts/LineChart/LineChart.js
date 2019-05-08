@@ -137,8 +137,13 @@ class LineChart extends React.PureComponent {
 
 			xScale = d3
 				.scaleBand()
+				.padding(0)
 				.domain(xDomain)
 				.range([0, innerPlotWidth]);
+
+			// adjust range
+			let extension = xScale.bandwidth()/2;
+			xScale.range([0-extension, innerPlotWidth + extension]);
 
 			yScale = d3
 				.scaleLinear()
