@@ -11,7 +11,8 @@
 	  "nameInternal": "Internal name",
 	  "period": "Period",
 	  "state": "State",
-	  "type": "Type"
+	  "type": "Type",
+	  "unit": "Unit"
 	},
 	"metadata": {
 			"names": {

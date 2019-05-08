@@ -12,6 +12,7 @@ import Select from "../../../../../../components/common/atoms/Select/Select";
 import cz from "./locales/cz";
 import en from "./locales/en";
 import utils from "../../../../../../utils/utils";
+import MultiSelect from "../../../formComponents/MetadataMultiSelect/presentation";
 
 // add local locales
 utils.addI18nResources('AttributeMetadataConfig', {cz, en});
@@ -67,8 +68,6 @@ class AttributeConfig extends React.PureComponent {
 			data = {...data, ...this.props.editedData}
 		}
 
-		// TODO color, unit, type
-
 		return (
 			<div>
 				<InputWrapper
@@ -123,6 +122,18 @@ class AttributeConfig extends React.PureComponent {
 						onChange={this.onTypeChange}
 						options={typeOptions}
 						value={data && data.type || ""}
+						optionLabel = 'label'
+						optionValue = 'value'
+					/>
+				</InputWrapper>
+				<InputWrapper
+					label={t("formLabels.unit")}
+				>
+					<Input
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={data && data.unit || ""}
+						onChange={(val) => this.onChange('unit', val)}
 					/>
 				</InputWrapper>
 				<InputWrapper

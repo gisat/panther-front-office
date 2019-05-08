@@ -11,7 +11,8 @@
 	  "nameInternal": "Interní název",
 	  "period": "Perioda",
 	  "state": "Stav",
-	  "type": "Typ"
+	  "type": "Typ",
+	  "unit": "Jednotka"
 	},
   "metadata": {
 		"names": {

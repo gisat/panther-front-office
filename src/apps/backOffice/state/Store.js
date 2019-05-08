@@ -13,6 +13,7 @@ import indicatorsReducers from '../../esponFuore/state/EsponFuoreIndicators/redu
 import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
+import attributeRelationsReducers from "../../../state/AttributeRelations/reducers";
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
 import componentsReducers from '../../../state/Components/reducers';
 import layerPeriodsReducers from '../../../state/LayerPeriods/reducers';
@@ -43,6 +44,7 @@ export default createStore(combineReducers({
 	app: appReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
+	attributeRelations: attributeRelationsReducers,
 	attributeSets: attributeSetsReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
