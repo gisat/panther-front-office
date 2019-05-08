@@ -17,7 +17,7 @@ const use = (chartKey) => {
 
 const useClear = (chartKey) => {
 	return (dispatch) => {
-		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`chart_${chartKey}`));
+		dispatch(commonActions.useIndexedClear(ActionTypes.ATTRIBUTE_RELATIONS)(`chart_${chartKey}`));
 	};
 };
 
