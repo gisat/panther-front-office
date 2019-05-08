@@ -1,11 +1,14 @@
 import ActionTypes from '../../constants/ActionTypes';
 
 import Select from '../Select';
+import Action from '../Action';
 import attributeActions from '../../../../state/Attributes/actions';
+import viewsActions from '../../../../state/Views/actions';
 import common from '../../../../state/_common/actions';
 
 // ============ creators ===========
 
+const setActiveKey = common.setActiveKey(ActionTypes.ESPON_FUORE_INDICATORS);
 const create = common.create(Select.specific.esponFuoreIndicators.getSubstate, 'esponFuoreIndicators', ActionTypes.ESPON_FUORE_INDICATORS, 'specific');
 const deleteItem = common.delete(Select.specific.esponFuoreIndicators.getSubstate, 'esponFuoreIndicators', ActionTypes.ESPON_FUORE_INDICATORS, 'specific');
 const saveEdited = common.saveEdited(Select.specific.esponFuoreIndicators.getSubstate, 'esponFuoreIndicators', ActionTypes.ESPON_FUORE_INDICATORS, 'specific');
@@ -26,6 +29,21 @@ function setActiveAttributeByIndicatorKey(key) {
 	}
 }
 
+function select(key) {
+	return (dispatch, getState) => {
+		dispatch(setActiveAttributeByIndicatorKey(key));
+
+		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(getState(), key);
+		let viewKey = activeIndicator && activeIndicator.data && activeIndicator.data.viewKey
+		let activeView = Select.views.getActiveKey(getState());
+
+		if (!activeView || (viewKey && viewKey !== activeView)) {
+			dispatch(viewsActions.setActiveKey(viewKey));
+			dispatch(viewsActions.apply(activeIndicator.data.viewKey, Action));
+		}
+	}
+}
+
 // ============ actions ===========
 
 // ============ export ===========
@@ -41,5 +59,5 @@ export default {
 	refreshUses,
 	useIndexed,
 	useIndexedClear,
-	setActiveAttributeByIndicatorKey
+	select
 }

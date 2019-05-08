@@ -21,7 +21,25 @@ const useClear = (chartKey) => {
 	};
 };
 
+const updateStateFromView = (data) => {
+	return dispatch => {
+		if (data) {
+			dispatch(actionUpdate(data));
+		}
+	};
+};
+
+// ============ actions ===========
+
+const actionUpdate = (data) => {
+	return {
+		type: ActionTypes.CHARTS.UPDATE,
+		data
+	}
+};
+
 export default {
+	updateStateFromView,
 	use,
 	useClear
 }
