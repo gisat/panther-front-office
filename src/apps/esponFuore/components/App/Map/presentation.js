@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import {getKartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartodiagram';
+import {getKartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartogram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
 import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
@@ -213,7 +213,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 						existingLayer.setMetadata(metadata);
 
 						//set layerstyle
-						existingLayer.styleFunction = getKartodiagramStyleFunction(metadata.hueColor, 220, attributeStatisticsData, metadata.attributeDataKey);
+						existingLayer.styleFunction = getKartogramStyleFunction(metadata.hueColor, 220, attributeStatisticsData, metadata.attributeDataKey);
 					}
 				} else {
 					//Data are empty, set empty GoeJSON as renderable

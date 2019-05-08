@@ -11,7 +11,7 @@ const noDataColor = chroma('#ccc');
  * @param {Array} fillColorPalette  RGB color
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
-export const getKartodiagramStyleFunction = (hue, fillTransparency, statistics, attributeDataKey) => {
+export const getKartogramStyleFunction = (hue, fillTransparency, statistics, attributeDataKey) => {
     const classCount = 5;
     const colorScale = chroma.scale([chroma.hsl(hue, 1, .84), chroma.hsl(hue, 1, .35)]);
     const statisticsClasses = getValueClassesByStatistics(statistics, classCount);
