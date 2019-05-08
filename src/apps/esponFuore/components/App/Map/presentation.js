@@ -154,10 +154,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 				changedLayers.push(existingLayer);
 			} else {
 				const metadata = layersMetadata[layerData.key];
+				let type = layerData.type;
 				if(layerData.type === 'vector' && metadata) {
-					layerData.type = `${layerData.type}-${metadata.dataType}`		
+					type = `${layerData.type}-${metadata.dataType}`		
 				}
-				let layer = layersHelper.getLayerByType(layerData);
+				let layer = layersHelper.getLayerByType(layerData, type);
 				if (layer){
 					changedLayers.push(layer);
 				}
