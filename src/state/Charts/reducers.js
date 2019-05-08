@@ -1,7 +1,10 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+	charts: {},
+	sets: {}
+};
 
 function update(state, action) {
 	return {...state, ...action.data};

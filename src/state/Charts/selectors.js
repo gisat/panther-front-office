@@ -1,9 +1,29 @@
 import {createSelector} from 'reselect';
 import AttributeDataSelectors from "../AttributeData/selectors";
+import _ from "lodash";
 
 // TODO test all selectors
-
+const getAllChartsAsObject = (state) => state.charts.charts;
 const getChartByKey = (state, key) => state.charts.charts[key];
+const getSetByKey = (state, key) => state.charts.sets[key];
+
+const getChartsBySetKeyAsObject = createSelector(
+	[
+		getSetByKey,
+		getAllChartsAsObject
+	],
+	(set, charts) => {
+		if (set && set.charts && set.charts.length) {
+			let setCharts= {};
+			_.each(set.charts, (key) => {
+				setCharts[key] = charts[key];
+			});
+			return setCharts;
+		} else {
+			return null;
+		}
+	}
+);
 
 // TODO make common?
 // TODO scenarios, cases
@@ -115,5 +135,7 @@ function getFiltersForUse(data, activeKeys) {
 
 export default {
 	getChartConfiguration,
-	getDataForChart
+	getChartsBySetKeyAsObject,
+	getDataForChart,
+	getSetByKey
 }

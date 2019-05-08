@@ -73,12 +73,13 @@ function findLayerByKey(layers, layerKey) {
 /**
  * Return layer instance by given type
  * @param layerData {Object}
+ * @param type {?string}
  * @param layerData.type {string}
  * @returns {ExtendedWmsLayer | ExtendedOsmLayer | ColoredLayer | OsmLayer}
  */
-function getLayerByType(layerData){
+function getLayerByType(layerData, type){
 	if (layerData && layerData.type){
-		switch (layerData.type){
+		switch (type || layerData.type){
 			case "wikimedia":
 				return new WikimediaLayer({
 					attribution: "Wikimedia maps - Map data \u00A9 OpenStreetMap contributors",
