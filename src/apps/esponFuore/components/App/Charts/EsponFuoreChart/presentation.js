@@ -31,7 +31,7 @@ class EsponFuoreChart extends React.PureComponent {
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
-		let title = attr && attr.nameDisplay;
+		let title = attr && attr.description;
 		let subtitle = [];
 
 		if (attr && attr.unit) {
@@ -42,9 +42,9 @@ class EsponFuoreChart extends React.PureComponent {
 			let names = props.periods.map(period => period.data && period.data.nameDisplay);
 			if (names.length > 1) {
 				let sortedNames = _.sortBy(names);
-				subtitle.push(`from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`);
+				subtitle.push(`(from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]})`);
 			} else {
-				subtitle.push(`in ${names[0]}`);
+				subtitle.push(`(in ${names[0]})`);
 			}
 		}
 
