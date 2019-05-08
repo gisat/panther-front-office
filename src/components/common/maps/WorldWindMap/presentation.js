@@ -10,7 +10,7 @@ import navigator from './navigator/helpers';
 
 import Attribution from './Attribution/Attribution';
 
-import './style.css'
+import './style.scss'
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
@@ -27,6 +27,7 @@ class WorldWindMap extends React.PureComponent {
 		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
 		loadLayerData: PropTypes.func,
+		label: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -138,6 +139,12 @@ class WorldWindMap extends React.PureComponent {
 
 		return (
 			<div className="ptr-world-wind-map" onClick={this.props.setActiveMapKey}>
+				{
+					this.props.label ? 
+						(<div className={"map-label"}>
+							{this.props.label}
+						</div>) : null
+				}
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>

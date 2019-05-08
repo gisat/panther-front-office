@@ -15,6 +15,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	static propTypes = {
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
+		label: PropTypes.string,
 		layers: PropTypes.array,
 		layersVectorData: PropTypes.object,
 		layersAttributeData: PropTypes.object,
@@ -228,7 +229,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}  />);
+		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label} />);
 
 	}
 }

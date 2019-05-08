@@ -28,6 +28,13 @@ const mapStateToProps = (state, props) => {
 	// const hueColor = 113; //green
 	const hueColor = 0; //red
 	
+	const map = Select.maps.getMapByKey(state, props.mapKey);
+	let label = null;
+	if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
+		const periodKey = map.data.metadataModifiers.period;
+		const period = Select.periods.getDataByKey(state, periodKey);
+		label = period ? period.nameDisplay : null
+	}
 
 	let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.spatialRelationsData) {
@@ -89,7 +96,8 @@ const mapStateToProps = (state, props) => {
 		layersAttributeStatistics,
 		layersMetadata,
 		navigator: Select.maps.getNavigator(state, props.mapKey),
-		activeAttributeKey: Select.attributes.getActiveKey(state)
+		activeAttributeKey: Select.attributes.getActiveKey(state),
+		label: label || null,
 	}
 };
 

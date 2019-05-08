@@ -1,3 +1,5 @@
+@import '../../../../styles/variables';
+
 .ptr-world-wind-map {
 	background: #ddd;
 	font-family: "Roboto", sans-serif;
@@ -13,4 +15,12 @@
 	width: 100%;
 	position: absolute;
 	background-color: #000;
+}
+
+.ptr-world-wind-map .map-label{
+	position: absolute;
+	z-index: 1000;
+	background-color: var(--accent50);
+	padding: m(1/8) m(1/4);
+	color: rgb(255, 255, 255);
 }

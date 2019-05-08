@@ -14,7 +14,7 @@ import {defaultVectorStyle} from "./layers/utils/vectorStyle";
 
 import Attribution from './Attribution/Attribution';
 
-import './style.css'
+import './style.scss'
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
