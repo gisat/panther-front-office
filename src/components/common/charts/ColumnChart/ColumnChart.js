@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
+import chroma from 'chroma-js';
 
 import '../style.scss';
 import utils from "../../../../utils/sort";
@@ -33,6 +34,7 @@ class ColumnChart extends React.PureComponent {
 
 	static propTypes = {
 		data: PropTypes.array,
+		defaultColor: PropTypes.array,
 		sorting: PropTypes.array,
 
 		height: PropTypes.number,
@@ -229,6 +231,7 @@ class ColumnChart extends React.PureComponent {
 							onMouseOut={this.onBarOut}
 							onMouseOver={this.onBarOver}
 							onMouseMove={this.onBarOver}
+							defaultColor={this.props.defaultColor}
 
 							y={0}
 							x={xScale(_.get(item, props.keySourcePath))}
@@ -253,6 +256,7 @@ class ColumnChart extends React.PureComponent {
 					onMouseOut={this.onBarOut}
 					onMouseOver={this.onBarOver}
 					onMouseMove={this.onBarOver}
+					defaultColor={this.props.defaultColor}
 
 					y={yScale(_.get(firstItemFromGroup, props.ySourcePath))}
 					x={xScale(group.keys)}
@@ -264,8 +268,14 @@ class ColumnChart extends React.PureComponent {
 	}
 
 	renderPath(aggregatedData, props, xScale, yScale, availableHeight, availableWidth) {
+		let style = {};
+		if (this.props.defaultColor) {
+			style.fill = chroma(this.props.defaultColor).luminance(.3);
+		}
+
 		return (
 			<path className="ptr-column-chart-path"
+				  style={style}
 				d={`M0 ${availableHeight} L${aggregatedData.map((group) => {
 						let firstValueFromGroup = _.get(group.originalData[0], props.ySourcePath);
 						return `${xScale(group.keys)} ${yScale(firstValueFromGroup)}`

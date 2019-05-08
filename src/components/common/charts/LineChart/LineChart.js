@@ -353,7 +353,7 @@ class LineChart extends React.PureComponent {
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
-					color={"#ff0000"}
+					color={this.props.defaultColor ? this.props.defaultColor : "#0000ff"}
 				/>
 				<Line
 					key={'maximum'}

@@ -5,10 +5,12 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import '../style.scss';
+import chroma from "chroma-js";
 
 class Bar extends React.PureComponent {
 
 	static propTypes = {
+		defaultColor: PropTypes.string,
 		itemKeys: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
@@ -28,7 +30,9 @@ class Bar extends React.PureComponent {
 		this.onMouseOver = this.onMouseOver.bind(this);
 
 		this.state = {
-			height: 0
+			height: 0,
+			color: props.defaultColor ? chroma(props.defaultColor).luminance(.3) : null,
+			hidden: props.hidden
 		}
 	}
 
@@ -36,17 +40,38 @@ class Bar extends React.PureComponent {
 		if (this.props.onMouseMove) {
 			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
+
+		if (this.props.defaultColor) {
+			this.setState({
+				color: this.props.defaultColor,
+				hidden: false
+			});
+		}
 	}
 
 	onMouseOver(e) {
 		if (this.props.onMouseOver) {
 			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
+
+		if (this.props.defaultColor) {
+			this.setState({
+				color: this.props.defaultColor,
+				hidden: false
+			});
+		}
 	}
 
 	onMouseOut(e) {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
+		}
+
+		if (this.props.defaultColor) {
+			this.setState({
+				color: chroma(this.props.defaultColor).luminance(.3),
+				hidden: this.props.hidden
+			});
 		}
 	}
 
@@ -58,12 +83,19 @@ class Bar extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+
+		let style = {};
+		if (this.state.color && !this.state.hidden) {
+			style.fill = this.state.color
+		}
+
 		let classes = classnames("ptr-column-chart-bar", {
-			hidden: props.hidden
+			hidden: this.state.hidden
 		});
 
 		return (
 			<rect className={classes}
+				  style={style}
 				  key={this.props.itemKeys[0]}
 				  onMouseOver={this.onMouseOver}
 				  onMouseMove={this.onMouseMove}

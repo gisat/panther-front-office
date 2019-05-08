@@ -73,6 +73,7 @@ class EsponFuoreChart extends React.PureComponent {
 				xCaptionsSize={50}
 				withoutYbaseline
 				data={this.props.data}
+				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>
 		);
 	}
@@ -102,6 +103,7 @@ class EsponFuoreChart extends React.PureComponent {
 				withPoints
 				data={this.props.data}
 				loading={this.props.loading}
+				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>
 		);
 	}
