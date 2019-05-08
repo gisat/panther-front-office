@@ -674,7 +674,9 @@ const use = (mapKey) => {
 										let attributeData = Select.attributeRelations.getFiltered(getState(), attributeFilter);
 										
 										const attributeDataSourcesKey = attributeData[0].attributeDataSourceKey;
+										const attributeKey = attributeData[0].attributeKey;
 										dispatch(Action.attributeDataSources.useKeys([attributeDataSourcesKey], componentId));
+										dispatch(Action.attributes.useKeys([attributeKey], componentId));
 
 										//get data
 										const attributeDataFilter = {

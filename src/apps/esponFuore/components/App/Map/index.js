@@ -67,10 +67,12 @@ const mapStateToProps = (state, props) => {
 		if(layerData.attributeRelationsData) {
 			const attributeDataSource = Select.attributeDataSources.getByKeys(state, [layerData.attributeRelationsData.attributeDataSourceKey]);
 			const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
+			const attributeKey = layerData.attributeRelationsData.attributeKey
+			const attribute = Select.attributes.getByKey(state, attributeKey);
 			acc[layerData.key] = {
 				dataType: indicatorData,
 				attributeDataKey,
-				hueColor,
+				hueColor: attribute ? attribute.color : hueColor,
 			}
 		}
 		return acc
