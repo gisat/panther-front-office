@@ -4,11 +4,12 @@ import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
+import Icon from "../../../../../../components/common/atoms/Icon";
 
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
 		attribute: PropTypes.object,
-		filter: PropTypes.array,
+		filter: PropTypes.object,
 		loading: PropTypes.bool,
 		data: PropTypes.array,
 		periods: PropTypes.array,
@@ -31,6 +32,7 @@ class EsponFuoreChart extends React.PureComponent {
 		const props = this.props;
 
 		let data = props.data;
+		let filter = props.filter;
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
@@ -61,9 +63,9 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 
 		/* Filter */
-		if (data && props.filter) {
+		if (data && filter && filter.areas) {
 			data = _.filter(data, (item) => {
-				return _.indexOf(props.filter, item.key) !== -1;
+				return _.indexOf(filter.areas, item.key) !== -1;
 			});
 		}
 
@@ -71,6 +73,7 @@ class EsponFuoreChart extends React.PureComponent {
 			<ChartWrapper
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
+				statusBar={filter && filter.name ? (this.renderLabel(filter.name)) : null}
 			>
 				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data)}
 			</ChartWrapper>
@@ -85,7 +88,7 @@ class EsponFuoreChart extends React.PureComponent {
 				xSourcePath="data.name"
 				ySourcePath="data.values[0].value"
 				sorting={[["data.values[0].value", "desc"]]}
-				xGridlines
+				// xGridlines
 				yGridlines
 				yCaptions
 				xCaptions
@@ -124,6 +127,17 @@ class EsponFuoreChart extends React.PureComponent {
 				loading={this.props.loading}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>
+		);
+	}
+
+	// TODO create component
+	// TODO make clearable
+	renderLabel(content) {
+		return (
+			<div className="ptr-colored-label">
+				<Icon icon="filter"/>
+				<span>{content}</span>
+			</div>
 		);
 	}
 }

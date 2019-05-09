@@ -7,25 +7,25 @@ import utils from "../../utils/utils";
 const add = common.add(ActionTypes.SELECTIONS);
 const setActiveKey = common.setActiveKey(ActionTypes.SELECTIONS);
 
-function updateActiveSelection(keys) {
+function updateActiveSelection(name, areas) {
 	return (dispatch, getState) => {
 		let active = Select.selections.getActive(getState());
+		let data = {name, areas};
+
 		if (active) {
-			let updated = {...active, data: {...active.data, areas: keys}};
+			let updated = {...active, data: {...active.data, ...data}};
 			dispatch(add(updated));
 		} else {
-			dispatch(create(keys));
+			dispatch(create(data));
 		}
 	};
 }
 
-function create(keys){
+function create(data){
 	return (dispatch) => {
 		let selection = {
 			key: utils.uuid(),
-			data: {
-				areas: keys
-			}
+			data
 		};
 
 		dispatch(add([selection]));

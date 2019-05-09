@@ -23,7 +23,7 @@ class AreasFilter extends React.PureComponent {
 
 	onCountrySelect(record) {
 		if (this.props.onSelect) {
-			this.props.onSelect(record.units);
+			this.props.onSelect(record.code, record.units);
 		}
 		this.setState({value: record});
 	}

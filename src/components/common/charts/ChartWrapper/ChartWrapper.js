@@ -16,6 +16,7 @@ class ChartWrapper extends React.PureComponent {
 	static propTypes = {
 		title: PropTypes.string,
 		subtitle: PropTypes.string,
+		statusBar: PropTypes.element,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
 	};
@@ -58,6 +59,7 @@ class ChartWrapper extends React.PureComponent {
 						</div>
 					</div>
 				</div>
+				{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
 				<div className="ptr-chart-wrapper-content">
 					<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
 						React.cloneElement(this.props.children, {...propsWithoutChildren, width})

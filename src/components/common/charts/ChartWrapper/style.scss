@@ -20,7 +20,7 @@
 
 .ptr-chart-wrapper-titles {
 	flex-grow: 1;
-	padding: .55rem .75rem;
+	padding: m(1/3) .75rem;
 }
 
 .ptr-chart-wrapper-title {
@@ -48,6 +48,34 @@
 .ptr-chart-wrapper-tool .ptr-icon .line {
 	fill: var(--base70);
 }
+
+/* status bar */
+.ptr-chart-wrapper-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  padding: m(1/3) .75rem;
+}
+
+.ptr-colored-label {
+  background: var(--base20);
+  border-radius: .25rem;
+  color: var(--accent50);
+  display: flex;
+  font-size: $b1;
+  padding: .3rem .5rem .15rem;
+}
+
+.ptr-colored-label > .ptr-icon {
+  height: 1.05rem;
+  width: 1.05rem;
+  margin-right: .25rem;
+}
+
+.ptr-colored-label > .ptr-icon .line {
+  fill: currentColor;
+}
+
+/* content */
 
 .ptr-chart-wrapper-content {
 	padding: 1rem 1.5rem .5rem .5rem;

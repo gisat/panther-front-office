@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		attribute: Select.attributes.getActive(state),
 		data,
-		filter: activeFilter && activeFilter.data && activeFilter.data.areas,
+		filter: activeFilter && activeFilter.data,
 		periods
 	}
 };

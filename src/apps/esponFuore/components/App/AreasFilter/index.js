@@ -17,8 +17,8 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch, ownProps) => {
 		return {
-			onSelect: (keys) => {
-				dispatch(Action.selections.updateActiveSelection(keys));
+			onSelect: (name, areas) => {
+				dispatch(Action.selections.updateActiveSelection(name, areas));
 			}
 		}
 	}
