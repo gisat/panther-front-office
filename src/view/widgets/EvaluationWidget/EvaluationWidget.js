@@ -3,7 +3,6 @@ import S from 'string';
 
 import Actions from '../../../actions/Actions';
 import ArgumentError from '../../../error/ArgumentError';
-import CategorizeSettings from './CategorizeSettings';
 import Logger from '../../../util/Logger';
 import MapExport from '../../../util/MapExport';
 import MultiSelectBox from '../inputs/multiselectbox/MultiSelectBox';
@@ -56,12 +55,6 @@ class EvaluationWidget extends Widget {
         this._stateStore = options.store.state;
         this._map = options.store.map;
         this._settings = null;
-
-        this._categorize = new CategorizeSettings({
-            widgetId: "categorize",
-            target: this._floaterTarget,
-            aggregatedChart: options.aggregatedChart
-        });
 
         this.build();
     };
@@ -146,9 +139,6 @@ class EvaluationWidget extends Widget {
                 self.toggleWarning("block", [1, 2]);
                 self.handleLoading("hide");
             }
-
-            // clear categories and sets
-            self._categorize.clearAll();
         });
 
         this.rebuildMap();
@@ -370,13 +360,6 @@ class EvaluationWidget extends Widget {
      * It builds the footer button
      */
     prepareFooter() {
-        let currentState = this._stateStore.current();
-
-        let addCategoryClass = "hidden";
-        if (currentState.scopeFull.aggregated === true) {
-            addCategoryClass = "";
-        }
-
         let html = S(`<div class="floater-row footer-buttons">
             <div class="widget-button" id="evaluation-confirm">
                 <div id="evaluation-confirm-icon">
@@ -387,7 +370,6 @@ class EvaluationWidget extends Widget {
                 </div>
             </div>
             <div class="widget-button" id="evaluation-unselect" disabled="disabled">{{clearSelection}}</div>
-            <div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">{{addCategory}}</div>
         </div>
         <div class="floater-row row-export">
             <div class="widget-button widget-button-export" id="export-json" disabled="disabled">{{exportToGeoJson}}</div>
@@ -397,9 +379,7 @@ class EvaluationWidget extends Widget {
             <div class="widget-button widget-button-export" id="export-shp" disabled="disabled">{{exportToShp}}</div>
             <div class="widget-button widget-button-export" id="export-csv" disabled="disabled">{{exportToCsv}}</div>
         </div>`).template({
-            hidden: addCategoryClass,
             clearSelection: polyglot.t("clearSelectionAll"),
-            addCategory: polyglot.t("addCategory"),
             exportToGeoJson: polyglot.t("exportToGeoJson"),
             exportToXls: polyglot.t("exportToXls"),
             exportToShp: polyglot.t("exportToShp"),
@@ -470,7 +450,7 @@ class EvaluationWidget extends Widget {
 						enableUnselect: true
                     });
                 }
-                self.addCategoryListener();
+
                 self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
             });
@@ -488,22 +468,6 @@ class EvaluationWidget extends Widget {
                 slider.histogram.rebuild(slider.distribution, slider._values, slider.origValues);
             }
         });
-    };
-
-    addCategoryListener() {
-        let self = this;
-
-        $('#evaluation-add-category')
-            .attr("disabled", false)
-            .off("click.addcategory")
-            .on("click.addcategory", function () {
-                $(".floating-window").removeClass("active");
-                setTimeout(function () {
-                    $('#categorize-settings').addClass('open').addClass('active');
-                    let attributes = self._filter.getAttributesFromCategories(self._categories);
-                    self._categorize.addCategory(attributes);
-                }, 50);
-            });
     };
 
     /**
@@ -686,6 +650,8 @@ class EvaluationWidget extends Widget {
 				layersToRemove.forEach(layer => {
                     map._wwd.removeLayer(layer);
                 });
+
+				map.redraw();
 
                 self._dispatcher.notify("selection#clearAll");
 			} else {

@@ -1,7 +1,6 @@
 
 
 import Actions from './actions/Actions';
-import AggregatedChartWidget from './view/widgets/AggregatedChartWidget/AggregatedChartWidget';
 import Attributes from './util/metadata/Attributes';
 import AttributesStore from './stores/gisat/Attributes';
 import AttributeSets from './stores/gisat/AttributeSets';
@@ -286,10 +285,8 @@ function loadApp(initialData) {
             }
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-            var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
-            var evaluationTool = buildEvaluationWidget(filter, stateStore, mapStore, aggregatedWidget);
+            var evaluationTool = buildEvaluationWidget(filter, stateStore, mapStore);
             widgets.push(evaluationTool);
-            widgets.push(aggregatedWidget);
         }
         if(Config.toggles.isSnow){
             var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
@@ -464,10 +461,10 @@ function loadApp(initialData) {
      * Build Evaluation Widget instance
      * @param filter {Filter}
      * @param stateStore {StateStore}
-     * @param aggregatedChart {StateStore}
+     * @param mapStore {MapStore}
      * @returns {EvaluationWidget}
      */
-    function buildEvaluationWidget(filter, stateStore, mapStore, aggregatedChart) {
+    function buildEvaluationWidget(filter, stateStore, mapStore) {
         let isOpen = false;
         if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis) {
             isOpen = true;
@@ -478,7 +475,6 @@ function loadApp(initialData) {
             elementId: 'evaluation-widget',
             name: polyglot.t('areasFilter'),
             placeholderTargetId: 'widget-container',
-            aggregatedChart: aggregatedChart,
             isOpen: isOpen,
 			isPinnable: true,
             dispatcher: window.Stores,
@@ -487,18 +483,6 @@ function loadApp(initialData) {
                 map: mapStore
             }
         });
-    }
-
-    function buildAggregatedChartWidget(filter, stateStore) {
-        return new AggregatedChartWidget({
-            filter: filter,
-            elementId: 'functional-urban-area-result',
-            name: "Aggregated Chart",
-            placeholderTargetId: 'widget-container',
-            store: {
-                state: stateStore
-            }
-        })
     }
 
 
