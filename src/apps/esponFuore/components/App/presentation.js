@@ -72,7 +72,7 @@ class EsponFuoreApp extends React.PureComponent {
 																<FuoreMapPresentation />
 															</FuoreMap>
 														</MapSet>
-														<MapControls/>
+														<MapControls zoomOnly/>
 													</>
 													)
 												}}

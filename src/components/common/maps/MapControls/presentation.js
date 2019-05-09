@@ -5,7 +5,7 @@ import HoldButton from '../../../presentation/atoms/HoldButton'
 import './mapControls.scss';
 class MapControls extends React.PureComponent {
     constructor() {
-        super()
+        super();
 
         this.tiltIncrement = 5;
         this.headingIncrement = 1.0;
@@ -14,21 +14,21 @@ class MapControls extends React.PureComponent {
       }
 
     handleTiltUp() {
-        const updatedNavigator = {tilt: this.props.navigator.tilt - this.tiltIncrement}
+        const updatedNavigator = {tilt: this.props.navigator.tilt - this.tiltIncrement};
         this.props.setNavigator(this.props.activeMapKey, updatedNavigator);
     };
 
     handleTiltDown() {
-        const updatedNavigator = {tilt: this.props.navigator.tilt + this.tiltIncrement}
+        const updatedNavigator = {tilt: this.props.navigator.tilt + this.tiltIncrement};
         this.props.setNavigator(this.props.activeMapKey, updatedNavigator);
     };
 
     handleHeadingRight() {
-        const updatedNavigator = {heading: this.props.navigator.heading - this.headingIncrement}
+        const updatedNavigator = {heading: this.props.navigator.heading - this.headingIncrement};
         this.props.setNavigator(this.props.activeMapKey, updatedNavigator);
     }
     handleHeadingLeft() {
-        const updatedNavigator = {heading: this.props.navigator.heading + this.headingIncrement}
+        const updatedNavigator = {heading: this.props.navigator.heading + this.headingIncrement};
         this.props.setNavigator(this.props.activeMapKey, updatedNavigator);
     }
     handleZoomIn() {
@@ -100,51 +100,55 @@ class MapControls extends React.PureComponent {
                             <Icon icon='minus-thick'/>
                         </HoldButton>
                     </div>
-                    <div className="rotate-control control">
-											<HoldButton
-												pressCallback={() => {this.handleHeadingRight()}}
-												onClick={() => {this.handleHeadingRight()}}
-												onMouseDown={200}
-												pressCallbackTimeout={20}
-												finite={false}
-											>
-												<Icon icon='rotate-right'/>
-											</HoldButton>
-                        <HoldButton onClick={() => {this.handleResetHeading()}}>
-                            <Icon style={{transform: `rotate(${this.props.navigator ? -this.props.navigator.heading : 0}deg)`}} icon='north-arrow'/>
-                        </HoldButton>
-											<HoldButton
-												pressCallback={() => {this.handleHeadingLeft()}}
-												onClick={() => {this.handleHeadingLeft()}}
-												onMouseDown={200}
-												pressCallbackTimeout={20}
-												finite={false}
-											>
-												<Icon icon='rotate-left'/>
-											</HoldButton>
-                    </div>
-                    <div className="tilt-control control">
-                        <HoldButton 
-                                className="tilt-more-control"
-                                pressCallback={() => {this.handleTiltDown()}}
-                                onClick={() => {this.handleTiltDown()}}
-                                onMouseDown={200}
-                                pressCallbackTimeout={20}
-                                finite={false}
-                            >
-                                <Icon icon='tilt-more'/>
-                            </HoldButton>
-                            <HoldButton 
-                                className="tilt-more-control"
-                                pressCallback={() => {this.handleTiltUp()}}
-                                onClick={() => {this.handleTiltUp()}}
-                                onMouseDown={200}
-                                pressCallbackTimeout={20}
-                                finite={false}
-                            >
-                            <Icon icon='tilt-less'/>
-                        </HoldButton>
-                    </div>
+                    {!this.props.zoomOnly ? (
+                        <>
+                            <div className="rotate-control control">
+                                <HoldButton
+                                    pressCallback={() => {this.handleHeadingRight()}}
+                                    onClick={() => {this.handleHeadingRight()}}
+                                    onMouseDown={200}
+                                    pressCallbackTimeout={20}
+                                    finite={false}
+                                >
+                                    <Icon icon='rotate-right'/>
+                                </HoldButton>
+                                <HoldButton onClick={() => {this.handleResetHeading()}}>
+                                    <Icon style={{transform: `rotate(${this.props.navigator ? -this.props.navigator.heading : 0}deg)`}} icon='north-arrow'/>
+                                </HoldButton>
+                                <HoldButton
+                                    pressCallback={() => {this.handleHeadingLeft()}}
+                                    onClick={() => {this.handleHeadingLeft()}}
+                                    onMouseDown={200}
+                                    pressCallbackTimeout={20}
+                                    finite={false}
+                                >
+                                    <Icon icon='rotate-left'/>
+                                </HoldButton>
+                            </div>
+                            <div className="tilt-control control">
+                                <HoldButton
+                                    className="tilt-more-control"
+                                    pressCallback={() => {this.handleTiltDown()}}
+                                    onClick={() => {this.handleTiltDown()}}
+                                    onMouseDown={200}
+                                    pressCallbackTimeout={20}
+                                    finite={false}
+                                >
+                                    <Icon icon='tilt-more'/>
+                                </HoldButton>
+                                <HoldButton
+                                    className="tilt-more-control"
+                                    pressCallback={() => {this.handleTiltUp()}}
+                                    onClick={() => {this.handleTiltUp()}}
+                                    onMouseDown={200}
+                                    pressCallbackTimeout={20}
+                                    finite={false}
+                                >
+                                    <Icon icon='tilt-less'/>
+                                </HoldButton>
+                            </div>
+                        </>
+                    ) : null}
                 </div>
         )
     }
