@@ -94,7 +94,7 @@ function getFiltersForUse(data, activeKeys) {
 		if (data.periods.length > 1) {
 			filter.periodKey = {in: data.periods};
 		} else {
-			filter.periodKey = data.periods;
+			filter.periodKey = data.periods[0];
 		}
 	} else {
 		filterByActive.period = true;
@@ -109,7 +109,7 @@ function getFiltersForUse(data, activeKeys) {
 		if (data.attributes.length > 1) {
 			filter.attributeKey = {in: data.attributes};
 		} else {
-			filter.attributeKey = data.attributes;
+			filter.attributeKey = data.attributes[0];
 		}
 	} else {
 		filterByActive.attribute = true;

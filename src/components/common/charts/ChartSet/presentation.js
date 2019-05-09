@@ -29,7 +29,8 @@ class ChartSet extends React.PureComponent {
 			return charts.map((chartKey, index) => {
 				let chart = this.props.charts[chartKey];
 				let props = {
-					chartKey: chart.key
+					chartKey: chart.key,
+					name: chart.name
 				};
 
 				if (this.props.children) {

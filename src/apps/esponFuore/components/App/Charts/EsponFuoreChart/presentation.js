@@ -10,7 +10,8 @@ class EsponFuoreChart extends React.PureComponent {
 		attribute: PropTypes.object,
 		loading: PropTypes.bool,
 		data: PropTypes.array,
-		periods: PropTypes.array
+		periods: PropTypes.array,
+		name: PropTypes.string
 	};
 
 	componentDidMount() {
@@ -31,7 +32,11 @@ class EsponFuoreChart extends React.PureComponent {
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
-		let title = attr && attr.nameDisplay;
+		let title = this.props.name;
+		if (!title) {
+			title = attr && attr.nameDisplay;
+		}
+
 		let subtitle = [];
 
 		if (attr && attr.description) {
