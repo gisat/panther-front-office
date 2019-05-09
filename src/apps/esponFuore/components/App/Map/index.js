@@ -25,8 +25,9 @@ const mapStateToProps = (state, props) => {
 	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
 	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
 	const indicatorData = activeIndicator ? activeIndicator.data.type : 'relative';
-	// const hueColor = 113; //green
-	const hueColor = 0; //red
+	// const hueColor = '#00ff2b'; //green
+	const hueColor = '#4689d0'; //blue
+	// const hueColor = '#ff0000'; //red
 	
 	const map = Select.maps.getMapByKey(state, props.mapKey);
 	let label = null;
@@ -72,7 +73,7 @@ const mapStateToProps = (state, props) => {
 			acc[layerData.key] = {
 				dataType: indicatorData,
 				attributeDataKey,
-				hueColor: attribute ? attribute.color : hueColor,
+				color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
 			}
 		}
 		return acc
