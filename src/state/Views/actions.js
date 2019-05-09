@@ -22,7 +22,7 @@ const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(S
 // ============ actions ===========
 const apply = (key, actions) => {
 	return (dispatch, getState) => {
-		dispatch(common.ensureKeys(Select.views.getSubstate, 'views', ActionTypes.VIEWS, [key], 'views')).then(() => {
+		return dispatch(common.ensureKeys(Select.views.getSubstate, 'views', ActionTypes.VIEWS, [key], 'views')).then(() => {
 			let data = Select.views.getDataByKey(getState(), key);
 			if (data && data.state) {
 
