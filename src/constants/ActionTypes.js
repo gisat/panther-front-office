@@ -491,6 +491,12 @@ export const commonActionTypesDefinitions = {
 		UPDATE: null
 	},
 
+	SELECTIONS: {
+		ADD: null,
+		REMOVE: null,
+		SET_ACTIVE_KEY: null
+	},
+
 	SPATIAL_RELATIONS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,

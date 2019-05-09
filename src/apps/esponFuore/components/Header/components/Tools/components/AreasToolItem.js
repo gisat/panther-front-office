@@ -6,9 +6,7 @@ import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 
 import presentation from "./ToolItem";
-import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
-import ChartWrapper from "../../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import sample_15 from "../../../../../../../components/common/charts/mockData/sample_50";
+import AreasFilter from "../../../../App/AreasFilter";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -16,7 +14,6 @@ const mapStateToProps = (state, ownProps) => {
 	}
 };
 
-// TODO change components. Charts just for testing
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		closeWindow: () => {
@@ -34,23 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					height: 500
 				},
 				(
-					<ChartWrapper title="Extraordinary looooooooooooooong unusual specific column chart title">
-						<ColumnChart
-							key="test7"
-							data={sample_15}
-							maxWidth={1200}
-							keySourcePath="key"
-							xSourcePath="data.name"
-							ySourcePath="data.some_value_1"
-							sorting={[["data.some_value_1", "desc"]]}
-							xCaptions
-							xGridlines
-							xTicks
-							yCaptions
-							yGridlines
-							yTicks
-						/>
-					</ChartWrapper>
+					<AreasFilter/>
 				))
 			);
 		}

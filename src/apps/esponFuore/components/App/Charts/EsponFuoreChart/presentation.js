@@ -8,6 +8,7 @@ import LineChart from "../../../../../../components/common/charts/LineChart/Line
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
 		attribute: PropTypes.object,
+		filter: PropTypes.array,
 		loading: PropTypes.bool,
 		data: PropTypes.array,
 		periods: PropTypes.array,
@@ -28,17 +29,18 @@ class EsponFuoreChart extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		const data = props.data;
+
+		let data = props.data;
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
+		/* Titles */
 		let title = null;
 		if (props.name) {
 			title = props.name;
 		} else if (attr && attr.nameDisplay) {
 			title = attr && attr.nameDisplay;
 		}
-
 
 		let subtitle = [];
 		if (props.name && attr && attr.nameDisplay) {
@@ -58,17 +60,24 @@ class EsponFuoreChart extends React.PureComponent {
 			}
 		}
 
+		/* Filter */
+		if (data && props.filter) {
+			data = _.filter(data, (item) => {
+				return _.indexOf(props.filter, item.key) !== -1;
+			});
+		}
+
 		return (
 			<ChartWrapper
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
 			>
-				{singleValue ? this.renderColumnChart() : this.renderLineChart()}
+				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data)}
 			</ChartWrapper>
 		);
 	}
 
-	renderColumnChart() {
+	renderColumnChart(data) {
 		return (
 			<ColumnChart
 				key="fuoreTestChart"
@@ -82,13 +91,13 @@ class EsponFuoreChart extends React.PureComponent {
 				xCaptions
 				xCaptionsSize={50}
 				withoutYbaseline
-				data={this.props.data}
+				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>
 		);
 	}
 
-	renderLineChart() {
+	renderLineChart(data) {
 		return (
 			<LineChart
 				key="fuoreTestAllPeriods"
@@ -111,7 +120,7 @@ class EsponFuoreChart extends React.PureComponent {
 
 				xCaptionsSize={40}
 				withPoints
-				data={this.props.data}
+				data={data}
 				loading={this.props.loading}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>

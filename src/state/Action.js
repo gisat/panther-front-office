@@ -17,6 +17,7 @@ import Places from './Places/actions';
 import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
 import Screens from './Screens/actions';
+import Selections from './Selections/actions';
 import Snapshots from './Snapshots/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
@@ -51,6 +52,7 @@ export default {
 	scenarios: Scenarios,
 	scopes: Scopes,
 	screens: Screens,
+	selections: Selections,
 	snapshots: Snapshots,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,

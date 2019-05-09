@@ -9,6 +9,8 @@ const mapStateToProps = (state, ownProps) => {
 	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
 
 	let data = Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation);
+	let activeFilter = Select.selections.getActive(state);
+
 	let periods = null;
 	if (chartConfiguation && chartConfiguation.mergedFilter && chartConfiguation.mergedFilter.periodKey && chartConfiguation.mergedFilter.periodKey.in) {
 
@@ -19,6 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		attribute: Select.attributes.getActive(state),
 		data,
+		filter: activeFilter && activeFilter.data && activeFilter.data.areas,
 		periods
 	}
 };

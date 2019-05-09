@@ -27,6 +27,7 @@ import placesReducers from '../../../state/Places/reducers';
 import scenariosReducers from '../../../state/Scenarios/reducers';
 import scopesReducers from '../../../state/Scopes/reducers';
 import screensReducers from '../../../state/Screens/reducers';
+import selectionsReducers from '../../../state/Selections/reducers';
 import snapshotsReducers from '../../../state/Snapshots/reducers';
 import spatialDataSourcesReducers from '../../../state/SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from '../../../state/SpatialDataSources/vector/reducers';
@@ -67,6 +68,7 @@ export default createStore(combineReducers({
 	scenarios: scenariosReducers,
 	scopes: scopesReducers,
 	screens: screensReducers,
+	selections: selectionsReducers,
 	snapshots: snapshotsReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialVectorDataSources: spatialVectorDataSourcesReducers,
