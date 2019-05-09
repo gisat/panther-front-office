@@ -30,7 +30,7 @@ class ChartSet extends React.PureComponent {
 				let chart = this.props.charts[chartKey];
 				let props = {
 					chartKey: chart.key,
-					name: chart.name
+					name: chart.data && chart.data.title
 				};
 
 				if (this.props.children) {

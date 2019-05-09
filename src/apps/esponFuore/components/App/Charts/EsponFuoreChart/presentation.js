@@ -32,13 +32,18 @@ class EsponFuoreChart extends React.PureComponent {
 		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
-		let title = this.props.name;
-		if (!title) {
+		let title = null;
+		if (props.name) {
+			title = props.name;
+		} else if (attr && attr.nameDisplay) {
 			title = attr && attr.nameDisplay;
 		}
 
-		let subtitle = [];
 
+		let subtitle = [];
+		if (props.name && attr && attr.nameDisplay) {
+			subtitle.push(attr.nameDisplay);
+		}
 		if (attr && attr.description) {
 			subtitle.push(attr.description);
 		}
@@ -47,16 +52,16 @@ class EsponFuoreChart extends React.PureComponent {
 			let names = props.periods.map(period => period.data && period.data.nameDisplay);
 			if (names.length > 1) {
 				let sortedNames = _.sortBy(names);
-				subtitle.push(`(from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]})`);
+				subtitle.push(`from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`);
 			} else {
-				subtitle.push(`(in ${names[0]})`);
+				subtitle.push(`in ${names[0]}`);
 			}
 		}
 
 		return (
 			<ChartWrapper
 				title={title}
-				subtitle={subtitle.length ? subtitle.join(" ") : null}
+				subtitle={subtitle.length ? subtitle.join(", ") : null}
 			>
 				{singleValue ? this.renderColumnChart() : this.renderLineChart()}
 			</ChartWrapper>
