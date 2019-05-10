@@ -153,6 +153,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				selectedGroup: group,
 				shareInPortal: shareInPortal,
 				name: rec.data.conf.name,
+				description: rec.data.conf.description,
 				url: shareUrl
 			});
 			Stores.notify("DATAVIEWS_ADD", [{

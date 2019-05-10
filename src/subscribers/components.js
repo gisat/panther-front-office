@@ -67,7 +67,7 @@ const showUrl = (options) =>  {
 		let promises = [];
 		selectedGroup.value.forEach((group, index) => {
 			if(group !== '1' && group !== '2' && group !== '3') {
-				promises.push(UrbanTepPortalStore.share(url, options.name, selectedGroup.title[index]));
+				promises.push(UrbanTepPortalStore.share(url, options.name, options.description, selectedGroup.title[index]));
 			}
 		});
 		Promise.all(promises).then(() => {
