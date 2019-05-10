@@ -148,7 +148,7 @@ class EsponFuoreChart extends React.PureComponent {
 	renderLabel(content) {
 		return (
 			<div className="ptr-colored-label">
-				<div className="ptr-colored-label-content" onClick={this.onSelectionClear}>
+				<div className="ptr-colored-label-content">
 					<Icon icon="filter"/>
 					<div>{content}</div>
 				</div>

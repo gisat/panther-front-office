@@ -44,6 +44,12 @@ class AreasFilter extends React.PureComponent {
 		this.setState({value: null});
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!this.props.activeFilter) {
+			this.setState({value: null});
+		}
+	}
+
 	render() {
 		return (
 			<div className="esponFuore-areas-filter">
