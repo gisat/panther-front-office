@@ -106,6 +106,7 @@ class EsponFuoreChart extends React.PureComponent {
 				yCaptions
 				xCaptions
 				xCaptionsSize={50}
+				yCaptionsSize={70}
 				withoutYbaseline
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
@@ -127,7 +128,6 @@ class EsponFuoreChart extends React.PureComponent {
 				xTicks
 				xGridlines
 				xCaptions
-				yTicks
 				yGridlines
 				yCaptions
 				withoutYbaseline
@@ -135,6 +135,7 @@ class EsponFuoreChart extends React.PureComponent {
 				sorting={[["key", "asc"]]}
 
 				xCaptionsSize={40}
+				yCaptionsSize={70}
 				withPoints
 				data={data}
 				loading={this.props.loading}

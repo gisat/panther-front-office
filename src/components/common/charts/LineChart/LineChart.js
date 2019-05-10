@@ -380,7 +380,7 @@ class LineChart extends React.PureComponent {
 				<div>
 					<div><i>{state.name}</i></div>
 					{state.data ? (
-						<div><i>{`${_.get(state.data, this.props.xSourcePath)}:`}</i> {`${_.get(state.data, this.props.ySourcePath)}`}</div>
+						<div><i>{`${_.get(state.data, this.props.xSourcePath)}:`}</i> {`${_.get(state.data, this.props.ySourcePath).toLocaleString()}`}</div>
 					) : null}
 				</div>
 			);

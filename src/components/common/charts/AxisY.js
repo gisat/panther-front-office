@@ -4,6 +4,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
+import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 5; // TODO optional?
@@ -82,7 +83,7 @@ class AxisY extends React.PureComponent {
 										x={0}
 										y={yCoord + TICK_CAPTION_OFFSET_HORIZONTAL}
 									>
-										{value}
+										{value.toLocaleString()}
 									</text>
 								) : null}
 							</g>
