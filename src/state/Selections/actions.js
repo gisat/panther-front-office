@@ -7,6 +7,17 @@ import utils from "../../utils/utils";
 const add = common.add(ActionTypes.SELECTIONS);
 const setActiveKey = common.setActiveKey(ActionTypes.SELECTIONS);
 
+function clearActiveSelection() {
+	return (dispatch, getState) => {
+		let activeKey = Select.selections.getActiveKey(getState());
+
+		if (activeKey) {
+			dispatch(setActiveKey(null));
+			dispatch(actionRemove([activeKey]));
+		}
+	};
+}
+
 function updateActiveSelection(name, areas) {
 	return (dispatch, getState) => {
 		let active = Select.selections.getActive(getState());
@@ -33,6 +44,15 @@ function create(data){
 	}
 }
 
+// ============ actions ===========
+function actionRemove(keys){
+	return {
+		type: ActionTypes.SELECTIONS.REMOVE,
+		keys
+	}
+}
+
 export default {
+	clearActiveSelection,
 	updateActiveSelection
 }

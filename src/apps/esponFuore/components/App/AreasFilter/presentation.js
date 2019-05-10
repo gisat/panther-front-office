@@ -23,7 +23,11 @@ class AreasFilter extends React.PureComponent {
 
 	onCountrySelect(record) {
 		if (this.props.onSelect) {
-			this.props.onSelect(record.code, record.units);
+			if (record) {
+				this.props.onSelect(record.code, record.units);
+			} else {
+				this.props.onClear();
+			}
 		}
 		this.setState({value: record});
 	}
@@ -33,6 +37,7 @@ class AreasFilter extends React.PureComponent {
 			<div className="esponFuore-areas-filter">
 				Select country
 				<Select
+					clearable
 					onChange={this.onCountrySelect}
 					options={options}
 					optionLabel="code"
