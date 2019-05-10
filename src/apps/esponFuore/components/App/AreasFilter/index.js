@@ -9,6 +9,7 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		activeFilter: Select.selections.getActive(state)
 	}
 };
 

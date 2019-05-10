@@ -26,8 +26,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				{
 					title: ownProps.name,
 					icon: ownProps.icon,
-					width: 600,
-					maxWidth: 1200,
+					width: 400,
+					maxWidth: 600,
 					height: 500
 				},
 				(
