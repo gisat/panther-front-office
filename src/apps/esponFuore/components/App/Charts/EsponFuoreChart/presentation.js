@@ -12,9 +12,16 @@ class EsponFuoreChart extends React.PureComponent {
 		filter: PropTypes.object,
 		loading: PropTypes.bool,
 		data: PropTypes.array,
+		onSelectionClear: PropTypes.func,
 		periods: PropTypes.array,
 		name: PropTypes.string
 	};
+
+	constructor(props) {
+		super(props);
+
+		this.onSelectionClear = this.onSelectionClear.bind(this);
+	}
 
 	componentDidMount() {
 		if (this.props.onMount) {
@@ -25,6 +32,12 @@ class EsponFuoreChart extends React.PureComponent {
 	componentWillUnmount() {
 		if (this.props.onUnmount) {
 			this.props.onUnmount();
+		}
+	}
+
+	onSelectionClear() {
+		if (this.props.onSelectionClear) {
+			this.props.onSelectionClear();
 		}
 	}
 
@@ -135,8 +148,13 @@ class EsponFuoreChart extends React.PureComponent {
 	renderLabel(content) {
 		return (
 			<div className="ptr-colored-label">
-				<Icon icon="filter"/>
-				<span>{content}</span>
+				<div className="ptr-colored-label-content" onClick={this.onSelectionClear}>
+					<Icon icon="filter"/>
+					<div>{content}</div>
+				</div>
+				<div className="ptr-colored-label-clear" onClick={this.onSelectionClear}>
+					<Icon icon="times"/>
+				</div>
 			</div>
 		);
 	}

@@ -61,18 +61,49 @@
   border-radius: .25rem;
   color: var(--accent50);
   display: flex;
+  align-items: center;
   font-size: $b1;
-  padding: .3rem .5rem .15rem;
+  padding: 0 .2rem 0 .35rem;
+  height: m(1);
 }
 
-.ptr-colored-label > .ptr-icon {
-  height: 1.05rem;
-  width: 1.05rem;
-  margin-right: .25rem;
+.ptr-colored-label-content {
+  display: flex;
+  align-items: center;
 }
 
-.ptr-colored-label > .ptr-icon .line {
+.ptr-colored-label-content > div {
+  padding-top: .1rem;
+}
+
+.ptr-colored-label-content > .ptr-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: .15rem;
+}
+
+.ptr-colored-label-content > .ptr-icon .line {
   fill: currentColor;
+}
+
+.ptr-colored-label-clear {
+  cursor: pointer;
+  margin-left: .5rem;
+  display: flex;
+  align-items: center;
+}
+
+.ptr-colored-label-clear > .ptr-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.ptr-colored-label-clear > .ptr-icon .line {
+  fill: var(--base50);
+}
+
+.ptr-colored-label-clear:hover > .ptr-icon .line {
+  fill: var(--base100);
 }
 
 /* content */

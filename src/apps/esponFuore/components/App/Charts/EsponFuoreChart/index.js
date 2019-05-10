@@ -28,10 +28,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		onSelectionClear: () => {
+			// TODO clear specific selection
+			dispatch(Action.selections.clearActiveSelection());
+		},
 		onMount: () => {
 			dispatch(Action.charts.use(ownProps.chartKey));
 		},
-
 		onUnmount: () => {
 			dispatch(Action.charts.useClear(ownProps.chartKey));
 		}
