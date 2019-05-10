@@ -61,9 +61,19 @@ class Line extends React.PureComponent {
 		this.setState({color: (!this.props.gray && this.props.color) ? chroma(this.props.color).luminance(.3) : null});
 	}
 
+	componentDidMount() {
+		this.updateLength();
+	}
+
 	componentDidUpdate() {
+		this.updateLength();
+	}
+
+	updateLength() {
 		let length = this.ref.current.getTotalLength();
-		this.setState({length});
+		if (length !== this.state.length) {
+			this.setState({length});
+		}
 	}
 
 	render() {

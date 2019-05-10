@@ -75,10 +75,20 @@ class Bar extends React.PureComponent {
 		}
 	}
 
+	componentDidMount() {
+		this.updateHeight();
+	}
+
 	componentDidUpdate() {
-		this.setState({
-			height: this.props.height
-		})
+		this.updateHeight();
+	}
+
+	updateHeight() {
+		if (this.props.height !== this.state.height) {
+			this.setState({
+				height: this.props.height
+			});
+		}
 	}
 
 	render() {
