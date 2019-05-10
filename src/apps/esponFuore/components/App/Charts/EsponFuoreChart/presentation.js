@@ -84,6 +84,7 @@ class EsponFuoreChart extends React.PureComponent {
 
 		return (
 			<ChartWrapper
+				key={this.props.chartKey+"-wrapper"}
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
 				statusBar={filter && filter.name ? (this.renderLabel(filter.name)) : null}
@@ -96,7 +97,7 @@ class EsponFuoreChart extends React.PureComponent {
 	renderColumnChart(data) {
 		return (
 			<ColumnChart
-				key="fuoreTestChart"
+				key={this.props.chartKey}
 				keySourcePath="key"
 				xSourcePath="data.name"
 				ySourcePath="data.values[0].value"
@@ -117,7 +118,7 @@ class EsponFuoreChart extends React.PureComponent {
 	renderLineChart(data) {
 		return (
 			<LineChart
-				key="fuoreTestAllPeriods"
+				key={this.props.chartKey}
 				keySourcePath="key"
 				serieKeySourcePath="key"
 				serieNameSourcePath="data.name"

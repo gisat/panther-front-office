@@ -34,7 +34,7 @@ class ChartSet extends React.PureComponent {
 				};
 
 				if (this.props.children) {
-					return React.cloneElement(this.props.children, props);
+					return React.cloneElement(this.props.children, {...props, key: chartKey});
 				}
 			});
 		} else {

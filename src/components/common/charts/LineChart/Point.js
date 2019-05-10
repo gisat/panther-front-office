@@ -18,7 +18,10 @@ class Point extends React.PureComponent {
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
 		onMouseOver: PropTypes.func,
-		color: PropTypes.string,
+		color: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		]),
 	};
 
 	constructor(props) {
