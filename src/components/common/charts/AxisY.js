@@ -65,7 +65,7 @@ class AxisY extends React.PureComponent {
 					let yCoord = this.props.scale(value);
 
 					// avoid too top grid lines
-					if (yCoord > 20) {
+					if (yCoord > 5) {
 						return (
 							<g key={value}>
 								<line

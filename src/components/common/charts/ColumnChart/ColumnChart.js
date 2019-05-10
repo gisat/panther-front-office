@@ -24,6 +24,8 @@ const MAX_WIDTH = 1000;
 const Y_CAPTIONS_SIZE = 70;
 const X_CAPTIONS_SIZE = 70;
 
+const MARGIN_TOP = 20;
+
 // TODO optional
 const INNER_PADDING_LEFT = 10;
 const INNER_PADDING_RIGHT = 10;
@@ -270,7 +272,7 @@ class ColumnChart extends React.PureComponent {
 	renderPath(aggregatedData, props, xScale, yScale, availableHeight, availableWidth) {
 		let style = {};
 		if (this.props.defaultColor) {
-			style.fill = chroma(this.props.defaultColor).luminance(.3);
+			style.fill = chroma(this.props.defaultColor).luminance(.4);
 		}
 
 		return (

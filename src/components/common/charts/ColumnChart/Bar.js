@@ -31,7 +31,7 @@ class Bar extends React.PureComponent {
 
 		this.state = {
 			height: 0,
-			color: props.defaultColor ? chroma(props.defaultColor).luminance(.3) : null,
+			color: props.defaultColor ? chroma(props.defaultColor).luminance(.4) : null,
 			hidden: props.hidden
 		}
 	}
@@ -69,7 +69,7 @@ class Bar extends React.PureComponent {
 
 		if (this.props.defaultColor) {
 			this.setState({
-				color: chroma(this.props.defaultColor).luminance(.3),
+				color: chroma(this.props.defaultColor).luminance(.4),
 				hidden: this.props.hidden
 			});
 		}
