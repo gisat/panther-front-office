@@ -43,6 +43,7 @@
     "redux-thunk": "2.3.0",
     "regenerator-runtime": "0.13.1",
     "reselect": "4.0.0",
+    "@turf/turf": "5.1.6",
     "uri-templates": "0.2.0",
     "webworldwind-esa": "0.10.0-alpha.3"
   },

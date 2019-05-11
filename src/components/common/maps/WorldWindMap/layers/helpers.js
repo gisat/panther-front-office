@@ -2,6 +2,7 @@ import WorldWind from "webworldwind-esa";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
+import DiagramVectorLayer from "./DiagramVectorLayer";
 import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
@@ -99,9 +100,9 @@ function getLayerByType(layerData, type){
 			case "vector":
 				return getVectorLayer(layerData);
 			case "vector-absolute":
-				return getVectorLayer(layerData);
+				return getDiagramVectorLayer(layerData);
 			case "vector-relative":
-				return getVectorLayer(layerData);
+				return getKartogramVectorLayer(layerData);
 			default:
 				return null;
 		}
@@ -194,6 +195,29 @@ function getVectorLayer(layerData) {
 			return attributes;
 		}
 	}, url, defaultVectorStyle);
+
+
+	return layer;
+}
+
+function getKartogramVectorLayer(layerData) {
+	const url = `${layerData.mapServerConfig.wfsMapServerUrl}?request=GetFeature&service=WFS&version=1.0.0&outputFormat=application/json&typeName=${layerData.layerName}`;
+	const layer = new ExtendedGeoJsonLayer({
+		key: layerData.key,
+		layerName: layerData.layerName,
+		...layerData,
+	}, url, defaultVectorStyle);
+
+
+	return layer;
+}
+
+function getDiagramVectorLayer(layerData) {
+	const layer = new DiagramVectorLayer({
+		key: layerData.key,
+		layerName: layerData.layerName,
+		...layerData,
+	}, defaultVectorStyle);
 
 
 	return layer;

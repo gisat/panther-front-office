@@ -4,8 +4,10 @@ import {isEqual, isNull, cloneDeep, isEmpty} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getKartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartogram';
+import {getKartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
+import DiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/DiagramVectorLayer';
 import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
 
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
@@ -181,8 +183,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-
-			if(existingLayer && existingLayer instanceof ExtendedRenderableLayer && layersAttributeData[key] && layersAttributeStatistics[key]) {
+			const instanfeOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer || existingLayer instanceof DiagramVectorLayer);
+			if(instanfeOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
@@ -205,16 +207,21 @@ class FuoreWorldWindMap extends React.PureComponent {
 						}
 					}
 
-					existingLayer.setRenderables(spatialData, defaultVectorStyle);
-
 					if(attributeStatisticsData) {
 						existingLayer.setAttributeStatistics(attributeStatisticsData);
 					}
+
+					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
+
 					if(metadata) {
 						existingLayer.setMetadata(metadata);
 
 						//set layerstyle
-						existingLayer.styleFunction = getKartogramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+						if(metadata.dataType === 'relative') {
+							existingLayer.styleFunction = getKartogramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+						}else if(metadata.dataType === 'absolute') {
+							existingLayer.styleFunction = getKartodiagramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+						}
 					}
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
