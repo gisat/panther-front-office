@@ -23,11 +23,22 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.metadata = {};
 	};
 
+
+	orderFeaturesDescending(data, attributeDataKey) {
+		return data.features.sort((a, b) => b.properties[attributeDataKey] - a.properties[attributeDataKey])
+	}
+
 	/**
 	 * 
 	 * @param {Object|Array} renderablesData - GeoJSON data
 	 */
 	setRenderables(renderablesData, defaultStyle, metadata) {
+
+		const attributeDataKey = metadata && metadata.attributeDataKey;
+		if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
+			this.orderFeaturesDescending(renderablesData, attributeDataKey);
+		}
+
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
 		const diagramParser = new diagramGeoJSONParser(renderablesData, metadata, 'volume', true, 80000, this.attributeStatistics);
 		const shapeConfigurationCallback = (geometry, properties) => {
