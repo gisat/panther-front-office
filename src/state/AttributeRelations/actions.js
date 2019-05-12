@@ -29,7 +29,8 @@ function ensureIndexedForChart(filter, order, start, length, componentId) {
 				let attributeKeys = filteredRelations.map(relation => relation.attributeKey);
 
 				if (attributeKeys && attributeKeys.length) {
-					dispatch(attributeActions.useKeys(attributeKeys, componentId));
+					let uniqueKeys = _.uniq(attributeKeys);
+					dispatch(attributeActions.useKeys(uniqueKeys, componentId));
 				}
 
 				dataSources.forEach(source => {
