@@ -644,8 +644,8 @@ const use = (mapKey) => {
 					delete spatialRelationsFilter.attributeKey;
 				}
 
-				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 100));
-				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 100,))
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 1000));
+				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 1000))
 					.then(() => {
 						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), spatialRelationsFilter);
 						if (spatialDataSourcesKeys && spatialDataSourcesKeys.length) {
@@ -668,9 +668,9 @@ const use = (mapKey) => {
 										dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
 									}
 									const attributeFilter = _.cloneDeep(filters.mergedFilter);
-									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 100));
+									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 1000));
 
-									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 100,)).then(() => {
+									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 1000,)).then(() => {
 										let attributeData = Select.attributeRelations.getFiltered(getState(), attributeFilter);
 										
 										const attributeDataSourcesKey = attributeData[0].attributeDataSourceKey;
