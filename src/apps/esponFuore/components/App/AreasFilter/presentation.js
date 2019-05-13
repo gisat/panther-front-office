@@ -19,10 +19,6 @@ class AreasFilter extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			value: null
-		};
-
 		this.onCountrySelect = this.onCountrySelect.bind(this);
 		this.onFilterClear = this.onFilterClear.bind(this);
 	}
@@ -30,9 +26,8 @@ class AreasFilter extends React.PureComponent {
 	onCountrySelect(record) {
 		if (record) {
 			if (this.props.onSelect) {
-				this.props.onSelect(record.code, record.units);
+				this.props.onSelect(record.code, [record.code], record.units);
 			}
-			this.setState({value: record});
 		} else {
 			this.onFilterClear();
 		}
@@ -42,16 +37,11 @@ class AreasFilter extends React.PureComponent {
 		if (this.props.onClear) {
 			this.props.onClear();
 		}
-		this.setState({value: null});
-	}
-
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (!this.props.activeFilter) {
-			this.setState({value: null});
-		}
 	}
 
 	render() {
+		let selectedCountry = this.props.activeFilter && this.props.activeFilter.data  && this.props.activeFilter.data.values  && this.props.activeFilter.data.values[0];
+
 		return (
 			<div className="esponFuore-areas-filter">
 				<div className="esponFuore-areas-filter-attribute">
@@ -62,7 +52,7 @@ class AreasFilter extends React.PureComponent {
 						options={_.orderBy(options, ["code"], ["asc"])}
 						optionLabel="code"
 						optionValue="code"
-						value={this.state.value}
+						value={selectedCountry}
 					/>
 				</div>
 

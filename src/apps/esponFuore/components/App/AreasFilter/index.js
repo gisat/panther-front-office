@@ -21,8 +21,8 @@ const mapDispatchToPropsFactory = () => {
 			onClear: () => {
 				dispatch(Action.selections.clearActiveSelection());
 			},
-			onSelect: (name, areas) => {
-				dispatch(Action.selections.updateActiveSelection(name, areas));
+			onSelect: (name, values, areas) => {
+				dispatch(Action.selections.updateActiveSelection(name, values, areas));
 			}
 		}
 	}

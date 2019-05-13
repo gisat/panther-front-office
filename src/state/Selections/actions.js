@@ -18,10 +18,10 @@ function clearActiveSelection() {
 	};
 }
 
-function updateActiveSelection(name, areas) {
+function updateActiveSelection(name, values, areas) {
 	return (dispatch, getState) => {
 		let active = Select.selections.getActive(getState());
-		let data = {name, areas};
+		let data = {name, values, areas};
 
 		if (active) {
 			let updated = {...active, data: {...active.data, ...data}};
