@@ -16,7 +16,10 @@ class Line extends React.PureComponent {
 		onMouseOut: PropTypes.func,
 		onMouseOver: PropTypes.func,
 		defaultColor: PropTypes.string,
-		highlightedColor: PropTypes.string,
+		highlightedColor: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		]),
 		withPoints: PropTypes.bool,
 		suppressed: PropTypes.bool,
 		gray: PropTypes.bool

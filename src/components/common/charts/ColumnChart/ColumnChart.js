@@ -37,7 +37,10 @@ class ColumnChart extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		defaultColor: PropTypes.string,
-		highlightedColor: PropTypes.string,
+		highlightedColor: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		]),
 		sorting: PropTypes.array,
 
 		height: PropTypes.number,

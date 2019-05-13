@@ -10,7 +10,10 @@ class Bar extends React.PureComponent {
 
 	static propTypes = {
 		defaultColor: PropTypes.string,
-		highlightedColor: PropTypes.string,
+		highlightedColor: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		]),
 		itemKeys: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
