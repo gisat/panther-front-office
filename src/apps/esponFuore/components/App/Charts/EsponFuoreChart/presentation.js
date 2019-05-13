@@ -110,8 +110,8 @@ class EsponFuoreChart extends React.PureComponent {
 				yCaptionsSize={70}
 				withoutYbaseline
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).brighten(1.25)}
-				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
+				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
+				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
 			/>
 		);
 	}
@@ -140,8 +140,8 @@ class EsponFuoreChart extends React.PureComponent {
 				yCaptionsSize={70}
 				withPoints
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).brighten(1.25)}
-				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
+				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
+				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
 			/>
 		);
 	}
