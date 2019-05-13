@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import * as d3 from 'd3';
-import chroma from 'chroma-js';
 
 import '../style.scss';
 import Point from "./Point";
@@ -17,7 +15,8 @@ class Line extends React.PureComponent {
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
 		onMouseOver: PropTypes.func,
-		color: PropTypes.string,
+		defaultColor: PropTypes.string,
+		highlightedColor: PropTypes.string,
 		withPoints: PropTypes.bool,
 		suppressed: PropTypes.bool,
 		gray: PropTypes.bool
@@ -33,7 +32,7 @@ class Line extends React.PureComponent {
 		this.onMouseOver = this.onMouseOver.bind(this);
 
 		this.state = {
-			color: (!props.gray && props.color) ? chroma(this.props.color).luminance(.3) : null,
+			color: (!props.gray && props.defaultColor) ? props.defaultColor : null,
 			length: null
 		}
 	}
@@ -43,7 +42,7 @@ class Line extends React.PureComponent {
 			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
 		this.setState({
-			color: this.props.color
+			color: this.props.highlightedColor
 		});
 	}
 
@@ -51,14 +50,14 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseOver) {
 			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
-		this.setState({color: this.props.color});
+		this.setState({color: this.props.highlightedColor});
 	}
 
 	onMouseOut(e) {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
 		}
-		this.setState({color: (!this.props.gray && this.props.color) ? chroma(this.props.color).luminance(.3) : null});
+		this.setState({color: (!this.props.gray && this.props.defaultColor) ? this.props.defaultColor : null});
 	}
 
 	componentDidMount() {

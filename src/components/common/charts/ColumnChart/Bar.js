@@ -5,12 +5,12 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import '../style.scss';
-import chroma from "chroma-js";
 
 class Bar extends React.PureComponent {
 
 	static propTypes = {
 		defaultColor: PropTypes.string,
+		highlightedColor: PropTypes.string,
 		itemKeys: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
@@ -31,7 +31,7 @@ class Bar extends React.PureComponent {
 
 		this.state = {
 			height: 0,
-			color: props.defaultColor ? chroma(props.defaultColor).luminance(.4) : null,
+			color: props.defaultColor ? props.defaultColor : null,
 			hidden: props.hidden
 		}
 	}
@@ -41,12 +41,15 @@ class Bar extends React.PureComponent {
 			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
 
-		if (this.props.defaultColor) {
-			this.setState({
-				color: this.props.defaultColor,
-				hidden: false
-			});
+		let color = null;
+		if (this.props.highlightedColor) {
+			color = this.props.highlightedColor;
 		}
+
+		this.setState({
+			color,
+			hidden: false
+		});
 	}
 
 	onMouseOver(e) {
@@ -54,12 +57,15 @@ class Bar extends React.PureComponent {
 			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
 
-		if (this.props.defaultColor) {
-			this.setState({
-				color: this.props.defaultColor,
-				hidden: false
-			});
+		let color = null;
+		if (this.props.highlightedColor) {
+			color = this.props.highlightedColor;
 		}
+
+		this.setState({
+			color,
+			hidden: false
+		});
 	}
 
 	onMouseOut(e) {
@@ -67,12 +73,15 @@ class Bar extends React.PureComponent {
 			this.props.onMouseOut();
 		}
 
+		let color = null;
 		if (this.props.defaultColor) {
-			this.setState({
-				color: chroma(this.props.defaultColor).luminance(.4),
-				hidden: this.props.hidden
-			});
+			color = this.props.defaultColor;
 		}
+
+		this.setState({
+			color,
+			hidden: this.props.hidden
+		});
 	}
 
 	componentDidMount() {

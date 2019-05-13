@@ -5,12 +5,12 @@ import ChartWrapper from "../../../../../../components/common/charts/ChartWrappe
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 import Icon from "../../../../../../components/common/atoms/Icon";
+import chroma from "chroma-js";
 
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
 		attribute: PropTypes.object,
 		filter: PropTypes.object,
-		loading: PropTypes.bool,
 		data: PropTypes.array,
 		onSelectionClear: PropTypes.func,
 		periods: PropTypes.array,
@@ -110,7 +110,8 @@ class EsponFuoreChart extends React.PureComponent {
 				yCaptionsSize={70}
 				withoutYbaseline
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
+				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).brighten(1.25)}
+				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>
 		);
 	}
@@ -139,8 +140,8 @@ class EsponFuoreChart extends React.PureComponent {
 				yCaptionsSize={70}
 				withPoints
 				data={data}
-				loading={this.props.loading}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
+				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).brighten(1.25)}
+				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 			/>
 		);
 	}

@@ -234,7 +234,8 @@ class LineChart extends React.PureComponent {
 					itemKey={key}
 					name={name}
 					coordinates={coordinates}
-					color={color}
+					defaultColor={color}
+					highlightedColor={color}
 					onMouseOut={this.onLineOut}
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
@@ -337,7 +338,8 @@ class LineChart extends React.PureComponent {
 					itemKey={'minimum'}
 					name={'Minimum'}
 					coordinates={minCoordinates}
-					color={"#777777"}
+					defaultColor={"#777777"}
+					highlightedColor={"#555555"}
 					onMouseOut={this.onLineOut}
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
@@ -353,14 +355,16 @@ class LineChart extends React.PureComponent {
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
-					color={this.props.defaultColor ? this.props.defaultColor : "#0000ff"}
+					defaultColor={this.props.defaultColor ? this.props.defaultColor : "#6666ee"}
+					highlightedColor={this.props.highlightedColor ? this.props.highlightedColor : "#0000ff"}
 				/>
 				<Line
 					key={'maximum'}
 					itemKey={'maximum'}
 					name={'Maximum'}
 					coordinates={maxCoordinates}
-					color={"#777777"}
+					defaultColor={"#777777"}
+					highlightedColor={"#555555"}
 					onMouseOut={this.onLineOut}
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}

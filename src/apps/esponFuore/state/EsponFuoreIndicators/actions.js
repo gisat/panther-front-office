@@ -34,14 +34,14 @@ function select(key) {
 		dispatch(setActiveAttributeByIndicatorKey(key));
 
 		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(getState(), key);
-		let viewKey = activeIndicator && activeIndicator.data && activeIndicator.data.viewKey
+		let viewKey = activeIndicator && activeIndicator.data && activeIndicator.data.viewKey;
 		let activeView = Select.views.getActiveKey(getState());
 
 		if (!activeView || (viewKey && viewKey !== activeView)) {
 			dispatch(viewsActions.setActiveKey(viewKey));
 			dispatch(viewsActions.apply(activeIndicator.data.viewKey, Action)).then(() => {
 				const layerTreesFilter = {applicationKey: 'esponFuore'};
-				const componentId = "XXX"
+				const componentId = "esponFuore-layerTree";
 				const mapKey = Select.maps.getActiveMapKey(getState());
 
 				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {

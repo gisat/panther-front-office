@@ -37,6 +37,7 @@ class ColumnChart extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		defaultColor: PropTypes.string,
+		highlightedColor: PropTypes.string,
 		sorting: PropTypes.array,
 
 		height: PropTypes.number,
@@ -234,6 +235,7 @@ class ColumnChart extends React.PureComponent {
 							onMouseOver={this.onBarOver}
 							onMouseMove={this.onBarOver}
 							defaultColor={this.props.defaultColor}
+							highlightedColor={this.props.highlightedColor}
 
 							y={0}
 							x={xScale(_.get(item, props.keySourcePath))}
@@ -259,6 +261,7 @@ class ColumnChart extends React.PureComponent {
 					onMouseOver={this.onBarOver}
 					onMouseMove={this.onBarOver}
 					defaultColor={this.props.defaultColor}
+					highlightedColor={this.props.highlightedColor}
 
 					y={yScale(_.get(firstItemFromGroup, props.ySourcePath))}
 					x={xScale(group.keys)}
@@ -272,7 +275,7 @@ class ColumnChart extends React.PureComponent {
 	renderPath(aggregatedData, props, xScale, yScale, availableHeight, availableWidth) {
 		let style = {};
 		if (this.props.defaultColor) {
-			style.fill = chroma(this.props.defaultColor).luminance(.4);
+			style.fill = this.props.defaultColor;
 		}
 
 		return (
