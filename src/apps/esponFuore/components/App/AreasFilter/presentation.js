@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Select from "../../../../../components/common/atoms/Select/Select";
 
 import './style.scss';
@@ -58,7 +59,7 @@ class AreasFilter extends React.PureComponent {
 					<Select
 						clearable
 						onChange={this.onCountrySelect}
-						options={options}
+						options={_.orderBy(options, ["code"], ["asc"])}
 						optionLabel="code"
 						optionValue="code"
 						value={this.state.value}
