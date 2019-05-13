@@ -7,7 +7,8 @@ import {getKartogramStyleFunction} from '../../../../../components/common/maps/W
 import {getKartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
-import DiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/DiagramVectorLayer';
+import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
+import CartogramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartogramVectorLayer';
 import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
 
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
@@ -15,6 +16,7 @@ import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/pre
 class FuoreWorldWindMap extends React.PureComponent {
 
 	static propTypes = {
+		activeFilter: PropTypes.object,
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
 		label: PropTypes.string,
@@ -101,6 +103,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 				this.setState({backgroundLayers});
 			}
 
+			if(!isEqual(this.props.activeFilter, prevProps.activeFilter)) {
+				//filter vector layers
+				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+			}
+
 			if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
 				this.setState({thematicLayers});
 
@@ -183,8 +190,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-			const instanfeOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer || existingLayer instanceof DiagramVectorLayer);
-			if(instanfeOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
+			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
@@ -233,6 +240,17 @@ class FuoreWorldWindMap extends React.PureComponent {
 				}
 			}
 		}
+	}
+
+	setFilterVectorLayers(filter, layers, layersState) {
+		layers.forEach(layer => {
+			let existingLayer = layersHelper.findLayerByKey(layersState, layer.key);
+			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			if(instanceOfVector) {
+				existingLayer.setFilter(filter ? filter.data : null);
+			}
+		})
+
 	}
 
 	render() {

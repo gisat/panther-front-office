@@ -59,6 +59,8 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 	}
 
 	addRenderablesDiagram(layer, geometry, properties) {
+		const configuration = this.shapeConfigurationCallback(geometry, properties);
+
 		const location = new WorldWind.Location(geometry[1], geometry[0]);
 
 		let value;
@@ -72,9 +74,13 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 
 		const attributes = new WorldWind.ShapeAttributes(null);
 
-		const diagram = new WorldWind.SurfaceCircle(location, radius, attributes);
+		const shape = new WorldWind.SurfaceCircle(location, radius, attributes);
+
+		if (configuration && configuration.userProperties) {
+			shape.userProperties = configuration.userProperties;
+		}
 			
-		layer.addRenderable(diagram);
+		layer.addRenderable(shape);
 	}
 
 	/**

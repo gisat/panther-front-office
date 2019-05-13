@@ -19,6 +19,7 @@ const mapStateToProps = (state, props) => {
 	}) : null;
 	let layers = Select.maps.getLayers(state, layersData);
 	let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
+	let activeFilter = Select.selections.getActive(state);
 
 	//TODO -> select
 	//active indicator type absolute/relative
@@ -92,6 +93,7 @@ const mapStateToProps = (state, props) => {
 
 	return {
 		// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+		activeFilter,
 		backgroundLayer: [{type:'wikimedia'}],
 		layers,
 		layersVectorData,

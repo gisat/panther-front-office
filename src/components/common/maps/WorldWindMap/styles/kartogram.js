@@ -39,6 +39,14 @@ export const getKartogramStyleFunction = (color, fillTransparency, statistics, a
         attributes.interiorColor = Color.colorFromByteArray([...valueColor.rgb(), fillTransparency]);
         // attributes.outlineColor = Color.colorFromByteArray(240, 240, 240, 120); //gray
         attributes.outlineColor = Color.colorFromByteArray([...valueColor.darken(2).rgb(), 120]); //gray
+
+
+
+        if(renderable.filtered === true) {
+            attributes.interiorColor = Color.colorFromByteArray([...noDataColor.rgb(), 100]);
+            attributes.outlineColor = Color.colorFromByteArray([...noDataColor.darken(2).rgb(), 120]);
+        }
+
         return attributes;
     }
 }

@@ -2,7 +2,8 @@ import WorldWind from "webworldwind-esa";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
-import DiagramVectorLayer from "./DiagramVectorLayer";
+import CartodiagramVectorLayer from "./CartodiagramVectorLayer";
+import CartogramVectorLayer from "./CartogramVectorLayer";
 import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
@@ -100,9 +101,9 @@ function getLayerByType(layerData, type){
 			case "vector":
 				return getVectorLayer(layerData);
 			case "vector-absolute":
-				return getDiagramVectorLayer(layerData);
+				return getCartodiagramVectorLayer(layerData);
 			case "vector-relative":
-				return getKartogramVectorLayer(layerData);
+				return getCartogramVectorLayer(layerData);
 			default:
 				return null;
 		}
@@ -200,25 +201,26 @@ function getVectorLayer(layerData) {
 	return layer;
 }
 
-function getKartogramVectorLayer(layerData) {
-	const url = `${layerData.mapServerConfig.wfsMapServerUrl}?request=GetFeature&service=WFS&version=1.0.0&outputFormat=application/json&typeName=${layerData.layerName}`;
-	const layer = new ExtendedGeoJsonLayer({
+function getCartogramVectorLayer(layerData) {
+	const layer = new CartogramVectorLayer({
 		key: layerData.key,
 		layerName: layerData.layerName,
+		spatialIdKey: layerData.spatialRelationsData.fidColumnName,
+		attributeIdKey: layerData.attributeRelationsData.fidColumnName,
 		...layerData,
-	}, url, defaultVectorStyle);
-
+	}, defaultVectorStyle);
 
 	return layer;
 }
 
-function getDiagramVectorLayer(layerData) {
-	const layer = new DiagramVectorLayer({
+function getCartodiagramVectorLayer(layerData) {
+	const layer = new CartodiagramVectorLayer({
 		key: layerData.key,
 		layerName: layerData.layerName,
+		spatialIdKey: layerData.spatialRelationsData.fidColumnName,
+		attributeIdKey: layerData.attributeRelationsData.fidColumnName,
 		...layerData,
 	}, defaultVectorStyle);
-
 
 	return layer;
 }

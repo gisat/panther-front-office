@@ -9,6 +9,8 @@ const {RenderableLayer} = WorldWind;
  * @param options.layerName {String}
  * @param options.filterFuncfion {function} Function (renderable) => (true|false) Return if renderable should render.
  * @param options.styleFunction {function} Function (renderable) => (attributes) Return attributes object.
+ * @param options.attributeFidColumnName {string} Unique property attribute key.
+ * @param options.spatialFidColumnName {string} Unique property spatial key.
  * @augments WorldWind.RenderableLayer
  * @constructor
  */
@@ -16,11 +18,14 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	constructor(options, url, onLoadEndCallback) {
 		const name = options.layerName || '';
 		super(name);
+		this.attributeIdKey = options.attributeIdKey;
+		this.spatialIdKey = options.spatialIdKey;
 		this.key = options.key;
 		this.filterFunction = options.filterFunction || null;
 		this.styleFunction = options.styleFunction || {};
 		this.attributeStatistics = {};
 		this.metadata = {};
+		this.filter = null;
 	};
 
 
@@ -32,25 +37,31 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 * 
 	 * @param {Object|Array} renderablesData - GeoJSON data
 	 */
+	
+	/**
+	 * 
+	 * @param {Object|Array} renderablesData - GeoJSON data
+	 */
 	setRenderables(renderablesData, defaultStyle, metadata) {
-
 		const attributeDataKey = metadata && metadata.attributeDataKey;
 		if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
 			this.orderFeaturesDescending(renderablesData, attributeDataKey);
 		}
 
+
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
-		const diagramParser = new diagramGeoJSONParser(renderablesData, metadata, 'volume', true, 80000, this.attributeStatistics);
 		const shapeConfigurationCallback = (geometry, properties) => {
 			//add properties to renderable
 			return {userProperties: properties}
 		}
-
-		//loader for polygons
 		parser.load(null, shapeConfigurationCallback, this);
-		
-		//loader for diagrams
-		diagramParser.load(null, shapeConfigurationCallback, this);
+	}
+
+	setFilter(filter) {
+		//name. areas
+		this.filter = filter;
+
+		//todo rerender!!
 	}
 	
 	/**
@@ -75,10 +86,17 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		let renderables = this.renderables;
 		let filterFunctionExists = typeof this.filterFunction === 'function';
 		let styleFunctionExists = typeof this.styleFunction === 'function';
-		for (let i = 0; i<renderables.length; i++) {
+		for (let i = 0; i < renderables.length; i++) {
 			let renderable = renderables[i];
 			//filter feature
-			// if (changedFilter)
+			if(this.filter) {
+				const filtered = this.filter.areas.includes(renderable.userProperties[this.spatialIdKey]);
+				//true if item not in  filter areas
+				renderable.filtered = !filtered;
+			} else {
+				renderable.filtered = null;
+			}
+
 			if(filterFunctionExists) {
 				let enabled = this.filterFunction(renderable) === true; //return 
 				renderable.enabled = enabled;
