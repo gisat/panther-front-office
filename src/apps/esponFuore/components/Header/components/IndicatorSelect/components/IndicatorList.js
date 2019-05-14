@@ -11,7 +11,7 @@ import thumbnail0 from "../../../../../assets/img/thumbnail_0.png";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, null, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 100),
+		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, {scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 100),
 	}
 };
 
@@ -21,7 +21,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
-				dispatch(Action.specific.esponFuoreIndicators.useIndexed(null, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 20, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexed({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
