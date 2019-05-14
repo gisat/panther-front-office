@@ -261,7 +261,7 @@ const removeMapForPeriod = (periodKey, setKey) => {
 		if(!map) {
 			dispatch(actionGeneralError(`No map found for period ${periodKey}.`));
 		} else {
-			dispatch(removeMapKeyFromSet(setKey, map.key));
+			dispatch(removeMap(map.key));
 		}
 	};
 };
