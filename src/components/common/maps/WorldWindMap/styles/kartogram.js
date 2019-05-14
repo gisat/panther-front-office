@@ -25,14 +25,16 @@ export const getKartogramStyleFunction = (color, fillTransparency, statistics, a
     //create 5 classes
     return (renderable, layer) => {
         let attributes = new ShapeAttributes();
-        // const valueColor = getColorByValue(Number.parseInt(renderable.userProperties[attributeDataKey]), Number.parseInt(layer.attributeStatistics.min), Number.parseInt(layer.attributeStatistics.max), colorScale);
+        // const valueColor = getColorByValue(Number.parseFloat(renderable.userProperties[attributeDataKey]), Number.parseFloat(layer.attributeStatistics.min), Number.parseFloat(layer.attributeStatistics.max), colorScale);
         // if(calassIndex > 1) {
         const value = renderable.userProperties[attributeDataKey];
         let valueColor;
-        if(value){
+        if(value || value === 0){
             const calassIndex = getClassByValue(statisticsClasses, renderable.userProperties[attributeDataKey]);
-            valueColor = colorClasses[calassIndex - 1];
-        } else {
+            valueColor = colorClasses[calassIndex];
+        }
+
+        if(!valueColor) {
             valueColor = noDataColor;
         }
 

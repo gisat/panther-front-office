@@ -5,8 +5,8 @@
  * @returns {Array} break class values with first and last point
  */
 export const getValueClassesByStatistics = (statistics, classesCount = 1) => {
-    const min = Number.parseInt(statistics.min);
-    const max = Number.parseInt(statistics.max);
+    const min = Number.parseFloat(statistics.min);
+    const max = Number.parseFloat(statistics.max);
     const width = (max - min) / classesCount;
     const classes = [];
     for(let i = 0; i < classesCount + 1; i++) {
@@ -22,7 +22,7 @@ export const getValueClassesByStatistics = (statistics, classesCount = 1) => {
  * @returns {number} class index 
  */
 export const getClassByValue = (classes, value) => {
-    return classes[0] === value ? 1 : classes.findIndex(b => value <= b);
+    return classes[0] === value ? 0 : classes.findIndex(b => value <= b) - 1;
 }
 
 /**

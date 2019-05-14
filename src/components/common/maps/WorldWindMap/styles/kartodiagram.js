@@ -10,7 +10,7 @@ const noDataColor = chroma('#ccc');
  * @param {Array} fillColorPalette  RGB color
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
-export const getKartodiagramStyleFunction = (color, fillTransparency) => {
+export const getKartodiagramStyleFunction = (color = '#ccc', fillTransparency) => {
 
     //create 5 classes
     return (renderable, layer) => {
