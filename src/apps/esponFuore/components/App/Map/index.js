@@ -7,6 +7,7 @@ import {cloneDeep} from 'lodash';
 import wrapper from '../../../../../components/common/maps/MapWrapper';
 
 import utils from '../../../../../utils/utils';
+import { quartilePercentiles } from '../../../../../utils/statistics';
 
 const mapStateToProps = (state, props) => {
 	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
@@ -86,7 +87,8 @@ const mapStateToProps = (state, props) => {
 	let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.attributeRelationsData) {
 			const attributeStatisticsFilter = {
-				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey
+				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
+				percentile: quartilePercentiles,
 			};
 
 			acc[layerData.key] = Select.attributeStatistics.getBatchByFilterOrder(state, attributeStatisticsFilter, null);

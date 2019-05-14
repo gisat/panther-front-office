@@ -7,6 +7,7 @@ import statisticsActions from "../AttributeStatistics/actions";
 import attributeDataSourcesActions from "../AttributeDataSources/actions";
 import commonSelectors from "../_common/selectors";
 import _ from "lodash";
+import { quartilePercentiles } from '../../utils/statistics';
 
 
 // ============ creators ===========
@@ -36,17 +37,19 @@ function ensureIndexedSpecific(filter, order, start, length, componentId) {
 				}
 
 				dataSources.forEach(source => {
+					const statisticsFilter = {
+						attributeDataSourceKey: source.attributeDataSourceKey,
+						percentile: quartilePercentiles
+					};
+
 					let existingSource = Select.attributeData.getByKey(getState(), source.attributeDataSourceKey);
-					let existingStatisticsSource = Select.attributeStatistics.getByKey(getState(), source.attributeDataSourceKey);
+					let existingStatisticsSource = Select.attributeStatistics.getBatchByFilterOrder(getState(), statisticsFilter, null);
 					
 					if (!existingSource) {
 						dispatch(attributeDataActions.loadFilteredData(source, componentId));
 					}
 					if (!existingStatisticsSource) {
-						const filter = {
-							attributeDataSourceKey: source.attributeDataSourceKey
-						}
-						dispatch(statisticsActions.loadFilteredData(filter, componentId));
+						dispatch(statisticsActions.loadFilteredData(statisticsFilter, componentId));
 					}
 
 					dispatch(attributeDataSourcesActions.useKeys([source.attributeDataSourceKey], componentId));

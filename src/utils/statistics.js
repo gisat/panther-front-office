@@ -1,3 +1,5 @@
+export const quartilePercentiles = [0, .25, .5, .75, 1];
+
 /**
  * 
  * @param {Object} statistics 
