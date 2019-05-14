@@ -10,6 +10,7 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Popup from "../Popup";
 import Line from "./Line";
+import utilsFilter from "../../../../utils/filter";
 
 const WIDTH = 500;
 const HEIGHT = 250;
@@ -113,6 +114,8 @@ class LineChart extends React.PureComponent {
 		let data = props.data;
 
 		if (data && !this.props.loading) {
+			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath, props.serieDataSourcePath);
+
 			/* domain */
 			let yMaximum = _.max(data.map(item => {
 				let serie = _.get(item, props.serieDataSourcePath);

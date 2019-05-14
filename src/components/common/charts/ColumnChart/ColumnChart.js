@@ -5,7 +5,8 @@ import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import '../style.scss';
-import utils from "../../../../utils/sort";
+import utilsSort from "../../../../utils/sort";
+import utilsFilter from "../../../../utils/filter";
 
 import AxisX from '../AxisX';
 import AxisY from "../AxisY";
@@ -122,7 +123,8 @@ class ColumnChart extends React.PureComponent {
 		/* data preparation */
 		let data, yScale, xScale, xDomain, yDomain, aggregatedData = null;
 		if (props.data) {
-			data = props.sorting ? utils.sortByOrder(props.data, props.sorting) : props.data;
+			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath);
+			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
 			let maximum = _.get(_.maxBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
 			let minimum = _.get(_.minBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
