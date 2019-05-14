@@ -87,7 +87,12 @@ const removeSet = (state, setKey) => {
 const setSetSync = (state, setKey, syncData) => {
 	const setToUpdate = getSetByKey(state, setKey);
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, sync: {...setToUpdate.sync, ...syncData}}}};
-}
+};
+
+const setSetMaps = (state, setKey, maps) => {
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, maps}}};
+};
 
 //helpers
 const getSetByKey = (state, setKey) => state.sets[setKey];
@@ -331,6 +336,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE:
 			return updateSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.SET.SET_MAPS:
+			return setSetMaps(state, action.setKey, action.maps);
 		case ActionTypes.MAPS.SET.SET_SYNC:
 			return setSetSync(state, action.setKey, action.sync);
 		case ActionTypes.MAPS.MAP.ADD:

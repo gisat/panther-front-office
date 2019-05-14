@@ -203,6 +203,31 @@ const setSetSync = (setKey, sync) => {
 	}
 };
 
+const orderSetByMapPeriod = (setKey) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		let setMaps = Select.maps.getMapSetMapKeys(state, setKey);
+		let maps = Select.maps.getMapsAsObject(state);
+		let periods = Select.periods.getAllAsObject(state);
+		if (setMaps && maps && periods) {
+			let extendedSetMaps = setMaps.map(mapKey => {
+				let map = _.cloneDeep(maps[mapKey]);
+				let periodKey = map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period;
+				if (periodKey && periods[periodKey]) {
+					map.data.metadataModifiers.period = periods[periodKey].data.period || periods[periodKey].data.nameDisplay;
+				}
+				return map;
+			});
+
+			if (extendedSetMaps && extendedSetMaps.length) {
+				let orderedExtendedSetMaps = _.orderBy(extendedSetMaps, ['data.metadataModifiers.period'], ['asc']);
+				let orderedMapKeys = orderedExtendedSetMaps.map(map => map.key);
+				dispatch(actionSetSetMaps(setKey, orderedMapKeys))
+			}
+		}
+	};
+};
+
 const addMap = (map) => {
 	return (dispatch, getState) => {
 		if(map && !map.key) {
@@ -239,6 +264,7 @@ const addMapForPeriod = (periodKey, setKey) => {
 		}
 
 		dispatch(addMapToSet(setKey, map.key));
+		dispatch(orderSetByMapPeriod(setKey));
 	};
 };
 
@@ -761,6 +787,14 @@ const actionSetSetSync = (setKey, sync) => {
 		type: ActionTypes.MAPS.SET.SET_SYNC,
 		setKey,
 		sync,
+	}
+};
+
+const actionSetSetMaps = (setKey, maps) => {
+	return {
+		type: ActionTypes.MAPS.SET.SET_MAPS,
+		setKey,
+		maps,
 	}
 };
 

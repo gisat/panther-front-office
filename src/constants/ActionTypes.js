@@ -291,6 +291,7 @@ export const commonActionTypesDefinitions = {
 			SET_BACKGROUND_LAYER: null,
 			REMOVE: null,
 			ADD_MAP: null,
+			SET_MAPS: null,
 			REMOVE_MAP: null,
 			WORLD_WIND_NAVIGATOR: {
 				SET: null,
