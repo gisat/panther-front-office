@@ -120,6 +120,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 					const layers = this.props.layers || [];
 					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers]);
 				}
+
+				const stateLayers = [...this.state.backgroundLayers, ...thematicLayers];
+				if(this.props.activeFilter && stateLayers.length > 0) {
+					this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, stateLayers);
+				}
+
 			}
 		}
 	}
@@ -250,7 +256,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		}
 	}
 
-	setFilterVectorLayers(filter, layers, layersState) {
+	setFilterVectorLayers(filter, layers = [], layersState) {
 		layers.forEach(layer => {
 			let existingLayer = layersHelper.findLayerByKey(layersState, layer.key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
