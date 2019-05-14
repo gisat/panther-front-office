@@ -26,11 +26,18 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.attributeStatistics = {};
 		this.metadata = {};
 		this.filter = null;
+		this._rerenderMap = null;
 	};
 
 
 	orderFeaturesDescending(data, attributeDataKey) {
 		return data.features.sort((a, b) => b.properties[attributeDataKey] - a.properties[attributeDataKey])
+	}
+
+	setRerender(rerenderer) {
+		if(typeof rerenderer === 'function') {
+			this._rerenderMap = rerenderer;
+		}
 	}
 
 	/**
@@ -54,14 +61,13 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			//add properties to renderable
 			return {userProperties: properties}
 		}
-		parser.load(null, shapeConfigurationCallback, this);
+		parser.load(this.doRerender, shapeConfigurationCallback, this);
 	}
 
 	setFilter(filter) {
 		//name. areas
 		this.filter = filter;
-
-		//todo rerender!!
+		this.doRerender();
 	}
 	
 	/**
@@ -70,6 +76,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 */
 	setAttributeStatistics(statistics) {
 		this.attributeStatistics = statistics;
+		this.doRerender();
 	}
 
 	/**
@@ -78,6 +85,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 */
 	setMetadata(metadata) {
 		this.metadata = metadata;
+		this.doRerender();
 	}
 
 	doRender(dc) {
@@ -111,6 +119,12 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		}
 		// }
 		RenderableLayer.prototype.doRender.call(this, dc);
+	}
+
+	doRerender() {
+		if(typeof this._rerenderMap === 'function') {
+			this._rerenderMap();
+		}
 	}
 }
 

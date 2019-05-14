@@ -38,7 +38,7 @@ class CartogramVectorLayer extends VectorLayer {
 		}
 
 		//loader for polygons
-		parser.load(null, shapeConfigurationCallback, this);		
+		parser.load(this.doRerender, shapeConfigurationCallback, this);
 	}
 }
 

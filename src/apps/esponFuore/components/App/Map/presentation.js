@@ -35,6 +35,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.setRerenderer = this.setRerenderer.bind(this);
+
+		this.wwdRerenderer = null;
+
 		this.state = {
 			thematicLayers: [],
 			backgroundLayers: [],
@@ -171,6 +175,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 				let layer = layersHelper.getLayerByType(layerData, type);
 				if (layer){
 					changedLayers.push(layer);
+
+					if(typeof layer.setRerender === 'function') {
+						layer.setRerender(this.wwdRerenderer);
+					}
 				}
 			}
 		});
@@ -253,8 +261,14 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 	}
 
+	setRerenderer(rerenderer) {
+		if(typeof rerenderer === 'function') {
+			this.wwdRerenderer = rerenderer;
+		}
+	}
+
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label} />);
+		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer}/>);
 
 	}
 }

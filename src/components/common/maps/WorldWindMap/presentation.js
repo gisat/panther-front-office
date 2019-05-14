@@ -28,6 +28,7 @@ class WorldWindMap extends React.PureComponent {
 		delayedWorldWindNavigatorSync: PropTypes.number,
 		loadLayerData: PropTypes.func,
 		label: PropTypes.string,
+		rerendererSetter: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -49,6 +50,10 @@ class WorldWindMap extends React.PureComponent {
 		if (this.props.layers || this.props.layers === null) {
 			const layers = this.props.layers || [];
 			this.handleLayers(layers);
+		}
+
+		if(typeof this.props.rerendererSetter === 'function') {
+			this.props.rerendererSetter(() => this.wwd.redraw());
 		}
 }
 
