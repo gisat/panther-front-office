@@ -10,7 +10,7 @@ const use = (chartKey) => {
 
 		if (chart) {
 			dispatch(Action.attributeRelations.useIndexedRegister( componentId, chart.filterByActive, chart.mergedFilter, null, 1, 1000));
-			dispatch(Action.attributeRelations.ensureIndexedForChart(chart.mergedFilter, null, 1, 1000, componentId));
+			dispatch(Action.attributeRelations.ensureIndexedSpecific(chart.mergedFilter, null, 1, 1000, componentId));
 		}
 	}
 };

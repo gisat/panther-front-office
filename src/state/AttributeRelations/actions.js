@@ -3,6 +3,8 @@ import Select from '../Select';
 import common from "../_common/actions";
 import attributeActions from "../Attributes/actions";
 import attributeDataActions from "../AttributeData/actions";
+import statisticsActions from "../AttributeStatistics/actions";
+import attributeDataSourcesActions from "../AttributeDataSources/actions";
 import commonSelectors from "../_common/selectors";
 import _ from "lodash";
 
@@ -13,7 +15,7 @@ const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Sel
 
 // ============ actions ===========
 
-function ensureIndexedForChart(filter, order, start, length, componentId) {
+function ensureIndexedSpecific(filter, order, start, length, componentId) {
     return (dispatch, getState) => {
         dispatch(common.ensureIndexed(Select.attributeRelations.getSubstate, 'attribute', filter, order, start, length, ActionTypes.ATTRIBUTE_RELATIONS, 'relations')).then(() => {
         	let filteredRelations = Select.attributeRelations.getFilteredRelations(getState(), filter);
@@ -35,9 +37,19 @@ function ensureIndexedForChart(filter, order, start, length, componentId) {
 
 				dataSources.forEach(source => {
 					let existingSource = Select.attributeData.getByKey(getState(), source.attributeDataSourceKey);
+					let existingStatisticsSource = Select.attributeStatistics.getByKey(getState(), source.attributeDataSourceKey);
+					
 					if (!existingSource) {
 						dispatch(attributeDataActions.loadFilteredData(source, componentId));
 					}
+					if (!existingStatisticsSource) {
+						const filter = {
+							attributeDataSourceKey: source.attributeDataSourceKey
+						}
+						dispatch(statisticsActions.loadFilteredData(filter, componentId));
+					}
+
+					dispatch(attributeDataSourcesActions.useKeys([source.attributeDataSourceKey], componentId));
 				});
 
 			}
@@ -56,7 +68,7 @@ function ensureIndexesWithFilterByActive(filterByActive) {
         // TODO pass componentId
         _.each(usedIndexes, (usedIndex) => {
             _.each(usedIndex.uses, (use) => {
-                dispatch(ensureIndexedForChart(usedIndex.filter, usedIndex.order, use.start, use.length))
+                dispatch(ensureIndexedSpecific(usedIndex.filter, usedIndex.order, use.start, use.length))
             });
         });
 
@@ -72,5 +84,5 @@ export default {
     ensureIndexesWithFilterByActive,
 
     // TODO join with ensure indexed
-    ensureIndexedForChart
+    ensureIndexedSpecific
 }

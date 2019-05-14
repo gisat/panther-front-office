@@ -39,17 +39,7 @@ function select(key) {
 
 		if (!activeView || (viewKey && viewKey !== activeView)) {
 			dispatch(viewsActions.setActiveKey(viewKey));
-			dispatch(viewsActions.apply(activeIndicator.data.viewKey, Action)).then(() => {
-				const layerTreesFilter = {applicationKey: 'esponFuore'};
-				const componentId = "esponFuore-layerTree";
-				const mapKey = Select.maps.getActiveMapKey(getState());
-
-				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
-					//parse map LT data
-					dispatch(Action.maps.loadLayerTreesData(layerTreesFilter, [mapKey]));
-				});
-				
-			});
+			dispatch(viewsActions.apply(activeIndicator.data.viewKey, Action));
 		}
 	}
 }

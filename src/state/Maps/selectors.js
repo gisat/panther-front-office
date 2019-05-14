@@ -322,8 +322,16 @@ const getLayersStateByMapKey = createSelector(
 			}
 			modifiers = {...modifiers, ...map.data.metadataModifiers};
 
+			//TODO
+			//specific for FUORE
+			const useMetadata = {
+				scope: true,
+				attribute: true,
+				period: true,
+			}
+
 			layers = layers.map(layer => {
-				return getFiltersForUse({...modifiers, ...layer}, activeKeys);
+				return getFiltersForUse({...modifiers, ...layer}, activeKeys, useMetadata);
 			});
 
 			return layers;
@@ -360,14 +368,14 @@ const getLayerState = (layer) => ({filter: layer.mergedFilter, data: layer.layer
  * @param activeKeys {Object} Metadata active keys
  * @return {{filter, filterByActive, mergedFilter, layer}}
  */
-function getFiltersForUse(layer, activeKeys) {
+function getFiltersForUse(layer, activeKeys, useMetadata) {
 	let filter = {};
 	let filterByActive = {};
 	let mergedFilter = {};
 
 	if (layer && layer.hasOwnProperty('scope')){
 		filter.scopeKey = layer.scope;
-	} else {
+	} else if(useMetadata && useMetadata.scope) {
 		filterByActive.scope = true;
 		if (activeKeys && activeKeys.activeScopeKey) {
 			mergedFilter.scopeKey = activeKeys.activeScopeKey;
@@ -375,7 +383,7 @@ function getFiltersForUse(layer, activeKeys) {
 	}
 	if (layer && layer.hasOwnProperty('place')){
 		filter.placeKey = layer.place;
-	} else {
+	} else if(useMetadata && useMetadata.place) {
 		filterByActive.place = true;
 		if (activeKeys && activeKeys.activePlaceKey) {
 			mergedFilter.placeKey = activeKeys.activePlaceKey;
@@ -383,7 +391,7 @@ function getFiltersForUse(layer, activeKeys) {
 	}
 	if (layer && layer.hasOwnProperty('period')){
 		filter.periodKey = layer.period;
-	} else {
+	} else if(useMetadata && useMetadata.period) {
 		filterByActive.period = true;
 		if (activeKeys && activeKeys.activePeriodKey) {
 			mergedFilter.periodKey = activeKeys.activePeriodKey;
@@ -391,7 +399,7 @@ function getFiltersForUse(layer, activeKeys) {
 	}
 	if (layer && layer.hasOwnProperty('case')){
 		filter.caseKey = layer.case;
-	} else {
+	} else if(useMetadata && useMetadata.case) {
 		filterByActive.case = true;
 		if (activeKeys && activeKeys.activeCaseKey) {
 			mergedFilter.caseKey = activeKeys.activeCaseKey;
@@ -399,7 +407,7 @@ function getFiltersForUse(layer, activeKeys) {
 	}
 	if (layer && layer.hasOwnProperty('scenario')){
 		filter.scenarioKey = layer.scenario;
-	} else {
+	} else if(useMetadata && useMetadata.scenario) {
 		filterByActive.scenario = true;
 		if (activeKeys && activeKeys.activeScenarioKey) {
 			mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
@@ -412,7 +420,7 @@ function getFiltersForUse(layer, activeKeys) {
 	
 	if (layer && layer.hasOwnProperty('attribute')){
 		filter.attributeKey = layer.attribute;
-	} else {
+	} else if(useMetadata && useMetadata.attribute) {
 		filterByActive.attribute = true;
 		if (activeKeys && activeKeys.activeAttributeKey) {
 			mergedFilter.attributeKey = activeKeys.activeAttributeKey;

@@ -668,30 +668,9 @@ const use = (mapKey) => {
 										dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
 									}
 									const attributeFilter = _.cloneDeep(filters.mergedFilter);
+
 									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 1000));
-
-									dispatch(Action.attributeRelations.ensureIndexed(attributeFilter, null, 1, 1000,)).then(() => {
-										let attributeData = Select.attributeRelations.getFiltered(getState(), attributeFilter);
-										
-										const attributeDataSourcesKey = attributeData[0].attributeDataSourceKey;
-										const attributeKey = attributeData[0].attributeKey;
-										dispatch(Action.attributeDataSources.useKeys([attributeDataSourcesKey], componentId));
-										dispatch(Action.attributes.useKeys([attributeKey], componentId));
-
-										//get data
-										const attributeDataFilter = {
-											attributeDataSourceKey: attributeDataSourcesKey,
-											fidColumnName: attributeData[0].fidColumnName
-											//add active attribute
-										}
-										dispatch(Action.attributeData.loadFilteredData(attributeDataFilter, componentId));
-
-										//get statistics
-										const attributeStatisticsDataFilter = {
-											attributeDataSourceKey: attributeData[0].attributeDataSourceKey
-										}
-										dispatch(Action.attributeStatistics.loadFilteredData(attributeStatisticsDataFilter, componentId));
-									})
+									dispatch(Action.attributeRelations.ensureIndexedSpecific(attributeFilter, null, 1, 1000, componentId));
 								}
 								
 							});
