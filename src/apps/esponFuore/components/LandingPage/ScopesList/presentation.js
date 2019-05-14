@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import './style.scss';
 import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
-import scopePreview0 from '../../../assets/img/preview_0.png';
+import scopeThumbnail0 from '../../../assets/img/thumbnail_0.png';
 import scopePreview1 from '../../../assets/img/preview_1.png';
 
 class ScopesList extends React.PureComponent {
@@ -56,7 +56,7 @@ class ScopesList extends React.PureComponent {
 	renderCards() {
 		return this.props.scopes.map((scope, index) => {
 			let style = {
-				backgroundImage: index % 2 ? `url(${scopePreview0})` : `url(${scopePreview1})`
+				backgroundImage: index === 0 ? `url(${scopeThumbnail0})` : `url(${scopePreview1})`
 			};
 
 			let classes = classnames("esponFuore-scope-card", {
