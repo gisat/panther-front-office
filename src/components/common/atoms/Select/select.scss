@@ -5,6 +5,7 @@
 	BASIC
 		Options
 		Key prefix
+		Multi
 		Disabled
 
 	VALUE IS TITLE
@@ -53,7 +54,8 @@
 	height: 2rem;
 }
 
-.ptr-select-container .ptr-select__dropdown-indicator {
+.ptr-select-container .ptr-select__dropdown-indicator,
+.ptr-select-container .ptr-select__clear-indicator {
 	color: var(--base50); // todo
 	cursor: pointer;
 }
@@ -64,7 +66,8 @@
 
 .ptr-select-container .ptr-select__control:hover .ptr-select__dropdown-indicator,
 .ptr-select-container .ptr-select__control--is-focused .ptr-select__dropdown-indicator,
-.ptr-select-container .ptr-select__dropdown-indicator:hover {
+.ptr-select-container .ptr-select__dropdown-indicator:hover,
+.ptr-select-container .ptr-select__clear-indicator:hover {
 	color: var(--base70); // todo
 }
 
@@ -94,6 +97,7 @@
 	background-color: var(--base20); // todo
 	color: var(--base100); // todo
 	padding: 0;
+  max-height: 10rem;
 }
 
 .ptr-select-container .ptr-select__menu .ptr-select__option {
@@ -122,6 +126,36 @@
 
 .ptr-select-container .ptr-select__menu .ptr-select__option--is-selected .option-id{
 	color: var(--accent20);
+}
+
+/* Multi */
+.ptr-select-container.multi .ptr-select__control {
+  height: auto;
+}
+
+.ptr-select-container.multi .ptr-select__value-container {
+	padding: 0 0 0 .25rem;
+}
+
+.ptr-select-container.multi .ptr-select__multi-value {
+  margin: .15rem .3rem .15rem 0;
+  background: var(--base25);
+}
+
+.ptr-select-container.multi .ptr-select__multi-value__label {
+  color: var(--base80);
+}
+
+.ptr-select-container.multi .ptr-select__multi-value__remove {
+  color: var(--base100);
+}
+
+.ptr-select-container.multi .ptr-select__multi-value__remove:hover {
+  background: var(--accent35);
+}
+
+.ptr-select-container.clearable.multi .ptr-select__control .label {
+  padding-right: .15rem;
 }
 
 /* Disabled */

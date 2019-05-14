@@ -24,9 +24,11 @@ class AreasFilter extends React.PureComponent {
 	}
 
 	onCountrySelect(record) {
-		if (record) {
+		if (record && record.length) {
 			if (this.props.onSelect) {
-				this.props.onSelect(record.code, [record.code], record.units);
+				let codes = record.map(rec => rec.code);
+				let units = record.map(rec => rec.units);
+				this.props.onSelect(codes.join(', '), codes, _.flatten(units));
 			}
 		} else {
 			this.onFilterClear();
@@ -40,7 +42,7 @@ class AreasFilter extends React.PureComponent {
 	}
 
 	render() {
-		let selectedCountry = this.props.activeFilter && this.props.activeFilter.data  && this.props.activeFilter.data.values  && this.props.activeFilter.data.values[0];
+		let selectedCountry = this.props.activeFilter && this.props.activeFilter.data  && this.props.activeFilter.data.values  && this.props.activeFilter.data.values;
 
 		return (
 			<div className="esponFuore-areas-filter">
@@ -48,6 +50,7 @@ class AreasFilter extends React.PureComponent {
 					<span>Select country</span>
 					<Select
 						clearable
+						multi
 						onChange={this.onCountrySelect}
 						options={_.orderBy(options, ["code"], ["asc"])}
 						optionLabel="code"

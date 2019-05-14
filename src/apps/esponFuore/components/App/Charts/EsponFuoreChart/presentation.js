@@ -148,6 +148,7 @@ class EsponFuoreChart extends React.PureComponent {
 
 	// TODO create component
 	// TODO make clearable
+	// TODO multiple labels
 	renderLabel(content) {
 		return (
 			<div className="ptr-colored-label">

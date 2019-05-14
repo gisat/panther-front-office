@@ -17,6 +17,7 @@ class Select extends React.PureComponent {
         components: PropTypes.object,
         disabled: PropTypes.bool,
         formatOptionLabel: PropTypes.func, // custom option rendering
+        multi: PropTypes.bool,
         onChange: PropTypes.func, // onChange handler: function (newValue) {}
         options: PropTypes.array,
         optionLabel: PropTypes.string, // path to label
@@ -60,17 +61,38 @@ class Select extends React.PureComponent {
     }
 
     onChange(selectedObject) {
-        if (this.props.optionValue) {
-            let selected =  _.find(this.props.options, (option) => {
-                return (_.get(option, this.props.optionValue) === (selectedObject && selectedObject.value))
-            });
-            if (selected) {
-                this.props.onChange(selected);
-            } else {
+        // multiselect
+        if (_.isArray(selectedObject)){
+            if (_.isEmpty(selectedObject)) {
                 this.props.onChange(null);
+            } else if (this.props.optionValue) {
+                let selected = _.filter(this.props.options, (option) => {
+                    return !!_.find(selectedObject, (object) => {return (_.get(option, this.props.optionValue) === (object && object.value))});
+                });
+                if (selected) {
+                    this.props.onChange(selected);
+                } else {
+                    this.props.onChange(null);
+                }
+            } else {
+                let values = selectedObject.map(object => object.value);
+                this.props.onChange(values);
             }
-        } else {
-            this.props.onChange(selectedObject ? selectedObject.value : null);
+        }
+
+        else {
+            if (this.props.optionValue) {
+                let selected =  _.find(this.props.options, (option) => {
+                    return (_.get(option, this.props.optionValue) === (selectedObject && selectedObject.value))
+                });
+                if (selected) {
+                    this.props.onChange(selected);
+                } else {
+                    this.props.onChange(null);
+                }
+            } else {
+                this.props.onChange(selectedObject ? selectedObject.value : null);
+            }
         }
     }
 
@@ -101,12 +123,19 @@ class Select extends React.PureComponent {
             props.value = _.find(props.options, {value: props.value});
         } else if (props.value && props.optionValue) {
         	props.value = _.find(props.options, {value: _.get(props.value, props.optionValue)})
-		}
+		} else if (_.isArray(props.value)) {
+            props.value = _.filter(props.options, (option) => {
+                return !!_.find(props.value, value => {
+                    return value === option.value
+                });
+            });
+        }
 
         const classes = classnames(`ptr-select-container ${this.props.className ? this.props.className : ""}`, {
             'value-is-title': !!this.props.valueIsTitle,
             'disabled': this.props.disabled,
-            'clearable': this.props.clearable
+            'clearable': this.props.clearable,
+            'multi': this.props.multi
         });
 
         switch (this.props.type) {
@@ -128,6 +157,7 @@ class Select extends React.PureComponent {
                 hideSelectedOptions={props.hideSelectedOptions}
                 isClearable={this.props.clearable}
                 isDisabled={this.props.disabled}
+                isMulti={this.props.multi}
                 onChange={this.onChange}
                 options={props.options}
                 tabIndex={props.unfocusable ? -1 : 0}
@@ -147,6 +177,7 @@ class Select extends React.PureComponent {
                 hideSelectedOptions={props.hideSelectedOptions}
                 isClearable={this.props.clearable}
                 isDisabled={this.props.disabled}
+                isMulti={this.props.multi}
                 onChange={this.onChange}
                 onCreateOption={this.onCreate}
                 options={props.options}
