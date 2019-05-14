@@ -77,7 +77,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 				backgroundLayers = this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer, this.state.backgroundLayers);
 			}
 
-			const thematicLayersChanged = !isEqual(prevProps.layers, this.props.layers);
+			let thematicLayersChanged = !isEqual(prevProps.layers, this.props.layers);
 			if (thematicLayersChanged && !isEmpty(this.props.layersMetadata)) {
 				const layers = this.props.layers || [];
 				thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
@@ -90,12 +90,22 @@ class FuoreWorldWindMap extends React.PureComponent {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
+
 			//check if new attribute data comes
 			const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
 			if (layersAttributeDataChanged) {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
+
+			//check if new attribute data comes
+			const layersMetadataDataChanged = !isEqual(prevProps.layersMetadata, this.props.layersMetadata);
+			if (layersMetadataDataChanged) {
+				const layers = this.props.layers || [];
+				thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
+				thematicLayersChanged = true;
+			}
+
 			//check if new attribute statistics data comes
 			const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
 			if (layersAttributeStatisticsDataChanged) {
@@ -234,7 +244,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
 
-					if(metadata) {
+					if(metadata && metadata.attributeDataKey) {
 						existingLayer.setMetadata(metadata);
 
 						//set layerstyle

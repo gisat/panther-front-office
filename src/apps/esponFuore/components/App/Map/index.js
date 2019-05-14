@@ -68,13 +68,16 @@ const mapStateToProps = (state, props) => {
 	let layersMetadata = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.attributeRelationsData) {
 			const attributeDataSource = Select.attributeDataSources.getByKeys(state, [layerData.attributeRelationsData.attributeDataSourceKey]);
-			const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
-			const attributeKey = layerData.attributeRelationsData.attributeKey
-			const attribute = Select.attributes.getByKey(state, attributeKey);
-			acc[layerData.key] = {
-				dataType: indicatorData,
-				attributeDataKey,
-				color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
+			//wait for attributeDataSource, otherwise attributeDataKey is null
+			if(attributeDataSource) {
+				const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
+				const attributeKey = layerData.attributeRelationsData.attributeKey
+				const attribute = Select.attributes.getByKey(state, attributeKey);
+				acc[layerData.key] = {
+					dataType: indicatorData,
+					attributeDataKey,
+					color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
+				}
 			}
 		}
 		return acc
