@@ -51,6 +51,10 @@ export const getKartogramStyleFunction = (color, fillTransparency, statistics, a
             attributes.outlineColor = Color.colorFromByteArray([...noDataColor.darken(2).rgb(), 120]);
         }
 
+        if (renderable.userProperties.hovered) {
+            attributes.interiorColor = Color.colorFromByteArray(0,0,0,0);
+        }
+
         return attributes;
     }
 }

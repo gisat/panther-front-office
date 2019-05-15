@@ -25,6 +25,7 @@ import ChartWrapper from "../../../../components/common/charts/ChartWrapper/Char
 
 import ReactResizeDetector from 'react-resize-detector';
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
+import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -51,53 +52,55 @@ class EsponFuoreApp extends React.PureComponent {
 					<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
 					<Header />
 					<div className="esponFuore-content">
-						<WindowsContainer setKey={this.context.windowSetKey}>
-							<AdjustableColumns
-								fixed
-								content={[
-									{
-										render: props => (
-											<ReactResizeDetector
-												handleWidth
-												handleHeight
-												render={({ width, height }) => {return (
-													<>
-														<MapSet
-															mapSetKey={this.context.mapSetKey}
-															activeAttributeKey={this.props.activeAttributeKey}
-															layerTreesFilter={{applicationKey: 'esponFuore'}}
-															width={width}
-															height={height}
-														>
-															<FuoreMap>
-																<FuoreMapPresentation />
-															</FuoreMap>
-														</MapSet>
-														<MapTools>
-															<MapControls zoomOnly/>
-														</MapTools>
-													</>
-													)
-												}}
-											/>
-										)
-									},
-									{
-										width: "35rem",
-										render: props => (
-											<ChartSet
-												setKey="esponFuoreCharts"
-											>
-												<EsponFuoreChart/>
-											</ChartSet>
+						<HoverHandler>
+							<WindowsContainer setKey={this.context.windowSetKey}>
+								<AdjustableColumns
+									fixed
+									content={[
+										{
+											render: props => (
+												<ReactResizeDetector
+													handleWidth
+													handleHeight
+													render={({ width, height }) => {return (
+														<>
+															<MapSet
+																mapSetKey={this.context.mapSetKey}
+																activeAttributeKey={this.props.activeAttributeKey}
+																layerTreesFilter={{applicationKey: 'esponFuore'}}
+																width={width}
+																height={height}
+															>
+																<FuoreMap>
+																	<FuoreMapPresentation />
+																</FuoreMap>
+															</MapSet>
+															<MapTools>
+																<MapControls zoomOnly/>
+															</MapTools>
+														</>
+														)
+													}}
+												/>
 											)
-									},
-								]}
-							/>
-							<EsponFuoreTimeline
-								mapSetKey={this.context.mapSetKey}
-							/>
-						</WindowsContainer>
+										},
+										{
+											width: "35rem",
+											render: props => (
+												<ChartSet
+													setKey="esponFuoreCharts"
+												>
+													<EsponFuoreChart/>
+												</ChartSet>
+												)
+										},
+									]}
+								/>
+								<EsponFuoreTimeline
+									mapSetKey={this.context.mapSetKey}
+								/>
+							</WindowsContainer>
+						</HoverHandler>
 					</div>
 				</div>
 			);

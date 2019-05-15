@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {isEqual, isNull, cloneDeep, isEmpty} from 'lodash';
+import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getKartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartogram';
@@ -12,8 +12,10 @@ import CartogramVectorLayer from '../../../../../components/common/maps/WorldWin
 import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
 
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
+import HoverContext from "../../../../../components/common/HoverHandler/context";
 
 class FuoreWorldWindMap extends React.PureComponent {
+	static contextType = HoverContext;
 
 	static propTypes = {
 		activeFilter: PropTypes.object,
@@ -211,6 +213,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 	 * Join spatial vector data with map layers.
 	 */
 	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersMetadata = {}, layersState = []) {
+		let hoveredAreas = this.context.hoveredAreas;
+
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
@@ -235,6 +239,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
 						if(attributeFeatureData){
 							feature.properties = {...feature.properties, ...attributeFeatureData.properties};
+						}
+
+						// hovered
+						if (hoveredAreas && includes(hoveredAreas, featureId)) {
+							feature.properties.hovered = true;
 						}
 					}
 

@@ -12,6 +12,7 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Bar from "./Bar";
 import Popup from "../Popup";
+import HoverContext from "../../../common/HoverHandler/context";
 
 const MIN_BAR_WIDTH = 4; // TODO optional
 const BAR_GAP_RATIO = 0.4; // TODO optional
@@ -34,6 +35,7 @@ const INNER_PADDING_RIGHT = 10;
 // TODO custom max, min
 
 class ColumnChart extends React.PureComponent {
+	static contextType = HoverContext;
 
 	static propTypes = {
 		data: PropTypes.array,
@@ -84,10 +86,18 @@ class ColumnChart extends React.PureComponent {
 				popup: {itemKeys, x, y}
 			});
 		}
+
+		if (this.context.onHover) {
+			this.context.onHover(itemKeys);
+		}
 	}
 
 	onBarOut() {
 		this.setState({popup: null});
+
+		if (this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
 	}
 
 	// TODO axis orientation
