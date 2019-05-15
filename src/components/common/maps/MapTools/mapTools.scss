@@ -71,10 +71,12 @@
 }
 
 .map-tools .control > button:first-child{
-	border-radius: .3rem .3rem 0 0;
+	border-top-right-radius: .3rem;
+	border-top-left-radius: .3rem;
 }
 .map-tools .control > button:last-child {
-	border-radius: 0 0 .3rem .3rem;
+	border-bottom-right-radius: .3rem;
+	border-bottom-left-radius: .3rem;
 }
 
 .map-tools .control > button:hover,

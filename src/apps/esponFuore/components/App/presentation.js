@@ -11,6 +11,7 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
+import MapLegend from "../../../../components/common/maps/MapLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
 import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
@@ -76,6 +77,11 @@ class EsponFuoreApp extends React.PureComponent {
 																</FuoreMap>
 															</MapSet>
 															<MapTools>
+																<MapLegend 
+																	setKey={this.context.windowSetKey}
+																	windowSetKey={this.context.windowSetKey}
+																	itemKey={"legend"}
+																	mapSetKey={this.context.mapSetKey}/>
 																<MapControls zoomOnly/>
 															</MapTools>
 														</>
