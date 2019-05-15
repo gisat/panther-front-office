@@ -59,7 +59,7 @@ class MapControls extends React.PureComponent {
 
         // TODO different controls for 2D
         return (
-                <div className="map-controls">
+                <>
                     {/* <div className="exaggerate-control control">
                         <HoldButton 
                             pressCallback={() => {this.handleExaggerateMinus()}}
@@ -149,7 +149,7 @@ class MapControls extends React.PureComponent {
                             </div>
                         </>
                     ) : null}
-                </div>
+                </>
         )
     }
 }
