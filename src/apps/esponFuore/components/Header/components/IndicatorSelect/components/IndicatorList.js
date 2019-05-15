@@ -6,8 +6,6 @@ import Select from '../../../../../state/Select';
 import utils from '../../../../../../../utils/utils';
 import {PantherSelectItem} from "../../../../../../../components/common/atoms/PantherSelect";
 import React from "react";
-import thumbnail0 from "../../../../../assets/img/thumbnail_0.png";
-
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -47,17 +45,22 @@ class IndicatorList extends React.PureComponent {
 	}
 
 	render() {
-		return this.props.indicators && this.props.indicators.map(indicator => {
+		return this.props.indicators && this.props.indicators.map((indicator, index) => {
 			let className = '';
 			if (indicator.key === this.props.activeIndicator) {
 				className = 'selected';
 			}
+
+			// TODO generate previews
+			if (index > 4) index = 1;
+			let thumbnailSource = `url(${require('../../../../../assets/img/thumbnail_' + index + '.jpg')})`;
+
 			return (
 				<PantherSelectItem
 					key={indicator.key}
 					itemKey={indicator.key}
 					className={className}
-					style={{backgroundImage: `url(${thumbnail0})`}}
+					style={{backgroundImage: thumbnailSource}}
 				>
 					<span>{indicator.data.nameDisplay}</span>
 				</PantherSelectItem>
