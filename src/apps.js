@@ -58,7 +58,7 @@ export default [
 	{
 		key: 'esponFuoreBackOffice',
 		backOffice: true,
-		hostname: 'fuore.gisat.cz',
+		hostname: 'fuore.eu',
 		path: '/backoffice',
 		devPath: '/esponFuoreBackOffice',
 		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
@@ -70,7 +70,7 @@ export default [
 		configuration: {
 			specificMetadataTypes: ['esponFuoreIndicators']
 		},
-		hostname: 'fuore.gisat.cz',
+		hostname: 'fuore.eu',
 		path: null,
 		devPath: '/esponFuore',
 		app: (path, baseUrl) => import(/* webpackChunkName: "esponFuore" */'./apps/esponFuore').then(module => {
