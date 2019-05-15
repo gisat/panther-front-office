@@ -87,7 +87,7 @@ class ColumnChart extends React.PureComponent {
 			});
 		}
 
-		if (this.context.onHover) {
+		if (this.context && this.context.onHover) {
 			this.context.onHover(itemKeys);
 		}
 	}
@@ -95,7 +95,7 @@ class ColumnChart extends React.PureComponent {
 	onBarOut() {
 		this.setState({popup: null});
 
-		if (this.context.onHoverOut) {
+		if (this.context && this.context.onHoverOut) {
 			this.context.onHoverOut();
 		}
 	}

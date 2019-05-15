@@ -139,6 +139,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 				}
 
 			}
+
+			// todo refactor
+			if (this.state.thematicLayers && this.context && this.context.hoveredAreas !== this.hoveredAreas) {
+				this.setHover(this.state.thematicLayers, this.context.hoveredAreas);
+				this.hoveredAreas = this.context.hoveredAreas;
+			}
 		}
 	}
 
@@ -284,6 +290,16 @@ class FuoreWorldWindMap extends React.PureComponent {
 			}
 		})
 
+	}
+
+	setHover(layers, areas) {
+		layers.forEach(layer => {
+			let existingLayer = layersHelper.findLayerByKey(layers, layer.key);
+			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			if(instanceOfVector) {
+				existingLayer.setHover(areas);
+			}
+		})
 	}
 
 	setRerenderer(rerenderer) {

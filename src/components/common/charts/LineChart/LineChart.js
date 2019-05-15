@@ -11,6 +11,7 @@ import AxisY from "../AxisY";
 import Popup from "../Popup";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
+import HoverContext from "../../HoverHandler/context";
 
 const WIDTH = 500;
 const HEIGHT = 250;
@@ -33,6 +34,7 @@ const GRAYING_THRESHOLD = 10;
 const AGGREGATION_THRESHOLD = 50;
 
 class LineChart extends React.PureComponent {
+	static contextType = HoverContext;
 
 	static propTypes = {
 		data: PropTypes.array,
@@ -73,10 +75,18 @@ class LineChart extends React.PureComponent {
 				hoveredItemKey: itemKey
 			});
 		}
+
+		if (this.context && this.context.onHover) {
+			this.context.onHover([itemKey]);
+		}
 	}
 
 	onLineOut() {
 		this.setState({popup: null, hoveredItemKey: null});
+
+		if (this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
 	}
 
 	// TODO axis orientation

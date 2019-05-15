@@ -60,13 +60,18 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		const shapeConfigurationCallback = (geometry, properties) => {
 			//add properties to renderable
 			return {userProperties: properties}
-		}
+		};
 		parser.load(this.doRerender, shapeConfigurationCallback, this);
 	}
 
 	setFilter(filter) {
 		//name. areas
 		this.filter = filter;
+		this.doRerender();
+	}
+
+	setHover(areas) {
+		this.highlighted = areas;
 		this.doRerender();
 	}
 	
@@ -91,6 +96,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	doRender(dc) {
 		//renderable changed?
 		// if(changedStyle || changedFilter || changedAttributes) {
+
 		let renderables = this.renderables;
 		let filterFunctionExists = typeof this.filterFunction === 'function';
 		let styleFunctionExists = typeof this.styleFunction === 'function';
@@ -103,6 +109,14 @@ class ExtendedRenderableLayer extends RenderableLayer {
 				renderable.filtered = !filtered;
 			} else {
 				renderable.filtered = null;
+			}
+
+			//higlight feature
+			if(this.highlighted) {
+				const highlighted = this.highlighted.includes(renderable.userProperties[this.spatialIdKey]);
+				renderable.hovered = highlighted;
+			} else {
+				renderable.hovered = false;
 			}
 
 			if(filterFunctionExists) {
