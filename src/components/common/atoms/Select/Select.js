@@ -121,12 +121,16 @@ class Select extends React.PureComponent {
         // prepare selected value
         if (props.value && typeof props.value === 'string') {
             props.value = _.find(props.options, {value: props.value});
-        } else if (props.value && props.optionValue) {
+        } else if (props.value && props.optionValue && !_.isArray(props.value)) {
         	props.value = _.find(props.options, {value: _.get(props.value, props.optionValue)})
 		} else if (_.isArray(props.value)) {
             props.value = _.filter(props.options, (option) => {
                 return !!_.find(props.value, value => {
-                    return value === option.value
+                    if (typeof value === 'string') {
+                        return value === option.value;
+                    } else {
+                        return _.get(value, props.optionValue) === option.value;
+                    }
                 });
             });
         }
