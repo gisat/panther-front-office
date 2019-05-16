@@ -22,7 +22,7 @@ class MapLegend extends React.PureComponent {
                             pressCallbackTimeout={20}
                             finite={false}
                         >
-                        <Icon icon='plus-thick'/>
+                        <Icon icon='legend'/>
                     </HoldButton>
                 </div>
         )

@@ -22,11 +22,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.windowSetKey,
 				ownProps.itemKey,
 				{
-					title: 'Legenda',
+					title: 'Legend',
 					icon: 'plus-thick',
-					width: 400,
-					maxWidth: 600,
-					height: 500
+					width: 300,
+					height: 300
 				},
 				(
 					<div>

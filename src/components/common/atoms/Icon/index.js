@@ -22,6 +22,7 @@ import Filter from './components/Filter';
 import Info from "./components/Info";
 import Opacity from './components/Opacity';
 import Layers from './components/Layers';
+import Legend from './components/Legend';
 import MapPin from './components/MapPin';
 import Minus from './components/Minus';
 import MinusThick from './components/MinusThick';
@@ -92,6 +93,8 @@ const icon = key => {
 			return <Info />;
 		case 'layers':
 			return <Layers/>;
+		case 'legend':
+			return <Legend/>;
 		case 'map-pin':
 			return <MapPin/>;
 		case 'minus':
