@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import './style.scss';
 import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
 import scopeThumbnail0 from '../../../assets/img/thumbnail_0.jpg';
-import scopePreview1 from '../../../assets/img/preview_1.png';
+import scopePreview1 from '../../../assets/img/preview_1.jpg';
 
 class ScopesList extends React.PureComponent {
 
