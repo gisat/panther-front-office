@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.itemKey,
 				{
 					title: 'Legend',
-					icon: 'plus-thick',
+					icon: 'legend',
 					width: 300,
 					height: 300
 				},
