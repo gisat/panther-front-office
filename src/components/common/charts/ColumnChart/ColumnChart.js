@@ -242,6 +242,11 @@ class ColumnChart extends React.PureComponent {
 		return (
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
 				{data.map((item) => {
+					let highlighted = false;
+					if (this.context.hoveredAreas) {
+						highlighted = _.includes(this.context.hoveredAreas, _.get(item, props.keySourcePath));
+					}
+
 					return (
 						<Bar
 							itemKeys={[_.get(item, props.keySourcePath)]}
@@ -251,6 +256,7 @@ class ColumnChart extends React.PureComponent {
 							onMouseMove={this.onBarOver}
 							defaultColor={this.props.defaultColor}
 							highlightedColor={this.props.highlightedColor}
+							highlighted={highlighted}
 
 							y={0}
 							x={xScale(_.get(item, props.keySourcePath))}
@@ -267,6 +273,11 @@ class ColumnChart extends React.PureComponent {
 		return aggregatedData.map((group) => {
 			let firstItemFromGroup = group.originalData[0];
 
+			let highlighted = false;
+			if (this.context.hoveredAreas) {
+				highlighted = !!_.intersection(this.context.hoveredAreas, group.keys).length;
+			}
+
 			return (
 				<Bar
 					hidden
@@ -277,6 +288,7 @@ class ColumnChart extends React.PureComponent {
 					onMouseMove={this.onBarOver}
 					defaultColor={this.props.defaultColor}
 					highlightedColor={this.props.highlightedColor}
+					highlighted={highlighted}
 
 					y={yScale(_.get(firstItemFromGroup, props.ySourcePath))}
 					x={xScale(group.keys)}

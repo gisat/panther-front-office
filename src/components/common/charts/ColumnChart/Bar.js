@@ -14,6 +14,7 @@ class Bar extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
+		highlighted: PropTypes.bool,
 		itemKeys: PropTypes.array,
 		onMouseMove: PropTypes.func,
 		onMouseOut: PropTypes.func,
@@ -107,7 +108,11 @@ class Bar extends React.PureComponent {
 		const props = this.props;
 
 		let style = {};
-		if (this.state.color && !this.state.hidden) {
+
+		if (props.highlighted) {
+			style.fill = this.props.highlightedColor ? this.props.highlightedColor : '#ff0000';
+			// style.fill = '#ff0000';
+		} else if (this.state.color && !this.state.hidden) {
 			style.fill = this.state.color
 		}
 
