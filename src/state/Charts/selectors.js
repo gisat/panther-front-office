@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from 're-reselect';
 import AttributeDataSelectors from "../AttributeData/selectors";
 import _ from "lodash";
 
@@ -36,7 +37,8 @@ const getMetadataActiveKeys = state => {
 	};
 };
 
-const getChartConfiguration = createSelector(
+
+const getChartConfiguration = createCachedSelector(
 	[
 		getChartByKey,
 		getMetadataActiveKeys,
@@ -49,6 +51,8 @@ const getChartConfiguration = createSelector(
 			return null;
 		}
 	}
+)(
+	(state, chart) => `${chart && chart.key}`
 );
 
 const getDataForChart = createSelector(

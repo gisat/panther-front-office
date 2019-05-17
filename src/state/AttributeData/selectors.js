@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 
 import common from "../_common/selectors";
@@ -41,7 +42,7 @@ const getFiltered = createSelector(
 	}
 );
 
-const getFilteredGroupedByFid = createSelector(
+const getFilteredGroupedByFid = createCachedSelector(
 	[
 		getAllAsObject,
 		AttributeRelations.getDataSourcesFromFilteredRelations
@@ -91,6 +92,10 @@ const getFilteredGroupedByFid = createSelector(
 			return null;
 		}
 	}
+)(
+	(state, mergedFilter, chart) => {
+	return `${JSON.stringify(mergedFilter)}:${chart.key}`;
+}
 );
 
 

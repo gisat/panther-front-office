@@ -8,23 +8,33 @@ const activeScopeKey = state => state.scopes.activeKey;
 const activeThemeKey = state => state.themes.activeKey;
 
 /**
- * 
- * @param {*} getSubstate 
+ *
+ * @param {*} getSubstate
  * @returns {Object}
  */
-const getAllNotRemovedAsObject = (getSubstate) => {
-	return (state) => {
-		const byKey = getSubstate(state).byKey;
-		return pickBy(byKey, (item) => !item.hasOwnProperty('removed'));
-	}
+const getAllByKey = (getSubstate) => {
+	return (state) => getSubstate(state).byKey;
 };
-
 
 /**
  * 
  * @param {*} getSubstate 
  * @returns {Object}
  */
+const getAllNotRemovedAsObject = (getSubstate) => {
+	return createCachedSelector(
+		[getAllByKey(getSubstate)],
+		byKey => {
+			return pickBy(byKey, (item) => !item.hasOwnProperty('removed'));
+		}
+	)(
+		(state, byKey) => {
+			let keys = byKey ? Object.keys(byKey) : null;
+			return `${keys}`;
+		}
+	);
+};
+
 const getAllAsObject = getAllNotRemovedAsObject;
 
 /**
@@ -245,21 +255,28 @@ const getByKey = (getSubstate) => {
 
 // TODO test
 const getByKeys = (getSubstate) => {
-	return (state, keys) => {
-		let allData = getAllAsObject(getSubstate)(state);
-		if (keys && keys.length && allData && !_.isEmpty(allData)) {
-			let data = [];
-			_.each(keys, key => {
-				if (allData[key]) {
-					data.push(allData[key])
-				}
-			});
+	return createCachedSelector(
+		[
+			getAllAsObject(getSubstate),
+			(state, keys) => keys,
+		],
+		(allData, keys) => {
+			if (keys && keys.length && allData && !_.isEmpty(allData)) {
+				let data = [];
+				_.each(keys, key => {
+					if (allData[key]) {
+						data.push(allData[key])
+					}
+				});
 
-			return data.length ? data : null;
-		} else {
-			return null;
+				return data.length ? data : null;
+			} else {
+				return null;
+			}
 		}
-	}
+	)(
+		(state, keys) => `${keys}`
+	);
 };
 
 const getDataByKey = (getSubstate) => {

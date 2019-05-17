@@ -7,22 +7,14 @@ import wrapper from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
-
-	let data = Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation);
 	let activeFilter = Select.selections.getActive(state);
 
-	let periods = null;
-	if (chartConfiguation && chartConfiguation.mergedFilter && chartConfiguation.mergedFilter.periodKey && chartConfiguation.mergedFilter.periodKey.in) {
-
-		// TODO ensure periods
-		periods = Select.periods.getByKeys(state, chartConfiguation.mergedFilter.periodKey.in);
-	}
-
+	// TODO ensure periods
 	return {
 		attribute: Select.attributes.getActive(state),
-		data,
+		data: Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation),
 		filter: activeFilter && activeFilter.data,
-		periods
+		periods: Select.periods.getByKeys(state, chartConfiguation && chartConfiguation.mergedFilter && chartConfiguation.mergedFilter.periodKey && chartConfiguation.mergedFilter.periodKey.in)
 	}
 };
 
