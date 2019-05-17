@@ -20,6 +20,7 @@ class Line extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
+		highlighted: PropTypes.bool,
 		withPoints: PropTypes.bool,
 		suppressed: PropTypes.bool,
 		gray: PropTypes.bool
@@ -84,6 +85,11 @@ class Line extends React.PureComponent {
 			gray: this.props.gray
 		});
 
+		let color = this.state.color;
+		if (this.props.highlighted) {
+			color= this.props.highlightedColor;
+		}
+
 		return (
 			<g
 				className={classes}
@@ -103,17 +109,17 @@ class Line extends React.PureComponent {
 						return `${point.x} ${point.y}`;
 					}).join(" L")}`}
 					style={{
-						stroke: this.state.color,
+						stroke: color,
 						strokeDasharray: this.state.length,
 						strokeDashoffset: this.state.length
 					}}
 				/>
-				{props.withPoints ? this.renderPoints() : null}
+				{props.withPoints ? this.renderPoints(color) : null}
 			</g>
 		);
 	}
 
-	renderPoints() {
+	renderPoints(color) {
 		const props = this.props;
 
 		return props.coordinates.map((point) => {
@@ -124,7 +130,8 @@ class Line extends React.PureComponent {
 					y={point.y}
 					data={point.originalData}
 					r={5}
-					color={this.state.color}
+					color={color}
+					highlighted={this.props.highlighted}
 					onMouseOver={this.onMouseOver}
 					onMouseMove={this.onMouseMove}
 					onMouseOut={this.onMouseOut}

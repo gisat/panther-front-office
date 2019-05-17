@@ -123,6 +123,7 @@
 	opacity: 0;
 }
 
+.ptr-line-chart-line-wrapper.gray .ptr-chart-point.no-opacity,
 .ptr-line-chart-line-wrapper.gray:hover .ptr-chart-point {
 	opacity: 1;
 }

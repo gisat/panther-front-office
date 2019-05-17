@@ -69,6 +69,7 @@ class Point extends React.PureComponent {
 	render() {
 		const props = this.props;
 		let classes = classnames("ptr-chart-point", {
+			'no-opacity': this.props.highlighted
 		});
 
 		return (

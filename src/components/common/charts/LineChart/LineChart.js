@@ -72,7 +72,7 @@ class LineChart extends React.PureComponent {
 		if (!state || !_.isEqual(state.itemKey, itemKey)  || state.x !== x || state.y !== y) {
 			this.setState({
 				popup: {itemKey, name, x, y, data},
-				hoveredItemKey: itemKey
+				hoveredItemKeys: [itemKey]
 			});
 		}
 
@@ -82,7 +82,7 @@ class LineChart extends React.PureComponent {
 	}
 
 	onLineOut() {
-		this.setState({popup: null, hoveredItemKey: null});
+		this.setState({popup: null, hoveredItemKeys: null});
 
 		if (this.context && this.context.onHoverOut) {
 			this.context.onHoverOut();
@@ -241,6 +241,13 @@ class LineChart extends React.PureComponent {
 				return {x,y, originalData: record};
 			});
 
+			let suppressed = this.state.hoveredItemKeys && !_.includes(this.state.hoveredItemKeys, key);
+			let highligtedFromContext = false;
+			if (this.context.hoveredAreas) {
+				highligtedFromContext = _.includes(this.context.hoveredAreas, key);
+				suppressed = !highligtedFromContext;
+			}
+
 			return (
 				<Line
 					key={key}
@@ -249,11 +256,12 @@ class LineChart extends React.PureComponent {
 					coordinates={coordinates}
 					defaultColor={color}
 					highlightedColor={color}
+					highlighted={highligtedFromContext}
 					onMouseOut={this.onLineOut}
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
-					suppressed={this.state.hoveredItemKey && this.state.hoveredItemKey !== key}
+					suppressed={suppressed}
 					gray={mode === 'gray'}
 				/>
 			);
