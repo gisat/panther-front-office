@@ -45,31 +45,34 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseMove) {
 			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
-		this.setState({
-			color: this.props.highlightedColor
-		});
+		this.setColor(true);
 	}
 
 	onMouseOver(e, data) {
 		if (this.props.onMouseOver) {
 			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
-		this.setState({color: this.props.highlightedColor});
+		this.setColor(true);
 	}
 
 	onMouseOut(e) {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
 		}
-		this.setState({color: (!this.props.gray && this.props.defaultColor) ? this.props.defaultColor : null});
+		this.setColor();
 	}
 
 	componentDidMount() {
 		this.updateLength();
+		this.setColor();
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		this.updateLength();
+
+		if (prevProps.gray !== this.props.gray || prevProps.highlighted !== this.props.highlighted) {
+			this.setColor();
+		}
 	}
 
 	updateLength() {
@@ -79,16 +82,21 @@ class Line extends React.PureComponent {
 		}
 	}
 
+	setColor(forceHover) {
+		if (this.props.highlighted || forceHover) {
+			this.setState({color: this.props.highlightedColor ? this.props.highlightedColor : null});
+		} else if (this.props.gray) {
+			this.setState({color: null});
+		} else {
+			this.setState({color: this.props.defaultColor ? this.props.defaultColor : null});
+		}
+	}
+
 	render() {
 		const props = this.props;
 		let classes = classnames("ptr-line-chart-line-wrapper", {
 			gray: this.props.gray
 		});
-
-		let color = this.state.color;
-		if (this.props.highlighted) {
-			color= this.props.highlightedColor;
-		}
 
 		return (
 			<g
@@ -109,17 +117,17 @@ class Line extends React.PureComponent {
 						return `${point.x} ${point.y}`;
 					}).join(" L")}`}
 					style={{
-						stroke: color,
+						stroke: this.state.color,
 						strokeDasharray: this.state.length,
 						strokeDashoffset: this.state.length
 					}}
 				/>
-				{props.withPoints ? this.renderPoints(color) : null}
+				{props.withPoints ? this.renderPoints() : null}
 			</g>
 		);
 	}
 
-	renderPoints(color) {
+	renderPoints() {
 		const props = this.props;
 
 		return props.coordinates.map((point) => {
@@ -130,7 +138,7 @@ class Line extends React.PureComponent {
 					y={point.y}
 					data={point.originalData}
 					r={5}
-					color={color}
+					color={this.state.color}
 					highlighted={this.props.highlighted}
 					onMouseOver={this.onMouseOver}
 					onMouseMove={this.onMouseMove}
