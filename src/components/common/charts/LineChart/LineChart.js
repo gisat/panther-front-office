@@ -281,11 +281,11 @@ class LineChart extends React.PureComponent {
 				let key = _.get(item, props.xSourcePath);
 				let value = _.get(item, props.ySourcePath);
 
-				if (!maxValues[key] || maxValues[key] < value) {
+				if ((!maxValues[key] && maxValues[key] !== 0) || maxValues[key] < value) {
 					maxValues[key] = value;
 				}
 
-				if (!minValues[key] || minValues[key] > value) {
+				if ((!minValues[key] && minValues[key] !== 0) || minValues[key] > value) {
 					minValues[key] = value;
 				}
 

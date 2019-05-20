@@ -3,18 +3,18 @@ import _ from 'lodash';
 function filterDataWithNullValue (data, valueSourcePath, serieSourcePath) {
 	if (!serieSourcePath) {
 		return _.filter(data, (item) => {
-			return _.get(item, valueSourcePath);
+			let val = _.get(item, valueSourcePath);
+			return val || val === 0;
 		});
 	} else {
 		let withoutNullValues = data.map(item => {
 			let data = _.get(item, serieSourcePath);
 			let filteredData =_.filter(data, (value) => {
-				return _.get(value, valueSourcePath);
+				let val =  _.get(value, valueSourcePath);
+				return val || val === 0;
 			});
 
-			let updatedItem = {...item};
-			updatedItem[serieSourcePath] = filteredData;
-			return updatedItem;
+			return _.set({...item}, serieSourcePath, filteredData);
 		});
 
 		return _.filter(withoutNullValues, (item) => {
