@@ -28,19 +28,6 @@ export const getClassByValue = (classes, value) => {
 }
 
 /**
- * 
- * Calculate percentil position of value between min and max values
- * @param {number} value 
- * @param {number} min 
- * @param {number} max 
- * @param {Chromajs} palette 
- * @returns {Chromajs} color
- */
-export const getColorByValue = (value, min, max, palette) => {
-    return palette((value - min) / (max - min))
-}
-
-/**
  * Create classes with same items count.
  * Get values, order ascent
  * @param {Array} values 
@@ -60,6 +47,58 @@ export const getEqualsCountClasses = (values = [], classesCount = 1) => {
     return classes;
 }
 
-export const getClassCount = (classes) => {
+/**
+ * 
+ * @param {Array} statistics 
+ */
+export const mergeAttributeStatistics = (statistics = []) => {
+    const mergedStatistics = {
+        min: null,
+        max: null,
+        percentile: [] 
+    }
+
+    for (const statistic of statistics) {
+        if(statistic && statistic.attributeStatistic) {
+            mergedStatistics.min = (mergedStatistics.min || mergedStatistics.min === 0) ? Math.min(mergedStatistics.min, statistic.attributeStatistic.min) : statistic.attributeStatistic.min;
+            mergedStatistics.max = (mergedStatistics.max || mergedStatistics.max === 0) ? Math.max(mergedStatistics.max, statistic.attributeStatistic.max) : statistic.attributeStatistic.max;
+
+            mergedStatistics.percentile = mergedStatistics.percentile.length > 0 ? 
+                mergedStatistics.percentile.map((p, i) => (statistic.attributeStatistic.percentile[i] + p) / 2) : statistic.attributeStatistic.percentile;
+        }
+    }
+    return mergedStatistics;
+}
+
+export const getClassCount = (classes = []) => {
     return Math.max(0, classes.length - 1);
+}
+
+export const getMiddleClassValues = (classes = []) => {
+    return classes.reduce((acc, val, idx, src) => {
+        if(idx > 0) {
+            acc.push((src[idx - 1] + src[idx]) / 2);
+            return acc;
+        } else {
+            return acc;
+        }
+    }, [])
+}
+
+export const getClassesIntervals = (classes = []) => {
+    return classes.reduce((acc, val, idx, src) => {
+        if(idx > 0) {
+            acc.push([src[idx - 1], src[idx]]);
+            return acc;
+        } else {
+            return acc;
+        }
+    }, [])
+}
+
+export const setClassesMinMaxFromStatistics = (classes = [], statistics) => {
+    const modified = [...classes];
+    modified[0] = statistics.min;
+    modified[classes.length - 1] = statistics.max;
+    return modified;
 }

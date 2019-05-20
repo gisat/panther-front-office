@@ -72,6 +72,7 @@ function ensureIndexesWithFilterByActive(filterByActive) {
         _.each(usedIndexes, (usedIndex) => {
             _.each(usedIndex.uses, (use) => {
                 dispatch(ensureIndexedSpecific(usedIndex.filter, usedIndex.order, use.start, use.length))
+                // dispatch(ensureIndexedSpecificForLegend(usedIndex.filter, usedIndex.order, use.start, use.length))
             });
         });
 
