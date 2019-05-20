@@ -11,7 +11,7 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
-import MapLegend from "../../../../components/common/maps/MapLegend";
+import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
 import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
@@ -77,7 +77,8 @@ class EsponFuoreApp extends React.PureComponent {
 																</FuoreMap>
 															</MapSet>
 															<MapTools>
-																<MapLegend 
+																<MapControlLegend
+																	// disable if diagram
 																	setKey={this.context.windowSetKey}
 																	windowSetKey={this.context.windowSetKey}
 																	itemKey={"legend"}

@@ -1,6 +1,6 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
-import {getValueClassesByStatistics, getClassByValue, getClassCount} from '../../../../../utils/statistics'
+import {getValueClassesByStatistics, getClassByValue, getClassCount, setClassesMinMaxFromStatistics} from '../../../../../utils/statistics'
 import {
     DEFAULTFILLTRANSPARENCY,
     DEFAULTOUTLINETRANSPARENCY,
@@ -23,7 +23,13 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
     const usePercentiles = statistics.hasOwnProperty('percentile') && statistics.percentile.length > 1;
 
     const classCount = usePercentiles ? getClassCount(statistics.percentile) || 1 : 5;
-    const statisticsClasses = statistics.percentile || getValueClassesByStatistics(statistics, classCount);
+    const statisticsClasses = usePercentiles ? statistics.percentile : getValueClassesByStatistics(statistics, classCount);
+    
+    //statistics percentiles can be calculated from more statistics
+    //min & max values are min max, not average
+    if(usePercentiles) {
+        setClassesMinMaxFromStatistics(statisticsClasses, statistics);
+    }
     const colorClasses = getCartogramColorScale(color, classCount);
     const outlineColorClasses = transformScaleDarker(colorClasses, 2);
     
@@ -35,7 +41,7 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
         let valueColor;
         let outlineValueColor;
         if(value || value === 0) {
-            const calassIndex = getClassByValue(statisticsClasses, renderable.userProperties[attributeDataKey]);
+            const calassIndex = getClassByValue(statisticsClasses, value);
             valueColor = colorClasses[calassIndex];
             outlineValueColor = outlineColorClasses[calassIndex];
         }
@@ -50,7 +56,7 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
         } else if (renderable.filtered) {
             attributes.interiorColor = Color.colorFromByteArray(filteredPalette.colorTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
-    } else {
+        } else {
             attributes.interiorColor = Color.colorFromByteArray([...valueColor, fillTransparency]);
             attributes.outlineColor = Color.colorFromByteArray([...outlineValueColor, DEFAULTOUTLINETRANSPARENCY]); //gray
         }

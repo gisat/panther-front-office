@@ -7,6 +7,7 @@ import {getCartogramStyleFunction} from '../../../../../components/common/maps/W
 import {getCartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
+import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/WorldWindMap/styles/colors'
 import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
 import CartogramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartogramVectorLayer';
 import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
@@ -266,9 +267,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 						//set layerstyle
 						if(metadata.dataType === 'relative') {
-							existingLayer.styleFunction = getCartogramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+							existingLayer.styleFunction = getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey);
 						}else if(metadata.dataType === 'absolute') {
-							existingLayer.styleFunction = getCartodiagramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+							existingLayer.styleFunction = getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey);
 						}
 					}
 				} else {

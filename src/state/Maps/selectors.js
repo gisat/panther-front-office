@@ -207,60 +207,7 @@ const getLayers = createSelector(
 	(groupedSpatialSources, groupedAttributeSources, layers) => {
 		// FIXME - more complex
 		if (groupedSpatialSources && groupedAttributeSources && layers) {
-			let layersForMap = [];
-			layers.forEach(layer => {
-				let spatialSourcesForLayer = groupedSpatialSources[layer.data.key];
-				if (spatialSourcesForLayer) {
-					//TODO
-					//take only first datasource for now
-					// spatialSourcesForLayer.forEach(source => {
-					[spatialSourcesForLayer[0]].forEach(source => {
-						let key = `${layer.data.key}`;
-						let mapServerConfig = {
-							wmsMapServerUrl: `${config.apiGeoserverWMSProtocol}://${config.apiGeoserverWMSHost}/${config.apiGeoserverWMSPath}`,
-							wfsMapServerUrl: `${config.apiGeoserverWFSProtocol}://${config.apiGeoserverWFSHost}/${config.apiGeoserverWFSPath}`
-						};
-
-						if (source) {
-							key += `-${source.key}`;
-							layersForMap.push({
-								...source.data,
-								spatialDataSourceKey: source.key,
-								spatialRelationsData: source.spatialRelationData,
-								key,
-								mapServerConfig
-							});
-						} else {
-							layersForMap.push({
-								key,
-								mapServerConfig
-							});
-						}
-					});
-				}
-
-				//add attribute relations data
-				let attributeSourcesForLayer = groupedAttributeSources[layer.data.key];
-				if (attributeSourcesForLayer) {
-					attributeSourcesForLayer.forEach(source => {
-						if (source) {
-							const attributeLayerTemplateKey = source.attributeRelationData && source.attributeRelationData.layerTemplateKey;
-							if(attributeLayerTemplateKey) {
-								//get layer by layerTemplate
-								const layerByLayerTemplateKey = layersForMap.find((l) => {
-									return l.spatialRelationsData && l.spatialRelationsData.layerTemplateKey === attributeLayerTemplateKey;
-								});
-
-								if(layerByLayerTemplateKey) {
-									layerByLayerTemplateKey.attributeRelationsData = source.attributeRelationData;
-								}
-
-							}
-						}
-					});
-				}
-			});
-			return layersForMap;
+			return layers.map((layer) => getLayerConfiguration(layer, groupedSpatialSources[layer.data.key], groupedAttributeSources[layer.data.key]));
 		} else {
 			return null;
 		}
@@ -361,6 +308,51 @@ const getAllLayersStateByMapKey = createSelector(
 // ----- helpers ------
 const getLayerState = (layer) => ({filter: layer.mergedFilter, data: layer.layer});
 
+const getLayerConfiguration = (layer, spatialSourcesForLayer, attributeSourcesForLayer) => {
+	// let spatialSourcesForLayer = groupedSpatialSources[layer.data.key];
+	let layerConfig = null;
+	if (spatialSourcesForLayer) {
+		//TODO
+		//take only first datasource for now
+		// spatialSourcesForLayer.forEach(source => {
+		[spatialSourcesForLayer[0]].forEach(source => {
+			let key = `${layer.data.key}`;
+			let mapServerConfig = {
+				wmsMapServerUrl: `${config.apiGeoserverWMSProtocol}://${config.apiGeoserverWMSHost}/${config.apiGeoserverWMSPath}`,
+				wfsMapServerUrl: `${config.apiGeoserverWFSProtocol}://${config.apiGeoserverWFSHost}/${config.apiGeoserverWFSPath}`
+			};
+
+			if (source) {
+				key += `-${source.key}`;
+				layerConfig = {
+					...source.data,
+					spatialDataSourceKey: source.key,
+					spatialRelationsData: source.spatialRelationData,
+					key,
+					mapServerConfig
+				};
+			} else {
+				layerConfig = {
+					key,
+					mapServerConfig
+				};
+			}
+		});
+	}
+
+	//add attribute relations data
+	if (attributeSourcesForLayer && layerConfig) {
+		attributeSourcesForLayer.forEach(source => {
+			if (source) {
+				const attributeLayerTemplateKey = source.attributeRelationData && source.attributeRelationData.layerTemplateKey;
+				if(attributeLayerTemplateKey) {
+					layerConfig.attributeRelationsData = source.attributeRelationData;
+				}
+			}
+		});
+	}
+	return layerConfig;
+}
 
 /**
  * Prepare filters for use from layers state
@@ -437,6 +429,92 @@ function getFiltersForUse(layer, activeKeys, useMetadata) {
 	}
 }
 
+
+/**
+ * @param state {Object}
+ * @param mapSetKey {string}
+ * @returns {Array<Map> | null}
+ */
+const getMapsByMapSetKey = createSelector(
+	[
+		getMapsAsObject,
+		getMapSetMapKeys
+	],
+	(maps, mapSetMapsKeys) => {
+		if (maps && !_.isEmpty(maps) && mapSetMapsKeys && !_.isEmpty(mapSetMapsKeys)) {
+			return mapSetMapsKeys.map(k => maps[k]);
+		} else {
+			return null;
+		}
+	}
+);
+
+
+const getLayerTemplatesKeysByMapSetKey = createSelector([
+	getMapsByMapSetKey,
+	getMapSetByKey,
+],
+(maps, mapSet) => {
+	const layerTemplates = new Set();
+
+	if(maps) {
+		maps.forEach((map) => {
+			if(map.data && map.data.layers && map.data.layers.length > 0) {
+				layerTemplates.add(...map.data.layers.map(l => l.layerTemplate))
+			}
+		})
+	}
+
+	if(mapSet) {
+		//if layers on mapSet
+		layerTemplates.add(...mapSet.layers.map(l => l.layerTemplate));
+	}
+	return  [...layerTemplates];
+})
+
+
+const getLayersStateByMapSetKey = createSelector(
+	[
+		getMapSetByKey,
+		getMapsByMapSetKey,
+		commonSelectors.getAllActiveKeys,
+	],
+	(mapSet, maps, activeKeys) => {
+		const mapsLayersState = {};
+		let setLayers = (mapSet && mapSet.data && mapSet.data.layers) || null;
+		
+		maps.forEach((map) => {
+			let mapLayers = (map && map.data && map.data.layers) || null;
+			if (map && (mapLayers || setLayers)) {
+				let layers = [...(setLayers || []), ...(mapLayers || [])];
+				let modifiers = {};
+				if (mapSet) {
+					let a = mapSet.data.metadataModifiers;
+					modifiers = {...modifiers, ...mapSet.data.metadataModifiers};
+				}
+				modifiers = {...modifiers, ...map.data.metadataModifiers};
+
+				//TODO
+				//specific for FUORE
+				const useMetadata = {
+					scope: true,
+					attribute: true,
+					period: true,
+				}
+
+				layers = layers.map(layer => {
+					return getFiltersForUse({...modifiers, ...layer}, activeKeys, useMetadata);
+				});
+
+				mapsLayersState[map.key] = layers;
+			}
+
+		});
+
+	return mapsLayersState;
+	}
+)
+
 export default {
 	getActiveMapKey,
 	getActiveSetKey,
@@ -447,6 +525,8 @@ export default {
 
 	getLayers,
 	getLayersStateByMapKey,
+	getLayersStateByMapSetKey,
+	getLayerTemplatesKeysByMapSetKey,
 
 	getMapByKey,
 	getMapByMetadata,

@@ -5,25 +5,32 @@ import HoldButton from '../../../presentation/atoms/HoldButton'
 import './mapLegend.scss';
 class MapLegend extends React.PureComponent {
 
-    handleLedendClick() {
-        if (this.props.isOpen) {
-			this.props.closeWindow();
-		} else {
-			this.props.openWindow();
-		}
+    renderItemImage(item) {
+        return (
+            <div className={'image'} key={item.title}>
+                <span className={'title'}>{item.title}</span>
+                <span>{item.image}</span>
+            </div>
+        )
+    }
+    renderItem(item) {
+        const images = item.items.map((i) => this.renderItemImage(i));
+        return (<div className={'legend-item'} key={item.name}>
+                   <h4 className={'title'}> 
+                        {item.name}
+                   </h4> 
+                   <div className={'images'}> 
+                        {images}
+                   </div> 
+                </div>)
+
     }
 
     render () {
+        const legendItems = this.props.legendItems.map((v) => this.renderItem(v))
         return (
-                <div className="legend-control control">
-                    <HoldButton 
-                            onClick={() => {this.handleLedendClick()}}
-                            onMouseDown={200}
-                            pressCallbackTimeout={20}
-                            finite={false}
-                        >
-                        <Icon icon='legend'/>
-                    </HoldButton>
+                <div className={'legend'}>
+                   {legendItems} 
                 </div>
         )
     }
@@ -31,17 +38,11 @@ class MapLegend extends React.PureComponent {
 
 
 MapLegend.defaultProps = {
-    activeMapKey: '',
-    navigator: {},
-    setNavigator: () => {},
-    resetHeading: () => {},
+    legendItems: [],
   };
   
 MapLegend.propTypes = {
-    navigator: PropTypes.object,
-    setNavigator: PropTypes.func,
-    resetHeading: PropTypes.func,
-    activeMapKey:PropTypes.string,
+    legendItems: PropTypes.array,
 };
 
 export default MapLegend;

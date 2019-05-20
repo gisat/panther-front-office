@@ -1,2 +1,35 @@
 @import '../../../../styles/variables';
 
+
+
+.legend .legend-item{
+    margin: 0px 3rem;
+}
+
+.legend .legend-item .images{
+    
+    min-width: 10rem;
+ 
+    .image {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .title {
+            margin-right: 1rem;
+        }
+
+        svg{
+            width: 5rem;
+            height: 3rem;
+    
+            rect{
+                width: 5rem;
+                height: 3rem;
+            }
+        }
+
+    }
+
+}
+
