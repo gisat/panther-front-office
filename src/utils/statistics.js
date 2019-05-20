@@ -60,3 +60,6 @@ export const getEqualsCountClasses = (values = [], classesCount = 1) => {
     return classes;
 }
 
+export const getClassCount = (classes) => {
+    return Math.max(0, classes.length - 1);
+}
