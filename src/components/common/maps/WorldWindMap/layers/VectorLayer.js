@@ -26,6 +26,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.attributeStatistics = {};
 		this.metadata = {};
 		this.filter = null;
+		this.accent = null;
 		this._rerenderMap = null;
 	};
 
@@ -70,6 +71,12 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.doRerender();
 	}
 
+	setAccent(accent) {
+		//name. areas
+		this.accent = accent;
+		this.doRerender();
+	}
+
 	setHover(areas) {
 		this.highlighted = areas;
 		this.doRerender();
@@ -102,13 +109,22 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		let styleFunctionExists = typeof this.styleFunction === 'function';
 		for (let i = 0; i < renderables.length; i++) {
 			let renderable = renderables[i];
-			//filter feature
+			// filter feature
 			if(this.filter) {
 				const filtered = this.filter.areas.includes(renderable.userProperties[this.spatialIdKey]);
 				//true if item not in  filter areas
 				renderable.filtered = !filtered;
 			} else {
 				renderable.filtered = null;
+			}
+
+			// accent feature
+			if(this.accent) {
+				const accented = this.accent.areas.includes(renderable.userProperties[this.spatialIdKey]);
+				//true if item in accent areas
+				renderable.accented = accented;
+			} else {
+				renderable.accented = null;
 			}
 
 			//higlight feature

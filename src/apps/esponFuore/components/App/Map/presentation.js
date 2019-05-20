@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import {getKartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartogram';
-import {getKartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/kartodiagram';
+import {getCartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartogram';
+import {getCartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
 import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
@@ -264,9 +264,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 						//set layerstyle
 						if(metadata.dataType === 'relative') {
-							existingLayer.styleFunction = getKartogramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+							existingLayer.styleFunction = getCartogramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
 						}else if(metadata.dataType === 'absolute') {
-							existingLayer.styleFunction = getKartodiagramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
+							existingLayer.styleFunction = getCartodiagramStyleFunction(metadata.color, 220, attributeStatisticsData, metadata.attributeDataKey);
 						}
 					}
 				} else {
@@ -287,6 +287,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
 			if(instanceOfVector) {
 				existingLayer.setFilter(filter ? filter.data : null);
+			}
+			if(existingLayer && (existingLayer instanceof CartodiagramVectorLayer)) {
+				existingLayer.setAccent(filter ? filter.data : null);
 			}
 		})
 
