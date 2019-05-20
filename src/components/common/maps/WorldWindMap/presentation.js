@@ -9,6 +9,7 @@ import WorldWind from 'webworldwind-esa';
 import navigator from './navigator/helpers';
 
 import Attribution from './Attribution/Attribution';
+import CyclicPickController from '../../../../utils/worldwind/CyclicPickController';
 
 import './style.scss'
 
@@ -24,6 +25,8 @@ class WorldWindMap extends React.PureComponent {
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
 		onWorldWindNavigatorChange: PropTypes.func,
+		onHover: PropTypes.func,
+		onHoverOut: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
 		loadLayerData: PropTypes.func,
@@ -42,6 +45,8 @@ class WorldWindMap extends React.PureComponent {
 		this.wwd = new WorldWindow(this.canvasId, this.getElevationModel());
 		this.wwd.addEventListener("mousemove", this.onNavigatorChange.bind(this));
 		this.wwd.addEventListener("wheel", this.onNavigatorChange.bind(this));
+
+		this.pickController = new CyclicPickController(this.wwd, ['mousemove'], this.handleHover.bind(this));
 
 		if (this.props.navigator){
 			navigator.update(this.wwd, this.props.navigator);
@@ -136,6 +141,14 @@ class WorldWindMap extends React.PureComponent {
 					}
 				}
 			}
+		}
+	}
+
+	handleHover(renderables) {
+		if (this.props.onHover && renderables && renderables.length) {
+			this.props.onHover(renderables);
+		} else if (this.props.onHoverOut) {
+			this.props.onHoverOut();
 		}
 	}
 

@@ -19,9 +19,7 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	onHover(hoveredAreas) {
-		if (hoveredAreas) {
-			this.setState({hoveredAreas});
-		}
+		this.setState({hoveredAreas});
 	}
 
 	onHoverOut() {

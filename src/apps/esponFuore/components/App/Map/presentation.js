@@ -38,6 +38,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 		super(props);
 
 		this.setRerenderer = this.setRerenderer.bind(this);
+		this.onHover = this.onHover.bind(this);
+		this.onHoverOut = this.onHoverOut.bind(this);
 
 		this.wwdRerenderer = null;
 
@@ -305,6 +307,29 @@ class FuoreWorldWindMap extends React.PureComponent {
 		})
 	}
 
+	onHover(renderables) {
+		let features = renderables.map(renderable => renderable.userObject.userProperties);
+		if (this.state.thematicLayers) {
+			this.state.thematicLayers.forEach(layer => {
+				let existingLayer = layersHelper.findLayerByKey(this.state.thematicLayers, layer.key);
+				const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+				if(instanceOfVector) {
+					let keySource = existingLayer.spatialIdKey;
+					let keys = features.map(feature => feature[keySource]);
+					if (this.context && this.context.onHover) {
+						this.context.onHover(keys);
+					}
+				}
+			});
+		}
+	}
+
+	onHoverOut() {
+		if (this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
+	}
+
 	setRerenderer(rerenderer) {
 		if(typeof rerenderer === 'function') {
 			this.wwdRerenderer = rerenderer;
@@ -312,7 +337,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer}/>);
+		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer} onHover={this.onHover} onHoverOut={this.onHoverOut}/>);
 
 	}
 }
