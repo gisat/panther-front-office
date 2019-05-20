@@ -219,7 +219,7 @@ const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 };
 
 const useIndexedBatch = (dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
-	return (filterByActive, filter, order, componentId, key) => {
+	return (filterByActive, filter, order, componentId, key, additionalParams) => {
 		return (dispatch, getState) => {
 			dispatch(actionUseIndexedBatchRegister(actionTypes, componentId, filterByActive, filter, order));
 			let state = getState();
@@ -231,7 +231,7 @@ const useIndexedBatch = (dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
 				activePlaceKeys: commonSelectors.getActiveKeys(state => state.places)(state),
 			}, filterByActive, filter);
-			return dispatch(ensureIndexedBatch(dataType, fullFilter, order, actionTypes, categoryPath, key));
+			return dispatch(ensureIndexedBatch(dataType, fullFilter, order, actionTypes, categoryPath, key, additionalParams));
 		};
 	}
 };
@@ -457,9 +457,9 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 	};
 }
 
-function ensureIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key) {
+function ensureIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key, additionalParams) {
 	return (dispatch) => {
-		return dispatch(loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath, key)).then((response) => {
+		return dispatch(loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath, key, additionalParams)).then((response) => {
 				//success
 			}).catch((err)=>{
 				throw new Error(`_common/actions#ensure: ${err}`);
@@ -520,7 +520,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 	};
 }
 
-function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key) {
+function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key, additionalParams) {
 	return dispatch => {
 		const apiPath = getAPIPath(categoryPath, dataType);
 
@@ -528,6 +528,11 @@ function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = D
 			filter: {...filter},
 			order: order
 		};
+
+		if (additionalParams) {
+			payload = {...payload, ...additionalParams};
+		}
+
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {

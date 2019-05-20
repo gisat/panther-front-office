@@ -23,12 +23,20 @@ const setBaseUrl = (state, action) => {
 	};
 };
 
+const setConfiguration = (state, action) => {
+	return {
+		...state, configuration: action.configuration
+	};
+};
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.APP.SET_BASE_URL:
 			return setBaseUrl(state, action);
 		case ActionTypes.APP.SET_KEY:
 			return setKey(state, action);
+		case ActionTypes.APP.SET_CONFIGURATION:
+			return setConfiguration(state, action);
 		default:
 			return state;
 	}

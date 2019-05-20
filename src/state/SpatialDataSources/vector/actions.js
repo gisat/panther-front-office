@@ -275,7 +275,18 @@ function updateFeatures(dataSourceKey, featureKeys) { //todo
 
 function loadLayerData(filter, componentId) {
 	return (dispatch, getState) => {
-		return dispatch(useIndexedBatch(null, filter, null, componentId, 'spatialDataSourceKey'));
+		let additionalParams = {};
+		let appConfig = Select.app.getConfiguration(getState());
+
+		if (appConfig && appConfig.geometriesAccuracy) {
+			additionalParams.operations = {
+				snapToGrid: {
+					size: appConfig.geometriesAccuracy
+				}
+			}
+		}
+
+		return dispatch(useIndexedBatch(null, filter, null, componentId, 'spatialDataSourceKey', additionalParams));
 	}
 }
 

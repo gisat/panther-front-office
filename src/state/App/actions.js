@@ -15,10 +15,17 @@ const actionSetBaseUrl = (url) => {
 		url
 	}
 };
+const actionSetConfiguration = (configuration) => {
+	return {
+		type: ActionTypes.APP.SET_CONFIGURATION,
+		configuration
+	}
+};
 
 // ============ export ===========
 
 export default {
 	setKey: actionSetKey,
 	setBaseUrl: actionSetBaseUrl,
+	setConfiguration: actionSetConfiguration,
 }
