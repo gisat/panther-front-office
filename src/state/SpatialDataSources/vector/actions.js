@@ -279,7 +279,7 @@ function loadLayerData(filter, componentId) {
 		let appConfig = Select.app.getConfiguration(getState());
 
 		if (appConfig && appConfig.geometriesAccuracy) {
-			additionalParams.operations = {
+			additionalParams.transformation = {
 				snapToGrid: {
 					size: appConfig.geometriesAccuracy
 				}
