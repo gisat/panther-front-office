@@ -32,7 +32,7 @@ MapLegend.defaultProps = {
   };
   
 MapLegend.propTypes = {
-    isOpen: PropTypes.func,
+    isOpen: PropTypes.bool,
     closeWindow: PropTypes.func,
     openWindow: PropTypes.func
 };

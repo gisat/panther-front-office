@@ -465,9 +465,9 @@ const getLayerTemplatesKeysByMapSetKey = createSelector([
 		})
 	}
 
-	if(mapSet) {
+	if(mapSet && mapSet.data && mapSet.data.layers && mapSet.data.layers.length > 0) {
 		//if layers on mapSet
-		layerTemplates.add(...mapSet.layers.map(l => l.layerTemplate));
+		layerTemplates.add(...mapSet.data.layers.map(l => l.layerTemplate));
 	}
 	return  [...layerTemplates];
 })

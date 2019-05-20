@@ -118,26 +118,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		closeWindow: () => {
-			dispatch(Action.windows.remove(ownProps.windowSetKey, ownProps.itemKey));
-		},
-		openWindow: () => {
-			dispatch(Action.windows.addOrOpen(
-				ownProps.windowSetKey,
-				ownProps.itemKey,
-				{
-					title: 'Legend',
-					icon: 'legend',
-					width: 300,
-					height: 300
-				},
-				(
-					<div>
-						legenda
-					</div>
-				))
-			);
-		}
 		//TODO - load all we need
 	}
 };
