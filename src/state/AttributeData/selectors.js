@@ -60,22 +60,25 @@ const getFilteredGroupedByFid = createCachedSelector(
 					let features = source.attributeData.features;
 					_.forEach(features, (feature) => {
 						let key = feature.properties[keySource];
-						let props = {};
-						_.forEach(feature.properties, (value, key) => {
-							if (key !== keySource) {
-								props[key] = value;
+						let {[keySource]: keyName, ...props} = feature.properties;
+						// _.forEach(feature.properties, (value, key) => {
+						// 	if (key !== keySource) {
+						// 		props[key] = value;
+						// 	}
+						// });
+
+						let values = [];
+						let existingKey = data[key];
+
+						_.forEach(props, (value, key) => {
+							if (existingKey) {
+								existingKey.data.values.push({key, value});
+							} else {
+								values.push({key, value});
 							}
 						});
 
-						let values = [];
-						_.forEach(props, (value, key) => {
-							values.push({key, value});
-						});
-
-						let existingKey = data[key];
-						if (existingKey) {
-							existingKey.data.values = [...existingKey.data.values, ...values];
-						} else {
+						if (!existingKey) {
 							data[key] = {
 								key,
 								data: {
@@ -87,7 +90,7 @@ const getFilteredGroupedByFid = createCachedSelector(
 					});
 				}
 			});
-			return !_.isEmpty(data) ? Object.values(data) : null;
+			return _.values(data);
 		} else {
 			return null;
 		}
