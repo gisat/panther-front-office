@@ -121,30 +121,31 @@ class LineChart extends React.PureComponent {
 
 		/* data preparation */
 		let xDomain, yDomain, xScale, yScale, colors, sortedUniqueXvalues, mode = null;
-		let data = _.cloneDeep(props.data);
+		let data = {...props.data};
 
 		if (data && !this.props.loading) {
 			data = utilsFilter.filterDataWithNullValue(data, props.ySourcePath, props.serieDataSourcePath);
 
 			/* domain */
-			let yValues = data.map(item => {
+			let yValues = _.map(data, item => {
 				let serie = _.get(item, props.serieDataSourcePath);
-				return serie.map(record => {
+				return _.map(serie, record => {
 					return _.get(record, props.ySourcePath);
 				});
 			});
 
-			let xValues = props.data.map(item => {
+			let xValues = _.map(props.data, item => {
 				let serie = _.get(item, props.serieDataSourcePath);
-				return serie.map(record => {
+				return _.map(serie, record => {
 					return _.get(record, props.xSourcePath);
 				});
 			});
 
 			let uniqueXvalues = _.uniqBy(_.flatten(xValues));
 			sortedUniqueXvalues = _.sortBy(uniqueXvalues);
-			let yMaximum = _.max(_.flatten(yValues));
-			let yMinimum = _.min(_.flatten(yValues));
+			let yValuesPrepared = _.flatten(yValues);
+			let yMaximum = _.max(yValuesPrepared);
+			let yMinimum = _.min(yValuesPrepared);
 
 			xDomain = sortedUniqueXvalues;
 			yDomain = [yMinimum, yMaximum];
@@ -250,7 +251,7 @@ class LineChart extends React.PureComponent {
 
 			return (
 				<Line
-					key={key}
+					key={`${key}_${JSON.stringify(coordinates)}`}
 					itemKey={key}
 					name={name}
 					coordinates={coordinates}
@@ -368,7 +369,7 @@ class LineChart extends React.PureComponent {
 					gray
 				/>
 				<Line
-					key={'average'}
+					key={`average_${JSON.stringify(averageCoordinates)}`}
 					itemKey={'average'}
 					name={'Average'}
 					coordinates={averageCoordinates}

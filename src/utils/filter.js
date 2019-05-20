@@ -7,7 +7,7 @@ function filterDataWithNullValue (data, valueSourcePath, serieSourcePath) {
 			return val || val === 0;
 		});
 	} else {
-		let withoutNullValues = data.map(item => {
+		let withoutNullValues = _.map(data, item => {
 			let data = _.get(item, serieSourcePath);
 			let filteredData =_.filter(data, (value) => {
 				let val =  _.get(value, valueSourcePath);

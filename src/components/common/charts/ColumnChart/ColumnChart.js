@@ -136,8 +136,9 @@ class ColumnChart extends React.PureComponent {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath);
 			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
-			let maximum = _.get(_.maxBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
-			let minimum = _.get(_.minBy(data, (item) => {return _.get(item, props.ySourcePath)}), props.ySourcePath);
+			let yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
+			let maximum = _.max(yValues);
+			let minimum = _.min(yValues);
 			if (minimum >= 0) minimum = 0; // TODO custom option - forceMinimum?
 
 			/* domain and scales */
@@ -243,14 +244,17 @@ class ColumnChart extends React.PureComponent {
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
 				{data.map((item) => {
 					let highlighted = false;
+					let key = _.get(item, props.keySourcePath);
+					let value = _.get(item, props.ySourcePath);
+
 					if (this.context && this.context.hoveredAreas) {
-						highlighted = _.includes(this.context.hoveredAreas, _.get(item, props.keySourcePath));
+						highlighted = _.includes(this.context.hoveredAreas, key);
 					}
 
 					return (
 						<Bar
-							itemKeys={[_.get(item, props.keySourcePath)]}
-							key={_.get(item, props.keySourcePath)}
+							itemKeys={[key]}
+							key={`${key}_${value}`}
 							onMouseOut={this.onBarOut}
 							onMouseOver={this.onBarOver}
 							onMouseMove={this.onBarOver}
@@ -259,9 +263,9 @@ class ColumnChart extends React.PureComponent {
 							highlighted={highlighted}
 
 							y={0}
-							x={xScale(_.get(item, props.keySourcePath))}
+							x={xScale(key)}
 							width={xScale.bandwidth()}
-							height={availableHeight - yScale(_.get(item, props.ySourcePath))}
+							height={availableHeight - yScale(value)}
 						/>
 					);
 				})}
@@ -272,8 +276,10 @@ class ColumnChart extends React.PureComponent {
 	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, availableHeight) {
 		return aggregatedData.map((group) => {
 			let firstItemFromGroup = group.originalData[0];
-
 			let highlighted = false;
+			let key = _.get(firstItemFromGroup, props.keySourcePath);
+			let value = _.get(firstItemFromGroup, props.ySourcePath);
+
 			if (this.context && this.context.hoveredAreas) {
 				highlighted = !!_.intersection(this.context.hoveredAreas, group.keys).length;
 			}
@@ -282,7 +288,7 @@ class ColumnChart extends React.PureComponent {
 				<Bar
 					hidden
 					itemKeys={group.keys}
-					key={_.get(firstItemFromGroup, props.keySourcePath)}
+					key={`${key}_${value}`}
 					onMouseOut={this.onBarOut}
 					onMouseOver={this.onBarOver}
 					onMouseMove={this.onBarOver}
@@ -290,10 +296,10 @@ class ColumnChart extends React.PureComponent {
 					highlightedColor={this.props.highlightedColor}
 					highlighted={highlighted}
 
-					y={yScale(_.get(firstItemFromGroup, props.ySourcePath))}
+					y={yScale(value)}
 					x={xScale(group.keys)}
 					width={xScale.bandwidth()}
-					height={availableHeight - yScale(_.get(firstItemFromGroup, props.ySourcePath))}
+					height={availableHeight - yScale(value)}
 				/>
 			);
 		});
