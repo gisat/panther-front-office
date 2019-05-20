@@ -56,10 +56,16 @@ class AxisX extends React.PureComponent {
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
 				{this.props.data.map(item => {
-					let xCoord = this.props.scale(_.get(item, this.props.keySourcePath));
+
+					let xValue = this.props.keySourcePath ? _.get(item, this.props.keySourcePath) : item;
+					let xCoord = this.props.scale(xValue);
+
 					if (xCoord || xCoord === 0) {
+						let key = this.props.keySourcePath ? _.get(item, this.props.keySourcePath) : item;
+						let text = this.props.sourcePath ? _.get(item, this.props.sourcePath) : item;
+
 						return (
-							<g key={_.get(item, this.props.keySourcePath)}>
+							<g key={key}>
 								<line
 									className="ptr-axis-gridline"
 									x1={xCoord}
@@ -67,7 +73,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withCaption ? this.renderCaption(xCoord, shift, barWidth + gap, _.get(item, this.props.sourcePath)) : null}
+								{this.props.withCaption ? this.renderCaption(xCoord, shift, barWidth + gap, text) : null}
 							</g>
 						);
 					} else {

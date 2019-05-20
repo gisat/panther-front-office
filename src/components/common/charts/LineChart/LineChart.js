@@ -120,34 +120,36 @@ class LineChart extends React.PureComponent {
 		let innerPlotHeight = plotHeight - INNER_PADDING_TOP;
 
 		/* data preparation */
-		let xDomain, yDomain, xScale, yScale, colors, firstSerieData, mode = null;
-		let data = props.data;
+		let xDomain, yDomain, xScale, yScale, colors, sortedUniqueXvalues, mode = null;
+		let data = _.cloneDeep(props.data);
 
 		if (data && !this.props.loading) {
-			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath, props.serieDataSourcePath);
+			data = utilsFilter.filterDataWithNullValue(data, props.ySourcePath, props.serieDataSourcePath);
 
 			/* domain */
-			let yMaximum = _.max(data.map(item => {
+			let yValues = data.map(item => {
 				let serie = _.get(item, props.serieDataSourcePath);
-				return _.max(serie.map(record => {
+				return serie.map(record => {
 					return _.get(record, props.ySourcePath);
-				}));
-			}));
+				});
+			});
 
-			let yMinimum = _.min(data.map(item => {
+			let xValues = props.data.map(item => {
 				let serie = _.get(item, props.serieDataSourcePath);
-				return _.min(serie.map(record => {
-					return _.get(record, props.ySourcePath);
-				}));
-			}));
+				return serie.map(record => {
+					return _.get(record, props.xSourcePath);
+				});
+			});
 
-			/* domain and scales */
-			firstSerieData = _.get(data[0], props.serieDataSourcePath); // TODO have all series same range?
-			firstSerieData = _.sortBy(firstSerieData, [props.xSourcePath]);
+			let uniqueXvalues = _.uniqBy(_.flatten(xValues));
+			sortedUniqueXvalues = _.sortBy(uniqueXvalues);
+			let yMaximum = _.max(_.flatten(yValues));
+			let yMinimum = _.min(_.flatten(yValues));
 
-			xDomain = firstSerieData.map(record => {return _.get(record, props.xSourcePath)});
+			xDomain = sortedUniqueXvalues;
 			yDomain = [yMinimum, yMaximum];
 
+			/* scales */
 			xScale = d3
 				.scaleBand()
 				.padding(0)
@@ -195,11 +197,9 @@ class LineChart extends React.PureComponent {
 							hiddenBaseline={props.withoutYbaseline}
 						/>
 						<AxisX
-							data={firstSerieData}
+							data={sortedUniqueXvalues}
 							scale={xScale}
 							domain={xDomain}
-							sourcePath={props.xSourcePath}
-							keySourcePath={props.xSourcePath}
 
 							leftMargin={yCaptionsSize} //TODO right margin for right oriented
 							leftPadding={INNER_PADDING_LEFT}

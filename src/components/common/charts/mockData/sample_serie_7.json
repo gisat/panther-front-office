@@ -10,7 +10,7 @@
 		},
 		{
 		  "period": 1991,
-		  "someStrangeValue": -843
+		  "someStrangeValue": null
 		},
 		{
 		  "period": 1992,
@@ -61,10 +61,6 @@
 		  "someStrangeValue": -1919
 		},
 		{
-		  "period": 2004,
-		  "someStrangeValue": 122
-		},
-		{
 		  "period": 2005,
 		  "someStrangeValue": -467
 		}
@@ -77,20 +73,8 @@
 	  "name": "Louisiana",
 	  "data": [
 		{
-		  "period": 1991,
-		  "someStrangeValue": 927
-		},
-		{
-		  "period": 1992,
-		  "someStrangeValue": -1576
-		},
-		{
 		  "period": 1993,
 		  "someStrangeValue": -1056
-		},
-		{
-		  "period": 1994,
-		  "someStrangeValue": -1565
 		},
 		{
 		  "period": 1995,
@@ -130,7 +114,7 @@
 		},
 		{
 		  "period": 2004,
-		  "someStrangeValue": 1389
+		  "someStrangeValue": null
 		},
 		{
 		  "period": 2005,
@@ -138,7 +122,7 @@
 		},
 		{
 		  "period": 2006,
-		  "someStrangeValue": -1464
+		  "someStrangeValue": null
 		}
 	  ]
 	}
@@ -202,7 +186,7 @@
 		},
 		{
 		  "period": 2004,
-		  "someStrangeValue": 893
+		  "someStrangeValue": null
 		},
 		{
 		  "period": 2005,
@@ -274,7 +258,7 @@
 		},
 		{
 		  "period": 2004,
-		  "someStrangeValue": -314
+		  "someStrangeValue": null
 		},
 		{
 		  "period": 2005,
