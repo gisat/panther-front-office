@@ -243,7 +243,7 @@ class ColumnChart extends React.PureComponent {
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
 				{data.map((item) => {
 					let highlighted = false;
-					if (this.context.hoveredAreas) {
+					if (this.context && this.context.hoveredAreas) {
 						highlighted = _.includes(this.context.hoveredAreas, _.get(item, props.keySourcePath));
 					}
 
@@ -274,7 +274,7 @@ class ColumnChart extends React.PureComponent {
 			let firstItemFromGroup = group.originalData[0];
 
 			let highlighted = false;
-			if (this.context.hoveredAreas) {
+			if (this.context && this.context.hoveredAreas) {
 				highlighted = !!_.intersection(this.context.hoveredAreas, group.keys).length;
 			}
 

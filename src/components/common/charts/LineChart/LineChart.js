@@ -243,7 +243,7 @@ class LineChart extends React.PureComponent {
 
 			let suppressed = this.state.hoveredItemKeys && !_.includes(this.state.hoveredItemKeys, key);
 			let highligtedFromContext = false;
-			if (this.context.hoveredAreas) {
+			if (this.context && this.context.hoveredAreas) {
 				highligtedFromContext = _.includes(this.context.hoveredAreas, key);
 				suppressed = !highligtedFromContext;
 			}
