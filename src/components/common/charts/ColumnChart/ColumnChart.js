@@ -266,6 +266,7 @@ class ColumnChart extends React.PureComponent {
 							x={xScale(key)}
 							width={xScale.bandwidth()}
 							height={availableHeight - yScale(value)}
+							availableHeight={availableHeight}
 						/>
 					);
 				})}
@@ -274,35 +275,40 @@ class ColumnChart extends React.PureComponent {
 	}
 
 	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, availableHeight) {
-		return aggregatedData.map((group) => {
-			let firstItemFromGroup = group.originalData[0];
-			let highlighted = false;
-			let key = _.get(firstItemFromGroup, props.keySourcePath);
-			let value = _.get(firstItemFromGroup, props.ySourcePath);
+		return (
+			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
+				{aggregatedData.map((group) => {
+					let firstItemFromGroup = group.originalData[0];
+					let highlighted = false;
+					let key = _.get(firstItemFromGroup, props.keySourcePath);
+					let value = _.get(firstItemFromGroup, props.ySourcePath);
 
-			if (this.context && this.context.hoveredAreas) {
-				highlighted = !!_.intersection(this.context.hoveredAreas, group.keys).length;
-			}
+					if (this.context && this.context.hoveredAreas) {
+						highlighted = !!_.intersection(this.context.hoveredAreas, group.keys).length;
+					}
 
-			return (
-				<Bar
-					hidden
-					itemKeys={group.keys}
-					key={`${key}_${value}`}
-					onMouseOut={this.onBarOut}
-					onMouseOver={this.onBarOver}
-					onMouseMove={this.onBarOver}
-					defaultColor={this.props.defaultColor}
-					highlightedColor={this.props.highlightedColor}
-					highlighted={highlighted}
+					return (
+						<Bar
+							hidden
+							itemKeys={group.keys}
+							key={`${key}_${value}`}
+							onMouseOut={this.onBarOut}
+							onMouseOver={this.onBarOver}
+							onMouseMove={this.onBarOver}
+							defaultColor={this.props.defaultColor}
+							highlightedColor={this.props.highlightedColor}
+							highlighted={highlighted}
 
-					y={yScale(value)}
-					x={xScale(group.keys)}
-					width={xScale.bandwidth()}
-					height={availableHeight - yScale(value)}
-				/>
-			);
-		});
+							y={0}
+							x={xScale(group.keys)}
+							width={xScale.bandwidth()}
+							height={availableHeight - yScale(value)}
+							availableHeight={availableHeight}
+						/>
+					);
+				})}
+			</g>
+		);
 	}
 
 	renderPath(aggregatedData, props, xScale, yScale, availableHeight, availableWidth) {

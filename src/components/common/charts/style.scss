@@ -61,6 +61,15 @@
 .ptr-column-chart {
 }
 
+.ptr-column-chart-bar-placeholder {
+	fill: var(--base20);
+	opacity: 0;
+}
+
+.ptr-column-chart-bar-placeholder.visible {
+	opacity: 1;
+}
+
 .ptr-column-chart-bar {
 	fill: var(--accent50);
 	transition: height 1.5s ease-in-out .5s;

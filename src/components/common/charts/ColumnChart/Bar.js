@@ -9,6 +9,7 @@ import '../style.scss';
 class Bar extends React.PureComponent {
 
 	static propTypes = {
+		availableHeight: PropTypes.number,
 		defaultColor: PropTypes.string,
 		highlightedColor: PropTypes.oneOfType([
 			PropTypes.string,
@@ -115,22 +116,34 @@ class Bar extends React.PureComponent {
 			style.fill = this.state.color
 		}
 
+		let placeholderClasses = classnames("ptr-column-chart-bar-placeholder", {
+			visible: props.highlighted
+		});
+
 		let classes = classnames("ptr-column-chart-bar", {
 			hidden: this.state.hidden
 		});
 
 		return (
-			<rect className={classes}
-				  style={style}
-				  key={this.props.itemKeys[0]}
-				  onMouseOver={this.onMouseOver}
-				  onMouseMove={this.onMouseMove}
-				  onMouseOut={this.onMouseOut}
-				  y={props.y}
-				  x={props.x}
-				  width={props.width}
-				  height={this.state.height}
-			/>
+			<g onMouseOver={this.onMouseOver}
+			   onMouseMove={this.onMouseMove}
+			   onMouseOut={this.onMouseOut}>
+				<rect className={placeholderClasses}
+					  key={this.props.itemKeys[0]+'_hover'}
+					  y={props.y}
+					  x={props.x}
+					  width={props.width}
+					  height={this.props.availableHeight}
+				/>
+				<rect className={classes}
+					  style={style}
+					  key={this.props.itemKeys[0]}
+					  y={props.y}
+					  x={props.x}
+					  width={props.width}
+					  height={this.state.height}
+				/>
+			</g>
 		);
 	}
 }
