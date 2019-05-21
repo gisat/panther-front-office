@@ -12,7 +12,8 @@
 	  "period": "Period",
 	  "state": "State",
 	  "type": "Type",
-	  "unit": "Unit"
+	  "unit": "Unit",
+	  "valueType": "Value type"
 	},
 	"metadata": {
 			"names": {

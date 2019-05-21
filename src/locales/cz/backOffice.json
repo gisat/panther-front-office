@@ -12,7 +12,8 @@
 	  "period": "Perioda",
 	  "state": "Stav",
 	  "type": "Typ",
-	  "unit": "Jednotka"
+	  "unit": "Jednotka",
+	  "valueType": "Typ hodnoty"
 	},
   "metadata": {
 		"names": {

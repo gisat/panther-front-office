@@ -150,6 +150,16 @@ class AttributeConfig extends React.PureComponent {
 						{t('AttributeMetadataConfig:colorDescriptionText')}
 					</InputWrapperInfo>
 				</InputWrapper>
+				<InputWrapper
+					label={t("formLabels.valueType")}
+				>
+					<Input
+						disabled={!this.props.editable}
+						unfocusable={this.props.unfocusable}
+						value={data && data.valueType || ""}
+						onChange={(val) => this.onChange('valueType', val)}
+					/>
+				</InputWrapper>
 				<div className="ptr-bo-screen-buttons">
 					<div className="ptr-bo-screen-buttons-left">
 						<Button
