@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import Icon from '../../atoms/Icon'
-import HoldButton from '../../../presentation/atoms/HoldButton'
+import HoldButton from '../../../presentation/atoms/HoldButton/'
 import './mapLegend.scss';
 class MapLegend extends React.PureComponent {
 
@@ -15,10 +15,11 @@ class MapLegend extends React.PureComponent {
 
     render () {
         return (
-                <div className="legend-control control">
+                <div className="legend-control control" title = "Legend">
                     <HoldButton 
                             onClick={() => {this.handleLedendClick()}}
                             finite={true}
+                            disabled={this.props.disabled}
                         >
                         <Icon icon='legend'/>
                     </HoldButton>
@@ -29,9 +30,12 @@ class MapLegend extends React.PureComponent {
 
 
 MapLegend.defaultProps = {
+    disabled: false,
+    isOpen: false,
   };
   
 MapLegend.propTypes = {
+    disabled: PropTypes.bool,
     isOpen: PropTypes.bool,
     closeWindow: PropTypes.func,
     openWindow: PropTypes.func

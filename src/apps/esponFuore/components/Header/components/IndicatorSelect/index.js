@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 	}
 };
 
-const mapDispatchToPropsFactory = () => {
+const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 	const componentId = 'esponFuore_IndicatorSelect_' + utils.randomString(6);
 
 	return dispatch => {
@@ -50,6 +50,10 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.specific.esponFuoreIndicators.select(key));
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', key));
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', false));
+				
+				//clear UI after change indicator
+				dispatch(Action.windows.remove(ownProps.windowSetKey, 'legend'));
+
 			}
 		}
 	}

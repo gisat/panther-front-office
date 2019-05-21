@@ -63,6 +63,9 @@ const open = (state, action) => {
 
 const remove = (state, action) => {
 	let sets = {...state.sets};
+	if(_.isEmpty(sets) || _.isEmpty(sets[action.setKey]) || !action.windowKey) {
+		return state;
+	}
 	let orderByHistory = _.without([...sets[action.setKey].orderByHistory], action.windowKey);
 
 	let windows = {...state.windows};

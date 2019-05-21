@@ -9,7 +9,8 @@ const mapStateToProps = state => {
 	return {
 		activeScopeKey: Select.scopes.getActiveKey(state),
 		activeScope: Select.scopes.getActive(state),
-		activeAttributeKey: Select.attributes.getActiveKey(state)
+		activeAttributeKey: Select.attributes.getActiveKey(state),
+		attribute: Select.attributes.getActive(state)
 	}
 };
 

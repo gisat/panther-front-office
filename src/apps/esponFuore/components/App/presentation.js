@@ -42,6 +42,8 @@ class EsponFuoreApp extends React.PureComponent {
 	render() {
 		const props = this.props;
 
+		const allowLegend = props.attribute && props.attribute.data.valueType === 'relative';
+
 		if (!props.activeScopeKey) {
 
 			return React.createElement(LandingPage);
@@ -78,11 +80,11 @@ class EsponFuoreApp extends React.PureComponent {
 															</MapSet>
 															<MapTools>
 																<MapControlLegend
-																	// disable if diagram
+																	disabled = {!allowLegend}
 																	setKey={this.context.windowSetKey}
 																	windowSetKey={this.context.windowSetKey}
 																	itemKey={"legend"}
-																	mapSetKey={this.context.mapSetKey}/>
+																	mapSetKey={this.context.mapSetKey} />
 																<MapControls zoomOnly/>
 															</MapTools>
 														</>

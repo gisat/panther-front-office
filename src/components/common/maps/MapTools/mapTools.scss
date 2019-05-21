@@ -91,12 +91,19 @@
 }
 
 .map-tools .hold-button .ptr-icon .line {
-	fill: var(--base60);
-
 	transition:
 			fill .2s ease-in-out;
 }
 
 .map-tools .hold-button:hover .ptr-icon .line {
 	fill: var(--accent50);
+}
+
+
+.map-tools button > .ptr-icon .line {
+	fill: currentColor;
+  }
+
+.map-tools button.disabled .ptr-icon .line{
+	color: var(--base35);
 }
