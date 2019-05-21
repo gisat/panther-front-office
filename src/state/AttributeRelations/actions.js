@@ -12,6 +12,7 @@ import { quartilePercentiles } from '../../utils/statistics';
 
 // ============ creators ===========
 const useIndexedRegister = (componentId, filterByActive, filter, order, start, length) => common.useIndexedRegister(ActionTypes.ATTRIBUTE_RELATIONS, componentId, filterByActive, filter, order, start, length);
+const useIndexed = common.useIndexed(Select.attributeRelations.getSubstate, 'attribute', ActionTypes.ATTRIBUTE_RELATIONS, 'relations');
 const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Select.attributeRelations.getSubstate, 'attribute', filter, order, start, length, ActionTypes.ATTRIBUTE_RELATIONS, 'relations');
 
 // ============ actions ===========
@@ -83,6 +84,7 @@ function ensureIndexesWithFilterByActive(filterByActive) {
 // ============ export ===========
 
 export default {
+	useIndexed,
     useIndexedRegister,
     ensureIndexed,
     ensureIndexesWithFilterByActive,

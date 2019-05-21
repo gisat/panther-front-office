@@ -10,9 +10,15 @@ import presentation from "./presentation";
 const order = [['period', 'ascending']];
 
 const mapStateToProps = (state, ownProps) => {
+	let scopeKey = Select.scopes.getActiveKey(state);
+	let attributeKey = Select.attributes.getActiveKey(state);
+
 	return {
+		activeAttributeKey: attributeKey,
+		activeScopeKey: scopeKey,
 		activePeriodKeys: Select.periods.getActiveKeys(state),
-		periods: Select.periods.getIndexed(state, {application: true}, null, order, 1, 100)
+		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, {scopeKey, attributeKey}, null, 1, 1000),
+		periods: Select.periods.getIndexed(state, {application: true}, null, order, 1, 100),
 	}
 };
 
@@ -29,6 +35,9 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onMount: () => {
 				dispatch(Action.periods.useIndexed({application: true}, null, order, 1, 100, componentId));
+			},
+			onActiveAttributeChange: (attributeKey, scopeKey) => {
+				dispatch(Action.attributeRelations.ensureIndexed({scopeKey, attributeKey}, null, 1, 1000));
 			},
 			onUnmount: () => {
 				dispatch(Action.periods.useIndexedClear(componentId));

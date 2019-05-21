@@ -207,6 +207,7 @@ const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			let state = getState();
 			let fullFilter = commonHelpers.mergeFilters({
 				activeApplicationKey: state.app.key,
+				activeAttributeKey: commonSelectors.getActiveKey(state => state.attributes)(state),
 				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
 				activePeriodKey: commonSelectors.getActiveKey(state => state.periods)(state),
 				activePeriodKeys: commonSelectors.getActiveKeys(state => state.periods)(state),

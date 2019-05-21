@@ -16,7 +16,10 @@ const MAX_ACTIVE = 9;
 class EsponFuoreTimeline extends React.PureComponent {
 	static propTypes = {
 		addMap: PropTypes.func,
+		activeAttributeKey: PropTypes.string,
 		activePeriodKeys: PropTypes.array,
+		activeScopeKey: PropTypes.string,
+		availablePeriodKeys: PropTypes.array,
 		onActivePeriodaChange: PropTypes.func,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
@@ -45,6 +48,13 @@ class EsponFuoreTimeline extends React.PureComponent {
 	componentWillUnmount() {
 		if (window) window.removeEventListener('resize', this.resize);
 		this.props.onUnmount();
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.activeScopeKey && this.props.activeAttributeKey &&
+			(prevProps.activeAttributeKey !== this.props.activeAttributeKey || prevProps.activeScopeKey !== this.props.activeScopeKey)) {
+			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey);
+		}
 	}
 
 	onPeriodClick(periodKey) {
@@ -106,17 +116,19 @@ class EsponFuoreTimeline extends React.PureComponent {
 		};
 
 		let numOfActive = this.props.activePeriodKeys && this.props.activePeriodKeys.length;
-		let disabled = !!(numOfActive <= MIN_ACTIVE || numOfActive >= MAX_ACTIVE);
+		console.log(this.props.availablePeriodKeys);
 
 		return this.props.periods.map(period => {
 			if(period) {
-				let active = _.includes(this.props.activePeriodKeys, period.key);
+				let key = period.key;
+				let active = _.includes(this.props.activePeriodKeys, key);
 				let caption = period.data && period.data.nameDisplay;
 				if (caption && small) {
 					caption = caption.toString().slice(-2);
 				}
 
-				let disabled = (numOfActive <= MIN_ACTIVE && active) || (numOfActive >= MAX_ACTIVE && !active);
+				let available = this.props.availablePeriodKeys && _.includes(this.props.availablePeriodKeys, key);
+				let disabled = (numOfActive <= MIN_ACTIVE && active) || (numOfActive >= MAX_ACTIVE && !active) || !available;
 	
 				let classes = classnames("esponFuore-timeline-period", {
 					active,

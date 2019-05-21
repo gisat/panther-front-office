@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 import common from "../_common/selectors";
+import attributeRelationsSelectors from "../AttributeRelations/selectors";
 
 const getSubstate = state => state.periods;
 
@@ -22,6 +23,17 @@ const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
 const getIndexed = common.getIndexed(getSubstate);
 const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
+const getKeysByAttributeRelations = createSelector(
+	[attributeRelationsSelectors.getFilteredRelations],
+	(filteredRelations) => {
+		if (filteredRelations) {
+			return _.map(filteredRelations, relation => relation.periodKey);
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getActiveKey,
 	getActiveKeys,
@@ -37,6 +49,7 @@ export default {
 
 	getEditedDataByKey,
 	getIndexed,
+	getKeysByAttributeRelations,
 	getUpdatePermissionByKey,
 
 	getSubstate,
