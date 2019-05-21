@@ -146,8 +146,9 @@ $headerHeight: m(2);
 	fill: #fffc;
 }
 
-.esponFuore-indicator-select-list {
+.ptr-panther-select-list.esponFuore-indicator-select-list {
 	padding-top: 3rem;
+	z-index: 40;
 }
 .esponFuore-indicator-select-list.ptr-panther-select-list > div > div {
 	height: 100%;

@@ -116,7 +116,6 @@ class EsponFuoreTimeline extends React.PureComponent {
 		};
 
 		let numOfActive = this.props.activePeriodKeys && this.props.activePeriodKeys.length;
-		console.log(this.props.availablePeriodKeys);
 
 		return this.props.periods.map(period => {
 			if(period) {
