@@ -87,7 +87,8 @@ function getLayerByType(layerData, type){
 					attribution: "Wikimedia maps - Map data \u00A9 OpenStreetMap contributors",
 					sourceObject: {
 						host: "maps.wikimedia.org",
-						path: "osm-intl"
+						path: "osm-intl",
+						protocol: "https"
 					}
 				});
 			case "bingAerial":
