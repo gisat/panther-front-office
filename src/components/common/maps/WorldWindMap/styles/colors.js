@@ -42,6 +42,7 @@ const getColorPallet = (baseColor, lighterColor, darkerColor, baseTransparency =
         lighterOpaqueRgba: [...lighterColor.rgb(), 255],
     }
 }
+
 export const noDataAccentedPalette = getColorPallet(gray5, null, null, 120);
 export const noDataPalette = getColorPallet(gray4);
 export const filteredPalette = getColorPallet(gray4, gray2, gray5, 120);

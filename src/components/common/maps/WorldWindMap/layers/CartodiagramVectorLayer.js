@@ -39,10 +39,10 @@ class CartodiagramVectorLayer extends VectorLayer {
 		}
 
 		//loader for polygons
-		parser.load(this.doRerender, shapeConfigurationCallback, this);
+		parser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
 		
 		//loader for diagrams
-		diagramParser.load(this.doRerender, shapeConfigurationCallback, this);
+		diagramParser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
 
 	}
 }

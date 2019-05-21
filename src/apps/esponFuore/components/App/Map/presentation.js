@@ -267,9 +267,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 						//set layerstyle
 						if(metadata.dataType === 'relative') {
-							existingLayer.styleFunction = getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey);
-						}else if(metadata.dataType === 'absolute') {
-							existingLayer.styleFunction = getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey);
+							existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
+						} else if(metadata.dataType === 'absolute') {
+							existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
 						}
 					}
 				} else {
