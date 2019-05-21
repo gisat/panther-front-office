@@ -51,6 +51,8 @@ class ColumnChart extends React.PureComponent {
 		minWidth: PropTypes.number,
 		maxWidth: PropTypes.number,
 
+		minAspectRatio: PropTypes.number,
+
 		xCaptionsSize: PropTypes.number, // space for captions along axis X
 		yCaptionsSize: PropTypes.number, // space for captions along axis Y
 
@@ -124,6 +126,10 @@ class ColumnChart extends React.PureComponent {
 
 		if (width > maxWidth) width = maxWidth;
 		if (width < minWidth) width = minWidth;
+
+		if (props.minAspectRatio && width/height < props.minAspectRatio) {
+			height = width/props.minAspectRatio;
+		}
 
 		let plotWidth = width - (yCaptionsSize);
 		let plotHeight = height - (xCaptionsSize);

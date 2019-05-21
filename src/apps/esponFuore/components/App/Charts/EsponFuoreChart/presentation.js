@@ -108,6 +108,7 @@ class EsponFuoreChart extends React.PureComponent {
 				xCaptions
 				xCaptionsSize={50}
 				yCaptionsSize={70}
+				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
@@ -132,6 +133,7 @@ class EsponFuoreChart extends React.PureComponent {
 				xCaptions
 				yGridlines
 				yCaptions
+				minAspectRatio={1.5}
 				withoutYbaseline
 
 				sorting={[["key", "asc"]]}

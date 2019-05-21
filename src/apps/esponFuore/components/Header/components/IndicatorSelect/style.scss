@@ -2,7 +2,7 @@
 
 .esponFuore-indicator-select-content {
 	display: flex;
-	padding: 3rem;
+	padding: 3rem 2rem 3rem 3rem;
 	overflow-y: auto;
 }
 .esponFuore-indicator-select-sidebar {
@@ -125,7 +125,7 @@
 	align-content: flex-start;
 }
 .esponFuore-indicator-select-indicators > div {
-	width: 28rem;
+	width: 25rem;
 	height: 12rem;
 	margin: 0 1rem 1rem 0;
 	cursor: pointer;
@@ -147,6 +147,12 @@
 
 
 @media screen and (max-width: 75rem)  {
+	.esponFuore-indicator-select-sidebar {
+		flex: 0 0 10rem;
+	}
+	.esponFuore-indicator-select-indicators {
+		padding-left: 1.5rem;
+	}
 	.esponFuore-indicator-select-indicators > div {
 		width: 18rem;
 	}
@@ -154,7 +160,7 @@
 		height: 4rem;
 	}
 	.esponFuore-indicator-select-content {
-		padding: 3rem 1.5rem;
+		padding: 2rem 1rem;
 	}
 	.esponFuore-indicator-select-current-indicator,
 	.esponFuore-indicator-select-indicators > div > span {

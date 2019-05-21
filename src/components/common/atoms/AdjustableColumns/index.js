@@ -13,6 +13,14 @@ const renderColumn = (column, index) => {
 		style.flex = 1;
 	}
 
+	if (column.maxWidth) {
+		style.maxWidth = column.maxWidth;
+	}
+	if (column.minWidth) {
+		style.minWidth = column.minWidth;
+	}
+
+
 	let content = null;
 	if (column.component) {
 		content = React.createElement(column.component, column.props);
