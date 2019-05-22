@@ -70,7 +70,7 @@ export const mergeAttributeStatistics = (statistics = []) => {
     if(statistics[0] === null) {
         debugger
     }
-    const percentilesCount = statistics[0].attributeStatistic.percentile.length;
+    const percentilesCount = statistics[0] && statistics[0].attributeStatistic && statistics[0].attributeStatistic.percentile.length;
     const statisticsCount = statistics.length;
     for (let index = 0; index < percentilesCount; index++) {
         let sum = 0;
