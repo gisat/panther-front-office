@@ -1,8 +1,10 @@
 import {createSelector} from 'reselect';
 import _, {isEmpty} from 'lodash';
 import common from "../_common/selectors";
+import createCachedSelector from "re-reselect";
 
 const getSubstate = (state) => state.attributeRelations;
+
 const getAll = common.getAll(getSubstate);
 
 const getAllData = createSelector(
@@ -34,7 +36,7 @@ const getFiltered = createSelector(
 	}
 );
 
-const getFilteredRelations = createSelector(
+const getFilteredRelations = createCachedSelector(
 	[
 		getAllData,
 		(state, filter) => filter
@@ -60,9 +62,11 @@ const getFilteredRelations = createSelector(
 			return null;
 		}
 	}
-);
+)((state, filter) => {
+	return `${JSON.stringify(filter)}`
+});
 
-const getDataSourcesFromFilteredRelations = createSelector(
+const getDataSourcesFromFilteredRelations = createCachedSelector(
 	[
 		getFilteredRelations
 	],
@@ -78,7 +82,9 @@ const getDataSourcesFromFilteredRelations = createSelector(
 			return null
 		}
 	}
-);
+)((state, filter) => {
+	return `${JSON.stringify(filter)}`
+});
 
 /**
  * @param state {Object}

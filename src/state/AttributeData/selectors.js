@@ -96,8 +96,8 @@ const getFilteredGroupedByFid = createCachedSelector(
 		}
 	}
 )(
-	(state, mergedFilter, chart) => {
-	return `${JSON.stringify(mergedFilter)}:${chart.key}`;
+	(state, mergedFilter) => {
+	return `${JSON.stringify(mergedFilter)}`;
 }
 );
 

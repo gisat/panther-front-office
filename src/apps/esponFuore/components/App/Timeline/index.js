@@ -7,18 +7,25 @@ import utils from '../../../../../utils/utils';
 
 import presentation from "./presentation";
 
-const order = [['period', 'ascending']];
+const periodsOrder = [['period', 'ascending']];
+const periodsFilterByActive = {application: true};
+
+let filter = {};
 
 const mapStateToProps = (state, ownProps) => {
 	let scopeKey = Select.scopes.getActiveKey(state);
 	let attributeKey = Select.attributes.getActiveKey(state);
 
+	if (!_.isEqual(filter, {scopeKey, attributeKey})){
+		filter = {scopeKey, attributeKey}
+	}
+
 	return {
 		activeAttributeKey: attributeKey,
 		activeScopeKey: scopeKey,
 		activePeriodKeys: Select.periods.getActiveKeys(state),
-		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, {scopeKey, attributeKey}, null, 1, 1000),
-		periods: Select.periods.getIndexed(state, {application: true}, null, order, 1, 100),
+		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, filter),
+		periods: Select.periods.getIndexed(state, periodsFilterByActive, null, periodsOrder, 1, 100)
 	}
 };
 
@@ -34,7 +41,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.periods.setActiveKeys(keys));
 			},
 			onMount: () => {
-				dispatch(Action.periods.useIndexed({application: true}, null, order, 1, 100, componentId));
+				dispatch(Action.periods.useIndexed(periodsFilterByActive, null, periodsOrder, 1, 100, componentId));
 			},
 			onActiveAttributeChange: (attributeKey, scopeKey) => {
 				dispatch(Action.attributeRelations.ensureIndexed({scopeKey, attributeKey}, null, 1, 1000));

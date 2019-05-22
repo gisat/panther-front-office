@@ -8,10 +8,11 @@ import utils from '../../../../../utils/utils';
 import presentation from "./presentation";
 
 const order = [['nameDisplay', 'ascending']];
+const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scopes: Select.scopes.getIndexed(state, {application: true}, null, order, 1, 100)
+		scopes: Select.scopes.getIndexed(state, filter, null, order, 1, 100)
 	}
 };
 

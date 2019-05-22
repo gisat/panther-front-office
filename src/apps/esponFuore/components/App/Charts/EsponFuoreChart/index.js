@@ -3,19 +3,30 @@ import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import utils from "../../../../../../utils/utils";
 import wrapper from './presentation';
+import _ from "lodash";
 
+const mapStateToPropsFactory = (initialState, ownProps) => {
+	let filter = {};
+	let chartCfg = {};
 
-const mapStateToProps = (state, ownProps) => {
-	let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
-	let activeFilter = Select.selections.getActive(state);
+	return (state) => {
+		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
+		let activeFilter = Select.selections.getActive(state);
 
-	// TODO ensure periods
-	return {
-		attribute: Select.attributes.getActive(state),
-		data: Select.charts.getDataForChart(state, chartConfiguation.mergedFilter, chartConfiguation),
-		filter: activeFilter && activeFilter.data,
-		periods: Select.periods.getByKeys(state, chartConfiguation && chartConfiguation.mergedFilter && chartConfiguation.mergedFilter.periodKey && chartConfiguation.mergedFilter.periodKey.in)
-	}
+		// don't mutate selector input if it is not needed
+		if (!_.isEqual(chartCfg,  chartConfiguation)){
+			chartCfg =  chartConfiguation;
+			filter =  chartCfg.mergedFilter;
+		}
+
+		// TODO ensure periods
+		return {
+			attribute: Select.attributes.getActive(state),
+			data: Select.charts.getDataForChart(state, filter, chartCfg),
+			filter: activeFilter && activeFilter.data,
+			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in)
+		}
+	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -33,4 +44,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(wrapper);
+export default connect(mapStateToPropsFactory, mapDispatchToProps)(wrapper);

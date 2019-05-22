@@ -22,15 +22,10 @@ const getAllByKey = (getSubstate) => {
  * @returns {Object}
  */
 const getAllNotRemovedAsObject = (getSubstate) => {
-	return createCachedSelector(
+	return createSelector(
 		[getAllByKey(getSubstate)],
 		byKey => {
 			return pickBy(byKey, (item) => !item.hasOwnProperty('removed'));
-		}
-	)(
-		(state, byKey) => {
-			let keys = byKey ? Object.keys(byKey) : null;
-			return `${keys}`;
 		}
 	);
 };
@@ -200,7 +195,7 @@ const getBatchByFilterOrder = (getSubstate) => {
 };
 
 const getIndexed = (getSubstate) => { //todo proper memoization && unify with old getIndexedPage etc.
-	return createSelector(
+	return createCachedSelector(
 		[
 			getAllAsObject(getSubstate),
 			getIndexes(getSubstate),
@@ -212,6 +207,7 @@ const getIndexed = (getSubstate) => { //todo proper memoization && unify with ol
 			(state, filterByActive, filter, order, start, length) => length,
 		],
 		(models, indexes, activeKeys, filterByActive, filter, order, start, length) => {
+			console.log(filterByActive, filter, order, start, length);
 			if (models && indexes) {
 				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
 				let index = commonHelpers.getIndex(indexes, mergedFilter, order);
@@ -239,18 +235,25 @@ const getIndexed = (getSubstate) => { //todo proper memoization && unify with ol
 				return null;
 			}
 		}
-	);
+	)((state, filterByActive, filter, order, start, length) => {
+		return `${JSON.stringify(filterByActive)}:${JSON.stringify(filter)}:${JSON.stringify(order)}:${start}:${length}`
+	});
 };
 
 const getByKey = (getSubstate) => {
-	return (state, key) => {
-		let allData = getAllAsObject(getSubstate)(state);
-		if (key && allData && !_.isEmpty(allData) && allData[key]) {
-			return allData[key];
-		} else {
-			return null;
+	return createSelector(
+		[
+			getAllAsObject(getSubstate),
+			(state, key) => key
+		],
+		(allData, key) => {
+			if (key && allData && !_.isEmpty(allData) && allData[key]) {
+				return allData[key];
+			} else {
+				return null;
+			}
 		}
-	}
+	);
 };
 
 // TODO test
@@ -512,27 +515,30 @@ const getIndexedDataUses = (getSubstate) => {
 	return (state) => getSubstate(state).inUse.indexes;
 };
 
-const getAllActiveKeys = state => {
-	// TODO add scenarios, cases
-	let activeKeys = {
-		activeScopeKey: state.scopes.activeKey,
-		activePlaceKey: state.places.activeKey,
-		activePlaceKeys: state.places.activeKeys,
-		activePeriodKey: state.periods.activeKey,
-		activePeriodKeys: state.periods.activeKeys,
-		activeAttributeKey: state.attributes.activeKey
-	};
+const getAllActiveKeys = createSelector(
+	[
+		state => state.scopes.activeKey,
+		state => state.places.activeKey,
+		state => state.places.activeKeys,
+		state => state.periods.activeKey,
+		state => state.periods.activeKeys,
+		state => state.attributes.activeKey,
+		state => state.specific && state.specific.apps,
+		state => state.app && state.app.key
+	],
+	(activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, apps, appKey) => {
+		let activeKeys = {activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey};
 
+		// for BO usage
+		if (apps){
+			activeKeys.activeApplicationKey = apps.activeKey;
+		} else if (appKey){
+			activeKeys.activeApplicationKey = appKey;
+		}
 
-	// for BO usage
-	if (state.hasOwnProperty('specific') && state.specific.hasOwnProperty('apps')){
-		activeKeys.activeApplicationKey = state.specific.apps.activeKey;
-	} else if (state.app && state.app.key){
-		activeKeys.activeApplicationKey = state.app.key;
+		return activeKeys;
 	}
-
-	return activeKeys;
-};
+);
 
 const getUsedIndexPages = (getSubstate) => {
 	return createSelector([

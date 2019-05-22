@@ -7,15 +7,23 @@ import utils from '../../../../../../utils/utils';
 
 import presentation from "./presentation";
 
+const filter = {application: true, scope: true};
+let tagKey = null;
 
 const mapStateToProps = (state, ownProps) => {
 	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
 	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
-	let activeIndicatorCategory = activeIndicator && activeIndicator.data.tagKeys && Select.tags.getByKey(state, activeIndicator.data.tagKeys[0]);
+
+	// don't mutate selector input if it is not needed
+	if (!_.isEqual(tagKey,  activeIndicator && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0])){
+		tagKey =  activeIndicator.data.tagKeys[0];
+	}
+
+	let activeIndicatorCategory = Select.tags.getByKey(state, tagKey);
 	return {
 		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
-		categories: Select.tags.getIndexed(state, {application: true, scope: true}, null, null, 1, 20),
+		categories: Select.tags.getIndexed(state, filter, null, null, 1, 20),
 		activeCategoryKey: Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeCategory'),
 		indicators: Select.specific.esponFuoreIndicators.getAll(state),
 		activeIndicator,

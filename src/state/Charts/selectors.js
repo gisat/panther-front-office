@@ -55,7 +55,7 @@ const getChartConfiguration = createCachedSelector(
 	(state, chart) => `${chart && chart.key}`
 );
 
-const getDataForChart = createSelector(
+const getDataForChart = createCachedSelector(
 	[
 		AttributeDataSelectors.getFilteredGroupedByFid,
 		(state, filter, chart) => chart
@@ -67,7 +67,7 @@ const getDataForChart = createSelector(
 			return null;
 		}
 	}
-);
+)((state, filter, chart) => {return `${JSON.stringify(filter)}:${chart.key}`});
 
 /* helpers */
 

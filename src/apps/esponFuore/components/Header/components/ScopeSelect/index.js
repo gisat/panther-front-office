@@ -7,11 +7,12 @@ import utils from '../../../../../../utils/utils';
 
 import presentation from "./presentation";
 
+const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scopeSelectOpen: Select.components.get(state, 'esponFuore_ScopeSelect', 'scopeSelectOpen'),
-		scopes: Select.scopes.getIndexed(state, {application: true}, null, null, 1, 20),
+		scopes: Select.scopes.getIndexed(state, filter, null, null, 1, 20),
 		activeScope: Select.scopes.getActive(state)
 	}
 };

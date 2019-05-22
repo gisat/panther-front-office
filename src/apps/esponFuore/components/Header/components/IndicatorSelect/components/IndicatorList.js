@@ -7,9 +7,20 @@ import utils from '../../../../../../../utils/utils';
 import {PantherSelectItem} from "../../../../../../../components/common/atoms/PantherSelect";
 import React from "react";
 
+let categoryKey = null;
+let filter = null;
+const filterByActive = {scope: true};
+
 const mapStateToProps = (state, ownProps) => {
+
+	// don't mutate selector input if it is not needed
+	if (categoryKey !== ownProps.categoryKey){
+		filter = {tagKeys: {includes: [ownProps.categoryKey]}};
+		categoryKey = ownProps.categoryKey;
+	}
+
 	return {
-		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, {scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 100),
+		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 100),
 	}
 };
 
