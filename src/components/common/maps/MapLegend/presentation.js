@@ -6,17 +6,20 @@ class MapLegend extends React.PureComponent {
     renderItemImage(item) {
         return (
             <div className={'image'} key={item.title}>
-                <span className={'title'}>{item.title}</span>
                 <span>{item.image}</span>
+                <span className={'title'}>{item.title}</span>
             </div>
         )
     }
     renderItem(item) {
         const images = item.items.map((i) => this.renderItemImage(i));
         return (<div className={'legend-item'} key={item.name}>
-                   <h4 className={'title'}> 
+                   <div className={'legend-title'}>
                         {item.name}
-                   </h4> 
+                   </div>
+                    <div className={'legend-subtitle'}>
+                        {item.description}
+                    </div>
                    <div className={'images'}> 
                         {images}
                    </div> 

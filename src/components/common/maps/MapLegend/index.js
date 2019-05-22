@@ -88,6 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 					const intervals = getClassesIntervals(classes);
 					
 					legendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
+					legendItem.description = layerByLayerTemplateKey.attribute.data.description;
 
 					//avoid clear values
 					legendItem.items = intervals.map(interval => {

@@ -1,4 +1,5 @@
 import React from "react";
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Icon from '../../atoms/Icon'
 import HoldButton from '../../../presentation/atoms/HoldButton/'
@@ -14,8 +15,12 @@ class MapLegend extends React.PureComponent {
     }
 
     render () {
+        let classes = classnames("legend-control control", {
+            open: this.props.isOpen
+        });
+
         return (
-                <div className="legend-control control" title = "Legend">
+                <div className={classes} title = "Legend">
                     <HoldButton 
                             onClick={() => {this.handleLedendClick()}}
                             finite={true}

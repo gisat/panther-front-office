@@ -65,6 +65,10 @@
 	height: 1.6rem;
 }
 
+.map-tools .legend-control.open .ptr-icon {
+	color: var(--accent50);
+}
+
 .map-tools.small .control > button {
 	width: 1.6rem;
 	height: 1.6rem;

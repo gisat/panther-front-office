@@ -11,6 +11,6 @@ export const getPolygonImageByAttribution = (attribution) => {
     }
 
     return (<svg>
-                <rect style={style}/>
+                <rect height="50" width="80" style={style}/>
             </svg>)
 }
