@@ -62,11 +62,29 @@ export const mergeAttributeStatistics = (statistics = []) => {
         if(statistic && statistic.attributeStatistic) {
             mergedStatistics.min = (mergedStatistics.min || mergedStatistics.min === 0) ? Math.min(mergedStatistics.min, statistic.attributeStatistic.min) : statistic.attributeStatistic.min;
             mergedStatistics.max = (mergedStatistics.max || mergedStatistics.max === 0) ? Math.max(mergedStatistics.max, statistic.attributeStatistic.max) : statistic.attributeStatistic.max;
-
-            mergedStatistics.percentile = mergedStatistics.percentile.length > 0 ? 
-                mergedStatistics.percentile.map((p, i) => (statistic.attributeStatistic.percentile[i] + p) / 2) : statistic.attributeStatistic.percentile;
         }
     }
+
+    //average percentiles
+    //calculate percentiles count from first statistic
+    if(statistics[0] === null) {
+        debugger
+    }
+    const percentilesCount = statistics[0].attributeStatistic.percentile.length;
+    const statisticsCount = statistics.length;
+    for (let index = 0; index < percentilesCount; index++) {
+        let sum = 0;
+        for (const statistic of statistics) {
+            if(statistic && statistic.attributeStatistic) {
+                sum += statistic.attributeStatistic.percentile[index];
+            }
+        }
+        mergedStatistics.percentile[index] = sum/statisticsCount;
+    }
+
+    mergedStatistics.percentile[0] = mergedStatistics.min;
+    mergedStatistics.percentile[mergedStatistics.percentile.length - 1] = mergedStatistics.max;
+
     return mergedStatistics;
 }
 
@@ -86,14 +104,23 @@ export const getMiddleClassValues = (classes = []) => {
 }
 
 export const getClassesIntervals = (classes = []) => {
-    return classes.reduce((acc, val, idx, src) => {
-        if(idx > 0) {
-            acc.push([src[idx - 1], src[idx]]);
-            return acc;
-        } else {
-            return acc;
-        }
-    }, [])
+    const collectedClasses = [...new Set(classes)];
+    if(collectedClasses.length > 1) {
+        const intervals = collectedClasses.reduce((acc, val, idx, src) => {
+            if(idx > 0) {
+                acc.push([src[idx - 1], src[idx]]);
+                return acc;
+            } else {
+                return acc;
+            }
+        }, [])
+        return intervals;
+    } else if(collectedClasses.length === 1) {
+        //probably only one value in cartogram
+        return [[collectedClasses[0], collectedClasses[0]]]
+    } else {
+        return [];
+    }
 }
 
 export const setClassesMinMaxFromStatistics = (classes = [], statistics) => {

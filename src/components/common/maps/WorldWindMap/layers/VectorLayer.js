@@ -1,5 +1,6 @@
 import WorldWind from 'webworldwind-esa';
 import diagramGeoJSONParser from './utils/DiagramGeoJSONParser'
+import {isEqual} from 'lodash';
 const {RenderableLayer} = WorldWind;
 
 /**
@@ -41,11 +42,21 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		}
 	}
 
+	setStyleFunction(styleFunction) {
+		if(typeof styleFunction === 'function') {
+			this.styleFunction = styleFunction;
+			this._renderablesAddCallback();
+		}
+	}
+
 	/**
 	 * 
-	 * @param {Object|Array} renderablesData - GeoJSON data
+	 * Invoke set attributions for each renderables
 	 */
-	
+	_renderablesAddCallback() {
+		this.forEachRenderable(() => {});
+	}
+
 	/**
 	 * 
 	 * @param {Object|Array} renderablesData - GeoJSON data
@@ -56,30 +67,78 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			this.orderFeaturesDescending(renderablesData, attributeDataKey);
 		}
 
-
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
 		const shapeConfigurationCallback = (geometry, properties) => {
 			//add properties to renderable
 			return {userProperties: properties}
 		};
-		parser.load(this.doRerender, shapeConfigurationCallback, this);
+		parser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
 	}
 
-	setFilter(filter) {
-		//name. areas
-		this.filter = filter;
-		this.doRerender();
+	_setFilter(renderable) {
+		if(this.filtered) {
+			const filtered = this.filtered ? this.filtered.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
+			//true if item not in filter areas
+			renderable.filtered = !filtered;
+		} else {
+			renderable.filtered = null;
+		}
+	}
+
+	setFilter(filtered) {
+		if(!isEqual(this.filtered, filtered)) {
+			this.filtered = filtered;
+			this.forEachRenderable(this._setFilter.bind(this));
+			this.doRerender();
+		}
+	}
+	_setAccent(renderable) {
+		if(this.accent) {
+			const accented = this.accent ? this.accent.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
+			renderable.accented = accented;
+		} else {
+			renderable.accented = null;
+		}
 	}
 
 	setAccent(accent) {
-		//name. areas
-		this.accent = accent;
-		this.doRerender();
+		if(!isEqual(this.accent, accent)) {
+			this.accent = accent;
+			this.forEachRenderable(this._setAccent.bind(this));
+		}
+	}
+	_setHover(renderable) {
+		const hovered = this.hovered ? this.hovered.includes(renderable.userProperties[this.spatialIdKey]) : false;
+		if(hovered) {
+			renderable.hovered = hovered;
+		} else {
+			renderable.hovered = false;
+		}
 	}
 
-	setHover(areas) {
-		this.highlighted = areas;
-		this.doRerender();
+	setHover(hovered) {
+		if(!isEqual(this.hovered, hovered)) {
+			this.hovered = hovered;
+			this.forEachRenderable(this._setHover.bind(this));
+		}
+	}
+
+	forEachRenderable(modificator) {
+		if(typeof modificator === 'function') {
+			const styleFunctionExists = typeof this.styleFunction === 'function';
+			const renderables = this.renderables;
+			const renderablesCount = this.renderables.length;
+			for (let i = 0; i < renderablesCount; i++) {
+				const renderable = renderables[i];
+				
+				modificator(renderable);
+
+				if(styleFunctionExists) {
+					let attribution = this.styleFunction(renderable, this); //return 
+					renderable.attributes = attribution;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -98,57 +157,6 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	setMetadata(metadata) {
 		this.metadata = metadata;
 		this.doRerender();
-	}
-
-	doRender(dc) {
-		//renderable changed?
-		// if(changedStyle || changedFilter || changedAttributes) {
-
-		let renderables = this.renderables;
-		let filterFunctionExists = typeof this.filterFunction === 'function';
-		let styleFunctionExists = typeof this.styleFunction === 'function';
-		for (let i = 0; i < renderables.length; i++) {
-			let renderable = renderables[i];
-			// filter feature
-			if(this.filter) {
-				const filtered = this.filter.areas.includes(renderable.userProperties[this.spatialIdKey]);
-				//true if item not in  filter areas
-				renderable.filtered = !filtered;
-			} else {
-				renderable.filtered = null;
-			}
-
-			// accent feature
-			if(this.accent) {
-				const accented = this.accent.areas.includes(renderable.userProperties[this.spatialIdKey]);
-				//true if item in accent areas
-				renderable.accented = accented;
-			} else {
-				renderable.accented = null;
-			}
-
-			//higlight feature
-			if(this.highlighted) {
-				const highlighted = this.highlighted.includes(renderable.userProperties[this.spatialIdKey]);
-				renderable.hovered = highlighted;
-			} else {
-				renderable.hovered = false;
-			}
-
-			if(filterFunctionExists) {
-				let enabled = this.filterFunction(renderable) === true; //return 
-				renderable.enabled = enabled;
-			}
-
-			//style fearure
-			if(styleFunctionExists) {
-				//renderable changed?
-				let attribution = this.styleFunction(renderable, this); //return 
-				renderable.attributes = attribution;
-			}
-		}
-		// }
-		RenderableLayer.prototype.doRender.call(this, dc);
 	}
 
 	doRerender() {

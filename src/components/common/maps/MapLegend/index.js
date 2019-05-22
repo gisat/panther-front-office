@@ -12,7 +12,6 @@ import {cloneDeep} from 'lodash';
 import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
-	const layerTemplates = Select.maps.getLayerTemplatesKeysByMapSetKey(state, ownProps.mapSetKey);
 	const layersState = Select.maps.getLayersStateByMapSetKey(state, ownProps.mapSetKey);
 
 	const mapSetsLayers = {};
@@ -39,8 +38,6 @@ const mapStateToProps = (state, ownProps) => {
 						type: layer.type,
 						statistics: {},
 						mergedStatistics: null,
-						// dataType: indicatorData, //TODO - from attribute
-						dataType:'relative', //TODO - from attribute
 						showInLegend: false,
 						layers: {}
 					};
@@ -73,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
 				}
 			}
 
-			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics));
+			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
 			
 
 			const legendItem = {
@@ -83,20 +80,20 @@ const mapStateToProps = (state, ownProps) => {
 
 			if(layerByLayerTemplateKey.attributeKey) {
 				layerByLayerTemplateKey.attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
-				
-				//todo from data
-				layerByLayerTemplateKey.attribute.data.type = 'relative'
 
 				let styleFunction;
-				if(layerByLayerTemplateKey.attribute.data.type === 'relative') {
+				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
 					styleFunction = getCartogramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 					const classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
 					const intervals = getClassesIntervals(classes);
 					
 					legendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
+
+					//avoid clear values
 					legendItem.items = intervals.map(interval => {
 						const value = getMiddleClassValues(interval)[0];
 						const attribution = styleFunction({userProperties:{tmpAttribute: value}})
+						const title = interval[1] === interval[0] ? Math.round(interval[0] * 100) : `${Math.round(interval[0] * 100) / 100} - ${Math.round(interval[1] * 100) / 100}`;
 						return {
 								title: `${Math.round(interval[0] * 100) / 100} - ${Math.round(interval[1] * 100) / 100}`,
 								image: getPolygonImageByAttribution(attribution)
@@ -104,7 +101,7 @@ const mapStateToProps = (state, ownProps) => {
 					});
 					legend.push(legendItem);
 
-				}else if(layerByLayerTemplateKey.attribute.data.type === 'absolute') {
+				}else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
 					styleFunction = getCartodiagramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 				}
 			}

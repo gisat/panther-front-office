@@ -232,7 +232,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
-					const attributeStatisticsData = layersAttributeStatistics[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeStatistic;
+					const attributeStatisticsData = layersAttributeStatistics[key];
 					const metadata = layersMetadata[key];
 					//merge with attributes
 					const fl = spatialDataSourceData.spatialData.features.length;
@@ -267,9 +267,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 						//set layerstyle
 						if(metadata.dataType === 'relative') {
-							existingLayer.styleFunction = getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey);
-						}else if(metadata.dataType === 'absolute') {
-							existingLayer.styleFunction = getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey);
+							//use merged statistics
+							existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
+						} else if(metadata.dataType === 'absolute') {
+							existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
 						}
 					}
 				} else {
