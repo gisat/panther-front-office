@@ -12,7 +12,6 @@ import {cloneDeep} from 'lodash';
 import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
-	const layerTemplates = Select.maps.getLayerTemplatesKeysByMapSetKey(state, ownProps.mapSetKey);
 	const layersState = Select.maps.getLayersStateByMapSetKey(state, ownProps.mapSetKey);
 
 	const mapSetsLayers = {};

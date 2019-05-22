@@ -7,7 +7,74 @@ import {cloneDeep} from 'lodash';
 import wrapper from '../../../../../components/common/maps/MapWrapper';
 
 import utils from '../../../../../utils/utils';
-import { quartilePercentiles } from '../../../../../utils/statistics';
+import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
+
+//mostly similar to MapLegend
+const getStatisticsByLayerTemplateKeys = (state, props) => {
+	//get mapSetByMapKey
+	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
+
+	const layersState = Select.maps.getLayersStateByMapSetKey(state, mapSet.key);
+
+	const mapSetsLayers = {};
+	for (const [key, value] of Object.entries(layersState)) {
+		if(value && value.length & value.length > 0) {
+			const layersData = value.map((l) => {
+				const filter = cloneDeep(l.mergedFilter);
+				return {filter, data: l.layer};
+			})
+			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+		}
+	};
+
+	const layersByLayerTemplateKey = {};
+	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
+		for (const layer of layers) {
+			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+			if(layerTemplateKey) {
+				if(!layersByLayerTemplateKey[layerTemplateKey]) {
+					layersByLayerTemplateKey[layerTemplateKey] = {};
+					layersByLayerTemplateKey[layerTemplateKey] = {
+						key: layerTemplateKey,
+						type: layer.type,
+						statistics: {},
+						mergedStatistics: null,
+						layers: {}
+					};
+				}
+				layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
+			}
+		}
+	}
+
+	const vectorLayersByLayerTemplateKey = Object.values(layersByLayerTemplateKey).filter((l) => l.type === 'vector');
+
+	//for each merged layers
+	for (const layerByLayerTemplateKey of vectorLayersByLayerTemplateKey) {
+			//get statistics for layertemplate
+			layerByLayerTemplateKey.statistics = {};
+		
+			for (const [layerKey, layer] of Object.entries(layerByLayerTemplateKey.layers)) {
+				if(layer.attributeRelationsData) {
+					const attributeStatisticsFilter = {
+						attributeDataSourceKey: layer.attributeRelationsData.attributeDataSourceKey,
+						percentile: quartilePercentiles,
+					};
+		
+					const attributeStatistics = Select.attributeStatistics.getBatchByFilterOrder(state, attributeStatisticsFilter, null);
+					layerByLayerTemplateKey.statistics[layerKey] = attributeStatistics && attributeStatistics[0] && attributeStatistics[0].attributeStatistic ? attributeStatistics[0] : null;
+
+					if(layerByLayerTemplateKey.attributeKey !== layer.attributeRelationsData.attributeKey) {
+						layerByLayerTemplateKey.attributeKey = layer.attributeRelationsData.attributeKey;
+					};
+				}
+			}
+
+			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
+	}
+
+	return vectorLayersByLayerTemplateKey;
+}
 
 const mapStateToProps = (state, props) => {
 	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
@@ -83,15 +150,12 @@ const mapStateToProps = (state, props) => {
 		}
 		return acc
 	}, {});
+
+	const statisticsByLayerTemplateKeys = getStatisticsByLayerTemplateKeys(state, props);
 	
 	let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.attributeRelationsData) {
-			const attributeStatisticsFilter = {
-				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
-				percentile: quartilePercentiles,
-			};
-
-			acc[layerData.key] = Select.attributeStatistics.getBatchByFilterOrder(state, attributeStatisticsFilter, null);
+			acc[layerData.key] = statisticsByLayerTemplateKeys.find(l => l.key ===layerData.attributeRelationsData.layerTemplateKey).mergedStatistics
 		}
 		return acc
 	}, {});
