@@ -207,7 +207,6 @@ const getIndexed = (getSubstate) => { //todo proper memoization && unify with ol
 			(state, filterByActive, filter, order, start, length) => length,
 		],
 		(models, indexes, activeKeys, filterByActive, filter, order, start, length) => {
-			console.log(filterByActive, filter, order, start, length);
 			if (models && indexes) {
 				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
 				let index = commonHelpers.getIndex(indexes, mergedFilter, order);
