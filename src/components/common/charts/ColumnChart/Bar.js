@@ -138,7 +138,7 @@ class Bar extends React.PureComponent {
 		}
 
 		let placeholderClasses = classnames("ptr-column-chart-bar-placeholder", {
-			visible: props.highlighted
+			visible: highlighted
 		});
 
 		let classes = classnames("ptr-column-chart-bar", {
