@@ -112,9 +112,6 @@ class Line extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		let classes = classnames("ptr-line-chart-line-wrapper", {
-			gray: this.props.gray
-		});
 
 		let color = this.state.color;
 		let suppressed = this.props.suppressed;
@@ -133,6 +130,11 @@ class Line extends React.PureComponent {
 				color = this.props.highlightedColor ? this.props.highlightedColor : null;
 			}
 		}
+		let classes = classnames("ptr-line-chart-line-wrapper", {
+			gray: this.props.gray,
+			highlighted
+		});
+
 
 		return (
 			<g

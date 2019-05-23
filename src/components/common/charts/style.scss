@@ -120,7 +120,9 @@
 }
 
 .ptr-line-chart-line-wrapper:hover .ptr-line-chart-line,
-.ptr-line-chart-line-wrapper.gray:hover .ptr-line-chart-line {
+.ptr-line-chart-line-wrapper.gray:hover .ptr-line-chart-line,
+.ptr-line-chart-line-wrapper.highlighted.gray .ptr-line-chart-line,
+.ptr-line-chart-line-wrapper.highlighted .ptr-line-chart-line {
 	stroke-width: 3;
 }
 
