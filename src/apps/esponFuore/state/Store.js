@@ -41,7 +41,10 @@ import windowsReducers from '../../../state/Windows/reducers';
 
 export const history = createBrowserHistory();
 
-const middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+let middleware = applyMiddleware(thunk, routerMiddleware(history));
+if (process.env.NODE_ENV === 'development') {
+	middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+}
 
 // Redux store
 export default createStore(combineReducers({
