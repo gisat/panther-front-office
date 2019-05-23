@@ -13,6 +13,7 @@ class CyclicPickController {
 	 * @param {Function} cb A callback function to call with the current highlighted renderables.
 	 */
 	constructor(wwd, events, cb) {
+		this.mouseDown = false;
 		this.eventListener = this.eventListener.bind(this, wwd, cb);
 
 		events.forEach(event => {
@@ -21,15 +22,46 @@ class CyclicPickController {
 	}
 
 	eventListener(wwd, cb, event) {
-		const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX,
+		console.log(event.type);
+
+		switch (event.type) {
+			case 'mousemove':
+				this.onMouseMove(wwd, cb, event);
+				return;
+			case 'mousedown':
+				this.onMouseDown();
+				return;
+			case 'mouseup':
+				this.onMouseUp();
+				return;
+			case 'mouseout':
+				this.onMouseOut();
+				return;
+		}
+	}
+
+	onMouseMove(wwd, cb, event) {
+		if(!this.mouseDown) {
+			const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX,
 			y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
 
-		const pickList = wwd.pick(wwd.canvasCoordinates(x, y));
-		const highlightedRenderables = this.setNextHighlightStage(pickList.objects);
-		wwd.redraw();
-		if (cb) {
-			cb(highlightedRenderables);
+			const pickList = wwd.pick(wwd.canvasCoordinates(x, y));
+			const highlightedRenderables = this.setNextHighlightStage(pickList.objects);
+
+			if (cb) {
+				cb(highlightedRenderables);
+			}
 		}
+	}
+
+	onMouseOut() {
+		this.mouseDown = false;
+	}
+	onMouseDown() {
+		this.mouseDown = true;
+	}
+	onMouseUp() {
+		this.mouseDown = false;
 	}
 
 	/**
