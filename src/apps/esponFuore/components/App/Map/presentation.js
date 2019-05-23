@@ -67,6 +67,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers]);
 		}
 
+		//set filters
+
 		this.setState({
 			thematicLayers: thematicLayers || [],
 			backgroundLayers
@@ -94,6 +96,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (layersVectorDataChanged) {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			//check if new attribute data comes
@@ -101,6 +104,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (layersAttributeDataChanged) {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			//check if new attribute data comes
@@ -113,9 +117,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 			//check if new attribute statistics data comes
 			const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
+
 			if (layersAttributeStatisticsDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.updateStatistics(layers, this.props.layersVectorData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			if(backgroundLayersChanged && !isEqual(this.state.backgroundLayers, backgroundLayers)) {
@@ -134,13 +139,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 				if(this.props.layersVectorData) {
 					const layers = this.props.layers || [];
 					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers]);
+					this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...thematicLayers]);
 				}
-
-				const stateLayers = [...this.state.backgroundLayers, ...thematicLayers];
-				if(this.props.activeFilter && stateLayers.length > 0) {
-					this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, stateLayers);
-				}
-
 			}
 
 			// todo refactor
@@ -213,6 +213,30 @@ class FuoreWorldWindMap extends React.PureComponent {
 		return changedLayers;
 	}
 
+	//update layers statistics
+	updateStatistics(LayersData = [], layersVectorData = {}, layersAttributeStatistics = {}, layersMetadata = {}, layersState = []) {
+		
+		for (const [key, data] of Object.entries(layersVectorData)) {
+			const layer = LayersData.find(l => l.key === key);
+			let existingLayer = layersHelper.findLayerByKey(layersState, key);
+			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			if(instanceOfVector && layersAttributeStatistics[key]) {
+				const metadata = layersMetadata[key];
+				const attributeStatisticsData = layersAttributeStatistics[key];
+
+				if(attributeStatisticsData) {
+					existingLayer.setAttributeStatistics(attributeStatisticsData);
+				}
+
+				//set layerstyle
+				if(metadata.dataType === 'relative') {
+					existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
+				} else if(metadata.dataType === 'absolute') {
+					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
+				}
+			}
+		}
+	}
 	/**
 	 * 
 	 * @param {Array} LayersData 
@@ -228,6 +252,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+
 			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
@@ -267,7 +292,6 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 						//set layerstyle
 						if(metadata.dataType === 'relative') {
-							//use merged statistics
 							existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
 						} else if(metadata.dataType === 'absolute') {
 							existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));

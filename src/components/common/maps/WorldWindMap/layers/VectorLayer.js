@@ -54,7 +54,13 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 * Invoke set attributions for each renderables
 	 */
 	_renderablesAddCallback() {
-		this.forEachRenderable(() => true);
+		this.forEachRenderable((renderable) => {
+			//collection of functions that will be called after add renderable
+			return [
+				this._setFilter(renderable),
+			].some(r => r);
+		});
+
 	}
 
 	/**
