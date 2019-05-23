@@ -4,9 +4,13 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
+import HoverContext from "../../../common/HoverHandler/context";
+
 import '../style.scss';
 
 class Bar extends React.PureComponent {
+
+	static contextType = HoverContext;
 
 	static propTypes = {
 		availableHeight: PropTypes.number,
@@ -46,6 +50,10 @@ class Bar extends React.PureComponent {
 			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
 
+		if (this.context && this.context.onHover) {
+			this.context.onHover(this.props.itemKeys);
+		}
+
 		let color = null;
 		if (this.props.highlightedColor) {
 			color = this.props.highlightedColor;
@@ -62,6 +70,10 @@ class Bar extends React.PureComponent {
 			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		}
 
+		if (this.context && this.context.onHover) {
+			this.context.onHover(this.props.itemKeys);
+		}
+
 		let color = null;
 		if (this.props.highlightedColor) {
 			color = this.props.highlightedColor;
@@ -76,6 +88,10 @@ class Bar extends React.PureComponent {
 	onMouseOut(e) {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
+		}
+
+		if (this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
 		}
 
 		let color = null;
@@ -107,10 +123,15 @@ class Bar extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-
 		let style = {};
+		let highlighted = false;
 
-		if (props.highlighted) {
+		if (this.context && this.context.hoveredAreas) {
+			highlighted = !!_.intersection(this.context.hoveredAreas, this.props.itemKeys).length;
+		}
+
+
+		if (highlighted) {
 			style.fill = this.props.highlightedColor ? this.props.highlightedColor : '#ff0000';
 		} else if (this.state.color && !this.state.hidden) {
 			style.fill = this.state.color

@@ -12,7 +12,6 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Bar from "./Bar";
 import Popup from "../Popup";
-import HoverContext from "../../../common/HoverHandler/context";
 
 const MIN_BAR_WIDTH = 4; // TODO optional
 const BAR_GAP_RATIO = 0.4; // TODO optional
@@ -35,8 +34,6 @@ const INNER_PADDING_RIGHT = 10;
 // TODO custom max, min
 
 class ColumnChart extends React.PureComponent {
-	static contextType = HoverContext;
-
 	static propTypes = {
 		data: PropTypes.array,
 		defaultColor: PropTypes.string,
@@ -88,18 +85,10 @@ class ColumnChart extends React.PureComponent {
 				popup: {itemKeys, x, y}
 			});
 		}
-
-		if (this.context && this.context.onHover) {
-			this.context.onHover(itemKeys);
-		}
 	}
 
 	onBarOut() {
 		this.setState({popup: null});
-
-		if (this.context && this.context.onHoverOut) {
-			this.context.onHoverOut();
-		}
 	}
 
 	// TODO axis orientation
@@ -249,13 +238,8 @@ class ColumnChart extends React.PureComponent {
 		return (
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
 				{data.map((item) => {
-					let highlighted = false;
 					let key = _.get(item, props.keySourcePath);
 					let value = _.get(item, props.ySourcePath);
-
-					if (this.context && this.context.hoveredAreas) {
-						highlighted = _.includes(this.context.hoveredAreas, key);
-					}
 
 					return (
 						<Bar
@@ -266,7 +250,6 @@ class ColumnChart extends React.PureComponent {
 							onMouseMove={this.onBarOver}
 							defaultColor={this.props.defaultColor}
 							highlightedColor={this.props.highlightedColor}
-							highlighted={highlighted}
 
 							y={0}
 							x={xScale(key)}
@@ -285,13 +268,8 @@ class ColumnChart extends React.PureComponent {
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
 				{aggregatedData.map((group) => {
 					let firstItemFromGroup = group.originalData[0];
-					let highlighted = false;
 					let key = _.get(firstItemFromGroup, props.keySourcePath);
 					let value = _.get(firstItemFromGroup, props.ySourcePath);
-
-					if (this.context && this.context.hoveredAreas) {
-						highlighted = !!_.intersection(this.context.hoveredAreas, group.keys).length;
-					}
 
 					return (
 						<Bar
@@ -303,7 +281,6 @@ class ColumnChart extends React.PureComponent {
 							onMouseMove={this.onBarOver}
 							defaultColor={this.props.defaultColor}
 							highlightedColor={this.props.highlightedColor}
-							highlighted={highlighted}
 
 							y={0}
 							x={xScale(group.keys)}

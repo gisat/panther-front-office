@@ -11,7 +11,6 @@ import AxisY from "../AxisY";
 import Popup from "../Popup";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
-import HoverContext from "../../HoverHandler/context";
 
 const WIDTH = 500;
 const HEIGHT = 250;
@@ -34,8 +33,6 @@ const GRAYING_THRESHOLD = 10;
 const AGGREGATION_THRESHOLD = 50;
 
 class LineChart extends React.PureComponent {
-	static contextType = HoverContext;
-
 	static propTypes = {
 		data: PropTypes.array,
 		forceMode: PropTypes.string,
@@ -82,18 +79,10 @@ class LineChart extends React.PureComponent {
 				hoveredItemKeys: [itemKey]
 			});
 		}
-
-		if (this.context && this.context.onHover) {
-			this.context.onHover([itemKey]);
-		}
 	}
 
 	onLineOut() {
 		this.setState({popup: null, hoveredItemKeys: null});
-
-		if (this.context && this.context.onHoverOut) {
-			this.context.onHoverOut();
-		}
 	}
 
 	// TODO axis orientation
@@ -238,6 +227,7 @@ class LineChart extends React.PureComponent {
 
 	renderLines(data, props, xScale, yScale, colors, mode) {
 		let leftOffset = xScale.bandwidth()/2;
+		let siblings = data.map((item) => _.get(item, props.serieKeySourcePath));
 
 		return data.map((item, index) => {
 			let serie = _.get(item, props.serieDataSourcePath);
@@ -254,11 +244,6 @@ class LineChart extends React.PureComponent {
 			});
 
 			let suppressed = this.state.hoveredItemKeys && !_.includes(this.state.hoveredItemKeys, key);
-			let highligtedFromContext = false;
-			if (this.context && this.context.hoveredAreas) {
-				highligtedFromContext = _.includes(this.context.hoveredAreas, key);
-				suppressed = !highligtedFromContext;
-			}
 
 			return (
 				<Line
@@ -268,12 +253,12 @@ class LineChart extends React.PureComponent {
 					coordinates={coordinates}
 					defaultColor={color}
 					highlightedColor={color}
-					highlighted={highligtedFromContext}
 					onMouseOut={this.onLineOut}
 					onMouseOver={this.onLineOver}
 					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
 					suppressed={suppressed}
+					siblings={siblings}
 					gray={mode === 'gray'}
 				/>
 			);

@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
+import HoverContext from "../../HoverHandler/context";
 
 import '../style.scss';
 import Point from "./Point";
 
 class Line extends React.PureComponent {
+	static contextType = HoverContext;
 
 	static propTypes = {
 		itemKey: PropTypes.string,
@@ -22,6 +24,7 @@ class Line extends React.PureComponent {
 		]),
 		highlighted: PropTypes.bool,
 		withPoints: PropTypes.bool,
+		siblings: PropTypes.array,
 		suppressed: PropTypes.bool,
 		gray: PropTypes.bool
 	};
@@ -45,6 +48,11 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseMove) {
 			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
+
+		if (this.context && this.context.onHover) {
+			this.context.onHover([this.props.itemKey]);
+		}
+
 		this.setColor(true);
 	}
 
@@ -52,6 +60,11 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseOver) {
 			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
 		}
+
+		if (this.context && this.context.onHover) {
+			this.context.onHover([this.props.itemKey]);
+		}
+
 		this.setColor(true);
 	}
 
@@ -59,6 +72,11 @@ class Line extends React.PureComponent {
 		if (this.props.onMouseOut) {
 			this.props.onMouseOut();
 		}
+
+		if (this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
+
 		this.setColor();
 	}
 
@@ -70,7 +88,7 @@ class Line extends React.PureComponent {
 	componentDidUpdate(prevProps) {
 		this.updateLength();
 
-		if (prevProps.gray !== this.props.gray || prevProps.highlighted !== this.props.highlighted) {
+		if (prevProps.gray !== this.props.gray || prevProps.highlighted !== this.props.highlighted || prevProps.suppressed !== this.props.suppressed) {
 			this.setColor();
 		}
 	}
@@ -98,12 +116,30 @@ class Line extends React.PureComponent {
 			gray: this.props.gray
 		});
 
+		let color = this.state.color;
+		let suppressed = this.props.suppressed;
+		let highlighted = this.props.highlighted;
+
+		/* Handle context */
+		if (this.context && this.context.hoveredAreas) {
+			let higlightedFromContext = _.includes(this.context.hoveredAreas, this.props.itemKey);
+			highlighted = higlightedFromContext;
+
+			if (this.props.siblings && !!_.intersection(this.context.hoveredAreas, this.props.siblings).length) {
+				suppressed = !higlightedFromContext;
+			}
+
+			if (higlightedFromContext) {
+				color = this.props.highlightedColor ? this.props.highlightedColor : null;
+			}
+		}
+
 		return (
 			<g
 				className={classes}
 				id={props.itemKey}
 				style={{
-					opacity: this.props.suppressed ? .3 : 1
+					opacity: suppressed ? .3 : 1
 				}}
 			>
 				<path
@@ -117,17 +153,17 @@ class Line extends React.PureComponent {
 						return `${point.x} ${point.y}`;
 					}).join(" L")}`}
 					style={{
-						stroke: this.state.color,
+						stroke: color,
 						strokeDasharray: this.state.length,
 						strokeDashoffset: this.state.length
 					}}
 				/>
-				{props.withPoints ? this.renderPoints() : null}
+				{props.withPoints ? this.renderPoints(color, highlighted) : null}
 			</g>
 		);
 	}
 
-	renderPoints() {
+	renderPoints(color, highlighted) {
 		const props = this.props;
 
 		return props.coordinates.map((point) => {
@@ -138,8 +174,8 @@ class Line extends React.PureComponent {
 					y={point.y}
 					data={point.originalData}
 					r={5}
-					color={this.state.color}
-					highlighted={this.props.highlighted}
+					color={color}
+					highlighted={highlighted}
 					onMouseOver={this.onMouseOver}
 					onMouseMove={this.onMouseMove}
 					onMouseOut={this.onMouseOut}
