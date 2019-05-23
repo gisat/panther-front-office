@@ -46,7 +46,7 @@ class Line extends React.PureComponent {
 
 	onMouseMove(e, data) {
 		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
+			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.layerX, e.nativeEvent.layerY, data);
 		}
 
 		if (this.context && this.context.onHover) {
@@ -58,7 +58,7 @@ class Line extends React.PureComponent {
 
 	onMouseOver(e, data) {
 		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.offsetX, e.nativeEvent.offsetY, data);
+			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.layerX, e.nativeEvent.layerY, data);
 		}
 
 		if (this.context && this.context.onHover) {

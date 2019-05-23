@@ -47,7 +47,7 @@ class Bar extends React.PureComponent {
 
 	onMouseMove(e) {
 		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.layerX, e.nativeEvent.layerY);
 		}
 
 		if (this.context && this.context.onHover) {
@@ -67,7 +67,7 @@ class Bar extends React.PureComponent {
 
 	onMouseOver(e) {
 		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.layerX, e.nativeEvent.layerY);
 		}
 
 		if (this.context && this.context.onHover) {
