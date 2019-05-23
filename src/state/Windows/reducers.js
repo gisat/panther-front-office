@@ -69,10 +69,12 @@ const remove = (state, action) => {
 	let orderByHistory = _.without([...sets[action.setKey].orderByHistory], action.windowKey);
 
 	let windows = {...state.windows};
-	windows[action.windowKey] = {
-		key: action.windowKey,
-		data: {...windows[action.windowKey].data, state: 'close'}
-	};
+	if (windows[action.windowKey]) {
+		windows[action.windowKey] = {
+			key: action.windowKey,
+			data: {...windows[action.windowKey].data, state: 'close'}
+		};
+	}
 
 	return {...state, windows, sets: {...sets, [action.setKey]: {orderByHistory}}};
 };
