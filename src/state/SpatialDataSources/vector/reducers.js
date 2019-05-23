@@ -87,8 +87,10 @@ export default (state = INITIAL_STATE, action) => {
 
 		case ActionTypes.COMMON.DATA.SET_OUTDATED:
 			return common.dataSetOutdated(state, action);
-		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
-			return common.cleanupOnLogout(state, action);
+
+		// TODO add permissions to data
+		// case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
+		// 	return common.cleanupOnLogout(state, action);
 		
 		default:
 			return state;
