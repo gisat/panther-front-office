@@ -22,8 +22,6 @@ class CyclicPickController {
 	}
 
 	eventListener(wwd, cb, event) {
-		console.log(event.type);
-
 		switch (event.type) {
 			case 'mousemove':
 				this.onMouseMove(wwd, cb, event);

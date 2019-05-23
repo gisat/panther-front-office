@@ -83,10 +83,10 @@ class ExtendedRenderableLayer extends RenderableLayer {
 
 	_setFilter(renderable) {
 		if(this.filtered) {
-			const filtered = this.filtered ? this.filtered.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
-			//true if item not in filter areas
+			const filtered = this.filtered ? !this.filtered.areas.includes(renderable.userProperties[this.spatialIdKey]) : true;
+			//false if item not in filter areas
 			if(filtered !== renderable.filtered) {
-				renderable.filtered = !filtered;
+				renderable.filtered = filtered;
 				return true;
 			} else {
 				return false;
