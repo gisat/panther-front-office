@@ -54,7 +54,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 * Invoke set attributions for each renderables
 	 */
 	_renderablesAddCallback() {
-		this.forEachRenderable(() => {});
+		this.forEachRenderable(() => true);
 	}
 
 	/**
@@ -79,9 +79,15 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		if(this.filtered) {
 			const filtered = this.filtered ? this.filtered.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
 			//true if item not in filter areas
-			renderable.filtered = !filtered;
+			if(filtered !== renderable.filtered) {
+				renderable.filtered = !filtered;
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			renderable.filtered = null;
+			return true;
 		}
 	}
 
@@ -93,12 +99,19 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		}
 	}
 	_setAccent(renderable) {
-		if(this.accent) {
-			const accented = this.accent ? this.accent.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
-			renderable.accented = accented;
-		} else {
-			renderable.accented = null;
-		}
+			if(this.accent) {
+				const accented = this.accent ? this.accent.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
+				if(renderable.accented !== accented) {
+					renderable.accented = accented;
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				renderable.accented = null;
+				return true;
+
+			}
 	}
 
 	setAccent(accent) {
@@ -109,10 +122,11 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	}
 	_setHover(renderable) {
 		const hovered = this.hovered ? this.hovered.includes(renderable.userProperties[this.spatialIdKey]) : false;
-		if(hovered) {
+		if(renderable.hovered !== hovered) {
 			renderable.hovered = hovered;
+			return true
 		} else {
-			renderable.hovered = false;
+			return false;
 		}
 	}
 
@@ -120,6 +134,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		if(!isEqual(this.hovered, hovered)) {
 			this.hovered = hovered;
 			this.forEachRenderable(this._setHover.bind(this));
+			this.doRerender();
 		}
 	}
 
@@ -131,9 +146,9 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			for (let i = 0; i < renderablesCount; i++) {
 				const renderable = renderables[i];
 				
-				modificator(renderable);
+				const shouldRerender = modificator(renderable);
 
-				if(styleFunctionExists) {
+				if(shouldRerender && styleFunctionExists) {
 					let attribution = this.styleFunction(renderable, this); //return 
 					renderable.attributes = attribution;
 				}
