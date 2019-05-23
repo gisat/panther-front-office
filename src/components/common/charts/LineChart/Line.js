@@ -118,11 +118,11 @@ class Line extends React.PureComponent {
 		let highlighted = this.props.highlighted;
 
 		/* Handle context */
-		if (this.context && this.context.hoveredAreas) {
-			let higlightedFromContext = _.includes(this.context.hoveredAreas, this.props.itemKey);
+		if (this.context && this.context.hoveredItems) {
+			let higlightedFromContext = _.includes(this.context.hoveredItems, this.props.itemKey);
 			highlighted = higlightedFromContext;
 
-			if (this.props.siblings && !!_.intersection(this.context.hoveredAreas, this.props.siblings).length) {
+			if (this.props.siblings && !!_.intersection(this.context.hoveredItems, this.props.siblings).length) {
 				suppressed = !higlightedFromContext;
 			}
 

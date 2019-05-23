@@ -11,27 +11,27 @@ class HoverHandler extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.state = {
-			hoveredAreas: null
+			hoveredItems: null
 		};
 
 		this.onHover = this.onHover.bind(this);
 		this.onHoverOut = this.onHoverOut.bind(this);
 	}
 
-	onHover(hoveredAreas) {
-		this.setState({hoveredAreas});
+	onHover(hoveredItems) {
+		this.setState({hoveredItems});
 	}
 
 	onHoverOut() {
 		this.setState({
-			hoveredAreas: null
+			hoveredItems: null
 		});
 	}
 
 	render() {
 		return (
 			<HoverContext.Provider value={{
-				hoveredAreas: this.state.hoveredAreas,
+				hoveredItems: this.state.hoveredItems,
 				onHover: this.onHover,
 				onHoverOut: this.onHoverOut
 			}}>

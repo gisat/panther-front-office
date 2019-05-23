@@ -126,8 +126,8 @@ class Bar extends React.PureComponent {
 		let style = {};
 		let highlighted = false;
 
-		if (this.context && this.context.hoveredAreas) {
-			highlighted = !!_.intersection(this.context.hoveredAreas, this.props.itemKeys).length;
+		if (this.context && this.context.hoveredItems) {
+			highlighted = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
 		}
 
 

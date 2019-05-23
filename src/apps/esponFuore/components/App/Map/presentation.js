@@ -144,9 +144,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 			}
 
 			// todo refactor
-			if (this.state.thematicLayers && this.context && this.context.hoveredAreas !== this.hoveredAreas) {
-				this.setHover(this.state.thematicLayers, this.context.hoveredAreas);
-				this.hoveredAreas = this.context.hoveredAreas;
+			if (this.state.thematicLayers && this.context && this.context.hoveredItems !== this.hoveredItems) {
+				this.setHover(this.state.thematicLayers, this.context.hoveredItems);
+				this.hoveredItems = this.context.hoveredItems;
 			}
 		}
 	}
@@ -222,7 +222,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	 * Join spatial vector data with map layers.
 	 */
 	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersMetadata = {}, layersState = []) {
-		let hoveredAreas = this.context.hoveredAreas;
+		let hoveredItems = this.context.hoveredItems;
 
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
@@ -251,7 +251,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 						}
 
 						// hovered
-						if (hoveredAreas && includes(hoveredAreas, featureId)) {
+						if (hoveredItems && includes(hoveredItems, featureId)) {
 							feature.properties.hovered = true;
 						}
 					}
