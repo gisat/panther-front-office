@@ -46,6 +46,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		if(typeof styleFunction === 'function') {
 			this.styleFunction = styleFunction;
 			this._renderablesAddCallback();
+			this.doRerender();
 		}
 	}
 
