@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				{
 					title: 'Legend',
 					icon: 'legend',
-					width: 350,
+					width: 300,
 					maxWidth: 600,
-					height: 300,
+					height: 250,
 					position: {
 						bottom: 55,
 						left: 25
