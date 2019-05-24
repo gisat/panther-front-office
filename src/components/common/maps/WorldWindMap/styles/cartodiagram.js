@@ -30,13 +30,12 @@ export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fil
             //circle style
             const attributes = new ShapeAttributes();
 
-            if (renderable.hovered) {
-                attributes.interiorColor = Color.colorFromByteArray(hoverPalette.colorOpaqueRgba);
-                attributes.outlineColor = Color.colorFromByteArray(hoverPalette.darkerTransparentRgba);    
-            } else if (renderable.filtered) {
+            if (renderable.filtered) {
                 attributes.interiorColor = Color.colorFromByteArray(filteredPalette.colorTransparentRgba);
                 attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
-
+            } else if (renderable.hovered) {
+                attributes.interiorColor = Color.colorFromByteArray(hoverPalette.colorOpaqueRgba);
+                attributes.outlineColor = Color.colorFromByteArray(hoverPalette.darkerTransparentRgba);    
             } else {
                 attributes.interiorColor = diagramInteriorColor;
                 attributes.outlineColor = diagramOutlineColor;
@@ -45,13 +44,12 @@ export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fil
         } else {
             // polygon style
             const attributes = new ShapeAttributes();
-            if (renderable.hovered) {
-                attributes.interiorColor = Color.colorFromByteArray(hoverPalette.lighterTransparentRgba);
-                attributes.outlineColor = Color.colorFromByteArray(hoverPalette.colorTransparentRgba);    
-            } else if(renderable.filtered === true) {
+            if(renderable.filtered === true) {
                 attributes.interiorColor = Color.colorFromByteArray(filteredPalette.lighterTransparentRgba);
                 attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
-        
+            } else if (renderable.hovered) {
+                attributes.interiorColor = Color.colorFromByteArray(hoverPalette.lighterTransparentRgba);
+                attributes.outlineColor = Color.colorFromByteArray(hoverPalette.colorTransparentRgba);    
             } else if (renderable.accented === true) {
                 attributes.interiorColor = Color.colorFromByteArray(noDataAccentedPalette.colorTransparentRgba);
                 attributes.outlineColor = Color.colorFromByteArray(noDataAccentedPalette.darkerTransparentRgba);
