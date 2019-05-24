@@ -97,11 +97,11 @@ class Window extends React.PureComponent {
 		let width = this.props.width ? this.props.width : 'auto';
 		let height = this.props.height ? this.props.height : 'auto';
 
-		if (width > this.props.containerWidth) {
+		if (width > this.props.containerWidth && this.props.containerWidth) {
 			width = this.props.containerWidth;
 		}
 
-		if (height > this.props.containerHeight) {
+		if (height > this.props.containerHeight && this.props.containerHeight) {
 			height = this.props.containerHeight;
 		}
 
