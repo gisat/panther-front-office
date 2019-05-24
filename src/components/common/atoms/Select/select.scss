@@ -88,31 +88,31 @@
 }
 
 /* Options */
-.ptr-select-container .ptr-select__menu {
+.ptr-select__menu {
 	margin-top: 0;
 	z-index: 10;
 }
 
-.ptr-select-container .ptr-select__menu .ptr-select__menu-list {
+.ptr-select__menu .ptr-select__menu-list {
 	background-color: var(--base20); // todo
 	color: var(--base100); // todo
 	padding: 0;
   max-height: 10rem;
 }
 
-.ptr-select-container .ptr-select__menu .ptr-select__option {
+.ptr-select__menu .ptr-select__option {
 	padding: .25rem .75rem;
 }
 
-.ptr-select-container .ptr-select__menu .ptr-select__option--is-focused {
+.ptr-select__menu .ptr-select__option--is-focused {
 	background-color: var(--accent30);
 }
 
-.ptr-select-container .ptr-select__menu .ptr-select__option--is-selected {
+.ptr-select__menu .ptr-select__option--is-selected {
 	background-color: var(--accent50);
 }
 
-.ptr-select-container .ptr-select__menu .ptr-select__option .label.emphasized {
+.ptr-select__menu .ptr-select__option .label.emphasized {
 	font-weight: 700;
 }
 

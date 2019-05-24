@@ -167,6 +167,11 @@ class Select extends React.PureComponent {
                 tabIndex={props.unfocusable ? -1 : 0}
                 value={props.value}
                 title={props.value}
+                styles={{ menuPortal: base => {
+                        const { zIndex, ...rest } = base;  // remove zIndex from base by destructuring
+                        return { ...rest, zIndex: 9999 };
+                    }}}
+                menuPortalTarget={document.getElementById("ptr-app")}
             />
         );
     }
@@ -188,6 +193,11 @@ class Select extends React.PureComponent {
                 tabIndex={props.unfocusable ? -1 : 0}
                 value={props.value}
                 title={props.value}
+                styles={{ menuPortal: base => {
+                        const { zIndex, ...rest } = base;  // remove zIndex from base by destructuring
+                        return { ...rest, zIndex: 9999 };
+                    }}}
+                menuPortalTarget={document.getElementById("ptr-app")}
             />
         )
     }
