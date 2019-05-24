@@ -19,6 +19,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
 
 	static propTypes = {
+		layersTreeLoaded: PropTypes.bool,
 		activeFilter: PropTypes.object,
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
@@ -65,6 +66,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
 			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers]);
+			this.setFilterVectorLayers(this.props.activeFilter, layers, [...backgroundLayers, ...thematicLayers]);
 		}
 
 		//set filters

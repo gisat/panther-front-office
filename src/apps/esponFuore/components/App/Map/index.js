@@ -155,13 +155,15 @@ const mapStateToProps = (state, props) => {
 	
 	let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
 		if(layerData.attributeRelationsData) {
-			acc[layerData.key] = statisticsByLayerTemplateKeys.find(l => l.key ===layerData.attributeRelationsData.layerTemplateKey).mergedStatistics
+			const layer = statisticsByLayerTemplateKeys.find(l => l.key ===layerData.attributeRelationsData.layerTemplateKey);
+			acc[layerData.key] = layer ? layer.mergedStatistics : null;
 		}
 		return acc
 	}, {});
 
 	return {
 		// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+		layersTreeLoaded: layersState && layersState.length > 0,
 		activeFilter,
 		backgroundLayer: [{type:'wikimedia'}],
 		layers,
@@ -179,14 +181,16 @@ const mapDispatchToProps = (dispatch, props) => {
 	const componentId = 'WorldWindMapSelector_' + utils.randomString(6);
 
 	return {
-		onMount: () => {
-			dispatch(Action.maps.use(props.mapKey));
-			const layerTreesFilter = props.layerTreesFilter;
-			//action to load LT data and add visible layers to map store
-			dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
-				//parse map LT data
-				dispatch(Action.maps.loadLayerTreesData(layerTreesFilter, [props.mapKey]));
-			});
+		onMount: (layersTreeLoaded) => {
+			if(!layersTreeLoaded) {
+				dispatch(Action.maps.use(props.mapKey));
+				const layerTreesFilter = props.layerTreesFilter;
+				//action to load LT data and add visible layers to map store
+				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
+					//parse map LT data
+					dispatch(Action.maps.loadLayerTreesData(layerTreesFilter, [props.mapKey]));
+				});
+			}
 		},
 
 		onUnmount: () => {

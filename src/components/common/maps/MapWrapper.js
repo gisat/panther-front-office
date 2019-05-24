@@ -13,7 +13,7 @@ class MapWrapper extends React.PureComponent {
 
 	componentDidMount() {
 		if (this.props.onMount) {
-			this.props.onMount();
+			this.props.onMount(this.props.layersTreeLoaded);
 		}
 	}
 
