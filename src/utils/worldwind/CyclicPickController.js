@@ -33,7 +33,7 @@ class CyclicPickController {
 				this.onMouseUp();
 				return;
 			case 'mouseout':
-				this.onMouseOut();
+				this.onMouseOut(wwd, cb, event);
 				return;
 		}
 	}
@@ -52,8 +52,11 @@ class CyclicPickController {
 		}
 	}
 
-	onMouseOut() {
+	onMouseOut(wwd, cb, event) {
 		this.mouseDown = false;
+
+		//remove all highlited
+		cb([]);
 	}
 	onMouseDown() {
 		this.mouseDown = true;
