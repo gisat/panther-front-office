@@ -47,7 +47,7 @@ class CyclicPickController {
 			const highlightedRenderables = this.setNextHighlightStage(pickList.objects);
 
 			if (cb) {
-				cb(highlightedRenderables);
+				cb(highlightedRenderables, event);
 			}
 		}
 	}

@@ -144,9 +144,9 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	handleHover(renderables) {
+	handleHover(renderables, e) {
 		if (this.props.onHover && renderables && renderables.length) {
-			this.props.onHover(renderables);
+			this.props.onHover(renderables, e.clientX, e.clientY);
 		} else if (this.props.onHoverOut) {
 			this.props.onHoverOut();
 		}

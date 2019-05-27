@@ -14,6 +14,7 @@ import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWin
 
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
 import HoverContext from "../../../../../components/common/HoverHandler/context";
+import _ from "lodash";
 
 class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
@@ -335,7 +336,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 		})
 	}
 
-	onHover(renderables) {
+	// TODO refactor
+	onHover(renderables, x, y) {
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
 		if (this.state.thematicLayers) {
 			this.state.thematicLayers.forEach(layer => {
@@ -343,12 +345,36 @@ class FuoreWorldWindMap extends React.PureComponent {
 				const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
 				if(instanceOfVector) {
 					let keySource = existingLayer.spatialIdKey;
+					let nameSource = existingLayer.attributeIdKey;
+					let valueSource = existingLayer.metadata && existingLayer.metadata.attributeDataKey;
 					let keys = features.map(feature => feature[keySource]);
+					console.log(renderables);
 					if (this.context && this.context.onHover) {
-						this.context.onHover(keys);
+						this.context.onHover(keys, {
+							popup: {
+								x,
+								y,
+								content: this.getPopupContent(features, nameSource, valueSource)
+							}
+						});
 					}
 				}
 			});
+		}
+	}
+
+	getPopupContent(features, nameSource, valueSource) {
+		if (features && features.length && nameSource && valueSource) {
+			let content = [];
+			features.forEach((feature) => {
+				let unit = _.get(feature, nameSource);
+				let value = _.get(feature, valueSource);
+				content.push(<div key={unit}><i>{unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+			});
+
+			return (<>{content}</>)
+		} else {
+			return null;
 		}
 	}
 
