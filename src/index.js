@@ -4,7 +4,14 @@ import _ from 'lodash';
 import config from './config';
 import apps from './apps';
 
+import {initialize as initializeGTag} from './utils/gtag';
+
 function start() {
+	//configute Google Analytics
+	if(config.gtag) {
+		initializeGTag(config.gtag);
+	}
+
 	for (let app of apps) {
 		if (
 			(url.hostname === app.hostname) && (!app.path || url.pathname.startsWith(app.path))
