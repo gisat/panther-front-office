@@ -5,7 +5,7 @@ import utils from '../../../../utils/utils';
 import _, {isEqual, isNull} from 'lodash';
 
 import WorldWind from 'webworldwind-esa';
-
+import decorateWorldWindowController from './controllers/WorldWindowControllerDecorator';
 import navigator from './navigator/helpers';
 
 import Attribution from './Attribution/Attribution';
@@ -43,8 +43,9 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidMount() {
 		this.wwd = new WorldWindow(this.canvasId, this.getElevationModel());
-		this.wwd.addEventListener("mousemove", this.onNavigatorChange.bind(this));
-		this.wwd.addEventListener("wheel", this.onNavigatorChange.bind(this));
+
+		decorateWorldWindowController(this.wwd.worldWindowController);
+		this.wwd.worldWindowController.onNavigatorChanged = this.onNavigatorChange.bind(this);
 
 		this.pickController = new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout'], this.handleHover.bind(this));
 
@@ -117,9 +118,9 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	onNavigatorChange(event) {
-		if (event && event.worldWindow) {
+		if (event) {
 			//setActive mapKey
-			const changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event.worldWindow.navigator);
+			const changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event);
 			if (!_.isEmpty(changedNavigatorParams) && this.props.setActiveMapKey) {
 				if(this.setMapKeyTimeout) {
 					clearTimeout(this.setMapKeyTimeout);
