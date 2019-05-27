@@ -52,10 +52,10 @@ class EsponFuoreApp extends React.PureComponent {
 
 			return (
 				<div className="esponFuore-app">
-					<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
-					<Header />
-					<div className="esponFuore-content">
-						<HoverHandler>
+					<HoverHandler>
+						<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
+						<Header />
+						<div className="esponFuore-content">
 							<WindowsContainer setKey={this.context.windowSetKey}>
 								<AdjustableColumns
 									fixed
@@ -111,8 +111,8 @@ class EsponFuoreApp extends React.PureComponent {
 									mapSetKey={this.context.mapSetKey}
 								/>
 							</WindowsContainer>
-						</HoverHandler>
-					</div>
+						</div>
+					</HoverHandler>
 				</div>
 			);
 		}

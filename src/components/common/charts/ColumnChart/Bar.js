@@ -21,14 +21,12 @@ class Bar extends React.PureComponent {
 		]),
 		highlighted: PropTypes.bool,
 		itemKeys: PropTypes.array,
-		onMouseMove: PropTypes.func,
-		onMouseOut: PropTypes.func,
-		onMouseOver: PropTypes.func,
 		x: PropTypes.number,
 		y: PropTypes.number,
 		height: PropTypes.number,
 		width: PropTypes.number,
-		hidden: PropTypes.bool
+		hidden: PropTypes.bool,
+		popupContent: PropTypes.element
 	};
 
 	constructor(props) {
@@ -46,12 +44,14 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseMove(e) {
-		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKeys, e.nativeEvent.layerX, e.nativeEvent.layerY);
-		}
-
 		if (this.context && this.context.onHover) {
-			this.context.onHover(this.props.itemKeys);
+			this.context.onHover(this.props.itemKeys, {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.props.popupContent
+				}
+			});
 		}
 
 		let color = null;
@@ -66,12 +66,14 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseOver(e) {
-		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKeys, e.nativeEvent.layerX, e.nativeEvent.layerY);
-		}
-
 		if (this.context && this.context.onHover) {
-			this.context.onHover(this.props.itemKeys);
+			this.context.onHover(this.props.itemKeys, {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.props.popupContent
+				}
+			});
 		}
 
 		let color = null;
@@ -86,10 +88,6 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseOut(e) {
-		if (this.props.onMouseOut) {
-			this.props.onMouseOut();
-		}
-
 		if (this.context && this.context.onHoverOut) {
 			this.context.onHoverOut();
 		}

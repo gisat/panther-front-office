@@ -11,7 +11,7 @@ import utilsFilter from "../../../../utils/filter";
 import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Bar from "./Bar";
-import Popup from "../Popup";
+import Popup from "../../HoverHandler/Popup/Popup";
 
 const MIN_BAR_WIDTH = 4; // TODO optional
 const BAR_GAP_RATIO = 0.4; // TODO optional
@@ -71,24 +71,6 @@ class ColumnChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = {popup: null};
-
-		this.onBarOut = this.onBarOut.bind(this);
-		this.onBarOver = this.onBarOver.bind(this);
-	}
-
-	onBarOver(itemKeys, x, y) {
-		let state = this.state.popup;
-
-		if (!state || !_.isEqual(state.itemKeys, itemKeys)  || state.x !== x || state.y !== y) {
-			this.setState({
-				popup: {itemKeys, x, y}
-			});
-		}
-	}
-
-	onBarOut() {
-		this.setState({popup: null});
 	}
 
 	// TODO axis orientation
@@ -220,7 +202,6 @@ class ColumnChart extends React.PureComponent {
 						</> : null
 					}
 				</svg>
-				{this.state.popup ? this.renderPopup(width) : null}
 			</div>
 		);
 	}
@@ -245,9 +226,6 @@ class ColumnChart extends React.PureComponent {
 						<Bar
 							itemKeys={[key]}
 							key={`${key}_${value}`}
-							onMouseOut={this.onBarOut}
-							onMouseOver={this.onBarOver}
-							onMouseMove={this.onBarOver}
 							defaultColor={this.props.defaultColor}
 							highlightedColor={this.props.highlightedColor}
 
@@ -256,6 +234,8 @@ class ColumnChart extends React.PureComponent {
 							width={xScale.bandwidth()}
 							height={availableHeight - yScale(value)}
 							availableHeight={availableHeight}
+
+							popupContent={this.getPopupContent([key])}
 						/>
 					);
 				})}
@@ -276,9 +256,6 @@ class ColumnChart extends React.PureComponent {
 							hidden
 							itemKeys={group.keys}
 							key={`${key}_${value}`}
-							onMouseOut={this.onBarOut}
-							onMouseOver={this.onBarOver}
-							onMouseMove={this.onBarOver}
 							defaultColor={this.props.defaultColor}
 							highlightedColor={this.props.highlightedColor}
 
@@ -287,6 +264,8 @@ class ColumnChart extends React.PureComponent {
 							width={xScale.bandwidth()}
 							height={availableHeight - yScale(value)}
 							availableHeight={availableHeight}
+
+							popupContent={this.getPopupContent(group.keys)}
 						/>
 					);
 				})}
@@ -312,21 +291,22 @@ class ColumnChart extends React.PureComponent {
 		);
 	}
 
-	renderPopup(maxX) {
-		const state = this.state.popup;
-		let content = [];
+	getPopupContent(itemKeys) {
+		let content = null;
 
-		if (state.itemKeys.length < 15){
-			state.itemKeys.map((key) => {
+		if (itemKeys.length < 15){
+			let con = [];
+			itemKeys.map((key) => {
 				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
 				let unit = _.get(data, this.props.xSourcePath);
 				let value = _.get(data, this.props.ySourcePath);
-				content.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+				con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
 			});
+			content = (<>{con}</>);
 		} else {
 			let units = [];
 			let values = [];
-			state.itemKeys.map((key) => {
+			itemKeys.map((key) => {
 				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
 				units.push(_.get(data, this.props.xSourcePath));
 				values.push(_.get(data, this.props.ySourcePath));
@@ -339,15 +319,7 @@ class ColumnChart extends React.PureComponent {
 			);
 		}
 
-		return (
-			<Popup
-				x={state.x}
-				y={state.y}
-				maxX={maxX}
-			>
-				{content}
-			</Popup>
-		);
+		return content;
 	}
 }
 

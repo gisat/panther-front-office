@@ -14,9 +14,6 @@ class Line extends React.PureComponent {
 		itemKey: PropTypes.string,
 		name: PropTypes.string,
 		coordinates: PropTypes.array,
-		onMouseMove: PropTypes.func,
-		onMouseOut: PropTypes.func,
-		onMouseOver: PropTypes.func,
 		defaultColor: PropTypes.string,
 		highlightedColor: PropTypes.oneOfType([
 			PropTypes.string,
@@ -26,7 +23,10 @@ class Line extends React.PureComponent {
 		withPoints: PropTypes.bool,
 		siblings: PropTypes.array,
 		suppressed: PropTypes.bool,
-		gray: PropTypes.bool
+		gray: PropTypes.bool,
+
+		pointNameSourcePath: PropTypes.string,
+		pointValueSourcePath: PropTypes.string
 	};
 
 	constructor(props) {
@@ -45,34 +45,34 @@ class Line extends React.PureComponent {
 	}
 
 	onMouseMove(e, data) {
-		if (this.props.onMouseMove) {
-			this.props.onMouseMove(this.props.itemKey, this.props.name, e.nativeEvent.layerX, e.nativeEvent.layerY, data);
-		}
-
 		if (this.context && this.context.onHover) {
-			this.context.onHover([this.props.itemKey]);
+			this.context.onHover([this.props.itemKey], {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.getPopupContent(data)
+				}
+			});
 		}
 
 		this.setColor(true);
 	}
 
 	onMouseOver(e, data) {
-		if (this.props.onMouseOver) {
-			this.props.onMouseOver(this.props.itemKey, this.props.name, e.nativeEvent.layerX, e.nativeEvent.layerY, data);
-		}
-
 		if (this.context && this.context.onHover) {
-			this.context.onHover([this.props.itemKey]);
+			this.context.onHover([this.props.itemKey], {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.getPopupContent(data)
+				}
+			});
 		}
 
 		this.setColor(true);
 	}
 
 	onMouseOut(e) {
-		if (this.props.onMouseOut) {
-			this.props.onMouseOut();
-		}
-
 		if (this.context && this.context.onHoverOut) {
 			this.context.onHoverOut();
 		}
@@ -184,6 +184,23 @@ class Line extends React.PureComponent {
 				/>
 			);
 		});
+	}
+
+	getPopupContent(data) {
+		let content = null;
+
+		if (this.props.name) {
+			content = (
+				<div>
+					<div><i>{this.props.name}</i></div>
+					{data ? (
+						<div><i>{`${_.get(data, this.props.pointNameSourcePath)}:`}</i> {`${_.get(data, this.props.pointValueSourcePath).toLocaleString()}`}</div>
+					) : null}
+				</div>
+			);
+		}
+
+		return content
 	}
 }
 

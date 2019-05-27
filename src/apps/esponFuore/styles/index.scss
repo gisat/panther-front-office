@@ -47,6 +47,7 @@ $headerHeight: m(2);
 .esponFuore-content {
 	flex: 1;
 	max-height: calc(100% - #{$headerHeight});
+	position: relative;
 }
 
 

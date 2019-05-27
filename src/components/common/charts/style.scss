@@ -20,21 +20,6 @@
 	box-sizing: content-box;
 }
 
-.ptr-chart-popup {
-	position: absolute;
-	background: rgba(var(--base0rgb), .90);
-	z-index: 1;
-	padding: .35rem;
-	border: 1px solid var(--base30);
-	box-shadow: 0 3px 7px 0 rgba(var(--base100rgb), 0.20);
-	font-size: $b1;
-	color: var(--base80);
-}
-
-.ptr-chart-popup div i {
-	font-weight: bold;
-}
-
 /* Axis */
 .ptr-axis-baseline {
 	stroke-width: 2px;

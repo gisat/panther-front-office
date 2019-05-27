@@ -1,0 +1,18 @@
+@import '../../../../styles/variables';
+
+.ptr-popup {
+	position: absolute;
+	background: rgba(var(--base0rgb), .90);
+	z-index: 99999;
+	padding: .35rem;
+	border: 1px solid var(--base30);
+	box-shadow: 0 3px 7px 0 rgba(var(--base100rgb), 0.20);
+	font-size: $b1;
+	color: var(--base80);
+	min-width: 8rem;
+	min-height: 2rem;
+}
+
+.ptr-popup div i {
+	font-weight: bold;
+}

@@ -8,7 +8,6 @@ import utils from "../../../../utils/sort";
 
 import AxisX from '../AxisX';
 import AxisY from "../AxisY";
-import Popup from "../Popup";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
 
@@ -64,25 +63,6 @@ class LineChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = {popup: null};
-
-		this.onLineOut = this.onLineOut.bind(this);
-		this.onLineOver = this.onLineOver.bind(this);
-	}
-
-	onLineOver(itemKey, name, x, y, data) {
-		let state = this.state.popup;
-
-		if (!state || !_.isEqual(state.itemKey, itemKey)  || state.x !== x || state.y !== y) {
-			this.setState({
-				popup: {itemKey, name, x, y, data},
-				hoveredItemKeys: [itemKey]
-			});
-		}
-	}
-
-	onLineOut() {
-		this.setState({popup: null, hoveredItemKeys: null});
 	}
 
 	// TODO axis orientation
@@ -220,7 +200,6 @@ class LineChart extends React.PureComponent {
 						</g>
 					</> : null}
 				</svg>
-				{this.state.popup ? this.renderPopup(width) : null}
 			</div>
 		);
 	}
@@ -243,8 +222,6 @@ class LineChart extends React.PureComponent {
 				return {x,y, originalData: record};
 			});
 
-			let suppressed = this.state.hoveredItemKeys && !_.includes(this.state.hoveredItemKeys, key);
-
 			return (
 				<Line
 					key={`${key}_${JSON.stringify(coordinates)}`}
@@ -253,13 +230,11 @@ class LineChart extends React.PureComponent {
 					coordinates={coordinates}
 					defaultColor={color}
 					highlightedColor={color}
-					onMouseOut={this.onLineOut}
-					onMouseOver={this.onLineOver}
-					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
-					suppressed={suppressed}
 					siblings={siblings}
 					gray={mode === 'gray'}
+					pointNameSourcePath={props.xSourcePath}
+					pointValueSourcePath={props.ySourcePath}
 				/>
 			);
 		});
@@ -358,10 +333,9 @@ class LineChart extends React.PureComponent {
 					coordinates={minCoordinates}
 					defaultColor={"#777777"}
 					highlightedColor={"#555555"}
-					onMouseOut={this.onLineOut}
-					onMouseOver={this.onLineOver}
-					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
+					pointNameSourcePath={props.xSourcePath}
+					pointValueSourcePath={props.ySourcePath}
 					gray
 				/>
 				<Line
@@ -369,12 +343,11 @@ class LineChart extends React.PureComponent {
 					itemKey={'average'}
 					name={'Average'}
 					coordinates={averageCoordinates}
-					onMouseOut={this.onLineOut}
-					onMouseOver={this.onLineOver}
-					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
 					defaultColor={this.props.defaultColor ? this.props.defaultColor : "#0088ff"}
 					highlightedColor={this.props.highlightedColor ? this.props.highlightedColor : "#0077ff"}
+					pointNameSourcePath={props.xSourcePath}
+					pointValueSourcePath={props.ySourcePath}
 				/>
 				<Line
 					key={'maximum'}
@@ -383,39 +356,12 @@ class LineChart extends React.PureComponent {
 					coordinates={maxCoordinates}
 					defaultColor={"#777777"}
 					highlightedColor={"#555555"}
-					onMouseOut={this.onLineOut}
-					onMouseOver={this.onLineOver}
-					onMouseMove={this.onLineOver}
 					withPoints={this.props.withPoints}
+					pointNameSourcePath={props.xSourcePath}
+					pointValueSourcePath={props.ySourcePath}
 					gray
 				/>
 			</>
-		);
-	}
-
-	renderPopup(maxX) {
-		const state = this.state.popup;
-		let content = null;
-
-		if (state.itemKey) {
-			content = (
-				<div>
-					<div><i>{state.name}</i></div>
-					{state.data ? (
-						<div><i>{`${_.get(state.data, this.props.xSourcePath)}:`}</i> {`${_.get(state.data, this.props.ySourcePath).toLocaleString()}`}</div>
-					) : null}
-				</div>
-			);
-		}
-
-		return (
-			<Popup
-				x={state.x}
-				y={state.y}
-				maxX={maxX}
-			>
-				{content}
-			</Popup>
 		);
 	}
 }
