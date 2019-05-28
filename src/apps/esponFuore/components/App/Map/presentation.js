@@ -359,7 +359,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 							popup: {
 								x,
 								y,
-								content: this.getPopupContent(features, nameSource, valueSource)
+								content: this.getPopupContent(features, nameSource, valueSource, keySource)
 							}
 						});
 					}
@@ -368,13 +368,18 @@ class FuoreWorldWindMap extends React.PureComponent {
 		}
 	}
 
-	getPopupContent(features, nameSource, valueSource) {
+	getPopupContent(features, nameSource, valueSource, spatialIdSource) {
 		if (features && features.length && nameSource && valueSource) {
 			let content = [];
 			features.forEach((feature) => {
 				let unit = _.get(feature, nameSource);
 				let value = _.get(feature, valueSource);
-				content.push(<div key={unit}><i>{unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+				let spatialId = _.get(feature, spatialIdSource);
+				if(value || value === 0) {
+					content.push(<div key={spatialId}><i>{unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+				} else {
+					content.push(<div key={spatialId}>No data</div>);
+				}
 			});
 
 			return (<>{content}</>)
