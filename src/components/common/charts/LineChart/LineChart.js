@@ -207,7 +207,7 @@ class LineChart extends React.PureComponent {
 		let leftOffset = xScale.bandwidth()/2;
 		let siblings = data.map((item) => _.get(item, props.serieKeySourcePath));
 
-		return data.map((item, index) => {
+		return _.map(data, (item, index) => {
 			let serie = _.get(item, props.serieDataSourcePath);
 			let key = _.get(item, props.serieKeySourcePath);
 			let name = _.get(item, props.serieNameSourcePath);
@@ -246,9 +246,9 @@ class LineChart extends React.PureComponent {
 		let minValues = {};
 		let values = {};
 
-		data.forEach((record) => {
+		_.map(data,(record) => {
 			let serie = _.get(record, props.serieDataSourcePath);
-			serie.forEach((item) => {
+			_.map(serie,(item) => {
 				let key = _.get(item, props.xSourcePath);
 				let value = _.get(item, props.ySourcePath);
 

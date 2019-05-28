@@ -162,7 +162,7 @@ class ColumnChart extends React.PureComponent {
 				let itemsInGroup = Math.ceil(MIN_BAR_WIDTH/barWidth);
 				let keys = [];
 				let originalData = [];
-				data.forEach((item, index) => {
+				_.map(data,(item, index) => {
 					keys.push(_.get(item, props.keySourcePath));
 					originalData.push(item);
 					if (index % itemsInGroup === (itemsInGroup - 1) || index === (data.length - 1)) {
@@ -264,7 +264,7 @@ class ColumnChart extends React.PureComponent {
 	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, availableHeight) {
 		return (
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
-				{aggregatedData.map((group) => {
+				{_.map(aggregatedData,(group) => {
 					let firstItemFromGroup = group.originalData[0];
 					let key = _.get(firstItemFromGroup, props.keySourcePath);
 					let value = _.get(firstItemFromGroup, props.ySourcePath);
@@ -316,7 +316,7 @@ class ColumnChart extends React.PureComponent {
 			if (data.originalData.length > 20) {
 				let units = [];
 				let values = [];
-				data.originalData.map((item) => {
+				_.map(data.originalData,(item) => {
 					units.push(_.get(item, this.props.xSourcePath));
 					values.push(_.get(item, this.props.ySourcePath));
 				});
@@ -327,7 +327,7 @@ class ColumnChart extends React.PureComponent {
 					</div>
 				);
 			} else {
-				data.originalData.map((item) => {
+				_.map(data.originalData, (item) => {
 					let unit = _.get(item, this.props.xSourcePath);
 					let value = _.get(item, this.props.ySourcePath);
 					con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
@@ -341,33 +341,6 @@ class ColumnChart extends React.PureComponent {
 		} else {
 			content = (<div key={"no-data"}><i>No data</i></div>);
 		}
-
-
-
-		// if (itemKeys.length < 15){
-		// 	let con = [];
-		// 	itemKeys.map((key) => {
-		// 		let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
-		// 		let unit = _.get(data, this.props.xSourcePath);
-		// 		let value = _.get(data, this.props.ySourcePath);
-		// 		con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-		// 	});
-		// 	content = (<>{con}</>);
-		// } else {
-		// 	let units = [];
-		// 	let values = [];
-		// 	itemKeys.map((key) => {
-		// 		let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
-		// 		units.push(_.get(data, this.props.xSourcePath));
-		// 		values.push(_.get(data, this.props.ySourcePath));
-		// 	});
-		// 	content = (
-		// 		<div>
-		// 			<i>{units.length < 10 ? units.join(", ") : `${units.length} items `}</i>
-		// 			{`From ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
-		// 		</div>
-		// 	);
-		// }
 
 		return content;
 	}

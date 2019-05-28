@@ -65,7 +65,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 			let groupedSources = {};
 			_.forIn(groupedKeys, (keys, layerKey) => {
 				let sources = [];
-				keys.forEach(key => {
+				_.map(keys, key => {
 					if (key && dataSources && !_.isEmpty(dataSources) && dataSources[key] && !_.isEmpty(groupedRelations) && groupedRelations[layerKey]) {
 						sources.push({...dataSources[key], attributeRelationData: _.find(groupedRelations[layerKey], o => o.attributeDataSourceKey === key) || null});
 					} else {

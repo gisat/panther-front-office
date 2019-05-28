@@ -51,26 +51,21 @@ const getFilteredGroupedByFid = createCachedSelector(
 		if (allDataSources && !_.isEmpty(allDataSources) && filtered) {
 
 			let data = {};
-			_.forEach(filtered, filteredSource => {
+			_.map(filtered, filteredSource => {
 				let source = allDataSources[filteredSource.attributeDataSourceKey];
 				let keySource = filteredSource.fidColumnName;
 				let nameSource = filteredSource.fidColumnName; // TODO titleColumnName
 
 				if (source && source.attributeData && source.attributeData.features) {
 					let features = source.attributeData.features;
-					_.forEach(features, (feature) => {
+					_.map(features, (feature) => {
 						let key = feature.properties[keySource];
 						let {[keySource]: keyName, ...props} = feature.properties;
-						// _.forEach(feature.properties, (value, key) => {
-						// 	if (key !== keySource) {
-						// 		props[key] = value;
-						// 	}
-						// });
 
 						let values = [];
 						let existingKey = data[key];
 
-						_.forEach(props, (value, key) => {
+						_.map(props, (value, key) => {
 							if (existingKey) {
 								existingKey.data.values.push({key, value});
 							} else {
@@ -116,12 +111,12 @@ const getNamesByFid = createCachedSelector(
 
 				if (source && source.attributeData && source.attributeData.features) {
 					let features = source.attributeData.features;
-					_.forEach(features, (feature) => {
+					_.map(features, (feature) => {
 						let key = feature.properties[keySource];
 						let {[keySource]: keyName, ...props} = feature.properties;
 
 						let name = null;
-						_.forEach(props, (value, key) => {
+						_.map(props, (value, key) => {
 							name = value;
 						});
 
@@ -172,7 +167,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 			let groupedSources = {};
 			_.forIn(groupedKeys, (keys, layerKey) => {
 				let sources = [];
-				keys.forEach(key => {
+				_.map(keys,key => {
 					if (key && dataSources && !_.isEmpty(dataSources) && dataSources[key] && !_.isEmpty(groupedRelations) && groupedRelations[layerKey]) {
 						sources.push({...dataSources[key], attributeRelationData: _.find(groupedRelations[layerKey], o => o.attributeDataSourceKey === key) || null});
 					} else {
