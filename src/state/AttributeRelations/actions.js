@@ -17,7 +17,7 @@ const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Sel
 
 // ============ actions ===========
 
-function ensureIndexedSpecific(filter, order, start, length, componentId) {
+function ensureIndexedSpecific(filter, order, start, length, componentId, noStatistic) {
     return (dispatch, getState) => {
         dispatch(common.ensureIndexed(Select.attributeRelations.getSubstate, 'attribute', filter, order, start, length, ActionTypes.ATTRIBUTE_RELATIONS, 'relations')).then(() => {
         	let filteredRelations = Select.attributeRelations.getFilteredRelations(getState(), filter);
@@ -49,7 +49,7 @@ function ensureIndexedSpecific(filter, order, start, length, componentId) {
 					if (!existingSource) {
 						dispatch(attributeDataActions.loadFilteredData(source, componentId));
 					}
-					if (!existingStatisticsSource) {
+					if (!existingStatisticsSource && !noStatistic) {
 						dispatch(statisticsActions.loadFilteredData(statisticsFilter, componentId));
 					}
 

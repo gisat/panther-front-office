@@ -71,6 +71,19 @@ class ColumnChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			noXcaptions: false
+		};
+		this.handleXcaptions = this.handleXcaptions.bind(this);
+	}
+
+	handleXcaptions(noXcaptions) {
+		if (noXcaptions !== this.state.noXcaptions) {
+			this.setState({
+				noXcaptions
+			});
+		}
 	}
 
 	// TODO axis orientation
@@ -89,6 +102,10 @@ class ColumnChart extends React.PureComponent {
 
 		if (!props.xCaptions && !props.xCaptionsSize) {
 			xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
+		}
+
+		if (this.state.noXcaptions) {
+			xCaptionsSize = 10;
 		}
 
 		if (!props.yCaptions && !props.yCaptionsSize) {
@@ -195,6 +212,7 @@ class ColumnChart extends React.PureComponent {
 								ticks={props.xTicks}
 								gridlines={props.xGridlines}
 								withCaption={props.xCaptions}
+								handleCaptions={this.handleXcaptions}
 							/>
 							<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
 								{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
@@ -235,7 +253,7 @@ class ColumnChart extends React.PureComponent {
 							height={availableHeight - yScale(value)}
 							availableHeight={availableHeight}
 
-							popupContent={this.getPopupContent([key])}
+							popupContent={this.getPopupContent(item)}
 						/>
 					);
 				})}
@@ -265,7 +283,7 @@ class ColumnChart extends React.PureComponent {
 							height={availableHeight - yScale(value)}
 							availableHeight={availableHeight}
 
-							popupContent={this.getPopupContent(group.keys)}
+							popupContent={this.getPopupContent(group)}
 						/>
 					);
 				})}
@@ -291,33 +309,65 @@ class ColumnChart extends React.PureComponent {
 		);
 	}
 
-	getPopupContent(itemKeys) {
+	getPopupContent(data) {
 		let content = null;
-
-		if (itemKeys.length < 15){
+		if (data && data.keys && data.originalData) {
 			let con = [];
-			itemKeys.map((key) => {
-				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
-				let unit = _.get(data, this.props.xSourcePath);
-				let value = _.get(data, this.props.ySourcePath);
-				con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-			});
-			content = (<>{con}</>);
+			if (data.originalData.length > 20) {
+				let units = [];
+				let values = [];
+				data.originalData.map((item) => {
+					units.push(_.get(item, this.props.xSourcePath));
+					values.push(_.get(item, this.props.ySourcePath));
+				});
+				content = (
+					<div>
+						<i>{`${units.length} items: `}</i>
+						{`from ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
+					</div>
+				);
+			} else {
+				data.originalData.map((item) => {
+					let unit = _.get(item, this.props.xSourcePath);
+					let value = _.get(item, this.props.ySourcePath);
+					con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+				});
+				content = (<>{con}</>);
+			}
+		} else if (data) {
+			let unit = _.get(data, this.props.xSourcePath);
+			let value = _.get(data, this.props.ySourcePath);
+			content = (<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
 		} else {
-			let units = [];
-			let values = [];
-			itemKeys.map((key) => {
-				let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
-				units.push(_.get(data, this.props.xSourcePath));
-				values.push(_.get(data, this.props.ySourcePath));
-			});
-			content = (
-				<div>
-					<i>{units.length < 10 ? units.join(", ") : `${units.length} items `}</i>
-					{`From ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
-				</div>
-			);
+			content = (<div key={"no-data"}><i>No data</i></div>);
 		}
+
+
+
+		// if (itemKeys.length < 15){
+		// 	let con = [];
+		// 	itemKeys.map((key) => {
+		// 		let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
+		// 		let unit = _.get(data, this.props.xSourcePath);
+		// 		let value = _.get(data, this.props.ySourcePath);
+		// 		con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+		// 	});
+		// 	content = (<>{con}</>);
+		// } else {
+		// 	let units = [];
+		// 	let values = [];
+		// 	itemKeys.map((key) => {
+		// 		let data = _.find(this.props.data, item => {return _.get(item, this.props.keySourcePath) === key});
+		// 		units.push(_.get(data, this.props.xSourcePath));
+		// 		values.push(_.get(data, this.props.ySourcePath));
+		// 	});
+		// 	content = (
+		// 		<div>
+		// 			<i>{units.length < 10 ? units.join(", ") : `${units.length} items `}</i>
+		// 			{`From ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
+		// 		</div>
+		// 	);
+		// }
 
 		return content;
 	}

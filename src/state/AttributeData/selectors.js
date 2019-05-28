@@ -101,6 +101,53 @@ const getFilteredGroupedByFid = createCachedSelector(
 }
 );
 
+const getNamesByFid = createCachedSelector(
+	[
+		getAllAsObject,
+		AttributeRelations.getDataSourcesFromFilteredRelations
+	],
+	(allDataSources, filtered) => {
+		if (allDataSources && !_.isEmpty(allDataSources) && filtered) {
+			let data = {};
+			if (filtered.length === 1) {
+				let filteredSource = filtered[0];
+				let source = allDataSources[filteredSource.attributeDataSourceKey];
+				let keySource = filteredSource.fidColumnName;
+
+				if (source && source.attributeData && source.attributeData.features) {
+					let features = source.attributeData.features;
+					_.forEach(features, (feature) => {
+						let key = feature.properties[keySource];
+						let {[keySource]: keyName, ...props} = feature.properties;
+
+						let name = null;
+						_.forEach(props, (value, key) => {
+							name = value;
+						});
+
+						data[key] = {
+							key,
+							data: {
+								name
+							}
+						};
+					});
+				}
+
+				return _.values(data);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, filter, chart) => {
+		return `${JSON.stringify(filter)}:${JSON.stringify(chart && chart.key)}`;
+	}
+);
+
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -148,5 +195,6 @@ export default {
 	getBatchByFilterOrder,
 	getFilteredGroupedByLayerKey,
 
-	getFilteredGroupedByFid
+	getFilteredGroupedByFid,
+	getNamesByFid,
 };

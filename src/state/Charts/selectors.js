@@ -69,6 +69,22 @@ const getDataForChart = createCachedSelector(
 	}
 )((state, filter, chart) => {return `${JSON.stringify(filter)}:${chart.key}`});
 
+const getNamesForChart = createCachedSelector(
+	[
+		AttributeDataSelectors.getNamesByFid,
+		(state, filter, chart) => chart
+	],
+	(data, chart) => {
+		if (chart && data) {
+			return data;
+		} else {
+			return null;
+		}
+	}
+)((state, filter, chart) => {return `${JSON.stringify(filter)}:${chart.key}`});
+
+
+
 /* helpers */
 
 /**
@@ -141,5 +157,6 @@ export default {
 	getChartConfiguration,
 	getChartsBySetKeyAsObject,
 	getDataForChart,
+	getNamesForChart,
 	getSetByKey
 }

@@ -76,10 +76,28 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 
 		/* Filter */
-		if (data && filter && filter.areas) {
+		if (data && data.length && filter && filter.areas) {
 			data = _.filter(data, (item) => {
 				return _.indexOf(filter.areas, item.key) !== -1;
 			});
+		}
+
+		if (data && data.length && props.nameData && props.nameData.length) {
+			let names = props.nameData;
+			let mergedData = {};
+
+			_.each(data, (record) => {
+				mergedData[record.key] = {...record};
+			});
+
+			_.each(names, (nameRecord) => {
+				let existingRecord = mergedData[nameRecord.key];
+				if (existingRecord) {
+					existingRecord.data.name = nameRecord.data.name;
+				}
+			});
+
+			data = _.values(mergedData);
 		}
 
 		return (
@@ -106,7 +124,7 @@ class EsponFuoreChart extends React.PureComponent {
 				yGridlines
 				yCaptions
 				xCaptions
-				xCaptionsSize={50}
+				xCaptionsSize={80}
 				yCaptionsSize={70}
 				minAspectRatio={1.5}
 				withoutYbaseline

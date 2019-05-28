@@ -34,6 +34,12 @@ class AxisX extends React.PureComponent {
 		super(props);
 	}
 
+	handleCaptions(hide) {
+		if (this.props.handleCaptions) {
+			this.props.handleCaptions(hide);
+		}
+	}
+
 	render() {
 		const props = this.props;
 
@@ -59,11 +65,11 @@ class AxisX extends React.PureComponent {
 
 					let xValue = this.props.keySourcePath ? _.get(item, this.props.keySourcePath) : item;
 					let xCoord = this.props.scale(xValue);
-
 					if (xCoord || xCoord === 0) {
 						let key = this.props.keySourcePath ? _.get(item, this.props.keySourcePath) : item;
 						let text = this.props.sourcePath ? _.get(item, this.props.sourcePath) : item;
 
+						this.handleCaptions(false);
 						return (
 							<g key={key}>
 								<line
@@ -77,6 +83,7 @@ class AxisX extends React.PureComponent {
 							</g>
 						);
 					} else {
+						this.handleCaptions(true);
 						return null;
 					}
 				})}

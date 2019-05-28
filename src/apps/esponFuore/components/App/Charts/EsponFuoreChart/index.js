@@ -7,22 +7,36 @@ import _ from "lodash";
 
 const mapStateToPropsFactory = (initialState, ownProps) => {
 	let filter = {};
+	let namesFilter = {};
 	let chartCfg = {};
 
 	return (state) => {
 		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
 		let activeFilter = Select.selections.getActive(state);
+		let activeScope = Select.scopes.getActive(state);
+		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
+		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
 
 		// don't mutate selector input if it is not needed
 		if (!_.isEqual(chartCfg,  chartConfiguation)){
-			chartCfg =  chartConfiguation;
-			filter =  chartCfg.mergedFilter;
+			chartCfg = _.cloneDeep(chartConfiguation);
+			filter = _.cloneDeep(chartCfg.mergedFilter);
 		}
 
+		// don't mutate selector input if it is not needed
+		if (!_.isEqual(namesFilter, currentNamesFilter)){
+			namesFilter = _.cloneDeep(currentNamesFilter);
+		}
+
+		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg);
+		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg);
+
+		// TODO merge in presentation?
 		// TODO ensure periods
 		return {
 			attribute: Select.attributes.getActive(state),
-			data: Select.charts.getDataForChart(state, filter, chartCfg),
+			data: dataForChart,
+			nameData: namesForChart,
 			filter: activeFilter && activeFilter.data,
 			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in)
 		}
