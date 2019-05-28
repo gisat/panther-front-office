@@ -3,6 +3,7 @@ import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import React from "react";
 import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../utils/statistics';
+import { getIntervalTitle } from '../../../../utils/legend';
 import { getPolygonImageByAttribution } from '../../../../components/common/maps/WorldWindMap/legend/legend'
 import { DEFAULTFILLTRANSPARENCY } from '../../../../components/common/maps/WorldWindMap/styles/colors'
 import {getCartogramStyleFunction} from '../../../../components/common/maps/WorldWindMap/styles/cartogram';
@@ -91,14 +92,15 @@ const mapStateToProps = (state, ownProps) => {
 					legendItem.description = layerByLayerTemplateKey.attribute.data.description;
 
 					//avoid clear values
-					legendItem.items = intervals.map(interval => {
+					legendItem.items = intervals.map((interval, index) => {
 						const value = getMiddleClassValues(interval)[0];
 						const attribution = styleFunction({userProperties:{tmpAttribute: value}})
-						const title = interval[1] === interval[0] ? Math.round(interval[0] * 100) : `${Math.round(interval[0] * 100) / 100} - ${Math.round(interval[1] * 100) / 100}`;
+						const first = index === 0;
+						const title = getIntervalTitle(interval, first);
 						return {
-								title: `${Math.round(interval[0] * 100) / 100} - ${Math.round(interval[1] * 100) / 100}`,
-								image: getPolygonImageByAttribution(attribution)
-						}
+							title: title,
+							image: getPolygonImageByAttribution(attribution)
+						};
 					});
 					legend.push(legendItem);
 
