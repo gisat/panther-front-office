@@ -28,6 +28,15 @@ export default [
 		})
 	},
 	{
+		key: 'micrositeElections',
+		hostname: 'panther.gisat.cz',
+		path: null,
+		devPath: '/micrositeElections',
+		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	{
 		key: 'docs',
 		hostname: 'panther.gisat.cz',
 		path: '/docs',

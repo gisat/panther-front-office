@@ -46,7 +46,8 @@
     "reselect": "4.0.0",
     "@turf/turf": "5.1.6",
     "uri-templates": "0.2.0",
-    "webworldwind-esa": "0.10.0-alpha.3"
+    "webworldwind-esa": "0.10.0-alpha.3",
+    "xml2js": "0.4.19"
   },
   "scripts": {
     "start": "react-scripts start",

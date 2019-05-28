@@ -90,13 +90,13 @@ class ChartWrapper extends React.PureComponent {
 								) : null}
 							</div>
 							<div className="ptr-chart-wrapper-tools">
-								<div className="ptr-chart-wrapper-tool">
-									<Button icon="dots" invisible>
-										<Menu bottom left>
-											<MenuItem disabled>All periods</MenuItem>
-										</Menu>
-									</Button>
-								</div>
+								{/*<div className="ptr-chart-wrapper-tool">*/}
+									{/*<Button icon="dots" invisible>*/}
+										{/*<Menu bottom left>*/}
+											{/*<MenuItem disabled>All periods</MenuItem>*/}
+										{/*</Menu>*/}
+									{/*</Button>*/}
+								{/*</div>*/}
 							</div>
 						</div>
 						{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}

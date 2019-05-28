@@ -65,6 +65,7 @@ class ColumnChart extends React.PureComponent {
 		withoutYbaseline: PropTypes.bool,
 
 		keySourcePath: PropTypes.string,
+		colorSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string
 	};
@@ -239,13 +240,20 @@ class ColumnChart extends React.PureComponent {
 				{data.map((item) => {
 					let key = _.get(item, props.keySourcePath);
 					let value = _.get(item, props.ySourcePath);
+					let defaultColor = this.props.defaultColor;
+					let highlightedColor = this.props.highlightedColor;
+
+					if (props.colorSourcePath) {
+						defaultColor = _.get(item, props.colorSourcePath);
+						highlightedColor = chroma(defaultColor).darken(1);
+					}
 
 					return (
 						<Bar
 							itemKeys={[key]}
 							key={`${key}_${value}`}
-							defaultColor={this.props.defaultColor}
-							highlightedColor={this.props.highlightedColor}
+							defaultColor={defaultColor}
+							highlightedColor={highlightedColor}
 
 							y={0}
 							x={xScale(key)}
