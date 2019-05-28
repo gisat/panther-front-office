@@ -51,7 +51,7 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
             attributes.interiorColor = Color.colorFromByteArray(noDataPalette.colorTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(noDataPalette.darkerTransparentRgba);
         } else if (renderable.filtered) {
-            attributes.interiorColor = Color.colorFromByteArray(filteredPalette.colorTransparentRgba);
+            attributes.interiorColor = Color.colorFromByteArray(filteredPalette.lighterTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
         } else if (renderable.hovered) {
             attributes.interiorColor = Color.colorFromByteArray(hoverPalette.colorOpaqueRgba);
