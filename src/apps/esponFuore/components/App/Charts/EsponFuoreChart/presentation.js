@@ -83,6 +83,7 @@ class EsponFuoreChart extends React.PureComponent {
 			});
 		}
 
+		/* Merge with names */
 		if (data && data.length && props.nameData && props.nameData.length) {
 			let names = props.nameData;
 			let mergedData = {};

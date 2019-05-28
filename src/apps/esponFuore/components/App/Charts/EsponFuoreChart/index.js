@@ -31,7 +31,6 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg);
 		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg);
 
-		// TODO merge in presentation?
 		// TODO ensure periods
 		return {
 			attribute: Select.attributes.getActive(state),
