@@ -6,9 +6,37 @@ class HoldButton extends React.Component {
 
   constructor(props) {
     super(props);
+    this.node = React.createRef();
+    this.onMouseOut = this.onMouseOut.bind(this)
+    this.onMouseDown = this.onMouseDown.bind(this)
+    this.onTouchStart = this.onTouchStart.bind(this)
+    this.onTouchEnd = this.onTouchEnd.bind(this)
     this.state = {
       isPressed: false,
     };
+  }
+
+  componentDidMount() {
+    this.node.current.addEventListener('touchstart', this.onTouchStart);
+    this.node.current.addEventListener('touchend', this.onTouchEnd);
+  }
+
+  componentWillUnmount() {
+    this.node.current.removeEventListener('touchstart', this.onTouchStart);
+    this.node.current.removeEventListener('touchend', this.onTouchEnd);
+  }
+
+  onTouchStart = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this.onMouseDown(evt);
+  }
+  onTouchEnd = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this.onMouseOut(evt);
   }
 
   onMouseDown = () => {
@@ -67,12 +95,11 @@ class HoldButton extends React.Component {
 
     return (
       <button
+        ref={this.node}
         className={classes}
-        onMouseLeave={this.onMouseOut.bind(this)}
-        onMouseDown={this.onMouseDown.bind(this)}
-        onMouseUp={this.onMouseOut.bind(this)}
-        onTouchStart={this.onMouseDown.bind(this)}
-        onTouchEnd={this.onMouseOut.bind(this)}
+        onMouseLeave={this.onMouseOut}
+        onMouseDown={this.onMouseDown}
+        onMouseUp={this.onMouseOut}
       >
         {this.props.children}
       </button>);

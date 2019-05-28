@@ -23,7 +23,6 @@ class MapLegend extends React.PureComponent {
                 <div className={classes} title = "Legend">
                     <HoldButton 
                             onClick={() => {this.handleLedendClick()}}
-                            finite={true}
                             disabled={this.props.disabled}
                         >
                         <Icon icon='legend'/>
