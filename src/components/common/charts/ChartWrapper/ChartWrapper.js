@@ -23,6 +23,13 @@ class ChartWrapper extends React.PureComponent {
 		loading: PropTypes.bool
 	};
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			loadingStatus: this.props.loading ? 'open' : 'close'
+		}
+	}
+
 	componentDidMount() {
 		if (this.props.onMount) {
 			this.props.onMount();
@@ -35,6 +42,25 @@ class ChartWrapper extends React.PureComponent {
 		}
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (prevProps.loading && !this.props.loading) {
+			this.setState({
+				loadingStatus: 'closing'
+			});
+
+			let self = this;
+			setTimeout(() => {
+				self.setState({
+					loadingStatus: 'close'
+				});
+			}, 700);
+		} else if (!prevProps.loading && this.props.loading) {
+			this.setState({
+				loadingStatus: 'open'
+			});
+		}
+	}
+
 	render() {
 		let classes = classnames("ptr-chart-wrapper-header", {
 			'with-subtitle': !!this.props.subtitle
@@ -44,15 +70,17 @@ class ChartWrapper extends React.PureComponent {
 
 		return (
 			<div className="ptr-chart-wrapper">
-				{this.props.loading ? (
+				{this.state.loadingStatus === 'open' ||  this.state.loadingStatus === 'closing' ? (
 					<div className="ptr-chart-wrapper-loader">
 						<Loader
-							transparent
+							fadeOut={this.state.loadingStatus === 'closing'}
 							blackandwhite
 							small
+							background={'#ffffff'}
 						/>
 					</div>
-				) : (
+				) : null}
+				{this.state.loadingStatus === 'close' ||  this.state.loadingStatus === 'closing' ? (
 					<>
 						<div className={classes}>
 							<div className="ptr-chart-wrapper-titles">
@@ -71,15 +99,15 @@ class ChartWrapper extends React.PureComponent {
 								</div>
 							</div>
 						</div>
-					{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
+						{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
 						<div className="ptr-chart-wrapper-content">
 							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
-							React.cloneElement(this.props.children, {...propsWithoutChildren, width})
-						)}>
+								React.cloneElement(this.props.children, {...propsWithoutChildren, width})
+							)}>
 							</ReactResizeDetector>
 						</div>
 					</>
-				)}
+				) : null}
 			</div>
 		);
 	}

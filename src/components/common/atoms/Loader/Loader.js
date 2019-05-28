@@ -8,15 +8,18 @@ import './Loader.css';
 class Loader extends React.PureComponent {
 
 	static propTypes = {
+		background: PropTypes.string,
+		fadeOut: PropTypes.bool,
 		progress: PropTypes.number,
 		transparent: PropTypes.bool,
 		blackandwhite: PropTypes.bool,
-		small: PropTypes.bool
+		small: PropTypes.bool,
 	};
 
 	render() {
 		let screenClasses = classNames("loading-screen", {
-			transparent: this.props.transparent
+			transparent: this.props.transparent,
+			'fade-out': this.props.fadeOut
 		});
 
 		let containerClasses = classNames("a-loader-container", {
@@ -24,8 +27,15 @@ class Loader extends React.PureComponent {
 			small: this.props.small
 		});
 
+		let style = null;
+		if (this.props.background) {
+			style = {
+				background: this.props.background
+			}
+		}
+
 		return (
-			<div className={screenClasses}>
+			<div className={screenClasses} style={style}>
 				<div className="loading-screen-content-wrap">
 					<div className="loading-screen-content">
 						<div className={containerClasses}>
