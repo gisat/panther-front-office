@@ -7,7 +7,7 @@ import _ from 'lodash';
 import MapEditingWorldWindMap from '../../../maps/MapEditingWorldWindMap/MapEditingWorldWindMap';
 import MapEditingTools from '../MapEditingTools/MapEditingTools';
 
-import Loader from '../../../atoms/Loader/Loader'
+import Loader from '../../../../common/atoms/Loader/Loader'
 
 import './MapEditingMapContainer.css';
 

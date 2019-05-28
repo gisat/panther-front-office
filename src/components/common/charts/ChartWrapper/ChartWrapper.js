@@ -11,6 +11,7 @@ import './style.scss';
 import Button from "../../atoms/Button";
 import Menu from "../../atoms/Menu";
 import {MenuItem} from "../../atoms/Menu";
+import Loader from "../../atoms/Loader/Loader";
 
 class ChartWrapper extends React.PureComponent {
 	static propTypes = {
@@ -19,6 +20,7 @@ class ChartWrapper extends React.PureComponent {
 		statusBar: PropTypes.element,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
+		loading: PropTypes.bool
 	};
 
 	componentDidMount() {
@@ -42,30 +44,42 @@ class ChartWrapper extends React.PureComponent {
 
 		return (
 			<div className="ptr-chart-wrapper">
-				<div className={classes}>
-					<div className="ptr-chart-wrapper-titles">
-						<div className="ptr-chart-wrapper-title" title={this.props.title}>{this.props.title}</div>
-						{this.props.subtitle ? (
-							<div className="ptr-chart-wrapper-subtitle" title={this.props.subtitle}>{this.props.subtitle}</div>
-						) : null}
+				{this.props.loading ? (
+					<div className="ptr-chart-wrapper-loader">
+						<Loader
+							transparent
+							blackandwhite
+							small
+						/>
 					</div>
-					<div className="ptr-chart-wrapper-tools">
-						<div className="ptr-chart-wrapper-tool">
-							<Button icon="dots" invisible>
-								<Menu bottom left>
-									<MenuItem disabled>All periods</MenuItem>
-								</Menu>
-							</Button>
+				) : (
+					<>
+						<div className={classes}>
+							<div className="ptr-chart-wrapper-titles">
+								<div className="ptr-chart-wrapper-title" title={this.props.title}>{this.props.title}</div>
+								{this.props.subtitle ? (
+									<div className="ptr-chart-wrapper-subtitle" title={this.props.subtitle}>{this.props.subtitle}</div>
+								) : null}
+							</div>
+							<div className="ptr-chart-wrapper-tools">
+								<div className="ptr-chart-wrapper-tool">
+									<Button icon="dots" invisible>
+										<Menu bottom left>
+											<MenuItem disabled>All periods</MenuItem>
+										</Menu>
+									</Button>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
-				<div className="ptr-chart-wrapper-content">
-					<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
-						React.cloneElement(this.props.children, {...propsWithoutChildren, width})
-					)}>
-					</ReactResizeDetector>
-				</div>
+					{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
+						<div className="ptr-chart-wrapper-content">
+							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
+							React.cloneElement(this.props.children, {...propsWithoutChildren, width})
+						)}>
+							</ReactResizeDetector>
+						</div>
+					</>
+				)}
 			</div>
 		);
 	}

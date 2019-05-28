@@ -35,7 +35,6 @@ class LineChart extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		forceMode: PropTypes.string,
-		loading: PropTypes.bool,
 
 		serieKeySourcePath: PropTypes.string,
 		serieNameSourcePath: PropTypes.string,
@@ -103,7 +102,7 @@ class LineChart extends React.PureComponent {
 		let xDomain, yDomain, xScale, yScale, colors, sortedUniqueXvalues, mode = null;
 		let data = {...props.data};
 
-		if (data && !this.props.loading) {
+		if (data) {
 			data = utilsFilter.filterDataWithNullValue(data, props.ySourcePath, props.serieDataSourcePath);
 
 			/* domain */
@@ -163,7 +162,7 @@ class LineChart extends React.PureComponent {
 		return (
 			<div className="ptr-chart-container">
 				<svg className="ptr-chart ptr-line-chart" width={width} height={height}>
-					{(data && !this.props.loading) ? <>
+					{(data) ? <>
 						<AxisY
 							scale={yScale}
 

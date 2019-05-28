@@ -43,10 +43,11 @@ class EsponFuoreChart extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		let loading = true;
 
 		let data = props.data;
 		let filter = props.filter;
-		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1;
+		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1 && props.periods && props.periods.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
 		/* Titles */
@@ -100,12 +101,28 @@ class EsponFuoreChart extends React.PureComponent {
 			data = _.values(mergedData);
 		}
 
+		/* All data prepared? */
+		if (props.periods && data && data.length) {
+			if (singleValue) {
+				loading = false;
+			} else {
+				_.forEach(data, (item) => {
+					let serie = _.get(item, 'data.values');
+					if (serie && serie.length === props.periods.length) {
+						loading = false;
+						return false;
+					}
+				});
+			}
+		}
+
 		return (
 			<ChartWrapper
-				key={this.props.chartKey+"-wrapper"}
+				key={this.props.chartKey + "-wrapper"}
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
 				statusBar={filter && filter.name ? (this.renderLabel(filter.name)) : null}
+				loading={loading}
 			>
 				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data)}
 			</ChartWrapper>
