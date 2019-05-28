@@ -347,9 +347,14 @@ class FuoreWorldWindMap extends React.PureComponent {
 					let keySource = existingLayer.spatialIdKey;
 					let nameSource = existingLayer.attributeIdKey;
 					let valueSource = existingLayer.metadata && existingLayer.metadata.attributeDataKey;
+					
+					if(this.props.activeFilter) {
+						features = features.filter((feature) => this.props.activeFilter.data.areas.includes(feature[keySource]))
+					}
+
 					let keys = features.map(feature => feature[keySource]);
 
-					if (this.context && this.context.onHover) {
+					if (this.context && this.context.onHover && keys && keys.length > 0) {
 						this.context.onHover(keys, {
 							popup: {
 								x,
