@@ -29,7 +29,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		}
 
 		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg);
-		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg);
+		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg.key);
 
 		// TODO ensure periods
 		return {

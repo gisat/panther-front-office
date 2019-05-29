@@ -2,12 +2,43 @@ import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../../../state/Action";
 
-import {cloneDeep} from 'lodash';
+import {cloneDeep, isEqual} from 'lodash';
 
 import wrapper from '../../../../../components/common/maps/MapWrapper';
 
 import utils from '../../../../../utils/utils';
 import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
+
+const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
+	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
+
+	const layersState = Select.maps.getLayersStateByMapSetKey(state, mapSet.key);
+
+
+	const mapSetsLayers = {};
+	for (const [key, value] of Object.entries(layersState)) {
+		if(value && value.length & value.length > 0) {
+			const layersData = value.map((l) => {
+				const filter = cloneDeep(l.mergedFilter);
+				return {filter, data: l.layer};
+			})
+			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+		}
+	};
+
+	const layersByLayerTemplateKey = {};
+	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
+		for (const layer of layers) {
+			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+			if(layerTemplateKey) {
+				if(!layersByLayerTemplateKey[layerTemplateKey]) {
+					layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+				}
+			}
+		}
+	}
+	return layersByLayerTemplateKey;
+}
 
 //mostly similar to MapLegend
 const getStatisticsByLayerTemplateKeys = (state, props) => {
@@ -77,103 +108,127 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 }
 
 const mapStateToProps = (state, props) => {
-	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
-	let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
+	let namesFilter = {};
+	let filter = {};
+	let chartCfg = {};
 
-	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
-	let layersData = layersState ? layersState.map(layer => {
-		const filter = cloneDeep(layer.mergedFilter)
-		return {filter, data: layer.layer}
-	}) : null;
-	let layers = Select.maps.getLayers(state, layersData);
-	let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
-	let activeFilter = Select.selections.getActive(state);
+	return (state) => {
+		let activeScope = Select.scopes.getActive(state);
+		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
+		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
+		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
+		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 
-	//TODO -> select
-	//active indicator type absolute/relative
-	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
-	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
-	const indicatorData = activeIndicator ? activeIndicator.data.type : 'relative';
-	// const hueColor = '#00ff2b'; //green
-	const hueColor = '#4689d0'; //blue
-	// const hueColor = '#ff0000'; //red
-	
-	const map = Select.maps.getMapByKey(state, props.mapKey);
-	let label = null;
-	if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
-		const periodKey = map.data.metadataModifiers.period;
-		const period = Select.periods.getDataByKey(state, periodKey);
-		label = period ? period.nameDisplay : null
-	}
-
-	let layersVectorData = vectorLayers.reduce((acc, layerData) => {
-		if(layerData.spatialRelationsData) {
-			const spatialDataSourceFilter = {
-				spatialDataSourceKey: layerData.spatialRelationsData.spatialDataSourceKey,
-				fidColumnName: layerData.spatialRelationsData.fidColumnName
-			};
-
-			acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, spatialDataSourceFilter, null);
-			if (acc[layerData.key]) {
-				acc[layerData.key]['fidColumnName'] = layerData.spatialRelationsData.fidColumnName;
-			}
+		// don't mutate selector input if it is not needed
+		if (!isEqual(namesFilter, currentNamesFilter)){
+			namesFilter = cloneDeep(currentNamesFilter);
 		}
-		return acc
-	}, {});
-	
-	let layersAttributeData = vectorLayers.reduce((acc, layerData) => {
-		if(layerData.attributeRelationsData) {
-			const attributeDataSourceFilter = {
-				attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
-				fidColumnName: layerData.attributeRelationsData.fidColumnName
-			};
 
-			acc[layerData.key] = Select.attributeData.getBatchByFilterOrder(state, attributeDataSourceFilter, null);
+		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
+		let layersData = layersState ? layersState.map(layer => {
+			const filter = cloneDeep(layer.mergedFilter)
+			return {filter, data: layer.layer}
+		}) : null;
+		let layers = Select.maps.getLayers(state, layersData);
+		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
+		let activeFilter = Select.selections.getActive(state);
+
+		//TODO -> select
+		//active indicator type absolute/relative
+		let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
+		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
+		const indicatorData = activeIndicator ? activeIndicator.data.type : 'relative';
+		// const hueColor = '#00ff2b'; //green
+		const hueColor = '#4689d0'; //blue
+		// const hueColor = '#ff0000'; //red
+		
+		const map = Select.maps.getMapByKey(state, props.mapKey);
+		let label = null;
+		if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
+			const periodKey = map.data.metadataModifiers.period;
+			const period = Select.periods.getDataByKey(state, periodKey);
+			label = period ? period.nameDisplay : null
 		}
-		return acc
-	}, {});
-	
-	let layersMetadata = vectorLayers.reduce((acc, layerData) => {
-		if(layerData.attributeRelationsData) {
-			const attributeDataSource = Select.attributeDataSources.getByKeys(state, [layerData.attributeRelationsData.attributeDataSourceKey]);
-			//wait for attributeDataSource, otherwise attributeDataKey is null
-			if(attributeDataSource) {
-				const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
-				const attributeKey = layerData.attributeRelationsData.attributeKey
-				const attribute = Select.attributes.getByKey(state, attributeKey);
-				acc[layerData.key] = {
-					dataType: indicatorData,
-					attributeDataKey,
-					color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
+
+		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
+			if(layerData.spatialRelationsData) {
+				const spatialDataSourceFilter = {
+					spatialDataSourceKey: layerData.spatialRelationsData.spatialDataSourceKey,
+					fidColumnName: layerData.spatialRelationsData.fidColumnName
+				};
+
+				acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, spatialDataSourceFilter, null);
+				if (acc[layerData.key]) {
+					acc[layerData.key]['fidColumnName'] = layerData.spatialRelationsData.fidColumnName;
 				}
 			}
-		}
-		return acc
-	}, {});
+			return acc
+		}, {});
+		
+		let layersAttributeData = vectorLayers.reduce((acc, layerData) => {
+			if(layerData.attributeRelationsData) {
+				const attributeDataSourceFilter = {
+					attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
+					fidColumnName: layerData.attributeRelationsData.fidColumnName
+				};
 
-	const statisticsByLayerTemplateKeys = getStatisticsByLayerTemplateKeys(state, props);
-	
-	let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
-		if(layerData.attributeRelationsData) {
-			const layer = statisticsByLayerTemplateKeys.find(l => l.key ===layerData.attributeRelationsData.layerTemplateKey);
-			acc[layerData.key] = layer ? layer.mergedStatistics : null;
-		}
-		return acc
-	}, {});
+				acc[layerData.key] = Select.attributeData.getBatchByFilterOrder(state, attributeDataSourceFilter, null);
+			}
+			return acc
+		}, {});
+		
+		let layersMetadata = vectorLayers.reduce((acc, layerData) => {
+			if(layerData.attributeRelationsData) {
+				const attributeDataSource = Select.attributeDataSources.getByKeys(state, [layerData.attributeRelationsData.attributeDataSourceKey]);
+				//wait for attributeDataSource, otherwise attributeDataKey is null
+				if(attributeDataSource) {
+					const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
+					const attributeKey = layerData.attributeRelationsData.attributeKey
+					const attribute = Select.attributes.getByKey(state, attributeKey);
+					acc[layerData.key] = {
+						dataType: indicatorData,
+						attributeDataKey,
+						color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
+					}
+				}
+			}
+			return acc
+		}, {});
 
-	return {
-		// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
-		layersTreeLoaded: layersState && layersState.length > 0,
-		activeFilter,
-		backgroundLayer: [{type:'wikimedia'}],
-		layers,
-		layersVectorData,
-		layersAttributeData,
-		layersAttributeStatistics,
-		layersMetadata,
-		navigator: Select.maps.getNavigator(state, props.mapKey),
-		activeAttributeKey: Select.attributes.getActiveKey(state),
-		label: label || null,
+		const statisticsByLayerTemplateKeys = getStatisticsByLayerTemplateKeys(state, props);
+		
+		let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
+			if(layerData.attributeRelationsData) {
+				const layer = statisticsByLayerTemplateKeys.find(l => l.key === layerData.attributeRelationsData.layerTemplateKey);
+				acc[layerData.key] = layer ? layer.mergedStatistics : null;
+			}
+			return acc
+		}, {});
+
+		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter, chartCfg)		
+		let vectorLayersNames = vectorLayers.reduce((acc, layerData) => {
+			if(layerData.attributeRelationsData) {
+				const layer = namesForVectorLayers[layerData.attributeRelationsData.layerTemplateKey];
+				acc[layerData.key] = layer || null;
+			}
+			return acc
+		}, {});
+
+		return {
+			// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+			layersTreeLoaded: layersState && layersState.length > 0,
+			activeFilter,
+			backgroundLayer: [{type:'wikimedia'}],
+			layers,
+			layersVectorData,
+			layersAttributeData,
+			layersAttributeStatistics,
+			layersMetadata,
+			navigator: Select.maps.getNavigator(state, props.mapKey),
+			activeAttributeKey: Select.attributes.getActiveKey(state),
+			label: label || null,
+			nameData: vectorLayersNames,
+		}
 	}
 };
 

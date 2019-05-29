@@ -20,6 +20,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
 
 	static propTypes = {
+		nameData: PropTypes.object,
 		layersTreeLoaded: PropTypes.bool,
 		activeFilter: PropTypes.object,
 		backgroundLayer: PropTypes.array,
@@ -66,7 +67,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//todo check if layer already in map
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
-			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers]);
+			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers], this.props.nameData);
 			this.setFilterVectorLayers(this.props.activeFilter, layers, [...backgroundLayers, ...thematicLayers]);
 		}
 
@@ -98,7 +99,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layersVectorDataChanged = !isEqual(prevProps.layersVectorData, this.props.layersVectorData);
 			if (layersVectorDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
 				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
@@ -106,7 +107,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
 			if (layersAttributeDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
 				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
@@ -141,7 +142,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 				//if vector data comes before layer
 				if(this.props.layersVectorData) {
 					const layers = this.props.layers || [];
-					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers]);
+					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers], this.props.nameData);
 					this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...thematicLayers]);
 				}
 			}
@@ -248,7 +249,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	 * 
 	 * Join spatial vector data with map layers.
 	 */
-	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersMetadata = {}, layersState = []) {
+	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersMetadata = {}, layersState = [], nameData = {}) {
 		let hoveredItems = this.context.hoveredItems;
 
 		for (const [key, data] of Object.entries(layersVectorData)) {
@@ -256,7 +257,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
 
-			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
+			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key] && nameData[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
@@ -275,7 +276,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 						//get attribute by value
 						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
 						if(attributeFeatureData){
-							feature.properties = {...feature.properties, ...attributeFeatureData.properties};
+							const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
+							feature.properties = {...feature.properties, ...attributeFeatureData.properties, _name: nameFeatureData.data.name};
 						}
 
 						// hovered
@@ -373,10 +375,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 			let content = [];
 			features.forEach((feature) => {
 				let unit = _.get(feature, nameSource);
+				let name = _.get(feature, '_name');
 				let value = _.get(feature, valueSource);
 				let spatialId = _.get(feature, spatialIdSource);
 				if(value || value === 0) {
-					content.push(<div key={spatialId}><i>{unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+					content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
 				} else {
 					content.push(<div key={spatialId}>No data</div>);
 				}
