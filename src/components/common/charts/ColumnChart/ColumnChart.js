@@ -72,19 +72,6 @@ class ColumnChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			noXcaptions: false
-		};
-		this.handleXcaptions = this.handleXcaptions.bind(this);
-	}
-
-	handleXcaptions(noXcaptions) {
-		if (noXcaptions !== this.state.noXcaptions) {
-			this.setState({
-				noXcaptions
-			});
-		}
 	}
 
 	// TODO axis orientation
@@ -103,10 +90,6 @@ class ColumnChart extends React.PureComponent {
 
 		if (!props.xCaptions && !props.xCaptionsSize) {
 			xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
-		}
-
-		if (this.state.noXcaptions) {
-			xCaptionsSize = 10;
 		}
 
 		if (!props.yCaptions && !props.yCaptionsSize) {
@@ -213,7 +196,6 @@ class ColumnChart extends React.PureComponent {
 								ticks={props.xTicks}
 								gridlines={props.xGridlines}
 								withCaption={props.xCaptions}
-								handleCaptions={this.handleXcaptions}
 							/>
 							<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
 								{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
