@@ -23,39 +23,51 @@ function ensureIndexedSpecific(filter, order, start, length, componentId, noStat
         	let filteredRelations = Select.attributeRelations.getFilteredRelations(getState(), filter);
 
         	if (filteredRelations) {
-				let dataSources = filteredRelations.map(relation => {
-					return {
-						fidColumnName: relation.fidColumnName,
-						attributeDataSourceKey: relation.attributeDataSourceKey
-					}
+        		let dataSourceKeys = _.map(filteredRelations, relation => relation.attributeDataSourceKey);
+				let attributeKeys = _.map(filteredRelations, relation => relation.attributeKey);
+
+				let fidColumnNames = null;
+				let attributeDataSourceKeys = [];
+
+				filteredRelations.map(relation => {
+					fidColumnNames = relation.fidColumnName; // TODO is fidColumnName still the same
+					attributeDataSourceKeys.push(relation.attributeDataSourceKey);
 				});
 
-				let attributeKeys = filteredRelations.map(relation => relation.attributeKey);
+				let uniqueAtributeDataSourceKeys = _.uniq(attributeDataSourceKeys);
 
+				let attributeDataFilter = {
+					fidColumnName: fidColumnNames,
+					attributeDataSourceKey: {in: uniqueAtributeDataSourceKeys}
+				};
+
+				let statisticsFilter = {
+					percentile: quartilePercentiles,
+					attributeDataSourceKey: {in: uniqueAtributeDataSourceKeys}
+				};
+
+
+				/* use attributes */
 				if (attributeKeys && attributeKeys.length) {
 					let uniqueKeys = _.uniq(attributeKeys);
 					dispatch(attributeActions.useKeys(uniqueKeys, componentId));
 				}
 
-				dataSources.forEach(source => {
-					const statisticsFilter = {
-						attributeDataSourceKey: source.attributeDataSourceKey,
-						percentile: quartilePercentiles
-					};
+				/* use attribute data sources */
+				dispatch(attributeDataSourcesActions.useKeys(dataSourceKeys, componentId));
 
-					let existingSource = Select.attributeData.getByKey(getState(), source.attributeDataSourceKey);
-					let existingStatisticsSource = Select.attributeStatistics.getBatchByFilterOrder(getState(), statisticsFilter, null);
-					
-					if (!existingSource) {
-						dispatch(attributeDataActions.loadFilteredData(source, componentId));
-					}
-					if (!existingStatisticsSource && !noStatistic) {
-						dispatch(statisticsActions.loadFilteredData(statisticsFilter, componentId));
-					}
+				/* use attribute statistics */
+				/* TODO use indexed? */
+				let existingStatisticsSource = Select.attributeStatistics.getBatchByFilterOrder(getState(), statisticsFilter, null);
+				if (!noStatistic && !existingStatisticsSource) {
+					dispatch(statisticsActions.loadFilteredData(statisticsFilter, componentId));
+				}
 
-					dispatch(attributeDataSourcesActions.useKeys([source.attributeDataSourceKey], componentId));
-				});
-
+				/* use attribute data */
+				let existingSource = Select.attributeData.getBatchByFilterOrder(getState(), attributeDataFilter, null);
+				if (!existingSource) {
+					dispatch(attributeDataActions.loadFilteredData(attributeDataFilter, componentId));
+				}
 			}
         }).catch((err) => {
         	dispatch(common.actionGeneralError(err));

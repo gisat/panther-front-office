@@ -88,7 +88,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 			for (const [layerKey, layer] of Object.entries(layerByLayerTemplateKey.layers)) {
 				if(layer.attributeRelationsData) {
 					const attributeStatisticsFilter = {
-						attributeDataSourceKey: layer.attributeRelationsData.attributeDataSourceKey,
+						attributeDataSourceKey: {in: [layer.attributeRelationsData.attributeDataSourceKey]},
 						percentile: quartilePercentiles,
 					};
 		
@@ -168,7 +168,7 @@ const mapStateToProps = (state, props) => {
 		let layersAttributeData = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.attributeRelationsData) {
 				const attributeDataSourceFilter = {
-					attributeDataSourceKey: layerData.attributeRelationsData.attributeDataSourceKey,
+					attributeDataSourceKey: {in: [layerData.attributeRelationsData.attributeDataSourceKey]},
 					fidColumnName: layerData.attributeRelationsData.fidColumnName
 				};
 
@@ -183,7 +183,7 @@ const mapStateToProps = (state, props) => {
 				//wait for attributeDataSource, otherwise attributeDataKey is null
 				if(attributeDataSource) {
 					const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
-					const attributeKey = layerData.attributeRelationsData.attributeKey
+					const attributeKey = layerData.attributeRelationsData.attributeKey;
 					const attribute = Select.attributes.getByKey(state, attributeKey);
 					acc[layerData.key] = {
 						dataType: indicatorData,
