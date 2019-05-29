@@ -344,7 +344,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	// TODO refactor
-	onHover(renderables, x, y) {
+	onHover(renderables, x, y, showPopup = true) {
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
 		if (this.state.thematicLayers) {
 			this.state.thematicLayers.forEach(layer => {
@@ -362,13 +362,15 @@ class FuoreWorldWindMap extends React.PureComponent {
 					let keys = features.map(feature => feature[keySource]);
 
 					if (this.context && this.context.onHover && keys && keys.length > 0) {
-						this.context.onHover(keys, {
-							popup: {
+						const action = {};
+						if(showPopup) {
+							action['popup'] = {
 								x,
 								y,
 								content: this.getPopupContent(features, nameSource, valueSource, keySource)
 							}
-						});
+						}
+						this.context.onHover(keys, action);
 					}
 				}
 			});

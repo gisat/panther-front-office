@@ -23,12 +23,22 @@ class CyclicPickController {
 
 	eventListener(wwd, cb, event) {
 		switch (event.type) {
+			case 'touchmove':
+				this.onTouchMove(cb, event);
+				return;
 			case 'mousemove':
-				this.onMouseMove(wwd, cb, event);
+				this.onMouseMove(wwd, cb, event, true);
+				return;
+			case 'touchstart':
+				this.onTouchStart();
+				this.onMouseMove(wwd, cb, event, false);
 				return;
 			case 'mousedown':
 				this.onMouseDown();
 				return;
+			case 'touchend':
+				this.onTouchEnd();
+				return;	
 			case 'mouseup':
 				this.onMouseUp();
 				return;
@@ -38,7 +48,7 @@ class CyclicPickController {
 		}
 	}
 
-	onMouseMove(wwd, cb, event) {
+	onMouseMove(wwd, cb, event, showPopup) {
 		if(!this.mouseDown) {
 			const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX,
 			y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
@@ -47,7 +57,7 @@ class CyclicPickController {
 			const highlightedRenderables = this.setNextHighlightStage(pickList.objects);
 
 			if (cb) {
-				cb(highlightedRenderables, event);
+				cb(highlightedRenderables, event, showPopup);
 			}
 		}
 	}
@@ -57,6 +67,19 @@ class CyclicPickController {
 
 		//remove all highlited
 		cb([]);
+	}
+	onTouchStart() {
+		this.mouseDown = false;
+	}
+	onTouchEnd() {
+		this.mouseDown = false;
+	}
+	onTouchMove(cb, event) {
+		this.mouseDown = true;
+
+		if (cb) {
+			cb([], event);
+		}
 	}
 	onMouseDown() {
 		this.mouseDown = true;

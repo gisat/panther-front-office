@@ -47,7 +47,7 @@ class WorldWindMap extends React.PureComponent {
 		decorateWorldWindowController(this.wwd.worldWindowController);
 		this.wwd.worldWindowController.onNavigatorChanged = this.onNavigatorChange.bind(this);
 
-		this.pickController = new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout'], this.handleHover.bind(this));
+		this.pickController = new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.handleHover.bind(this));
 
 		if (this.props.navigator){
 			navigator.update(this.wwd, this.props.navigator);
@@ -145,9 +145,9 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	handleHover(renderables, e) {
+	handleHover(renderables, e, showPopup) {
 		if (this.props.onHover && renderables && renderables.length) {
-			this.props.onHover(renderables, e.clientX, e.clientY);
+			this.props.onHover(renderables, e.clientX, e.clientY, showPopup);
 		} else if (this.props.onHoverOut) {
 			this.props.onHoverOut();
 		}
