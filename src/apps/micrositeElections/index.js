@@ -11,7 +11,7 @@ import '../../styles/base.scss';
 import utils from "../../utils/sort";
 import Elections from "./Elections/Elections";
 
-let url = "https://volby.cz/pls/ep2019/vysledky";
+let url = "https://s3.eu-central-1.amazonaws.com/cog-gisat/vysledky.xml";
 
 const colors = {
 	"30": "#32c0ee", //ANO
