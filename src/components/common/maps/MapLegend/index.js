@@ -58,7 +58,7 @@ const mapStateToProps = (state, ownProps) => {
 			for (const [layerKey, layer] of Object.entries(layerByLayerTemplateKey.layers)) {
 				if(layer.attributeRelationsData) {
 					const attributeStatisticsFilter = {
-						attributeDataSourceKey: layer.attributeRelationsData.attributeDataSourceKey,
+						attributeDataSourceKey: {in: [layer.attributeRelationsData.attributeDataSourceKey]},
 						percentile: quartilePercentiles,
 					};
 		
