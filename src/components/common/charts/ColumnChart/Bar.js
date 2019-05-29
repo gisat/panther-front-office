@@ -26,7 +26,9 @@ class Bar extends React.PureComponent {
 		height: PropTypes.number,
 		width: PropTypes.number,
 		hidden: PropTypes.bool,
-		popupContent: PropTypes.element
+
+		nameSourcePath: PropTypes.string,
+		valueSourcePath: PropTypes.string
 	};
 
 	constructor(props) {
@@ -49,7 +51,7 @@ class Bar extends React.PureComponent {
 				popup: {
 					x: e.pageX,
 					y: e.pageY,
-					content: this.props.popupContent
+					content: this.getPopupContent()
 				}
 			});
 		}
@@ -71,7 +73,7 @@ class Bar extends React.PureComponent {
 				popup: {
 					x: e.pageX,
 					y: e.pageY,
-					content: this.props.popupContent
+					content: this.getPopupContent()
 				}
 			});
 		}
@@ -164,6 +166,46 @@ class Bar extends React.PureComponent {
 				/>
 			</g>
 		);
+	}
+
+	getPopupContent() {
+		let data = this.props.data;
+		let content = null;
+
+		if (data) {
+			if (data.originalData) {
+				let con = [];
+				if (data.originalData.length > 20) {
+					let units = [];
+					let values = [];
+					_.map(data.originalData,(item) => {
+						units.push(_.get(item, this.props.nameSourcePath));
+						values.push(_.get(item, this.props.valueSourcePath));
+					});
+					content = (
+						<div>
+							<i>{`${units.length} items: `}</i>
+							{`from ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
+						</div>
+					);
+				} else {
+					_.map(data.originalData, (item) => {
+						let unit = _.get(item, this.props.nameSourcePath);
+						let value = _.get(item, this.props.valueSourcePath);
+						con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+					});
+					content = (<>{con}</>);
+				}
+			} else {
+				let unit = _.get(data, this.props.nameSourcePath);
+				let value = _.get(data, this.props.valueSourcePath);
+				content = (<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+			}
+		} else {
+			content = (<div key={"no-data"}><i>No data</i></div>);
+		}
+
+		return content
 	}
 }
 

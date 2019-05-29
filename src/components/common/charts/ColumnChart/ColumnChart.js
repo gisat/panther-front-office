@@ -261,7 +261,9 @@ class ColumnChart extends React.PureComponent {
 							height={availableHeight - yScale(value)}
 							availableHeight={availableHeight}
 
-							popupContent={this.getPopupContent(item)}
+							nameSourcePath={this.props.xSourcePath}
+							valueSourcePath={this.props.ySourcePath}
+							data={item}
 						/>
 					);
 				})}
@@ -291,7 +293,9 @@ class ColumnChart extends React.PureComponent {
 							height={availableHeight - yScale(value)}
 							availableHeight={availableHeight}
 
-							popupContent={this.getPopupContent(group)}
+							nameSourcePath={this.props.xSourcePath}
+							valueSourcePath={this.props.ySourcePath}
+							data={group}
 						/>
 					);
 				})}
@@ -315,42 +319,6 @@ class ColumnChart extends React.PureComponent {
 				}
 			/>
 		);
-	}
-
-	getPopupContent(data) {
-		let content = null;
-		if (data && data.keys && data.originalData) {
-			let con = [];
-			if (data.originalData.length > 20) {
-				let units = [];
-				let values = [];
-				_.map(data.originalData,(item) => {
-					units.push(_.get(item, this.props.xSourcePath));
-					values.push(_.get(item, this.props.ySourcePath));
-				});
-				content = (
-					<div>
-						<i>{`${units.length} items: `}</i>
-						{`from ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
-					</div>
-				);
-			} else {
-				_.map(data.originalData, (item) => {
-					let unit = _.get(item, this.props.xSourcePath);
-					let value = _.get(item, this.props.ySourcePath);
-					con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-				});
-				content = (<>{con}</>);
-			}
-		} else if (data) {
-			let unit = _.get(data, this.props.xSourcePath);
-			let value = _.get(data, this.props.ySourcePath);
-			content = (<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-		} else {
-			content = (<div key={"no-data"}><i>No data</i></div>);
-		}
-
-		return content;
 	}
 }
 
