@@ -9,7 +9,10 @@ import '../../styles/reset.css';
 import '../../styles/base.scss';
 
 import utils from "../../utils/sort";
+import layersHelper from '../../components/common/maps/WorldWindMap/layers/helpers';
+import {getStyleFunction} from "./Elections/layerTurnoutStyle";
 import Elections from "./Elections/Elections";
+import nuts3 from "./data/nuts3_cr.js";
 
 let url = "https://s3.eu-central-1.amazonaws.com/cog-gisat/vysledky.xml";
 
@@ -25,6 +28,39 @@ const colors = {
 	"24": "#26912b", //HLAS
 	"6": "#cd45a6", //TROL
 };
+
+const backgroundLayer = layersHelper.addLayer([], {type:'wikimedia'}, 0);
+const navigator = {
+	lookAtLocation: {
+		latitude: 49.8,
+		longitude: 15.4
+	},
+	range: 500000,
+	roll: 0,
+	tilt: 0,
+	heading: 0
+}
+const layers = [];
+const nutsLayer = layersHelper.getLayerByType({type: 'vector-relative', spatialRelationsData: {}, attributeRelationsData: {}}, 'vector-relative');
+
+const setTurnoutLayer = (nutsData) => {
+	const fl = nuts3.features.length;
+	
+	let min = null;
+	let max = null;
+			
+	for(let i = 0; i < fl; i++) {
+		let data = nutsData.find(nd => nuts3.features[i].properties.NUTS_ID === nd.kraj);
+		min = min ? Math.min(min, data.ucast) : data.ucast;
+		max = max ? Math.max(max, data.ucast) : data.ucast;
+		nuts3.features[i].properties = {...nuts3.features[i].properties, ...nutsData.find(nd => nuts3.features[i].properties.NUTS_ID === nd.kraj)}
+	}
+
+	layers.push(nutsLayer);
+	nutsLayer.setRenderables(nuts3, null, {});
+	nutsLayer.setStyleFunction(getStyleFunction(min, max, 5, 'blue'));
+	
+}
 
 export default () => {
 	fetch(url, {
@@ -45,6 +81,9 @@ export default () => {
 					let parser = new xml2js.Parser({xmldec: {'encoding': 'ISO-8859-2'}});
 					parser.parseString(data, (err, result) => {
 						let totalResults = result.VYSLEDKY.CR[0].STRANA;
+						let nutsTurnoutResults = result.VYSLEDKY.KRAJ.map(k => ({kraj: k.$.NUTS_KRAJ, ucast: parseInt(k.UCAST[0].$.UCAST_PROC)}));
+						setTurnoutLayer(nutsTurnoutResults);
+						
 						let adjustedResults = _.map(totalResults, party => {
 							let id = party.$.ESTRANA;
 							party.$.COLOR = colors[id];
@@ -57,6 +96,8 @@ export default () => {
 						ReactDOM.render(
 							<Elections
 								data={preparedData}
+								layers={[...backgroundLayer, ...layers]}
+								navigator = {navigator}
 							/>,
 							document.getElementById('ptr')
 						);
