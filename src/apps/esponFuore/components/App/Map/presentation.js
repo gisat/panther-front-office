@@ -257,7 +257,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
 
-			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key] && nameData[key]) {
+			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
@@ -274,10 +274,15 @@ class FuoreWorldWindMap extends React.PureComponent {
 					
 						
 						//get attribute by value
+						const nameProperty = {};
 						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
-						if(attributeFeatureData){
+						if(attributeFeatureData && nameData && nameData[key]) {
 							const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
-							feature.properties = {...feature.properties, ...attributeFeatureData.properties, _name: nameFeatureData.data.name};
+							nameProperty['_name'] = nameFeatureData.data.name;
+						}
+
+						if(attributeFeatureData){
+							feature.properties = {...feature.properties, ...attributeFeatureData.properties, ...nameProperty};
 						}
 
 						// hovered
