@@ -16,16 +16,8 @@ import MapTools from "../../../../components/common/maps/MapTools";
 import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
 import EsponFuoreChart from "./Charts/EsponFuoreChart";
-import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
-
-import sample_4 from "../../../../components/common/charts/mockData/sample_4.json";
-import sample_15 from "../../../../components/common/charts/mockData/sample_15.json";
-import sample_50 from "../../../../components/common/charts/mockData/sample_50.json";
-import sample_200 from "../../../../components/common/charts/mockData/sample_200.json";
-import ChartWrapper from "../../../../components/common/charts/ChartWrapper/ChartWrapper";
 
 import ReactResizeDetector from 'react-resize-detector';
-import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 
 class EsponFuoreApp extends React.PureComponent {

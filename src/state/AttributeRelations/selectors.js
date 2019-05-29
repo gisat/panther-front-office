@@ -62,8 +62,8 @@ const getFilteredRelations = createCachedSelector(
 			return null;
 		}
 	}
-)((state, filter, chart) => {
-	return `${JSON.stringify(filter)}:${JSON.stringify(chart && chart.key)}`
+)((state, filter, cacheKey) => {
+	return `${JSON.stringify(filter)}:${JSON.stringify(cacheKey)}`
 });
 
 const getDataSourcesFromFilteredRelations = createCachedSelector(
@@ -82,8 +82,8 @@ const getDataSourcesFromFilteredRelations = createCachedSelector(
 			return null
 		}
 	}
-)((state, filter, chart) => {
-	return `${JSON.stringify(filter)}:${JSON.stringify(chart && chart.key)}`
+)((state, filter, cacheKey) => {
+	return `${JSON.stringify(filter)}:${JSON.stringify(cacheKey)}`
 });
 
 /**

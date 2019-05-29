@@ -88,11 +88,11 @@ class EsponFuoreChart extends React.PureComponent {
 			let names = props.nameData;
 			let mergedData = {};
 
-			_.each(data, (record) => {
+			_.forEach(data, (record) => {
 				mergedData[record.key] = {...record};
 			});
 
-			_.each(names, (nameRecord) => {
+			_.forEach(names, (nameRecord) => {
 				let existingRecord = mergedData[nameRecord.key];
 				if (existingRecord) {
 					existingRecord.data.name = nameRecord.data.name;
@@ -108,7 +108,7 @@ class EsponFuoreChart extends React.PureComponent {
 				loading = false;
 			} else {
 				_.forEach(data, (item) => {
-					let serie = _.get(item, 'data.values');
+					let serie = item.data.values;
 					if (serie && serie.length === props.periods.length) {
 						loading = false;
 						return false;

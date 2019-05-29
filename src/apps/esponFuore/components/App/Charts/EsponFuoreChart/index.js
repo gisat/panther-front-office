@@ -28,7 +28,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			namesFilter = _.cloneDeep(currentNamesFilter);
 		}
 
-		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg);
+		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg.key);
 		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg.key);
 
 		// TODO ensure periods

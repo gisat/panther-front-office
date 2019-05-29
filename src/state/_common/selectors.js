@@ -660,9 +660,9 @@ const getUsesWithActiveDependency = (getSubstate) => {
 
 			if (filterByActive) {
 				// loop through components
-				_.each(indexedDataUses, (componentUsedIndexes) => {
+				_.map(indexedDataUses, (componentUsedIndexes) => {
 					// loop through uses for component
-					_.each(componentUsedIndexes, (usedIndex) => {
+					_.map(componentUsedIndexes, (usedIndex) => {
 						if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive && usedIndex.filterByActive[index], true)) {
 							// if usedIndex.filterByActive has all the properties of filterByActive
 
@@ -691,7 +691,7 @@ const getUsesWithActiveDependency = (getSubstate) => {
 				});
 
 				// loop through uses grouped by filter and merge intervals
-				_.each(groupedUses, index => {
+				_.map(groupedUses, index => {
 					if (index.inUse && Object.keys(index.inUse).length) {
 						usedIndexes.push({
 							filter: index.filter,

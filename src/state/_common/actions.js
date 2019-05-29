@@ -679,8 +679,8 @@ function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes, cat
 			let state = getState();
 			let usedIndexes = commonSelectors.getUsesWithActiveDependency(getSubstate)(state, filterByActive);
 
-			_.each(usedIndexes, (usedIndex) => {
-				_.each(usedIndex.uses, (use) => {
+			_.map(usedIndexes, (usedIndex) => {
+				_.map(usedIndex.uses, (use) => {
 					dispatch(ensureIndexed(getSubstate, dataType, usedIndex.filter, usedIndex.order, use.start, use.length, actionTypes, categoryPath))
 				});
 			})
@@ -697,7 +697,7 @@ function ensureIndexesWithActiveKey(filterKey, categoryPath = DEFAULT_CATEGORY_P
 			};
 
 			// dispatch ensureIndexesWithFilterByActive on all stores implementing it
-			_.each(Action, actions => {
+			_.map(Action, actions => {
 				if (actions.hasOwnProperty('ensureIndexesWithFilterByActive')) {
 					dispatch(actions.ensureIndexesWithFilterByActive(filterByActive, categoryPath))
 				}

@@ -54,7 +54,7 @@ const getFilteredGroupedByFid = createCachedSelector(
 			_.map(filtered, filteredSource => {
 				let source = allDataSources[filteredSource.attributeDataSourceKey];
 				let keySource = filteredSource.fidColumnName;
-				let nameSource = filteredSource.fidColumnName; // TODO titleColumnName
+				let nameSource = filteredSource.fidColumnName;
 
 				if (source && source.attributeData && source.attributeData.features) {
 					let features = source.attributeData.features;
@@ -115,15 +115,10 @@ const getNamesByFid = createCachedSelector(
 						let key = feature.properties[keySource];
 						let {[keySource]: keyName, ...props} = feature.properties;
 
-						let name = null;
-						_.map(props, (value, key) => {
-							name = value;
-						});
-
 						data[key] = {
 							key,
 							data: {
-								name
+								name: _.values(props)[0]
 							}
 						};
 					});
@@ -138,8 +133,8 @@ const getNamesByFid = createCachedSelector(
 		}
 	}
 )(
-	(state, filter, chart) => {
-		return `${JSON.stringify(filter)}:${JSON.stringify(chart && chart.key)}`;
+	(state, filter, cacheKey) => {
+		return `${JSON.stringify(filter)}:${JSON.stringify(cacheKey)}`;
 	}
 );
 
