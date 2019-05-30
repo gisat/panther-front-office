@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch, props) => {
 			//action to load LT data and add visible layers to map store
 			dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
 				//parse map LT data
-				dispatch(Action.maps.loadLayerTreesData(layerTreesFilter, [props.mapKey]));
+				dispatch(Action.maps.addLayersToMaps(layerTreesFilter, [props.mapKey]));
 			});
 		},
 

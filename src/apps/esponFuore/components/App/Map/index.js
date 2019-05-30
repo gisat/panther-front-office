@@ -118,6 +118,7 @@ const mapStateToProps = (state, props) => {
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
 		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
 		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
+		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);
 
 		// don't mutate selector input if it is not needed
 		if (!isEqual(namesFilter, currentNamesFilter)){
@@ -216,7 +217,7 @@ const mapStateToProps = (state, props) => {
 
 		return {
 			// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
-			layersTreeLoaded: layersState && layersState.length > 0,
+			layersTreeLoaded: !!layerTree,
 			activeFilter,
 			backgroundLayer: [{type:'wikimedia'}],
 			layers,
@@ -237,13 +238,14 @@ const mapDispatchToProps = (dispatch, props) => {
 
 	return {
 		onMount: (layersTreeLoaded) => {
-			if(!layersTreeLoaded) {
+			// if(!layersTreeLoaded) {
+			if(true) {
 				dispatch(Action.maps.use(props.mapKey));
 				const layerTreesFilter = props.layerTreesFilter;
 				//action to load LT data and add visible layers to map store
 				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
 					//parse map LT data
-					dispatch(Action.maps.loadLayerTreesData(layerTreesFilter, [props.mapKey]));
+					dispatch(Action.maps.addLayersToMaps(layerTreesFilter, [props.mapKey]));
 				});
 			}
 		},

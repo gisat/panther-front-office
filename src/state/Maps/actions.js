@@ -76,7 +76,7 @@ const addSet = (set) => {
  * {Object} layerTreesFilter
  * {Array} mapKeys
  */
-const loadLayerTreesData = (layerTreesFilter, mapKeys) => {
+const addLayersToMaps = (layerTreesFilter, mapKeys) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		// getIndexed
@@ -90,7 +90,6 @@ const loadLayerTreesData = (layerTreesFilter, mapKeys) => {
 			//parse to map state
 			if(lastLTdata && lastLTdata.data && lastLTdata.data.structure && lastLTdata.data.structure.length > 0) {
 				const layerTreeStructure = lastLTdata.data.structure;
-	
 				dispatch(addTreeLayers(layerTreeStructure, 'layers', mapKeys));
 				dispatch(addTreeLayers(layerTreeStructure, 'backgroundLayers', mapKeys));
 			}
@@ -99,7 +98,9 @@ const loadLayerTreesData = (layerTreesFilter, mapKeys) => {
 }
 
 const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys) => {
-	return (dispatch) => {
+	return (dispatch, getState) => {
+		const state = getState();
+
 		//no array but object
 		const flattenLT = layerTreeUtils.getFlattenLayers(treeLayers[0][layerTreeBranchKey]);
 		const visibleLayers = flattenLT.filter((l) => l.visible);
@@ -109,7 +110,12 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys) => {
 
 		if(mapKeys) {
 			mapKeys.forEach((mapKey) => {
-				visibleLayersKeys.forEach((layerKey) => {
+
+				// check if layer in map
+				const layersState = Select.maps.getLayersStateByMapKey(state, mapKey);
+				// clean templateKeys found in map
+				const uniqVisibleLayersKeys = layersState ? visibleLayersKeys.filter((lk) => !layersState.some(ls => ls.layer && ls.layer.layerTemplate === lk)) : visibleLayersKeys;
+				uniqVisibleLayersKeys.forEach((layerKey) => {
 					const zIndex = layerTreeUtils.getLayerZindex(treeLayers[0], layerKey);
 					const layer = {layerTemplate: layerKey};
 
@@ -962,7 +968,7 @@ export default {
 	addMapToSet,
 	addSet,
 
-	loadLayerTreesData,
+	addLayersToMaps,
 
 	removeLayer,
 	removeLayers,
