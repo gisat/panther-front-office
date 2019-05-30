@@ -100,7 +100,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (layersVectorDataChanged) {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
-				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			//check if new attribute data comes
@@ -108,7 +108,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (layersAttributeDataChanged) {
 				const layers = this.props.layers || [];
 				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
-				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			//check if new attribute data comes
@@ -133,7 +133,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 			if(!isEqual(this.props.activeFilter, prevProps.activeFilter)) {
 				//filter vector layers
-				this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				const layers = this.props.layers || [];
+				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
 			if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
@@ -143,7 +144,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 				if(this.props.layersVectorData) {
 					const layers = this.props.layers || [];
 					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers], this.props.nameData);
-					this.setFilterVectorLayers(this.props.activeFilter, this.props.layers, [...this.state.backgroundLayers, ...thematicLayers]);
+					this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...thematicLayers]);
 				}
 			}
 
