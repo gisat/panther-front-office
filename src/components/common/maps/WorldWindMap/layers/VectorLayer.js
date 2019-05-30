@@ -45,7 +45,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	setStyleFunction(styleFunction) {
 		if(typeof styleFunction === 'function') {
 			this.styleFunction = styleFunction;
-			this.forEachRenderable(() => true);
+			this._renderablesAddCallback();
 			this.doRerender();
 		}
 	}
@@ -61,6 +61,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			//collection of functions that will be called after add renderable
 			const onAddActions = [
 				this._setFilter.bind(this),
+				() => true
 			];
 			
 			return onAddActions.some(a => a(renderable));
