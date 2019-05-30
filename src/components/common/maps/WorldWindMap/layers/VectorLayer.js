@@ -45,10 +45,12 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	setStyleFunction(styleFunction) {
 		if(typeof styleFunction === 'function') {
 			this.styleFunction = styleFunction;
-			this._renderablesAddCallback();
+			this.forEachRenderable(() => true);
 			this.doRerender();
 		}
 	}
+
+
 
 	/**
 	 * 
@@ -57,9 +59,11 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	_renderablesAddCallback() {
 		this.forEachRenderable((renderable) => {
 			//collection of functions that will be called after add renderable
-			return [
-				this._setFilter(renderable),
-			].some(r => r);
+			const onAddActions = [
+				this._setFilter.bind(this),
+			];
+			
+			return onAddActions.some(a => a(renderable));
 		});
 
 	}
@@ -145,6 +149,17 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		}
 	}
 
+	computeAttribution(renderable) {
+		if(this.styleFunction) {
+			let attribution = this.styleFunction(renderable, this); //return 
+			renderable.attributes = attribution;
+		}
+	}
+
+	/**
+	 * 
+	 * @param {function} modificator Function that has renderable as parameter. If return true attributions will be recalculated.
+	 */
 	forEachRenderable(modificator) {
 		if(typeof modificator === 'function') {
 			const styleFunctionExists = typeof this.styleFunction === 'function';
@@ -156,8 +171,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 				const shouldRerender = modificator(renderable);
 
 				if(shouldRerender && styleFunctionExists) {
-					let attribution = this.styleFunction(renderable, this); //return 
-					renderable.attributes = attribution;
+					this.computeAttribution(renderable);
 				}
 			}
 		}

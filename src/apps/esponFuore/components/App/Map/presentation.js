@@ -258,7 +258,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
 
-			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key]) {
+			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key] && layersMetadata[key]) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
