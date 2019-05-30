@@ -66,10 +66,10 @@ export const getCartogramColorScale = (color, classCount) => {
     const hsl = chromaColor.hsl();
     //take only hue from defined color
     const hue = hsl[0];
-    const colorScale = chroma.scale([chroma.hsl(hue, 1, .84), chroma.hsl(hue, 1, .35)]);
+    const colorScale = chroma.scale([chroma.hsl(hue, .95, .95), chroma.hsl(hue, .5, .5), chroma.hsl(hue, .95, .1)]).mode('lrgb');
     const colorClasses = colorScale.colors(classCount, null).map(c => c.saturate(1).rgb());
     return colorClasses;
-}
+};
 
 /**
  * 

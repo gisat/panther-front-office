@@ -1,4 +1,4 @@
-export const quartilePercentiles = [0, .25, .5, .75, 1];
+export const quartilePercentiles = [0, .166, .333, .5, .666, .833, 1];
 
 /**
  * 
