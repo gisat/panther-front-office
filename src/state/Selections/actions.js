@@ -44,6 +44,14 @@ function create(data){
 	}
 }
 
+function updateStateFromView(data) {
+	return dispatch => {
+		if (data) {
+			dispatch(actionUpdate(data));
+		}
+	};
+}
+
 // ============ actions ===========
 function actionRemove(keys){
 	return {
@@ -52,7 +60,15 @@ function actionRemove(keys){
 	}
 }
 
+const actionUpdate = (data) => {
+	return {
+		type: ActionTypes.SELECTIONS.UPDATE_FROM_VIEW,
+		data
+	}
+};
+
 export default {
 	clearActiveSelection,
-	updateActiveSelection
+	updateActiveSelection,
+	updateStateFromView
 }

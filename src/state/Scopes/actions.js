@@ -5,9 +5,11 @@ import VisualsConfig from '../../constants/VisualsConfig';
 
 import common from '../_common/actions';
 import attributeRelationsActions from '../AttributeRelations/actions';
+import _ from "lodash";
 
 // ============ creators ===========
 
+const add = common.add(ActionTypes.SCOPES);
 const create = common.create(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
 const deleteItem = common.delete(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
 const saveEdited = common.saveEdited(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
@@ -19,7 +21,6 @@ const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', Action
 const refreshUses = common.refreshUses(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
 const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.SCOPES, 'scope');
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
-const updateStateFromView = common.updateSubstateFromView(ActionTypes.SCOPES);
 
 function setActiveKey(key) {
 	return (dispatch, getState) => {
@@ -29,6 +30,20 @@ function setActiveKey(key) {
 		let activeScope = Select.scopes.getActive(getState());
 		if (activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey) {
 			dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: activeScope.data.configuration.areaNameAttributeKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
+		}
+	};
+}
+
+function updateStateFromView(data) {
+	return dispatch => {
+		if (data) {
+			if (data && data.byKey) {
+				dispatch(add(_.values(data.byKey)));
+			}
+
+			if (data && data.activeKey) {
+				dispatch(setActiveKey(data.activeKey));
+			}
 		}
 	};
 }

@@ -44,7 +44,6 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.periods.useIndexed(periodsFilterByActive, null, periodsOrder, 1, 100, componentId));
 			},
 			onActiveAttributeChange: (attributeKey, scopeKey) => {
-				// TODO merge with specific
 				dispatch(Action.attributeRelations.ensureIndexed({scopeKey, attributeKey}, null, 1, 1000));
 			},
 			onUnmount: () => {

@@ -43,6 +43,9 @@ class EsponFuoreTimeline extends React.PureComponent {
 		this.resize();
 		if (window) window.addEventListener('resize', this.resize, {passive: true});
 		this.props.onMount();
+		if (this.props.activeScopeKey && this.props.activeAttributeKey) {
+			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey);
+		}
 	}
 
 	componentWillUnmount() {

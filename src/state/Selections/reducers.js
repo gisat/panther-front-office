@@ -8,6 +8,10 @@ const INITIAL_STATE = {
 	byKey: null
 };
 
+const update = (state, data) => {
+	return {...state, ...data};
+};
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SELECTIONS.ADD:
@@ -16,6 +20,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.remove(state, action);
 		case ActionTypes.SELECTIONS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
+		case ActionTypes.SELECTIONS.UPDATE_FROM_VIEW:
+			return update(state, action.data);
 		default:
 			return state;
 	}
