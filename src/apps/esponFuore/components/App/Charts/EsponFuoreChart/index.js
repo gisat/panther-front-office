@@ -5,13 +5,19 @@ import utils from "../../../../../../utils/utils";
 import wrapper from './presentation';
 import _ from "lodash";
 
+const useActiveMetadataKeys = {
+	scope: true,
+	attribute: true,
+	period: true
+};
+
 const mapStateToPropsFactory = (initialState, ownProps) => {
 	let filter = {};
 	let namesFilter = {};
 	let chartCfg = {};
 
 	return (state) => {
-		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey);
+		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey, useActiveMetadataKeys);
 		let activeFilter = Select.selections.getActive(state);
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
@@ -49,7 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.selections.clearActiveSelection());
 		},
 		onMount: () => {
-			dispatch(Action.charts.use(ownProps.chartKey));
+			dispatch(Action.charts.use(ownProps.chartKey, useActiveMetadataKeys));
 		},
 		onUnmount: () => {
 			dispatch(Action.charts.useClear(ownProps.chartKey));
