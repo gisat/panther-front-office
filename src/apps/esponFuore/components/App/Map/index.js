@@ -9,6 +9,12 @@ import wrapper from '../../../../../components/common/maps/MapWrapper';
 import utils from '../../../../../utils/utils';
 import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
 
+const useActiveMetadataKeys = {
+	scope: true,
+	attribute: true,
+	period: true
+};
+
 const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
 
@@ -125,7 +131,7 @@ const mapStateToProps = (state, props) => {
 			namesFilter = cloneDeep(currentNamesFilter);
 		}
 
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
+		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
@@ -240,12 +246,12 @@ const mapDispatchToProps = (dispatch, props) => {
 		onMount: (layersTreeLoaded) => {
 			// if(!layersTreeLoaded) {
 			if(true) {
-				dispatch(Action.maps.use(props.mapKey));
+				dispatch(Action.maps.use(props.mapKey, useActiveMetadataKeys));
 				const layerTreesFilter = props.layerTreesFilter;
 				//action to load LT data and add visible layers to map store
 				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
 					//parse map LT data
-					dispatch(Action.maps.addLayersToMaps(layerTreesFilter, [props.mapKey]));
+					dispatch(Action.maps.addLayersToMaps(layerTreesFilter, [props.mapKey], useActiveMetadataKeys));
 				});
 			}
 		},
