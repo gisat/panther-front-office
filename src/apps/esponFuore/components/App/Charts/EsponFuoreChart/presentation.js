@@ -109,7 +109,7 @@ class EsponFuoreChart extends React.PureComponent {
 			} else {
 				_.forEach(data, (item) => {
 					let serie = item.data.values;
-					if (serie && serie.length === props.periods.length) {
+					if (serie && serie.length >= props.periods.length) {
 						loading = false;
 						return false;
 					}
