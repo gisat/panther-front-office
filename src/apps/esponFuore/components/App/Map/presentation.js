@@ -67,11 +67,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//todo check if layer already in map
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
-			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers], this.props.nameData);
+			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers], this.props.nameData);
 			this.setFilterVectorLayers(this.props.activeFilter, layers, [...backgroundLayers, ...thematicLayers]);
+			this.setStyleFunction(this.props.layersVectorData, [...backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
 		}
-
-		//set filters
 
 		this.setState({
 			thematicLayers: thematicLayers || [],
@@ -99,7 +98,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layersVectorDataChanged = !isEqual(prevProps.layersVectorData, this.props.layersVectorData);
 			if (layersVectorDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
 				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
@@ -107,24 +106,36 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
 			if (layersAttributeDataChanged) {
 				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
 				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
 			}
 
 			//check if new attribute data comes
 			const layersMetadataDataChanged = !isEqual(prevProps.layersMetadata, this.props.layersMetadata);
 			if (layersMetadataDataChanged) {
 				const layers = this.props.layers || [];
-				thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
 				thematicLayersChanged = true;
+				thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
+				
+				this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersMetadata)
 			}
 
 			//check if new attribute statistics data comes
 			const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
 
 			if (layersAttributeStatisticsDataChanged) {
+				//set layer statistics
+				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics)
+				//setstylefunction
+				this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
+			}
+
+			//check if new attribute statistics data comes
+			const nameDataChanged = !isEqual(prevProps.nameData, this.props.nameData);
+			if (nameDataChanged) {
 				const layers = this.props.layers || [];
-				this.updateStatistics(layers, this.props.layersVectorData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
 			}
 
 			if(backgroundLayersChanged && !isEqual(this.state.backgroundLayers, backgroundLayers)) {
@@ -143,8 +154,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 				//if vector data comes before layer
 				if(this.props.layersVectorData) {
 					const layers = this.props.layers || [];
-					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersAttributeStatistics, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers], this.props.nameData);
+					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers], this.props.nameData);
 					this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...thematicLayers]);
+					this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
 				}
 			}
 
@@ -218,30 +230,50 @@ class FuoreWorldWindMap extends React.PureComponent {
 		return changedLayers;
 	}
 
-	//update layers statistics
-	updateStatistics(LayersData = [], layersVectorData = {}, layersAttributeStatistics = {}, layersMetadata = {}, layersState = []) {
-		
+	handleStatistics(layersVectorData = {}, layersState = [], layersAttributeStatistics = {}) {
+
 		for (const [key, data] of Object.entries(layersVectorData)) {
-			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
-			if(instanceOfVector && layersAttributeStatistics[key]) {
-				const metadata = layersMetadata[key];
-				const attributeStatisticsData = layersAttributeStatistics[key];
+			const layerStatistics = layersAttributeStatistics[key];
 
-				if(attributeStatisticsData) {
-					existingLayer.setAttributeStatistics(attributeStatisticsData);
-				}
+			if(instanceOfVector && layerStatistics) {
+				existingLayer.setAttributeStatistics(layerStatistics);
+			}
+		}
+	}
 
+	setStyleFunction(layersVectorData = {}, layersState = [], layersAttributeStatistics = {}, layersMetadata = {}) {
+		
+		for (const [key, data] of Object.entries(layersVectorData)) {
+			let existingLayer = layersHelper.findLayerByKey(layersState, key);
+			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			const layerStatistics = layersAttributeStatistics[key];
+			const metadata = layersMetadata[key];
+
+			if(instanceOfVector && layerStatistics && metadata) {
 				//set layerstyle
 				if(metadata.dataType === 'relative') {
-					existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
+					existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey));
 				} else if(metadata.dataType === 'absolute') {
-					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
+					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey, 'volume', true, 80000));
 				}
 			}
 		}
 	}
+
+	handleMetadata(layersVectorData = {}, layersState = [], layersMetadata = {}) {
+		for (const [key, data] of Object.entries(layersVectorData)) {
+			let existingLayer = layersHelper.findLayerByKey(layersState, key);
+			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			const metadata = layersMetadata[key];
+
+			if(instanceOfVector && metadata && metadata.attributeDataKey) {
+				existingLayer.setMetadata(metadata);
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param {Array} LayersData 
@@ -250,20 +282,19 @@ class FuoreWorldWindMap extends React.PureComponent {
 	 * 
 	 * Join spatial vector data with map layers.
 	 */
-	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {},layersAttributeStatistics = {}, layersMetadata = {}, layersState = [], nameData = {}) {
+	handleVectorData(LayersData = [], layersVectorData = {}, layersAttributeData = {}, layersMetadata = {}, layersState = [], nameData = {}) {
 		let hoveredItems = this.context.hoveredItems;
 
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			const metadata = layersMetadata[key];
 
-			if(instanceOfVector && layersAttributeData[key] && layersAttributeStatistics[key] && layersMetadata[key]) {
+			if(instanceOfVector && layersAttributeData[key] && metadata) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
 					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
-					const attributeStatisticsData = layersAttributeStatistics[key];
-					const metadata = layersMetadata[key];
 					//merge with attributes
 					const fl = spatialDataSourceData.spatialData.features.length;
 
@@ -291,23 +322,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 							feature.properties.hovered = true;
 						}
 					}
-
-					if(attributeStatisticsData) {
-						existingLayer.setAttributeStatistics(attributeStatisticsData);
+					if (existingLayer.renderables && existingLayer.renderables.length > 0) {
+						// debugger //TODO
 					}
-
+					//musejí být statistiky!!
 					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
 
-					if(metadata && metadata.attributeDataKey) {
-						existingLayer.setMetadata(metadata);
-
-						//set layerstyle
-						if(metadata.dataType === 'relative') {
-							existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
-						} else if(metadata.dataType === 'absolute') {
-							existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, attributeStatisticsData, metadata.attributeDataKey));
-						}
-					}
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
 					const emptyGeoJSON = {

@@ -196,6 +196,12 @@ const mapStateToProps = (state, props) => {
 			return acc
 		}, {});
 
+
+		// 
+		// Statistics
+		// 
+
+		//merged statistics by layertemplateKey for cartodiagrams
 		const statisticsByLayerTemplateKeys = getStatisticsByLayerTemplateKeys(state, props);
 		
 		let layersAttributeStatistics = vectorLayers.reduce((acc, layerData) => {
