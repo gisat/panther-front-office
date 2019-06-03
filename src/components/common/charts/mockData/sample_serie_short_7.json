@@ -1,0 +1,114 @@
+[
+  {
+	"key": "9c26d19d-d61f-4c8a-941f-8fece58155bd",
+	"data": {
+	  "name": "American Samoa",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -186
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -644
+		}
+	  ]
+	}
+  },
+  {
+	"key": "2ea82558-ab5c-4c2e-a9f2-48709ecb27e7",
+	"data": {
+	  "name": "Wisconsin",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -117
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 176
+		}
+	  ]
+	}
+  },
+  {
+	"key": "505f5d5e-ef41-4c6a-a32d-f4dba8e5b972",
+	"data": {
+	  "name": "Washington",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -428
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 438
+		}
+	  ]
+	}
+  },
+  {
+	"key": "f01202ee-e2be-41c5-b605-0212131e7d6c",
+	"data": {
+	  "name": "Nevada",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -895
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1684
+		}
+	  ]
+	}
+  },
+  {
+	"key": "7b40742f-bfd7-4841-893e-ce7db2595327",
+	"data": {
+	  "name": "Utah",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 337
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1178
+		}
+	  ]
+	}
+  },
+  {
+	"key": "58bb145c-5f81-4ff2-b36d-6c036538a18b",
+	"data": {
+	  "name": "Alabama",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 958
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1942
+		}
+	  ]
+	}
+  },
+  {
+	"key": "d2dbe722-aef8-4bec-97cf-431051b36853",
+	"data": {
+	  "name": "Oklahoma",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 721
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -16
+		}
+	  ]
+	}
+  }
+]

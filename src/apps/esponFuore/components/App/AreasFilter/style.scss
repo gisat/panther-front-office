@@ -1,0 +1,20 @@
+@import '../../../../../styles/variables';
+
+.esponFuore-areas-filter {
+  padding: m(1) m(4/3) m(1) m(1);
+}
+
+.esponFuore-areas-filter-attribute {
+  margin-bottom: m(2/3);
+}
+
+.esponFuore-areas-filter-attribute > span {
+  display: inline-block;
+  margin-bottom: .1rem;
+  font-size: $a1;
+  color: var(--base70);
+}
+
+.esponFuore-areas-filter-buttons {
+  margin-top: m(1);
+}

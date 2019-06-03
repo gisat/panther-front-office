@@ -1,0 +1,8 @@
+{
+  "colorDescriptionText": "Barva atributu použitá v tematických mapách. Pužijte hexadecimální kód (např. #ff0000 pro červenou barvu).",
+  "types": {
+	"boolean": "Boolean",
+	"numeric": "Číslo",
+	"text": "Text"
+  }
+}

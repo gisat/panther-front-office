@@ -1,0 +1,713 @@
+/*
+
+
+
+
+
+
+          DEPRECATED
+          for reference only
+
+
+
+
+
+
+
+
+ */
+
+
+/* Table of contents
+
+	BASIC ELEMENTS............declarations for basic HTML elements
+	ATOMS
+		Button
+		UI Select
+	COMPONENTS
+		Change Review Map Control
+		Overlay
+			Aoi Overlay
+		Table
+		View Selector
+		WindowContainer
+
+		screen
+
+*/
+
+/*
+	set border box model to everything that counts on it being default one day
+*/
+.ptr-button {
+	box-sizing: border-box;
+}
+
+/* ================================================================
+   === BASIC ELEMENTS =============================================
+   ================================================================ */
+
+body {
+	font-family: "Open Sans", sans-serif;
+	margin: 0;
+	padding: 0;
+	margin: 0px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+#ptr{
+	height: 100vh;	
+}
+
+/* ================================================================
+	 === ATOMS ======================================================
+	 ================================================================ */
+
+/* == Button ====================================================== */
+
+
+
+
+
+
+/* == Menu ======================================================== */
+
+
+
+/* == Center ====================================================== */
+
+
+/* == UI Select =================================================== */
+
+.ptr-ui-select {
+	align-items: center;
+	display: flex;
+}
+
+.ptr-ui-select.label-top {
+	flex-direction: column;
+}
+
+.ptr-ui-select-label {
+	color: rgba(168, 172, 180, 1);
+	font-size: .85rem;
+	font-weight: 600;
+	padding: 0 .7rem 0 0;
+}
+
+.ptr-ui-select .Select {
+	min-width: 6rem;
+	width: 100%;
+	border: 1px solid;
+	border-radius: .15rem;
+	font-size: .85rem;
+}
+
+.ptr-ui-select .Select.is-disabled {
+	pointer-events: none;
+}
+
+.ptr-ui-select .Select-control,
+.ptr-ui-select .Select.is-disabled .Select-control {
+	border: 0;
+	border-radius: 2px;
+	height: 2rem;
+	transition: background-color .3s ease-in-out;
+}
+
+.ptr-ui-select .Select-control .Select-value {
+	line-height: 1.8rem;
+	padding-right: 25px;
+}
+.ptr-ui-select .Select-input {
+	display: block;
+	height: 1.8rem;
+	line-height: 1.8rem;
+}
+.ptr-ui-select .Select-input > input {
+	padding: 0;
+}
+.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
+	display: none;
+}
+.ptr-ui-select .Select-placeholder {
+	line-height: 1.8rem;
+	text-transform: none;
+}
+
+/* multiselect */
+.ptr-ui-select .Select--multi .Select-multi-value-wrapper {
+	display: flex;
+	overflow: hidden;
+	margin-right: .5rem;
+}
+.ptr-ui-select .Select--multi .Select-value {
+	display: flex;
+}
+
+
+/* virtualized */
+
+.ptr-ui-select .VirtualizedSelectOption {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 0 .5rem;
+	cursor: pointer;
+}
+.ptr-ui-select .VirtualizedSelectDisabledOption {
+	opacity: 1;
+}
+.ptr-ui-select .VirtualizedSelectSelectedOption {
+	font-weight: 600;
+}
+
+/* Full width */
+.ptr-ui-select.full-width .Select {
+	flex: 1;
+}
+
+/* Resizable */
+.ptr-ui-select.resizable .Select-control {
+	min-height: 2rem;
+	height: auto;
+}
+.ptr-ui-select.resizable .Select-input {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.ptr-ui-select.resizable .Select-control > span:not(.Select-arrow-zone) {
+	display: block;
+}
+.ptr-ui-select.resizable .Select-input {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.ptr-ui-select.resizable .Select--single > .Select-control .Select-value {
+	position: relative;
+	white-space: normal;
+	line-height: normal;
+	padding: 10px 10px;
+}
+
+
+/* Default colors */
+.ptr-ui-select .ptr-ui-select-label {
+	color: #333;
+}
+
+.ptr-ui-select .Select {
+	border-color: rgba(0,0,0,.4);
+	transition: .3s border ease-in-out;
+}
+.ptr-ui-select .Select.is-focused {
+	box-shadow: 0 0 1px 1px rgba(0,134,252,1);
+}
+.ptr-ui-select .Select-control,
+.ptr-ui-select .Select.is-disabled .Select-control {
+	background-color: rgba(232,236,240,1);
+}
+
+.ptr-ui-select .VirtualizedSelectOption,
+.ptr-ui-select .Select-option {
+	background-color: rgba(240, 242, 244, 1);
+	color: #333;
+}
+.ptr-ui-select .VirtualizedSelectDisabledOption,
+.ptr-ui-select .Select-option.is-disabled {
+	background-color: rgba(240, 242, 244, 1);
+	color: #aaa;
+}
+.ptr-ui-select .VirtualizedSelectSelectedOption,
+.ptr-ui-select .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption,
+.ptr-ui-select .Select-option.is-selected,
+.ptr-ui-select .Select-option.is-selected.is-focused {
+	background-color: rgba(153,191,228,.7);
+}
+.ptr-ui-select .VirtualizedSelectFocusedOption,
+.ptr-ui-select .Select-option.is-focused {
+	background-color: rgba(153,191,228,.5);
+}
+.ptr-ui-select .Select:hover,
+.ptr-ui-select .Select.is-focused {
+	border-color: rgba(0,0,0,.5);
+}
+.ptr-ui-select .Select-control:hover,
+.ptr-ui-select .Select.is-focused > .Select-control,
+.ptr-ui-select .Select.is-focused:not(.is-open) > .Select-control {
+	background-color: rgba(240,243,246,1);
+}
+.ptr-ui-select .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select .Select-input > input {
+	color: #333;
+}
+
+
+
+.ptr-ui-select.inverted .Select {
+	border-color: rgba(255,255,255,.4);
+	transition: .3s border ease-in-out;
+}
+.ptr-ui-select.inverted  .Select.is-focused {
+	box-shadow: 0 0 1px 1px rgba(0,134,252,1);
+}
+.ptr-ui-select.inverted  .Select-control,
+.ptr-ui-select.inverted  .Select.is-disabled .Select-control,
+.ptr-ui-select.inverted  .Select.is-open > .Select-control {
+	background-color: rgba(232, 236, 240, 0.05);
+}
+
+.ptr-ui-select.inverted .Select-menu-outer {
+	background-color: #212635;
+	border-color: rgba(255,255,255,.3);
+}
+
+.ptr-ui-select.inverted  .VirtualizedSelectOption,
+.ptr-ui-select.inverted  .Select-option {
+	background-color: transparent;
+	color: #ddd;
+}
+.ptr-ui-select.inverted  .VirtualizedSelectDisabledOption,
+.ptr-ui-select.inverted  .Select-option.is-disabled {
+	background-color: transparent;
+	color: #666;
+}
+.ptr-ui-select.inverted  .VirtualizedSelectSelectedOption,
+.ptr-ui-select.inverted  .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption,
+.ptr-ui-select.inverted  .Select-option.is-selected,
+.ptr-ui-select.inverted  .Select-option.is-selected.is-focused {
+	background-color: rgba(153,191,228,.3);
+}
+.ptr-ui-select.inverted  .VirtualizedSelectFocusedOption,
+.ptr-ui-select.inverted  .Select-option.is-focused {
+	background-color: rgba(153,191,228,.5);
+}
+.ptr-ui-select.inverted  .Select:hover,
+.ptr-ui-select.inverted  .Select.is-focused {
+	border-color: rgba(255,255,255,.5);
+}
+.ptr-ui-select.inverted  .Select-control:hover,
+.ptr-ui-select.inverted  .Select.is-focused > .Select-control,
+.ptr-ui-select.inverted  .Select.is-focused:not(.is-open) > .Select-control {
+	background-color: rgba(255,255,255,.1);
+}
+.ptr-ui-select.inverted  .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select-input > input {
+	color: #ddd;
+}
+/* ================================================================
+   === COMPONENTS =================================================
+   ================================================================ */
+#app-container > div {
+	height: 100%;
+}
+
+/* == Change Review Map Control =================================== */
+.ptr-change-review-map-control {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #dddcd7;
+
+	display: flex;
+}
+
+.ptr-change-review-map-control > div, .ptr-change-review-map-control > span {
+	padding: 11px;
+}
+
+.ptr-change-review-map-control-map-name {
+	color: #cd0044;
+	margin-right: 15px;
+}
+
+.ptr-change-review-map-control-toggles > label {
+	margin-right: 30px;
+}
+
+.ptr-change-review-map-control-toggles > label > input {
+	position: relative;
+	top: 2px;
+	margin-right: 6px;
+}
+
+/* == Overlay ===================================================== */
+.ptr-overlay {
+	position: absolute;
+	display: none;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	top: 0;
+	background: rgba(255, 255, 255, .9);
+	padding: 1.5rem 1.5rem 1.5rem 2rem;
+	z-index: 90000;
+	flex-direction: column;
+}
+.ptr-overlay.opaque {
+	background: rgba(255, 255, 255, 1);
+}
+/*
+enable animation
+todo merge with overlay
+*/
+.ptr-overlay.ptr-overlay-fix {
+	display: flex;
+	opacity: 0;
+	pointer-events: none;
+
+	transition:
+		opacity .3s ease-in-out;
+}
+.ptr-overlay.ptr-overlay-fix.open {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.ptr-overlay-header {
+	display: flex;
+}
+
+.ptr-overlay-title {
+	flex: 1;
+	font-size: 2rem;
+	font-weight: 400;
+	color: #212635;
+}
+
+.ptr-overlay-close {
+	cursor: pointer;
+	font-size: 1.3rem;
+}
+
+.ptr-overlay-content {
+	margin-top: 1rem;
+}
+
+.ptr-overlay-content form {
+	display: flex;
+	flex-direction: column;
+}
+
+.ptr-overlay-content form label {
+	display: flex;
+	flex-direction: column;
+	font-size: .9rem;
+	margin: 0 0 .7rem 0;
+}
+
+.ptr-overlay-content form input {
+	max-width: 15rem;
+}
+
+.ptr-overlay-content form input[type=file] {
+	max-width: 15rem;
+	margin: .3rem 0;
+	font-size: .8rem;
+}
+
+.ptr-overlay-content form input[type=submit] {
+	max-width: 10rem;
+	margin-top: 1rem;
+	font-size: 1rem;
+}
+
+.ptr-overlay.open {
+	display: flex;
+}
+
+/* aoi overlay */
+.ptr-overlay-aoi {
+	top: 45px;
+	background: rgba(33, 38, 53, .9);
+	z-index: 10000;
+}
+
+.ptr-overlay-aoi-content {
+	position: absolute;
+	width: 500px;
+	height: 200px;
+}
+
+.ptr-overlay-aoi-content h3 {
+	color: rgb(148, 152, 160);
+	font-size: 1.5rem;
+	margin-bottom: .3rem;
+}
+
+.ptr-overlay-aoi-content p {
+	color: rgb(148, 152, 160);
+	font-size: 1rem;
+}
+
+/* == Table ======================================================= */
+.ptr-table {
+
+}
+/* header */
+.ptr-table-header {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	height: 2rem;
+	line-height: 2rem;
+	z-index: 1;
+}
+.ptr-table-header-item {
+	color: rgba(33,38,53,1);
+	padding: 0 .5rem;
+	font-size: .9375rem;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* body */
+.ptr-table-body {
+	background: white;
+	height: calc(100% - 2rem);
+	overflow-y: scroll;
+}
+.ptr-table-row {
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid #ccc;
+	transition: background .3s ease-in-out;
+}
+.ptr-table-row:hover {
+	background: rgba(233,235,238,1);
+}
+.ptr-table-row.active,
+.ptr-table-row.active:hover {
+	background: rgba(225,235,241,1);
+	border-bottom: 1px solid #ccc;
+}
+.ptr-table-row-record {
+	display: flex;
+	padding: .3rem 0;
+	align-items: center;
+}
+.ptr-table-row-details {
+	display: none;
+	margin-bottom: 1rem;
+	overflow: hidden;
+}
+.ptr-table-row-details.open {
+	display: flex;
+}
+.ptr-table-row-item {
+	color: rgba(65,69,81,1);
+	padding: 0 .5rem;
+	font-size: .875rem;
+	align-items: center;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ptr-table-row-item.state,
+.ptr-table-row-item.buttons {
+	display: flex;
+}
+.ptr-table-row-action {
+	display: flex;
+	flex: 1;
+	justify-content: flex-end;
+	margin-right: .5rem;
+}
+.ptr-table-row-show-details {
+	cursor: pointer;
+}
+.ptr-table-row-show-details > svg {
+	padding: 0 .5rem;
+	transform: rotate(90deg);
+}
+.ptr-table-row-show-details > svg .line {
+	fill: rgba(33,38,53,1);
+}
+
+/* == View Selector =============================================== */
+.ptr-view-selection-wrapper {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+}
+.ptr-view-selection-container {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	margin: .15rem 1rem .15rem 0;
+}
+
+.ptr-place-selector {
+
+}
+
+.ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
+	color: rgba(168, 172, 180, 1);
+}
+.ptr-view-selection-selector.ptr-ui-select.change-review-place-selector .ptr-ui-select-label {
+	width: 22rem;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select {
+	min-width: 10rem;
+	max-width: 20rem;
+	font-size: .75rem;
+	border: none;
+}
+.ptr-ui-select .Select.is-focused {
+	box-shadow: none;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled {
+	pointer-events: none;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select-control,
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control {
+	background-color: rgba(255, 255, 255, .15);
+	border: 0;
+	border-radius: 2px;
+	height: 1.5rem;
+	transition: background-color .3s ease-in-out;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectOption {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 0 .5rem;
+	cursor: pointer;
+	background-color: #6a6e78;
+	color: rgb(204, 207, 211);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectDisabledOption {
+	opacity: 0.5;
+	background-color: #6a6e78;
+	color: rgb(204, 207, 211);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectSelectedOption {
+	font-weight: bold;
+	background-color: #315678;
+	color: rgb(204, 207, 211);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectFocusedOption {
+	/*background-color: rgba(0, 126, 255, 0.1);*/
+	background-color: #7ba1c6;
+	color: #fff;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
+	line-height: 1.8rem;
+	padding-right: 25px;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-multi-value-wrapper {
+	max-width: 15rem;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value {
+	color: rgb(204, 207, 211);
+	margin: .25rem .25rem 0 0;
+	line-height: 1rem;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value-icon:hover {
+	color: white;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select-input {
+	display: block;
+	height: 1.8rem;
+	line-height: 1.8rem;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select-input > input {
+	padding: 0;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select-control:hover,
+.ptr-view-selection-selector.ptr-ui-select .Select.is-focused > .Select-control {
+	background-color: rgba(255, 255, 255, .25);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select-placeholder {
+	line-height: 1.8rem;
+	text-transform: none;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-view-selection-selector.ptr-ui-select .Select-input > input {
+	color: rgb(204, 207, 211);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
+	display: none;
+}
+
+.ptr-aoi-selected {
+	font-weight: bold;
+}
+
+.ptr-aoi-selected > span {
+	font-weight: normal;
+	margin-right: 1em;
+}
+
+.ptr-timeline-container {
+	font-size: 0;
+}
+
+.ptr-timeline-graph-line {
+	fill: transparent;
+	stroke: #2e5099;
+	stroke-width: 1;
+}
+
+.ptr-timeline-graph-point {
+	fill: #2e5099;
+}
+
+.ptr-timeline-graph-axis {
+	stroke-width: 1;
+	/*stroke-dasharray: 2 1;*/
+	stroke: rgba(0, 0, 0, .2);
+}
+
+.ptr-timeline-out-of-scope-overlay {
+	fill: rgba(125, 125, 125, .2);
+}
+
+/* == User Container ============================ */
+#user-container {
+	text-transform: none;
+	font-weight: normal;
+	display: flex;
+	align-items: center;
+}
+
+/* == WindowContainer =================================== */
+.ptr-window-container {
+	height: 100%;
+}

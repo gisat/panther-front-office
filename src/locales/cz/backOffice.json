@@ -1,0 +1,43 @@
+{
+	"formLabels": {
+	  "allApps": "Všechny aplikace",
+	  "application": "Aplikace",
+	  "boundingBox": "Bounding box",
+	  "color": "Barva",
+	  "configuration": "Konfigurace",
+	  "description": "Popis",
+	  "geometry": "Geometry",
+	  "name": "Název",
+	  "nameInternal": "Interní název",
+	  "period": "Perioda",
+	  "state": "Stav",
+	  "type": "Typ",
+	  "unit": "Jednotka",
+	  "valueType": "Typ hodnoty"
+	},
+  "metadata": {
+		"names": {
+			"attribute": "Atribut",
+			"attribute_plural": "Atributy",
+			"esponFuoreIndicator": "Indikátor",
+			"esponFuoreIndicator_plural": "Indikátory",
+			"layerTemplate": "Šablona vrstvy",
+			"layerTemplate_plural": "Šablony vrstev",
+			"period": "Perioda",
+			"period_plural": "Periody",
+			"place": "Místo",
+			"place_plural": "Místa",
+			"tag": "Tag",
+			"tag_plural": "Tagy",
+			"view": "Náhled",
+			"view_plural": "Náhledy"
+		}
+	},
+	"apps": {
+		"names": {
+			"scope": "Scope",
+			"scope_plural": "Scopy",
+			"layerTrees": "Stromy vrstev"
+		}
+	}
+}

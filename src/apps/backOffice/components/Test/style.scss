@@ -1,0 +1,157 @@
+@import "../../../../styles/variables";
+
+.ptr-bo-test {
+	width: 100%;
+	background: linear-gradient(90deg, $lightBase0 49.99999%, $darkBase0 50%);
+}
+
+.ptr-test-scale {
+	margin-bottom: 6rem;
+}
+
+.ptr-test-colour {
+	display: flex;
+	margin-bottom: 1rem;
+}
+.ptr-test-colour > div {
+	flex-basis: 50%;
+	padding: 1rem;
+	display: flex;
+}
+.ptr-test-colour > div > div {
+	margin-left: 2rem;
+}
+.ptr-test-colour > div > div.ptr-test-colour-no {
+	margin-left: 0;
+	color: var(--base60);
+	width: .5rem;
+}
+.ptr-test-colour-box {
+	width: 5rem;
+	height: 5rem;
+}
+.ptr-test-colour-lines {
+	border-top: 2px solid;
+	border-bottom: 1px solid;
+	height: 3rem;
+	width: 7rem;
+	margin-top: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.testy:after {
+	display: block;
+	position: absolute;
+	width: 1px;
+	background: rgba(180,180,180,.3);
+	left: 50%;
+	height: 100%;
+	content: " ";
+	top: 0;
+}
+.testy {
+	background-color: var(--base0);
+	padding: 4vw 0;
+	position: relative;
+}
+.testy > div {
+	z-index: 1;
+	position: relative;
+	display: flex;
+	justify-content: space-evenly;
+}
+.testy > div > div {
+	height: 6vw;
+	width: 6vw;
+
+	//flex: 1;
+}
+//.testy > div:nth-child(1) {
+//	background-color: var(--base0);
+//}
+//.testy > div:nth-child(2) {
+//	background-color: var(--base1);
+//}
+//.testy > div:nth-child(3) {
+//	background-color: var(--base2);
+//}
+//.testy > div:nth-child(4) {
+//	background-color: var(--base3);
+//}
+//.testy > div:nth-child(5) {
+//	background-color: var(--base4);
+//}
+//.testy > div:nth-child(6) {
+//	background-color: var(--base5);
+//}
+//.testy > div:nth-child(7) {
+//	background-color: var(--base6);
+//}
+//.testy > div:nth-child(8) {
+//	background-color: var(--base7);
+//}
+//.testy > div:nth-child(9) {
+//	background-color: var(--base8);
+//}
+//.testy > div:nth-child(10) {
+//	background-color: var(--base9);
+//}
+//.testy > div:nth-child(11) {
+//	background-color: var(--base10);
+//}
+//.testy.t2 > div:nth-child(1) {
+//	background-color: var(--accent0);
+//}
+//.testy.t2 > div:nth-child(2) {
+//	background-color: var(--accent1);
+//}
+//.testy.t2 > div:nth-child(3) {
+//	background-color: var(--accent2);
+//}
+//.testy.t2 > div:nth-child(4) {
+//	background-color: var(--accent3);
+//}
+//.testy.t2 > div:nth-child(5) {
+//	background-color: var(--accent4);
+//}
+//.testy.t2 > div:nth-child(6) {
+//	background-color: var(--accent5);
+//}
+//.testy.t2 > div:nth-child(7) {
+//	background-color: var(--accent6);
+//}
+//.testy.t2 > div:nth-child(8) {
+//	background-color: var(--accent7);
+//}
+//.testy.t2 > div:nth-child(9) {
+//	background-color: var(--accent8);
+//}
+//.testy.t2 > div:nth-child(10) {
+//	background-color: var(--accent9);
+//}
+//.testy.t2 > div:nth-child(11) {
+//	background-color: var(--accent10);
+//}
+//.testy.t3 > div {
+//	background-color: var(--accent0);
+//}
+//.testy.t3 > div:nth-child(2) {
+//	background-color: $bo-accent-lighter1;
+//}
+//.testy.t3 > div:nth-child(3) {
+//	background-color: $bo-accent-lighter2;
+//}
+//.testy.t3 > div:nth-child(4) {
+//	background-color: $bo-accent-lighter3;
+//}

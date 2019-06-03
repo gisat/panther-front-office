@@ -1,0 +1,402 @@
+[
+  {
+	"key": "29a0d9fc-314e-414e-bf7a-5b11acfc6c26",
+	"data": {
+	  "name": "Wisconsin",
+	  "some_value_1": 9278,
+	  "some_value_2": -3.8201
+	}
+  },
+  {
+	"key": "9334d966-b988-4056-a645-e16159b41d3d",
+	"data": {
+	  "name": "Arizona",
+	  "some_value_1": 30830,
+	  "some_value_2": -9.8079
+	}
+  },
+  {
+	"key": "6ff2101d-c804-4b4e-95c2-9164b837a951",
+	"data": {
+	  "name": "North Carolina",
+	  "some_value_1": 96822,
+	  "some_value_2": 1.4988
+	}
+  },
+  {
+	"key": "7cbb6c73-3e1c-46fe-8381-825d159e0875",
+	"data": {
+	  "name": "Alabama",
+	  "some_value_1": 69823,
+	  "some_value_2": -2.6835
+	}
+  },
+  {
+	"key": "e9e33bf1-bb40-44b1-987e-b6d124b20731",
+	"data": {
+	  "name": "Palau",
+	  "some_value_1": 8804,
+	  "some_value_2": -2.8804
+	}
+  },
+  {
+	"key": "05a6f0ce-5954-4b67-863c-2a006d36ad46",
+	"data": {
+	  "name": "Northern Mariana Islands",
+	  "some_value_1": 87122,
+	  "some_value_2": 0.2764
+	}
+  },
+  {
+	"key": "54c3bebd-bc35-423d-8ddb-58bdc7fe3c39",
+	"data": {
+	  "name": "South Dakota",
+	  "some_value_1": 65159,
+	  "some_value_2": 7.859
+	}
+  },
+  {
+	"key": "6ff77bb0-4f8b-4e66-85c5-d5469b535539",
+	"data": {
+	  "name": "Tennessee",
+	  "some_value_1": 83674,
+	  "some_value_2": -0.1147
+	}
+  },
+  {
+	"key": "3462d97e-4dc0-4c57-a49f-b518e62f5e87",
+	"data": {
+	  "name": "New Mexico",
+	  "some_value_1": 55220,
+	  "some_value_2": -6.5399
+	}
+  },
+  {
+	"key": "612e5627-7e5f-4e1c-9ef4-e9c81bd1adaa",
+	"data": {
+	  "name": "Virgin Islands",
+	  "some_value_1": 46017,
+	  "some_value_2": 1.491
+	}
+  },
+  {
+	"key": "d1785364-e67c-424e-b25d-242680992de5",
+	"data": {
+	  "name": "Louisiana",
+	  "some_value_1": 62525,
+	  "some_value_2": 5.391
+	}
+  },
+  {
+	"key": "515fe65a-d531-43e8-89e5-d820ff37531a",
+	"data": {
+	  "name": "Virginia",
+	  "some_value_1": 67060,
+	  "some_value_2": -6.9654
+	}
+  },
+  {
+	"key": "bcda3300-b847-40d9-b97f-f499197b6524",
+	"data": {
+	  "name": "Idaho",
+	  "some_value_1": 80962,
+	  "some_value_2": 1.1477
+	}
+  },
+  {
+	"key": "2f084fed-8968-44d1-8e7d-cea4a1d72f92",
+	"data": {
+	  "name": "Vermont",
+	  "some_value_1": 79233,
+	  "some_value_2": -3.1173
+	}
+  },
+  {
+	"key": "1ff3d830-9b07-4ee4-943b-ec1e37518f16",
+	"data": {
+	  "name": "Oklahoma",
+	  "some_value_1": 75542,
+	  "some_value_2": 3.2472
+	}
+  },
+  {
+	"key": "2b7b5705-d1fe-4c09-bcbc-662ba9dec682",
+	"data": {
+	  "name": "Washington",
+	  "some_value_1": 74215,
+	  "some_value_2": 4.5221
+	}
+  },
+  {
+	"key": "d86e8763-263e-4aa7-a973-de36c53df62b",
+	"data": {
+	  "name": "New York",
+	  "some_value_1": 17604,
+	  "some_value_2": -0.3531
+	}
+  },
+  {
+	"key": "a9392d9b-1c9f-47ed-9a73-e2058c4f1072",
+	"data": {
+	  "name": "Guam",
+	  "some_value_1": 34606,
+	  "some_value_2": -3.3045
+	}
+  },
+  {
+	"key": "df29c6df-0b4f-4fae-bd5d-65622f6ad75e",
+	"data": {
+	  "name": "Maryland",
+	  "some_value_1": 44638,
+	  "some_value_2": 1.1939
+	}
+  },
+  {
+	"key": "5e15e06c-1555-4f0e-88b3-ef76371e56f1",
+	"data": {
+	  "name": "South Carolina",
+	  "some_value_1": 61934,
+	  "some_value_2": 8.2057
+	}
+  },
+  {
+	"key": "839a5b13-b217-4f86-982e-3d21c6355642",
+	"data": {
+	  "name": "West Virginia",
+	  "some_value_1": 52772,
+	  "some_value_2": 0.1709
+	}
+  },
+  {
+	"key": "cb3592aa-4711-4913-86ea-649ab4372d55",
+	"data": {
+	  "name": "Kentucky",
+	  "some_value_1": 96556,
+	  "some_value_2": -4.7798
+	}
+  },
+  {
+	"key": "6f9a2749-3276-4808-830c-9953760d5332",
+	"data": {
+	  "name": "New Hampshire",
+	  "some_value_1": 74265,
+	  "some_value_2": -0.2937
+	}
+  },
+  {
+	"key": "0fdb48cb-752f-4969-97b6-f7386bad47f1",
+	"data": {
+	  "name": "Missouri",
+	  "some_value_1": 10956,
+	  "some_value_2": 8.1123
+	}
+  },
+  {
+	"key": "10b4b8ef-f054-41c2-b8bf-80e485449194",
+	"data": {
+	  "name": "New Jersey",
+	  "some_value_1": 66072,
+	  "some_value_2": -3.7342
+	}
+  },
+  {
+	"key": "48ff0fad-d65a-41b5-830b-93dfd10e7f52",
+	"data": {
+	  "name": "Pennsylvania",
+	  "some_value_1": 95415,
+	  "some_value_2": -3.9032
+	}
+  },
+  {
+	"key": "4a76fbec-7e46-4648-8d7e-76cb5e0afaa6",
+	"data": {
+	  "name": "North Dakota",
+	  "some_value_1": 60453,
+	  "some_value_2": 1.2682
+	}
+  },
+  {
+	"key": "1f4862ae-b11d-461f-a739-28b361ed1415",
+	"data": {
+	  "name": "Colorado",
+	  "some_value_1": 41819,
+	  "some_value_2": -1.4489
+	}
+  },
+  {
+	"key": "84cfd622-9e84-4902-aabc-32402f3d5cee",
+	"data": {
+	  "name": "Hawaii",
+	  "some_value_1": 19350,
+	  "some_value_2": -2.0881
+	}
+  },
+  {
+	"key": "3cfe0df6-5137-4098-a989-a8feace0208d",
+	"data": {
+	  "name": "Massachusetts",
+	  "some_value_1": 96711,
+	  "some_value_2": 7.5664
+	}
+  },
+  {
+	"key": "0b066dd8-41c5-48b4-bb8f-654cd4fe2583",
+	"data": {
+	  "name": "Maine",
+	  "some_value_1": 55786,
+	  "some_value_2": 0.4097
+	}
+  },
+  {
+	"key": "fb91ae2c-317c-4af6-87e9-159cacdee6c9",
+	"data": {
+	  "name": "Florida",
+	  "some_value_1": 95008,
+	  "some_value_2": 1.8554
+	}
+  },
+  {
+	"key": "d9fbfd0a-353d-409e-a15b-42696391b91b",
+	"data": {
+	  "name": "Montana",
+	  "some_value_1": 53050,
+	  "some_value_2": 5.1856
+	}
+  },
+  {
+	"key": "0aab0e19-364f-4f6b-b413-7c49707584a5",
+	"data": {
+	  "name": "Arkansas",
+	  "some_value_1": 31240,
+	  "some_value_2": -8.0464
+	}
+  },
+  {
+	"key": "a9b35ab1-4826-40c7-b679-f2984b40aa9f",
+	"data": {
+	  "name": "Nevada",
+	  "some_value_1": 31059,
+	  "some_value_2": -4.1321
+	}
+  },
+  {
+	"key": "a8a80c64-deae-4d3c-ad2a-f348e472a225",
+	"data": {
+	  "name": "Michigan",
+	  "some_value_1": 87326,
+	  "some_value_2": -1.1746
+	}
+  },
+  {
+	"key": "2fc462b5-4176-4cc9-b5d8-9162669fccf6",
+	"data": {
+	  "name": "Utah",
+	  "some_value_1": 74647,
+	  "some_value_2": 5.6794
+	}
+  },
+  {
+	"key": "8d2a583a-3223-42da-a701-a9dbcf68c955",
+	"data": {
+	  "name": "Wyoming",
+	  "some_value_1": 3319,
+	  "some_value_2": -2.3262
+	}
+  },
+  {
+	"key": "f0b8ed5f-916c-4694-a725-50a4c85a6d80",
+	"data": {
+	  "name": "Puerto Rico",
+	  "some_value_1": 59699,
+	  "some_value_2": 4.9245
+	}
+  },
+  {
+	"key": "b482f579-41d9-494a-9088-f1b727e7df2b",
+	"data": {
+	  "name": "Iowa",
+	  "some_value_1": 61389,
+	  "some_value_2": -2.1727
+	}
+  },
+  {
+	"key": "41cbf63c-2afa-4641-8279-29f71f0612b8",
+	"data": {
+	  "name": "Oregon",
+	  "some_value_1": 97234,
+	  "some_value_2": -4.4559
+	}
+  },
+  {
+	"key": "5c0649f2-36ab-4e54-8470-bf0f83a0695b",
+	"data": {
+	  "name": "California",
+	  "some_value_1": 31764,
+	  "some_value_2": -6.6099
+	}
+  },
+  {
+	"key": "b8a6db87-fd86-460a-bceb-e503c62f5984",
+	"data": {
+	  "name": "Kansas",
+	  "some_value_1": 62208,
+	  "some_value_2": -7.0007
+	}
+  },
+  {
+	"key": "e5d889aa-0665-4c77-a50a-9aa7b86cd627",
+	"data": {
+	  "name": "Marshall Islands",
+	  "some_value_1": 74015,
+	  "some_value_2": -4.4365
+	}
+  },
+  {
+	"key": "dbe98477-7d69-4e48-b6e4-a75e18d0d6b3",
+	"data": {
+	  "name": "Nebraska",
+	  "some_value_1": 43931,
+	  "some_value_2": 3.2202
+	}
+  },
+  {
+	"key": "a0978899-7174-4b6a-bc3b-e00e23e9ea6e",
+	"data": {
+	  "name": "Mississippi",
+	  "some_value_1": 58418,
+	  "some_value_2": -3.3866
+	}
+  },
+  {
+	"key": "59912f5d-37bd-4b61-a51e-e1d413804261",
+	"data": {
+	  "name": "Federated States Of Micronesia",
+	  "some_value_1": 58628,
+	  "some_value_2": 2.4166
+	}
+  },
+  {
+	"key": "d8a3b348-1666-480f-a4a3-9499722834c4",
+	"data": {
+	  "name": "American Samoa",
+	  "some_value_1": 67719,
+	  "some_value_2": 2.6499
+	}
+  },
+  {
+	"key": "8a4fbadf-506f-4713-ac04-8f209798b703",
+	"data": {
+	  "name": "Georgia",
+	  "some_value_1": 3493,
+	  "some_value_2": -1.8511
+	}
+  },
+  {
+	"key": "0fca7154-dd89-455b-b4d2-63943ee4d973",
+	"data": {
+	  "name": "Minnesota",
+	  "some_value_1": 77055,
+	  "some_value_2": 9.7888
+	}
+  }
+]

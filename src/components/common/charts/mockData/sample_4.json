@@ -1,0 +1,34 @@
+[
+  {
+	"key": "29a0d9fc-314e-414e-bf7a-5b11acfc6c26",
+	"data": {
+	  "name": "Wisconsin",
+	  "some_value_1": 9278,
+	  "some_value_2": -3.8201
+	}
+  },
+  {
+	"key": "9334d966-b988-4056-a645-e16159b41d3d",
+	"data": {
+	  "name": "Arizona",
+	  "some_value_1": 30830,
+	  "some_value_2": -9.8079
+	}
+  },
+  {
+	"key": "6ff2101d-c804-4b4e-95c2-9164b837a951",
+	"data": {
+	  "name": "North Carolina",
+	  "some_value_1": 96822,
+	  "some_value_2": 1.4988
+	}
+  },
+  {
+	"key": "7cbb6c73-3e1c-46fe-8381-825d159e0875",
+	"data": {
+	  "name": "Alabama",
+	  "some_value_1": 69823,
+	  "some_value_2": -2.6835
+	}
+  }
+]

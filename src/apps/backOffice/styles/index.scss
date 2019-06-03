@@ -1,0 +1,73 @@
+@import '../../../styles/variables';
+
+.ptr-bo-page {
+	@include positionFill;
+
+	display: flex;
+	flex-direction: column;
+
+	background: $bo0;
+}
+
+.ptr-bo-top-bar {
+	height: m(2);
+	flex: 0 0 m(2);
+	background: $gray10;
+	color: $gray2;
+	box-shadow: 0 0 15px 0 rgba(0, 0, 0, .7);
+	position: relative;
+	z-index: 20;
+}
+
+.ptr-bo-content {
+	flex-grow: 1;
+	position: relative;
+}
+
+.ptr-base-page{
+    display: flex;
+	height: 100%;
+	width: 40rem;
+}
+
+/* Inputs */
+.ptr-input-wrapper .ptr-input-text{
+	background-color: $gray1; // todo
+	border-radius: .25rem;
+	border: 1px solid $gray4; // todo
+	position: relative;
+}
+
+.ptr-input-wrapper textarea{
+	outline: none;
+}
+
+.ptr-input-wrapper .ptr-input-text.focus {
+	// todo
+}
+
+.ptr-input-wrapper .ptr-input-text.focus::after {
+	content: ' ';
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	border-radius: .2rem;
+	box-shadow: 0 0 2px 2px var(--accent6);
+	pointer-events: none;
+}
+
+.ptr-input-wrapper .ptr-input-text,
+.ptr-input-wrapper .ptr-input-text input{
+	border-radius: .25rem;
+}
+
+.ptr-input-wrapper .ptr-input-text input{
+	border: 0;
+}
+
+.ptr-input-wrapper textarea{
+    width: 100%;
+    height: 6rem;
+	background-color: $gray1; // todo
+	border: 1px solid $gray4; // todo
+	border-radius: .25rem
+}

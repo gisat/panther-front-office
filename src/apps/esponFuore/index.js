@@ -1,0 +1,76 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route, Switch } from 'react-router';
+import Helmet from "react-helmet";
+import Favicon from 'react-favicon';
+
+import Action from './state/Action';
+import Store, {history} from './state/Store';
+import i18n from '../../i18n';
+import utils from '../../utils/utils';
+
+// base styles need to be imported before all components
+import '../../styles/reset.css';
+import '../../styles/base.scss';
+import './styles/index.scss';
+
+import en from "./locales/en/common";
+
+import AppContext from './context';
+import AppContainer from "../../components/common/AppContainer";
+import ReactRouterViewController from "./components/ReactRouterViewController";
+import App from "./components/App";
+
+// override and extend locales in namespaces
+utils.addI18nResources('common', {en});
+
+
+const WINDOW_SET_KEY = "esponFuore";
+const MAP_SET_KEY = "esponFuore";
+
+export default (path, baseUrl) => {
+
+	let componentId = 'Fuore-LayersTree';
+
+	Store.dispatch(Action.app.setKey('esponFuore'));
+	Store.dispatch(Action.app.setBaseUrl(baseUrl));
+	Store.dispatch(Action.app.setConfiguration({
+		geometriesAccuracy: 0.001
+	}));
+
+	// Set language
+	i18n.changeLanguage("en");
+
+	// Load Current User
+	Store.dispatch(Action.users.apiLoadCurrentUser());
+
+	//applyLayerTree	
+	Store.dispatch(Action.layersTrees.useIndexed({application: true}, null, null, 1, 1000, componentId)).then(() => {
+		//add visible layers
+
+		ReactDOM.render(
+			<>
+				<Favicon url={["data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/4Qs+RXhpZgAASUkqAAgAAAAFABoBBQABAAAASgAAABsBBQABAAAAUgAAACgBAwABAAAAAgAAADEBAgAMAAAAWgAAADIBAgAUAAAAZgAAAHoAAAAsAQAAAQAAACwBAAABAAAAR0lNUCAyLjEwLjgAMjAxOTowNToyOCAxODo0MjoxNQAIAAABBAABAAAAAAEAAAEBBAABAAAAAAEAAAIBAwADAAAA4AAAAAMBAwABAAAABgAAAAYBAwABAAAABgAAABUBAwABAAAAAwAAAAECBAABAAAA5gAAAAICBAABAAAATwoAAAAAAAAIAAgACAD/2P/gABBKRklGAAEBAAABAAEAAP/bAEMACAYGBwYFCAcHBwkJCAoMFA0MCwsMGRITDxQdGh8eHRocHCAkLicgIiwjHBwoNyksMDE0NDQfJzk9ODI8LjM0Mv/bAEMBCQkJDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/AABEIAQABAAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AOHooor6c8MKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiipKTYEdFbNY1RTqc5c4coUUUVoQFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUV6RXnlcWExn1i/u2t5nRWw/s7a3uRUUUV2nOdLXWVw1ez18bnmK+q+z0ve/ltY9vCx57mBXFV61Xj1c2QYr6z7TS1rfqXioctjm6KKK+7PBClpK9LrhxmM+rcvu3vfqb0KHtb62seaUUUV3GAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABXqVeW10VeXmeH9ty62tf9Dswk+S57NWTU1ZFfmeCwlubXse9OZ5zWJRRX65Tp8l9T5ic+YK9OrzGiuXG4L61y+9a1+hpQr+yvpe56dXnVVqKWEwP1e/vXv5f8EqtiPaW0tYKvVRortlG5hGVj2mugria6SvybMsFzcvvd+nofT0p7mPXkldvXCV9/k+H9lz63vb9TxsbO/L8wooor3DzwooooAKKKKACiiigAooooAKKKKACiiigB1Nr0yuIrzsNj/bX921vP8A4B11MNyW1MqrtUqK75Ruc0ZWHVerPopShcIysFFFFWSFFFFABRRRQAUUUUAaFZ9FFTGPKVKXMX6oUUURjyhKVwqSlr1GuDHY76ry+7e9+vp5G9DD+0vrax5TRRRXonMFFFFABRRRQAUUUUAFFFFABXpNebVqV5+Pw3t+XW1r/odWGqcl9D3OqVVaqV+W4fAct/e/D/gn0MqnkefVzdFFfrlGj7O+p8xUqc9tAooorYzCiiigAooooAKKKKACiiigAooooAK1ayqKicOYqE+U9xrZrjq1q/JMdl3Py+936f8ABPqKdW19DEryyuqrlK/R8qw/sefW97fqeFjJ83L8wooor1ziCiiigAooooAKKKKACp6gopNXGnYdUtQUUNXBMKKKKYgooooAKKKKACiiigAooooAKKKKACiiigAooooAsVXoopJWG3cmqGiihKwm7hRRRTAKKKKACiiigAoorQqZS5Sox5jPrtK6qujr4zMuILcv7vv19PI9jD4Llv734Hz9RXqdeX19Ng8b9Z5vdta3U82vh/ZW1vcZRRRXec4UUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFel1xYzGfVuX3b3v1N6FD2t9bWMauPr36sSvlcBxF8X7vt19fI9Ovgea3vfgeNUVt1iV9nTqc99DyJw5QooorQgKKKKACiiigD1qutryOsKvhsTw59dt+95eXyvv8ANdj3FjfZfZvfzOlrjK6Subr6vBR5eb5Hm4l3sFFFFdxyhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVu1hVuVzYjob0ep7TWDXl1adfGUOHPq1/3t7+X/BPWeM5/s/ictRRRX3h4QUUUUAFFFFABRRRQAUUUUAFFa1ZNRCfMXOHKFFFFWQFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRWxWc58hcIcxj0UUVoQFFFFABRRRQAUUUUAFFFFABXS1zVdrXBjZcvL8zqwyvc7CuWr06s6vzjAZ18Xuduvr5Hu1KG2p47WRWnWZX6fRVrnztXoFFFFbmQUUUUAFFFFABRRRQAUUUUAFFFFABWjWdVms6iuXB2Ooru6fW5X5bnOc25Pc79fTyPpKFC19Tx2uXr0OvO6/RMvqc/Np2/U8PFx5bBRRRXpHIFFFFABRRRQAUUUUAFbNY1FZ1KfOXCfKenU6vL6K8d5Lf7f4f8ABOz69/d/H/gBRRRXuHAFFbVYtZ06nPfQucOUKKKK0ICiiigAooooAKKKKACiitus6lTktoXCHMYlFFFaEHplMrzaivFWT2+3+H/BO767/d/E6yuToor06FD2V9b3OarV57aBRRRW5kFFFFABRRRQAUUUUAFFFFABRRRQAV3VcLXZ152YL4fn+h2YR7ne1ytei1h1+bZVmvNz+526+vke5Wo7anllYdS1FX6rThy3Pm6kuawUUV1NTWreztpe4U6fPfU5im16FXntZ4XFe3vpaxdaj7O2t7hWhWfTq6JRuZRlY9Arsqza6qvyrO8z9n7P3e/X08j6ahSvfU8yrha9Crziv0HK3zc/y/U8bGacvzCiiivXOAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACulrmqKxq0vaW1NKdTkvod9VmvOKK86WVX+3+H/BOn65/d/EKKKK9c4jr69PrwGvaq+I4kwVvZe9/N09D2sBW5ubTt+ps15xXaV4nXPw3gOb2vvfy9PXzLx1fk5dO/wChHRRRX354R6HVSuHoryo5Zy/a/D/gnY8Xf7J2lcXRRXZh8P7G+t7mFWr7S2gUUUV0mQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFWqq0VMo3GnYkoqOinYLhRRRTEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH/2QD/2wBDAAICAgICAgICAgIDAgICAwQDAgIDBAUEBAQEBAUGBQUFBQUFBgYHBwgHBwYJCQoKCQkMDAwMDAwMDAwMDAwMDAz/2wBDAQMDAwUEBQkGBgkNCwkLDQ8ODg4ODw8MDAwMDA8PDAwMDAwMDwwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wgARCAAgACADAREAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABgECBQf/xAAZAQADAQEBAAAAAAAAAAAAAAAABAUBBgL/2gAMAwEAAhADEAAAAfD+65RBNa15DtRVDMa4FJaaIJjNA/SWmiGYydpqoZjWs05UU//EABwQAAEEAwEAAAAAAAAAAAAAAAEAAgMFERIVI//aAAgBAQABBQJc+RiNc97lXjWQnKyrAbOrvSQjCCsfNy6D5B0Xxlf/xAAiEQEAAQMEAQUAAAAAAAAAAAABAgAREgQQFEEhIjFRofH/2gAIAQMBAT8BripgybEu6dKrPBuR720pZZMMg96Wr1qS6SIYiVpfKwzxGnbVelIE8gP3blMsCRcj91ymOeJYl18bf//EACcRAAIBAwIGAQUAAAAAAAAAAAECEQADIRMxBRASFUFhIlFxkaHB/9oACAECAQE/Aa7mj6y2gWe1usESYkAE4M0OKKgsi8Cr3dlgmDEwSMDlxQ9SC0t7SdiOk4JMZgA7zQEURXDD0q1pr2q6kzsCJzED6eK4p8EF4WdV0OANxOCRPr9YoGia4YdRWvGzpOxzO5jCkx6/G3LtiprNaYq93zvBiAQDgex5rtauLJusWe152kxEkDB+39zy/8QAJxAAAgIBAwQABwEAAAAAAAAAAQIDBBEAITIFEBITMTNBUWGBscH/2gAIAQEABj8C1Qew6QV7/wAufIbAzgkgavtVdbFehu8+QuVzjIB7SWH6eeoV4EPvTcAZ2zka/wA7RWE6eaFeaMeldyG8ds5OpKzXhRhsIfa7cWwNgdfj6HX91FWW8L0ECD1MvFfLkB++1COzEk1ej8IuPkudwSNX1rQpBBf2aHl4r9lJ7f/EACEQAAIBAwQDAQAAAAAAAAAAAAERIQAxQRBRYXGRwfDR/9oACAEBAAE/IaF86ognkYVz+xQNdnEkFGXf4DR0xcNip2038wxsHEkOnQIdZG9K+ZYrON9qfOWWBrBxmivh0xEliTG9A+hddCgJ+CJLwBDPD3oTCKlkjAZceNqmK9AyiRMC9/Uaf//aAAwDAQACAAMAAAAQc7SkKhfj/8QAIhEBAQABBAIBBQAAAAAAAAAAAREhADFBURBhgXGRocHw/9oACAEDAQE/ENEZbOhhZUGkxeh7ppEDPaCl4Hfl9zuHjApmMgXFU6t/PFKaEaxCZDKMxRe5n781tyO1dmbD8v8AM0I+uPegujAMYmxdh8n78JBuHtHSm/rq9Y0MBbvdHQu319cGPH//xAAfEQEBAAIDAAIDAAAAAAAAAAABEQAhMUFREGFxkcH/2gAIAQIBAT8Qy7tcAkSEGiO08i6dPUO0EYcKsr5UxCvnxCvVwEZ73Ywf339TAclHdeZy+MDK61qQQ0Asm8L8EqxFrgo0Pvv6fMh+evvCak5ibU+VmVo6SGCdtDcnsN0QhFd7zmvwvvkahYqFuwfD/8QAHhABAQADAAIDAQAAAAAAAAAAAREAITEQQVFhgXH/2gAIAQEAAT8QwVY6tZg3aU4O9ER14JaqHSROh8qZcgQreBG3CjxdTBEZvJqF9UWABtusZJurVDojEeKfuRj1Y6B5W+O9VwEyOqIVUVPV0MeglkShVUSgB/mK90kmbCFf1xXvjHDOA2Tv2XwOH50MSehF8nSawkJD7nZUEUSoQPB//9k="]}/>
+				<Provider store={Store}>
+					<AppContext.Provider value={{windowSetKey: WINDOW_SET_KEY, mapSetKey: MAP_SET_KEY}}>
+						<Helmet
+							titleTemplate="%s | ESPON FUORE"
+							defaultTitle="ESPON FUORE"
+						/>
+						<AppContainer>
+							<ConnectedRouter history={history}>
+								<>
+									<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
+									<Route component={App} />
+								</>
+							</ConnectedRouter>
+						</AppContainer>
+					</AppContext.Provider>
+				</Provider>
+			</>, document.getElementById('ptr')
+		);
+	})
+
+}

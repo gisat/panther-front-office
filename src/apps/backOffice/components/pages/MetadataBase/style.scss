@@ -1,0 +1,15 @@
+@import '../../../../../styles/variables';
+
+.ptr-bo-page-base-menu{
+    min-width: 200px
+}
+
+.ptr-bo-page-base-list{
+    padding: m(1);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    position: relative;
+}

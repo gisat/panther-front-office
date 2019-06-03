@@ -1,0 +1,2162 @@
+[
+  {
+	"key": "d3614a83-6ed4-4c98-a708-ad1dc469f7b9",
+	"data": {
+	  "name": "Georgia",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1824
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1012
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -1717
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1896
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1904
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 535
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 485
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 438
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 309
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1149
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -2
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -456
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1644
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1272
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1528
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -1379
+		}
+	  ]
+	}
+  },
+  {
+	"key": "2f2f2a75-ce68-48d7-9f2a-8c5d0309d959",
+	"data": {
+	  "name": "Vermont",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 572
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1359
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1099
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1255
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1116
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1388
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1089
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1337
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1119
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1628
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1381
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 656
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1790
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1705
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1558
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1357
+		}
+	  ]
+	}
+  },
+  {
+	"key": "07b2932f-319c-4da4-a06c-5d0c5ae3b47a",
+	"data": {
+	  "name": "Iowa",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -136
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 384
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -716
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -766
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 796
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 671
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -807
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1462
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 860
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -963
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -381
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 315
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 1075
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -130
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 452
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -1698
+		}
+	  ]
+	}
+  },
+  {
+	"key": "0b7f63f8-7fa6-409e-b6df-57bd632642d6",
+	"data": {
+	  "name": "Washington",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -953
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1376
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1453
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1954
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1539
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 61
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 186
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1111
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -956
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1937
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1213
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1547
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1313
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -233
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -1193
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 797
+		}
+	  ]
+	}
+  },
+  {
+	"key": "00639f8c-3078-427d-b8d8-ce05137ecc27",
+	"data": {
+	  "name": "Wisconsin",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -626
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1708
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -770
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -873
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1923
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 531
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 465
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1273
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1593
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1940
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 515
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1591
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1611
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 50
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -555
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -1461
+		}
+	  ]
+	}
+  },
+  {
+	"key": "7505eec2-f5bb-459d-a0f1-f2f330bc15fa",
+	"data": {
+	  "name": "Marshall Islands",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -544
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1584
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 808
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -372
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -508
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 188
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -663
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 180
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1841
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1017
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1258
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1063
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 614
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1655
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -657
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 425
+		}
+	  ]
+	}
+  },
+  {
+	"key": "3879df4e-6c03-4fec-98d2-b619c3c6103a",
+	"data": {
+	  "name": "Nebraska",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 130
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -528
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1079
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1533
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 35
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -117
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1219
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1713
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1266
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1024
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1545
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1848
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 87
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 294
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1768
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -408
+		}
+	  ]
+	}
+  },
+  {
+	"key": "676bc3d5-d73d-4dd7-af4e-b5e2681f26fd",
+	"data": {
+	  "name": "Virginia",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1502
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1134
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1194
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1794
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 531
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 1196
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 784
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 968
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1285
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -567
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1486
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1441
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 173
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -532
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 208
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -758
+		}
+	  ]
+	}
+  },
+  {
+	"key": "ac5f000f-4191-4fd7-9872-74ddc777163c",
+	"data": {
+	  "name": "Oklahoma",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -336
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -39
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1475
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1167
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1181
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 1682
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -49
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 304
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1076
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -690
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 183
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 300
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1322
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 732
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -153
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -59
+		}
+	  ]
+	}
+  },
+  {
+	"key": "ba19aa71-c391-474f-a418-db128faeddd8",
+	"data": {
+	  "name": "Idaho",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 958
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 487
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -1677
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1528
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1456
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 784
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -769
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -437
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -161
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1812
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1806
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1198
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 202
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1168
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1558
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -1278
+		}
+	  ]
+	}
+  },
+  {
+	"key": "182df7d5-dbaa-4916-9d4e-25d13d95c187",
+	"data": {
+	  "name": "New York",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1603
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1213
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 838
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1768
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1400
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1017
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 609
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -880
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1518
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1164
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1529
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1883
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 487
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -883
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 353
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -1891
+		}
+	  ]
+	}
+  },
+  {
+	"key": "3be7ca5a-62fa-4064-b476-cafa83755528",
+	"data": {
+	  "name": "South Dakota",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1140
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1621
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1374
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1320
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1678
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 1913
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1946
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 297
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 612
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1984
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -788
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1499
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1602
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1754
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 179
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 843
+		}
+	  ]
+	}
+  },
+  {
+	"key": "9752055a-9811-46ae-a924-96ae415fb134",
+	"data": {
+	  "name": "Colorado",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 332
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1530
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1280
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 740
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 995
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 1074
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1340
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1528
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1509
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 741
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 241
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 19
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -747
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -845
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -73
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 463
+		}
+	  ]
+	}
+  },
+  {
+	"key": "14fde08f-449c-4963-851b-bc8b2d8b9e86",
+	"data": {
+	  "name": "Tennessee",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1739
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1263
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 773
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1341
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 69
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1757
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1353
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -886
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 817
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1779
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1903
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1265
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1787
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 679
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1373
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 689
+		}
+	  ]
+	}
+  },
+  {
+	"key": "9481b236-0ba0-4088-b9fd-94e9e97ecaa1",
+	"data": {
+	  "name": "Florida",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1438
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1536
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1369
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 561
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1312
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1846
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 668
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 208
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 998
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -880
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1454
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1156
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -864
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 854
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -69
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 619
+		}
+	  ]
+	}
+  },
+  {
+	"key": "9ba37db0-3077-4a31-932a-49b808e25ebc",
+	"data": {
+	  "name": "Kansas",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1313
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1734
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -82
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1651
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 628
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -313
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 104
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1299
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 71
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -488
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1299
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -140
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1959
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 946
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1382
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -597
+		}
+	  ]
+	}
+  },
+  {
+	"key": "697e0513-8531-48b4-ab42-2f3a5820bf39",
+	"data": {
+	  "name": "Northern Mariana Islands",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -672
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1597
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -364
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1536
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -364
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1542
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1414
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1382
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1950
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1552
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 164
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 525
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -805
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -860
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -407
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1263
+		}
+	  ]
+	}
+  },
+  {
+	"key": "2315517a-9ebd-4da8-b598-d9bb6b1cd896",
+	"data": {
+	  "name": "Missouri",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1984
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1417
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -1523
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -879
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 356
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -833
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -823
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1183
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -965
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1543
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -943
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1776
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 653
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 454
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 412
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 643
+		}
+	  ]
+	}
+  },
+  {
+	"key": "a7e15951-bebd-482c-9767-41ff7f4c545e",
+	"data": {
+	  "name": "Minnesota",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1358
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1485
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 55
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1213
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 120
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -158
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1138
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1873
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 514
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 899
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1755
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 783
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 1922
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1510
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -1967
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 10
+		}
+	  ]
+	}
+  },
+  {
+	"key": "75d45d71-d250-4cf6-8fc7-019ec638beda",
+	"data": {
+	  "name": "Arkansas",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 16
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1611
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1222
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 7
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 547
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 207
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1752
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1269
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -788
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 1142
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1192
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1890
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 1585
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1809
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 146
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1652
+		}
+	  ]
+	}
+  },
+  {
+	"key": "8020f5ff-92f7-42cc-ade3-1991fc61bc1e",
+	"data": {
+	  "name": "South Carolina",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -913
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -215
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1735
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 650
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -21
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 270
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1358
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1311
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1634
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -807
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -652
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 69
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -674
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -859
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1420
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1390
+		}
+	  ]
+	}
+  },
+  {
+	"key": "7181da93-4a77-4d28-ba27-02dfb8dc7b9f",
+	"data": {
+	  "name": "Puerto Rico",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1678
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 731
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -1902
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 694
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1798
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 431
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1045
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -547
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1207
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1517
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 509
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1922
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -378
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1133
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -99
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1575
+		}
+	  ]
+	}
+  },
+  {
+	"key": "4e8809bf-e9d1-45e7-8131-ab42cead1c5b",
+	"data": {
+	  "name": "West Virginia",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1022
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1777
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 461
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 872
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -179
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 961
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -782
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1954
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 913
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -317
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1692
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 786
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 453
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -547
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1156
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 939
+		}
+	  ]
+	}
+  },
+  {
+	"key": "4819c7b2-feb5-4302-8b72-945af3768a78",
+	"data": {
+	  "name": "Louisiana",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 1135
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 443
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 109
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1376
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1253
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 698
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1914
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 521
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 421
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -502
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1860
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -889
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 1349
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1367
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1581
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1557
+		}
+	  ]
+	}
+  },
+  {
+	"key": "40d1a3b6-a391-4e30-8b78-65cc9f905463",
+	"data": {
+	  "name": "Maine",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 851
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1529
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -1906
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1248
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1731
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1136
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -383
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 279
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -1810
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -270
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1552
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 968
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 1947
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1832
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -1587
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -428
+		}
+	  ]
+	}
+  },
+  {
+	"key": "ab89332d-ea21-4595-af3a-0421c2f4de1f",
+	"data": {
+	  "name": "California",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": 533
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 1947
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1077
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -1614
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1142
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -823
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1710
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -347
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -490
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -803
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1246
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -529
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1799
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1200
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1133
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 776
+		}
+	  ]
+	}
+  },
+  {
+	"key": "754ef32f-7d4c-451d-85a1-ca8e48ac62d7",
+	"data": {
+	  "name": "Michigan",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1445
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 403
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 843
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": -676
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": -1723
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1703
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -801
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 641
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1484
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1597
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 283
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 1023
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 938
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1709
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 1138
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 1479
+		}
+	  ]
+	}
+  },
+  {
+	"key": "485b8a12-ed81-4b45-b0fa-b21a820e162f",
+	"data": {
+	  "name": "Arizona",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1131
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -858
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": -787
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 836
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 904
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1452
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -640
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": -1375
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1030
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -511
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": 1171
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -917
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -1110
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": 1164
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -1052
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -43
+		}
+	  ]
+	}
+  },
+  {
+	"key": "46e7438e-d206-43a4-b84e-88dead572abe",
+	"data": {
+	  "name": "Indiana",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1213
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": -1769
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 246
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 223
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1501
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": 335
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": 1771
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 423
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": 1872
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": -1115
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -1243
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": 511
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": -218
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -1232
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": -312
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": -409
+		}
+	  ]
+	}
+  },
+  {
+	"key": "8b33c496-5638-4616-9992-f784babacba1",
+	"data": {
+	  "name": "North Carolina",
+	  "data": [
+		{
+		  "period": 1991,
+		  "someStrangeValue": -1546
+		},
+		{
+		  "period": 1992,
+		  "someStrangeValue": 976
+		},
+		{
+		  "period": 1993,
+		  "someStrangeValue": 1498
+		},
+		{
+		  "period": 1994,
+		  "someStrangeValue": 1053
+		},
+		{
+		  "period": 1995,
+		  "someStrangeValue": 1050
+		},
+		{
+		  "period": 1996,
+		  "someStrangeValue": -1964
+		},
+		{
+		  "period": 1997,
+		  "someStrangeValue": -1043
+		},
+		{
+		  "period": 1998,
+		  "someStrangeValue": 1503
+		},
+		{
+		  "period": 1999,
+		  "someStrangeValue": -830
+		},
+		{
+		  "period": 2000,
+		  "someStrangeValue": 825
+		},
+		{
+		  "period": 2001,
+		  "someStrangeValue": -605
+		},
+		{
+		  "period": 2002,
+		  "someStrangeValue": -1625
+		},
+		{
+		  "period": 2003,
+		  "someStrangeValue": 1027
+		},
+		{
+		  "period": 2004,
+		  "someStrangeValue": -837
+		},
+		{
+		  "period": 2005,
+		  "someStrangeValue": 496
+		},
+		{
+		  "period": 2006,
+		  "someStrangeValue": 858
+		}
+	  ]
+	}
+  }
+]

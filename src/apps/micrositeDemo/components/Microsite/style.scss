@@ -1,0 +1,37 @@
+@import '../../../../styles/variables';
+
+.ptr-microsite-hero {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	background: url('../../assets/img/snezka.jpg');
+	background-size: cover;
+}
+.ptr-microsite-hero:after {
+	content: "";
+	position: absolute;
+	background: rgba(0,0,0,.6);
+	width: 100%;
+	height: 100%;
+}
+.ptr-microsite-hero > div {
+	position: relative;
+	z-index: 1;
+}
+.ptr-microsite-hero h1 {
+	color: var(--base30);
+	font-size: $a5;
+}
+
+.ptr-microsite-content {
+	padding: m(2) m(4);
+}
+
+.ptr-microsite-map {
+	margin: m(2) 0;
+	width: 100%;
+	height: m(20);
+}
