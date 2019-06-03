@@ -42,7 +42,8 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', null));
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', null));
 				dispatch(Action.attributes.setActiveKey(null));
-				dispatch(Action.periods.setActiveKey(null));
+				dispatch(Action.periods.setActiveKeys(null));
+				dispatch(Action.views.setActiveKeys(null));
 				dispatch(Action.selections.clearActiveSelection());
 			}
 		}
