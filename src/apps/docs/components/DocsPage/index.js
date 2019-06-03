@@ -15,6 +15,7 @@ import FadeInDoc from "../FadeInDoc";
 import MultiSelectDoc from "../MultiSelectDoc";
 import ColumnChartDoc from "../ColumnChartDoc";
 import LineChartDoc from "../LineChartDoc";
+import WorldWindMapDoc from "../WorldWindMapDoc";
 
 class DocsPage extends React.PureComponent {
 
@@ -31,6 +32,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'typo', title: 'Typography', component: TypoDoc},
 			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {forceColumns: true}},
 			{key: 'lineChart', title: 'Line Chart', component: LineChartDoc, props: {forceColumns: true}},
+			{key: 'wwmap', title: 'World wind map', component: WorldWindMapDoc, singlePage: true},
 		];
 
 		this.paths = {};
@@ -74,32 +76,45 @@ class DocsPage extends React.PureComponent {
 						<Route
 							key={component.key}
 							path={this.paths[component.key]}
-							render={() => this.renderPage(component.title, component.component, component.props)}
+							render={() => this.renderPage(component.title, component.component, component.props, component.singlePage)}
 						/>);
 				})}
 			</Switch>
 		);
 	}
 
-	renderPage(title, component, props) {
+	renderPage(title, component, props, singlePage) {
 		let classes = classnames("ptr-docs-content",{
 			forceColumns: props && props.forceColumns
 		});
 
 		return (
 			<div className={classes}>
-				<div className="ptr-docs-panel ptr-light">
-					<div>
-						<h1>{title}</h1>
-						{React.createElement(component)}
-					</div>
-				</div>
-				<div className="ptr-docs-panel ptr-dark">
-					<div>
-						<h1>{title}</h1>
-						{React.createElement(component)}
-					</div>
-				</div>
+				{
+					singlePage ? (
+						<div className="ptr-docs-panel ptr-light">
+							<div>
+								<h1>{title}</h1>
+								{React.createElement(component)}
+							</div>
+						</div>
+					) : (
+					<>
+						<div className="ptr-docs-panel ptr-light">
+							<div>
+								<h1>{title}</h1>
+								{React.createElement(component)}
+							</div>
+						</div>
+						<div className="ptr-docs-panel ptr-dark">
+							<div>
+								<h1>{title}</h1>
+								{React.createElement(component)}
+							</div>
+						</div>
+					</>
+					)
+				}
 			</div>
 		);
 	}
