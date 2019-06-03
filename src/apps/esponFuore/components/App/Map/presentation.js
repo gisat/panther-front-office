@@ -150,6 +150,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 			if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
 				this.setState({thematicLayers});
+				this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersMetadata)
+				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics)
 
 				//if vector data comes before layer
 				if(this.props.layersVectorData) {
