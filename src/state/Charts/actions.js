@@ -3,9 +3,9 @@ import Action from "../Action";
 import commonActions from "../_common/actions";
 import ActionTypes from "../../constants/ActionTypes";
 
-const use = (chartKey) => {
+const use = (chartKey, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
-		let chart = Select.charts.getChartConfiguration(getState(), chartKey);
+		let chart = Select.charts.getChartConfiguration(getState(), chartKey, useActiveMetadataKeys);
 		let componentId = 'chart-' + chartKey;
 
 		if (chart) {

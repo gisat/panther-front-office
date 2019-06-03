@@ -29,6 +29,12 @@ class ScopesList extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
+	onScopeSelect(key) {
+		if (key !== (this.props.activeScope && this.props.activeScope.key)) {
+			this.props.onScopeSelect(key);
+		}
+	}
+
 	render() {
 		const delay = 200;
 		const duration = 600;
@@ -64,7 +70,7 @@ class ScopesList extends React.PureComponent {
 			});
 
 			return (
-				<div className={classes} style={style} tabIndex={0} onClick={this.props.onScopeSelect.bind(this, scope.key)} key={scope.key}>
+				<div className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
 					<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 					{scope.data && scope.data.description ? (
 						<div className="esponFuore-scope-card-description">

@@ -1,6 +1,6 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
-
+import {getRadius, getRadiusNormalizationCoefficient} from '../layers/utils/diagram'
 import {
     DEFAULTFILLTRANSPARENCY,
     getOutlineColor,
@@ -18,15 +18,22 @@ const {Color, ShapeAttributes} = WorldWind;
  * @param {Array} fillColorPalette  RGB color
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
-export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fillTransparency = DEFAULTFILLTRANSPARENCY) => {
+export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey, series = 'volume', normalized = true, normalizedMaxRadius = 100000) => {
 
     const diagramInteriorColor = Color.colorFromByteArray([...chroma(color).rgb(), fillTransparency]);
     const diagramOutlineColor = Color.colorFromByteArray([...getOutlineColor(color)]);
+    const normalizationCoefficient = normalized ? getRadiusNormalizationCoefficient(normalizedMaxRadius, statistics.max, series) : 1;
+
 
     //create 5 classes
     return (renderable, layer) => {
 
         if(renderable.radius) {
+            //recalculate radius
+            const value = renderable.userProperties[attributeDataKey];
+            const radius = getRadius(value, series, normalizationCoefficient);
+            renderable.radius = radius;
+
             //circle style
             const attributes = new ShapeAttributes();
 

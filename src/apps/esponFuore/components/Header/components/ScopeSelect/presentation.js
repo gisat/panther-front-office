@@ -9,6 +9,7 @@ class ScopeSelect extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.renderCurrent = this.renderCurrent.bind(this);
+		this.selectScope = this.selectScope.bind(this);
 	}
 
 	componentDidMount() {
@@ -17,6 +18,12 @@ class ScopeSelect extends React.PureComponent {
 
 	componentWillUnmount() {
 		this.props.onUnmount();
+	}
+
+	selectScope(key) {
+		if (key !== this.props.activeScope.key) {
+			this.props.selectScope(key);
+		}
 	}
 
 	renderCurrent() {
@@ -47,7 +54,7 @@ class ScopeSelect extends React.PureComponent {
 					props.scopeSelectOpen ? props.closeSelect() : props.openSelect()
 				}}
 				onBlur={props.closeSelect}
-				onSelect={props.selectScope}
+				onSelect={this.selectScope}
 				currentClasses="esponFuore-scope-select-current"
 				renderCurrent={this.renderCurrent}
 				listClasses="esponFuore-scope-select-list"

@@ -12,7 +12,8 @@ const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scopes: Select.scopes.getIndexed(state, filter, null, order, 1, 100)
+		scopes: Select.scopes.getIndexed(state, filter, null, order, 1, 100),
+		activeScope: Select.scopes.getActive(state)
 	}
 };
 
@@ -26,6 +27,13 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onScopeSelect: (scopeKey) => {
 				dispatch(Action.scopes.setActiveKey(scopeKey));
+				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', true));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', null));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', null));
+				dispatch(Action.attributes.setActiveKey(null));
+				dispatch(Action.periods.setActiveKey(null));
+				dispatch(Action.selections.clearActiveSelection());
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));

@@ -15,8 +15,8 @@ const mapStateToProps = (state, ownProps) => {
 	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
 
 	// don't mutate selector input if it is not needed
-	if (!_.isEqual(tagKey,  activeIndicator && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0])){
-		tagKey =  activeIndicator.data.tagKeys[0];
+	if (!_.isEqual(tagKey,  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0])){
+		tagKey =  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0];
 	}
 
 	let activeIndicatorCategory = Select.tags.getByKey(state, tagKey);
