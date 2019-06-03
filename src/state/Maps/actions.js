@@ -76,7 +76,7 @@ const addSet = (set) => {
  * {Object} layerTreesFilter
  * {Array} mapKeys
  */
-const addLayersToMaps = (layerTreesFilter, mapKeys) => {
+const addLayersToMaps = (layerTreesFilter, mapKeys, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		// getIndexed
@@ -90,14 +90,14 @@ const addLayersToMaps = (layerTreesFilter, mapKeys) => {
 			//parse to map state
 			if(lastLTdata && lastLTdata.data && lastLTdata.data.structure && lastLTdata.data.structure.length > 0) {
 				const layerTreeStructure = lastLTdata.data.structure;
-				dispatch(addTreeLayers(layerTreeStructure, 'layers', mapKeys));
-				dispatch(addTreeLayers(layerTreeStructure, 'backgroundLayers', mapKeys));
+				dispatch(addTreeLayers(layerTreeStructure, 'layers', mapKeys, useActiveMetadataKeys));
+				dispatch(addTreeLayers(layerTreeStructure, 'backgroundLayers', mapKeys, useActiveMetadataKeys));
 			}
 		}
 	}
 }
 
-const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys) => {
+const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		const state = getState();
 
@@ -112,7 +112,8 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys) => {
 			mapKeys.forEach((mapKey) => {
 
 				// check if layer in map
-				const layersState = Select.maps.getLayersStateByMapKey(state, mapKey);
+				const layersState = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
+
 				// clean templateKeys found in map
 				const uniqVisibleLayersKeys = layersState ? visibleLayersKeys.filter((lk) => !layersState.some(ls => ls.layer && ls.layer.layerTemplate === lk)) : visibleLayersKeys;
 				uniqVisibleLayersKeys.forEach((layerKey) => {
@@ -123,9 +124,9 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys) => {
 						case 'backgroundLayers':
 							return dispatch(setMapBackgroundLayer(mapKey, layer, zIndex));
 						case 'layers':
-							return dispatch(addLayer(mapKey, layer, zIndex));
+							return dispatch(addLayer(mapKey, layer, zIndex, useActiveMetadataKeys));
 						default:
-							return dispatch(addLayer(mapKey, layer, zIndex));
+							return dispatch(addLayer(mapKey, layer, zIndex, useActiveMetadataKeys));
 					}
 				}) 
 			})
@@ -347,7 +348,7 @@ const addLayerToEachMapInSet = (layer, zIndex) => {
 	}
 }
 
-const addLayer = (mapKey, layer, index) => {
+const addLayer = (mapKey, layer, index, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		if (!layer.key){
@@ -358,7 +359,7 @@ const addLayer = (mapKey, layer, index) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			dispatch(actionAddLayer(mapKey, layer, index));
-			dispatch(Action.maps.use(mapKey));
+			dispatch(Action.maps.use(mapKey, useActiveMetadataKeys));
 		}
 	};
 };
@@ -647,10 +648,10 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
-const use = (mapKey) => {
+const use = (mapKey, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		let state = getState();
-		let layers = Select.maps.getLayersStateByMapKey(state, mapKey);
+		let layers = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
 		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey(state, mapKey);
 		let finalLayers = [];
 

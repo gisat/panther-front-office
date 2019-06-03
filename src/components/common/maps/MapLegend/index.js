@@ -104,13 +104,23 @@ const mapStateToProps = (state, ownProps) => {
 					});
 					legend.push(legendItem);
 
+					if (ownProps.showNoData) {
+						const noDataValue = null;
+						const noDataAttribution = styleFunction({userProperties:{tmpAttribute: noDataValue}});
+						legendItem.items.push(
+								{
+									title: 'No data',
+									image: getPolygonImageByAttribution(noDataAttribution)
+								}
+						)
+					}
+
 				}else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
 					styleFunction = getCartodiagramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 				}
 			}
 		}
 	}
-	
 	return {
 		legendItems: legend,
 	}

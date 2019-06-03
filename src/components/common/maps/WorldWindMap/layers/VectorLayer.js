@@ -85,6 +85,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			return {userProperties: properties}
 		};
 		parser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
+		this.doRerender();
 	}
 
 	_setFilter(renderable) {

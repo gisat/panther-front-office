@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{panther-front-office node_modules}" />
-    <file url="PROJECT" libraries="{ExtJS, Highcharts-3.0.0, OpenLayers, jQuery}" />
-  </component>
-</project>

@@ -37,7 +37,13 @@ const mapDispatchToPropsFactory = () => {
 			},
 			selectScope: (key) => {
 				dispatch(Action.scopes.setActiveKey(key));
-				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false))
+				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', true));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', null));
+				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', null));
+				dispatch(Action.attributes.setActiveKey(null));
+				dispatch(Action.periods.setActiveKey(null));
+				dispatch(Action.selections.clearActiveSelection());
 			}
 		}
 	}

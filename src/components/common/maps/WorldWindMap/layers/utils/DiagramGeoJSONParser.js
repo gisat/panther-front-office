@@ -1,5 +1,6 @@
 import WorldWind from 'webworldwind-esa';
 import * as turf from '@turf/turf'
+import {getRadius, getRadiusNormalizationCoefficient} from './diagram'
 
 const {GeoJSONParser, GeoJSONConstants, GeoJSONGeometryCollection, GeoJSONFeature, ArgumentError, Logger} = WorldWind;
 
@@ -31,32 +32,10 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 		this.statistics = statistics;
 		this.normalizationCoefficient = 1;
 
-		const maxValRadius = this.getRadius(this.statistics.max);
-		if(this.normalized && (maxValRadius > this.normalizedMaxRadius)) {
-			this.normalizationCoefficient = maxValRadius / this.normalizedMaxRadius
+		if(this.normalized) {
+			this.normalizationCoefficient = getRadiusNormalizationCoefficient(this.statistics.max, this.normalizedMaxRadius, this.series);
 		}
 	};
-
-	getCircleRadiusByVolume(value) {
-		return Math.sqrt(value / Math.PI, 2) ;
-	}
-
-	getRadius(value) {
-		let radius;
-		switch (this.series) {
-			case 'value':
-				radius = value;
-				break;
-			case 'volume':
-				radius = this.getCircleRadiusByVolume(value) * 100//m
-				break;
-			default:
-				radius = this.getCircleRadiusByVolume(value) * 100//m
-				break;
-		}
-		return radius;
-
-	}
 
 	addRenderablesDiagram(layer, geometry, properties) {
 		const configuration = this.shapeConfigurationCallback(geometry, properties);
@@ -70,7 +49,7 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 			value = this.fallbackRadius;
 		}
 
-		const radius = this.getRadius(value) / this.normalizationCoefficient;
+		const radius = getRadius(value, this.series, this.normalizationCoefficient);
 
 		const attributes = new WorldWind.ShapeAttributes(null);
 

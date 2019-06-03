@@ -1,3 +1,4 @@
+import {isNumber} from 'lodash';
 export const quartilePercentiles = [0, .166, .333, .5, .666, .833, 1];
 
 /**
@@ -65,11 +66,6 @@ export const mergeAttributeStatistics = (statistics = []) => {
         }
     }
 
-    //average percentiles
-    //calculate percentiles count from first statistic
-    if(statistics[0] === null) {
-        debugger
-    }
     const percentilesCount = statistics[0] && statistics[0].attributeStatistic && statistics[0].attributeStatistic.percentile.length;
     const statisticsCount = statistics.length;
     for (let index = 0; index < percentilesCount; index++) {
@@ -85,7 +81,11 @@ export const mergeAttributeStatistics = (statistics = []) => {
     mergedStatistics.percentile[0] = mergedStatistics.min;
     mergedStatistics.percentile[mergedStatistics.percentile.length - 1] = mergedStatistics.max;
 
-    return mergedStatistics;
+    //check if min and max is filled
+    const minFilled = isNumber(mergedStatistics.min);
+    const maxFilled = isNumber(mergedStatistics.max);
+
+    return minFilled && maxFilled ? mergedStatistics : null;
 }
 
 export const getClassCount = (classes = []) => {

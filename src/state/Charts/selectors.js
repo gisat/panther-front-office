@@ -26,8 +26,7 @@ const getChartsBySetKeyAsObject = createSelector(
 	}
 );
 
-// TODO make common?
-// TODO scenarios, cases
+// TODO other metadata types
 const getMetadataActiveKeys = state => {
 	return {
 		activeScopeKey: state.scopes.activeKey,
@@ -42,10 +41,11 @@ const getChartConfiguration = createCachedSelector(
 	[
 		getChartByKey,
 		getMetadataActiveKeys,
+		(state, chart, useActiveMetadataKeys) => useActiveMetadataKeys
 	],
-	(chart, activeKeys) => {
+	(chart, activeKeys, useActiveMetadataKeys) => {
 		if (chart && activeKeys) {
-			let filters = getFiltersForUse(chart.data, activeKeys);
+			let filters = getFiltersForUse(chart.data, activeKeys, useActiveMetadataKeys);
 			return {...chart, ...filters};
 		} else {
 			return null;
@@ -91,19 +91,19 @@ const getNamesForChart = createCachedSelector(
  * Prepare filters for use from layers state
  * @param data {Object} chart data
  * @param activeKeys {Object} Metadata active keys
+ * @param useActiveMetadataKeys {Object} Metadata active keys
  * @return {{filter, filterByActive, mergedFilter, data}}
  */
 
 // TODO other metadata types
-// TODO pass filterByActive?
-function getFiltersForUse(data, activeKeys) {
+function getFiltersForUse(data, activeKeys, useActiveMetadataKeys) {
 	let filter = {};
 	let filterByActive = {};
 	let mergedFilter = {};
 
 	if (data && data.hasOwnProperty('scope')){
 		filter.scopeKey = data.scope;
-	} else {
+	} else if (useActiveMetadataKeys && useActiveMetadataKeys.scope) {
 		filterByActive.scope = true;
 		if (activeKeys && activeKeys.activeScopeKey) {
 			mergedFilter.scopeKey = activeKeys.activeScopeKey;
@@ -116,7 +116,7 @@ function getFiltersForUse(data, activeKeys) {
 		} else {
 			filter.periodKey = data.periods[0];
 		}
-	} else {
+	} else if (useActiveMetadataKeys && useActiveMetadataKeys.period) {
 		filterByActive.period = true;
 		if (activeKeys && activeKeys.activePeriodKey) {
 			mergedFilter.periodKey = activeKeys.activePeriodKey;
@@ -131,7 +131,7 @@ function getFiltersForUse(data, activeKeys) {
 		} else {
 			filter.attributeKey = data.attributes[0];
 		}
-	} else {
+	} else if (useActiveMetadataKeys && useActiveMetadataKeys.attribute) {
 		filterByActive.attribute = true;
 		if (activeKeys && activeKeys.activeAttributeKey) {
 			mergedFilter.attributeKey = activeKeys.activeAttributeKey;
