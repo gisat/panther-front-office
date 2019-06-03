@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					icon: 'legend',
 					width: 350,
 					maxWidth: 600,
-					height: 320,
+					height: 330,
 					position: {
 						bottom: 55,
 						left: 25
@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				(
 					<MapLegend 
 						mapSetKey = {ownProps.mapSetKey}
+						showNoData = {true}
 						/>
 				))
 			);
