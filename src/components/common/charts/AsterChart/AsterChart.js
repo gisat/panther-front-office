@@ -40,7 +40,10 @@ class AsterChart extends React.PureComponent {
 
 		relative: PropTypes.bool,
 
-		grid: PropTypes.bool
+		grid: PropTypes.oneOfType([
+			PropTypes.bool,
+			PropTypes.object
+		])
 	};
 
 	constructor(props) {
@@ -198,7 +201,7 @@ class AsterChart extends React.PureComponent {
 								}
 
 								return (
-									<>
+									<g key={text}>
 										<text
 											style={{filter: 'url(#glow)'}}
 											className="ptr-aster-chart-grid-text-halo"
@@ -212,7 +215,7 @@ class AsterChart extends React.PureComponent {
 											x={origin[0]}
 											y={origin[1] - scale(val) + 5}
 										>{text}</text>
-									</>
+									</g>
 									);
 							})}
 						</g>
