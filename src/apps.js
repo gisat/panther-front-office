@@ -92,7 +92,7 @@ export default [
 		hostname: 'fuore.eu',
 		path: null,
 		devPath: '/utep_sdg_11_3_1',
-		app: (path, baseUrl) => import(/* webpackChunkName: "esponFuore" */'./apps/utep_sdg_11_3_1').then(module => {
+		app: (path, baseUrl) => import(/* webpackChunkName: "utep_sdg_11_3_1" */'./apps/utep_sdg_11_3_1').then(module => {
 			module.default(path, baseUrl);
 		})
 	}
