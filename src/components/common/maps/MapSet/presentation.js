@@ -37,87 +37,89 @@ class MapSet extends React.PureComponent {
 		if (this.props.maps && this.props.maps.length && availableWidth && availableHeight) {
 			let sizeRatio = availableWidth/availableHeight;
 			let numOfMaps = this.props.maps.length;
-			let width = '100%';
-			let height = '100%';
+			let rows = 1, columns = 1;
 
 			switch (numOfMaps) {
 				case 1:
 					break;
 				case 2:
 					if (sizeRatio > 1) {
-						width = '50%'
+						columns = 2;
 					} else {
-						height = '50%'
+						rows = 2;
 					}
 					break;
 				case 3:
 					if (sizeRatio > 2) {
-						width = '33.3333%'
+						columns = 3;
 					} else if (sizeRatio < 0.6666) {
-						height = '33.3333%'
+						rows = 3;
 					} else {
-						width = '50%';
-						height = '50%';
+						columns = 2;
+						rows = 2;
 					}
 					break;
 				case 4:
 					if (sizeRatio > 3) {
-						width = '25%';
+						columns = 4;
 					} else if (sizeRatio < 0.5) {
-						height = '25%';
+						rows = 4;
 					} else {
-						width = '50%';
-						height = '50%';
+						columns = 2;
+						rows = 2;
 					}
 					break;
 				case 5:
 				case 6:
 					if (sizeRatio > 1) {
-						width = '33.3333%';
-						height = '50%'
+						columns = 3;
+						rows = 2;
 					} else {
-						width = '50%';
-						height = '33.3333%';
+						columns = 2;
+						rows = 3;
 					}
 					break;
 				case 7:
 				case 8:
 					if (sizeRatio > 2) {
-						width = '25%';
-						height = '50%';
+						columns = 4;
+						rows = 2;
 					} else if (sizeRatio < 0.6666) {
-						width = '50%';
-						height = '25%';
+						columns = 2;
+						rows = 4;
 					} else {
-						width = '33.3333%';
-						height = '33.3333%';
+						columns = 3;
+						rows = 3;
 					}
 					break;
 				case 9:
 					if (sizeRatio > 2.5) {
-						width = '20%';
-						height = '50%';
+						columns = 5;
+						rows = 2;
 					} else if (sizeRatio < 0.5) {
-						width = '50%';
-						height = '20%';
+						columns = 2;
+						rows = 5;
 					} else {
-						width = '33.3333%';
-						height = '33.3333%';
+						columns = 3;
+						rows = 3;
 					}
 					break;
 				default:
 					if (sizeRatio > 1) {
-						width = '25%';
-						height = '33.3333%';
+						columns = 4;
+						rows = 3;
 					} else {
-						height = '25%';
-						width = '33.3333%';
+						columns = 3;
+						rows = 4;
 					}
 			}
 
+			let width = +(100 / columns).toFixed(4) + '%';
+			let height = +(100 / rows).toFixed(4) + '%';
+
 			let style = {width, height};
 
-			return this.props.maps.map(mapKey => {
+			return this.props.maps.map((mapKey, index) => {
 				let content = null;
 				const mapProps = {
 					key: mapKey,
@@ -134,7 +136,13 @@ class MapSet extends React.PureComponent {
 					content = <WorldWindMap {...mapProps}/>
 				}
 
-				return <div key={mapKey} className="ptr-map-wrapper" style={style}>{content}</div>
+				index++;
+				let rowNo = Math.ceil(index / columns);
+				let colNo = index % columns || columns;
+
+				let wrapperClasses = classNames("ptr-map-wrapper", "row"+rowNo, "col"+colNo);
+
+				return <div key={mapKey} className={wrapperClasses} style={style}>{content}</div>
 			});
 		} else {
 			return null;
