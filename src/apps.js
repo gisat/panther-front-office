@@ -85,5 +85,15 @@ export default [
 		app: (path, baseUrl) => import(/* webpackChunkName: "esponFuore" */'./apps/esponFuore').then(module => {
 			module.default(path, baseUrl);
 		})
+	},
+	{
+		key: 'utep_sdg_3_11_1',
+		configuration: {},
+		hostname: 'fuore.eu',
+		path: null,
+		devPath: '/utep_sdg_11_3_1',
+		app: (path, baseUrl) => import(/* webpackChunkName: "esponFuore" */'./apps/utep_sdg_11_3_1').then(module => {
+			module.default(path, baseUrl);
+		})
 	}
 ];
