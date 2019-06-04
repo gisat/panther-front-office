@@ -6,6 +6,7 @@ import _ from "lodash";
 
 // ============ creators ===========
 
+const add = common.add(ActionTypes.VIEWS);
 const setActiveKey = common.setActiveKey(ActionTypes.VIEWS);
 const setActiveKeys = common.setActiveKeys(ActionTypes.VIEWS);
 const create = common.create(Select.views.getSubstate, 'views', ActionTypes.VIEWS, 'views');
@@ -55,6 +56,7 @@ const apply = (key, actions) => {
 // ============ export ===========
 
 export default {
+	add,
 	apply,
 	setActiveKey,
 	setActiveKeys,
