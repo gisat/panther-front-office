@@ -3,9 +3,9 @@ import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
 
-import sample_serie_7 from "../../../components/common/charts/mockData/sample_serie_7";
-import sample_serie_30 from "../../../components/common/charts/mockData/sample_serie_30";
-import sample_serie_500 from "../../../components/common/charts/mockData/sample_serie_500";
+import sample_serie_7 from "./mockData/sample_serie_7";
+import sample_serie_30 from "./mockData/sample_serie_30";
+import sample_serie_500 from "./mockData/sample_serie_500";
 import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
 
 class LineChartDoc extends React.PureComponent {
