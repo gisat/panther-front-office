@@ -152,7 +152,7 @@ function getWmsLayer(layerData) {
 		service: layerData.url,
 		size: 256,
 		styleNames: layerData.styles,
-		version: version ? version : "1.3.0",
+		version: layerData.version ? layerData.version : "1.3.0",
 	}, null);
 }
 
