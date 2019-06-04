@@ -80,7 +80,7 @@ function findLayerByKey(layers, layerKey) {
  * @returns {ExtendedWmsLayer | ExtendedOsmLayer | ColoredLayer | OsmLayer}
  */
 function getLayerByType(layerData, type){
-	if (layerData && layerData.type){
+	if (layerData && (layerData.type || type)){
 		switch (type || layerData.type){
 			case "wikimedia":
 				return new WikimediaLayer({
@@ -152,7 +152,7 @@ function getWmsLayer(layerData) {
 		service: layerData.url,
 		size: 256,
 		styleNames: layerData.styles,
-		version: version ? version : "1.3.0",
+		version: layerData.version ? layerData.version : "1.3.0",
 	}, null);
 }
 
