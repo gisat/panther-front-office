@@ -8,6 +8,7 @@ import chroma from 'chroma-js';
 import './style.scss';
 import utilsFilter from "../../../../utils/filter";
 import Segment from "./Segment";
+import ChartLegend from "../ChartLegend/ChartLegend";
 
 const WIDTH = 250;
 const HEIGHT = 250;
@@ -51,6 +52,11 @@ class AsterChart extends React.PureComponent {
 		radials: PropTypes.oneOfType([
 			PropTypes.bool,
 			PropTypes.object
+		]),
+
+		legend: PropTypes.oneOfType([
+			PropTypes.bool,
+			PropTypes.object
 		])
 	};
 
@@ -83,10 +89,25 @@ class AsterChart extends React.PureComponent {
 		let data, minimum, maximum, values, domain, scale, origin = null;
 		if (props.data) {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
+
+			/* ensure colors */
+			data = _.map(data, item => {
+				let color = chroma.random().hex();
+				if (!props.colorSourcePath && !item.color) {
+					item.color = color;
+				} else {
+					let definedColor = _.get(item, this.props.colorSourcePath);
+					if (!definedColor) {
+						_.set(item, this.props.colorSourcePath, color);
+					}
+				}
+
+				return item;
+			});
+
 			values = _.map(data, (item) => {return _.get(item, props.valueSourcePath)});
 
 			maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
-			// TODO pass constant for minimum reduction
 			minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
 
 			origin = [width/2, height/2];
@@ -98,29 +119,32 @@ class AsterChart extends React.PureComponent {
 				.range([0, innerHeight/2]);
 		}
 
+		let containerClasses = classnames("ptr-chart-container", {
+			'legend-right': props.legend && props.legend.position && props.legend.position === 'right',
+			'legend-left': props.legend && props.legend.position && props.legend.position === 'left',
+			'legend-top': props.legend && props.legend.position && props.legend.position === 'top',
+		});
+
 		return (
-			<div className="ptr-chart-container">
-				<svg className="ptr-chart ptr-aster-chart" width={width} height={height}>
+			<div className={containerClasses}>
+				<svg className="ptr-chart ptr-aster-chart" style={{minWidth: width}} width={width} height={height}>
 					{props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
-					{data ? this.renderSegments(data, origin, scale) : null}
+					{data ? this.renderSegments(data, origin, scale, maximum) : null}
 					{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
 				</svg>
+				{this.props.legend ? this.renderLegend(data, props.radials && props.radials.captions) : null}
 			</div>
 		);
 	}
 
-	renderSegments(data, origin, scale) {
+	renderSegments(data, origin, scale, maximum) {
 		let segmentAngle = 2*Math.PI/data.length;
 		let strokeWidth = data.length < 20 ? STROKE_WIDTH : 1;
-		let color = chroma.random();
 		let siblings = data.map((item) => _.get(item, this.props.keySourcePath));
 
 		return _.map(data, (segment, index) => {
 			let key = _.get(segment, this.props.keySourcePath);
-
-			if (this.props.colorSourcePath) {
-				color = _.get(segment, this.props.colorSourcePath)
-			}
+			let color = this.props.colorSourcePath ? _.get(segment, this.props.colorSourcePath) : segment.color;
 
 			let radius = scale(_.get(segment, this.props.valueSourcePath)) + strokeWidth;
 			let startAngle = STARTING_ANGLE + index * segmentAngle;
@@ -132,6 +156,13 @@ class AsterChart extends React.PureComponent {
 			let x1 = origin[0] - Math.cos(endAngle) * radius;
 			let y1 = origin[1] - Math.sin(endAngle) * radius;
 
+			let maxRadius = scale(maximum);
+
+			let x0max = origin[0] - Math.cos(startAngle) * maxRadius;
+			let y0max = origin[1] - Math.sin(startAngle) * maxRadius;
+			let x1max = origin[0] - Math.cos(endAngle) * maxRadius;
+			let y1max = origin[1] - Math.sin(endAngle) * maxRadius;
+
 			return (
 				<Segment
 					key={key}
@@ -140,6 +171,10 @@ class AsterChart extends React.PureComponent {
 					arcStart={[x0, y0]}
 					arcEnd={[x1, y1]}
 					radius={radius}
+
+					maxArcStart={[x0max, y0max]}
+					maxArcEnd={[x1max, y1max]}
+					maxRadius={maxRadius}
 
 					defaultColor={color}
 					highlightedColor={color}
@@ -297,6 +332,18 @@ class AsterChart extends React.PureComponent {
 				</g>
 			);
 		});
+	}
+
+	renderLegend(data, numericLink) {
+		return (
+			<ChartLegend
+				data={data}
+				keySourcePath={this.props.keySourcePath}
+				nameSourcePath={this.props.nameSourcePath}
+				colorSourcePath={this.props.colorSourcePath}
+				numericLink={numericLink}
+			/>
+		);
 	}
 }
 

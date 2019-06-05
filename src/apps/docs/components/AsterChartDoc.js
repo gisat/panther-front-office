@@ -33,8 +33,8 @@ class AsterChartDoc extends React.PureComponent {
 		return (
 			<div className="ptr-docs-panel-content" ref={this.ref}>
 				<div className="ptr-docs-panel-section">
-					<h2>Basic settings - 4 indicators</h2>
-					<p>Resize window to see responsiveness.</p>
+					<h2>Basic settings - 4 indicators, random color</h2>
+					<p>Max and min from values, no legend.</p>
 					<HoverHandler>
 						<AsterChart
 							key="aster-doc-basic"
@@ -42,24 +42,24 @@ class AsterChartDoc extends React.PureComponent {
 							width={this.state.width}
 							maxWidth={500}
 
-							colorSourcePath="color"
 							keySourcePath="key"
 							nameSourcePath="data.name"
 							valueSourcePath="data.someStrangeValue"
 
 							grid
+							legend
 						/>
 					</HoverHandler>
 				</div>
 				<div className="ptr-docs-panel-section">
-					<h2>7 indicators, force min, max</h2>
-					<p>Resize window to see responsiveness.</p>
+					<h2>7 indicators, specified color</h2>
+					<p>Grid with captions and radials, adjusted number of gridlines and gap between gridlines, maxWidth, force maximum and minimum</p>
 					<HoverHandler>
 						<AsterChart
 							key="aster-doc-7"
 							data={sample_7}
 							width={this.state.width}
-							maxWidth={500}
+							maxWidth={400}
 
 							colorSourcePath="color"
 							keySourcePath="key"
@@ -75,15 +75,17 @@ class AsterChartDoc extends React.PureComponent {
 								minGap: 30,
 								captions: true
 							}}
-							radials={{
-								captions: true
+							radials
+
+							legend={{
+								position: 'bottom'
 							}}
 						/>
 					</HoverHandler>
 				</div>
 				<div className="ptr-docs-panel-section">
 					<h2>30 indicators, relative</h2>
-					<p>Resize window to see responsiveness.</p>
+					<p>Legend with numbers on right</p>
 					<HoverHandler>
 						<AsterChart
 							key="aster-doc-30"
@@ -107,6 +109,10 @@ class AsterChartDoc extends React.PureComponent {
 							}}
 							radials={{
 								captions: true
+							}}
+
+							legend={{
+								position: "right"
 							}}
 						/>
 					</HoverHandler>

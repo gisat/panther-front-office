@@ -15,6 +15,10 @@ class Segment extends React.PureComponent {
 		origin: PropTypes.array,
 		radius: PropTypes.number,
 
+		maxArcEnd: PropTypes.array,
+		maxArcStart: PropTypes.array,
+		maxRadius: PropTypes.number,
+
 		defaultColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
@@ -100,10 +104,11 @@ class Segment extends React.PureComponent {
 		const props = this.props;
 		let color = this.state.color;
 		let suppressed = false;
+		let highlightedFromContext = false;
 
 		/* Handle context */
 		if (this.context && this.context.hoveredItems) {
-			let highlightedFromContext = _.includes(this.context.hoveredItems, this.props.itemKey);
+			highlightedFromContext = _.includes(this.context.hoveredItems, this.props.itemKey);
 
 			if (this.props.siblings && !!_.intersection(this.context.hoveredItems, this.props.siblings).length) {
 				suppressed = !highlightedFromContext;
@@ -114,25 +119,41 @@ class Segment extends React.PureComponent {
 			}
 		}
 
+		let placeholderClasses = classnames("ptr-aster-chart-segment-placeholder", {
+			highlighted: highlightedFromContext
+		});
+
 		return (
-			<path
-				key={props.itemKey}
-				className="ptr-aster-chart-segment"
+			<g
+				// key={props.itemKey}
 				onMouseOver={this.onMouseOver}
 				onMouseMove={this.onMouseMove}
 				onMouseOut={this.onMouseOut}
-				style={{
-					fill: color,
-					strokeWidth: this.props.strokeWidth ? this.props.strokeWidth : 1,
-					opacity: suppressed ? .4 : 1
-				}}
-				d={`
-					M${props.origin[0]} ${props.origin[1]}
-					L${props.arcStart[0]} ${props.arcStart[1]}
-					A${props.radius} ${props.radius} 0 0 1 ${props.arcEnd[0]} ${props.arcEnd[1]}
-					L${props.origin[0]} ${props.origin[1]}
-				`}
-			/>
+			>
+				<path
+					className={placeholderClasses}
+					d={`
+						M${props.origin[0]} ${props.origin[1]}
+						L${props.maxArcStart[0]} ${props.maxArcStart[1]}
+						A${props.maxRadius} ${props.maxRadius} 0 0 1 ${props.maxArcEnd[0]} ${props.maxArcEnd[1]}
+						L${props.origin[0]} ${props.origin[1]}
+					`}
+				/>
+				<path
+					className="ptr-aster-chart-segment"
+					style={{
+						fill: color,
+						strokeWidth: this.props.strokeWidth ? this.props.strokeWidth : 1,
+						opacity: suppressed ? .4 : 1
+					}}
+					d={`
+						M${props.origin[0]} ${props.origin[1]}
+						L${props.arcStart[0]} ${props.arcStart[1]}
+						A${props.radius} ${props.radius} 0 0 1 ${props.arcEnd[0]} ${props.arcEnd[1]}
+						L${props.origin[0]} ${props.origin[1]}
+					`}
+				/>
+			</g>
 		);
 	}
 
