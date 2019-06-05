@@ -420,14 +420,19 @@ class Layers {
      * @param state {boolean} true, if the layer should be displayed
      */
     addInfoLayer(layerData, group, state) {
-        let layer, url = Config.url + "geoserver/wms";
+        let layer,
+            url = Config.url + "geoserver/wms",
+            layerNames = layerData.layerPaths;
         if(layerData.customParams && layerData.customParams.url) {
-            url = layerData.customParams.url
+            url = layerData.customParams.url;
+        }
+        if(layerData.customParams && layerData.customParams.layerPaths) {
+            layerNames = layerData.customParams.layerPaths;
         }
         if(layerData.customParams && layerData.customParams.crs === 'EPSG:3857') {
             layer = new MercatorLayer({
                 service: url,
-                layerNames: layerData.layerPaths,
+                layerNames: layerNames,
                 numLevels: 22,
                 format: layerData.customParams && layerData.customParams.format || "image/png",
                 opacity: layerData.opacity || .9,
@@ -448,7 +453,7 @@ class Layers {
         } else {
             layer = new MyWmsLayer({
                 service: url,
-                layerNames: layerData.layerPaths,
+                layerNames: layerNames,
                 sector: new WorldWind.Sector(-90, 90, -180, 180),
                 levelZeroDelta: new WorldWind.Location(45, 45),
                 opacity: layerData.opacity || .9,
