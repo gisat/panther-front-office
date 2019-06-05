@@ -65,6 +65,10 @@ const view = {
                     "utep_sdg_11_3_1": {
                         "key": "utep_sdg_11_3_1",
                         "data": {
+                            "layers": [{
+                                "key": "lk_utep_sdg_11_3_1_boundaries_1985",
+                                "layerTemplate": "lt_utep_sdg_11_3_1_boundaries"
+                            }],
                             "worldWindNavigator": {
                                 lookAtLocation: {
                                     latitude: 14,

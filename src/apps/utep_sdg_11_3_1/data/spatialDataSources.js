@@ -54,6 +54,15 @@ const spatialDataSources = [{
         "styles": '',
         "version": '1.1.0',
     }
-}]
+},{
+    "key": "utep_sdg_11_3_1_boundaries",
+    "data": {
+        "nameInternal": null,
+        "attribution": null,
+        "type": "vector",
+        "tableName": null,
+    }
+}
+]
 
 export default spatialDataSources;

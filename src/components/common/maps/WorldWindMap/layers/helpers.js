@@ -2,6 +2,7 @@ import WorldWind from "webworldwind-esa";
 import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
+import ExtendedRenderableLayer from "./VectorLayer";
 import CartodiagramVectorLayer from "./CartodiagramVectorLayer";
 import CartogramVectorLayer from "./CartogramVectorLayer";
 import WikimediaLayer from './WikimediaLayer';
@@ -168,36 +169,13 @@ function getWmsLayer(layerData) {
  * @returns {ExtendedWmsLayer}
  */
 function getVectorLayer(layerData) {
-	const url = `${layerData.mapServerConfig.wfsMapServerUrl}?request=GetFeature&service=WFS&version=1.0.0&outputFormat=application/json&typeName=${layerData.layerName}`;
-	const layer = new ExtendedGeoJsonLayer({
+	const layer = new ExtendedRenderableLayer({
 		key: layerData.key,
 		layerName: layerData.layerName,
+		spatialIdKey: layerData.spatialIdKey ? layerData.spatialIdKey : layerData.spatialRelationsData && layerData.spatialRelationsData.fidColumnName,
+		attributeIdKey: layerData.attributeIdKey ? layerData.attributeIdKey : layerData.attributeRelationsData && layerData.attributeRelationsData.fidColumnName,
 		...layerData,
-		// filterFunction: (renderable) => renderable.userProperties.NAME_3 === 'Belley',
-		//highlight features with attribute
-		// styleFunction: (renderable, layer) => {
-		// 	let attributes = new ShapeAttributes();
-		// 	attributes.interiorColor = new Color(0.5,0.5,0.5,1);
-
-		// 	if(renderable.userProperties.NAME_3=== "Belley"){
-		// 		attributes.interiorColor = Color.colorFromByteArray([27, 224, 33, 255])
-		// 	}
-
-		// 	return attributes;
-		// }
-		//highlight features with attribute
-		styleFunction: (renderable, layer) => {
-			let attributes = new ShapeAttributes();
-			attributes.interiorColor = new Color(0.5,0.5,0.5,1);
-
-			if(renderable.userProperties.NAME_3 === layer.attributeStatistics.median){
-				attributes.interiorColor = Color.colorFromByteArray([27, 224, 33, 255])
-			}
-
-			return attributes;
-		}
-	}, url, defaultVectorStyle);
-
+	}, defaultVectorStyle);
 
 	return layer;
 }

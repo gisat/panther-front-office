@@ -27,7 +27,12 @@ const mapStateToProps = (state, props) => {
 			return {filter, data: layer.layer}
 		}) : null;
 		let layers = Select.maps.getLayers(state, layersData);
-		// let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
+		layers.forEach((l) => {
+			if(l.type === 'vector') {
+				l.spatialIdKey = "gid"
+			}
+		})
+		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
 		// let activeFilter = Select.selections.getActive(state);
 
 		//TODO -> select
@@ -47,20 +52,20 @@ const mapStateToProps = (state, props) => {
 			label = period ? period.nameDisplay : null
 		}
 
-		// let layersVectorData = vectorLayers.reduce((acc, layerData) => {
-		// 	if(layerData.spatialRelationsData) {
-		// 		const spatialDataSourceFilter = {
-		// 			spatialDataSourceKey: layerData.spatialRelationsData.spatialDataSourceKey,
-		// 			fidColumnName: layerData.spatialRelationsData.fidColumnName
-		// 		};
+		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
+			if(layerData.spatialRelationsData) {
+				const spatialDataSourceFilter = {
+					spatialDataSourceKey: layerData.spatialRelationsData.spatialDataSourceKey,
+					// fidColumnName: layerData.spatialRelationsData.fidColumnName
+				};
 
-		// 		acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, spatialDataSourceFilter, null);
-		// 		if (acc[layerData.key]) {
-		// 			acc[layerData.key]['fidColumnName'] = layerData.spatialRelationsData.fidColumnName;
-		// 		}
-		// 	}
-		// 	return acc
-		// }, {});
+				acc[layerData.key] = Select.spatialDataSources.vector.getBatchByFilterOrder(state, spatialDataSourceFilter, null);
+				if (acc[layerData.key]) {
+					acc[layerData.key]['fidColumnName'] = layerData.spatialRelationsData.fidColumnName;
+				}
+			}
+			return acc
+		}, {});
 		
 		// let layersAttributeData = vectorLayers.reduce((acc, layerData) => {
 		// 	if(layerData.attributeRelationsData) {
@@ -118,15 +123,14 @@ const mapStateToProps = (state, props) => {
 		// }, {});
 
 		return {
-			// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
 			layersTreeLoaded: true,
 			activeFilter: null,
 			backgroundLayer: [{type:'wikimedia'}],
 			layers,
-			layersVectorData: null,
+			layersVectorData,
 			layersAttributeData: null,
-			layersAttributeStatistics: null,
-			layersMetadata: null,
+			layersAttributeStatistics: {},
+			layersMetadata: {},
 			navigator: Select.maps.getNavigator(state, props.mapKey),
 			// activeAttributeKey: Select.attributes.getActiveKey(state),
 			label: label || null,

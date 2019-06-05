@@ -20,6 +20,8 @@ const useIndexed = common.useIndexed(Select.spatialDataSources.vector.getSubstat
 const useIndexedBatch = common.useIndexedBatch('spatial', ActionTypes.SPATIAL_DATA_SOURCES.VECTOR, 'data');
 const useIndexedClear = common.useIndexedClear(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
 const clearIndex = common.clearIndex(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
+const addBatch = common.addBatch(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
+const addBatchIndex = common.addBatchIndex(ActionTypes.SPATIAL_DATA_SOURCES.VECTOR);
 
 
 
@@ -347,6 +349,8 @@ function actionAddEditedFeatures(dataSourceKey, features) {
 // ============ export ===========
 
 export default {
+	addBatch,
+	addBatchIndex,
 	loadFeaturesForBbox: loadFeaturesForBbox,
 	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect,
 	updateSelectedFeatures: updateSelectedFeatures,
