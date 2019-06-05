@@ -8,8 +8,6 @@ import chroma from 'chroma-js';
 import './style.scss';
 import utilsFilter from "../../../../utils/filter";
 import Segment from "./Segment";
-import Line from "../LineChart/LineChart";
-import Bar from "../ColumnChart/ColumnChart";
 
 const WIDTH = 250;
 const HEIGHT = 250;
@@ -21,10 +19,12 @@ const MAX_GRID_STEPS = 10;
 const MIN_GRID_GAP = 20;
 
 const STROKE_WIDTH = 2;
+const TICK_WIDTH = 8;
 
 // TODO optional
 const STARTING_ANGLE = Math.PI/2;
 const PADDING = 20;
+const PADDING_WITH_CAPTIONS = 40;
 
 class AsterChart extends React.PureComponent {
 	static propTypes = {
@@ -44,6 +44,11 @@ class AsterChart extends React.PureComponent {
 		relative: PropTypes.bool,
 
 		grid: PropTypes.oneOfType([
+			PropTypes.bool,
+			PropTypes.object
+		]),
+
+		radials: PropTypes.oneOfType([
 			PropTypes.bool,
 			PropTypes.object
 		])
@@ -69,8 +74,10 @@ class AsterChart extends React.PureComponent {
 		// TODO aspect ratio?
 		height = width;
 
-		let innerWidth = width - 2*PADDING;
-		let innerHeight = height - 2*PADDING;
+		let padding = props.radials && props.radials.captions ? PADDING_WITH_CAPTIONS : PADDING;
+
+		let innerWidth = width - 2*padding;
+		let innerHeight = height - 2*padding;
 
 		/* data preparation */
 		let data, minimum, maximum, values, domain, scale, origin = null;
@@ -94,6 +101,7 @@ class AsterChart extends React.PureComponent {
 		return (
 			<div className="ptr-chart-container">
 				<svg className="ptr-chart ptr-aster-chart" width={width} height={height}>
+					{props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
 					{data ? this.renderSegments(data, origin, scale) : null}
 					{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
 				</svg>
@@ -240,6 +248,54 @@ class AsterChart extends React.PureComponent {
 				}
 			</g>
 		);
+	}
+
+	renderRadials(data, origin, scale, maximum) {
+		let segmentAngle = 2*Math.PI/data.length;
+		let maxRadius = scale(maximum) + TICK_WIDTH;
+		let maxTextRadius = scale(maximum) + 2*TICK_WIDTH;
+
+		return _.map(data, (segment, index) => {
+			let key = _.get(segment, this.props.keySourcePath) + "-radial";
+			let angle = STARTING_ANGLE + (index * segmentAngle) + segmentAngle/2;
+			let radius = scale(_.get(segment, this.props.valueSourcePath));
+
+			let x0 = origin[0] - Math.cos(angle) * radius;
+			let y0 = origin[1] - Math.sin(angle) * radius;
+			let x1 = origin[0] - Math.cos(angle) * maxRadius;
+			let y1 = origin[1] - Math.sin(angle) * maxRadius;
+
+			let textAnchor = "start";
+			let yTextShift = (1 - Math.sin(angle)) * 4;
+
+			if (angle > 3/2 * Math.PI) {
+				textAnchor = "end";
+			}
+
+			let textX = origin[0] - Math.cos(angle) * maxTextRadius;
+			let textY = origin[1] - Math.sin(angle) * maxTextRadius + yTextShift;
+
+			return (
+				<>
+					<path
+						key={key}
+						className={"ptr-aster-chart-grid-radial-line"}
+						d={`
+							M${x0} ${y0}
+							L${x1} ${y1}
+						`}
+					/>
+					{this.props.radials.captions ? (
+						<text
+							className="ptr-aster-chart-grid-radial-caption"
+							textAnchor={textAnchor}
+							x={textX}
+							y={textY}
+						>{index + 1}</text>
+					) : null}
+				</>
+			);
+		});
 	}
 }
 

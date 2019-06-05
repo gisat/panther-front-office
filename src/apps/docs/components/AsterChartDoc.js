@@ -75,6 +75,9 @@ class AsterChartDoc extends React.PureComponent {
 								minGap: 30,
 								captions: true
 							}}
+							radials={{
+								captions: true
+							}}
 						/>
 					</HoverHandler>
 				</div>
@@ -100,6 +103,9 @@ class AsterChartDoc extends React.PureComponent {
 
 							axis
 							grid={{
+								captions: true
+							}}
+							radials={{
 								captions: true
 							}}
 						/>

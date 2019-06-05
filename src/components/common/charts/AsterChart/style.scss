@@ -22,6 +22,17 @@
 	stroke-dasharray: 1;
 }
 
+.ptr-aster-chart-grid-radial-caption {
+	fill: var(--base50);
+	font-size: $b1;
+}
+
+.ptr-aster-chart-grid-radial-line {
+	fill: none;
+	stroke: var(--base30);
+	stroke-width: 1;
+}
+
 .ptr-aster-chart-grid-text {
 	fill: var(--base75);
 	font-size: $b1;
