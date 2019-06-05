@@ -150,8 +150,19 @@ class AsterChart extends React.PureComponent {
 			numOfSteps = Math.floor((width/2)/gap);
 		}
 
-		let step = Math.ceil((max-min)/numOfSteps);
-		let domainForGrid = _.range(min + step, max + step, step);
+		let step = Math.floor((max-min)/numOfSteps);
+		console.log("numOfSteps", numOfSteps, "step", step);
+
+		let domainForGrid = [];
+		let counter = 0;
+		for (let i = max; i > min; i-=step) {
+			if (counter < numOfSteps) {
+				domainForGrid.unshift(i);
+			}
+			counter++;
+		}
+
+		console.log("Domain", domainForGrid);
 
 		return (
 			<g>

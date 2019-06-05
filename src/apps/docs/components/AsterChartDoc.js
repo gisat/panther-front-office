@@ -67,8 +67,8 @@ class AsterChartDoc extends React.PureComponent {
 
 						axis
 						grid={{
-							// maxSteps: 7,
-							// minGap: 30,
+							maxSteps: 5,
+							minGap: 30,
 							captions: true
 						}}
 					/>
