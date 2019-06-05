@@ -267,18 +267,19 @@ class AsterChart extends React.PureComponent {
 
 			let textAnchor = "start";
 			let yTextShift = (1 - Math.sin(angle)) * 4;
+			let xTextShift = (-1 - Math.cos(angle)) * 5;
 
 			if (angle > 3/2 * Math.PI) {
 				textAnchor = "end";
+				xTextShift = (1 - Math.cos(angle)) * 5;
 			}
 
-			let textX = origin[0] - Math.cos(angle) * maxTextRadius;
+			let textX = origin[0] - Math.cos(angle) * maxTextRadius + xTextShift;
 			let textY = origin[1] - Math.sin(angle) * maxTextRadius + yTextShift;
 
 			return (
-				<>
+				<g key={key}>
 					<path
-						key={key}
 						className={"ptr-aster-chart-grid-radial-line"}
 						d={`
 							M${x0} ${y0}
@@ -293,7 +294,7 @@ class AsterChart extends React.PureComponent {
 							y={textY}
 						>{index + 1}</text>
 					) : null}
-				</>
+				</g>
 			);
 		});
 	}

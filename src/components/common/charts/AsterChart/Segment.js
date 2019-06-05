@@ -116,6 +116,7 @@ class Segment extends React.PureComponent {
 
 		return (
 			<path
+				key={props.itemKey}
 				className="ptr-aster-chart-segment"
 				onMouseOver={this.onMouseOver}
 				onMouseMove={this.onMouseMove}
