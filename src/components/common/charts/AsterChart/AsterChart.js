@@ -7,6 +7,9 @@ import chroma from 'chroma-js';
 
 import './style.scss';
 import utilsFilter from "../../../../utils/filter";
+import Segment from "./Segment";
+import Line from "../LineChart/LineChart";
+import Bar from "../ColumnChart/ColumnChart";
 
 const WIDTH = 250;
 const HEIGHT = 250;
@@ -101,16 +104,14 @@ class AsterChart extends React.PureComponent {
 	renderSegments(data, origin, scale) {
 		let segmentAngle = 2*Math.PI/data.length;
 		let strokeWidth = data.length < 20 ? STROKE_WIDTH : 1;
+		let color = chroma.random();
+		let siblings = data.map((item) => _.get(item, this.props.keySourcePath));
 
 		return _.map(data, (segment, index) => {
-			let style = {
-				strokeWidth: strokeWidth
-			};
-
 			let key = _.get(segment, this.props.keySourcePath);
 
 			if (this.props.colorSourcePath) {
-				style.fill = _.get(segment, this.props.colorSourcePath)
+				color = _.get(segment, this.props.colorSourcePath)
 			}
 
 			let radius = scale(_.get(segment, this.props.valueSourcePath)) + strokeWidth;
@@ -123,17 +124,25 @@ class AsterChart extends React.PureComponent {
 			let x1 = origin[0] - Math.cos(endAngle) * radius;
 			let y1 = origin[1] - Math.sin(endAngle) * radius;
 
-			return (<path
-				key={key}
-				className="ptr-aster-chart-segment"
-				style={style}
-				d={`
-					M${origin[0]} ${origin[1]}
-					L${x0} ${y0}
-					A${radius} ${radius} 0 0 1 ${x1} ${y1}
-					L${origin[0]} ${origin[1]}
-				`}
-			/>);
+			return (
+				<Segment
+					key={key}
+					itemKey={key}
+					origin={origin}
+					arcStart={[x0, y0]}
+					arcEnd={[x1, y1]}
+					radius={radius}
+
+					defaultColor={color}
+					highlightedColor={color}
+					strokeWidth={strokeWidth}
+
+					nameSourcePath={this.props.nameSourcePath}
+					valueSourcePath={this.props.valueSourcePath}
+					data={segment}
+					siblings={siblings}
+				/>
+			);
 		});
 	}
 
@@ -151,7 +160,6 @@ class AsterChart extends React.PureComponent {
 		}
 
 		let step = Math.floor((max-min)/numOfSteps);
-		console.log("numOfSteps", numOfSteps, "step", step);
 
 		let domainForGrid = [];
 		let counter = 0;
@@ -161,8 +169,6 @@ class AsterChart extends React.PureComponent {
 			}
 			counter++;
 		}
-
-		console.log("Domain", domainForGrid);
 
 		return (
 			<g>

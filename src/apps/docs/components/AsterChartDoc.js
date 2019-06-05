@@ -5,6 +5,7 @@ import AsterChart from "../../../components/common/charts/AsterChart/AsterChart"
 import sample_4 from "./mockData/asterChart/sample_4";
 import sample_7 from "./mockData/asterChart/sample_7";
 import sample_30 from "./mockData/asterChart/sample_30";
+import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
 
 class AsterChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -34,69 +35,75 @@ class AsterChartDoc extends React.PureComponent {
 				<div className="ptr-docs-panel-section">
 					<h2>Basic settings - 4 indicators</h2>
 					<p>Resize window to see responsiveness.</p>
-					<AsterChart
-						key="aster-doc-basic"
-						data={sample_4}
-						width={this.state.width}
-						maxWidth={500}
+					<HoverHandler>
+						<AsterChart
+							key="aster-doc-basic"
+							data={sample_4}
+							width={this.state.width}
+							maxWidth={500}
 
-						colorSourcePath="color"
-						keySourcePath="key"
-						nameSourcePath="data.name"
-						valueSourcePath="data.someStrangeValue"
+							colorSourcePath="color"
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							valueSourcePath="data.someStrangeValue"
 
-						grid
-					/>
+							grid
+						/>
+					</HoverHandler>
 				</div>
 				<div className="ptr-docs-panel-section">
 					<h2>7 indicators, force min, max</h2>
 					<p>Resize window to see responsiveness.</p>
-					<AsterChart
-						key="aster-doc-7"
-						data={sample_7}
-						width={this.state.width}
-						maxWidth={500}
+					<HoverHandler>
+						<AsterChart
+							key="aster-doc-7"
+							data={sample_7}
+							width={this.state.width}
+							maxWidth={500}
 
-						colorSourcePath="color"
-						keySourcePath="key"
-						nameSourcePath="data.name"
-						valueSourcePath="data.someStrangeValue"
+							colorSourcePath="color"
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							valueSourcePath="data.someStrangeValue"
 
-						forceMinimum={0}
-						forceMaximum={2000}
+							forceMinimum={0}
+							forceMaximum={2000}
 
-						axis
-						grid={{
-							maxSteps: 5,
-							minGap: 30,
-							captions: true
-						}}
-					/>
+							axis
+							grid={{
+								maxSteps: 5,
+								minGap: 30,
+								captions: true
+							}}
+						/>
+					</HoverHandler>
 				</div>
 				<div className="ptr-docs-panel-section">
 					<h2>30 indicators, relative</h2>
 					<p>Resize window to see responsiveness.</p>
-					<AsterChart
-						key="aster-doc-30"
-						data={sample_30}
-						width={this.state.width}
-						maxWidth={500}
+					<HoverHandler>
+						<AsterChart
+							key="aster-doc-30"
+							data={sample_30}
+							width={this.state.width}
+							maxWidth={500}
 
-						colorSourcePath="color"
-						keySourcePath="key"
-						nameSourcePath="data.name"
-						valueSourcePath="data.someStrangeValue"
+							colorSourcePath="color"
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							valueSourcePath="data.someStrangeValue"
 
-						forceMinimum={0}
-						forceMaximum={100}
+							forceMinimum={0}
+							forceMaximum={100}
 
-						relative
+							relative
 
-						axis
-						grid={{
-							captions: true
-						}}
-					/>
+							axis
+							grid={{
+								captions: true
+							}}
+						/>
+					</HoverHandler>
 				</div>
 			</div>
 		);
