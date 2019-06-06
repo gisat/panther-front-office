@@ -9,8 +9,6 @@ import AxisY from "../AxisY";
 import './style.scss';
 import Point from "../Point";
 
-const INNER_PADDING_TOP = 10;
-
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
 		width: 500,
@@ -74,10 +72,10 @@ class ScatterChart extends React.PureComponent {
 		let plotWidth = width - (yCaptionsSize);
 		let plotHeight = height - (xCaptionsSize);
 		let innerPlotWidth = plotWidth;
-		let innerPlotHeight = plotHeight - INNER_PADDING_TOP;
+		let innerPlotHeight = plotHeight;
 
 		/* data preparation */
-		let xDomain, yDomain, xScale, yScale, colors, sortedUniqueXvalues, mode = null;
+		let xDomain, yDomain, xScale, yScale = null;
 		let data = {...props.data};
 
 		if (data) {
@@ -115,7 +113,6 @@ class ScatterChart extends React.PureComponent {
 							scale={yScale}
 
 							bottomMargin={xCaptionsSize}
-							topPadding={INNER_PADDING_TOP}
 							height={plotHeight}
 							plotWidth={plotWidth}
 							width={yCaptionsSize}
@@ -137,7 +134,7 @@ class ScatterChart extends React.PureComponent {
 							gridlines={props.xGridlines}
 							withCaption={props.xCaptions}
 						/>
-						<g transform={`translate(${yCaptionsSize},${INNER_PADDING_TOP})`}>
+						<g transform={`translate(${yCaptionsSize},0)`}>
 							{this.renderPoints(data, props, xScale, yScale)}
 						</g>
 					</> : null}
@@ -151,7 +148,7 @@ class ScatterChart extends React.PureComponent {
 			let key = _.get(item, this.props.keySourcePath);
 			let xValue = _.get(item, this.props.xSourcePath);
 			let yValue = _.get(item, this.props.ySourcePath);
-			let color = _.get(item, this.props.colorSourcePath) || '#aaa';
+			let color = _.get(item, this.props.colorSourcePath);
 
 			return (
 				<Point
@@ -160,8 +157,12 @@ class ScatterChart extends React.PureComponent {
 					data={item}
 					x={xScale(xValue)}
 					y={yScale(yValue)}
+					xSourcePath={this.props.xSourcePath}
+					ySourcePath={this.props.ySourcePath}
+					nameSourcePath={this.props.nameSourcePath}
 					r={this.props.pointRadius}
 					color={color}
+					standalone
 				/>
 			);
 		});

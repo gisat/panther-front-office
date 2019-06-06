@@ -21,7 +21,6 @@ class AxisY extends React.PureComponent {
 		scale: PropTypes.func,
 
 		bottomMargin: PropTypes.number,
-		topPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		width: PropTypes.number,
@@ -40,7 +39,7 @@ class AxisY extends React.PureComponent {
 		const props = this.props;
 
 		return (
-			<g className="ptr-column-chart-axis-y" transform={`translate(0,${this.props.topPadding})`}>
+			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
 			</g>

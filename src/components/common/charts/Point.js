@@ -5,13 +5,14 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
+import HoverContext from "../HoverHandler/context";
+
 import './style.scss';
 
 class Point extends React.PureComponent {
+	static contextType = HoverContext;
 
 	static propTypes = {
-		// ignoreContext
-
 		itemKey: PropTypes.string,
 		data: PropTypes.object,
 		x: PropTypes.number,
@@ -24,7 +25,13 @@ class Point extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
-		highlighted: PropTypes.bool
+		highlighted: PropTypes.bool,
+
+		nameSourcePath: PropTypes.string,
+		xSourcePath: PropTypes.string,
+		ySourcePath: PropTypes.string,
+
+		standalone: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -44,6 +51,16 @@ class Point extends React.PureComponent {
 			this.props.onMouseMove(e, this.props.data);
 		}
 
+		if (this.props.standalone && this.context && this.context.onHover) {
+			this.context.onHover([this.props.itemKey], {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.getPopupContent()
+				}
+			});
+		}
+
 		this.setState({
 			radius: this.props.r + 3
 		});
@@ -52,6 +69,16 @@ class Point extends React.PureComponent {
 	onMouseOver(e) {
 		if (this.props.onMouseOver) {
 			this.props.onMouseOver(e, this.props.data);
+		}
+
+		if (this.props.standalone && this.context && this.context.onHover) {
+			this.context.onHover([this.props.itemKey], {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.getPopupContent()
+				}
+			});
 		}
 
 		this.setState({
@@ -64,6 +91,10 @@ class Point extends React.PureComponent {
 			this.props.onMouseOut();
 		}
 
+		if (this.props.standalone && this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
+
 		this.setState({
 			radius: this.props.r
 		});
@@ -72,7 +103,8 @@ class Point extends React.PureComponent {
 	render() {
 		const props = this.props;
 		let classes = classnames("ptr-chart-point", {
-			'no-opacity': this.props.highlighted
+			'no-opacity': this.props.highlighted,
+			'standalone': this.props.standalone
 		});
 
 		return (
@@ -88,6 +120,29 @@ class Point extends React.PureComponent {
 				fill={props.color}
 			/>
 		)
+	}
+
+	getPopupContent() {
+		let content = <div>No data</div>;
+
+		// todo update
+		if (this.props.data) {
+			content = (
+				<div>
+					<div>
+						<i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i>
+					</div>
+					<div>
+						<i>{`x:`}</i> {`${_.get(this.props.data, this.props.xSourcePath).toLocaleString()}`}
+					</div>
+					<div>
+						<i>{`y:`}</i> {`${_.get(this.props.data, this.props.ySourcePath).toLocaleString()}`}
+					</div>
+				</div>
+			);
+		}
+
+		return content;
 	}
 }
 
