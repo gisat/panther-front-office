@@ -51,6 +51,19 @@ export default [
 		})
 	},
 	/**
+	 * Geoinvaze
+	 * tw: GEOINV
+	 */
+	{
+		key: 'tacrGeoinvaze',
+		hostname: 'geoinvaze.gisat.cz',
+		path: null,
+		devPath: '/tacrGeoinvaze',
+		app: (path, baseUrl) => import(/* webpackChunkName: "tacrGeoinvaze" */'./apps/tacrGeoinvaze').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * UTEP Visualisation & Analytics Center
 	 * todo wip + name (visat?)
 	 */
