@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import {withNamespaces} from "react-i18next";
 import {Route, Switch} from "react-router";
 import NavList from '../../../../components/presentation/NavList';
+import _ from 'lodash';
 
 import './style.scss';
 import ButtonDoc from "../ButtonDoc";
@@ -16,6 +17,7 @@ import MultiSelectDoc from "../MultiSelectDoc";
 import ColumnChartDoc from "../ColumnChartDoc";
 import LineChartDoc from "../LineChartDoc";
 import AsterChartDoc from "../AsterChartDoc";
+import ScatterChartDoc from "../ScatterChartDoc";
 import WorldWindMapDoc from "../WorldWindMapDoc";
 
 class DocsPage extends React.PureComponent {
@@ -23,30 +25,47 @@ class DocsPage extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.components = [
-			{key: 'button', title: 'Button', component: ButtonDoc},
-			{key: 'fadeIn', title: 'FadeIn', component: FadeInDoc},
-			{key: 'input', title: 'Input', component: InputDoc},
-			{key: 'inputWrapper', title: 'InputWrapper', component: InputWrapperDoc},
-			{key: 'multiSelect', title: 'MultiSelect', component: MultiSelectDoc},
-			{key: 'select', title: 'Select', component: SelectDoc},
-			{key: 'typo', title: 'Typography', component: TypoDoc},
-			{key: 'asterChart', title: 'Aster Chart', component: AsterChartDoc, props: {forceColumns: true}},
-			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {forceColumns: true}},
-			{key: 'lineChart', title: 'Line Chart', component: LineChartDoc, props: {forceColumns: true}},
-			{key: 'wwmap', title: 'World wind map', component: WorldWindMapDoc, singlePage: true},
-		];
+		this.components = {
+			components: [
+				{key: 'button', title: 'Button', component: ButtonDoc},
+				{key: 'fadeIn', title: 'FadeIn', component: FadeInDoc},
+				{key: 'input', title: 'Input', component: InputDoc},
+				{key: 'inputWrapper', title: 'InputWrapper', component: InputWrapperDoc},
+				{key: 'multiSelect', title: 'MultiSelect', component: MultiSelectDoc},
+				{key: 'select', title: 'Select', component: SelectDoc},
+				{key: 'typo', title: 'Typography', component: TypoDoc},
+				{key: 'wwmap', title: 'World wind map', component: WorldWindMapDoc, singlePage: true},
+			],
+			charts: [
+				{key: 'asterChart', title: 'Aster Chart', component: AsterChartDoc, props: {forceColumns: true}},
+				{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {forceColumns: true}},
+				{key: 'lineChart', title: 'Line Chart', component: LineChartDoc, props: {forceColumns: true}},
+				{key: 'scatterChart', title: 'Scatter Chart', component: ScatterChartDoc, props: {forceColumns: true}},
+			]
+		};
 
 		this.paths = {};
-		this.components.forEach(component => {
-			this.paths[component.key] = `${this.props.match.path}${component.key}`;
+		_.forIn(this.components, (items) => {
+			_.each(items, (item) => {
+				this.paths[item.key] = `${this.props.match.path}${item.key}`;
+			});
 		});
 
 		this.navList = [
 			{
 				title: 'Components',
 				type: 'folder',
-				items: this.components.map(component => {
+				items: this.components.components.map(component => {
+					return {
+						type: 'leaf',
+						title: component.title,
+						path: this.paths[component.key]
+					}
+				})
+			}, {
+				title: 'Charts',
+				type: 'folder',
+				items: this.components.charts.map(component => {
 					return {
 						type: 'leaf',
 						title: component.title,
@@ -71,16 +90,21 @@ class DocsPage extends React.PureComponent {
 	}
 
 	renderRoutes() {
+		let routes = [];
+		_.forIn(this.components, (items) => {
+			_.map(items, (item) => {
+				routes.push (
+					<Route
+						key={item.key}
+						path={this.paths[item.key]}
+						render={() => this.renderPage(item.title, item.component, item.props, item.singlePage)}
+					/>)
+			});
+		});
+
 		return (
 			<Switch>
-				{this.components.map(component => {
-					return (
-						<Route
-							key={component.key}
-							path={this.paths[component.key]}
-							render={() => this.renderPage(component.title, component.component, component.props, component.singlePage)}
-						/>);
-				})}
+				{routes}
 			</Switch>
 		);
 	}
