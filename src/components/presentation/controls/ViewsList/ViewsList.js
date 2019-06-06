@@ -57,11 +57,21 @@ class ViewsList extends React.PureComponent {
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
 				/>
 			);
-		} else if (scopeStyle === "eo4sd" || scopeStyle === "puma" || scopeStyle === "eow2" || scopeStyle === "dlr" ||
-			scopeStyle === "tep" || scopeStyle === "un" ){
+		} else if (scopeStyle === "eo4sd" || scopeStyle === "puma" || scopeStyle === "eow2"  || scopeStyle === "un" ){
 			return (
 				<IntroHeader
 					title={this.props.selectedScopeData && this.props.selectedScopeData.name}
+					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
+					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
+					secondaryLogoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introSecondaryLogoSrc}
+					withBackgroundOverlay
+				/>
+			);
+		} else if (scopeStyle === "dlr" ||  scopeStyle === "tep"){
+			return (
+				<IntroHeader
+					title={this.props.selectedScopeData && this.props.selectedScopeData.name}
+					description={this.props.selectedScopeData && this.props.selectedScopeData.description}
 					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
 					secondaryLogoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introSecondaryLogoSrc}
