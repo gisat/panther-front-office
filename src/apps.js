@@ -93,7 +93,7 @@ export default [
 	{
 		key: 'demo',
 		hostname: 'panther.gisat.cz',
-		path: null,
+		path: '/demo',
 		devPath: '/demo',
 		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
 			module.default(path, baseUrl);
@@ -102,7 +102,7 @@ export default [
 	{
 		key: 'micrositeDemo',
 		hostname: 'panther.gisat.cz',
-		path: null,
+		path: '/micrositeDemo',
 		devPath: '/micrositeDemo',
 		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
 			module.default(path, baseUrl);
@@ -111,7 +111,7 @@ export default [
 	{
 		key: 'micrositeElections',
 		hostname: 'panther.gisat.cz',
-		path: null,
+		path: '/micrositeElections',
 		devPath: '/micrositeElections',
 		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
 			module.default(path, baseUrl);
