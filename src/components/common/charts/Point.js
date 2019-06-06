@@ -5,7 +5,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
-import '../style.scss';
+import './style.scss';
 
 class Point extends React.PureComponent {
 
@@ -22,6 +22,7 @@ class Point extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
+		highlighted: PropTypes.bool
 	};
 
 	constructor(props) {
