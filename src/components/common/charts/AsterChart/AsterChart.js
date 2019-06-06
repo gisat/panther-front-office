@@ -9,6 +9,7 @@ import './style.scss';
 import utilsFilter from "../../../../utils/filter";
 import Segment from "./Segment";
 import ChartLegend from "../ChartLegend/ChartLegend";
+import utilsSort from "../../../../utils/sort";
 
 const MAX_GRID_STEPS = 10;
 const MIN_GRID_GAP = 20;
@@ -33,6 +34,7 @@ class AsterChart extends React.PureComponent {
 		data: PropTypes.array,
 		forceMinimum: PropTypes.number,
 		forceMaximum: PropTypes.number,
+		sorting: PropTypes.array,
 
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string,
@@ -92,6 +94,7 @@ class AsterChart extends React.PureComponent {
 
 		if (props.data) {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
+			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
 			/* ensure colors */
 			data = _.map(data, item => {
