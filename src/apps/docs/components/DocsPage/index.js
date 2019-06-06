@@ -15,6 +15,7 @@ import FadeInDoc from "../FadeInDoc";
 import MultiSelectDoc from "../MultiSelectDoc";
 import ColumnChartDoc from "../ColumnChartDoc";
 import LineChartDoc from "../LineChartDoc";
+import AsterChartDoc from "../AsterChartDoc";
 import WorldWindMapDoc from "../WorldWindMapDoc";
 
 class DocsPage extends React.PureComponent {
@@ -30,6 +31,7 @@ class DocsPage extends React.PureComponent {
 			{key: 'multiSelect', title: 'MultiSelect', component: MultiSelectDoc},
 			{key: 'select', title: 'Select', component: SelectDoc},
 			{key: 'typo', title: 'Typography', component: TypoDoc},
+			{key: 'asterChart', title: 'Aster Chart', component: AsterChartDoc, props: {forceColumns: true}},
 			{key: 'columnChart', title: 'Column Chart', component: ColumnChartDoc, props: {forceColumns: true}},
 			{key: 'lineChart', title: 'Line Chart', component: LineChartDoc, props: {forceColumns: true}},
 			{key: 'wwmap', title: 'World wind map', component: WorldWindMapDoc, singlePage: true},

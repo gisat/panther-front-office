@@ -1,0 +1,58 @@
+[
+  {
+	"key": "3ea22d8f-a943-41ae-a3be-1cbe4934d08b",
+	"color": "#ff0000",
+	"data": {
+	  "name": "Nevada",
+	  "someStrangeValue": 1389
+	}
+  },
+  {
+	"key": "6789bf21-7501-475f-a75d-632db1936756",
+	"color": "#00ff00",
+	"data": {
+	  "name": "Virgin Islands",
+	  "someStrangeValue": 408
+	}
+  },
+  {
+	"key": "a1ad496c-1ab1-4c4c-a4f3-0f5bf5a94039",
+	"color": "#0000ff",
+	"data": {
+	  "name": "California",
+	  "someStrangeValue": 716
+	}
+  },
+  {
+	"key": "fc0b08df-8c5c-448e-a371-3d29d778b9dd",
+	"color": "#ff00ff",
+	"data": {
+	  "name": "American Samoa",
+	  "someStrangeValue": 1300
+	}
+  },
+  {
+	"key": "daa62d2d-53f0-45a9-85a3-07273802e152",
+	"color": "#ffff00",
+	"data": {
+	  "name": "Oregon",
+	  "someStrangeValue": 466
+	}
+  },
+  {
+	"key": "b66a7671-1007-4996-be61-9ff14209a6ad",
+	"color": "#00ffff",
+	"data": {
+	  "name": "Northern Mariana Islands",
+	  "someStrangeValue": 1021
+	}
+  },
+  {
+	"key": "f15e70ed-3e0d-42a6-8317-7333fc5836c4",
+	"color": "#ffddff",
+	"data": {
+	  "name": "Arizona",
+	  "someStrangeValue": 1277
+	}
+  }
+]

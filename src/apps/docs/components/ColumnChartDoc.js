@@ -2,8 +2,8 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 import ReactResizeDetector from 'react-resize-detector';
-import sample_15 from "../../../components/common/charts/mockData/sample_15";
-import sample_200 from "../../../components/common/charts/mockData/sample_200";
+import sample_15 from "./mockData/sample_15";
+import sample_200 from "./mockData/sample_200";
 import ColumnChart from "../../../components/common/charts/ColumnChart/ColumnChart";
 import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
 

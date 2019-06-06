@@ -1,0 +1,30 @@
+[
+  {
+	"key": "a643d2bd-5402-4152-9275-ba22b47db7c3",
+	"data": {
+	  "name": "Louisiana",
+	  "someStrangeValue": 997
+	}
+  },
+  {
+	"key": "33020aaf-51c1-4836-bf88-5d05e7c99a0c",
+	"data": {
+	  "name": "Northern Mariana Islands",
+	  "someStrangeValue": 1114
+	}
+  },
+  {
+	"key": "a08efb0e-b81f-4cb8-a203-e7125c7161bb",
+	"data": {
+	  "name": "Kansas",
+	  "someStrangeValue": 1975
+	}
+  },
+  {
+	"key": "526eaa90-91b1-484c-b0f6-2a4ea658be7a",
+	"data": {
+	  "name": "Pennsylvania",
+	  "someStrangeValue": 1590
+	}
+  }
+]

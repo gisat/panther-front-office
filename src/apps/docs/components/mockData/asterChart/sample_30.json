@@ -1,0 +1,242 @@
+[
+  {
+	"key": "8aeb4247-134f-4fe2-9a14-bb5cae88dddc",
+	"color": "#189086",
+	"data": {
+	  "name": "Guam",
+	  "someStrangeValue": 17
+	}
+  },
+  {
+	"key": "70cb8cb1-4b29-4b13-a7be-cf218bd671fe",
+	"color": "#a704fa",
+	"data": {
+	  "name": "Idaho",
+	  "someStrangeValue": 80
+	}
+  },
+  {
+	"key": "157c8dad-56ed-4219-914c-cc944aa977c0",
+	"color": "#d49070",
+	"data": {
+	  "name": "Virgin Islands",
+	  "someStrangeValue": 64
+	}
+  },
+  {
+	"key": "c86a7401-0258-42e9-b767-4062d1d44103",
+	"color": "#d8730e",
+	"data": {
+	  "name": "Oklahoma",
+	  "someStrangeValue": 62
+	}
+  },
+  {
+	"key": "cf7b5a94-d28a-4a22-a19b-f368979e9b7f",
+	"color": "#aaba89",
+	"data": {
+	  "name": "Northern Mariana Islands",
+	  "someStrangeValue": 14
+	}
+  },
+  {
+	"key": "8652bf34-5589-4441-9cba-bf0763897c96",
+	"color": "#0929ba",
+	"data": {
+	  "name": "Virginia",
+	  "someStrangeValue": 55
+	}
+  },
+  {
+	"key": "2e0af55b-625d-458b-8cf5-c1d27e37c725",
+	"color": "#2170b2",
+	"data": {
+	  "name": "Colorado",
+	  "someStrangeValue": 65
+	}
+  },
+  {
+	"key": "0e794d9e-9e3f-4da8-9a9c-eec1b25302d6",
+	"color": "#25e6fe",
+	"data": {
+	  "name": "Arkansas",
+	  "someStrangeValue": 58
+	}
+  },
+  {
+	"key": "6b77b154-74ec-4cf5-a985-46412032a9fc",
+	"color": "#53e0db",
+	"data": {
+	  "name": "Pennsylvania",
+	  "someStrangeValue": 86
+	}
+  },
+  {
+	"key": "bf8ff8b4-d66a-4299-871c-799f0ce0de80",
+	"color": "#212f18",
+	"data": {
+	  "name": "Alaska",
+	  "someStrangeValue": 2
+	}
+  },
+  {
+	"key": "197de065-1929-48c8-ac92-4fbe64cd8e40",
+	"color": "#867d98",
+	"data": {
+	  "name": "New Hampshire",
+	  "someStrangeValue": 42
+	}
+  },
+  {
+	"key": "8d30df99-58be-484f-a09b-a991967540fa",
+	"color": "#7f31ba",
+	"data": {
+	  "name": "Hawaii",
+	  "someStrangeValue": 71
+	}
+  },
+  {
+	"key": "e1f5e574-7598-4f42-87ba-0708ed80d9ea",
+	"color": "#966f17",
+	"data": {
+	  "name": "Kansas",
+	  "someStrangeValue": 82
+	}
+  },
+  {
+	"key": "42cd359d-f46e-4a78-989a-d90a28b5a0f8",
+	"color": "#fd8de3",
+	"data": {
+	  "name": "Iowa",
+	  "someStrangeValue": 53
+	}
+  },
+  {
+	"key": "31bea7cb-8c9c-4365-8f32-45ad67a05fec",
+	"color": "#07c745",
+	"data": {
+	  "name": "Indiana",
+	  "someStrangeValue": 46
+	}
+  },
+  {
+	"key": "c5256d76-753f-43d5-8cd6-b678d99a7964",
+	"color": "#d8dbc2",
+	"data": {
+	  "name": "New Mexico",
+	  "someStrangeValue": 29
+	}
+  },
+  {
+	"key": "4cb5eaef-52fa-4b81-8243-b72339647e59",
+	"color": "#444079",
+	"data": {
+	  "name": "North Carolina",
+	  "someStrangeValue": 71
+	}
+  },
+  {
+	"key": "dcac8aa4-414c-44f1-b537-9d0b5354695f",
+	"color": "#d2baa3",
+	"data": {
+	  "name": "Rhode Island",
+	  "someStrangeValue": 48
+	}
+  },
+  {
+	"key": "7c07a5f8-fe70-475c-b1db-fd3d28e9b4a4",
+	"color": "#5ef2bc",
+	"data": {
+	  "name": "Minnesota",
+	  "someStrangeValue": 100
+	}
+  },
+  {
+	"key": "1ebeb859-2bfd-4d2f-b733-7df6d1524359",
+	"color": "#bade33",
+	"data": {
+	  "name": "Maine",
+	  "someStrangeValue": 21
+	}
+  },
+  {
+	"key": "2505fd21-165d-4975-a343-06eeea3eb2b2",
+	"color": "#5974b5",
+	"data": {
+	  "name": "Georgia",
+	  "someStrangeValue": 62
+	}
+  },
+  {
+	"key": "5ef32f29-f70e-4b57-8289-7632be948cc3",
+	"color": "#52c7d8",
+	"data": {
+	  "name": "Puerto Rico",
+	  "someStrangeValue": 78
+	}
+  },
+  {
+	"key": "e72958e6-889d-459c-bdbd-d5313e25b345",
+	"color": "#44fce0",
+	"data": {
+	  "name": "New York",
+	  "someStrangeValue": 16
+	}
+  },
+  {
+	"key": "9777197e-b391-44c8-a06d-af5ca64a1ac9",
+	"color": "#b9554c",
+	"data": {
+	  "name": "South Carolina",
+	  "someStrangeValue": 51
+	}
+  },
+  {
+	"key": "822b6032-cb1a-40cb-b0c8-c6601087b219",
+	"color": "#abbe67",
+	"data": {
+	  "name": "North Dakota",
+	  "someStrangeValue": 53
+	}
+  },
+  {
+	"key": "9ea37950-26b5-4164-af6f-02d80f093364",
+	"color": "#28c3a4",
+	"data": {
+	  "name": "Texas",
+	  "someStrangeValue": 60
+	}
+  },
+  {
+	"key": "c1247c14-a603-4f8c-b773-cf1475ce69d8",
+	"color": "#7a01da",
+	"data": {
+	  "name": "Florida",
+	  "someStrangeValue": 37
+	}
+  },
+  {
+	"key": "066578f5-1e52-4a30-bd3b-c55504a765ef",
+	"color": "#0b6a4e",
+	"data": {
+	  "name": "Missouri",
+	  "someStrangeValue": 59
+	}
+  },
+  {
+	"key": "f6a459ed-324b-4147-ba74-2752021c42b4",
+	"color": "#cedc95",
+	"data": {
+	  "name": "Mississippi",
+	  "someStrangeValue": 50
+	}
+  },
+  {
+	"key": "d6e7b2fa-3ac7-466d-8ad9-edf4ec761c93",
+	"color": "#d338d7",
+	"data": {
+	  "name": "District Of Columbia",
+	  "someStrangeValue": 17
+	}
+  }
+]
