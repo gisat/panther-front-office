@@ -10,12 +10,6 @@ import utilsFilter from "../../../../utils/filter";
 import Segment from "./Segment";
 import ChartLegend from "../ChartLegend/ChartLegend";
 
-const WIDTH = 250;
-const HEIGHT = 250;
-
-const MIN_WIDTH = 150;
-const MAX_WIDTH = 800;
-
 const MAX_GRID_STEPS = 10;
 const MIN_GRID_GAP = 20;
 
@@ -28,6 +22,13 @@ const PADDING = 20;
 const PADDING_WITH_CAPTIONS = 40;
 
 class AsterChart extends React.PureComponent {
+	static defaultProps = {
+		width: 250,
+		height: 250,
+		minWidth: 150,
+		maxWidth: 800
+	};
+
 	static propTypes = {
 		data: PropTypes.array,
 		forceMinimum: PropTypes.number,
@@ -68,11 +69,11 @@ class AsterChart extends React.PureComponent {
 		const props = this.props;
 
 		/* dimensions */
-		let width = props.width ? props.width : WIDTH;
-		let height = props.height ? props.height : HEIGHT;
+		let width = props.width;
+		let height = props.height;
 
-		let minWidth = props.minWidth ? props.minWidth : MIN_WIDTH;
-		let maxWidth = props.maxWidth ? props.maxWidth: MAX_WIDTH;
+		let minWidth = props.minWidth;
+		let maxWidth = props.maxWidth;
 
 		if (width > maxWidth) width = maxWidth;
 		if (width < minWidth) width = minWidth;
