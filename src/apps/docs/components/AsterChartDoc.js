@@ -83,6 +83,7 @@ class AsterChartDoc extends React.PureComponent {
 						/>
 					</HoverHandler>
 				</div>
+
 				<div className="ptr-docs-panel-section">
 					<h2>30 indicators, relative</h2>
 					<p>Legend with numbers on right</p>
@@ -113,6 +114,40 @@ class AsterChartDoc extends React.PureComponent {
 
 							legend={{
 								position: "right"
+							}}
+						/>
+					</HoverHandler>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>30 indicators, sorted</h2>
+					<p>Legend in the bottom, without scale captions</p>
+					<HoverHandler>
+						<AsterChart
+							key="aster-doc-30"
+							data={sample_30}
+							width={this.state.width}
+							maxWidth={500}
+
+							colorSourcePath="color"
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							valueSourcePath="data.someStrangeValue"
+							sorting={[["data.someStrangeValue", "desc"]]}
+
+							forceMinimum={0}
+							forceMaximum={100}
+
+							relative
+
+							axis
+							grid
+							radials={{
+								captions: true
+							}}
+
+							legend={{
+								position: "bottom"
 							}}
 						/>
 					</HoverHandler>

@@ -9,12 +9,7 @@ import './style.scss';
 import utilsFilter from "../../../../utils/filter";
 import Segment from "./Segment";
 import ChartLegend from "../ChartLegend/ChartLegend";
-
-const WIDTH = 250;
-const HEIGHT = 250;
-
-const MIN_WIDTH = 150;
-const MAX_WIDTH = 800;
+import utilsSort from "../../../../utils/sort";
 
 const MAX_GRID_STEPS = 10;
 const MIN_GRID_GAP = 20;
@@ -28,10 +23,18 @@ const PADDING = 20;
 const PADDING_WITH_CAPTIONS = 40;
 
 class AsterChart extends React.PureComponent {
+	static defaultProps = {
+		width: 250,
+		height: 250,
+		minWidth: 150,
+		maxWidth: 800
+	};
+
 	static propTypes = {
 		data: PropTypes.array,
 		forceMinimum: PropTypes.number,
 		forceMaximum: PropTypes.number,
+		sorting: PropTypes.array,
 
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string,
@@ -68,11 +71,11 @@ class AsterChart extends React.PureComponent {
 		const props = this.props;
 
 		/* dimensions */
-		let width = props.width ? props.width : WIDTH;
-		let height = props.height ? props.height : HEIGHT;
+		let width = props.width;
+		let height = props.height;
 
-		let minWidth = props.minWidth ? props.minWidth : MIN_WIDTH;
-		let maxWidth = props.maxWidth ? props.maxWidth: MAX_WIDTH;
+		let minWidth = props.minWidth;
+		let maxWidth = props.maxWidth;
 
 		if (width > maxWidth) width = maxWidth;
 		if (width < minWidth) width = minWidth;
@@ -86,9 +89,12 @@ class AsterChart extends React.PureComponent {
 		let innerHeight = height - 2*padding;
 
 		/* data preparation */
-		let data, minimum, maximum, values, domain, scale, origin = null;
+		let data = null;
+		let values = [];
+
 		if (props.data) {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
+			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
 			/* ensure colors */
 			data = _.map(data, item => {
@@ -106,18 +112,18 @@ class AsterChart extends React.PureComponent {
 			});
 
 			values = _.map(data, (item) => {return _.get(item, props.valueSourcePath)});
-
-			maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
-			minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
-
-			origin = [width/2, height/2];
-			domain = [minimum, maximum];
-
-			scale = d3
-				.scaleLinear()
-				.domain(domain)
-				.range([0, innerHeight/2]);
 		}
+
+		let maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
+		let minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
+
+		let origin = [width/2, height/2];
+		let domain = [minimum, maximum];
+
+		let scale = d3
+			.scaleLinear()
+			.domain(domain)
+			.range([0, innerHeight/2]);
 
 		let containerClasses = classnames("ptr-chart-container", {
 			'legend-right': props.legend && props.legend.position && props.legend.position === 'right',
@@ -128,7 +134,7 @@ class AsterChart extends React.PureComponent {
 		return (
 			<div className={containerClasses}>
 				<svg className="ptr-chart ptr-aster-chart" style={{minWidth: width}} width={width} height={height}>
-					{props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
+					{data && props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
 					{data ? this.renderSegments(data, origin, scale, maximum) : null}
 					{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
 				</svg>
