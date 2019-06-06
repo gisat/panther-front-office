@@ -1,0 +1,85 @@
+import React from "react";
+
+import './style.scss';
+import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
+import classnames from "classnames";
+
+class CaseSelect extends React.PureComponent {
+
+	constructor(props) {
+		super(props);
+		this.renderCurrent = this.renderCurrent.bind(this);
+		this.selectScope = this.selectScope.bind(this);
+	}
+
+	componentDidMount() {
+		this.props.onMount();
+	}
+
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
+
+	selectScope(key) {
+		if (key !== this.props.activeCase.key) {
+			this.props.selectCase(key);
+		}
+	}
+
+	renderCurrent() {
+		const activeCase = this.props.activeCase;
+		if (activeCase) {
+			return (
+				<div className="tacrGeoinvaze-case-value" title={activeCase.data && activeCase.data.nameDisplay}>
+					{activeCase.data && activeCase.data.nameDisplay}
+				</div>
+			);
+		} else {
+			//no case
+			return (
+				<span className="">Select case</span>
+			);
+		}
+	};
+
+	render() {
+		const props = this.props;
+
+		return (
+
+			<PantherSelect
+				className="tacrGeoinvaze-case-select"
+				open={props.caseSelectOpen}
+				onSelectClick={() => {
+					props.caseSelectOpen ? props.closeSelect() : props.openSelect()
+				}}
+				onBlur={props.closeSelect}
+				onSelect={this.selectScope}
+				currentClasses="tacrGeoinvaze-case-select-current"
+				renderCurrent={this.renderCurrent}
+				listClasses="tacrGeoinvaze-case-select-list"
+			>
+				<div className="tacrGeoinvaze-case-select-content">
+					<div>
+						Hic sunt pantherae.
+					</div>
+					<div className="tacrGeoinvaze-case-select-cases">
+						{props.cases && props.cases.map((oneCase) => {
+							return (
+								<PantherSelectItem
+									itemKey={oneCase.key}
+									key={oneCase.key}
+								>
+									{oneCase.data && oneCase.data.nameDisplay}
+								</PantherSelectItem>
+							);
+						})}
+					</div>
+				</div>
+			</PantherSelect>
+
+		);
+	}
+}
+
+export default CaseSelect;

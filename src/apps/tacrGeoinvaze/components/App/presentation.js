@@ -11,6 +11,7 @@ import MapTools from "../../../../components/common/maps/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import Header from '../Header';
 
 class TacrGeoinvazeApp extends React.PureComponent {
 
@@ -19,7 +20,8 @@ class TacrGeoinvazeApp extends React.PureComponent {
 
 		return (
 			<div className="tacrGeoinvaze-app">
-				<span>Hic sunt pantherae.</span>
+				<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>
+				<Header />
 			</div>
 		);
 	}
