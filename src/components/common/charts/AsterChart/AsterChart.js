@@ -86,7 +86,9 @@ class AsterChart extends React.PureComponent {
 		let innerHeight = height - 2*padding;
 
 		/* data preparation */
-		let data, minimum, maximum, values, domain, scale, origin = null;
+		let data = null;
+		let values = [];
+
 		if (props.data) {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
 
@@ -106,18 +108,18 @@ class AsterChart extends React.PureComponent {
 			});
 
 			values = _.map(data, (item) => {return _.get(item, props.valueSourcePath)});
-
-			maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
-			minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
-
-			origin = [width/2, height/2];
-			domain = [minimum, maximum];
-
-			scale = d3
-				.scaleLinear()
-				.domain(domain)
-				.range([0, innerHeight/2]);
 		}
+
+		let maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
+		let minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
+
+		let origin = [width/2, height/2];
+		let domain = [minimum, maximum];
+
+		let scale = d3
+			.scaleLinear()
+			.domain(domain)
+			.range([0, innerHeight/2]);
 
 		let containerClasses = classnames("ptr-chart-container", {
 			'legend-right': props.legend && props.legend.position && props.legend.position === 'right',
@@ -128,7 +130,7 @@ class AsterChart extends React.PureComponent {
 		return (
 			<div className={containerClasses}>
 				<svg className="ptr-chart ptr-aster-chart" style={{minWidth: width}} width={width} height={height}>
-					{props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
+					{data && props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
 					{data ? this.renderSegments(data, origin, scale, maximum) : null}
 					{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
 				</svg>
