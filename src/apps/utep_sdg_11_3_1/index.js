@@ -25,6 +25,7 @@ import App from "./components/App";
 import viewCfg from "./data/view.js";
 import spatialRalationsCfg from "./data/spatialRalations.js";
 import spatialDataSourcesCfg from "./data/spatialDataSources.js";
+import boundariesSpatialData from "./data/boundaries.js";
 
 // override and extend locales in namespaces
 utils.addI18nResources('common', {en});
@@ -38,13 +39,20 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.views.add(viewCfg));
 	Store.dispatch(Action.views.setActiveKey('UTEP_SDG_11_3_1'));
 	Store.dispatch(Action.views.apply("UTEP_SDG_11_3_1", Action));
-
+	
+	
 	//set periods
-
+	
 	//set layers relations
 	Store.dispatch(Action.spatialRelations.add(spatialRalationsCfg));
 	Store.dispatch(Action.spatialDataSources.add(spatialDataSourcesCfg));
-
+	Store.dispatch(Action.spatialDataSources.vector.addBatch(boundariesSpatialData, 'spatialDataSourceKey'));
+	
+	const spatialdataindexFilter = {
+		"spatialDataSourceKey": "utep_sdg_11_3_1_boundaries",
+	};
+	Store.dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [{spatialDataSourceKey: "utep_sdg_11_3_1_boundaries"}], 'spatialDataSourceKey'));
+	
 	
 	// Set language
 	i18n.changeLanguage("en");

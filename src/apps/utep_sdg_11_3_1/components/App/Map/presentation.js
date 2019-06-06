@@ -5,8 +5,9 @@ import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getCartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartogram';
 import {getCartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
+import {getStaticPolygonStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/staticPolygon';
 
-import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
+import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/VectorLayer';
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/WorldWindMap/styles/colors'
 import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
 import CartogramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartogramVectorLayer';
@@ -103,33 +104,33 @@ class FuoreWorldWindMap extends React.PureComponent {
 			}
 
 			//check if new attribute data comes
-			const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
-			if (layersAttributeDataChanged) {
-				const layers = this.props.layers || [];
-				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
-				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
-				this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
-			}
+			// const layersAttributeDataChanged = !isEqual(prevProps.layersAttributeData, this.props.layersAttributeData);
+			// if (layersAttributeDataChanged) {
+			// 	const layers = this.props.layers || [];
+			// 	this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
+			// 	this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+			// 	this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
+			// }
 
 			//check if new attribute data comes
-			const layersMetadataDataChanged = !isEqual(prevProps.layersMetadata, this.props.layersMetadata);
-			if (layersMetadataDataChanged) {
-				const layers = this.props.layers || [];
-				thematicLayersChanged = true;
-				thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
+			// const layersMetadataDataChanged = !isEqual(prevProps.layersMetadata, this.props.layersMetadata);
+			// if (layersMetadataDataChanged) {
+			// 	const layers = this.props.layers || [];
+			// 	thematicLayersChanged = true;
+			// 	thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
 				
-				this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersMetadata)
-			}
+			// this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersMetadata)
+			// }
 
 			//check if new attribute statistics data comes
-			const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
+			// const layersAttributeStatisticsDataChanged = !isEqual(prevProps.layersAttributeStatistics, this.props.layersAttributeStatistics);
 
-			if (layersAttributeStatisticsDataChanged) {
-				//set layer statistics
-				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics)
-				//setstylefunction
-				this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
-			}
+			// if (layersAttributeStatisticsDataChanged) {
+			// 	//set layer statistics
+			// 	this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics)
+			// 	//setstylefunction
+			// 	this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
+			// }
 
 			//check if new attribute statistics data comes
 			const nameDataChanged = !isEqual(prevProps.nameData, this.props.nameData);
@@ -148,19 +149,19 @@ class FuoreWorldWindMap extends React.PureComponent {
 				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
 			}
 
-			if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
-				this.setState({thematicLayers});
-				this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersMetadata)
-				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics)
+			// if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
+			// 	this.setState({thematicLayers});
+			// 	// this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersMetadata)
+			// 	this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics)
 
-				//if vector data comes before layer
-				if(this.props.layersVectorData) {
-					const layers = this.props.layers || [];
-					this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers], this.props.nameData);
-					this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...thematicLayers]);
-					this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
-				}
-			}
+			// 	//if vector data comes before layer
+			// 	if(this.props.layersVectorData) {
+			// 		const layers = this.props.layers || [];
+			// 		this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...thematicLayers], this.props.nameData);
+			// 		this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...thematicLayers]);
+			// 		this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
+			// 	}
+			// }
 
 			// todo refactor
 			if (this.state.thematicLayers && this.context && this.context.hoveredItems !== this.hoveredItems) {
@@ -236,7 +237,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
 			const layerStatistics = layersAttributeStatistics[key];
 
 			if(instanceOfVector && layerStatistics) {
@@ -249,32 +250,28 @@ class FuoreWorldWindMap extends React.PureComponent {
 		
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
-			const layerStatistics = layersAttributeStatistics[key];
-			const metadata = layersMetadata[key];
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
+			// const layerStatistics = layersAttributeStatistics[key];
+			// const metadata = layersMetadata[key];
 
-			if(instanceOfVector && layerStatistics && metadata) {
+			if(instanceOfVector) {
 				//set layerstyle
-				if(metadata.dataType === 'relative') {
-					existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey));
-				} else if(metadata.dataType === 'absolute') {
-					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey, 'volume', true, 80000));
-				}
+				existingLayer.setStyleFunction(getStaticPolygonStyleFunction('#FFF', 50, '#000', 255, 3));
 			}
 		}
 	}
 
-	handleMetadata(layersVectorData = {}, layersState = [], layersMetadata = {}) {
-		for (const [key, data] of Object.entries(layersVectorData)) {
-			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
-			const metadata = layersMetadata[key];
+	// handleMetadata(layersVectorData = {}, layersState = [], layersMetadata = {}) {
+	// 	for (const [key, data] of Object.entries(layersVectorData)) {
+	// 		let existingLayer = layersHelper.findLayerByKey(layersState, key);
+	// 		const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+	// 		const metadata = layersMetadata[key];
 
-			if(instanceOfVector && metadata && metadata.attributeDataKey) {
-				existingLayer.setMetadata(metadata);
-			}
-		}
-	}
+	// 		if(instanceOfVector && metadata && metadata.attributeDataKey) {
+	// 			existingLayer.setMetadata(metadata);
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * 
@@ -290,13 +287,15 @@ class FuoreWorldWindMap extends React.PureComponent {
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
-			const metadata = layersMetadata[key];
+			// const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			// const metadata = layersMetadata[key];
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
 
-			if(instanceOfVector && layersAttributeData[key] && metadata) {
+			// if(instanceOfVector && layersAttributeData[key] && metadata) {
+			if(instanceOfVector) {
 				if(data && data.length > 0) {
 					const spatialDataSourceData = data.find(statialData => statialData.spatialDataSourceKey === layer.spatialRelationsData.spatialDataSourceKey);
-					const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
+					// const attributeDataSourceData = layersAttributeData[key].find(attributeData => attributeData.attributeDataSourceKey === layer.attributeRelationsData.attributeDataSourceKey).attributeData.features;
 					//merge with attributes
 					const fl = spatialDataSourceData.spatialData.features.length;
 
@@ -306,29 +305,26 @@ class FuoreWorldWindMap extends React.PureComponent {
 						const feature = spatialData.features[i];
 						const featureId = feature.properties[data.fidColumnName];
 					
-						
+						//TODO - set attribute data
 						//get attribute by value
 						const nameProperty = {};
-						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
-						if(attributeFeatureData && nameData && nameData[key]) {
-							const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
-							nameProperty['_name'] = nameFeatureData.data.name;
-						}
+						// const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
+						// if(attributeFeatureData && nameData && nameData[key]) {
+						// 	const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
+						// 	nameProperty['_name'] = nameFeatureData.data.name;
+						// }
 
-						if(attributeFeatureData){
-							feature.properties = {...feature.properties, ...attributeFeatureData.properties, ...nameProperty};
-						}
+						// if(attributeFeatureData){
+						// 	feature.properties = {...feature.properties, ...attributeFeatureData.properties, ...nameProperty};
+						// }
 
 						// hovered
 						if (hoveredItems && includes(hoveredItems, featureId)) {
 							feature.properties.hovered = true;
 						}
 					}
-					if (existingLayer.renderables && existingLayer.renderables.length > 0) {
-						// debugger //TODO
-					}
-					//musejí být statistiky!!
-					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
+
+					existingLayer.setRenderables(spatialData, defaultVectorStyle, null);
 
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
@@ -345,7 +341,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	setFilterVectorLayers(filter, layers = [], layersState) {
 		layers.forEach(layer => {
 			let existingLayer = layersHelper.findLayerByKey(layersState, layer.key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
 			if(instanceOfVector) {
 				existingLayer.setFilter(filter ? filter.data : null);
 			}
@@ -359,7 +355,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	setHover(layers, areas) {
 		layers.forEach(layer => {
 			let existingLayer = layersHelper.findLayerByKey(layers, layer.key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
 			if(instanceOfVector) {
 				existingLayer.setHover(areas);
 			}
@@ -367,12 +363,15 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	// TODO refactor
-	onHover(renderables, x, y, showPopup = true) {
+	onHover(renderables, x, y, showPopup = true, mapKey) {
+		//TODO
+		console.log(renderables, mapKey);
+		
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
 		if (this.state.thematicLayers) {
 			this.state.thematicLayers.forEach(layer => {
 				let existingLayer = layersHelper.findLayerByKey(this.state.thematicLayers, layer.key);
-				const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
+				const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
 				if(instanceOfVector) {
 					let keySource = existingLayer.spatialIdKey;
 					let nameSource = existingLayer.attributeIdKey;
@@ -400,13 +399,13 @@ class FuoreWorldWindMap extends React.PureComponent {
 		}
 	}
 
-	getPopupContent(features, nameSource, valueSource, spatialIdSource) {
-		if (features && features.length && nameSource && valueSource) {
+	getPopupContent(features, nameSource = "name", valueSource, spatialIdSource) {
+		if (features && features.length) {
 			let content = [];
 			features.forEach((feature) => {
-				let unit = _.get(feature, nameSource);
+				let unit = 'Country';
 				let name = _.get(feature, '_name');
-				let value = _.get(feature, valueSource);
+				let value = _.get(feature, 'name');
 				let spatialId = _.get(feature, spatialIdSource);
 				if(value || value === 0) {
 					content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);

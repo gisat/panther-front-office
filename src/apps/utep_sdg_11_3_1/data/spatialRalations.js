@@ -46,6 +46,20 @@ const spatialRelations = [{
         "caseKey": null,
         "fidColumnName": null
     }
-}];
+},
+{
+    "key": "sr_utep_sdg_11_3_1_boundaries",
+    "data": {
+        "scopeKey": null,
+        "periodKey": null,
+        "placeKey": null,
+        "spatialDataSourceKey": "utep_sdg_11_3_1_boundaries",
+        "layerTemplateKey": "lt_utep_sdg_11_3_1_boundaries",
+        "scenarioKey": null,
+        "caseKey": null,
+        "fidColumnName": null
+    }
+}
+];
 
 export default spatialRelations;
