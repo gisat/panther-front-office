@@ -10,6 +10,8 @@ import './style.scss';
 class Point extends React.PureComponent {
 
 	static propTypes = {
+		// ignoreContext
+
 		itemKey: PropTypes.string,
 		data: PropTypes.object,
 		x: PropTypes.number,

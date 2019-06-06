@@ -1,0 +1,332 @@
+[
+  {
+    "key": "9d67cf99-95fc-407b-bdf0-01c8561df739",
+    "data": {
+      "name": "Hawaii",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": -1591,
+          "otherValue": 0.4587
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 1341,
+          "otherValue": 0.924
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -1499,
+          "otherValue": 0.9847
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": -537,
+          "otherValue": 0.3551
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": 1824,
+          "otherValue": 0.7618
+        }
+      ]
+    }
+  },
+  {
+    "key": "bf091804-a655-4128-8e50-0b04c3754e38",
+    "data": {
+      "name": "Oklahoma",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": -1711,
+          "otherValue": 0.0987
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 196,
+          "otherValue": 0.4109
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -1774,
+          "otherValue": 0.9106
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": -1211,
+          "otherValue": 0.9762
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": 1402,
+          "otherValue": 0.6762
+        }
+      ]
+    }
+  },
+  {
+    "key": "e716114f-b36e-4c39-9069-e00fda51e85c",
+    "data": {
+      "name": "California",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": 673,
+          "otherValue": 0.3731
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 531,
+          "otherValue": 0.758
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -1271,
+          "otherValue": 0.4221
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 920,
+          "otherValue": 0.3856
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": -1883,
+          "otherValue": 0.684
+        }
+      ]
+    }
+  },
+  {
+    "key": "28bf9648-2031-4b2b-af60-cfa650a4d938",
+    "data": {
+      "name": "New York",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": 1346,
+          "otherValue": 0.3223
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": -1258,
+          "otherValue": 0.5528
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -1715,
+          "otherValue": 0.1056
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 1725,
+          "otherValue": 0.0826
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": 994,
+          "otherValue": 0.382
+        }
+      ]
+    }
+  },
+  {
+    "key": "f5f155e1-78aa-4414-a3f8-ad54a78766aa",
+    "data": {
+      "name": "North Dakota",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": 228,
+          "otherValue": 0.0671
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 320,
+          "otherValue": 0.7443
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -1958,
+          "otherValue": 0.5948
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 1039,
+          "otherValue": 0.9673
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": -910,
+          "otherValue": 0.1705
+        }
+      ]
+    }
+  },
+  {
+    "key": "d6f31fee-57e4-42cd-9281-0041c4639b50",
+    "data": {
+      "name": "Louisiana",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": -441,
+          "otherValue": 0.461
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 1030,
+          "otherValue": 0.9229
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": 127,
+          "otherValue": 0.6184
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 1506,
+          "otherValue": 0.3983
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": 1085,
+          "otherValue": 0.1397
+        }
+      ]
+    }
+  },
+  {
+    "key": "6f0001a7-47f2-41f0-a3d4-22b31b92e1e1",
+    "data": {
+      "name": "Maine",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": 575,
+          "otherValue": 0.719
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": -1463,
+          "otherValue": 0.0072
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": 1386,
+          "otherValue": 0.1186
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 1381,
+          "otherValue": 0.4947
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": -63,
+          "otherValue": 0.7861
+        }
+      ]
+    }
+  },
+  {
+    "key": "89a4f802-82d1-4820-85f1-db4545356ed9",
+    "data": {
+      "name": "Indiana",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": 618,
+          "otherValue": 0.9222
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 1218,
+          "otherValue": 0.5533
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -1822,
+          "otherValue": 0.4391
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": -81,
+          "otherValue": 0.0757
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": -1221,
+          "otherValue": 0.0066
+        }
+      ]
+    }
+  },
+  {
+    "key": "9b0d20a0-853f-4ffd-ba65-b9daa6c7b2d2",
+    "data": {
+      "name": "Virginia",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": -256,
+          "otherValue": 0.6402
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 1314,
+          "otherValue": 0.8894
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": -580,
+          "otherValue": 0.6801
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 1401,
+          "otherValue": 0.0492
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": -1754,
+          "otherValue": 0.8991
+        }
+      ]
+    }
+  },
+  {
+    "key": "d60f4ae4-4629-44e3-88b0-727f3ab0b5a9",
+    "data": {
+      "name": "Kentucky",
+      "data": [
+        {
+          "period": 1991,
+          "someStrangeValue": -847,
+          "otherValue": 0.933
+        },
+        {
+          "period": 1992,
+          "someStrangeValue": 1667,
+          "otherValue": 0.0969
+        },
+        {
+          "period": 1993,
+          "someStrangeValue": 990,
+          "otherValue": 0.6463
+        },
+        {
+          "period": 1994,
+          "someStrangeValue": 1404,
+          "otherValue": 0.6125
+        },
+        {
+          "period": 1995,
+          "someStrangeValue": 1746,
+          "otherValue": 0.3156
+        }
+      ]
+    }
+  }
+]

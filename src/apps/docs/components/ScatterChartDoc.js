@@ -4,6 +4,8 @@ import _ from 'lodash';
 import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../components/common/charts/ScatterChart/ScatterChart";
 
+import sample_50 from "./mockData/sample_50";
+
 class ScatterChartDoc extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -35,6 +37,20 @@ class ScatterChartDoc extends React.PureComponent {
 					<HoverHandler>
 						<ScatterChart
 							key="scatter-doc-basic"
+							data={sample_50}
+
+							xSourcePath="data.some_value_1"
+							ySourcePath="data.some_value_2"
+							nameSourcePath="data.name"
+							keySourcePath="key"
+
+							// xGridlines
+							// xCaptions
+							// xTicks
+
+							yGridlines
+							yCaptions
+							yTicks
 						/>
 					</HoverHandler>
 				</div>
