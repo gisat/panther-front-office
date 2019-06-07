@@ -8,6 +8,8 @@ import Action from "../Action";
 
 const {actionGeneralError} = commonActions;
 
+const setInitial = commonActions.setInitial(ActionTypes.MAPS);
+
 // ============ creators ===========
 const useClear = (mapKey) => {
 	return (dispatch) => {
@@ -998,6 +1000,8 @@ export default {
 	setSetBackgroundLayer,
 	setSetSync,
 	setSetWorldWindNavigator,
+
+	setInitial,
 
 	updateMapLayer,
 	updateStateFromView,

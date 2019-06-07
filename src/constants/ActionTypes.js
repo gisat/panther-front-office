@@ -280,6 +280,7 @@ export const commonActionTypesDefinitions = {
 	MAPS_SET_INDEPENDENT_OF_PERIOD: 'MAPS_SET_INDEPENDENT_OF_PERIOD',
 
 	MAPS: {
+		SET_INITIAL: null,
 		SET_ACTIVE_MAP_KEY: null,
 		SET_ACTIVE_SET_KEY: null,
 		SET_SCOPE: null,
@@ -514,6 +515,7 @@ export const commonActionTypesDefinitions = {
 		USE: {
 			INDEXED: {
 				CLEAR: null,
+				CLEAR_ALL: null,
 				REGISTER: null
 			}
 		}

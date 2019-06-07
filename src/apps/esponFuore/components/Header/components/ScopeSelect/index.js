@@ -37,7 +37,9 @@ const mapDispatchToPropsFactory = () => {
 			},
 			selectScope: (key) => {
 				dispatch(Action.attributeRelations.useIndexedClearAll());
+				dispatch(Action.spatialRelations.useIndexedClearAll());
 				dispatch(Action.charts.setInitial());
+				dispatch(Action.maps.setInitial());
 
 				dispatch(Action.scopes.setActiveKey(key));
 				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false));
