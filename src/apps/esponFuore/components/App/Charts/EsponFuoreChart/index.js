@@ -14,6 +14,7 @@ const useActiveMetadataKeys = {
 const mapStateToPropsFactory = (initialState, ownProps) => {
 	let filter = {};
 	let namesFilter = {};
+	let periodsFilter = {};
 	let chartCfg = {};
 
 	return (state) => {
@@ -22,6 +23,13 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
+		let scopeKey = Select.scopes.getActiveKey(state);
+		let attributeKey = Select.attributes.getActiveKey(state);
+
+		// don't mutate selector input if it is not needed
+		if (!_.isEqual(periodsFilter, {scopeKey, attributeKey})){
+			periodsFilter = {scopeKey, attributeKey}
+		}
 
 		// don't mutate selector input if it is not needed
 		if (!_.isEqual(chartCfg,  chartConfiguation)){
@@ -43,7 +51,8 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			data: dataForChart,
 			nameData: namesForChart,
 			filter: activeFilter && activeFilter.data,
-			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in)
+			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),
+			availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter)
 		}
 	};
 };

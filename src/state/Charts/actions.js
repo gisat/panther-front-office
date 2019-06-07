@@ -3,6 +3,8 @@ import Action from "../Action";
 import commonActions from "../_common/actions";
 import ActionTypes from "../../constants/ActionTypes";
 
+const setInitial = commonActions.setInitial(ActionTypes.CHARTS);
+
 const use = (chartKey, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		let chart = Select.charts.getChartConfiguration(getState(), chartKey, useActiveMetadataKeys);
@@ -41,5 +43,6 @@ const actionUpdate = (data) => {
 export default {
 	updateStateFromView,
 	use,
-	useClear
+	useClear,
+	setInitial
 }

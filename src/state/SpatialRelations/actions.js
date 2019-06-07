@@ -7,6 +7,7 @@ import common from "../_common/actions";
 const useIndexedRegister = (componentId, filterByActive, filter, order, start, length) => common.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, componentId, filterByActive, filter, order, start, length);
 const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filter, order, start, length, ActionTypes.SPATIAL_RELATIONS, 'relations');
 const add = common.add(ActionTypes.SPATIAL_RELATIONS);
+const useIndexedClearAll = common.useIndexedClearAll(ActionTypes.SPATIAL_RELATIONS);
 
 
 // ============ actions ===========
@@ -17,5 +18,6 @@ const add = common.add(ActionTypes.SPATIAL_RELATIONS);
 export default {
     add,
     useIndexedRegister,
+    useIndexedClearAll,
     ensureIndexed
 }

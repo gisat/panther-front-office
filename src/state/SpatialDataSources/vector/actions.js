@@ -284,7 +284,8 @@ function loadLayerData(filter, componentId) {
 			additionalParams.transformation = {
 				snapToGrid: {
 					size: appConfig.geometriesAccuracy
-				}
+				},
+				transform: 4326
 			}
 		}
 
