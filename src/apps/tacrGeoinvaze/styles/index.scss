@@ -28,3 +28,56 @@
 	--accent100: #{$lightAccent100};
 	--accent100rgb: #{$lightAccent100rgb};
 }
+
+.tacrGeoinvaze-header {
+	width: 30rem;
+}
+.tacrGeoinvaze-title {
+	position: relative;
+	z-index: 45;
+	font-size: $b2;
+	color: var(--base0);
+	height: m(2);
+	padding: .51825rem 1rem;
+}
+.tacrGeoinvaze-case-select {
+	height: m(2);
+}
+.tacrGeoinvaze-case-select .ptr-panther-select-current {
+	height: 100%;
+}
+.tacrGeoinvaze-title,
+.tacrGeoinvaze-case-select .ptr-panther-select-current {
+	background-color: var(--accent50);
+}
+
+.tacrGeoinvaze-header .ptr-panther-select-list {
+	padding-top: 0;
+}
+.tacrGeoinvaze-case-select-list.ptr-panther-select-list > div > div {
+	height: 100%;
+}
+.tacrGeoinvaze-case-select-content {
+	height: 100%;
+	//background-color: var(--base0);
+	background-color: var(--accent10);
+}
+
+.tacrGeoinvaze-case-select-content-header {
+	height: m(4);
+	background-color: var(--base0);
+}
+.tacrGeoinvaze-case-select-content-content {
+	height: calc(100% - #{m(4)});
+	display: flex;
+	flex-direction: column;
+}
+.tacrGeoinvaze-case-select-content-content > div {
+	flex-basis: 50%;
+}
+.tacrGeoinvaze-case-select-content-info {
+	padding: 2rem;
+}
+.tacrGeoinvaze-case-select-cases {
+	background-color: var(--accent30);
+}
