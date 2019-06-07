@@ -1,7 +1,7 @@
 @import '../../../../styles/variables';
 
 .ptr-chart-wrapper {
-	min-height: 15rem;
+	min-height: 10rem;
 	position: relative;
 	margin-bottom: m(1);
 	border-radius: .2rem;
@@ -15,34 +15,26 @@
 
 .ptr-chart-wrapper-header {
 	display: flex;
-	height: m(5/3);
 	color: var(--base90);
 }
 
 .ptr-chart-wrapper-header.with-subtitle {
-	height: m(7/3);
+
 }
 
 .ptr-chart-wrapper-titles {
 	flex-grow: 1;
 	padding: m(1/3) .75rem;
-	max-width: calc(100% - 2rem);
 }
 
 .ptr-chart-wrapper-title {
 	flex-grow: 1;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .ptr-chart-wrapper-subtitle {
 	color: var(--base50);
 	font-size: $b1;
 	margin-top: .1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .ptr-chart-wrapper-tools {
@@ -122,6 +114,13 @@
 .ptr-chart-wrapper-content > div {
 	position: relative;
 	width: 100%;
+}
+
+.ptr-chart-wrapper-info {
+	font-style: italic;
+	font-size: $b1;
+	color: var(--base80);
+	padding: .3rem;
 }
 
 @media screen and (max-width: 70rem)  {

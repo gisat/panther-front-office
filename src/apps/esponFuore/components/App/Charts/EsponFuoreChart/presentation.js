@@ -14,6 +14,7 @@ class EsponFuoreChart extends React.PureComponent {
 		data: PropTypes.array,
 		onSelectionClear: PropTypes.func,
 		periods: PropTypes.array,
+		availablePeriodKeys: PropTypes.array,
 		name: PropTypes.string
 	};
 
@@ -47,7 +48,9 @@ class EsponFuoreChart extends React.PureComponent {
 
 		let data = props.data;
 		let filter = props.filter;
-		let singleValue = data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1 && props.periods && props.periods.length === 1;
+		let availablePeriods = null;
+
+		let singleValue = props.periods && props.periods.length === 1;
 		let attr = props.attribute && props.attribute.data;
 
 		/* Titles */
@@ -103,17 +106,27 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 
 		/* All data prepared? */
-		if (props.periods && data && data.length) {
-			if (singleValue) {
+		if (props.periods && props.periods.length && props.availablePeriodKeys && props.availablePeriodKeys.length) {
+			availablePeriods = _.filter(props.periods, (period) => {
+				return _.includes(props.availablePeriodKeys, period.key);
+			});
+
+			if (data && data.length) {
+				if (singleValue && data && data[0] && data[0].data && data[0].data.values && data[0].data.values.length === 1) {
+					loading = false;
+				} else {
+					_.forEach(data, (item) => {
+						let serie = item.data.values;
+						if (serie && serie.length >= availablePeriods.length) {
+							loading = false;
+							return false;
+						}
+					});
+				}
+			}
+
+			if (availablePeriods.length === 0) {
 				loading = false;
-			} else {
-				_.forEach(data, (item) => {
-					let serie = item.data.values;
-					if (serie && serie.length >= props.periods.length) {
-						loading = false;
-						return false;
-					}
-				});
 			}
 		}
 
@@ -125,7 +138,7 @@ class EsponFuoreChart extends React.PureComponent {
 				statusBar={filter && filter.name ? (this.renderLabel(filter.name)) : null}
 				loading={loading}
 			>
-				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data)}
+				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data, availablePeriods)}
 			</ChartWrapper>
 		);
 	}
@@ -153,9 +166,11 @@ class EsponFuoreChart extends React.PureComponent {
 		);
 	}
 
-	renderLineChart(data) {
+	renderLineChart(data, availablePeriods) {
+		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
+
 		return (
-			<LineChart
+			enoughPeriods ? (<LineChart
 				key={this.props.chartKey}
 				keySourcePath="key"
 				serieKeySourcePath="key"
@@ -180,7 +195,9 @@ class EsponFuoreChart extends React.PureComponent {
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
-			/>
+			/>) : (
+				<div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+			)
 		);
 	}
 
