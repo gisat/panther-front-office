@@ -242,6 +242,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if(instanceOfVector && layerStatistics) {
 				existingLayer.setAttributeStatistics(layerStatistics);
 			}
+
 		}
 	}
 
@@ -313,6 +314,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 						if(attributeFeatureData && nameData && nameData[key]) {
 							const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
 							nameProperty['_name'] = nameFeatureData.data.name;
+						} else {
+							console.warn("No attribute data found for feature", feature)
 						}
 
 						if(attributeFeatureData){

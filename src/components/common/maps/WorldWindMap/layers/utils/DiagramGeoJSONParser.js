@@ -2,7 +2,7 @@ import WorldWind from 'webworldwind-esa';
 import * as turf from '@turf/turf'
 import {getRadius, getRadiusNormalizationCoefficient} from './diagram'
 
-const {GeoJSONParser, GeoJSONConstants, GeoJSONGeometryCollection, GeoJSONFeature, ArgumentError, Logger} = WorldWind;
+const {GeoJSONParser, ArgumentError, Logger, SurfaceCircle, ShapeAttributes} = WorldWind;
 
 /**
  * Class extending WorldWind.GeoJSONParser. Parser expect GeoJSON polygon layer as input. 
@@ -33,7 +33,7 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 		this.normalizationCoefficient = 1;
 
 		if(this.normalized) {
-			this.normalizationCoefficient = getRadiusNormalizationCoefficient(this.statistics.max, this.normalizedMaxRadius, this.series);
+			this.normalizationCoefficient = getRadiusNormalizationCoefficient(this.normalizedMaxRadius, this.statistics.max, this.series);
 		}
 	};
 
@@ -49,20 +49,26 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 			value = this.fallbackRadius;
 		}
 
-		const radius = getRadius(value, this.series, this.normalizationCoefficient);
+		let radius = getRadius(value, this.series, this.normalizationCoefficient);
 
 		const attributes = new WorldWind.ShapeAttributes(null);
+
+		if(isNaN(radius)) {
+			radius = 0
+		}
 
 		const shape = new WorldWind.SurfaceCircle(location, radius, attributes);
 
 		if (configuration && configuration.userProperties) {
 			shape.userProperties = configuration.userProperties;
 		}
-		
+		//TODO - better scale for negative values 
 		//dont add shape to renderable for radius 0, it cause render error
-		if(radius){
-			layer.addRenderable(shape);
+		if(!radius){
+			shape.enabled = false;
 		}
+
+		layer.addRenderable(shape);
 	}
 
 	/**
@@ -103,4 +109,3 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 }
 
 export default DiagramGeoJSONParser;
-

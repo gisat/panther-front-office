@@ -16,12 +16,10 @@ export const getRadius = (value, series, coefficient = 1) => {
             radius = getCircleRadiusByVolume(value) * 100//m
             break;
     }
-    return radius / coefficient;
+    return radius * coefficient;
 }
 
 export const getRadiusNormalizationCoefficient = (maximumRadius, maximumValue, series) => {
     const maxValRadius = getRadius(maximumValue, series, 1);
-    if(maxValRadius > maximumRadius) {
-        return maxValRadius / maximumRadius;
-    }
+    return maximumRadius / maxValRadius;
 }

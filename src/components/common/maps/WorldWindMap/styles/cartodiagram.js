@@ -28,11 +28,15 @@ export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fil
     //create 5 classes
     return (renderable, layer) => {
 
-        if(renderable.radius) {
+        if(renderable.radius || renderable.radius === 0) {
             //recalculate radius
             const value = renderable.userProperties[attributeDataKey];
             const radius = getRadius(value, series, normalizationCoefficient);
             renderable.radius = radius;
+
+            if(radius && !renderable.enabled) {
+                renderable.enabled = true;
+            }
 
             //circle style
             const attributes = new ShapeAttributes();
