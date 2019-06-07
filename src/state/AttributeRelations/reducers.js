@@ -19,6 +19,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.registerUseIndexed(state, action);
 		case ActionTypes.ATTRIBUTE_RELATIONS.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
+		case ActionTypes.ATTRIBUTE_RELATIONS.USE.INDEXED.CLEAR_ALL:
+			return common.useIndexedClearAll(state, action);
 		default:
 			return state;
 	}

@@ -161,7 +161,8 @@ export const commonActionTypesDefinitions = {
 	},
 
 	CHARTS: {
-		UPDATE: null
+		UPDATE: null,
+		SET_INITIAL: null
 	},
 
 	DATAVIEWS_REMOVE: 'DATAVIEWS_REMOVE',
@@ -654,6 +655,7 @@ export const commonActionTypesDefinitions = {
 		USE: {
 			INDEXED: {
 				CLEAR: null,
+				CLEAR_ALL: null,
 				REGISTER: null
 			}
 		}
