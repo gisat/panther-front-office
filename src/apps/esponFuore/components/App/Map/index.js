@@ -55,7 +55,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
-		if(value && value.length & value.length > 0) {
+		if(value && value.length && value.length > 0) {
 			const layersData = value.map((l) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};

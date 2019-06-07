@@ -48,31 +48,28 @@ export default (path, baseUrl) => {
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
-	//applyLayerTree
-	Store.dispatch(Action.layersTrees.useIndexed({application: true}, null, null, 1, 1000, componentId)).then(() => {
-		//add visible layers
+	//add visible layers
 
-		ReactDOM.render(
-			<>
-				<Favicon url={favicon}/>
-				<Provider store={Store}>
-					<AppContext.Provider value={{windowSetKey: WINDOW_SET_KEY, mapSetKey: MAP_SET_KEY}}>
-						<Helmet
-							titleTemplate="%s | ESPON FUORE"
-							defaultTitle="ESPON FUORE"
-						/>
-						<AppContainer>
-							<ConnectedRouter history={history}>
-								<>
-									<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
-									<Route component={App} />
-								</>
-							</ConnectedRouter>
-						</AppContainer>
-					</AppContext.Provider>
-				</Provider>
-			</>, document.getElementById('ptr')
-		);
-	})
+	ReactDOM.render(
+		<>
+			<Favicon url={favicon}/>
+			<Provider store={Store}>
+				<AppContext.Provider value={{windowSetKey: WINDOW_SET_KEY, mapSetKey: MAP_SET_KEY}}>
+					<Helmet
+						titleTemplate="%s | ESPON FUORE"
+						defaultTitle="ESPON FUORE"
+					/>
+					<AppContainer>
+						<ConnectedRouter history={history}>
+							<>
+								<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
+								<Route component={App} />
+							</>
+						</ConnectedRouter>
+					</AppContainer>
+				</AppContext.Provider>
+			</Provider>
+		</>, document.getElementById('ptr')
+	);
 
 }

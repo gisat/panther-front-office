@@ -13,6 +13,7 @@ import { quartilePercentiles } from '../../utils/statistics';
 // ============ creators ===========
 const useIndexedRegister = (componentId, filterByActive, filter, order, start, length) => common.useIndexedRegister(ActionTypes.ATTRIBUTE_RELATIONS, componentId, filterByActive, filter, order, start, length);
 const useIndexed = common.useIndexed(Select.attributeRelations.getSubstate, 'attribute', ActionTypes.ATTRIBUTE_RELATIONS, 'relations');
+const useIndexedClearAll = common.useIndexedClearAll(ActionTypes.ATTRIBUTE_RELATIONS);
 const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Select.attributeRelations.getSubstate, 'attribute', filter, order, start, length, ActionTypes.ATTRIBUTE_RELATIONS, 'relations');
 
 // ============ actions ===========
@@ -81,6 +82,9 @@ function ensureIndexesWithFilterByActive(filterByActive) {
         let state = getState();
         let usedIndexes = commonSelectors.getUsesWithActiveDependency(Select.attributeRelations.getSubstate)(state, filterByActive);
 
+        console.log("**** FilterByActive", filterByActive);
+		console.log("**** Used indexes", usedIndexes);
+
         // TODO pass componentId
         _.each(usedIndexes, (usedIndex) => {
             _.each(usedIndex.uses, (use) => {
@@ -97,6 +101,7 @@ function ensureIndexesWithFilterByActive(filterByActive) {
 
 export default {
 	useIndexed,
+	useIndexedClearAll,
     useIndexedRegister,
     ensureIndexed,
     ensureIndexesWithFilterByActive,
