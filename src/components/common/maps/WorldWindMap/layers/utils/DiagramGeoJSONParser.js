@@ -58,8 +58,11 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 		if (configuration && configuration.userProperties) {
 			shape.userProperties = configuration.userProperties;
 		}
-			
-		layer.addRenderable(shape);
+		
+		//dont add shape to renderable for radius 0, it cause render error
+		if(radius){
+			layer.addRenderable(shape);
+		}
 	}
 
 	/**
