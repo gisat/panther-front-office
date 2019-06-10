@@ -26,18 +26,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.scopes.useIndexed({application: true}, null, order, 1, 100, componentId));
 			},
 			onScopeSelect: (scopeKey) => {
-				dispatch(Action.attributeRelations.useIndexedClearAll());
-				dispatch(Action.charts.setInitial());
-
 				dispatch(Action.scopes.setActiveKey(scopeKey));
-				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false));
-				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', true));
-				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', null));
-				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', null));
-				dispatch(Action.attributes.setActiveKey(null));
-				dispatch(Action.periods.setActiveKeys(null));
-				dispatch(Action.views.setActiveKeys(null));
-				dispatch(Action.selections.clearActiveSelection());
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));

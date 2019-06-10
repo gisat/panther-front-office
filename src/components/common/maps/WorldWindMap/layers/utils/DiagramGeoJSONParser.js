@@ -1,8 +1,10 @@
 import WorldWind from 'webworldwind-esa';
 import * as turf from '@turf/turf'
-import {getRadius, getRadiusNormalizationCoefficient} from './diagram'
+import {getRadius} from './diagram'
+import {rangeMap} from '../../../../../../utils/statistics';
+import {MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../styles/cartodiagram';
 
-const {GeoJSONParser, GeoJSONConstants, GeoJSONGeometryCollection, GeoJSONFeature, ArgumentError, Logger} = WorldWind;
+const {GeoJSONParser, ArgumentError, Logger, SurfaceCircle, ShapeAttributes} = WorldWind;
 
 /**
  * Class extending WorldWind.GeoJSONParser. Parser expect GeoJSON polygon layer as input. 
@@ -21,7 +23,7 @@ const {GeoJSONParser, GeoJSONConstants, GeoJSONGeometryCollection, GeoJSONFeatur
  */
 class DiagramGeoJSONParser extends GeoJSONParser {
 	
-	constructor(GeoJSONData, metadata, series = 'volume', normalized = true, normalizedMaxRadius = 100000, statistics = {}) {
+	constructor(GeoJSONData, metadata, series = 'volume', normalized = true, normalizedMaxRadius = MAX_DIAGRAM_RADIUS, normalizedMinRadius = MIN_DIAGRAM_RADIUS, statistics = {}) {
 		super(GeoJSONData);
 
 		this.layerMetadata = metadata;
@@ -29,12 +31,9 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 		this.series = series;
 		this.normalized = normalized;
 		this.normalizedMaxRadius = normalizedMaxRadius;
+		this.normalizedMinRadius = normalizedMinRadius;
 		this.statistics = statistics;
-		this.normalizationCoefficient = 1;
-
-		if(this.normalized) {
-			this.normalizationCoefficient = getRadiusNormalizationCoefficient(this.statistics.max, this.normalizedMaxRadius, this.series);
-		}
+		this.normalizationCallback = this.normalized ? rangeMap([getRadius(statistics.min, this.series), getRadius(statistics.max, this.series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
 	};
 
 	addRenderablesDiagram(layer, geometry, properties) {
@@ -49,16 +48,26 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 			value = this.fallbackRadius;
 		}
 
-		const radius = getRadius(value, this.series, this.normalizationCoefficient);
+		let radius = getRadius(value, this.series, this.normalizationCallback);
 
 		const attributes = new WorldWind.ShapeAttributes(null);
+
+		if(isNaN(radius)) {
+			//TODO - test on no data
+			radius = 0
+		}
 
 		const shape = new WorldWind.SurfaceCircle(location, radius, attributes);
 
 		if (configuration && configuration.userProperties) {
 			shape.userProperties = configuration.userProperties;
 		}
-			
+		//TODO - better scale for negative values 
+		//dont add shape to renderable for radius 0, it cause render error
+		if(!radius){
+			shape.enabled = false;
+		}
+
 		layer.addRenderable(shape);
 	}
 
@@ -100,4 +109,3 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 }
 
 export default DiagramGeoJSONParser;
-

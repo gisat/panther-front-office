@@ -1,6 +1,8 @@
 import WorldWind from 'webworldwind-esa';
 import diagramGeoJSONParser from './utils/DiagramGeoJSONParser'
-import VectorLayer from './VectorLayer'
+import VectorLayer from './VectorLayer';
+import {MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../styles/cartodiagram';
+
 
 /**
  * Class extending WorldWind.WmsLayer.
@@ -31,7 +33,7 @@ class CartodiagramVectorLayer extends VectorLayer {
 		}
 
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
-		const diagramParser = new diagramGeoJSONParser(renderablesData, metadata, 'volume', true, 80000, this.attributeStatistics);
+		const diagramParser = new diagramGeoJSONParser(renderablesData, metadata, 'volume', true, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS, this.attributeStatistics);
 
 		const shapeConfigurationCallback = (geometry, properties) => {
 			//add properties to renderable

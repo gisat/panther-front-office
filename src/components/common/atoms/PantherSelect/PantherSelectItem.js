@@ -63,7 +63,7 @@ class PantherSelectItem extends React.PureComponent {
 			<div
 				className={classes}
 				style={this.props.style}
-				onClick={this.onClick}
+				onMouseDown={this.onClick}
 			>
 				{this.props.children}
 			</div>

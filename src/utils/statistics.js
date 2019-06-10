@@ -129,3 +129,12 @@ export const setClassesMinMaxFromStatistics = (classes = [], statistics) => {
     modified[classes.length - 1] = statistics.max;
     return modified;
 }
+
+// rangeMap :: (Num, Num) -> (Num, Num) -> Num -> Num
+export const rangeMap = (a, b) => s => {
+    const [a1, a2] = a;
+    const [b1, b2] = b;
+    // Scaling up an order, and then down, to bypass a potential,
+    // precision issue with negative numbers.
+    return (((((b2 - b1) * (s - a1)) / (a2 - a1)) * 10) + (10 * b1)) / 10;
+  };

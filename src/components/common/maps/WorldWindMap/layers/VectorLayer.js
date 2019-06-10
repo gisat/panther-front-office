@@ -1,5 +1,4 @@
 import WorldWind from 'webworldwind-esa';
-import diagramGeoJSONParser from './utils/DiagramGeoJSONParser'
 import {isEqual} from 'lodash';
 const {RenderableLayer} = WorldWind;
 
