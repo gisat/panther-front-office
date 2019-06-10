@@ -73,11 +73,13 @@
 	flex-direction: column;
 }
 .tacrGeoinvaze-case-select-content-content > div {
-	flex-basis: 50%;
+	//flex-basis: 50%;
 }
 .tacrGeoinvaze-case-select-content-info {
 	padding: 2rem;
+	flex: 0 10rem;
 }
 .tacrGeoinvaze-case-select-cases {
+	flex: 1;
 	background-color: var(--accent30);
 }
