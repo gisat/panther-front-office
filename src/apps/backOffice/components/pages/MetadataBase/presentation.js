@@ -8,6 +8,7 @@ import utils from '../../../../../utils/sort';
 
 /* Base types */
 import AttributesList from "../../lists/AttributesList";
+import CasesList from "../../lists/CasesList";
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
 import PeriodsList from "../../lists/PeriodsList";
 import PlacesList from "../../lists/PlacesList";
@@ -71,6 +72,7 @@ class MetadataBase extends React.PureComponent {
 
 		let baseDataTypes = [
 			{key: 'attributes', title: t('metadata.names.attribute_plural'), component: AttributesList},
+			{key: 'cases', title: t('metadata.names.case_plural'), component: CasesList},
 			{key: 'layerTemplates', title: t('metadata.names.layerTemplate_plural'), component: LayerTemplatesList},
 			{key: 'periods', title: t('metadata.names.period_plural'), component: PeriodsList},
 			{key: 'places', title: t('metadata.names.place_plural'), component: PlacesList},

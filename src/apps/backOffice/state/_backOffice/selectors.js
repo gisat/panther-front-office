@@ -86,6 +86,9 @@ export default {
 	attributes: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.attributes.getSubstate)
 	},
+	cases: {
+		getAllForActiveApp: getAllForActiveApp(commonSelect.cases.getSubstate)
+	},
 	layerTemplates: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.layerTemplates.getSubstate),
 		getAllWithOutdatedForActiveApp: getAllWithOutdatedForActiveApp(commonSelect.layerTemplates.getSubstate),

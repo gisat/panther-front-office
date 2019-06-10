@@ -7,6 +7,7 @@ import AttributeRelations from './AttributeRelations/actions';
 import AttributeDataSources from './AttributeDataSources/actions';
 import AttributeData from './AttributeData/actions';
 import AttributeSets from './AttributeSets/actions';
+import Cases from './Cases/actions';
 import Charts from './Charts/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
@@ -42,6 +43,7 @@ export default {
 	attributeRelations: AttributeRelations,
 	attributeStatistics: AttributeStatistics,
 	attributeSets: AttributeSets,
+	cases: Cases,
 	charts: Charts,
 	components: Components,
 	layerTemplates: LayerTemplates,
