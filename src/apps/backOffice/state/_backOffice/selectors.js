@@ -8,7 +8,7 @@ import esponFuoreIndicators from "../../../esponFuore/state/EsponFuoreIndicators
 
 const activeAppKey = state => state.specific.apps.activeKey;
 
-const getAllForActiveApp = (getSubstate) => {
+export const getAllForActiveApp = (getSubstate) => {
 	return createSelector(
 		[commonSelectors.getAllAsObject(getSubstate), commonSelectors.getIndexes(getSubstate), activeAppKey, (state, order) => order],
 		(models, indexes, activeAppKey, order) => {

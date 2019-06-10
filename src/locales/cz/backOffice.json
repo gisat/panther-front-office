@@ -39,6 +39,8 @@
 		"names": {
 			"scope": "Rámec",
 			"scope_plural": "Rámce",
+			"configuration": "Konfigurace",
+			"configuration_plural": "Konfigurace",
 			"layerTrees": "Stromy vrstev"
 		}
 	}

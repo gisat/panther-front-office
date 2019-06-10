@@ -41,6 +41,26 @@ export default (state = INITIAL_STATE, action) => {
 			return common.dataSetOutdated(state, action);
 		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
 			return common.cleanupOnLogout(state, action);
+
+		case ActionTypes.CONFIGURATIONS.DELETE:
+			return common.remove(state, action);
+		case ActionTypes.CONFIGURATIONS.EDITED.REMOVE:
+			return common.removeEdited(state, action);
+		case ActionTypes.CONFIGURATIONS.EDITED.REMOVE_PROPERTY:
+			return common.removeEditedProperty(state, action);
+		case ActionTypes.CONFIGURATIONS.EDITED.UPDATE:
+			return common.updateEdited(state, action);
+
+		case ActionTypes.CONFIGURATIONS.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
+		case ActionTypes.CONFIGURATIONS.INDEX.CLEAR_INDEX:
+			return common.clearIndex(state, action);
+		case ActionTypes.CONFIGURATIONS.MARK_DELETED:
+			return common.markDeleted(state, action);
+			
+		case ActionTypes.COMMON.EDITED.REMOVE_PROPERTY_VALUES:
+			return common.removeEditedPropertyValues(state, action);
+			
 		default:
 			return state;
 	}

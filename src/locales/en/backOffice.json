@@ -39,6 +39,8 @@
 		"names": {
 			"scope": "Scope",
 			"scope_plural": "Scopes",
+			"configuration": "Configuration",
+			"configuration_plural": "Configurations",
 			"layerTrees": "Layer trees"
 		}
 	}

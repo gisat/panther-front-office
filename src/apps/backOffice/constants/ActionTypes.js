@@ -5,6 +5,11 @@ export const backOfficeActionTypesDefinitions = {
 	APPS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		EDITED: {
+			REMOVE: null,
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
 		ENSURE: {
 			ERROR: null
 		},
@@ -34,12 +39,20 @@ export const backOfficeActionTypesDefinitions = {
 	CONFIGURATIONS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		DELETE: null,
+		MARK_DELETED: null,
+		EDITED: {
+			REMOVE: null,
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
 		ENSURE: {
 			ERROR: null
 		},
 		INDEX: {
 			ADD: null,
-			CLEAR_ALL: null
+			CLEAR_ALL: null,
+			CLEAR_INDEX: null,
 		},
 		LOAD: {
 			ERROR: null,
@@ -47,7 +60,6 @@ export const backOfficeActionTypesDefinitions = {
 		},
 		SET_ACTIVE_KEY: null,
 		SET_ACTIVE_KEYS: null,
-		SET_MANAGED: null,
 		USE: {
 			INDEXED: {
 				CLEAR: null,
@@ -55,6 +67,9 @@ export const backOfficeActionTypesDefinitions = {
 			},
 			KEYS: {
 				CLEAR: null,
+				REGISTER: null
+			},
+			INDEXED_BATCH: {
 				REGISTER: null
 			}
 		}
