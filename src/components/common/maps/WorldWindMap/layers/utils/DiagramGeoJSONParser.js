@@ -1,6 +1,8 @@
 import WorldWind from 'webworldwind-esa';
 import * as turf from '@turf/turf'
-import {getRadius, getRadiusNormalizationCoefficient} from './diagram'
+import {getRadius} from './diagram'
+import {rangeMap} from '../../../../../../utils/statistics';
+import {MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../styles/cartodiagram';
 
 const {GeoJSONParser, ArgumentError, Logger, SurfaceCircle, ShapeAttributes} = WorldWind;
 
@@ -21,7 +23,7 @@ const {GeoJSONParser, ArgumentError, Logger, SurfaceCircle, ShapeAttributes} = W
  */
 class DiagramGeoJSONParser extends GeoJSONParser {
 	
-	constructor(GeoJSONData, metadata, series = 'volume', normalized = true, normalizedMaxRadius = 100000, statistics = {}) {
+	constructor(GeoJSONData, metadata, series = 'volume', normalized = true, normalizedMaxRadius = MAX_DIAGRAM_RADIUS, normalizedMinRadius = MIN_DIAGRAM_RADIUS, statistics = {}) {
 		super(GeoJSONData);
 
 		this.layerMetadata = metadata;
@@ -29,12 +31,9 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 		this.series = series;
 		this.normalized = normalized;
 		this.normalizedMaxRadius = normalizedMaxRadius;
+		this.normalizedMinRadius = normalizedMinRadius;
 		this.statistics = statistics;
-		this.normalizationCoefficient = 1;
-
-		if(this.normalized) {
-			this.normalizationCoefficient = getRadiusNormalizationCoefficient(this.normalizedMaxRadius, this.statistics.max, this.series);
-		}
+		this.normalizationCallback = this.normalized ? rangeMap([getRadius(statistics.min, this.series), getRadius(statistics.max, this.series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
 	};
 
 	addRenderablesDiagram(layer, geometry, properties) {
@@ -49,11 +48,12 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 			value = this.fallbackRadius;
 		}
 
-		let radius = getRadius(value, this.series, this.normalizationCoefficient);
+		let radius = getRadius(value, this.series, this.normalizationCallback);
 
 		const attributes = new WorldWind.ShapeAttributes(null);
 
 		if(isNaN(radius)) {
+			//TODO - test on no data
 			radius = 0
 		}
 

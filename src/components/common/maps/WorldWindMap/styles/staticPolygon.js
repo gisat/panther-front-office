@@ -1,6 +1,6 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
-import {getRadius, getRadiusNormalizationCoefficient} from '../layers/utils/diagram'
+
 import {
     DEFAULTFILLTRANSPARENCY,
     getOutlineColor,

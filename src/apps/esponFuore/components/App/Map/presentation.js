@@ -4,7 +4,7 @@ import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getCartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartogram';
-import {getCartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
+import {getCartodiagramStyleFunction, MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/WorldWindMap/styles/colors'
@@ -259,7 +259,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 				if(metadata.dataType === 'relative') {
 					existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey));
 				} else if(metadata.dataType === 'absolute') {
-					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey, 'volume', true, 80000));
+					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey, 'volume', true, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS));
 				}
 			}
 		}
