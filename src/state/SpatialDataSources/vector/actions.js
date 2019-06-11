@@ -278,7 +278,7 @@ function updateFeatures(dataSourceKey, featureKeys) { //todo
 function loadLayerData(filter, componentId) {
 	return (dispatch, getState) => {
 		let additionalParams = {};
-		let appConfig = Select.app.getConfiguration(getState());
+		let appConfig = Select.app.getLocalConfiguration(getState());
 
 		if (appConfig && appConfig.geometriesAccuracy) {
 			additionalParams.transformation = {

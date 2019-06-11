@@ -28,7 +28,7 @@ export default (path, baseUrl) => {
 
 	Store.dispatch(Action.app.setKey('tacrGeoinvaze'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
-	Store.dispatch(Action.app.setConfiguration({
+	Store.dispatch(Action.app.setLocalConfiguration({
 		geometriesAccuracy: 0.001
 	}));
 

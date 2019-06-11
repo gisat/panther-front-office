@@ -23,9 +23,9 @@ const setBaseUrl = (state, action) => {
 	};
 };
 
-const setConfiguration = (state, action) => {
+const setLocalConfiguration = (state, action) => {
 	return {
-		...state, configuration: action.configuration
+		...state, localConfiguration: action.localConfiguration
 	};
 };
 
@@ -35,8 +35,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setBaseUrl(state, action);
 		case ActionTypes.APP.SET_KEY:
 			return setKey(state, action);
-		case ActionTypes.APP.SET_CONFIGURATION:
-			return setConfiguration(state, action);
+		case ActionTypes.APP.SET_LOCAL_CONFIGURATION:
+			return setLocalConfiguration(state, action);
 		default:
 			return state;
 	}

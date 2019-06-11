@@ -15,7 +15,7 @@ export const commonActionTypesDefinitions = {
 	APP: {
 		SET_KEY: null,
 		SET_BASE_URL: null,
-		SET_CONFIGURATION: null
+		SET_LOCAL_CONFIGURATION: null
 	},
 
 	AREAS: {
