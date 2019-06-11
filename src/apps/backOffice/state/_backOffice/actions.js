@@ -38,6 +38,10 @@ export default {
 		create: create(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES),
 		useIndexed: useIndexed(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES)
 	},
+	cases: {
+		create: create(Select.cases.getSubstate, 'cases', ActionTypes.CASES),
+		useIndexed: useIndexed(Select.cases.getSubstate, 'cases', ActionTypes.CASES)
+	},
 	layerTemplates: {
 		create: create(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES),
 		useIndexed: useIndexed(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES)
