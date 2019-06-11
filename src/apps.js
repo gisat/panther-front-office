@@ -100,6 +100,20 @@ export default [
 			module.default(path, baseUrl);
 		})
 	},
+	/**
+	 * UN SEEA demonstration
+	 * 2019-06
+	 */
+	{
+		key: 'un_seea',
+		configuration: {},
+		hostname: 'fuore.eu',
+		path: null,
+		devPath: '/unSeea',
+		app: (path, baseUrl) => import(/* webpackChunkName: "un_seea" */'./apps/un_seea').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
 
 	// =============== TESTING ===============
 
