@@ -24,10 +24,19 @@ const setBaseUrl = (state, action) => {
 };
 
 const setLocalConfiguration = (state, action) => {
-	return {
-		...state, localConfiguration: action.localConfiguration
-	};
+	let path = action.path.split('.');
+	return {...state, localConfiguration: setHelper(state.localConfiguration, path, action.value)};
 };
+
+function setHelper(state, path, value) {
+	let remainingPath = [...path];
+	let currentKey = remainingPath.shift();
+	if (remainingPath.length) {
+		return {...state, [currentKey]: setHelper(state[currentKey], remainingPath, value)};
+	} else {
+		return {...state, [currentKey]: value};
+	}
+}
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {

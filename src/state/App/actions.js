@@ -15,10 +15,11 @@ const actionSetBaseUrl = (url) => {
 		url
 	}
 };
-const actionSetLocalConfiguration = (localConfiguration) => {
+const actionSetLocalConfiguration = (path, value) => {
 	return {
 		type: ActionTypes.APP.SET_LOCAL_CONFIGURATION,
-		localConfiguration
+		path,
+		value
 	}
 };
 
