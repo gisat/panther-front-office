@@ -48,6 +48,9 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.spatialDataSources.add(spatialDataSourcesCfg));
 	Store.dispatch(Action.spatialDataSources.vector.addBatch(boundariesSpatialData, 'spatialDataSourceKey'));
 	
+	//set charts
+	Store.dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
+
 	const spatialdataindexFilter = {
 		"spatialDataSourceKey": "un_seea_boundaries",
 	};

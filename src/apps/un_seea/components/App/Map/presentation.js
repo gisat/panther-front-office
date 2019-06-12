@@ -364,9 +364,6 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 	// TODO refactor
 	onHover(renderables, x, y, showPopup = true, mapKey) {
-		//TODO
-		console.log(renderables, mapKey);
-		
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
 		if (this.state.thematicLayers) {
 			this.state.thematicLayers.forEach(layer => {
@@ -403,7 +400,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		if (features && features.length) {
 			let content = [];
 			features.forEach((feature) => {
-				let unit = 'Country';
+				let unit = 'Boroughs';
 				let name = _.get(feature, '_name');
 				let value = _.get(feature, 'name');
 				let spatialId = _.get(feature, spatialIdSource);

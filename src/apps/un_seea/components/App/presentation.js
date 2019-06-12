@@ -13,6 +13,10 @@ import MapTools from "../../../../components/common/maps/MapTools";
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 
+import ChartSet from '../../../../components/common/charts/ChartSet';
+import UnSeeaCharts from "./Charts/UnSeeaCharts";
+
+
 
 import AppContext from '../../context';
 
@@ -75,12 +79,11 @@ class App extends React.PureComponent {
 											minWidth: "20rem",
 											maxWidth: "35rem",
 											render: props => (
-												<div
-												key="22">
-													<h3>
-														content
-													</h3>
-												</div>
+												<ChartSet
+													setKey="unSeeaCharts"
+												>
+													<UnSeeaCharts/>
+												</ChartSet>
 												)
 										},
 									]}

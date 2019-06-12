@@ -4,8 +4,8 @@ const view = {
         "state": {
             "maps": {
                 "maps": {
-                    "2015": {
-                        "key": "2015",
+                    "un_seea": {
+                        "key": "un_seea",
                         "data": {
                         "layers": [
                             {
@@ -33,16 +33,36 @@ const view = {
                                 heading: 0                    
                             }
                         },
-                        "maps": ["2015"],
+                        "maps": ["un_seea"],
                         "sync": {
                             "range": true,
                             "location": true
                         }
                     }
                 },
-                "activeMapKey": "2015",
+                "activeMapKey": "un_seea",
                 "activeSetKey": "un_seea_mapset"
-            }
+            },
+            "charts": {
+                "sets": {
+                  "unSeeaCharts": {
+                    "key": "unSeeaCharts",
+                    "charts": [
+                      "progressChart"
+                    ]
+                  }
+                },
+                "charts": {
+                  "progressChart": {
+                    "key": "progressChart",
+                    "data": {
+                      "title": "Progress",
+                      "periods": [],
+                      "layerTemplate": "05d3b3c9-f327-46ed-93d2-949cbac72a83"
+                    }
+                  }
+                }
+              },
         }
     }
 }
