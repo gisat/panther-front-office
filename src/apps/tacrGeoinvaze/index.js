@@ -48,7 +48,7 @@ export default (path, baseUrl) => {
 				<AppContainer>
 					<ConnectedRouter history={history}>
 						<>
-							<Route component={App} />
+							<Route path={path + "/:caseKey?/:layerTemplateKey?/:periodKey?"} component={App} />
 						</>
 					</ConnectedRouter>
 				</AppContainer>
