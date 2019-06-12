@@ -10,6 +10,7 @@ import navigator from './navigator/helpers';
 
 import Attribution from './Attribution/Attribution';
 import CyclicPickController from '../../../../utils/worldwind/CyclicPickController';
+import ClickPickController from '../../../../utils/worldwind/ClickPickController';
 
 import './style.scss'
 
@@ -27,6 +28,7 @@ class WorldWindMap extends React.PureComponent {
 		onWorldWindNavigatorChange: PropTypes.func,
 		onHover: PropTypes.func,
 		onHoverOut: PropTypes.func,
+		onClick: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
 		loadLayerData: PropTypes.func,
@@ -48,6 +50,8 @@ class WorldWindMap extends React.PureComponent {
 		this.wwd.worldWindowController.onNavigatorChanged = this.onNavigatorChange.bind(this);
 
 		this.pickController = new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.handleHover.bind(this));
+
+		this.clickController = new ClickPickController(this.wwd, this.handleClick.bind(this));
 
 		if (this.props.navigator){
 			navigator.update(this.wwd, this.props.navigator);
@@ -151,6 +155,10 @@ class WorldWindMap extends React.PureComponent {
 		} else if (this.props.onHoverOut) {
 			this.props.onHoverOut();
 		}
+	}
+
+	handleClick(renderables, e) {
+		this.props.onClick(renderables, e.clientX, e.clientY, this.props.mapKey);
 	}
 
 	render() {

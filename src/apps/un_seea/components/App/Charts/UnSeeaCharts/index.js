@@ -19,6 +19,9 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 	let chartCfg = {};
 
 	return (state) => {
+		let selectedFeatures = Select.selections.getActive(state);
+		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
+
 		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey, useActiveMetadataKeys);
 		let activeFilter = Select.selections.getActive(state);
 		let activeScope = Select.scopes.getActive(state);
@@ -99,6 +102,7 @@ console.log(layersVectorData);
 		return {
 			// attribute: Select.attributes.getActive(state),
 			data: data,
+			selectedArea: selectedAreas[0]
 			// nameData: namesForChart,
 			// filter: activeFilter && activeFilter.data,
 			// periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),

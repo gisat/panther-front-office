@@ -21,6 +21,8 @@ const mapStateToProps = (state, props) => {
 	let chartCfg = {};
 
 	return (state) => {
+		let selectedFeatures = Select.selections.getActive(state);
+		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
@@ -136,6 +138,7 @@ const mapStateToProps = (state, props) => {
 			label: label || null,
 			// nameData: vectorLayersNames,
 			nameData: null,
+			selectedItems: selectedAreas,
 		}
 	}
 };
@@ -155,6 +158,13 @@ const mapDispatchToProps = (dispatch, props) => {
 		setActiveMapKey: () => {
 			dispatch(Action.maps.setActiveMapKey(props.mapKey));
 		},
+
+		setSelected: (keys) => {
+			//prevent deselect
+			if(keys && keys.length > 0) {
+				dispatch(Action.selections.updateActiveSelection('name', keys, []));
+			}
+		} 
 	}
 };
 

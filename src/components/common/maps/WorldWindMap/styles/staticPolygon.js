@@ -30,6 +30,9 @@ export const getStaticPolygonStyleFunction = (fillColor, fillTransparency, outli
         if(renderable.filtered === true) {
             attributes.interiorColor = Color.colorFromByteArray(filteredPalette.lighterTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
+        } else if (renderable.selected) {
+            attributes.interiorColor = Color.colorFromByteArray([0,255,0,255]);
+            attributes.outlineColor = Color.colorFromByteArray([0,255,0,255]);    
         } else if (renderable.hovered) {
             attributes.interiorColor = Color.colorFromByteArray(hoverPalette.lighterTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(hoverPalette.colorTransparentRgba);    

@@ -51,6 +51,9 @@ export default (path, baseUrl) => {
 	//set charts
 	Store.dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
 
+	//set selected area
+	Store.dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
+
 	const spatialdataindexFilter = {
 		"spatialDataSourceKey": "un_seea_boundaries",
 	};

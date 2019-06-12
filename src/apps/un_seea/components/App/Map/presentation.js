@@ -36,6 +36,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		mapKey: PropTypes.string,
 		onWorldWindNavigatorChange: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
+		setSelected: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
 	};
 
@@ -44,6 +45,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 		this.setRerenderer = this.setRerenderer.bind(this);
 		this.onHover = this.onHover.bind(this);
+		this.onMapClick = this.onMapClick.bind(this);
 		this.onHoverOut = this.onHoverOut.bind(this);
 
 		this.wwdRerenderer = null;
@@ -62,6 +64,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 			const layers = this.props.layers || [];
 			thematicLayers = this.handleLayers(layers, this.props.layersMetadata);
 		}
+
+		if(this.props.selectedItems) {
+			//filter vector layers
+			this.setSelectedItems(thematicLayers, this.props.selectedItems);
+		}
+
 
 
 		//check if new data comes
@@ -147,6 +155,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 				//filter vector layers
 				const layers = this.props.layers || [];
 				this.setFilterVectorLayers(this.props.activeFilter, layers, [...this.state.backgroundLayers, ...this.state.thematicLayers]);
+			}
+
+			if(!isEqual(this.props.selectedItems, prevProps.selectedItems)) {
+				//filter vector layers
+				this.setSelectedItems(this.state.thematicLayers, this.props.selectedItems);
 			}
 
 			// if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
@@ -362,6 +375,30 @@ class FuoreWorldWindMap extends React.PureComponent {
 		})
 	}
 
+	setSelectedItems(layers, areas) {
+		layers.forEach(layer => {
+			let existingLayer = layersHelper.findLayerByKey(layers, layer.key);
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
+			if(instanceOfVector) {
+				existingLayer.setSelected(areas);
+			}
+		})
+	}
+
+	onMapClick(renderables, x, y, mapKey) {
+
+		let features = renderables.map(renderable => renderable.userObject.userProperties);
+		const keySource = 'gid';
+		let keys = features.map(feature => feature[keySource]);
+		const action = {};
+		//add renderable to selected features
+		// this.context.onSelect(keys, action);
+		//dispatch action
+		//add color
+		this.props.setSelected(keys);
+
+	}
+
 	// TODO refactor
 	onHover(renderables, x, y, showPopup = true, mapKey) {
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
@@ -430,7 +467,15 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer} onHover={this.onHover} onHoverOut={this.onHoverOut} />);
+		return (<WorldWindMap
+			{...this.props} 
+			layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
+			label={this.props.label}
+			rerendererSetter={this.setRerenderer}
+			onHover={this.onHover}
+			onHoverOut={this.onHoverOut}
+			onClick={this.onMapClick}
+			/>);
 
 	}
 }
