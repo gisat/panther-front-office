@@ -105,12 +105,12 @@ export default [
 	 * 2019-06
 	 */
 	{
-		key: 'un_seea',
+		key: 'unSeea',
 		configuration: {},
 		hostname: 'https://urban-tep.eu/unseea',
 		path: null,
 		devPath: '/unSeea',
-		app: (path, baseUrl) => import(/* webpackChunkName: "un_seea" */'./apps/un_seea').then(module => {
+		app: (path, baseUrl) => import(/* webpackChunkName: "unSeea" */'./apps/unSeea').then(module => {
 			module.default(path, baseUrl);
 		})
 	},

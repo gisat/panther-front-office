@@ -93,6 +93,7 @@ class ChartPanel extends React.PureComponent {
 									radials={{
 										captions: true
 									}}
+									forceMinimum={0}
 									legend
 								/>
 							</ChartWrapper> : 
@@ -137,6 +138,7 @@ class ChartPanel extends React.PureComponent {
 										captions: true
 									}}
 									legend
+									forceMinimum={0}
 								/>
 							</ChartWrapper>
 						</div>
