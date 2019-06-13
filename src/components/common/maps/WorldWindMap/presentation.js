@@ -51,7 +51,9 @@ class WorldWindMap extends React.PureComponent {
 
 		this.pickController = new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.handleHover.bind(this));
 
-		this.clickController = new ClickPickController(this.wwd, this.handleClick.bind(this));
+		if(this.props.onClick) {
+			this.clickController = new ClickPickController(this.wwd, this.handleClick.bind(this));
+		}
 
 		if (this.props.navigator){
 			navigator.update(this.wwd, this.props.navigator);
