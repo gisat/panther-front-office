@@ -83,7 +83,7 @@ class EsponFuoreChart extends React.PureComponent {
 		
 		let selectedAreaData;
 		if (this.props.selectedArea) {
-			selectedAreaData = data.find((d) => d.gid === this.props.selectedArea[0])
+			selectedAreaData = data.find((d) => d.gid === this.props.selectedArea);
 		}
 
 		let hoverAsterData;
