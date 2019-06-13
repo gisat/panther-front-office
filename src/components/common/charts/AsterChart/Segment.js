@@ -31,6 +31,7 @@ class Segment extends React.PureComponent {
 
 		nameSourcePath: PropTypes.string,
 		valueSourcePath: PropTypes.string,
+		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by dafault same like value. Used in relative.
 		data: PropTypes.object,
 		siblings: PropTypes.array
 	};
@@ -161,7 +162,7 @@ class Segment extends React.PureComponent {
 		let content = <div>No data</div>;
 		if (this.props.data) {
 			content = (
-				<div><i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i> {`${_.get(this.props.data, this.props.valueSourcePath).toLocaleString()}`}</div>
+				<div><i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i> {`${_.get(this.props.data, this.props.hoverValueSourcePath).toLocaleString()}`}</div>
 			);
 		}
 

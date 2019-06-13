@@ -40,6 +40,7 @@ class AsterChart extends React.PureComponent {
 		keySourcePath: PropTypes.string,
 		nameSourcePath: PropTypes.string,
 		valueSourcePath: PropTypes.string,
+		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by dafault same like value. Used in relative.
 
 		width: PropTypes.number,
 		minWidth: PropTypes.number,
@@ -188,6 +189,7 @@ class AsterChart extends React.PureComponent {
 
 					nameSourcePath={this.props.nameSourcePath}
 					valueSourcePath={this.props.valueSourcePath}
+					hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 					data={segment}
 					siblings={siblings}
 				/>
