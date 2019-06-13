@@ -28,6 +28,8 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		this.filter = null;
 		this.accent = null;
 		this._rerenderMap = null;
+		this.selected = null;
+		this.hovered = null;
 	};
 
 
@@ -60,10 +62,12 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			//collection of functions that will be called after add renderable
 			const onAddActions = [
 				this._setFilter.bind(this),
+				this._setSelected.bind(this),
 				() => true
 			];
 			
-			return onAddActions.some(a => a(renderable));
+			onAddActions.forEach(a => a(renderable));
+			return true;
 		});
 
 	}
@@ -146,6 +150,24 @@ class ExtendedRenderableLayer extends RenderableLayer {
 		if(!isEqual(this.hovered, hovered)) {
 			this.hovered = hovered;
 			this.forEachRenderable(this._setHover.bind(this));
+			this.doRerender();
+		}
+	}
+
+	_setSelected(renderable) {
+		const selected = this.selected ? this.selected.includes(renderable.userProperties[this.spatialIdKey]) : false;
+		if(renderable.selected !== selected) {
+			renderable.selected = selected;
+			return true
+		} else {
+			return false;
+		}
+	}
+	
+	setSelected(selected) {
+		if(!isEqual(this.selected, selected)) {
+			this.selected = selected;
+			this.forEachRenderable(this._setSelected.bind(this));
 			this.doRerender();
 		}
 	}

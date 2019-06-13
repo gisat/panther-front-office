@@ -9,7 +9,7 @@ import {
     filteredPalette,
     noDataPalette,
     hoverPalette
-} from './colors'
+} from '../../../../../components/common/maps/WorldWindMap/styles/colors'
 
 const {Color, ShapeAttributes} = WorldWind;
 
@@ -31,8 +31,8 @@ export const getStaticPolygonStyleFunction = (fillColor, fillTransparency, outli
             attributes.interiorColor = Color.colorFromByteArray(filteredPalette.lighterTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
         } else if (renderable.selected) {
-            attributes.interiorColor = Color.colorFromByteArray([0,255,0,255]);
-            attributes.outlineColor = Color.colorFromByteArray([0,255,0,255]);    
+            attributes.interiorColor = Color.colorFromByteArray([62, 103, 182, 180]);
+            attributes.outlineColor = Color.colorFromByteArray([44, 82, 154, 255]);    
         } else if (renderable.hovered) {
             attributes.interiorColor = Color.colorFromByteArray(hoverPalette.lighterTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(hoverPalette.colorTransparentRgba);    
