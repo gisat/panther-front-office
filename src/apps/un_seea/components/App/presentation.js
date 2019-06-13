@@ -7,16 +7,12 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import Map from "./Map";
 import MapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
-import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 
-import ChartSet from '../../../../components/common/charts/ChartSet';
-import UnSeeaCharts from "./Charts/UnSeeaCharts";
-
-
+import InfoPanel from "./InfoPanel/presentation";
 
 import AppContext from '../../context';
 
@@ -60,12 +56,6 @@ class App extends React.PureComponent {
 																</Map>
 															</MapSet>
 															<MapTools>
-																<MapControlLegend
-																	disabled = {false}
-																	setKey={this.context.windowSetKey}
-																	windowSetKey={this.context.windowSetKey}
-																	itemKey={"legend"}
-																	mapSetKey={this.context.mapSetKey} />
 																<MapControls zoomOnly/>
 															</MapTools>
 														</>
@@ -75,15 +65,11 @@ class App extends React.PureComponent {
 											)
 										},
 										{
-											width: "40%",
+											width: "65%",
 											minWidth: "20rem",
-											maxWidth: "35rem",
+											maxWidth: "65rem",
 											render: props => (
-												<ChartSet
-													setKey="unSeeaCharts"
-												>
-													<UnSeeaCharts/>
-												</ChartSet>
+												<InfoPanel />
 												)
 										},
 									]}

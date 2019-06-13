@@ -84,8 +84,6 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			return acc
 		}, {});
 
-console.log(layersVectorData);
-
 
 		const data = layersVectorData['lk_un_seea_boundaries-un_seea_boundaries'][0].spatialData.features.map((f) => {
 			return f.properties;

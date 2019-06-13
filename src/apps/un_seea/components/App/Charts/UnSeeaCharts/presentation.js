@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
-import Icon from "../../../../../../components/common/atoms/Icon";
-import chroma from "chroma-js";
+
+import './style.css';
 
 const observedValues = [
 	{
@@ -43,7 +42,7 @@ const observedValues = [
 	}
 ];
 
-class EsponFuoreChart extends React.PureComponent {
+class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;
 	
 	static propTypes = {
@@ -96,69 +95,81 @@ class EsponFuoreChart extends React.PureComponent {
 			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
 		}
 
-		const title = "Aster chart"
-		const description = "description"
-		const loading = false
+		const description = "Ecosystem values"
+
 			return (
-				<>
-					<ChartWrapper
-					key={selectAsterData.key + "-wrapper"}
-					title={title}
-					subtitle={description}
-					loading={loading}
-					>
-					
-						<AsterChart
-							key={`${selectAsterData.key}-aster-doc-basic`}
-							data={selectAsterData.data}
-							// width={this.state.width}
-							width={200}
-							maxWidth={500}
+					<div className="ptr-unseea-chart-panel">
+						<div className="ptr-unseea-chart-column">
+						{
+							hoverAsterData ? 
+								<ChartWrapper
+									key={this.props.chartKey + "-wrapper"}
+									title={hoveredData.name}
+									subtitle={description}
+								>
+								<AsterChart
+									key="aster-doc-basic"
+									data={hoverAsterData.data}
+									// width={this.state.width}
+									width={200}
+									maxWidth={500}
+		
+									keySourcePath="key"
+									nameSourcePath="name"
+									valueSourcePath="value"
+									colorSourcePath="color"
+									forceMaximum={1000000}
+									// forceMinimum={1000}
+									// sorting={[["value", "desc"]]}
+									grid
+									legend
+								/>
+							</ChartWrapper> : 
+							(
+								<div className="ptr-chart-wrapper-content">
+									<p>
+										What is the value of urban nature in the Oslo area? URBAN EEA maps and values ecosystem services in the Oslo Region, and tests methods for ecosystem accounting at the municipal level.
+									</p>
+									<p>
+										The URBAN EEA project conducts research on ecosystem services from urban ecosystems in the Oslo Region, both green spaces in the built area and peri-urban nature areas. The project contributes to research and development on the UNs Experimental Ecosystem Accounting (EEA) and its application to urban areas. URBAN EEA aims to develop ecosystem accounts for the Oslo area providing lessons for other Norwegian municipalities.
+									</p>
+									<p>
+										Read more: <a href="https://www.nina.no/english/Fields-of-research/Projects/Urban-EEA">https://www.nina.no/english/Fields-of-research/Projects/Urban-EEA</a>
+									</p>
+								</div>
+								)
+						}
+						</div>
+						<div className="ptr-unseea-chart-column">
+							<ChartWrapper
+							key={selectAsterData.key + "-wrapper"}
+							title={selectedAreaData.name}
+							subtitle={description}
+							>
+							
+								<AsterChart
+									key={`${selectAsterData.key}-aster-doc-basic`}
+									data={selectAsterData.data}
+									// width={this.state.width}
+									width={200}
+									maxWidth={500}
 
-							keySourcePath="key"
-							nameSourcePath="name"
-							valueSourcePath="value"
-							colorSourcePath="color"
-							forceMaximum={1000000}
-							// forceMinimum={1000}
-							// sorting={[["value", "desc"]]}
-							grid
-							legend
-						/>
-					</ChartWrapper>
-					{
-						hoverAsterData ? <ChartWrapper
-						key={this.props.chartKey + "-wrapper"}
-						title={title}
-						subtitle={description}
-						loading={loading}
-						>
-						
-							<AsterChart
-								key="aster-doc-basic"
-								data={hoverAsterData.data}
-								// width={this.state.width}
-								width={200}
-								maxWidth={500}
-	
-								keySourcePath="key"
-								nameSourcePath="name"
-								valueSourcePath="value"
-								colorSourcePath="color"
-								forceMaximum={1000000}
-								// forceMinimum={1000}
-								// sorting={[["value", "desc"]]}
-								grid
-								legend
-							/>
-						</ChartWrapper>: null
-
-					}
-				</>
-				
+									keySourcePath="key"
+									nameSourcePath="name"
+									valueSourcePath="value"
+									colorSourcePath="color"
+									forceMaximum={1000000}
+									// forceMinimum={1000}
+									// sorting={[["value", "desc"]]}
+									grid
+									legend
+								/>
+							</ChartWrapper>
+						</div>
+					</div>
 				)
 	}
 }
 
-export default EsponFuoreChart;
+export default ChartPanel;
 

@@ -5,7 +5,7 @@ import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getCartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartogram';
 import {getCartodiagramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
-import {getStaticPolygonStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/staticPolygon';
+import {getStaticPolygonStyleFunction} from './staticPolygon';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/VectorLayer';
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/WorldWindMap/styles/colors'
