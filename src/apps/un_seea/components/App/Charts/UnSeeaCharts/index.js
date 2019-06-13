@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
-import utils from "../../../../../../utils/utils";
 import wrapper from './presentation';
+import observedValues from './observed';
 import _ from "lodash";
 
 
@@ -13,49 +13,11 @@ const useActiveMetadataKeys = {
 };
 
 const mapStateToPropsFactory = (initialState, ownProps) => {
-	let filter = {};
-	let namesFilter = {};
-	let periodsFilter = {};
-	let chartCfg = {};
 
 	return (state) => {
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
-		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey, useActiveMetadataKeys);
-		let activeFilter = Select.selections.getActive(state);
-		let activeScope = Select.scopes.getActive(state);
-		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
-		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
-		let scopeKey = Select.scopes.getActiveKey(state);
-		let attributeKey = Select.attributes.getActiveKey(state);
-
-		// don't mutate selector input if it is not needed
-		if (!_.isEqual(periodsFilter, {scopeKey, attributeKey})){
-			periodsFilter = {scopeKey, attributeKey}
-		}
-
-		// don't mutate selector input if it is not needed
-		if (!_.isEqual(chartCfg,  chartConfiguation)){
-			chartCfg = _.cloneDeep(chartConfiguation);
-			filter = _.cloneDeep(chartCfg.mergedFilter);
-		}
-
-		// don't mutate selector input if it is not needed
-		if (!_.isEqual(namesFilter, currentNamesFilter)){
-			namesFilter = _.cloneDeep(currentNamesFilter);
-		}
-
-		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg.key);
-		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg.key);
-
-
-
-
-
-// 
-// NEW
-// 
 		let layersState = Select.maps.getLayersStateByMapKey(state, 'un_seea', useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = _.cloneDeep(layer.mergedFilter)
@@ -90,31 +52,52 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		})
 
 
+		//calculate data statistics
+		const dataStatistics = observedValues.map(d => ({
+			id: d.name,
+			min: null,
+			max: null
+		}))
 
+		data.forEach((d) => {
+			for (const [key, value] of Object.entries(d)) {
+				const observedValue = observedValues.find(ov => ov.name === key);
+				if(observedValue) {
+					const statistics = dataStatistics.find(s => s.id === key);
+					statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
+					statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
+				}
+			}
+		})
 
+		// convert absolute numbers to relative
+		//TODO -> should be in selector
+		const relativeData = data.map((d) => {
+			const data = {};
+			for (const [key, value] of Object.entries(d)) {
+				const observedValue = observedValues.find(ov => ov.name === key);
+				if(observedValue) {
+					const statistics = dataStatistics.find(s => s.id === key);
+					data[key] = {
+						relative: 100 * value / statistics.max,
+						absolute: value
+					}
+				} else {
+					data[key] = value;
+				}
+			}
+			return data;
+		}) 
 
-
-
-
-		// TODO ensure periods
 		return {
-			// attribute: Select.attributes.getActive(state),
-			data: data,
+			data: relativeData,
 			selectedArea: selectedAreas[0]
-			// nameData: namesForChart,
-			// filter: activeFilter && activeFilter.data,
-			// periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),
-			// availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter)
 		}
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onSelectionClear: () => {
-			// TODO clear specific selection
-			dispatch(Action.selections.clearActiveSelection());
-		},
 		onMount: () => {
 			dispatch(Action.charts.use(ownProps.chartKey, useActiveMetadataKeys));
 		},

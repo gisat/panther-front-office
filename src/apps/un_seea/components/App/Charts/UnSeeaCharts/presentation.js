@@ -4,43 +4,9 @@ import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
+import observedValues from './observed';
 
 import './style.css';
-
-const observedValues = [
-	{
-		name: 'Agriculture low vegetation',
-		color: '#03369c'
-	},
-	{
-		name: 'Area of Borough',
-		color: '#2a4fa9'
-	},
-	{
-		name: 'Area of City',
-		color: '#3e67b6'
-	},
-	{
-		name: 'Builtup Area',
-		color: '#4e80c3'
-	},
-	{
-		name: 'Open land',
-		color: '#5c9cd0'
-	},
-	{
-		name: 'Population Census 2008',
-		color: '#69b6dd'
-	},
-	{
-		name: 'Tree canopy',
-		color: '#00f'
-	},
-	{
-		name: 'Water',
-		color: '#74d2ea'
-	}
-];
 
 class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;
@@ -56,8 +22,11 @@ class ChartPanel extends React.PureComponent {
 			const observedValue = observedValues.find(ov => ov.name === key);
 			if(observedValue) {
 				transformedData.push({
-					key: `${data.gid}-${value}`,
-					value,
+					key: `${data.gid}-${key}-${value.relative}`,
+					value: {
+						relative: value.relative,
+						absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
+					},
 					name: key,
 					color: observedValue.color
 				})
@@ -79,15 +48,15 @@ class ChartPanel extends React.PureComponent {
 		if (this.context && this.context.hoveredItems) {
 			hoveredData = data.find((d) => d.gid === this.context.hoveredItems[0])
 		}
-		
-		let selectedAreaData;
-		if (this.props.selectedArea) {
-			selectedAreaData = data.find((d) => d.gid === this.props.selectedArea);
-		}
 
 		let hoverAsterData;
 		if(hoveredData) {
 			hoverAsterData = this.transformDataForAsterChart(hoveredData);
+		}
+
+		let selectedAreaData;
+		if (this.props.selectedArea) {
+			selectedAreaData = data.find((d) => d.gid === this.props.selectedArea);
 		}
 
 		let selectAsterData;
@@ -110,18 +79,20 @@ class ChartPanel extends React.PureComponent {
 								<AsterChart
 									key="aster-doc-basic"
 									data={hoverAsterData.data}
-									// width={this.state.width}
 									width={200}
 									maxWidth={500}
-		
 									keySourcePath="key"
 									nameSourcePath="name"
-									valueSourcePath="value"
+									valueSourcePath="value.relative"
+									hoverValueSourcePath="value.absolute"
 									colorSourcePath="color"
-									forceMaximum={1000000}
-									// forceMinimum={1000}
-									// sorting={[["value", "desc"]]}
-									grid
+									relative
+									grid={{
+										captions: true
+									}}
+									radials={{
+										captions: true
+									}}
 									legend
 								/>
 							</ChartWrapper> : 
@@ -150,18 +121,21 @@ class ChartPanel extends React.PureComponent {
 								<AsterChart
 									key={`${selectAsterData.key}-aster-doc-basic`}
 									data={selectAsterData.data}
-									// width={this.state.width}
 									width={200}
 									maxWidth={500}
 
 									keySourcePath="key"
 									nameSourcePath="name"
-									valueSourcePath="value"
+									valueSourcePath="value.relative"
+									hoverValueSourcePath="value.absolute"
 									colorSourcePath="color"
-									forceMaximum={1000000}
-									// forceMinimum={1000}
-									// sorting={[["value", "desc"]]}
-									grid
+									relative
+									grid={{
+										captions: true
+									}}
+									radials={{
+										captions: true
+									}}
 									legend
 								/>
 							</ChartWrapper>
