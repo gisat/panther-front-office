@@ -58,6 +58,11 @@ class IndicatorList extends React.PureComponent {
 	render() {
 		return this.props.indicators && this.props.indicators.map((indicator, index) => {
 			let className = '';
+
+			if(!indicator) {
+				return null;
+			}
+
 			if (indicator.key === this.props.activeIndicator) {
 				className = 'selected';
 			}
