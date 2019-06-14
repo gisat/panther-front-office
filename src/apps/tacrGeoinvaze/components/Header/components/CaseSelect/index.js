@@ -13,7 +13,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		caseSelectOpen: Select.components.get(state, 'tacrGeoinvaze_CaseSelect', 'caseSelectOpen'),
 		cases: Select.cases.getIndexed(state, filter, null, null, 1, 20),
-		activeCase: Select.cases.getActive(state)
+		activeCase: Select.cases.getActive(state),
+		categories: Select.app.getConfiguration(state, 'categories')
 	}
 };
 
@@ -30,10 +31,10 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onMount: () => {
 				// TODO order
-				dispatch(Action.cases.useIndexed({application: true}, null, null, 1, 20, componentId));
+				// dispatch(Action.cases.useIndexed({application: true}, null, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
-				dispatch(Action.cases.useIndexedClear(componentId));
+				// dispatch(Action.cases.useIndexedClear(componentId));
 			},
 			selectCase: (key) => {
 				dispatch(Action.cases.setActiveKey(key));

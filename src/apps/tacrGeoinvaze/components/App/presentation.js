@@ -21,7 +21,9 @@ class TacrGeoinvazeApp extends React.PureComponent {
 		return (
 			<div className="tacrGeoinvaze-app">
 				<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>
-				<Header />
+				<Header
+					categories={props.categories}
+				/>
 			</div>
 		);
 	}

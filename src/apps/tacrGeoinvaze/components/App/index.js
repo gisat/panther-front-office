@@ -7,7 +7,7 @@ import presentation from "./presentation";
 
 const mapStateToProps = state => {
 	return {
-
+		categories: Select.app.getConfiguration(state, 'categories')
 	}
 };
 

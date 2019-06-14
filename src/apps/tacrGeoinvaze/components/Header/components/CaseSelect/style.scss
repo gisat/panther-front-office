@@ -1,88 +1,9 @@
 @import '../../../../../../styles/variables';
+@import '../../../../styles/variables';
 
-.esponFuore-scope-select,
-.esponFuore-scope-select-current {
-	height: 100%;
+.tacrGeoinvaze-case-select-cases {
+	display: flex;
 }
-
-.esponFuore-scope-select-current > div:first-child {
-	height: 100%;
-	position: relative;
+.tacrGeoinvaze-case-select-cases > div {
+	flex: 0 25%;
 }
-
-.esponFuore-scope-value {
-	color: var(--base100);
-	padding-left: .7rem;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	width: 100%;
-}
-
-.esponFuore-scope-select .ptr-panther-select-current-icon {
-	padding-top: .9rem;
-}
-
-.esponFuore-scope-select .ptr-panther-select-current-icon svg {
-	width: 1.5rem;
-	height: 1rem;
-}
-
-.ptr-panther-select-list.esponFuore-scope-select-list {
-	z-index: 50;
-	left: 6.8rem;
-	width: 16.4rem;
-	height: auto;
-}
-
-.esponFuore-scope-select.open:not(.opening) .esponFuore-scope-select-list {
-
-}
-
-.esponFuore-scope-select-list > div > div {
-	background: white;
-	margin: 0 .2rem .2rem .2rem;
-	position: relative;
-	transform: translateY(-105%);
-}
-.esponFuore-scope-select-list > div > div > div {
-	position: relative;
-	z-index: 2;
-	background-color: white;
-}
-
-.esponFuore-scope-select .esponFuore-scope-select-list > div > div:before {
-	content: " ";
-	@include positionFill;
-	z-index: 1;
-	background-color: #ff0;
-	box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
-	transform: perspective(10rem) rotateX(1deg) scale(.987);
-}
-
-.esponFuore-scope-select-list .ptr-panther-select-item {
-	padding: .7rem;
-	border-top: 1px solid var(--base20);
-	transition: background .3s ease-in-out;
-	cursor: pointer;
-}
-
-.esponFuore-scope-select-list .ptr-panther-select-item:hover {
-	background: var(--accent20);
-}
-
-.esponFuore-scope-select-list .ptr-panther-select-item.disabled {
-	pointer-events: none;
-	color: var(--base40);
-}
-
-@media screen and (max-width: 75rem)  {
-	.esponFuore-scope-select-list {
-		left: 6.8rem;
-		width: 12.4rem;
-	}
-}
-

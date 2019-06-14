@@ -3,6 +3,7 @@ import React from "react";
 import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
+import CaseList from "../CaseList";
 
 class CaseSelect extends React.PureComponent {
 
@@ -72,16 +73,34 @@ class CaseSelect extends React.PureComponent {
 							</p>
 						</div>
 						<div className="tacrGeoinvaze-case-select-cases">
-							{props.cases && props.cases.map((oneCase) => {
-								return (
-									<PantherSelectItem
-										itemKey={oneCase.key}
-										key={oneCase.key}
-									>
-										{oneCase.data && oneCase.data.nameDisplay}
-									</PantherSelectItem>
-								);
-							})}
+							<div>
+								{props.categories && props.categories.terrestrialAnimals ? (
+									<CaseList
+										categoryKey={props.categories.terrestrialAnimals}
+									/>
+								) : null}
+							</div>
+							<div>
+								{props.categories && props.categories.terrestrialPlants ? (
+									<CaseList
+										categoryKey={props.categories.terrestrialPlants}
+									/>
+								) : null}
+							</div>
+							<div>
+								{props.categories && props.categories.aquaticAnimals ? (
+									<CaseList
+										categoryKey={props.categories.aquaticAnimals}
+									/>
+								) : null}
+							</div>
+							<div>
+								{props.categories && props.categories.aquaticPlants ? (
+									<CaseList
+										categoryKey={props.categories.aquaticPlants}
+									/>
+								) : null}
+							</div>
 						</div>
 					</div>
 				</div>
