@@ -30,7 +30,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
-				dispatch(Action.specific.esponFuoreIndicators.useIndexed({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 20, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexed({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
