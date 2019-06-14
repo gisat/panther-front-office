@@ -107,8 +107,8 @@ export default [
 	{
 		key: 'unSeea',
 		configuration: {},
-		hostname: 'https://urban-tep.eu/unseea',
-		path: null,
+		hostname: 'urban-tep.eu',
+		path: '/unseea',
 		devPath: '/unSeea',
 		app: (path, baseUrl) => import(/* webpackChunkName: "unSeea" */'./apps/unSeea').then(module => {
 			module.default(path, baseUrl);
