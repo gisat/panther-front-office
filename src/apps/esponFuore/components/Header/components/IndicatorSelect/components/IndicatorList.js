@@ -30,7 +30,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
-				dispatch(Action.specific.esponFuoreIndicators.useIndexed({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 20, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexed({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
@@ -58,6 +58,11 @@ class IndicatorList extends React.PureComponent {
 	render() {
 		return this.props.indicators && this.props.indicators.map((indicator, index) => {
 			let className = '';
+
+			if(!indicator) {
+				return null;
+			}
+
 			if (indicator.key === this.props.activeIndicator) {
 				className = 'selected';
 			}
