@@ -31,6 +31,11 @@ function setActiveKey(key) {
 		if (activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey) {
 			dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: activeScope.data.configuration.areaNameAttributeKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
 		}
+
+		//load filter countries
+		if (activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.countryCodeAttributeKey) {
+			dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: activeScope.data.configuration.countryCodeAttributeKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
+		}
 	};
 }
 
