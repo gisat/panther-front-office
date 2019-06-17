@@ -11,8 +11,9 @@ const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		caseSelectOpen: Select.components.get(state, 'tacrGeoinvaze_CaseSelect', 'caseSelectOpen'),
-		activeCase: Select.cases.getActive(state)
+		showIntro: Select.components.get(state, 'tacrGeoinvaze_CaseSelectContent', 'showIntro'),
+		content: Select.components.get(state, 'tacrGeoinvaze_CaseSelectContent', 'content'),
+		categories: Select.app.getConfiguration(state, 'categories')
 	}
 };
 
@@ -21,21 +22,14 @@ const mapDispatchToPropsFactory = () => {
 
 	return dispatch => {
 		return {
-			openSelect: () => {
-				dispatch(Action.components.set('tacrGeoinvaze_CaseSelect', 'caseSelectOpen', true))
+			showIntro: () => {
+				dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true))
 			},
-			closeSelect: () => {
-				dispatch(Action.components.set('tacrGeoinvaze_CaseSelect', 'caseSelectOpen', false))
+			hideIntro: () => {
+				dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', false))
 			},
-			onMount: () => {
-
-			},
-			onUnmount: () => {
-
-			},
-			selectCase: (key) => {
-				dispatch(Action.cases.setActiveKey(key));
-				dispatch(Action.components.set('tacrGeoinvaze_CaseSelect', 'caseSelectOpen', false));
+			changeContent: (key) => {
+				dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'content', key));
 			}
 		}
 	}
