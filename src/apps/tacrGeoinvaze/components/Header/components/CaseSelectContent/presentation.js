@@ -3,6 +3,7 @@ import React from "react";
 import './style.scss';
 import classnames from "classnames";
 import CaseList from "../CaseList";
+import Button from "../../../../../../components/common/atoms/Button";
 
 class CaseSelectContent extends React.PureComponent {
 
@@ -22,10 +23,12 @@ class CaseSelectContent extends React.PureComponent {
 					</p>
 					</div>
 					<div className="tacrGeoinvaze-case-select-content-links">
-
+						<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu</Button>
+						<Button invisible primary onClick={props.changeContent.bind(null, 'inputs')}>Vstupní data</Button>
+						<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
 					</div>
 					<div className="tacrGeoinvaze-case-select-content-content">
-
+						{props.content}
 					</div>
 				</div>
 				<div className="tacrGeoinvaze-case-select-content-cases">
