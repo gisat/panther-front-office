@@ -10,9 +10,13 @@ class CaseSelectContent extends React.PureComponent {
 	render() {
 		const props = this.props;
 
+		let classes = classnames("tacrGeoinvaze-case-select-content", {
+			showIntro: props.introVisible && !props.content
+		});
+
 		return (
 
-			<div className="tacrGeoinvaze-case-select-content">
+			<div className={classes}>
 				<div className="tacrGeoinvaze-case-select-content-info">
 					<div className="tacrGeoinvaze-case-select-content-intro">
 					<p>
@@ -23,6 +27,7 @@ class CaseSelectContent extends React.PureComponent {
 					</p>
 					</div>
 					<div className="tacrGeoinvaze-case-select-content-links">
+						<Button invisible primary onClick={props.changeContent.bind(null, null)}>Úvod</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'inputs')}>Vstupní data</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
