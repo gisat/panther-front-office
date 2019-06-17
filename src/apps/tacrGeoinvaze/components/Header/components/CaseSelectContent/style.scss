@@ -1,9 +1,26 @@
 @import '../../../../../../styles/variables';
 @import '../../../../styles/variables';
 
-.tacrGeoinvaze-case-select-cases {
+.tacrGeoinvaze-case-select-content-cases {
 	display: flex;
 }
-.tacrGeoinvaze-case-select-cases > div {
+.tacrGeoinvaze-case-select-content-cases > div {
 	flex: 0 25%;
+}
+
+.tacrGeoinvaze-case-select-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tacrGeoinvaze-case-select-content > div {
+  //flex-basis: 50%;
+}
+.tacrGeoinvaze-case-select-content-info {
+  padding: 2rem;
+  flex: 0 10rem;
+}
+.tacrGeoinvaze-case-select-content-cases {
+  flex: 1;
+  background-color: var(--accent30);
 }

@@ -28,6 +28,7 @@ export default (path, baseUrl) => {
 
 	Store.dispatch(Action.app.setKey('tacrGeoinvaze'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
+	Store.dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
 	Store.dispatch(Action.app.loadConfiguration());
 

@@ -59,8 +59,8 @@ class CaseSelect extends React.PureComponent {
 				renderCurrent={this.renderCurrent}
 				listClasses="tacrGeoinvaze-case-select-list"
 			>
-				<div className="tacrGeoinvaze-case-select-content">
-					<div className="tacrGeoinvaze-case-select-content-header">
+				<div className="tacrGeoinvaze-case-select-overlay">
+					<div className="tacrGeoinvaze-case-select-overlay-header">
 						Hic sunt pantherae.
 					</div>
 					<CaseSelectContent />
