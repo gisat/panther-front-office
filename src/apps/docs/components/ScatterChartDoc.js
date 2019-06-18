@@ -44,13 +44,15 @@ class ScatterChartDoc extends React.PureComponent {
 							nameSourcePath="data.name"
 							keySourcePath="key"
 
-							// xGridlines
-							// xCaptions
-							// xTicks
+							xGridlines
+							xCaptions
+							xTicks
 
 							yGridlines
 							yCaptions
 							yTicks
+
+							width={this.state.width}
 						/>
 					</HoverHandler>
 				</div>

@@ -126,7 +126,6 @@ class ScatterChart extends React.PureComponent {
 						/>
 						<AxisX
 							scale={xScale}
-							domain={xDomain}
 
 							leftMargin={yCaptionsSize} //TODO right margin for right oriented
 							leftPadding={props.innerPadding}
