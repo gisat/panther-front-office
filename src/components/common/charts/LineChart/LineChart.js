@@ -23,6 +23,7 @@ const X_CAPTIONS_SIZE = 70;
 // TODO optional
 const INNER_PADDING_LEFT = 10;
 const INNER_PADDING_RIGHT = 10;
+const INNER_PADDING_TOP = 10;
 
 // If series count is greater than threshold, lines will be gray
 const GRAYING_THRESHOLD = 10;
@@ -95,7 +96,7 @@ class LineChart extends React.PureComponent {
 		let plotWidth = width - (yCaptionsSize);
 		let plotHeight = height - (xCaptionsSize);
 		let innerPlotWidth = plotWidth - (INNER_PADDING_LEFT + INNER_PADDING_RIGHT);
-		let innerPlotHeight = plotHeight;
+		let innerPlotHeight = plotHeight - (INNER_PADDING_TOP);
 
 		/* data preparation */
 		let xDomain, yDomain, xScale, yScale, colors, sortedUniqueXvalues, mode = null;
@@ -170,6 +171,7 @@ class LineChart extends React.PureComponent {
 							plotWidth={plotWidth}
 							width={yCaptionsSize}
 							ticks={props.yTicks}
+							topPadding={INNER_PADDING_TOP}
 							gridlines={props.yGridlines}
 							withCaption={props.yCaptions}
 							hiddenBaseline={props.withoutYbaseline}
@@ -189,7 +191,7 @@ class LineChart extends React.PureComponent {
 							gridlines={props.xGridlines}
 							withCaption={props.xCaptions}
 						/>
-						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
+						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},${INNER_PADDING_TOP})`}>
 							{mode === 'aggregated' ?
 								this.renderAggregated(data, props, xScale, yScale) :
 								this.renderLines(data, props, xScale, yScale, colors, mode)

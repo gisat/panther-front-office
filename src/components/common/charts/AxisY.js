@@ -21,6 +21,7 @@ class AxisY extends React.PureComponent {
 		scale: PropTypes.func,
 
 		bottomMargin: PropTypes.number,
+		topPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		width: PropTypes.number,
@@ -58,9 +59,10 @@ class AxisY extends React.PureComponent {
 	renderGrid() {
 		let shift = this.props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
 		let ticks = this.props.scale.ticks(TICK_COUNT);
+		let topPadding = this.props.topPadding ? this.props.topPadding : 0;
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},0)`}>
+			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},${topPadding})`}>
 				{ticks.map(value => {
 					let yCoord = this.props.scale(value);
 

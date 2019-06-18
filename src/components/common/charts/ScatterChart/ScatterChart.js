@@ -20,6 +20,8 @@ class ScatterChart extends React.PureComponent {
 		xCaptionsSize: 50,
 		yCaptionsSize: 50,
 
+		innerPadding: 10,
+
 		pointRadius: 5
 	};
 
@@ -71,8 +73,8 @@ class ScatterChart extends React.PureComponent {
 
 		let plotWidth = width - (yCaptionsSize);
 		let plotHeight = height - (xCaptionsSize);
-		let innerPlotWidth = plotWidth;
-		let innerPlotHeight = plotHeight;
+		let innerPlotWidth = plotWidth - 2*props.innerPadding;
+		let innerPlotHeight = plotHeight - props.innerPadding;
 
 		/* data preparation */
 		let xDomain, yDomain, xScale, yScale = null;
@@ -113,6 +115,7 @@ class ScatterChart extends React.PureComponent {
 							scale={yScale}
 
 							bottomMargin={xCaptionsSize}
+							topPadding={props.innerPadding}
 							height={plotHeight}
 							plotWidth={plotWidth}
 							width={yCaptionsSize}
@@ -126,6 +129,7 @@ class ScatterChart extends React.PureComponent {
 							domain={xDomain}
 
 							leftMargin={yCaptionsSize} //TODO right margin for right oriented
+							leftPadding={props.innerPadding}
 							height={xCaptionsSize}
 							plotHeight={plotHeight}
 							width={plotWidth}
@@ -134,7 +138,7 @@ class ScatterChart extends React.PureComponent {
 							gridlines={props.xGridlines}
 							withCaption={props.xCaptions}
 						/>
-						<g transform={`translate(${yCaptionsSize},0)`}>
+						<g transform={`translate(${yCaptionsSize + props.innerPadding},${props.innerPadding})`}>
 							{this.renderPoints(data, props, xScale, yScale)}
 						</g>
 					</> : null}
