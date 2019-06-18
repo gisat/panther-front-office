@@ -36,6 +36,20 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.maps.addSet({key: 'tacrGeoinvaze'}));
 	Store.dispatch(Action.maps.addMapToSet('tacrGeoinvaze', 'tacrGeoinvaze'));
 
+	const navigator = {
+		lookAtLocation: {
+			latitude: 49.8,
+			longitude: 15.4
+		},
+		range: 500000,
+		roll: 0,
+		tilt: 0,
+		heading: 0
+	}
+
+	Store.dispatch(Action.maps.setMapWorldWindNavigator('tacrGeoinvaze', navigator));
+
+
 	// Set language
 	i18n.changeLanguage("cz");
 
