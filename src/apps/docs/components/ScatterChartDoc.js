@@ -4,6 +4,7 @@ import _ from 'lodash';
 import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../components/common/charts/ScatterChart/ScatterChart";
 
+import sample_4 from "./mockData/sample_4";
 import sample_50 from "./mockData/sample_50";
 
 class ScatterChartDoc extends React.PureComponent {
@@ -53,6 +54,36 @@ class ScatterChartDoc extends React.PureComponent {
 							yTicks
 
 							width={this.state.width}
+						/>
+					</HoverHandler>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Specified colors and custom sizes</h2>
+					<p>Custom width, height, point radius, inner padding</p>
+					<HoverHandler>
+						<ScatterChart
+							key="scatter-doc-colors"
+							data={sample_4}
+
+							xSourcePath="data.some_value_1"
+							ySourcePath="data.some_value_2"
+							nameSourcePath="data.name"
+							keySourcePath="key"
+							colorSourcePath="data.color"
+
+							xGridlines
+							xCaptions
+							xTicks
+
+							yGridlines
+							yCaptions
+							yTicks
+
+							width={300}
+							height={200}
+							innerPadding={20}
+							pointRadius={7}
 						/>
 					</HoverHandler>
 				</div>

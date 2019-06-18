@@ -4,7 +4,8 @@
 	"data": {
 	  "name": "Wisconsin",
 	  "some_value_1": 9278,
-	  "some_value_2": -3.8201
+	  "some_value_2": 3.2,
+	  "color": "#ff0000"
 	}
   },
   {
@@ -12,7 +13,8 @@
 	"data": {
 	  "name": "Arizona",
 	  "some_value_1": 30830,
-	  "some_value_2": -9.8079
+	  "some_value_2": -9.8079,
+	  "color": "#00ff00"
 	}
   },
   {
@@ -20,7 +22,8 @@
 	"data": {
 	  "name": "North Carolina",
 	  "some_value_1": 96822,
-	  "some_value_2": 1.4988
+	  "some_value_2": 1.4988,
+	  "color": "#0000ff"
 	}
   },
   {
@@ -28,7 +31,8 @@
 	"data": {
 	  "name": "Alabama",
 	  "some_value_1": 69823,
-	  "some_value_2": -2.6835
+	  "some_value_2": -2.6835,
+	  "color": "#ff00ff"
 	}
   }
 ]

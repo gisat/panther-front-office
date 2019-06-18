@@ -36,6 +36,20 @@ class ScatterChart extends React.PureComponent {
 		xCaptionsSize: PropTypes.number,
 		yCaptionsSize: PropTypes.number,
 
+		xSourcePath: PropTypes.string,
+		ySourcePath: PropTypes.string,
+		nameSourcePath: PropTypes.string,
+		colorSourcePath: PropTypes.string,
+		keySourcePath: PropTypes.string,
+
+		xGridlines: PropTypes.bool,
+		xCaptions: PropTypes.bool,
+		xTicks: PropTypes.bool,
+
+		yGridlines: PropTypes.bool,
+		yCaptions: PropTypes.bool,
+		yTicks: PropTypes.bool,
+
 		pointRadius: PropTypes.number
 	};
 

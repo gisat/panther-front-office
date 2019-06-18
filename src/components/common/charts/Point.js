@@ -107,6 +107,11 @@ class Point extends React.PureComponent {
 			'standalone': this.props.standalone
 		});
 
+		let style = {};
+		if (props.color) {
+			style.fill = props.color
+		}
+
 		return (
 			<circle
 				onMouseOver={this.onMouseOver}
@@ -117,7 +122,7 @@ class Point extends React.PureComponent {
 				cx={props.x}
 				cy={props.y}
 				r={this.state.radius}
-				fill={props.color}
+				style={style}
 			/>
 		)
 	}
