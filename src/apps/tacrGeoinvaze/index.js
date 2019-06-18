@@ -30,7 +30,11 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
-	Store.dispatch(Action.app.loadConfiguration());
+	Store.dispatch(Action.app.loadConfiguration())
+
+	Store.dispatch(Action.maps.addMap({key: 'tacrGeoinvaze'}));
+	Store.dispatch(Action.maps.addSet({key: 'tacrGeoinvaze'}));
+	Store.dispatch(Action.maps.addMapToSet('tacrGeoinvaze', 'tacrGeoinvaze'));
 
 	// Set language
 	i18n.changeLanguage("cz");

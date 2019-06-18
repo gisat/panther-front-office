@@ -30,7 +30,8 @@
 }
 
 .tacrGeoinvaze-header {
-	width: 30rem;
+	width: 100%;
+	position: absolute;
 }
 .tacrGeoinvaze-title {
 	position: relative;
@@ -38,10 +39,12 @@
 	font-size: $b2;
 	color: var(--base0);
 	height: m(2);
+	width: 30rem;
 	padding: .51825rem 1rem;
 }
 .tacrGeoinvaze-case-select {
 	height: m(2);
+	width: 30rem;
 }
 .tacrGeoinvaze-case-select .ptr-panther-select-current {
 	height: 100%;

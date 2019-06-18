@@ -32,3 +32,13 @@
 .tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro {
   height: 10rem;
 }
+
+.tacrGeoinvaze-case-select-content-cases > div:nth-child(2n) {
+  background: var(--accent35);
+}
+
+.tacrGeoinvaze-case-select-content-cases > div > div {
+  height: m(5);
+  padding: m(1);
+  font-size: $b2;
+}

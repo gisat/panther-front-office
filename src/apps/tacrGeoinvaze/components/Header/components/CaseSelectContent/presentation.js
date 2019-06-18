@@ -38,6 +38,7 @@ class CaseSelectContent extends React.PureComponent {
 				</div>
 				<div className="tacrGeoinvaze-case-select-content-cases">
 					<div>
+						<div>Suchozemští živočichové</div>
 						{props.categories && props.categories.terrestrialAnimals ? (
 							<CaseList
 								categoryKey={props.categories.terrestrialAnimals}
@@ -45,6 +46,7 @@ class CaseSelectContent extends React.PureComponent {
 						) : null}
 					</div>
 					<div>
+						<div>Suchozemské rostliny</div>
 						{props.categories && props.categories.terrestrialPlants ? (
 							<CaseList
 								categoryKey={props.categories.terrestrialPlants}
@@ -52,6 +54,7 @@ class CaseSelectContent extends React.PureComponent {
 						) : null}
 					</div>
 					<div>
+						<div>Vodní živočichové</div>
 						{props.categories && props.categories.aquaticAnimals ? (
 							<CaseList
 								categoryKey={props.categories.aquaticAnimals}
@@ -59,6 +62,7 @@ class CaseSelectContent extends React.PureComponent {
 						) : null}
 					</div>
 					<div>
+						<div>Vodní rostliny</div>
 						{props.categories && props.categories.aquaticPlants ? (
 							<CaseList
 								categoryKey={props.categories.aquaticPlants}

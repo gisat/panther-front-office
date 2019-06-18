@@ -19,12 +19,47 @@ class TacrGeoinvazeApp extends React.PureComponent {
 		const props = this.props;
 
 		return (
-			<div className="tacrGeoinvaze-app">
+			<>
 				<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>
 				<Header
 					categories={props.categories}
 				/>
-			</div>
+				<AdjustableColumns
+					fixed
+					content={[
+						{
+							width: "30rem",
+							minWidth: "20rem",
+							maxWidth: "35rem",
+							render: props => (
+								<div>bzz</div>
+							)
+						},
+						{
+							render: props => (
+								<ReactResizeDetector
+									handleWidth
+									handleHeight
+									render={({ width, height }) => {return (
+										<>
+											<MapSet
+												mapSetKey="tacrGeoinvaze"
+												width={width}
+												height={height}
+											>
+											</MapSet>
+											<MapTools>
+												<MapControls zoomOnly/>
+											</MapTools>
+										</>
+									)
+									}}
+								/>
+							)
+						},
+					]}
+				/>
+			</>
 		);
 	}
 }
