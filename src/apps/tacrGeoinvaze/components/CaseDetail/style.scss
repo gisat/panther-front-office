@@ -1,0 +1,12 @@
+@import '../../../../styles/variables';
+@import '../../styles/variables';
+
+.tacrGeoinvaze-case-detail {
+	overflow-y: auto;
+	padding: m(1);
+}
+
+.tacrGeoinvaze-case-detail > span:first-child {
+	font-size: $a2;
+	display: block;
+}

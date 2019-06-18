@@ -1,0 +1,12 @@
+@import '../../../../styles/variables';
+@import '../../styles/variables';
+
+.tacrGeoinvaze-layer-controls > div {
+  background: var(--accent15);
+	border-bottom: 1px solid var(--accent25);
+	padding: m(1/3);
+}
+
+.tacrGeoinvaze-layer-controls > div:hover {
+	background: var(--accent20);
+}

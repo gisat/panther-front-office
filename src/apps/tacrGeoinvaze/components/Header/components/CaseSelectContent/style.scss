@@ -37,7 +37,7 @@
   background: var(--accent35);
 }
 
-.tacrGeoinvaze-case-select-content-cases > div > div {
+.tacrGeoinvaze-case-select-content-cases > div > div:first-child {
   height: m(5);
   padding: m(1);
   font-size: $b2;

@@ -10,7 +10,7 @@ class CaseSelect extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.renderCurrent = this.renderCurrent.bind(this);
-		this.selectScope = this.selectScope.bind(this);
+		this.selectCase = this.selectCase.bind(this);
 	}
 
 	componentDidMount() {
@@ -21,8 +21,8 @@ class CaseSelect extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
-	selectScope(key) {
-		if (key !== this.props.activeCase.key) {
+	selectCase(key) {
+		if (!this.props.activeCase || (key !== this.props.activeCase.key)) {
 			this.props.selectCase(key);
 		}
 	}
@@ -54,7 +54,7 @@ class CaseSelect extends React.PureComponent {
 				onSelectClick={() => {
 					props.caseSelectOpen ? props.closeSelect() : props.openSelect()
 				}}
-				onSelect={this.selectScope}
+				onSelect={this.selectCase}
 				currentClasses="tacrGeoinvaze-case-select-current"
 				renderCurrent={this.renderCurrent}
 				listClasses="tacrGeoinvaze-case-select-list"

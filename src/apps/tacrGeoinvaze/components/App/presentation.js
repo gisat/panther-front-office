@@ -12,6 +12,8 @@ import MapTools from "../../../../components/common/maps/MapTools";
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import Header from '../Header';
+import LayerControls from "../LayerControls";
+import CaseDetail from "../CaseDetail";
 
 class TacrGeoinvazeApp extends React.PureComponent {
 
@@ -32,7 +34,10 @@ class TacrGeoinvazeApp extends React.PureComponent {
 							minWidth: "20rem",
 							maxWidth: "35rem",
 							render: props => (
-								<div>bzz</div>
+								<div className="tacrGeoinvaze-sidebar">
+									<LayerControls/>
+									<CaseDetail/>
+								</div>
 							)
 						},
 						{
