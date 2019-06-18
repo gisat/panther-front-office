@@ -62,6 +62,10 @@ const INITIAL_STATE = {
 	sets: {}
 };
 
+const setInitial = () => {
+	return {...INITIAL_STATE}
+};
+
 const setActiveMapKey = (state, mapKey) => {
 	return {...state, activeMapKey: mapKey}
 };
@@ -318,6 +322,8 @@ const update = (state, data) => {
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
+		case ActionTypes.MAPS.SET_INITIAL:
+			return setInitial();
 		case ActionTypes.MAPS.SET_ACTIVE_MAP_KEY:
 			return setActiveMapKey(state, action.mapKey);
 		case ActionTypes.MAPS.SET_ACTIVE_SET_KEY:

@@ -1,0 +1,54 @@
+@import '../../../../../styles/variables';
+
+.ptr-un-seea-infopanel{
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.ptr-charts-container{
+    padding: 1.5rem;
+}
+
+.un-seea-header{
+    flex: 0 0 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+}
+
+.logo-wrapper{
+    display: flex;
+    flex: 0 0 15rem;
+    position: relative;
+}
+
+.logo-nina{
+    display: block;
+    width: 15rem;
+    height: 5.55rem;
+    padding: 0 .5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.logo-urbantep{
+    display: block;
+    width: 58px;
+    height: 58px;
+}
+
+.ptr-un-seea-app-title{
+    margin-left: 1rem;
+    font-size: $a3;
+    color: var(--base65); 
+}
+.ptr-un-seea-app-title-subscript{
+    font-size: $a1;
+    color: var(--base65);
+    line-height: 0px;
+    margin-left: 10rem;
+}

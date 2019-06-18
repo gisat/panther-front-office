@@ -8,7 +8,7 @@ import esponFuoreIndicators from "../../../esponFuore/state/EsponFuoreIndicators
 
 const activeAppKey = state => state.specific.apps.activeKey;
 
-const getAllForActiveApp = (getSubstate) => {
+export const getAllForActiveApp = (getSubstate) => {
 	return createSelector(
 		[commonSelectors.getAllAsObject(getSubstate), commonSelectors.getIndexes(getSubstate), activeAppKey, (state, order) => order],
 		(models, indexes, activeAppKey, order) => {
@@ -85,6 +85,9 @@ function getModelsByIndex(models, count, index) {
 export default {
 	attributes: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.attributes.getSubstate)
+	},
+	cases: {
+		getAllForActiveApp: getAllForActiveApp(commonSelect.cases.getSubstate)
 	},
 	layerTemplates: {
 		getAllForActiveApp: getAllForActiveApp(commonSelect.layerTemplates.getSubstate),

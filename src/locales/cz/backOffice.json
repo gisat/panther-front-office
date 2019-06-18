@@ -6,7 +6,7 @@
 	  "color": "Barva",
 	  "configuration": "Konfigurace",
 	  "description": "Popis",
-	  "geometry": "Geometry",
+	  "geometry": "Geometrie",
 	  "name": "Název",
 	  "nameInternal": "Interní název",
 	  "period": "Perioda",
@@ -19,6 +19,8 @@
 		"names": {
 			"attribute": "Atribut",
 			"attribute_plural": "Atributy",
+			"case": "Případ",
+			"case_plural": "Případy",
 			"esponFuoreIndicator": "Indikátor",
 			"esponFuoreIndicator_plural": "Indikátory",
 			"layerTemplate": "Šablona vrstvy",
@@ -29,14 +31,16 @@
 			"place_plural": "Místa",
 			"tag": "Tag",
 			"tag_plural": "Tagy",
-			"view": "Náhled",
-			"view_plural": "Náhledy"
+			"view": "Pohled",
+			"view_plural": "Pohledy"
 		}
 	},
 	"apps": {
 		"names": {
-			"scope": "Scope",
-			"scope_plural": "Scopy",
+			"scope": "Rámec",
+			"scope_plural": "Rámce",
+			"configuration": "Konfigurace",
+			"configuration_plural": "Konfigurace",
 			"layerTrees": "Stromy vrstev"
 		}
 	}

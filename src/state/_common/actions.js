@@ -843,6 +843,14 @@ function actionUseIndexedClear(actionTypes, componentId) {
 	return action(actionTypes, 'USE.INDEXED.CLEAR', {componentId});
 }
 
+function actionUseIndexedClearAll(actionTypes) {
+	return action(actionTypes, 'USE.INDEXED.CLEAR_ALL');
+}
+
+function actionSetInitial(actionTypes) {
+	return action(actionTypes, 'SET_INITIAL');
+}
+
 function actionUseKeysClear(actionTypes, componentId) {
 	return action(actionTypes, 'USE.KEYS.CLEAR', {componentId});
 }
@@ -912,6 +920,8 @@ export default {
 
 	useIndexedRegister: actionUseIndexedRegister,
 	useIndexedClear: creator(actionUseIndexedClear),
+	useIndexedClearAll: creator(actionUseIndexedClearAll),
+	setInitial: creator(actionSetInitial),
 	actionDataSetOutdated,
 	actionSetActiveKey
 }

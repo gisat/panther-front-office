@@ -3,7 +3,7 @@ export const getCircleRadiusByVolume = (value) => {
     return Math.sqrt(value / Math.PI, 2) ;
 }
 
-export const getRadius = (value, series, coefficient = 1) => {
+export const getRadius = (value, series, normalizationCallback) => {
     let radius;
     switch (series) {
         case 'value':
@@ -16,12 +16,10 @@ export const getRadius = (value, series, coefficient = 1) => {
             radius = getCircleRadiusByVolume(value) * 100//m
             break;
     }
-    return radius / coefficient;
-}
 
-export const getRadiusNormalizationCoefficient = (maximumRadius, maximumValue, series) => {
-    const maxValRadius = getRadius(maximumValue, series, 1);
-    if(maxValRadius > maximumRadius) {
-        return maxValRadius / maximumRadius;
+    if(normalizationCallback && typeof normalizationCallback === 'function') {
+        return normalizationCallback(radius);
+    } else {
+        return radius;
     }
 }

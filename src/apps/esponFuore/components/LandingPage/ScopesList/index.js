@@ -27,14 +27,6 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onScopeSelect: (scopeKey) => {
 				dispatch(Action.scopes.setActiveKey(scopeKey));
-				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false));
-				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', true));
-				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', null));
-				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeIndicator', null));
-				dispatch(Action.attributes.setActiveKey(null));
-				dispatch(Action.periods.setActiveKeys(null));
-				dispatch(Action.views.setActiveKeys(null));
-				dispatch(Action.selections.clearActiveSelection());
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));

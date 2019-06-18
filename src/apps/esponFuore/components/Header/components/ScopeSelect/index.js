@@ -7,12 +7,13 @@ import utils from '../../../../../../utils/utils';
 
 import presentation from "./presentation";
 
+const order = [['nameDisplay', 'ascending']];
 const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scopeSelectOpen: Select.components.get(state, 'esponFuore_ScopeSelect', 'scopeSelectOpen'),
-		scopes: Select.scopes.getIndexed(state, filter, null, null, 1, 20),
+		scopes: Select.scopes.getIndexed(state, filter, null, order, 1, 20),
 		activeScope: Select.scopes.getActive(state)
 	}
 };
@@ -30,12 +31,17 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onMount: () => {
 				// TODO order
-				dispatch(Action.scopes.useIndexed({application: true}, null, null, 1, 20, componentId));
+				dispatch(Action.scopes.useIndexed({application: true}, null, order, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.scopes.useIndexedClear(componentId));
 			},
 			selectScope: (key) => {
+				dispatch(Action.attributeRelations.useIndexedClearAll());
+				dispatch(Action.spatialRelations.useIndexedClearAll());
+				dispatch(Action.charts.setInitial());
+				dispatch(Action.maps.setInitial());
+
 				dispatch(Action.scopes.setActiveKey(key));
 				dispatch(Action.components.set('esponFuore_ScopeSelect', 'scopeSelectOpen', false));
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'indicatorSelectOpen', true));

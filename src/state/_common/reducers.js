@@ -192,6 +192,15 @@ export default {
 		}
 	},
 
+	useIndexedClearAll: (state, action) => {
+		if (state.inUse && state.inUse.indexes) {
+			return {...state, inUse: {...state.inUse, indexes: null}};
+		} else {
+			// do not mutate if no index was changed
+			return state;
+		}
+	},
+
 	useKeysRegister: (state, action) => {
 		return {
 			...state,

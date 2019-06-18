@@ -1,6 +1,7 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
-import {getRadius, getRadiusNormalizationCoefficient} from '../layers/utils/diagram'
+import {getRadius} from '../layers/utils/diagram';
+import {rangeMap} from '../../../../../utils/statistics';
 import {
     DEFAULTFILLTRANSPARENCY,
     getOutlineColor,
@@ -13,26 +14,33 @@ import {
 
 const {Color, ShapeAttributes} = WorldWind;
 
+export const MIN_DIAGRAM_RADIUS = 5000;
+export const MAX_DIAGRAM_RADIUS = 80000;
+
 /**
  * 
  * @param {Array} fillColorPalette  RGB color
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
-export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey, series = 'volume', normalized = true, normalizedMaxRadius = 100000) => {
+export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey, series = 'volume', normalized = true, normalizedMaxRadius = MAX_DIAGRAM_RADIUS, normalizedMinRadius = MIN_DIAGRAM_RADIUS) => {
 
     const diagramInteriorColor = Color.colorFromByteArray([...chroma(color).rgb(), fillTransparency]);
     const diagramOutlineColor = Color.colorFromByteArray([...getOutlineColor(color)]);
-    const normalizationCoefficient = normalized ? getRadiusNormalizationCoefficient(normalizedMaxRadius, statistics.max, series) : 1;
-
+    const normalizationCallback = normalized ? rangeMap([getRadius(statistics.min, series), getRadius(statistics.max, series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
 
     //create 5 classes
     return (renderable, layer) => {
 
-        if(renderable.radius) {
+        if(renderable.radius || renderable.radius === 0) {
             //recalculate radius
             const value = renderable.userProperties[attributeDataKey];
-            const radius = getRadius(value, series, normalizationCoefficient);
+
+            const radius = getRadius(value, series, normalizationCallback);
             renderable.radius = radius;
+
+            if(radius && !renderable.enabled) {
+                renderable.enabled = true;
+            }
 
             //circle style
             const attributes = new ShapeAttributes();

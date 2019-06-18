@@ -278,13 +278,14 @@ function updateFeatures(dataSourceKey, featureKeys) { //todo
 function loadLayerData(filter, componentId) {
 	return (dispatch, getState) => {
 		let additionalParams = {};
-		let appConfig = Select.app.getConfiguration(getState());
+		let geometriesAccuracy = Select.app.getLocalConfiguration(getState(), 'geometriesAccuracy');
 
-		if (appConfig && appConfig.geometriesAccuracy) {
+		if (geometriesAccuracy) {
 			additionalParams.transformation = {
 				snapToGrid: {
-					size: appConfig.geometriesAccuracy
-				}
+					size: geometriesAccuracy
+				},
+				transform: 4326
 			}
 		}
 

@@ -15,7 +15,7 @@ export const commonActionTypesDefinitions = {
 	APP: {
 		SET_KEY: null,
 		SET_BASE_URL: null,
-		SET_CONFIGURATION: null
+		SET_LOCAL_CONFIGURATION: null
 	},
 
 	AREAS: {
@@ -141,6 +141,42 @@ export const commonActionTypesDefinitions = {
 			}
 		}
 	},
+	
+	CASES: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		DELETE: null,
+		MARK_DELETED: null,
+		EDITED: {
+			REMOVE: null,
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null,
+			CLEAR_INDEX: null,
+		},
+		LOAD: {
+			ERROR: null,
+			REQUEST: null
+		},
+		SET_ACTIVE_KEY: null,
+		SET_ACTIVE_KEYS: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
+	},
 
 	CHOROPLETHS_SET_ACTIVE_KEYS: 'CHOROPLETHS_SET_ACTIVE_KEYS',
 	CHOROPLETHS_UPDATE: 'CHOROPLETHS_UPDATE',
@@ -161,7 +197,8 @@ export const commonActionTypesDefinitions = {
 	},
 
 	CHARTS: {
-		UPDATE: null
+		UPDATE: null,
+		SET_INITIAL: null
 	},
 
 	DATAVIEWS_REMOVE: 'DATAVIEWS_REMOVE',
@@ -279,6 +316,7 @@ export const commonActionTypesDefinitions = {
 	MAPS_SET_INDEPENDENT_OF_PERIOD: 'MAPS_SET_INDEPENDENT_OF_PERIOD',
 
 	MAPS: {
+		SET_INITIAL: null,
 		SET_ACTIVE_MAP_KEY: null,
 		SET_ACTIVE_SET_KEY: null,
 		SET_SCOPE: null,
@@ -513,6 +551,7 @@ export const commonActionTypesDefinitions = {
 		USE: {
 			INDEXED: {
 				CLEAR: null,
+				CLEAR_ALL: null,
 				REGISTER: null
 			}
 		}
@@ -654,6 +693,7 @@ export const commonActionTypesDefinitions = {
 		USE: {
 			INDEXED: {
 				CLEAR: null,
+				CLEAR_ALL: null,
 				REGISTER: null
 			}
 		}

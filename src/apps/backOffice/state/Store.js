@@ -6,6 +6,7 @@ import { createBrowserHistory } from 'history';
 
 // specific types
 import appsReducers from './Apps/reducers';
+import configurationsReducers from './Configurations/reducers';
 
 import indicatorsReducers from '../../esponFuore/state/EsponFuoreIndicators/reducers';
 
@@ -15,6 +16,7 @@ import areasReducers from '../../../state/Areas/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
 import attributeRelationsReducers from "../../../state/AttributeRelations/reducers";
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
+import casesReducers from '../../../state/Cases/reducers';
 import componentsReducers from '../../../state/Components/reducers';
 import layerPeriodsReducers from '../../../state/LayerPeriods/reducers';
 import layerTemplatesReducers from '../../../state/LayerTemplates/reducers';
@@ -39,6 +41,7 @@ export const history = createBrowserHistory();
 export default createStore(combineReducers({
 	specific: combineReducers({
 		apps: appsReducers,
+		configurations: configurationsReducers,
 		esponFuoreIndicators: indicatorsReducers
 	}),
 	app: appReducers,
@@ -46,6 +49,7 @@ export default createStore(combineReducers({
 	attributes: attributesReducers,
 	attributeRelations: attributeRelationsReducers,
 	attributeSets: attributeSetsReducers,
+	cases: casesReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
