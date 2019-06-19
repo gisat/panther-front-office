@@ -1,0 +1,71 @@
+@import '../../../../../../styles/variables';
+@import '../../../../styles/variables';
+
+.tacrGeoinvaze-case-select-content-cases {
+	display: flex;
+}
+.tacrGeoinvaze-case-select-content-cases > div {
+	flex: 0 25%;
+}
+
+.tacrGeoinvaze-case-select-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tacrGeoinvaze-case-select-content > div {
+  //flex-basis: 50%;
+}
+.tacrGeoinvaze-case-select-content-info {
+  padding: 2rem;
+  flex: 0 16rem;
+}
+.tacrGeoinvaze-case-select-content-cases {
+  flex: 1;
+  background-color: var(--accent30);
+}
+
+.tacrGeoinvaze-case-select-content-intro {
+  height: 0;
+  overflow: hidden;
+}
+.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro {
+  height: 14rem;
+}
+
+.tacrGeoinvaze-case-select-content-cases > div:nth-child(2n) {
+  background: var(--accent35);
+}
+
+.tacrGeoinvaze-case-select-content-cases > div > div:first-child {
+  height: m(5);
+  padding: m(1);
+  font-size: $b2;
+	color: #fff;
+}
+
+
+.tacrGeoinvaze-case-list .ptr-panther-select-item {
+	height: m(1+2/3);
+	padding: m(1/3);
+	border-bottom: 1px solid #fff4;
+	transition: background-color .3s ease-in-out;
+	cursor: pointer;
+	color: var(--accent90);
+}
+.tacrGeoinvaze-case-list .ptr-panther-select-item:hover {
+	background-color: #fff3;
+}
+
+.tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
+	background: url("../../../../assets/temp_terrestrialAnimals.jpg") 50% 45%;
+}
+.tacrGeoinvaze-case-select-terrestrialPlants > div:first-child {
+	background: url("../../../../assets/temp_terrestrialPlants.jpg") 0 45%;
+}
+.tacrGeoinvaze-case-select-aquaticAnimals > div:first-child {
+	background: url("../../../../assets/temp_aquaticAnimals.jpg") 15% 55%;
+}
+.tacrGeoinvaze-case-select-aquaticPlants > div:first-child {
+	background: url("../../../../assets/temp_aquaticPlants.jpg") 40% 45%;
+}

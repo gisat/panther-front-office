@@ -12,6 +12,24 @@
 	left: 0;
 }
 
+// center in container with position context
+@mixin positionCenter() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+@mixin positionCenterVertical() {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+@mixin positionCenterHorizontal() {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
 // font sizes
 $a0: .618rem;
 $a1: 1rem;

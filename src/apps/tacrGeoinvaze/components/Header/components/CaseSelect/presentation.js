@@ -3,13 +3,14 @@ import React from "react";
 import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
+import CaseSelectContent from "../CaseSelectContent";
 
 class CaseSelect extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
 		this.renderCurrent = this.renderCurrent.bind(this);
-		this.selectScope = this.selectScope.bind(this);
+		this.selectCase = this.selectCase.bind(this);
 	}
 
 	componentDidMount() {
@@ -20,8 +21,8 @@ class CaseSelect extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
-	selectScope(key) {
-		if (key !== this.props.activeCase.key) {
+	selectCase(key) {
+		if (!this.props.activeCase || (key !== this.props.activeCase.key)) {
 			this.props.selectCase(key);
 		}
 	}
@@ -36,9 +37,7 @@ class CaseSelect extends React.PureComponent {
 			);
 		} else {
 			//no case
-			return (
-				<span className="">Select case</span>
-			);
+			return null;
 		}
 	};
 
@@ -49,41 +48,21 @@ class CaseSelect extends React.PureComponent {
 
 			<PantherSelect
 				className="tacrGeoinvaze-case-select"
-				open={props.caseSelectOpen}
+				open={props.caseSelectOpen || !props.activeCase}
+				currentDisabled={!props.activeCase}
 				onSelectClick={() => {
 					props.caseSelectOpen ? props.closeSelect() : props.openSelect()
 				}}
-				onSelect={this.selectScope}
+				onSelect={this.selectCase}
 				currentClasses="tacrGeoinvaze-case-select-current"
 				renderCurrent={this.renderCurrent}
 				listClasses="tacrGeoinvaze-case-select-list"
 			>
-				<div className="tacrGeoinvaze-case-select-content">
-					<div className="tacrGeoinvaze-case-select-content-header">
+				<div className="tacrGeoinvaze-case-select-overlay">
+					<div className="tacrGeoinvaze-case-select-overlay-header">
 						Hic sunt pantherae.
 					</div>
-					<div className="tacrGeoinvaze-case-select-content-content">
-						<div className="tacrGeoinvaze-case-select-content-info">
-							<p>
-								Tento geoinformační portál je zaměřen na vizualizaci distribuce invazních nepůvodních druhů v rámci ČR. Pro druhy byly vytvořeny mapy současného výskytu a predikční modely možného výskytu. V mapách současného rozšíření je možné též sledovat vývoj šíření druhu podle délky trvání výskytu v zájmovém území. Zobrazení výstupů modelů pak ukazuje maximální možné rozšíření druhů a predikci v časových horizontech.
-							</p>
-							<p>
-								Portál by měl sloužit orgánům státní správy a územní samosprávy, stejně tak soukromým vlastníkům pozemků, honiteb a správcům lesních pozemků. Na základě aktuálního rozšíření či potenciálního nebezpečí rozšíření invazních druhů je možno navrhnout cílené postupy monitoringu a eliminace invazních druhů v zájmovém území, popřípadě žádat o státní finanční příspěvky na likvidaci a management invazních nepůvodních druhů.
-							</p>
-						</div>
-						<div className="tacrGeoinvaze-case-select-cases">
-							{props.cases && props.cases.map((oneCase) => {
-								return (
-									<PantherSelectItem
-										itemKey={oneCase.key}
-										key={oneCase.key}
-									>
-										{oneCase.data && oneCase.data.nameDisplay}
-									</PantherSelectItem>
-								);
-							})}
-						</div>
-					</div>
+					<CaseSelectContent />
 				</div>
 			</PantherSelect>
 

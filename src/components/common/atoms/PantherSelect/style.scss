@@ -5,7 +5,7 @@
 	position: relative;
 	z-index: 45;
 }
-.ptr-panther-select-current:not(.disabled) {
+.ptr-panther-select:not(.disabled):not(.currentDisabled) .ptr-panther-select-current {
 	cursor: pointer;
 }
 .ptr-panther-select-current:focus,

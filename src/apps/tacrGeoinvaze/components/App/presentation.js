@@ -12,6 +12,8 @@ import MapTools from "../../../../components/common/maps/MapTools";
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import Header from '../Header';
+import LayerControls from "../LayerControls";
+import CaseDetail from "../CaseDetail";
 
 class TacrGeoinvazeApp extends React.PureComponent {
 
@@ -19,10 +21,50 @@ class TacrGeoinvazeApp extends React.PureComponent {
 		const props = this.props;
 
 		return (
-			<div className="tacrGeoinvaze-app">
+			<>
 				<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>
-				<Header />
-			</div>
+				<Header
+					categories={props.categories}
+				/>
+				<AdjustableColumns
+					fixed
+					content={[
+						{
+							width: "30rem",
+							minWidth: "20rem",
+							maxWidth: "35rem",
+							render: props => (
+								<div className="tacrGeoinvaze-sidebar">
+									<LayerControls/>
+									<CaseDetail/>
+								</div>
+							)
+						},
+						{
+							render: props => (
+								<ReactResizeDetector
+									handleWidth
+									handleHeight
+									render={({ width, height }) => {return (
+										<>
+											<MapSet
+												mapSetKey="tacrGeoinvaze"
+												width={width}
+												height={height}
+											>
+											</MapSet>
+											<MapTools>
+												<MapControls zoomOnly/>
+											</MapTools>
+										</>
+									)
+									}}
+								/>
+							)
+						},
+					]}
+				/>
+			</>
 		);
 	}
 }

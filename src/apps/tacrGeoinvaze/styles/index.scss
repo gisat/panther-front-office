@@ -30,26 +30,32 @@
 }
 
 .tacrGeoinvaze-header {
-	width: 30rem;
+	width: 100%;
+	position: absolute;
 }
 .tacrGeoinvaze-title {
 	position: relative;
 	z-index: 45;
 	font-size: $b2;
-	color: var(--base0);
+	//color: var(--base0);
+	color: var(--accent25);
 	height: m(2);
+	width: 30rem;
 	padding: .51825rem 1rem;
+	background-color: var(--accent65);
 }
 .tacrGeoinvaze-case-select {
 	height: m(2);
+	width: 30rem;
 }
 .tacrGeoinvaze-case-select .ptr-panther-select-current {
 	height: 100%;
-}
-.tacrGeoinvaze-title,
-.tacrGeoinvaze-case-select .ptr-panther-select-current {
 	background-color: var(--accent50);
 }
+//.tacrGeoinvaze-title,
+//.tacrGeoinvaze-case-select .ptr-panther-select-current {
+//	background-color: var(--accent50);
+//}
 
 .tacrGeoinvaze-header .ptr-panther-select-list {
 	padding-top: 0;
@@ -57,29 +63,24 @@
 .tacrGeoinvaze-case-select-list.ptr-panther-select-list > div > div {
 	height: 100%;
 }
-.tacrGeoinvaze-case-select-content {
+.tacrGeoinvaze-case-select-overlay {
 	height: 100%;
 	//background-color: var(--base0);
 	background-color: var(--accent10);
 }
 
-.tacrGeoinvaze-case-select-content-header {
+.tacrGeoinvaze-case-select-overlay-header {
 	height: m(4);
 	background-color: var(--base0);
 }
-.tacrGeoinvaze-case-select-content-content {
+.tacrGeoinvaze-case-select-content {
 	height: calc(100% - #{m(4)});
+}
+
+.tacrGeoinvaze-sidebar {
+	padding-top: m(4);
+	overflow: hidden;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
-}
-.tacrGeoinvaze-case-select-content-content > div {
-	//flex-basis: 50%;
-}
-.tacrGeoinvaze-case-select-content-info {
-	padding: 2rem;
-	flex: 0 10rem;
-}
-.tacrGeoinvaze-case-select-cases {
-	flex: 1;
-	background-color: var(--accent30);
 }

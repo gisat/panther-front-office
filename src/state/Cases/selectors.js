@@ -24,6 +24,7 @@ const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
 
 export default {
+	getActive,
 	getActiveKey,
 	getActiveKeys,
 	getActiveModels,
