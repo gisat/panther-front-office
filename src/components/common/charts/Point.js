@@ -30,6 +30,8 @@ class Point extends React.PureComponent {
 
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string,
+		xOptions: PropTypes.object,
+		yOptions: PropTypes.object,
 
 		standalone: PropTypes.bool
 	};
@@ -128,20 +130,31 @@ class Point extends React.PureComponent {
 	}
 
 	getPopupContent() {
+		const props = this.props;
 		let content = <div>No data</div>;
 
-		// todo update
-		if (this.props.data) {
+		if (props.data) {
+			let xName = `x`;
+			let yName = `y`;
+
+			if (props.xOptions && props.xOptions.name) {
+				xName = props.xOptions.name;
+			}
+
+			if (props.yOptions && props.yOptions.name) {
+				yName = props.yOptions.name;
+			}
+
 			content = (
 				<div>
 					<div>
-						<i>{`${this.props.name}:`}</i>
+						<i>{`${props.name}:`}</i>
 					</div>
 					<div>
-						<i>{`x:`}</i> {`${_.get(this.props.data, this.props.xSourcePath).toLocaleString()}`}
+						<i>{`${xName}:`}</i> {`${_.get(props.data, props.xSourcePath).toLocaleString()}`}
 					</div>
 					<div>
-						<i>{`y:`}</i> {`${_.get(this.props.data, this.props.ySourcePath).toLocaleString()}`}
+						<i>{`${yName}:`}</i> {`${_.get(props.data, props.ySourcePath).toLocaleString()}`}
 					</div>
 				</div>
 			);

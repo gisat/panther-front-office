@@ -50,10 +50,12 @@ class ScatterChart extends React.PureComponent {
 		ySourcePath: PropTypes.string, // if serie, path in context of serie
 		itemNameSourcePath: PropTypes.string, // only if serie
 
+		xOptions: PropTypes.object,
 		xGridlines: PropTypes.bool,
 		xCaptions: PropTypes.bool,
 		xTicks: PropTypes.bool,
 
+		yOptions: PropTypes.object,
 		yGridlines: PropTypes.bool,
 		yCaptions: PropTypes.bool,
 		yTicks: PropTypes.bool,
@@ -236,7 +238,9 @@ class ScatterChart extends React.PureComponent {
 				x={x}
 				y={y}
 				xSourcePath={this.props.xSourcePath}
+				xOptions={this.props.xOptions}
 				ySourcePath={this.props.ySourcePath}
+				yOptions={this.props.yOptions}
 				name={name}
 				r={this.props.pointRadius}
 				color={color}

@@ -104,7 +104,13 @@ class ScatterChartDoc extends React.PureComponent {
 							keySourcePath="key"
 
 							xSourcePath="someStrangeValue" // in context of serie
+							xOptions={{
+								name: "Attribut X"
+							}}
 							ySourcePath="otherValue" // in context of serie
+							yOptions={{
+								name: "Attribut Y"
+							}}
 							itemNameSourcePath="period" // in context of serie
 
 							xGridlines
