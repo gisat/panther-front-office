@@ -11,6 +11,7 @@ class PantherSelect extends React.PureComponent {
 
 	static propTypes = {
 		disabled: PropTypes.bool,
+		currentDisabled: PropTypes.bool, //todo better name
 		open: PropTypes.bool,
 		onBlur: PropTypes.func,
 		onSelectClick: PropTypes.func,
@@ -22,7 +23,8 @@ class PantherSelect extends React.PureComponent {
 	};
 
 	static defaultProps = {
-		disabled: false
+		disabled: false,
+		currentDisabled: false
 	};
 
 	constructor(props) {
@@ -36,7 +38,7 @@ class PantherSelect extends React.PureComponent {
 
 
 	onClick(e) {
-		if (!this.props.disabled) {
+		if (!this.props.disabled && !this.props.currentDisabled) {
 			if (this.props.onSelectClick) {
 				this.props.onSelectClick(e);
 			}
@@ -74,7 +76,9 @@ class PantherSelect extends React.PureComponent {
 
 		let classes = classNames(
 			'ptr-panther-select', {
-				open: !!this.props.open
+				open: !!this.props.open,
+				disabled: !!this.props.disabled,
+				currentDisabled: !!this.props.currentDisabled
 			},
 			this.props.className
 		);
@@ -83,7 +87,7 @@ class PantherSelect extends React.PureComponent {
 			<div className={classes} onBlur={this.onBlur}>
 				<div
 					className={classNames("ptr-panther-select-current", this.props.currentClasses, {disabled: !!this.props.disabled})}
-					tabIndex={this.props.disabled ? "-1" : "0"}
+					tabIndex={this.props.disabled || this.props.currentDisabled ? "-1" : "0"}
 					onClick={this.onClick}
 				>
 					<div>{this.props.renderCurrent(this.props)}</div>

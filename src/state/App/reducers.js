@@ -38,6 +38,10 @@ function setHelper(state, path, value) {
 	}
 }
 
+const receiveConfiguration = (state, action) => {
+	return {...state, configuration: action.configuration};
+};
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.APP.SET_BASE_URL:
@@ -46,6 +50,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setKey(state, action);
 		case ActionTypes.APP.SET_LOCAL_CONFIGURATION:
 			return setLocalConfiguration(state, action);
+		case ActionTypes.APP.RECEIVE_CONFIGURATION:
+			return receiveConfiguration(state, action);
 		default:
 			return state;
 	}

@@ -7,6 +7,7 @@ import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import Button from "../../../../../../components/common/atoms/Button";
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+import TagsSelect from "../../../formComponents/MetadataMultiSelect/TagsSelect";
 
 import cz from "./locales/cz";
 import en from "./locales/en";
@@ -33,6 +34,7 @@ class CaseConfig extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
+		this.onTagsChange = this.onTagsChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -56,6 +58,10 @@ class CaseConfig extends React.PureComponent {
 		catch(e) {
 			this.onChange(key, value);
 		}
+	}
+	
+	onTagsChange(keys) {
+		this.props.updateEdited('tagKeys', keys);
 	}
 
 	render() {
@@ -111,6 +117,19 @@ class CaseConfig extends React.PureComponent {
 						onChange={(val) => this.onChange('description', val)}
 					/>
 				</InputWrapper>
+				<InputWrapper
+					required
+					label={t("metadata.names.tag_plural")}
+				>
+					<TagsSelect
+						disabled={!this.props.editable}
+						keys={data && data.tagKeys}
+						onChange={this.onTagsChange}
+						unfocusable={this.props.unfocusable}
+						withKeyPrefix
+					/>
+				</InputWrapper>
+				
 				<div className="ptr-bo-screen-buttons">
 					<div className="ptr-bo-screen-buttons-left">
 						<Button

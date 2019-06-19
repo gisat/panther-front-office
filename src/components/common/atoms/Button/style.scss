@@ -192,6 +192,14 @@
   background: var(--base20);
 }
 
+.ptr-button.invisible.primary {
+  color: var(--accent60);
+}
+
+.ptr-button.invisible.primary:hover {
+  background: var(--accent20);
+}
+
 
 /* Circular */
 .ptr-button.circular {
