@@ -37,10 +37,12 @@
 	position: relative;
 	z-index: 45;
 	font-size: $b2;
-	color: var(--base0);
+	//color: var(--base0);
+	color: var(--accent25);
 	height: m(2);
 	width: 30rem;
 	padding: .51825rem 1rem;
+	background-color: var(--accent65);
 }
 .tacrGeoinvaze-case-select {
 	height: m(2);
@@ -48,11 +50,12 @@
 }
 .tacrGeoinvaze-case-select .ptr-panther-select-current {
 	height: 100%;
-}
-.tacrGeoinvaze-title,
-.tacrGeoinvaze-case-select .ptr-panther-select-current {
 	background-color: var(--accent50);
 }
+//.tacrGeoinvaze-title,
+//.tacrGeoinvaze-case-select .ptr-panther-select-current {
+//	background-color: var(--accent50);
+//}
 
 .tacrGeoinvaze-header .ptr-panther-select-list {
 	padding-top: 0;

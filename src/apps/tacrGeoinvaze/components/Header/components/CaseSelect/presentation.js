@@ -37,9 +37,7 @@ class CaseSelect extends React.PureComponent {
 			);
 		} else {
 			//no case
-			return (
-				<span className="">Select case</span>
-			);
+			return null;
 		}
 	};
 
@@ -50,7 +48,8 @@ class CaseSelect extends React.PureComponent {
 
 			<PantherSelect
 				className="tacrGeoinvaze-case-select"
-				open={props.caseSelectOpen}
+				open={props.caseSelectOpen || !props.activeCase}
+				currentDisabled={!props.activeCase}
 				onSelectClick={() => {
 					props.caseSelectOpen ? props.closeSelect() : props.openSelect()
 				}}
