@@ -6,6 +6,7 @@ import ScatterChart from "../../../components/common/charts/ScatterChart/Scatter
 
 import sample_4 from "./mockData/sample_4";
 import sample_50 from "./mockData/sample_50";
+import sample_serie_10 from "./mockData/scatterChart/serie_10";
 
 class ScatterChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -84,6 +85,37 @@ class ScatterChartDoc extends React.PureComponent {
 							height={200}
 							innerPadding={20}
 							pointRadius={7}
+						/>
+					</HoverHandler>
+				</div>
+
+				<div className="ptr-docs-panel-section">
+					<h2>Data source is serie</h2>
+					<p></p>
+					<HoverHandler>
+						<ScatterChart
+							key="scatter-doc-serie"
+							data={sample_serie_10}
+							isSerie
+
+							serieDataSourcePath="data.data"
+							nameSourcePath="data.name"
+							colorSourcePath="data.color"
+							keySourcePath="key"
+
+							xSourcePath="someStrangeValue" // in context of serie
+							ySourcePath="otherValue" // in context of serie
+							itemNameSourcePath="period" // in context of serie
+
+							xGridlines
+							xCaptions
+							xTicks
+
+							yGridlines
+							yCaptions
+							yTicks
+
+							width={this.state.width}
 						/>
 					</HoverHandler>
 				</div>

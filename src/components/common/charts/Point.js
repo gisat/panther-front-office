@@ -15,6 +15,7 @@ class Point extends React.PureComponent {
 	static propTypes = {
 		itemKey: PropTypes.string,
 		data: PropTypes.object,
+		name: PropTypes.string,
 		x: PropTypes.number,
 		y: PropTypes.number,
 		r: PropTypes.number,
@@ -27,7 +28,6 @@ class Point extends React.PureComponent {
 		]),
 		highlighted: PropTypes.bool,
 
-		nameSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string,
 
@@ -135,7 +135,7 @@ class Point extends React.PureComponent {
 			content = (
 				<div>
 					<div>
-						<i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i>
+						<i>{`${this.props.name}:`}</i>
 					</div>
 					<div>
 						<i>{`x:`}</i> {`${_.get(this.props.data, this.props.xSourcePath).toLocaleString()}`}

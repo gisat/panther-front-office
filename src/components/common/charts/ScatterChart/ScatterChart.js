@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
+import chroma from 'chroma-js';
 
 import AxisX from '../AxisX';
 import AxisY from "../AxisY";
@@ -36,11 +37,16 @@ class ScatterChart extends React.PureComponent {
 		xCaptionsSize: PropTypes.number,
 		yCaptionsSize: PropTypes.number,
 
-		xSourcePath: PropTypes.string,
-		ySourcePath: PropTypes.string,
+		isSerie: PropTypes.bool,
+
 		nameSourcePath: PropTypes.string,
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string,
+		serieDataSourcePath: PropTypes.string, // only if serie
+
+		xSourcePath: PropTypes.string, // if serie, path in context of serie
+		ySourcePath: PropTypes.string, // if serie, path in context of serie
+		itemNameSourcePath: PropTypes.string, // only if serie
 
 		xGridlines: PropTypes.bool,
 		xCaptions: PropTypes.bool,
@@ -91,7 +97,7 @@ class ScatterChart extends React.PureComponent {
 		let innerPlotHeight = plotHeight - props.innerPadding;
 
 		/* data preparation */
-		let xDomain, yDomain, xScale, yScale = null;
+		let xDomain, yDomain, xScale, yScale, colors = null;
 		let data = {...props.data};
 
 		if (data) {
@@ -106,6 +112,26 @@ class ScatterChart extends React.PureComponent {
 				return _.get(item, props.xSourcePath);
 			});
 
+			if (props.isSerie) {
+				yValues = _.map(data, item => {
+					let serie = _.get(item, props.serieDataSourcePath);
+					return _.map(serie, record => {
+						return _.get(record, props.ySourcePath);
+					});
+				});
+
+				yValues = _.flatten(yValues);
+
+				xValues = _.map(props.data, item => {
+					let serie = _.get(item, props.serieDataSourcePath);
+					return _.map(serie, record => {
+						return _.get(record, props.xSourcePath);
+					});
+				});
+
+				xValues = _.flatten(xValues);
+			}
+
 			xDomain = [_.min(xValues), _.max(xValues)];
 			yDomain = [_.min(yValues), _.max(yValues)];
 
@@ -119,6 +145,12 @@ class ScatterChart extends React.PureComponent {
 				.scaleLinear()
 				.domain(yDomain)
 				.range([innerPlotHeight, 0]);
+
+			if (props.isSerie) {
+				colors = d3
+					.scaleOrdinal(d3.schemeCategory10)
+					.domain(_.map(data,record => {return _.get(record, props.keySourcePath)}));
+			}
 		}
 
 		return (
@@ -152,7 +184,7 @@ class ScatterChart extends React.PureComponent {
 							withCaption={props.xCaptions}
 						/>
 						<g transform={`translate(${yCaptionsSize + props.innerPadding},${props.innerPadding})`}>
-							{this.renderPoints(data, props, xScale, yScale)}
+							{this.renderPoints(data, props, xScale, yScale, colors)}
 						</g>
 					</> : null}
 				</svg>
@@ -160,29 +192,55 @@ class ScatterChart extends React.PureComponent {
 		);
 	}
 
-	renderPoints(data, props, xScale, yScale) {
-		return _.map(data, (item) => {
+	renderPoints(data, props, xScale, yScale, colors) {
+		return _.map(data, (item, index) => {
 			let key = _.get(item, this.props.keySourcePath);
-			let xValue = _.get(item, this.props.xSourcePath);
-			let yValue = _.get(item, this.props.ySourcePath);
 			let color = _.get(item, this.props.colorSourcePath);
+			let name = _.get(item, this.props.nameSourcePath);
 
-			return (
-				<Point
-					key={key}
-					itemKey={key}
-					data={item}
-					x={xScale(xValue)}
-					y={yScale(yValue)}
-					xSourcePath={this.props.xSourcePath}
-					ySourcePath={this.props.ySourcePath}
-					nameSourcePath={this.props.nameSourcePath}
-					r={this.props.pointRadius}
-					color={color}
-					standalone
-				/>
-			);
+			if (this.props.isSerie) {
+				let serie = _.get(item, this.props.serieDataSourcePath);
+				if (!color) {
+					color = colors(_.get(item, props.keySourcePath));
+				}
+
+				return _.map(serie, (serieItem, index) => {
+					let xValue = _.get(serieItem, this.props.xSourcePath);
+					let yValue = _.get(serieItem, this.props.ySourcePath);
+					let itemName = _.get(serieItem, this.props.itemNameSourcePath);
+					let finalName = name;
+					if (itemName) {
+						finalName = `${name} (${itemName})`;
+					}
+
+					return this.renderPoint(key, serieItem, xScale(xValue), yScale(yValue), color, finalName, index);
+				});
+
+			} else {
+				let xValue = _.get(item, this.props.xSourcePath);
+				let yValue = _.get(item, this.props.ySourcePath);
+
+				return this.renderPoint(key, item, xScale(xValue), yScale(yValue), color, name, 0);
+			}
 		});
+	}
+
+	renderPoint(key, item, x, y, color, name, index) {
+		return (
+			<Point
+				key={key + '-' + index}
+				itemKey={key}
+				data={item}
+				x={x}
+				y={y}
+				xSourcePath={this.props.xSourcePath}
+				ySourcePath={this.props.ySourcePath}
+				name={name}
+				r={this.props.pointRadius}
+				color={color}
+				standalone
+			/>
+		);
 	}
 }
 

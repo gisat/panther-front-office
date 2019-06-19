@@ -69,6 +69,7 @@
     "key": "e716114f-b36e-4c39-9069-e00fda51e85c",
     "data": {
       "name": "California",
+      "color": "#0000ff",
       "data": [
         {
           "period": 1991,
@@ -102,6 +103,7 @@
     "key": "28bf9648-2031-4b2b-af60-cfa650a4d938",
     "data": {
       "name": "New York",
+      "color": "#ff00ff",
       "data": [
         {
           "period": 1991,
@@ -135,6 +137,7 @@
     "key": "f5f155e1-78aa-4414-a3f8-ad54a78766aa",
     "data": {
       "name": "North Dakota",
+      "color": "#ffff00",
       "data": [
         {
           "period": 1991,
@@ -168,6 +171,7 @@
     "key": "d6f31fee-57e4-42cd-9281-0041c4639b50",
     "data": {
       "name": "Louisiana",
+      "color": "#00ffff",
       "data": [
         {
           "period": 1991,
@@ -201,6 +205,7 @@
     "key": "6f0001a7-47f2-41f0-a3d4-22b31b92e1e1",
     "data": {
       "name": "Maine",
+      "color": "#aa0000",
       "data": [
         {
           "period": 1991,
@@ -234,6 +239,7 @@
     "key": "89a4f802-82d1-4820-85f1-db4545356ed9",
     "data": {
       "name": "Indiana",
+      "color": "#00aa00",
       "data": [
         {
           "period": 1991,
@@ -267,6 +273,7 @@
     "key": "9b0d20a0-853f-4ffd-ba65-b9daa6c7b2d2",
     "data": {
       "name": "Virginia",
+      "color": "#0000aa",
       "data": [
         {
           "period": 1991,
@@ -300,6 +307,7 @@
     "key": "d60f4ae4-4629-44e3-88b0-727f3ab0b5a9",
     "data": {
       "name": "Kentucky",
+      "color": "#aaaa00",
       "data": [
         {
           "period": 1991,
