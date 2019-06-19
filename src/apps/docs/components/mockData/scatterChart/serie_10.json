@@ -7,27 +7,7 @@
         {
           "period": 1991,
           "someStrangeValue": -1591,
-          "otherValue": 0.4587
-        },
-        {
-          "period": 1992,
-          "someStrangeValue": 1341,
-          "otherValue": 0.924
-        },
-        {
-          "period": 1993,
-          "someStrangeValue": -1499,
-          "otherValue": 0.9847
-        },
-        {
-          "period": 1994,
-          "someStrangeValue": -537,
-          "otherValue": 0.3551
-        },
-        {
-          "period": 1995,
-          "someStrangeValue": 1824,
-          "otherValue": 0.7618
+          "otherValue": null
         }
       ]
     }
@@ -44,23 +24,8 @@
         },
         {
           "period": 1992,
-          "someStrangeValue": 196,
+          "someStrangeValue": 0,
           "otherValue": 0.4109
-        },
-        {
-          "period": 1993,
-          "someStrangeValue": -1774,
-          "otherValue": 0.9106
-        },
-        {
-          "period": 1994,
-          "someStrangeValue": -1211,
-          "otherValue": 0.9762
-        },
-        {
-          "period": 1995,
-          "someStrangeValue": 1402,
-          "otherValue": 0.6762
         }
       ]
     }

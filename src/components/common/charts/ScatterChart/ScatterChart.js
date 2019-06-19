@@ -10,6 +10,8 @@ import AxisY from "../AxisY";
 import './style.scss';
 import Point from "../Point";
 
+import utilsFilter from "../../../../utils/filter";
+
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
 		width: 500,
@@ -97,21 +99,13 @@ class ScatterChart extends React.PureComponent {
 		let innerPlotHeight = plotHeight - props.innerPadding;
 
 		/* data preparation */
-		let xDomain, yDomain, xScale, yScale, colors = null;
+		let xDomain, yDomain, xScale, yScale, xValues, yValues, colors = null;
 		let data = {...props.data};
 
 		if (data) {
-			// TODO filter null values
+			data = utilsFilter.filterDataWithNullValue(data, [props.xSourcePath, props.ySourcePath], props.serieDataSourcePath);
 
 			/* domain */
-			let yValues = _.map(data, item => {
-				return _.get(item, props.ySourcePath);
-			});
-
-			let xValues = _.map(data, item => {
-				return _.get(item, props.xSourcePath);
-			});
-
 			if (props.isSerie) {
 				yValues = _.map(data, item => {
 					let serie = _.get(item, props.serieDataSourcePath);
@@ -130,6 +124,14 @@ class ScatterChart extends React.PureComponent {
 				});
 
 				xValues = _.flatten(xValues);
+			} else {
+				yValues = _.map(data, item => {
+					return _.get(item, props.ySourcePath);
+				});
+
+				xValues = _.map(data, item => {
+					return _.get(item, props.xSourcePath);
+				});
 			}
 
 			xDomain = [_.min(xValues), _.max(xValues)];
