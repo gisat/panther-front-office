@@ -2,7 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 
 import ChartSet from '../../../../../components/common/charts/ChartSet';
-import UnSeeaCharts from "../Charts/UnSeeaCharts";
+// import UnSeeaCharts from "../Charts/UnSeeaCharts";
+import UnSeeaCharts from "../Charts/UnSeeaChartsTrees";
 import urbantepLogo from "../../../assets/img/logo_tep_urban.png";
 import ninaLogo from "../../../assets/img/eeanina.png";
 import "./style.scss";
@@ -35,7 +36,7 @@ export default () => {
 			{/* charts */}
 			<div style={{flex: '1 0 auto'}}>
 				<ChartSet
-					setKey="unSeeaCharts"
+					setKey="unSeeaTreesCharts"
 				>
 					<UnSeeaCharts/>
 				</ChartSet>

@@ -91,7 +91,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 		return {
 			data: relativeData,
-			selectedArea: selectedAreas[0]
+			selectedArea: selectedAreas[0].toString()
 		}
 	};
 };

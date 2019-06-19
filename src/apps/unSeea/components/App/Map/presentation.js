@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import {getStaticPolygonStyleFunction} from './staticPolygonStyle';
+// import {getStaticPolygonStyleFunction} from './staticPolygonStyle';
+import {getStaticPolygonStyleFunction} from './staticTreesPointStyle';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/VectorLayer';
 import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
@@ -277,7 +278,8 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 	onMapClick(renderables, x, y, mapKey) {
 
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
-		const keySource = 'gid';
+		//FIXME - trees/districts
+		const keySource = 'TREE_ID';
 		let keys = features.map(feature => feature[keySource]);
 		const action = {};
 		//add renderable to selected features
@@ -327,8 +329,13 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 				let name = _.get(feature, '_name');
 				let value = _.get(feature, 'name');
 				let spatialId = _.get(feature, spatialIdSource);
-				if(value || value === 0) {
-					content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+				// if(value || value === 0) {
+				// 	content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+				// } else {
+				// 	content.push(<div key={spatialId}>No data</div>);
+				// }
+				if(spatialId || spatialId === 0) {
+					content.push(<div key={spatialId}><i>Tree ID:</i> {spatialId}</div>);
 				} else {
 					content.push(<div key={spatialId}>No data</div>);
 				}
