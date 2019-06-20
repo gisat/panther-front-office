@@ -57,31 +57,31 @@ export default [
 	{
 		name: 'CO_STO_N17',
 		color: '#4974C6',
-		// getTooltip: getRoundedKilometers, jake jednotky
+		getTooltip: getKilograms,
 		title: 'Stored Carbon'
 	},
 	{
 		name: 'CO_SEQ_N17',
 		color: '#4974C6',
-		// getTooltip: getRoundedKilometers, jake jednotky
+		getTooltip: getKilograms,
 		title: 'Sequestrated Carbon'
 	},
 	{
 		name: 'CO_AVO_N17',
 		color: '#4974C6',
-		// getTooltip: getRoundedKilometers, jake jednotky
+		getTooltip: getKilograms,
 		title: 'Avoided runoff'
 	},
 	{
 		name: 'POL_RE_N17',
 		color: '#4974C6',
-		// getTooltip: getRoundedKilometers, jake jednotky
+		getTooltip: getKilograms,
 		title: 'Removed air pollution'
 	},
 	{
 		name: 'TOTBEN_N17',
 		color: '#4974C6',
-		// getTooltip: getRoundedKilometers, jake jednotky
+		getTooltip: getKilograms,
 		title: 'Annual Benefits'
 	}
 ];

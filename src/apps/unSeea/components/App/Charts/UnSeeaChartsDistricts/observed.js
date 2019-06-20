@@ -1,44 +1,93 @@
 const getRoundedKilometers = (val) => `${Math.round(val/1000000 * 100) / 100} km2`;
+const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
+const getSquareCentiMeters = (val) => `${Math.round(val * 10000000) / 1000} cm2`;
+const getCentiMeters = (val) => `${Math.round(val * 10000000) / 100000} cm`;
+const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
+const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
+const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
+const getGramsFromKilograms = (val) => `${Math.round(val * 100000) / 100} g`;
+const getMicroGramsFromGrams = (val) => `${Math.round(val * 100000) / 100} mg`;
+
 
 export default [
+	//hneda
 	{
-		name: 'Agriculture  low vegetation',
-		color: '#9acd32',
-		getTooltip: getRoundedKilometers
+		name: 'CD_TP_MEAN_POP',
+		color: '#CA4466',
+		getTooltip: getCentiMeters,
+		title: 'Stem Diameter'
 	},
 	{
-		name: 'Area of Borough',
-		color: '#eecbad',
-		getTooltip: getRoundedKilometers
+		name: 'H_TP_MEAN_POP',
+		color: '#CA4466',
+		getTooltip: getCentiMeters,
+		title: 'Tree Height'
 	},
 	{
-		name: 'Area of City',
-		color: '#c71585',
-		getTooltip: getRoundedKilometers
+		name: 'LF_AR_M2_TP_MEAN_POP',
+		color: '#CA4466',
+		getTooltip: getSquareCentiMeters,
+		title: 'Leaf Area'
+	},
+
+
+	//zelena
+	{
+		name: 'CO_STOR_KG_TP_MEAN_POP',
+		color: '#568038',
+		getTooltip: getGramsFromKilograms,
+		title: 'Stored Carbon'
 	},
 	{
-		name: 'Builtup Area',
-		color: '#cdc0b0',
-		getTooltip: getRoundedKilometers
+		name: 'CO_SEQ_KG_TP_MEAN_POP',
+		color: '#568038',
+		getTooltip: getGramsFromKilograms,
+		title: 'Sequestrated Carbon'
 	},
 	{
-		name: 'Open land',
-		color: '#5c9cd0',
-		getTooltip: getRoundedKilometers
+		name: 'CO_AVO_KG_TP_MEAN_POP',
+		color: '#568038',
+		getTooltip: getGramsFromKilograms,
+		title: 'Avoided Runoff'
 	},
 	{
-		name: 'Population Census 2008',
-		color: '#00ced1'
+		name: 'POL_REM_G_TP_MEAN_POP',
+		color: '#568038',
+		getTooltip: getMicroGramsFromGrams,
+		title: 'Removed air pollution'
+	},
+
+
+	//modra
+	{
+		name: 'CO_STO_N17_TP_MEAN_POP',
+		color: '#4974C6',
+		getTooltip: getGramsFromKilograms,
+		title: 'Stored Carbon'
 	},
 	{
-		name: 'Tree canopy',
-		color: '#228b22',
-		getTooltip: getRoundedKilometers
+		name: 'CO_SEQ_N17_TP_MEAN_POP',
+		color: '#4974C6',
+		getTooltip: getGramsFromKilograms,
+		title: 'Sequestrated Carbon'
 	},
 	{
-		name: 'Water',
-		color: '#6495ed',
-		getTooltip: getRoundedKilometers
+		name: 'CO_AVO_N17_TP_MEAN_POP',
+		color: '#4974C6',
+		getTooltip: getGramsFromKilograms,
+		title: 'Avoided runoff'
+	},
+	{
+		name: 'POL_RE_N17_TP_MEAN_POP',
+		color: '#4974C6',
+		getTooltip: getGramsFromKilograms,
+		title: 'Removed air pollution'
+	},
+	{
+		name: 'TOTBEN_N17_TP_MEAN_POP',
+		color: '#4974C6',
+		getTooltip: getGramsFromKilograms,
+		title: 'Annual Benefits'
 	}
 ];
 

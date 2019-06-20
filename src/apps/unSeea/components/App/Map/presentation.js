@@ -334,7 +334,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 		if (features && features.length) {
 			let content = [];
 			features.forEach((feature) => {
-				let unit = 'Boroughs';
+				let unit = 'District';
 				let name = _.get(feature, '_name');
 				let value = _.get(feature, 'name');
 				let spatialId = _.get(feature, spatialIdSource);

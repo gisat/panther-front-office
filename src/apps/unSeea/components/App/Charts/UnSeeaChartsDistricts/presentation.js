@@ -27,7 +27,7 @@ class ChartPanel extends React.PureComponent {
 						relative: value.relative,
 						absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
 					},
-					name: key,
+					name: observedValue.title,
 					color: observedValue.color
 				})
 			}
@@ -64,7 +64,7 @@ class ChartPanel extends React.PureComponent {
 			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
 		}
 
-		const description = "Ecosystem values"
+		const description = "Mean ecosystem values normalised by population per district."
 
 			return (
 					<div className="ptr-unseea-chart-panel">
@@ -94,6 +94,7 @@ class ChartPanel extends React.PureComponent {
 										captions: true
 									}}
 									forceMinimum={0}
+									forceMaximum={100}
 									legend
 								/>
 							</ChartWrapper> : 
@@ -139,6 +140,7 @@ class ChartPanel extends React.PureComponent {
 									}}
 									legend
 									forceMinimum={0}
+									forceMaximum={100}
 								/>
 							</ChartWrapper>
 						</div>
