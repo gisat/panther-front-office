@@ -10,7 +10,8 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
-import cartesianChart from "../cartesianChart";
+import cartesianChart from "../cartesianChart/cartesianChart";
+import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 
 class LineChart extends React.PureComponent {
 	static defaultProps = {
@@ -105,42 +106,17 @@ class LineChart extends React.PureComponent {
 
 		return (
 			<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
-				{(data) ? <>
-					<AxisY
-						scale={yScale}
-
-						bottomMargin={props.xCaptionsSize}
-						height={props.plotHeight}
-						plotWidth={props.plotWidth}
-						width={props.yCaptionsSize}
-						ticks={props.yTicks}
-						topPadding={props.innerPaddingTop}
-						gridlines={props.yGridlines}
-						withCaption={props.yCaptions}
-						hiddenBaseline={props.withoutYbaseline}
-					/>
-					<AxisX
-						data={sortedUniqueXvalues}
-						scale={xScale}
-						domain={xDomain}
-
-						leftMargin={props.yCaptionsSize} //TODO right margin for right oriented
-						leftPadding={props.innerPaddingLeft}
-						height={props.xCaptionsSize}
-						plotHeight={props.plotHeight}
-						width={props.plotWidth}
-
-						ticks={props.xTicks}
-						gridlines={props.xGridlines}
-						withCaption={props.xCaptions}
-					/>
-					<g transform={`translate(${props.yCaptionsSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
+				{(data) ?
+					<CartesianChartContent
+						{...props}
+						{...{xScale, yScale, contentData: sortedUniqueXvalues}}
+					>
 						{mode === 'aggregated' ?
 							this.renderAggregated(data, props, xScale, yScale) :
 							this.renderLines(data, props, xScale, yScale, colors, mode)
 						}
-					</g>
-				</> : null}
+					</CartesianChartContent>
+				: null}
 			</svg>
 		);
 	}

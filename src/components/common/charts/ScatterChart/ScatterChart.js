@@ -2,16 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
-import chroma from 'chroma-js';
-
-import AxisX from '../AxisX';
-import AxisY from "../AxisY";
 
 import './style.scss';
 import Point from "../Point";
 
 import utilsFilter from "../../../../utils/filter";
-import cartesianChart from "../cartesianChart";
+import cartesianChart from "../cartesianChart/cartesianChart";
+import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
@@ -100,37 +97,14 @@ class ScatterChart extends React.PureComponent {
 
 		return (
 			<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
-				{(data) ? <>
-					<AxisY
-						scale={yScale}
-
-						bottomMargin={props.xCaptionsSize}
-						topPadding={props.innerPaddingTop}
-						height={props.plotHeight}
-						plotWidth={props.plotWidth}
-						width={props.yCaptionsSize}
-						ticks={props.yTicks}
-						gridlines={props.yGridlines}
-						withCaption={props.yCaptions}
-						hiddenBaseline={props.withoutYbaseline}
-					/>
-					<AxisX
-						scale={xScale}
-
-						leftMargin={props.yCaptionsSize} //TODO right margin for right oriented
-						leftPadding={props.innerPaddingLeft}
-						height={props.xCaptionsSize}
-						plotHeight={props.plotHeight}
-						width={props.plotWidth}
-
-						ticks={props.xTicks}
-						gridlines={props.xGridlines}
-						withCaption={props.xCaptions}
-					/>
-					<g transform={`translate(${props.yCaptionsSize + props.innerPaddingTop},${props.innerPaddingLeft})`}>
+				{(data) ?
+					<CartesianChartContent
+						{...props}
+						{...{xScale, yScale}}
+					>
 						{this.renderPoints(data, xScale, yScale, colors)}
-					</g>
-				</> : null}
+					</CartesianChartContent>
+				: null}
 			</svg>
 		);
 	}

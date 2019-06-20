@@ -8,10 +8,9 @@ import '../style.scss';
 import utilsSort from "../../../../utils/sort";
 import utilsFilter from "../../../../utils/filter";
 
-import AxisX from '../AxisX';
-import AxisY from "../AxisY";
 import Bar from "./Bar";
-import cartesianChart from "../cartesianChart";
+import cartesianChart from "../cartesianChart/cartesianChart";
+import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 
 class ColumnChart extends React.PureComponent {
 	static defaultProps = {
@@ -101,43 +100,13 @@ class ColumnChart extends React.PureComponent {
 		return (
 			<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height}>
 				{data ?
-					<>
-						<AxisY
-							scale={yScale}
-
-							bottomMargin={props.xCaptionsSize}
-							topPadding={props.innerPaddingTop}
-							height={props.plotHeight}
-							plotWidth={props.plotWidth}
-							width={props.yCaptionsSize}
-
-							ticks={props.yTicks}
-							gridlines={props.yGridlines}
-							withCaption={props.yCaptions}
-							hiddenBaseline={props.withoutYbaseline}
-						/>
-						<AxisX
-							data={data}
-							scale={xScale}
-							domain={xDomain}
-							sourcePath={props.xSourcePath}
-							keySourcePath={props.keySourcePath}
-
-							leftMargin={props.yCaptionsSize}
-							leftPadding={props.innerPaddingLeft}
-							height={props.xCaptionsSize}
-							plotHeight={props.plotHeight}
-							width={props.plotWidth}
-
-							ticks={props.xTicks}
-							gridlines={props.xGridlines}
-							withCaption={props.xCaptions}
-						/>
-						<g transform={`translate(${props.yCaptionsSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
-							{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, props.innerPlotHeight)}
-						</g>
-					</> : null
-				}
+					<CartesianChartContent
+						{...props}
+						{...{xScale, yScale, contentData: data}}
+					>
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, props.innerPlotHeight)}
+					</CartesianChartContent>
+				: null}
 			</svg>
 		);
 	}
