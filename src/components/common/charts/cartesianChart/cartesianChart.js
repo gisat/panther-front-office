@@ -109,5 +109,4 @@ export default (WrappedChartComponent) => {
 	return CartesianChart;
 };
 
-export default cartesianChart;
 
