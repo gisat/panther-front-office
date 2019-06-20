@@ -104,7 +104,7 @@ class AxisX extends React.PureComponent {
 
 					let xCoord = this.props.scale(xValue);
 					if (xCoord || xCoord === 0) {
-						let key = this.props.keySourcePath && xValueFromObject ? item : xValueFromObject;
+						let key =  (this.props.keySourcePath && xValueFromObject) || item;
 						let text = item;
 						let textFromObject = _.get(item, this.props.sourcePath);
 
