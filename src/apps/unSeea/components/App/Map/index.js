@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
 		let layers = Select.maps.getLayers(state, layersData);
 		layers.forEach((l) => {
 			if(l.type === 'vector') {
-				l.spatialIdKey = "gid"
+				l.spatialIdKey = props.activeMapAttributeKey
 			}
 		})
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];

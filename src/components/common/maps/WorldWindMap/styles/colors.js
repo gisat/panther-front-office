@@ -22,7 +22,7 @@ const gray12 = '#040300';
 const red12 = '#ff0000';
 
 
-const getColorPallet = (baseColor, lighterColor, darkerColor, baseTransparency = 100) => {
+export const getColorPallet = (baseColor, lighterColor, darkerColor, baseTransparency = 100) => {
     darkerColor = darkerColor ? chroma(darkerColor) : chroma(baseColor).darker(1);
     lighterColor = lighterColor ? chroma(lighterColor) : chroma(baseColor).brighten(1);
     return {

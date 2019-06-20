@@ -14,7 +14,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 
 import InfoPanel from "./InfoPanel/presentation";
 
-import AppContext from '../../context';
+import AppContext from './context/context';
 
 class App extends React.PureComponent {
 
@@ -26,56 +26,63 @@ class App extends React.PureComponent {
 			return (
 				<div className="un_seea-app">
 					<HoverHandler>
-						<Helmet>
-							<title>
-								UN SEEA
-							</title>
-						</Helmet>
-						<div className="un_seea-content">
-							<WindowsContainer setKey={this.context.windowSetKey}>
-								<AdjustableColumns
-									fixed
-									content={[
-										{
-											render: props => (
-												<ReactResizeDetector
-													key="11"
-													handleWidth
-													handleHeight
-													render={({ width, height }) => {return (
-														<>
-															<MapSet
-																mapSetKey={this.context.mapSetKey}
-																activeAttributeKey={this.props.activeAttributeKey}
-																layerTreesFilter={{applicationKey: 'un_seea'}}
-																width={width}
-																height={height}
-															>
-																<Map>
-																	<MapPresentation />
-																</Map>
-															</MapSet>
-															<MapTools>
-																<MapControls zoomOnly/>
-															</MapTools>
-														</>
-														)
-													}}
-												/>
-											)
-										},
-										{
-											width: "65%",
-											minWidth: "20rem",
-											maxWidth: "65rem",
-											render: props => (
-												<InfoPanel />
+							<Helmet>
+								<title>
+									UN SEEA
+								</title>
+							</Helmet>
+							<div className="un_seea-content">
+								<WindowsContainer setKey={this.context.windowSetKey}>
+									<AdjustableColumns
+										fixed
+										content={[
+											{
+												render: props => (
+													<ReactResizeDetector
+														key="11"
+														handleWidth
+														handleHeight
+														render={({ width, height }) => {return (
+															<>
+																<MapSet
+																	mapSetKey={this.context.mapSetKey}
+																	activeAttributeKey={this.props.activeAttributeKey}
+																	layerTreesFilter={{applicationKey: this.context.applicationKey}}
+																	width={width}
+																	height={height}
+																>
+																	<Map activeMapAttributeKey={this.context.activeAttributeKey}>
+																		<MapPresentation 
+																			vectorLayerStyleKey={this.context.vectorLayerStyleKey}
+																			activeAttributeKey={this.context.activeAttributeKey}
+																		/>
+																	</Map>
+																</MapSet>
+																<MapTools>
+																	<MapControls zoomOnly/>
+																</MapTools>
+															</>
+															)
+														}}
+													/>
 												)
-										},
-									]}
-								/>
-							</WindowsContainer>
-						</div>
+											},
+											{
+												width: "65%",
+												minWidth: "20rem",
+												maxWidth: "65rem",
+												render: props => (
+													<InfoPanel 
+														activeChartSet={this.context.activeChartSet}
+														activeAttributeKey={this.context.activeAttributeKey}
+
+													/>
+													)
+											},
+										]}
+									/>
+								</WindowsContainer>
+							</div>
 					</HoverHandler>
 				</div>
 			);

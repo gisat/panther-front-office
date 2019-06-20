@@ -63,6 +63,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 			const onAddActions = [
 				this._setFilter.bind(this),
 				this._setSelected.bind(this),
+				this._setHover.bind(this),
 				() => true
 			];
 			
@@ -84,8 +85,18 @@ class ExtendedRenderableLayer extends RenderableLayer {
 
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
 		const shapeConfigurationCallback = (geometry, properties) => {
+			let geometryType = null;
+			if (geometry.isPointType() || geometry.isMultiPointType()) {
+				geometryType = 'POINT';
+			} else if (geometry.isLineStringType() || geometry.isMultiLineStringType()) {
+				geometryType = 'LINE';
+			} else if (geometry.isPolygonType() || geometry.isMultiPolygonType()) {
+				geometryType = 'POLYGON';
+			}
+			
+			
 			//add properties to renderable
-			return {userProperties: properties}
+			return {userProperties: {...properties, _geometryType: geometryType}}
 		};
 		parser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
 		this.doRerender();

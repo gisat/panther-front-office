@@ -18,7 +18,7 @@ const {Color, ShapeAttributes} = WorldWind;
  * @param {Array} fillColorPalette  RGB color
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
-export const getStaticPolygonStyleFunction = (fillColor, fillTransparency, outlinesColor, outlinesTransparency, outlinesWidth) => {
+export const getStaticDistrictsStyleFunction = (fillColor, fillTransparency, outlinesColor, outlinesTransparency, outlinesWidth) => {
 
     const interiorColor = Color.colorFromByteArray([...chroma(fillColor).rgb(), fillTransparency]);
     const outlineColor = Color.colorFromByteArray([...chroma(outlinesColor).rgb(), outlinesTransparency]);

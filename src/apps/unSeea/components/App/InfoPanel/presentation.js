@@ -2,12 +2,25 @@ import React from 'react';
 import _ from 'lodash';
 
 import ChartSet from '../../../../../components/common/charts/ChartSet';
-import UnSeeaCharts from "../Charts/UnSeeaCharts";
+// import UnSeeaCharts from "../Charts/UnSeeaCharts";
+import UnSeeaChartsTrees from "../Charts/UnSeeaChartsTrees";
+import UnSeeaChartsDistricts from "../Charts/UnSeeaChartsDistricts";
 import urbantepLogo from "../../../assets/img/logo_tep_urban.png";
 import ninaLogo from "../../../assets/img/eeanina.png";
 import "./style.scss";
 
-export default () => {
+
+const renderChartSet = (chartSetKey, activeAttributeKey) => {
+	switch(chartSetKey) {
+		case 'unSeeaTreesCharts':
+			return <UnSeeaChartsTrees spatialIdKey={activeAttributeKey}/>
+		case 'unSeeaDistrictsCharts':
+			return <UnSeeaChartsDistricts spatialIdKey={activeAttributeKey}/>
+	}
+}
+
+export default (props) => {
+
 	return (
 		<div className="ptr-un-seea-infopanel">
 			{/* header */}
@@ -35,9 +48,9 @@ export default () => {
 			{/* charts */}
 			<div style={{flex: '1 0 auto'}}>
 				<ChartSet
-					setKey="unSeeaCharts"
+					setKey={props.activeChartSet}
 				>
-					<UnSeeaCharts/>
+					{renderChartSet(props.activeChartSet, props.activeAttributeKey)}
 				</ChartSet>
 			</div>
 		</div>
