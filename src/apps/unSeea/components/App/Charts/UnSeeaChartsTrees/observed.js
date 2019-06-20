@@ -3,6 +3,7 @@ const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
 const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
 const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
 const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
+const getDollars = (val) => `${Math.round(val * 10) / 10} $`;
 
 export default [
 	//hneda
@@ -81,7 +82,7 @@ export default [
 	{
 		name: 'TOTBEN_N17',
 		color: '#4974C6',
-		getTooltip: getKilograms,
+		getTooltip: getDollars,
 		title: 'Annual Benefits'
 	}
 ];

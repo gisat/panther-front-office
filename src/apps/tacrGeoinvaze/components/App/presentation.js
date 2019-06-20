@@ -1,5 +1,6 @@
 import React from "react";
 import Helmet from "react-helmet";
+import _ from 'lodash';
 
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
@@ -14,11 +15,19 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import Header from '../Header';
 import LayerControls from "../LayerControls";
 import CaseDetail from "../CaseDetail";
+import Visualization from "../Visualization";
 
 class TacrGeoinvazeApp extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		
+		let isCrayfish = false;
+		if (props.crayfishConfig && props.activeCase && props.crayfishConfig.tagKey && props.activeCase.data.tagKeys) {
+			if (_.includes(props.activeCase.data.tagKeys, props.crayfishConfig.tagKey)) {
+				isCrayfish = true;
+			}
+		}
 
 		return (
 			<>
@@ -35,32 +44,18 @@ class TacrGeoinvazeApp extends React.PureComponent {
 							maxWidth: "35rem",
 							render: props => (
 								<div className="tacrGeoinvaze-sidebar">
-									<LayerControls/>
+									<LayerControls isCrayfish={isCrayfish} />
 									<CaseDetail/>
 								</div>
 							)
 						},
 						{
-							render: props => (
-								<ReactResizeDetector
-									handleWidth
-									handleHeight
-									render={({ width, height }) => {return (
-										<>
-											<MapSet
-												mapSetKey="tacrGeoinvaze"
-												width={width}
-												height={height}
-											>
-											</MapSet>
-											<MapTools>
-												<MapControls zoomOnly/>
-											</MapTools>
-										</>
-									)
-									}}
-								/>
-							)
+							component: Visualization,
+							props: {
+								isCrayfish,
+								iframeUrl: props.crayfishConfig && props.crayfishConfig.url
+							},
+							className: "tacrGeoinvaze-column-visualization"
 						},
 					]}
 				/>

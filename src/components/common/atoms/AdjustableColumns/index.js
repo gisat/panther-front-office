@@ -32,8 +32,10 @@ const renderColumn = (column, index) => {
 	if (index) {
 		handle = (<div className={"ptr-adjustable-column-handle handle" + index}><div/></div>)
 	}
+	
+	let className = classNames("ptr-adjustable-column", column.className);
 
-	return (<>{handle}<div className="ptr-adjustable-column" style={style}><div className="ptr-adjustable-columns-content">{content}</div></div></>);
+	return (<>{handle}<div className={className} style={style}><div className="ptr-adjustable-columns-content">{content}</div></div></>);
 };
 
 export default props => (

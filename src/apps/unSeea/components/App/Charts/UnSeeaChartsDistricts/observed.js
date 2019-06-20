@@ -7,7 +7,7 @@ const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
 const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
 const getGramsFromKilograms = (val) => `${Math.round(val * 100000) / 100} g`;
 const getMicroGramsFromGrams = (val) => `${Math.round(val * 100000) / 100} mg`;
-
+const getDollars = (val) => `${Math.round(val * 10000) / 10000} $`;
 
 export default [
 	//hneda
@@ -86,7 +86,7 @@ export default [
 	{
 		name: 'TOTBEN_N17_TP_MEAN_POP',
 		color: '#4974C6',
-		getTooltip: getGramsFromKilograms,
+		getTooltip: getDollars,
 		title: 'Annual Benefits'
 	}
 ];

@@ -7,8 +7,6 @@ import presentation from "./presentation";
 
 const mapStateToProps = state => {
 	return {
-		categories: Select.app.getConfiguration(state, 'categories'),
-		crayfishConfig: Select.app.getConfiguration(state, 'crayfish'),
 		activeCase: Select.cases.getActive(state)
 	}
 };
