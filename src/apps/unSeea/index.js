@@ -23,7 +23,7 @@ import AppContainer from "../../components/common/AppContainer";
 
 import Districts from './components/pages/Districts/subAppWrapper';
 import Trees from './components/pages/Trees/subAppWrapper';
-import LandingPage from './components/pages/LandingPage/index';
+import LandingPage from './components/pages/LandingPage/presentation';
 
 // override and extend locales in namespaces
 utils.addI18nResources('common', {en});

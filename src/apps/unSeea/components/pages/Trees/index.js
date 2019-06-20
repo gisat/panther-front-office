@@ -5,7 +5,7 @@ import Action from '../../../state/Action';
 import presentation from "./presentation";
 
 import viewCfg from "../../../data/trees/view.js";
-import spatialRalationsCfg from "../../../data/trees/spatialRalations.js";
+import spatialRelationsCfg from "../../../data/trees/spatialRelations.js";
 import spatialDataSourcesCfg from "../../../data/trees/spatialDataSources.js";
 
 
@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 			dispatch(Action.views.apply(ownProps.activeView, Action));
 			
 			//set layers relations
-			dispatch(Action.spatialRelations.add(spatialRalationsCfg));
+			dispatch(Action.spatialRelations.add(spatialRelationsCfg));
 			dispatch(Action.spatialDataSources.add(spatialDataSourcesCfg));
 			dispatch(Action.spatialDataSources.vector.addBatch(data, 'spatialDataSourceKey'));
 			

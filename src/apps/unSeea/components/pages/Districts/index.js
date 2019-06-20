@@ -5,7 +5,7 @@ import Action from '../../../state/Action';
 import presentation from "./presentation";
 
 import viewCfg from "../../../data/districts/view.js";
-import spatialRalationsCfg from "../../../data/districts/spatialRalations.js";
+import spatialRelationsCfg from "../../../data/districts/spatialRelations.js";
 import spatialDataSourcesCfg from "../../../data/districts/spatialDataSources.js";
 import boundariesSpatialData from "../../../data/districts/boundaries.js";
 
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		dispatch(Action.views.apply(ownProps.activeView, Action));
 		
 		//set layers relations
-		dispatch(Action.spatialRelations.add(spatialRalationsCfg));
+		dispatch(Action.spatialRelations.add(spatialRelationsCfg));
 		dispatch(Action.spatialDataSources.add(spatialDataSourcesCfg));
 		dispatch(Action.spatialDataSources.vector.addBatch(boundariesSpatialData, 'spatialDataSourceKey'));
 		
