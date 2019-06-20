@@ -106,7 +106,7 @@ export default (WrappedChartComponent) => {
 		}
 	}
 
-	return HOC;
+	return CartesianChart;
 };
 
 export default cartesianChart;
