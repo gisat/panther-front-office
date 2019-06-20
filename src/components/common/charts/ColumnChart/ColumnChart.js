@@ -8,32 +8,16 @@ import '../style.scss';
 import utilsSort from "../../../../utils/sort";
 import utilsFilter from "../../../../utils/filter";
 
-import AxisX from '../AxisX';
-import AxisY from "../AxisY";
 import Bar from "./Bar";
-import Popup from "../../HoverHandler/Popup/Popup";
-
-const MIN_BAR_WIDTH = 4; // TODO optional
-const BAR_GAP_RATIO = 0.4; // TODO optional
-
-const WIDTH = 500;
-const HEIGHT = 250;
-
-const MIN_WIDTH = 200;
-const MAX_WIDTH = 1000;
-
-const Y_CAPTIONS_SIZE = 70;
-const X_CAPTIONS_SIZE = 70;
-
-const MARGIN_TOP = 20;
-
-// TODO optional
-const INNER_PADDING_LEFT = 10;
-const INNER_PADDING_RIGHT = 10;
-
-// TODO custom max, min
+import cartesianChart from "../cartesianChart/cartesianChart";
+import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 
 class ColumnChart extends React.PureComponent {
+	static defaultProps = {
+		minBarWidth: 4,
+		barGapRatio: 0.4
+	};
+
 	static propTypes = {
 		data: PropTypes.array,
 		defaultColor: PropTypes.string,
@@ -43,26 +27,8 @@ class ColumnChart extends React.PureComponent {
 		]),
 		sorting: PropTypes.array,
 
-		height: PropTypes.number,
-		width: PropTypes.number,
-		minWidth: PropTypes.number,
-		maxWidth: PropTypes.number,
-
-		minAspectRatio: PropTypes.number,
-
-		xCaptionsSize: PropTypes.number, // space for captions along axis X
-		yCaptionsSize: PropTypes.number, // space for captions along axis Y
-
-		xCaptions: PropTypes.bool,
-		yCaptions: PropTypes.bool,
-
-		xTicks: PropTypes.bool,
-		yTicks: PropTypes.bool,
-
-		xGridlines: PropTypes.bool,
-		yGridlines: PropTypes.bool,
-
-		withoutYbaseline: PropTypes.bool,
+		minBarWidth: PropTypes.number,
+		barGapRatio: PropTypes.number,
 
 		keySourcePath: PropTypes.string,
 		colorSourcePath: PropTypes.string,
@@ -74,39 +40,8 @@ class ColumnChart extends React.PureComponent {
 		super(props);
 	}
 
-	// TODO axis orientation
 	render() {
 		const props = this.props;
-
-		/* dimensions */
-		let width = props.width ? props.width : WIDTH;
-		let height = props.height ? props.height : HEIGHT;
-
-		let minWidth = props.minWidth ? props.minWidth : MIN_WIDTH;
-		let maxWidth = props.maxWidth ? props.maxWidth: MAX_WIDTH;
-
-		let xCaptionsSize = props.xCaptionsSize ? props.xCaptionsSize : X_CAPTIONS_SIZE;
-		let yCaptionsSize = props.yCaptionsSize ? props.yCaptionsSize : Y_CAPTIONS_SIZE;
-
-		if (!props.xCaptions && !props.xCaptionsSize) {
-			xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
-		}
-
-		if (!props.yCaptions && !props.yCaptionsSize) {
-			yCaptionsSize = props.xCaptions ? 30 : 0; // space for labels
-		}
-
-		if (width > maxWidth) width = maxWidth;
-		if (width < minWidth) width = minWidth;
-
-		if (props.minAspectRatio && width/height < props.minAspectRatio) {
-			height = width/props.minAspectRatio;
-		}
-
-		let plotWidth = width - (yCaptionsSize);
-		let plotHeight = height - (xCaptionsSize);
-		let innerPlotWidth = plotWidth - (INNER_PADDING_LEFT + INNER_PADDING_RIGHT);
-		let innerPlotHeight = plotHeight;
 
 		/* data preparation */
 		let data, yScale, xScale, xDomain, yDomain, aggregatedData = null;
@@ -125,14 +60,14 @@ class ColumnChart extends React.PureComponent {
 
 			xScale = d3
 				.scaleBand()
-				.padding(BAR_GAP_RATIO)
+				.padding(props.barGapRatio)
 				.domain(xDomain)
-				.range([0, innerPlotWidth]);
+				.range([0, props.innerPlotWidth]);
 
 			yScale = d3
 				.scaleLinear()
 				.domain(yDomain)
-				.range([innerPlotHeight, 0]);
+				.range([props.innerPlotHeight, 0]);
 
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
@@ -142,8 +77,8 @@ class ColumnChart extends React.PureComponent {
 
 			/* aggregation, if needed */
 			aggregatedData = [];
-			if (barWidth < MIN_BAR_WIDTH) {
-				let itemsInGroup = Math.ceil(MIN_BAR_WIDTH/barWidth);
+			if (barWidth < props.minBarWidth) {
+				let itemsInGroup = Math.ceil(props.minBarWidth/barWidth);
 				let keys = [];
 				let originalData = [];
 				_.map(data,(item, index) => {
@@ -163,47 +98,16 @@ class ColumnChart extends React.PureComponent {
 		}
 
 		return (
-			<div className="ptr-chart-container">
-				<svg className="ptr-chart ptr-column-chart" width={width} height={height}>
-					{data ?
-						<>
-							<AxisY
-								scale={yScale}
-
-								bottomMargin={xCaptionsSize}
-								height={plotHeight}
-								plotWidth={plotWidth}
-								width={yCaptionsSize}
-
-								ticks={props.yTicks}
-								gridlines={props.yGridlines}
-								withCaption={props.yCaptions}
-								hiddenBaseline={props.withoutYbaseline}
-							/>
-							<AxisX
-								data={data}
-								scale={xScale}
-								domain={xDomain}
-								sourcePath={props.xSourcePath}
-								keySourcePath={props.keySourcePath}
-
-								leftMargin={yCaptionsSize} //TODO right margin for right oriented
-								leftPadding={INNER_PADDING_LEFT}
-								height={xCaptionsSize}
-								plotHeight={plotHeight}
-								width={plotWidth}
-
-								ticks={props.xTicks}
-								gridlines={props.xGridlines}
-								withCaption={props.xCaptions}
-							/>
-							<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},0)`}>
-								{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, innerPlotHeight, innerPlotWidth) : this.renderBars(data, props, xScale, yScale, innerPlotHeight)}
-							</g>
-						</> : null
-					}
-				</svg>
-			</div>
+			<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height}>
+				{data ?
+					<CartesianChartContent
+						{...props}
+						{...{xScale, yScale, contentData: data}}
+					>
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, props.innerPlotHeight)}
+					</CartesianChartContent>
+				: null}
+			</svg>
 		);
 	}
 
@@ -304,5 +208,4 @@ class ColumnChart extends React.PureComponent {
 	}
 }
 
-export default ColumnChart;
-
+export default cartesianChart(ColumnChart);

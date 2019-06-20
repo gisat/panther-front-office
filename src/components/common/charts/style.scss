@@ -112,6 +112,12 @@
 	stroke: var(--base10);
 }
 
+.ptr-chart-point.standalone {
+	animation: none;
+	fill: var(--accent50);
+	fill-opacity: 1;
+}
+
 .ptr-line-chart-area {
 	fill: rgba(var(--base50rgb), .2);
 	fill-opacity: 0;

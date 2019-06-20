@@ -371,8 +371,8 @@
 	"key": "59912f5d-37bd-4b61-a51e-e1d413804261",
 	"data": {
 	  "name": "Federated States Of Micronesia",
-	  "some_value_1": 58628,
-	  "some_value_2": 2.4166
+	  "some_value_1": 80000,
+	  "some_value_2": 11.5
 	}
   },
   {
@@ -380,7 +380,7 @@
 	"data": {
 	  "name": "American Samoa",
 	  "some_value_1": 67719,
-	  "some_value_2": 2.6499
+	  "some_value_2": -12
 	}
   },
   {
@@ -388,7 +388,7 @@
 	"data": {
 	  "name": "Georgia",
 	  "some_value_1": 3493,
-	  "some_value_2": -1.8511
+	  "some_value_2": 0
 	}
   },
   {

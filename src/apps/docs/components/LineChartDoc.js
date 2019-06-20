@@ -52,7 +52,7 @@ class LineChartDoc extends React.PureComponent {
 							yTicks
 							yGridlines
 							yCaptions
-							withoutYbaseline
+							// withoutYbaseline
 
 							sorting={[["period", "asc"]]}
 
