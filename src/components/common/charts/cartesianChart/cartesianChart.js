@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 export default (WrappedChartComponent) => {
-	class HOC extends React.PureComponent {
+	class CartesianChart extends React.PureComponent {
 
 		static defaultProps = {
 			width: 500,
