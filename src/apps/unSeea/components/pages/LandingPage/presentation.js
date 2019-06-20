@@ -1,4 +1,5 @@
 import React from 'react';
+import Truncate from 'react-truncate';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import eeninaLogoFull from '../../../assets/img/eeanina.png';
@@ -6,11 +7,13 @@ import gisatLogo from '../../../assets/img/gisat-logo.png';
 import urbanTEPLogo from '../../../assets/img/logo_tep_urban.png';
 import './style.scss';
 
+import treesThumbnail from '../../../assets/img/trees.png';
+import districtsThumbnail from '../../../assets/img/districts.png';
+
 class LandingPage extends React.PureComponent {
 
 	render() {
 		const {match} = this.props;
-		
 		
 		return (
 			<div className="unseea-landing-page">
@@ -29,8 +32,34 @@ class LandingPage extends React.PureComponent {
 						</div>
 					</div>
 
-					<Link to={`${match.path}/trees`}>Trees</Link>
-					<Link to={`${match.path}/districts`}>Districts</Link>
+					<div className={'unseea-subapp-list'}>
+					<Link to={`${match.path}/districts`}>
+						<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+								<div className="unseea-subapp-card-name">
+									Districts
+								</div>
+								<div className="unseea-subapp-card-description">
+									<Truncate lines={6}>
+										Awereness raising I
+									</Truncate>
+								</div>
+							</div>
+						</Link>
+						
+						
+						<Link to={`${match.path}/trees`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${treesThumbnail})`}}>
+								<div className="unseea-subapp-card-name">
+									Trees
+								</div>
+								<div className="unseea-subapp-card-description">
+									<Truncate lines={6}>
+										Awereness raising III
+									</Truncate>
+								</div>
+							</div>
+						</Link>
+					</div>
 
 					<div className="unseea-landing-page-footer">
 						<a href="https://www.nina.no/english/Fields-of-research/Projects/Urban-EEA" target="_blank">
