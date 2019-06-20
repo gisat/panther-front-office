@@ -24,6 +24,7 @@ import App from "./components/App";
 
 import Districts from './components/pages/Districts/appWrapper';
 import Trees from './components/pages/Trees/appWrapper';
+import LandingPage from './components/pages/LandingPage/index';
 
 // override and extend locales in namespaces
 utils.addI18nResources('common', {en});
@@ -49,6 +50,7 @@ export default (path, baseUrl) => {
 								{/* <Route exact path={path + "/"} render={page(Dashboard, "base")} /> */}
 								<Route path={path + "/districts"} component={Districts} />
 								<Route path={path + "/trees"} component={Trees} />
+								<Route path={path} component={LandingPage} />
 							</Switch>
 						</ConnectedRouter>
 					</AppContainer>

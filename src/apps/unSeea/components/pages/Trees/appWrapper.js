@@ -22,7 +22,7 @@ class Apps extends React.PureComponent {
 	render() {
 		const {activeView, activeSpatialDataSourceKey} = this.context;
 		return (
-			activeView ? (<App 
+			activeView && activeView === 'UN_SEEA_TREES' ? (<App 
 							activeView={activeView} 
 							activeSpatialDataSourceKey={activeSpatialDataSourceKey}
 							/>
