@@ -13,6 +13,7 @@ class ChartPanel extends React.PureComponent {
 	
 	static propTypes = {
 		data: PropTypes.array,
+		spatialIdKey: PropTypes.string
 	};
 
 	transformDataForAsterChart(data) {
@@ -21,7 +22,7 @@ class ChartPanel extends React.PureComponent {
 			const observedValue = observedValues.find(ov => ov.name === key);
 			if(observedValue) {
 				transformedData.push({
-					key: `${data.TREE_ID}-${key}-${value.relative}`,
+					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
 						relative: value.relative,
 						absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
@@ -33,7 +34,7 @@ class ChartPanel extends React.PureComponent {
 		}
 
 		return {
-			key: data.TREE_ID,
+			key: data[this.props.spatialIdKey],
 			data: transformedData
 		}
 	}
@@ -45,7 +46,7 @@ class ChartPanel extends React.PureComponent {
 		let hoveredData;
 		/* Handle context */
 		if (this.context && this.context.hoveredItems) {
-			hoveredData = data.find((d) => d.TREE_ID == this.context.hoveredItems[0])
+			hoveredData = data.find((d) => d[this.props.spatialIdKey] == this.context.hoveredItems[0])
 		}
 
 		let hoverAsterData;
@@ -55,7 +56,7 @@ class ChartPanel extends React.PureComponent {
 
 		let selectedAreaData;
 		if (this.props.selectedArea) {
-			selectedAreaData = data.find((d) => d.TREE_ID == this.props.selectedArea);
+			selectedAreaData = data.find((d) => d[this.props.spatialIdKey] == this.props.selectedArea);
 		}
 
 		let selectAsterData;
@@ -116,7 +117,7 @@ class ChartPanel extends React.PureComponent {
 						<div className="ptr-unseea-chart-column">
 							<ChartWrapper
 							key={selectAsterData.key + "-wrapper"}
-							title={`Tree ID: ${selectedAreaData.TREE_ID}`}
+							title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
 							subtitle={description}
 							>
 							

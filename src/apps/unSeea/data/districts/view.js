@@ -1,11 +1,11 @@
 const view = {
-    "key": "UN_SEEA",
+    "key": "UN_SEEA_DISTRICTS",
     "data": {
         "state": {
             "maps": {
                 "maps": {
-                    "un_seea": {
-                        "key": "un_seea",
+                    "un_seea_districts": {
+                        "key": "un_seea_districts",
                         "data": {
                         "layers": [
                             {
@@ -19,8 +19,8 @@ const view = {
                     }
                 },
                 "sets": {
-                    "un_seea_mapset": {
-                        "key": "un_seea_mapset",
+                    "un_seea_mapset_districts": {
+                        "key": "un_seea_mapset_districts",
                         "data": {
                             "worldWindNavigator": {
                                 lookAtLocation: {
@@ -33,20 +33,20 @@ const view = {
                                 heading: 0                    
                             }
                         },
-                        "maps": ["un_seea"],
+                        "maps": ["un_seea_districts"],
                         "sync": {
                             "range": true,
                             "location": true
                         }
                     }
                 },
-                "activeMapKey": "un_seea",
-                "activeSetKey": "un_seea_mapset"
+                "activeMapKey": "un_seea_districts",
+                "activeSetKey": "un_seea_mapset_districts"
             },
             "charts": {
                 "sets": {
-                  "unSeeaCharts": {
-                    "key": "unSeeaCharts",
+                  "unSeeaDistrictsCharts": {
+                    "key": "unSeeaDistrictsCharts",
                     "charts": [
                       "progressChart"
                     ]

@@ -7,7 +7,6 @@ import presentation from "./presentation";
 import viewCfg from "../../../data/trees/view.js";
 import spatialRalationsCfg from "../../../data/trees/spatialRalations.js";
 import spatialDataSourcesCfg from "../../../data/trees/spatialDataSources.js";
-// import treesSpatialData from "../../../data/trees/BYMTreeDatabase_min.js";
 
 
 // const treesSpatialData = {}
@@ -18,13 +17,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		// import(/* webpackChunkName: "BYMTreeDatabase_min" */ "../../../data/trees/BYMTreeDatabase_full.json").then((treesSpatialData) => {
 		import(/* webpackChunkName: "BYMTreeDatabase_min" */ "../../../data/trees/BYMTreeDatabase_cut.json").then((treesSpatialData) => {
 			const data = {
-				spatialDataSourceKey: "un_seea_trees",
+				spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
 				spatialData: treesSpatialData.default
 			}
 			
 			dispatch(Action.views.add(viewCfg));
-			dispatch(Action.views.setActiveKey('UN_SEEA_TREES'));
-			dispatch(Action.views.apply("UN_SEEA_TREES", Action));
+			dispatch(Action.views.setActiveKey(ownProps.activeView));
+			dispatch(Action.views.apply(ownProps.activeView, Action));
 			
 			//set layers relations
 			dispatch(Action.spatialRelations.add(spatialRalationsCfg));
@@ -36,12 +35,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 	
 			//set selected area
 			dispatch(Action.selections.updateActiveSelection('name', [8867], []));
-			// dispatch(Action.selections.updateActiveSelection('name', [26993], []));
-	
+
 			const spatialdataindexFilter = {
-				"spatialDataSourceKey": "un_seea_trees",
+				spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
 			};
-			dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [{spatialDataSourceKey: "un_seea_trees"}], 'spatialDataSourceKey'));
+
+			dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [spatialdataindexFilter], 'spatialDataSourceKey'));
 		})
 
 

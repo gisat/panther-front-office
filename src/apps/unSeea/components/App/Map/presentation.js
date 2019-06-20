@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
-// import {getStaticPolygonStyleFunction} from './staticPolygonStyle';
-import {getStaticPolygonStyleFunction} from './staticTreesPointStyle';
+import {getStaticDistrictsStyleFunction} from './staticPolygonStyle';
+import {getStaticTreesStyleFunction} from './staticTreesPointStyle';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/VectorLayer';
 import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
@@ -35,6 +35,9 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 		setActiveMapKey: PropTypes.func,
 		setSelected: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
+
+		//specific
+		vectorLayerStyleKey: PropTypes.string
 	};
 
 	constructor(props) {
@@ -72,7 +75,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
 			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers], this.props.nameData);
-			this.setStyleFunction(this.props.layersVectorData, [...backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
+			this.setStyleFunction(this.props.vectorLayerStyleKey, this.props.layersVectorData, [...backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
 		}
 
 		this.setState({
@@ -190,7 +193,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 		return changedLayers;
 	}
 
-	setStyleFunction(layersVectorData = {}, layersState = [], layersAttributeStatistics = {}, layersMetadata = {}) {
+	setStyleFunction(vectorLayerStyleKey, layersVectorData = {}, layersState = [], layersAttributeStatistics = {}, layersMetadata = {}) {
 		
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
@@ -198,7 +201,14 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 
 			if(instanceOfVector) {
 				//set layerstyle
-				existingLayer.setStyleFunction(getStaticPolygonStyleFunction('#FFF', 50, '#000', 255, 3));
+				switch(vectorLayerStyleKey) {
+					case 'districts':
+							existingLayer.setStyleFunction(getStaticDistrictsStyleFunction('#FFF', 50, '#000', 255, 3));
+							break;
+					case 'trees':
+							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
+							break;
+				}
 			}
 		}
 	}
@@ -278,8 +288,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 	onMapClick(renderables, x, y, mapKey) {
 
 		let features = renderables.map(renderable => renderable.userObject.userProperties);
-		//FIXME - trees/districts
-		const keySource = 'TREE_ID';
+		const keySource = this.props.activeMapAttributeKey;
 		let keys = features.map(feature => feature[keySource]);
 		const action = {};
 		//add renderable to selected features
@@ -329,13 +338,16 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 				let name = _.get(feature, '_name');
 				let value = _.get(feature, 'name');
 				let spatialId = _.get(feature, spatialIdSource);
-				// if(value || value === 0) {
-				// 	content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
-				// } else {
-				// 	content.push(<div key={spatialId}>No data</div>);
-				// }
+			
 				if(spatialId || spatialId === 0) {
-					content.push(<div key={spatialId}><i>Tree ID:</i> {spatialId}</div>);
+					switch(this.props.vectorLayerStyleKey) {
+						case 'districts':
+								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+								break;
+						case 'trees':
+								content.push(<div key={spatialId}><i>Tree ID:</i> {spatialId}</div>);
+								break;
+					}
 				} else {
 					content.push(<div key={spatialId}>No data</div>);
 				}

@@ -22,7 +22,7 @@ class ChartPanel extends React.PureComponent {
 			const observedValue = observedValues.find(ov => ov.name === key);
 			if(observedValue) {
 				transformedData.push({
-					key: `${data.gid}-${key}-${value.relative}`,
+					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
 						relative: value.relative,
 						absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
@@ -34,7 +34,7 @@ class ChartPanel extends React.PureComponent {
 		}
 
 		return {
-			key: data.gid,
+			key: data[this.props.spatialIdKey],
 			data: transformedData
 		}
 	}
@@ -46,7 +46,7 @@ class ChartPanel extends React.PureComponent {
 		let hoveredData;
 		/* Handle context */
 		if (this.context && this.context.hoveredItems) {
-			hoveredData = data.find((d) => d.gid === this.context.hoveredItems[0])
+			hoveredData = data.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0])
 		}
 
 		let hoverAsterData;
@@ -56,7 +56,7 @@ class ChartPanel extends React.PureComponent {
 
 		let selectedAreaData;
 		if (this.props.selectedArea) {
-			selectedAreaData = data.find((d) => d.gid === this.props.selectedArea);
+			selectedAreaData = data.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea);
 		}
 
 		let selectAsterData;

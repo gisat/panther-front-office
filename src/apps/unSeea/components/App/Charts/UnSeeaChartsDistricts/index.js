@@ -18,7 +18,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
-		let layersState = Select.maps.getLayersStateByMapKey(state, 'un_seea', useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey(state, 'un_seea_districts', useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = _.cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
@@ -26,7 +26,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let layers = Select.maps.getLayers(state, layersData);
 		layers.forEach((l) => {
 			if(l.type === 'vector') {
-				l.spatialIdKey = "gid"
+				l.spatialIdKey = ownProps.spatialIdKey
 			}
 		})
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];

@@ -14,7 +14,7 @@ const {PlacemarkAttributes} = WorldWind;
  * @param {Array} fillColorPalette  RGB color
  * @param {number} fillTransparency 0-255 (255 - no transparent)
  */
-export const getStaticPolygonStyleFunction = (fillColor, fillTransparency, outlinesColor, outlinesTransparency, outlinesWidth) => {
+export const getStaticTreesStyleFunction = (fillColor, fillTransparency, outlinesColor, outlinesTransparency, outlinesWidth) => {
     const greenPallete = getColorPallet('#4caf50');
     
     const ctxImg = getCircle(`rgba(${greenPallete.lighterRgb.join(',')},0.5)`, 'black', 3, 50);

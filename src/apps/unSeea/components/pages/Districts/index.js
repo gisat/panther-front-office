@@ -13,8 +13,8 @@ import boundariesSpatialData from "../../../data/districts/boundaries.js";
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onMount: () => {
 		dispatch(Action.views.add(viewCfg));
-		dispatch(Action.views.setActiveKey('UN_SEEA'));
-		dispatch(Action.views.apply("UN_SEEA", Action));
+		dispatch(Action.views.setActiveKey(ownProps.activeView));
+		dispatch(Action.views.apply(ownProps.activeView, Action));
 		
 		//set layers relations
 		dispatch(Action.spatialRelations.add(spatialRalationsCfg));
@@ -28,9 +28,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
 
 		const spatialdataindexFilter = {
-			"spatialDataSourceKey": "un_seea_boundaries",
+			spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
 		};
-		dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [{spatialDataSourceKey: "un_seea_boundaries"}], 'spatialDataSourceKey'));
+
+		dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [spatialdataindexFilter], 'spatialDataSourceKey'));
 	}
 })
 

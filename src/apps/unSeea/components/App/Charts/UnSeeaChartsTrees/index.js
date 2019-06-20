@@ -18,7 +18,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
-		//FIXME
+		//FIXME - from context
 		let layersState = Select.maps.getLayersStateByMapKey(state, 'un_seea_trees', useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = _.cloneDeep(layer.mergedFilter)
@@ -27,12 +27,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let layers = Select.maps.getLayers(state, layersData);
 		layers.forEach((l) => {
 			if(l.type === 'vector') {
-				// districts
-				// l.spatialIdKey = "gid"
-
-				//trees
-				l.spatialIdKey = "TREE_ID"
-
+				l.spatialIdKey = ownProps.spatialIdKey
 			}
 		})
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
@@ -53,7 +48,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		}, {});
 
 
-		//FIXME
+		//FIXME-key from context
 		const data = layersVectorData['lk_un_seea_trees-un_seea_trees'][0].spatialData.features.map((f) => {
 			return f.properties;
 		})
