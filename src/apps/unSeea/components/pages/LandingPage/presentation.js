@@ -10,7 +10,7 @@ class LandingPage extends React.PureComponent {
 
 	render() {
 		const {match} = this.props;
-		console.log(match);
+		
 		
 		return (
 			<div className="unseea-landing-page">
