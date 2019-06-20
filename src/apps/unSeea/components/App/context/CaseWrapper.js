@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import AppContext from './context';
+import CaseContext from './context';
 
-class AppWrapper extends React.PureComponent {
+class CaseWrapper extends React.PureComponent {
 
 	static propTypes = {
 	};
@@ -12,8 +12,6 @@ class AppWrapper extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.state = {
-			activeMap: null,
-			activeMapSet: null,
 			activeAttribute: null,
 			activeView: null,
 			windowSetKey: null,
@@ -25,10 +23,10 @@ class AppWrapper extends React.PureComponent {
 			activeAttributeKey: null,
 		};
 
-		this.updateAppContext = this.updateAppContext.bind(this);
+		this.updateCaseContext = this.updateCaseContext.bind(this);
 	}
 
-	updateAppContext(options) {
+	updateCaseContext(options) {
 
 		if (!_.isEmpty(options)) {
 			this.setState({...options});
@@ -36,11 +34,8 @@ class AppWrapper extends React.PureComponent {
 	}
 	render() {
 		return (
-			<AppContext.Provider value={{
-				updateAppContext: this.updateAppContext,
-				activeMap: this.state.activeMap,
-				activeMapSet: this.state.activeMapSet,
-				activeAttribute: this.state.activeAttribute,
+			<CaseContext.Provider value={{
+				updateCaseContext: this.updateCaseContext,
 				activeView: this.state.activeView,
 				windowSetKey: this.state.windowSetKey,
 				mapSetKey: this.state.mapSetKey,
@@ -51,9 +46,9 @@ class AppWrapper extends React.PureComponent {
 				activeAttributeKey: this.state.activeAttributeKey,
 			}}>
 				{this.props.children}
-			</AppContext.Provider>
+			</CaseContext.Provider>
 		);
 	}
 }
 
-export default AppWrapper;
+export default CaseWrapper;
