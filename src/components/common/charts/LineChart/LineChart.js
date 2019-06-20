@@ -10,54 +10,28 @@ import AxisX from '../AxisX';
 import AxisY from "../AxisY";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
-
-const WIDTH = 500;
-const HEIGHT = 250;
-
-const MIN_WIDTH = 200;
-const MAX_WIDTH = 1000;
-
-const Y_CAPTIONS_SIZE = 70;
-const X_CAPTIONS_SIZE = 70;
-
-// TODO optional
-const INNER_PADDING_LEFT = 10;
-const INNER_PADDING_RIGHT = 10;
-const INNER_PADDING_TOP = 10;
-
-// If series count is greater than threshold, lines will be gray
-const GRAYING_THRESHOLD = 10;
-
-// If series count is greater than threshold, lines will be aggregated to maximum, minimum and average
-const AGGREGATION_THRESHOLD = 50;
+import cartesianChart from "../cartesianChart";
 
 class LineChart extends React.PureComponent {
+	static defaultProps = {
+		grayingThreshold: 10,
+		aggregationThreshold: 50
+	};
+
 	static propTypes = {
 		data: PropTypes.array,
 		forceMode: PropTypes.string,
+		aggregationThreshold: PropTypes.number,
+		grayingThreshold: PropTypes.number,
+
+		sorting: PropTypes.array,
+		withPoints: PropTypes.bool,
 
 		serieKeySourcePath: PropTypes.string,
 		serieNameSourcePath: PropTypes.string,
 		serieDataSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string, // in context of serie
 		ySourcePath: PropTypes.string, // in context of serie
-
-		height: PropTypes.number,
-		width: PropTypes.number,
-		minWidth: PropTypes.number,
-		maxWidth: PropTypes.number,
-
-		minAspectRatio: PropTypes.number,
-
-		xCaptionsSize: PropTypes.number, // space for captions along axis X
-		yCaptionsSize: PropTypes.number, // space for captions along axis Y
-
-		xCaptions: PropTypes.bool,
-		yCaptions: PropTypes.bool,
-
-		withPoints: PropTypes.bool,
-
-		sorting: PropTypes.array
 	};
 
 	constructor(props) {
@@ -67,36 +41,6 @@ class LineChart extends React.PureComponent {
 	// TODO axis orientation
 	render() {
 		const props = this.props;
-
-		/* dimensions */
-		let width = props.width ? props.width : WIDTH;
-		let height = props.height ? props.height : HEIGHT;
-
-		let minWidth = props.minWidth ? props.minWidth : MIN_WIDTH;
-		let maxWidth = props.maxWidth ? props.maxWidth: MAX_WIDTH;
-
-		let xCaptionsSize = props.xCaptionsSize ? props.xCaptionsSize : X_CAPTIONS_SIZE;
-		let yCaptionsSize = props.yCaptionsSize ? props.yCaptionsSize : Y_CAPTIONS_SIZE;
-
-		if (!props.xCaptions && !props.xCaptionsSize) {
-			xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
-		}
-
-		if (!props.yCaptions && !props.yCaptionsSize) {
-			yCaptionsSize = props.xCaptions ? 30 : 0; // space for labels
-		}
-
-		if (width > maxWidth) width = maxWidth;
-		if (width < minWidth) width = minWidth;
-
-		if (props.minAspectRatio && width/height < props.minAspectRatio) {
-			height = width/props.minAspectRatio;
-		}
-
-		let plotWidth = width - (yCaptionsSize);
-		let plotHeight = height - (xCaptionsSize);
-		let innerPlotWidth = plotWidth - (INNER_PADDING_LEFT + INNER_PADDING_RIGHT);
-		let innerPlotHeight = plotHeight - (INNER_PADDING_TOP);
 
 		/* data preparation */
 		let xDomain, yDomain, xScale, yScale, colors, sortedUniqueXvalues, mode = null;
@@ -134,16 +78,16 @@ class LineChart extends React.PureComponent {
 				.scaleBand()
 				.padding(0)
 				.domain(xDomain)
-				.range([0, innerPlotWidth]);
+				.range([0, props.innerPlotWidth]);
 
 			// adjust range
 			let extension = xScale.bandwidth()/2;
-			xScale.range([0-extension, innerPlotWidth + extension]);
+			xScale.range([0-extension, props.innerPlotWidth + extension]);
 
 			yScale = d3
 				.scaleLinear()
 				.domain(yDomain)
-				.range([innerPlotHeight, 0]);
+				.range([props.innerPlotHeight, 0]);
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
@@ -151,55 +95,53 @@ class LineChart extends React.PureComponent {
 
 			if (props.forceMode){
 				mode = props.forceMode;
-			} else if (data.length > AGGREGATION_THRESHOLD) {
+			} else if (data.length > props.aggregationThreshold) {
 				mode = 'aggregated';
-			} else if (data.length > GRAYING_THRESHOLD) {
+			} else if (data.length > props.grayingThreshold) {
 				mode = 'gray';
 			}
 		}
 
 
 		return (
-			<div className="ptr-chart-container">
-				<svg className="ptr-chart ptr-line-chart" width={width} height={height}>
-					{(data) ? <>
-						<AxisY
-							scale={yScale}
+			<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
+				{(data) ? <>
+					<AxisY
+						scale={yScale}
 
-							bottomMargin={xCaptionsSize}
-							height={plotHeight}
-							plotWidth={plotWidth}
-							width={yCaptionsSize}
-							ticks={props.yTicks}
-							topPadding={INNER_PADDING_TOP}
-							gridlines={props.yGridlines}
-							withCaption={props.yCaptions}
-							hiddenBaseline={props.withoutYbaseline}
-						/>
-						<AxisX
-							data={sortedUniqueXvalues}
-							scale={xScale}
-							domain={xDomain}
+						bottomMargin={props.xCaptionsSize}
+						height={props.plotHeight}
+						plotWidth={props.plotWidth}
+						width={props.yCaptionsSize}
+						ticks={props.yTicks}
+						topPadding={props.innerPaddingTop}
+						gridlines={props.yGridlines}
+						withCaption={props.yCaptions}
+						hiddenBaseline={props.withoutYbaseline}
+					/>
+					<AxisX
+						data={sortedUniqueXvalues}
+						scale={xScale}
+						domain={xDomain}
 
-							leftMargin={yCaptionsSize} //TODO right margin for right oriented
-							leftPadding={INNER_PADDING_LEFT}
-							height={xCaptionsSize}
-							plotHeight={plotHeight}
-							width={plotWidth}
+						leftMargin={props.yCaptionsSize} //TODO right margin for right oriented
+						leftPadding={props.innerPaddingLeft}
+						height={props.xCaptionsSize}
+						plotHeight={props.plotHeight}
+						width={props.plotWidth}
 
-							ticks={props.xTicks}
-							gridlines={props.xGridlines}
-							withCaption={props.xCaptions}
-						/>
-						<g transform={`translate(${yCaptionsSize + INNER_PADDING_LEFT},${INNER_PADDING_TOP})`}>
-							{mode === 'aggregated' ?
-								this.renderAggregated(data, props, xScale, yScale) :
-								this.renderLines(data, props, xScale, yScale, colors, mode)
-							}
-						</g>
-					</> : null}
-				</svg>
-			</div>
+						ticks={props.xTicks}
+						gridlines={props.xGridlines}
+						withCaption={props.xCaptions}
+					/>
+					<g transform={`translate(${props.yCaptionsSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
+						{mode === 'aggregated' ?
+							this.renderAggregated(data, props, xScale, yScale) :
+							this.renderLines(data, props, xScale, yScale, colors, mode)
+						}
+					</g>
+				</> : null}
+			</svg>
 		);
 	}
 
@@ -207,7 +149,7 @@ class LineChart extends React.PureComponent {
 		let leftOffset = xScale.bandwidth()/2;
 		let siblings = data.map((item) => _.get(item, props.serieKeySourcePath));
 
-		return _.map(data, (item, index) => {
+		return _.map(data, (item) => {
 			let serie = _.get(item, props.serieDataSourcePath);
 			let key = _.get(item, props.serieKeySourcePath);
 			let name = _.get(item, props.serieNameSourcePath);
@@ -365,5 +307,5 @@ class LineChart extends React.PureComponent {
 	}
 }
 
-export default LineChart;
+export default cartesianChart(LineChart);
 
