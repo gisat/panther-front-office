@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-const cartesianChart = (WrappedChartComponent) => {
+export default (WrappedChartComponent) => {
 	class HOC extends React.PureComponent {
 
 		static defaultProps = {
