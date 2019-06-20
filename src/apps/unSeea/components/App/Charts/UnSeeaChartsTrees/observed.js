@@ -1,4 +1,3 @@
-const getRoundedKilometers = (val) => `${Math.round(val/1000000 * 100) / 100} km2`;
 const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
 const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
 const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;

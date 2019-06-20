@@ -1,12 +1,7 @@
-const getRoundedKilometers = (val) => `${Math.round(val/1000000 * 100) / 100} km2`;
-const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
-const getSquareCentiMeters = (val) => `${Math.round(val * 10000000) / 1000} cm2`;
-const getCentiMeters = (val) => `${Math.round(val * 10000000) / 100000} cm`;
-const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
-const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
-const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
+const getSquareCentimeters = (val) => `${Math.round(val * 10000000) / 1000} cm2`;
+const getCentimeters = (val) => `${Math.round(val * 10000000) / 100000} cm`;
 const getGramsFromKilograms = (val) => `${Math.round(val * 100000) / 100} g`;
-const getMicroGramsFromGrams = (val) => `${Math.round(val * 100000) / 100} mg`;
+const getMicrogramsFromGrams = (val) => `${Math.round(val * 100000) / 100} mg`;
 const getDollars = (val) => `${Math.round(val * 10000) / 10000} $`;
 
 export default [
@@ -14,19 +9,19 @@ export default [
 	{
 		name: 'CD_TP_MEAN_POP',
 		color: '#CA4466',
-		getTooltip: getCentiMeters,
+		getTooltip: getCentimeters,
 		title: 'Stem Diameter'
 	},
 	{
 		name: 'H_TP_MEAN_POP',
 		color: '#CA4466',
-		getTooltip: getCentiMeters,
+		getTooltip: getCentimeters,
 		title: 'Tree Height'
 	},
 	{
 		name: 'LF_AR_M2_TP_MEAN_POP',
 		color: '#CA4466',
-		getTooltip: getSquareCentiMeters,
+		getTooltip: getSquareCentimeters,
 		title: 'Leaf Area'
 	},
 
@@ -53,7 +48,7 @@ export default [
 	{
 		name: 'POL_REM_G_TP_MEAN_POP',
 		color: '#568038',
-		getTooltip: getMicroGramsFromGrams,
+		getTooltip: getMicrogramsFromGrams,
 		title: 'Removed air pollution'
 	},
 
