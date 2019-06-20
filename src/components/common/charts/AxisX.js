@@ -96,21 +96,20 @@ class AxisX extends React.PureComponent {
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
 				{this.props.data.map(item => {
 					let xValue = item;
-					if (_.isObject(item) && this.props.keySourcePath) {
-						xValue = _.get(item, this.props.keySourcePath);
+					let xValueFromObject = _.get(item, this.props.keySourcePath);
+
+					if (_.isObject(xValue) && this.props.keySourcePath) {
+						xValue = xValueFromObject;
 					}
 
 					let xCoord = this.props.scale(xValue);
 					if (xCoord || xCoord === 0) {
-						let key = item;
+						let key = this.props.keySourcePath && xValueFromObject ? item : xValueFromObject;
 						let text = item;
+						let textFromObject = _.get(item, this.props.sourcePath);
 
-						if (this.props.keySourcePath && _.get(item, this.props.keySourcePath)) {
-							key = _.get(item, this.props.keySourcePath);
-						}
-
-						if (this.props.sourcePath && _.get(item, this.props.sourcePath)) {
-							text = _.get(item, this.props.sourcePath);
+						if (this.props.sourcePath && textFromObject) {
+							text = textFromObject;
 						}
 
 						return (
