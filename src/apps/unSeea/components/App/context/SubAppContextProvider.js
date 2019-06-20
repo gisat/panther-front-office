@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import CaseContext from './context';
+import SubAppContext from './context';
 
-class CaseWrapper extends React.PureComponent {
+class SubAppContextProvider extends React.PureComponent {
 
 	static propTypes = {
 	};
@@ -23,10 +23,10 @@ class CaseWrapper extends React.PureComponent {
 			activeAttributeKey: null,
 		};
 
-		this.updateCaseContext = this.updateCaseContext.bind(this);
+		this.updateContext = this.updateContext.bind(this);
 	}
 
-	updateCaseContext(options) {
+	updateContext(options) {
 
 		if (!_.isEmpty(options)) {
 			this.setState({...options});
@@ -34,8 +34,8 @@ class CaseWrapper extends React.PureComponent {
 	}
 	render() {
 		return (
-			<CaseContext.Provider value={{
-				updateCaseContext: this.updateCaseContext,
+			<SubAppContext.Provider value={{
+				updateContext: this.updateContext,
 				activeView: this.state.activeView,
 				windowSetKey: this.state.windowSetKey,
 				mapSetKey: this.state.mapSetKey,
@@ -46,9 +46,9 @@ class CaseWrapper extends React.PureComponent {
 				activeAttributeKey: this.state.activeAttributeKey,
 			}}>
 				{this.props.children}
-			</CaseContext.Provider>
+			</SubAppContext.Provider>
 		);
 	}
 }
 
-export default CaseWrapper;
+export default SubAppContextProvider;

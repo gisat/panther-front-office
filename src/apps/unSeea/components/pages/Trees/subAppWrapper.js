@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CaseContext from '../../App/context/context';
+import context from '../../App/context/context';
 
 import App from './index';
 
 class Apps extends React.PureComponent {
-	static contextType = CaseContext;
+	static contextType = context;
 
 	componentDidMount() {
-		this.context.updateCaseContext({
+		this.context.updateContext({
 			activeView: 'UN_SEEA_TREES',
 			windowSetKey: "un_seea_trees",
 			mapSetKey: "un_seea_trees_mapset",
