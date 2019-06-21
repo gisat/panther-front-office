@@ -15,6 +15,7 @@ class ChartLegend extends React.PureComponent {
 		keySourcePath: PropTypes.string,
 		nameSourcePath: PropTypes.string,
 		colorSourcePath: PropTypes.string,
+		colorScale: PropTypes.func,
 		numericLink: PropTypes.bool
 	};
 
@@ -45,7 +46,15 @@ class ChartLegend extends React.PureComponent {
 			<div className="ptr-chart-legend">
 				{_.map(this.props.data, (item, index) => {
 					let key = _.get(item, this.props.keySourcePath);
-					let color = this.props.colorSourcePath ? _.get(item, this.props.colorSourcePath) : item.color;
+					let color = null;
+					if (this.props.colorSourcePath) {
+						color = _.get(item, this.props.colorSourcePath);
+					} else if (item.color) {
+						color = item.color;
+					} else if (this.props.colorScale) {
+						color = this.props.colorScale(key);
+					}
+
 					let name = _.get(item, this.props.nameSourcePath);
 					let numericLink = this.props.numericLink ? (index + 1) : null;
 
@@ -53,13 +62,17 @@ class ChartLegend extends React.PureComponent {
 						background: color
 					};
 
+					let itemClasses = classnames("ptr-chart-legend-item", {
+						withNumbers: !!this.props.numericLink
+					});
+
 					let iconClasses = classnames("ptr-chart-legend-item-icon", {
-						dark: chroma(color).luminance() < 0.35
+						dark: color ? chroma(color).luminance() < 0.35 : false
 					});
 
 					return (
 						<div
-							className="ptr-chart-legend-item"
+							className={itemClasses}
 							key={key + '-legend'}
 							onMouseOver={this.onMouseOver.bind(this, key)}
 							onMouseMove={this.onMouseMove.bind(this, key)}

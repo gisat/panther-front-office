@@ -58,6 +58,8 @@ class LineChartDoc extends React.PureComponent {
 
 							xCaptionsSize={50}
 							width={this.state.width}
+
+							legend
 						/>
 					</HoverHandler>
 				</div>

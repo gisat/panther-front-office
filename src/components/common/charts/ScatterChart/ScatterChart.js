@@ -9,6 +9,7 @@ import Point from "../Point";
 import utilsFilter from "../../../../utils/filter";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
+import ChartLegend from "../ChartLegend/ChartLegend";
 
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
@@ -29,6 +30,8 @@ class ScatterChart extends React.PureComponent {
 		xSourcePath: PropTypes.string, // if serie, path in context of serie
 		ySourcePath: PropTypes.string, // if serie, path in context of serie
 		itemNameSourcePath: PropTypes.string, // only if serie
+
+		legend: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -96,16 +99,25 @@ class ScatterChart extends React.PureComponent {
 		}
 
 		return (
-			<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
-				{(data) ?
-					<CartesianChartContent
-						{...props}
-						{...{xScale, yScale}}
-					>
-						{this.renderPoints(data, xScale, yScale, colors)}
-					</CartesianChartContent>
-				: null}
-			</svg>
+			<>
+				<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
+					{(data) ?
+						<CartesianChartContent
+							{...props}
+							{...{xScale, yScale}}
+						>
+							{this.renderPoints(data, xScale, yScale, colors)}
+						</CartesianChartContent>
+					: null}
+				</svg>
+				{this.props.legend ? <ChartLegend
+					data={data}
+					keySourcePath={this.props.keySourcePath}
+					nameSourcePath={this.props.nameSourcePath}
+					colorSourcePath={this.props.colorSourcePath}
+					colorScale={colors}
+				/> : null}
+			</>
 		);
 	}
 

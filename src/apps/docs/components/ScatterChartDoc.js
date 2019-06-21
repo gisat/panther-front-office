@@ -122,6 +122,7 @@ class ScatterChartDoc extends React.PureComponent {
 							yTicks
 
 							width={this.state.width}
+							legend
 						/>
 					</HoverHandler>
 				</div>

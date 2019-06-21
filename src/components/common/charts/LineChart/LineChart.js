@@ -12,6 +12,7 @@ import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
+import ChartLegend from "../ChartLegend/ChartLegend";
 
 class LineChart extends React.PureComponent {
 	static defaultProps = {
@@ -33,6 +34,8 @@ class LineChart extends React.PureComponent {
 		serieDataSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string, // in context of serie
 		ySourcePath: PropTypes.string, // in context of serie
+
+		legend: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -105,19 +108,30 @@ class LineChart extends React.PureComponent {
 
 
 		return (
-			<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
-				{(data) ?
-					<CartesianChartContent
-						{...props}
-						{...{xScale, yScale, contentData: sortedUniqueXvalues}}
-					>
-						{mode === 'aggregated' ?
-							this.renderAggregated(data, props, xScale, yScale) :
-							this.renderLines(data, props, xScale, yScale, colors, mode)
-						}
-					</CartesianChartContent>
-				: null}
-			</svg>
+			<>
+				<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
+					{(data) ?
+						<CartesianChartContent
+							{...props}
+							{...{xScale, yScale, contentData: sortedUniqueXvalues}}
+						>
+							{mode === 'aggregated' ?
+								this.renderAggregated(data, props, xScale, yScale) :
+								this.renderLines(data, props, xScale, yScale, colors, mode)
+							}
+						</CartesianChartContent>
+					: null}
+				</svg>
+				{this.props.legend ? (
+					<ChartLegend
+						data={data}
+						keySourcePath={this.props.serieKeySourcePath}
+						nameSourcePath={this.props.serieNameSourcePath}
+						colorSourcePath={this.props.colorSourcePath}
+						colorScale={colors}
+					/>
+				) : null}
+			</>
 		);
 	}
 
