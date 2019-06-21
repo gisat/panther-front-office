@@ -53,7 +53,6 @@ class ChartPanel extends React.PureComponent {
 		let hoverAsterData;
 		if(hoveredData) {
 			hoverAsterData = this.transformDataForAsterChart(hoveredData);
-			// hoverAsterData = hoveredData;
 		}
 
 		let selectedAreaData;
@@ -64,11 +63,9 @@ class ChartPanel extends React.PureComponent {
 		let selectAsterData;
 		if(selectedAreaData) {
 			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
-			// selectAsterData = selectedAreaData;
 		}
 
 		const description = "Mean ecosystem values normalised by population per district."
-console.log(hoverAsterData);
 
 			return (
 					<div className="ptr-unseea-chart-panel">
@@ -88,8 +85,6 @@ console.log(hoverAsterData);
 										nameSourcePath="name"
 										valueSourcePath="value.absolute"
 
-
-										// xSourcePath="title"
 										xSourcePath="name"
 										ySourcePath="value.absolute"
 										// sorting={[["data.some_value_1", "desc"]]}
@@ -100,8 +95,7 @@ console.log(hoverAsterData);
 										yGridlines
 										withoutYbaseline
 										width={200}
-										minWidth={200}
-										maxWidth={500}
+										maxWidth={400}
 										height={150}
 									/>
 							</ChartWrapper> : 
@@ -147,8 +141,7 @@ console.log(hoverAsterData);
 									yGridlines
 									withoutYbaseline
 									width={200}
-									minWidth={200}
-									maxWidth={500}
+									maxWidth={400}
 									height={150}
 								/>
 							</ChartWrapper>

@@ -207,12 +207,12 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 							existingLayer.setStyleFunction(getStaticDistrictsStyleFunction('#FFF', 50, '#000', 255, 3));
 							break;
 					case 'districtsChoroplet':
-						const statistics = {
-							min: 0,
-							max: 10,
-							percentile: [2,4,6,8]
-						}
-							existingLayer.setStyleFunction(getCartogramStyleFunction('#ca4466', 150, statistics, 'CD_TP_MEAN'));
+							const statistics = {
+								min: 0,
+								max: 0.07,
+								percentile: [0,0.0001,0.0002,0.0003,0.0004,0.0005,0.007]
+							}
+							existingLayer.setStyleFunction(getCartogramStyleFunction('#ca4466', 150, statistics, 'CD_TP_MEAN_POP'));
 							break;
 					case 'trees':
 							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
