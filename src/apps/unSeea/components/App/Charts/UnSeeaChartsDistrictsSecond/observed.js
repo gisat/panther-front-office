@@ -12,18 +12,18 @@ export default [
 		getTooltip: getCentimeters,
 		title: 'Stem Diameter'
 	},
-	// {
-	// 	name: 'H_TP_MEAN_POP',
-	// 	color: '#CA4466',
-	// 	getTooltip: getCentimeters,
-	// 	title: 'Tree Height'
-	// },
-	// {
-	// 	name: 'LF_AR_M2_TP_MEAN_POP',
-	// 	color: '#CA4466',
-	// 	getTooltip: getSquareCentimeters,
-	// 	title: 'Leaf Area'
-	// },
+	{
+		name: 'H_TP_MEAN_POP',
+		color: '#CA4466',
+		getTooltip: getCentimeters,
+		title: 'Tree Height'
+	},
+	{
+		name: 'LF_AR_M2_TP_MEAN_POP',
+		color: '#CA4466',
+		getTooltip: getSquareCentimeters,
+		title: 'Leaf Area'
+	},
 
 
 	//zelena

@@ -77,6 +77,7 @@ class ColumnChart extends React.PureComponent {
 	// TODO axis orientation
 	render() {
 		const props = this.props;
+console.log(props);
 
 		/* dimensions */
 		let width = props.width ? props.width : WIDTH;

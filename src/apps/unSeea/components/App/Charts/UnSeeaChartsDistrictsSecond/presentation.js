@@ -68,6 +68,7 @@ class ChartPanel extends React.PureComponent {
 		}
 
 		const description = "Mean ecosystem values normalised by population per district."
+console.log(hoverAsterData);
 
 			return (
 					<div className="ptr-unseea-chart-panel">
@@ -75,30 +76,34 @@ class ChartPanel extends React.PureComponent {
 						{
 							hoverAsterData ? 
 								<ChartWrapper
-									key={this.props.chartKey + "-wrapper"}
+									key={hoverAsterData.key + "-wrapper"}
 									title={hoveredData.name}
 									subtitle={description}
 								>
-								<ColumnChart
-									key="district-second"
-									data={hoverAsterData}
-									keySourcePath="key"
+									<ColumnChart
+										key="column-districts-second-hover"
+										data={hoverAsterData.data}
+										keySourcePath="key"
 
-									nameSourcePath="name"
-									valueSourcePath="value.absolute"
+										nameSourcePath="name"
+										valueSourcePath="value.absolute"
 
 
-									xSourcePath="name"
-									ySourcePath="value.absolute"
-									// sorting={[["data.some_value_1", "desc"]]}
-									yCaptions
-									yGridlines
-									withoutYbaseline
-									width={200}
-									minWidth={200}
-									maxWidth={500}
-									height={150}
-								/>
+										// xSourcePath="title"
+										xSourcePath="name"
+										ySourcePath="value.absolute"
+										// sorting={[["data.some_value_1", "desc"]]}
+
+										xCaptions
+										yCaptions
+			
+										yGridlines
+										withoutYbaseline
+										width={200}
+										minWidth={200}
+										maxWidth={500}
+										height={150}
+									/>
 							</ChartWrapper> : 
 							(
 								<div className="ptr-chart-wrapper-content">
@@ -121,7 +126,6 @@ class ChartPanel extends React.PureComponent {
 							title={selectedAreaData.name}
 							subtitle={description}
 							>
-							
 								<ColumnChart
 									
 									key="district-second"
@@ -136,7 +140,10 @@ class ChartPanel extends React.PureComponent {
 									xSourcePath="name"
 									ySourcePath="value.absolute"
 									// sorting={[["data.some_value_1", "desc"]]}
+
+									xCaptions
 									yCaptions
+		
 									yGridlines
 									withoutYbaseline
 									width={200}
