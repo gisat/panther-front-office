@@ -1,6 +1,6 @@
 export default [{
 	"gid": "40",
-	"name": "CAMBODIA",
+	"name": "Cambodia",
 	"properties": [{
 		"period": 1985,
 
@@ -44,7 +44,7 @@ export default [{
 	}]
 }, {
 	"gid": "123",
-	"name": "LAOS",
+	"name": "Laos",
 	"properties": [{
 		"period": 1985,
 
@@ -92,7 +92,7 @@ export default [{
 }
 	, {
 		"gid": "228",
-		"name": "THAILAND",
+		"name": "Thailand",
 		"properties": [{
 			"period": 1985,
 
@@ -141,7 +141,7 @@ export default [{
 	}
 	, {
 		"gid": "250",
-		"name": "VIETNAM",
+		"name": "Vietnam",
 		"properties": [{
 			"period": 1985,
 

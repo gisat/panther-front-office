@@ -40,6 +40,9 @@ class UtepSdgCharts extends React.PureComponent {
 						}}
 						itemNameSourcePath="period" // in context of serie
 
+						height={200}
+						minAspectRatio={1.7}
+
 						xGridlines
 						xCaptions
 						xTicks
@@ -48,6 +51,8 @@ class UtepSdgCharts extends React.PureComponent {
 						yCaptions
 						yTicks
 						withoutYbaseline
+
+						legend
 					/>
 				</ChartWrapper>
 				<ChartWrapper
@@ -68,6 +73,9 @@ class UtepSdgCharts extends React.PureComponent {
 							name: "Total population"
 						}}
 
+						height={200}
+						minAspectRatio={1.7}
+
 						xTicks
 						xGridlines
 						xCaptions
@@ -80,6 +88,7 @@ class UtepSdgCharts extends React.PureComponent {
 						yCaptionsSize={80}
 
 						withPoints
+						// legend
 					/>
 				</ChartWrapper>
 			</div>
