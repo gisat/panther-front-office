@@ -1,4 +1,5 @@
 const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
+const getCentimeters = (val) => `${Math.round(val * 100) / 100} cm`;
 const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
 const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
 const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
@@ -9,7 +10,7 @@ export default [
 	{
 		name: 'CD',
 		color: '#CA4466',
-		getTooltip: getMeters,
+		getTooltip: getCentimeters,
 		title: 'Stem Diameter'
 	},
 	{
