@@ -14,7 +14,7 @@ class Apps extends React.PureComponent {
 			mapSetKey: "un_seea_mapset_districts_second",
 			applicationKey: 'un_seea',
 			activeSpatialDataSourceKey: "un_seea_boundaries_second",
-			activeChartSet: "unSeeaDistrictsChartsSecond",
+			activeChartSet: "unSeeaDistrictsSecondCharts",
 			vectorLayerStyleKey: 'districtsChoroplet',
 			activeAttributeKey: 'gid'
 		})

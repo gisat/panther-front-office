@@ -1,5 +1,5 @@
 const view = {
-    "key": "UN_SEEA_DISTRICTS_SECONDS",
+    "key": "UN_SEEA_DISTRICTS_SECOND",
     "data": {
         "state": {
             "maps": {
@@ -44,8 +44,8 @@ const view = {
             },
             "charts": {
                 "sets": {
-                  "unSeeaDistrictsChartsSecond": {
-                    "key": "unSeeaDistrictsChartsSecond",
+                  "unSeeaDistrictsSecondCharts": {
+                    "key": "unSeeaDistrictsSecondCharts",
                     "charts": [
                       "progressChart"
                     ]
