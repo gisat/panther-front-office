@@ -81,6 +81,8 @@ class ChangeReviewsTable extends React.PureComponent {
 	render() {
 		const VisitedSelect = getSelect(VISITED_VALUES, this.props.filterVisited, 'filterVisited', this.handleInputChange);
 		const ConfirmedSelect = getSelect(CONFIRMED_VALUES, this.props.filterConfirmed, 'filterConfirmed', this.handleInputChange);
+		//if first item has data for "zjistena", then we expect data for every items
+		const showDeterminatedCulture = this.props.cases && this.props.cases[0] && this.props.cases[0].data && this.props.cases[0].data.zjistena;
 		return (
 			<div className="ptr-table change-reviews-lpis-table">
 				<div className="ptr-table-header">
@@ -96,27 +98,29 @@ class ChangeReviewsTable extends React.PureComponent {
                             {ConfirmedSelect}
                         </label>
 					</div> */}
-					<div className="ptr-table-header-item">Kód</div>
-					<div className="ptr-table-header-item">Kultura</div>
-					<div className="ptr-table-header-item">Poznámka</div>
-					<div className="ptr-table-header-item buttons"></div>
+					<div className="ptr-table-header-item fb20">Kód</div>
+					<div className="ptr-table-header-item fb10">Kultura LPIS</div>
+					{showDeterminatedCulture ? <div className="ptr-table-header-item fb10">Kultura zjištěná</div> : null}
+					<div className={`ptr-table-header-item ${showDeterminatedCulture ? 'fb50' : 'fb60'}`}>Poznámka</div>
+					<div className="ptr-table-header-item buttons fb10"></div>
 				</div>
 				<div className="ptr-table-body">
 					{this.props.cases.map(reviewCase => {
-						return this.renderRow(reviewCase);
+						return this.renderRow(reviewCase, !!showDeterminatedCulture);
 					})}
 				</div>
 			</div>
 		);
 	}
 
-	renderRow(reviewCase){
+	renderRow(reviewCase, showDeterminatedCulture){
 		return (
 			<ChangeReviewsTableRow
 				data={reviewCase.data}
 				showCase={this.props.showCase}
 				caseKey={reviewCase.key}
 				key={reviewCase.key}
+				showDeterminatedCulture={showDeterminatedCulture}
 			/>
 		);
 	}

@@ -63,25 +63,24 @@
 	margin-left: -0.5rem;
 	min-width: 32px;
 }
-.ptr-table.change-reviews-lpis-table .ptr-table-header-item:nth-child(1),
-.ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(1) {
-	flex-basis: 20%;
-}
-.ptr-table.change-reviews-lpis-table .ptr-table-header-item:nth-child(2),
-.ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(2) {
-	flex-basis: 10%;
-}
+
 .ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(2) {
 	font-weight: 600;
 }
-.ptr-table.change-reviews-lpis-table .ptr-table-header-item:nth-child(3),
-.ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(3) {
-	flex-basis: 60%;
-}
-.ptr-table.change-reviews-lpis-table .ptr-table-header-item:nth-child(4),
-.ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(4) {
+
+.ptr-table .fb10{
 	flex-basis: 10%;
 }
+.ptr-table .fb20{
+	flex-basis: 20%;
+}
+.ptr-table .fb50{
+	flex-basis: 50%;
+}
+.ptr-table .fb60{
+	flex-basis: 60%;
+}
+
 /* .ptr-table.change-reviews-lpis-table .ptr-table-header-item:nth-child(5),
 .ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(5){
 	flex-basis: 20%;

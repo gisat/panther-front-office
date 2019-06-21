@@ -12,6 +12,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		data: PropTypes.object,
 		showCase: PropTypes.func,
 		caseKey: PropTypes.number,
+		showDeterminatedCulture: PropTypes.bool,
 	};
 
 	constructor(props){
@@ -34,16 +35,19 @@ class ChangeReviewsTableRow extends React.PureComponent {
 					{/* {this.renderVisibleStatus()} */}
 					{/* {this.renderConfirmStatus()} */}
 					{/* {this.renderCaseKey()} */}
-					<div className="ptr-table-row-item">
+					<div className="ptr-table-row-item fb20">
 						{this.props.data.nkod_dpb}
 					</div>
-					<div className="ptr-table-row-item">
+					<div className="ptr-table-row-item fb10">
 						{this.props.data.kulturakod}
 					</div>
-					<div className="ptr-table-row-item">
+
+					{this.props.showDeterminatedCulture ? <div className="ptr-table-row-item fb10">{this.props.data.zjistena}</div> : null}
+
+					<div className={`ptr-table-row-item ${this.props.showDeterminatedCulture ? 'fb50' : 'fb60'}`}>
 						{this.props.data.typ || this.props.data.poznamka || null}
 					</div>
-					<div className="ptr-table-row-item buttons">
+					<div className="ptr-table-row-item buttons fb10">
 						<div className="ptr-table-row-action">
 							{showMapButton}
 						</div>
