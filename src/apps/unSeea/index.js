@@ -21,6 +21,7 @@ import en from "./locales/en/common";
 import SubAppContextProvider from './components/App/context/SubAppContextProvider';
 import AppContainer from "../../components/common/AppContainer";
 
+import DistrictsSecond from './components/pages/DistrictsSecond/subAppWrapper';
 import Districts from './components/pages/Districts/subAppWrapper';
 import Trees from './components/pages/Trees/subAppWrapper';
 import LandingPage from './components/pages/LandingPage/presentation';
@@ -47,6 +48,7 @@ export default (path, baseUrl) => {
 						<ConnectedRouter history={history}>
 							<Switch>
 								{/* <Route exact path={path + "/"} render={page(Dashboard, "base")} /> */}
+								<Route path={path + "/districtsSecond"} component={DistrictsSecond} />
 								<Route path={path + "/districts"} component={Districts} />
 								<Route path={path + "/trees"} component={Trees} />
 								<Route path={path} component={LandingPage} />

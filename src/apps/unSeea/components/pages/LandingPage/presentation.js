@@ -33,17 +33,30 @@ class LandingPage extends React.PureComponent {
 					</div>
 
 					<div className={'unseea-subapp-list'}>
-					<Link to={`${match.path}/districts`}>
-						<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
-								<div className="unseea-subapp-card-name">
-									Districts
+						<Link to={`${match.path}/districts`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+									<div className="unseea-subapp-card-name">
+										Districts
+									</div>
+									<div className="unseea-subapp-card-description">
+										<Truncate lines={6}>
+											Awereness raising I
+										</Truncate>
+									</div>
 								</div>
-								<div className="unseea-subapp-card-description">
-									<Truncate lines={6}>
-										Awereness raising I
-									</Truncate>
+						</Link>
+						
+						<Link to={`${match.path}/districtsSecond`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+									<div className="unseea-subapp-card-name">
+										Districts second
+									</div>
+									<div className="unseea-subapp-card-description">
+										<Truncate lines={6}>
+											Awereness raising II
+										</Truncate>
+									</div>
 								</div>
-							</div>
 						</Link>
 						
 						

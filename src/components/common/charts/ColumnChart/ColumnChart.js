@@ -42,6 +42,7 @@ class ColumnChart extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+console.log(props);
 
 		/* data preparation */
 		let data, yScale, xScale, xDomain, yDomain, aggregatedData = null;

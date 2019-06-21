@@ -62,6 +62,8 @@ class ChartWrapper extends React.PureComponent {
 	}
 
 	render() {
+		console.log(this.props.title);
+		
 		let classes = classnames("ptr-chart-wrapper-header", {
 			'with-subtitle': !!this.props.subtitle
 		});
