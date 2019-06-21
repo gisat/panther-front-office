@@ -74,7 +74,7 @@ const view = {
                                     latitude: 14,
                                     longitude: 103
                                 },
-                                range: 1500000,
+                                range: 3000000,
                                 roll: 0,
                                 tilt: 0,
                                 heading: 0                    

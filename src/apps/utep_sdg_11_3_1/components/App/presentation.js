@@ -52,13 +52,7 @@ class UtepSdg extends React.PureComponent {
 																</UtepSdgMap>
 															</MapSet>
 															<MapTools>
-																<MapControlLegend
-																	disabled = {false}
-																	setKey={this.context.windowSetKey}
-																	windowSetKey={this.context.windowSetKey}
-																	itemKey={"legend"}
-																	mapSetKey={this.context.mapSetKey} />
-																<MapControls zoomOnly/>
+																<MapControls/>
 															</MapTools>
 														</>
 														)
@@ -72,10 +66,8 @@ class UtepSdg extends React.PureComponent {
 											maxWidth: "35rem",
 											render: props => (
 												<div
-												key="22">
-													<h3>
-														content
-													</h3>
+													key="utep_sdg_11_3_1-charts">
+
 												</div>
 												)
 										},
