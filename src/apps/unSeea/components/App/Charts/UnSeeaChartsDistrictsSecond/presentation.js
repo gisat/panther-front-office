@@ -25,7 +25,8 @@ class ChartPanel extends React.PureComponent {
 					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
 						relative: value.relative,
-						absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
+						// absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
+						absolute: value.absolute
 					},
 					name: observedValue.title,
 					color: observedValue.color
@@ -52,6 +53,7 @@ class ChartPanel extends React.PureComponent {
 		let hoverAsterData;
 		if(hoveredData) {
 			hoverAsterData = this.transformDataForAsterChart(hoveredData);
+			// hoverAsterData = hoveredData;
 		}
 
 		let selectedAreaData;
@@ -62,6 +64,7 @@ class ChartPanel extends React.PureComponent {
 		let selectAsterData;
 		if(selectedAreaData) {
 			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
+			// selectAsterData = selectedAreaData;
 		}
 
 		const description = "Mean ecosystem values normalised by population per district."
@@ -78,21 +81,22 @@ class ChartPanel extends React.PureComponent {
 								>
 								<ColumnChart
 									key="district-second"
-									data={hoverAsterData.data}
+									data={hoverAsterData}
 									keySourcePath="key"
 
-									nameSourcePath="value.absolute"
-									valueSourcePath="value.relative"
+									nameSourcePath="name"
+									valueSourcePath="value.absolute"
 
 
-									xSourcePath="title"
-									ySourcePath="value.relative"
+									xSourcePath="name"
+									ySourcePath="value.absolute"
 									// sorting={[["data.some_value_1", "desc"]]}
 									yCaptions
 									yGridlines
 									withoutYbaseline
-									width={250}
+									width={200}
 									minWidth={200}
+									maxWidth={500}
 									height={150}
 								/>
 							</ChartWrapper> : 
@@ -124,18 +128,20 @@ class ChartPanel extends React.PureComponent {
 									data={selectAsterData.data}
 									keySourcePath="key"
 
-									nameSourcePath="value.absolute"
-									valueSourcePath="value.relative"
+									nameSourcePath="name"
+									valueSourcePath="value.absolute"
 
 
-									xSourcePath="title"
-									ySourcePath="value.relative"
+									// xSourcePath="title"
+									xSourcePath="name"
+									ySourcePath="value.absolute"
 									// sorting={[["data.some_value_1", "desc"]]}
 									yCaptions
 									yGridlines
 									withoutYbaseline
-									width={250}
+									width={200}
 									minWidth={200}
+									maxWidth={500}
 									height={150}
 								/>
 							</ChartWrapper>

@@ -7,7 +7,7 @@ const getDollars = (val) => `${Math.round(val * 10000) / 10000} $`;
 export default [
 	//hneda
 	{
-		name: 'CD_TP_MEAN_POP',
+		name: 'CD_TP_MEAN',
 		color: '#CA4466',
 		getTooltip: getCentimeters,
 		title: 'Stem Diameter'

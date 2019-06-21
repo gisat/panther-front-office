@@ -5,6 +5,7 @@ import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import {getStaticDistrictsStyleFunction} from './staticPolygonStyle';
 import {getStaticTreesStyleFunction} from './staticTreesPointStyle';
+import {getCartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartogram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/VectorLayer';
 import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
@@ -205,6 +206,14 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 					case 'districts':
 							existingLayer.setStyleFunction(getStaticDistrictsStyleFunction('#FFF', 50, '#000', 255, 3));
 							break;
+					case 'districtsChoroplet':
+						const statistics = {
+							min: 0,
+							max: 10,
+							percentile: [2,4,6,8]
+						}
+							existingLayer.setStyleFunction(getCartogramStyleFunction('#ca4466', 150, statistics, 'CD_TP_MEAN'));
+							break;
 					case 'trees':
 							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
 							break;
@@ -342,6 +351,9 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 				if(spatialId || spatialId === 0) {
 					switch(this.props.vectorLayerStyleKey) {
 						case 'districts':
+								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+								break;
+						case 'districtsChoroplet':
 								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
 								break;
 						case 'trees':
