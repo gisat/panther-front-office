@@ -146,6 +146,7 @@ class AxisX extends React.PureComponent {
 					`}
 				>
 					<AxisCaption
+						classes="ptr-tick-caption"
 						maxWidth={((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2))}
 						maxHeight={availableHeight}
 						text={text}
@@ -181,7 +182,13 @@ class AxisX extends React.PureComponent {
 						translate(${props.width/2} ${props.plotHeight + props.height + props.labelSize - 3})
 					`}
 			>
-				<text className="ptr-axis-label" textAnchor="middle">{content}</text>
+				<AxisCaption
+					classes="ptr-axis-label"
+					maxWidth={props.width}
+					maxHeight={25}
+					text={content}
+					textAnchor="middle"
+				/>
 			</g>
 		);
 	}

@@ -96,7 +96,7 @@ class UtepSdgCharts extends React.PureComponent {
 						withoutYbaseline
 
 						sorting={[["period", "asc"]]}
-						yCaptionsSize={90}
+						yCaptionsSize={80}
 
 						withPoints
 						// legend

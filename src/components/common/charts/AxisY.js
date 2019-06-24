@@ -4,6 +4,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
+import AxisCaption from "./AxisCaption";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 5; // TODO optional?
@@ -81,14 +82,19 @@ class AxisY extends React.PureComponent {
 									y2={yCoord}
 								/>
 								{this.props.withCaption ? (
-									<text
-										className="ptr-tick-caption"
-										textAnchor="end"
-										x={0}
-										y={yCoord + TICK_CAPTION_OFFSET_HORIZONTAL}
+									<g
+									transform={`
+										translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
+									`}
 									>
-										{value.toLocaleString()}
-									</text>
+										<AxisCaption
+											classes="ptr-tick-caption"
+											maxWidth={this.props.width}
+											maxHeight={this.props.height/ticks.length}
+											text={value.toLocaleString()}
+											textAnchor="end"
+										/>
+									</g>
 								) : null}
 							</g>
 						)
@@ -118,11 +124,19 @@ class AxisY extends React.PureComponent {
 		}
 
 		return (
-			<text
-				transform={`
-						translate(15 ${props.height/2})
+			<g transform={`
+						translate(13 ${props.height/2})
 						rotate(270)
-					`} className="ptr-axis-label" textAnchor="middle">{content}</text>
+					`}>
+				{/*<text className="ptr-axis-label" textAnchor="middle">{content}</text>*/}
+				<AxisCaption
+					classes="ptr-axis-label"
+					maxWidth={props.height}
+					maxHeight={25}
+					text={content}
+					textAnchor="middle"
+				/>
+			</g>
 		);
 	}
 }

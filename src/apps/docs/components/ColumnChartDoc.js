@@ -79,6 +79,7 @@ class ColumnChartDoc extends React.PureComponent {
 							xCaptions
 							yCaptions
 							yCaptionsSize={80}
+							xCaptionsSize={80}
 							xTicks
 							yTicks
 							xGridlines
