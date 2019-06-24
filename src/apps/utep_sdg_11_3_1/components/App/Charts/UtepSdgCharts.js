@@ -42,7 +42,8 @@ class UtepSdgCharts extends React.PureComponent {
 						xCaptions
 						xTicks
 						xOptions={{
-							name: "Population change"
+							name: "Population change",
+							unit: "%"
 						}}
 
 						yGridlines
@@ -50,6 +51,7 @@ class UtepSdgCharts extends React.PureComponent {
 						yTicks
 						yOptions={{
 							name: "Urban area change",
+							unit: "%",
 							max: 620
 						}}
 
@@ -84,7 +86,8 @@ class UtepSdgCharts extends React.PureComponent {
 						yCaptions
 						yOptions={{
 							name: "Total population",
-							min: -1
+							min: -1,
+							unit: "inhabitants"
 						}}
 						withoutYbaseline
 
