@@ -61,7 +61,7 @@ class ScatterChartDoc extends React.PureComponent {
 
 				<div className="ptr-docs-panel-section">
 					<h2>Specified colors and custom sizes</h2>
-					<p>Custom width, height, point radius, inner padding</p>
+					<p>Custom width, height, point radius, inner padding, min, max</p>
 					<HoverHandler>
 						<ScatterChart
 							key="scatter-doc-colors"
@@ -81,7 +81,17 @@ class ScatterChartDoc extends React.PureComponent {
 							yCaptions
 							yTicks
 
-							width={300}
+							xOptions={{
+								min: -1000,
+								max: 70000
+							}}
+
+							yOptions={{
+								min: -15,
+								max: 18
+							}}
+
+							width={350}
 							height={200}
 							innerPadding={20}
 							pointRadius={7}

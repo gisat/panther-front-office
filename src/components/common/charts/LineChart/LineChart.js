@@ -71,8 +71,17 @@ class LineChart extends React.PureComponent {
 			let uniqueXvalues = _.uniqBy(_.flatten(xValues));
 			sortedUniqueXvalues = _.sortBy(uniqueXvalues);
 			let yValuesPrepared = _.flatten(yValues);
+
 			let yMaximum = _.max(yValuesPrepared);
 			let yMinimum = _.min(yValuesPrepared);
+
+			if (props.yOptions && props.yOptions.min) {
+				yMinimum = props.yOptions.min;
+			}
+
+			if (props.yOptions && props.yOptions.max) {
+				yMaximum = props.yOptions.max;
+			}
 
 			xDomain = sortedUniqueXvalues;
 			yDomain = [yMinimum, yMaximum];

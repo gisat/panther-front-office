@@ -77,8 +77,30 @@ class ScatterChart extends React.PureComponent {
 				});
 			}
 
-			xDomain = [_.min(xValues), _.max(xValues)];
-			yDomain = [_.min(yValues), _.max(yValues)];
+			let xMax = _.max(xValues);
+			let xMin = _.min(xValues);
+
+			if (props.xOptions && props.xOptions.min) {
+				xMin = props.xOptions.min;
+			}
+
+			if (props.xOptions && props.xOptions.max) {
+				xMax = props.xOptions.max;
+			}
+
+			let yMax = _.max(yValues);
+			let yMin = _.min(yValues);
+
+			if (props.yOptions && props.yOptions.min) {
+				yMin = props.yOptions.min;
+			}
+
+			if (props.yOptions && props.yOptions.max) {
+				yMax = props.yOptions.max;
+			}
+
+			xDomain = [xMin, xMax];
+			yDomain = [yMin, yMax];
 
 			/* scales */
 			xScale = d3

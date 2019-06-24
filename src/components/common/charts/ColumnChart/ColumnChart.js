@@ -52,7 +52,14 @@ class ColumnChart extends React.PureComponent {
 			let yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
 			let maximum = _.max(yValues);
 			let minimum = _.min(yValues);
-			if (minimum >= 0) minimum = 0; // TODO custom option - forceMinimum?
+
+			if (props.yOptions && props.yOptions.min) {
+				minimum = props.yOptions.min;
+			}
+
+			if (props.yOptions && props.yOptions.max) {
+				maximum = props.yOptions.max;
+			}
 
 			/* domain and scales */
 			xDomain = data.map(i  => _.get(i, props.keySourcePath));
