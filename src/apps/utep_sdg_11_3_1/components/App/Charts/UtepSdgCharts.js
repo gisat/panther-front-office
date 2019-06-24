@@ -31,13 +31,8 @@ class UtepSdgCharts extends React.PureComponent {
 						keySourcePath="gid"
 
 						xSourcePath="Population change" // in context of serie
-						xOptions={{
-							name: "Population change"
-						}}
 						ySourcePath="Urban area change" // in context of serie
-						yOptions={{
-							name: "Urban area change"
-						}}
+
 						itemNameSourcePath="period" // in context of serie
 
 						height={200}
@@ -46,10 +41,18 @@ class UtepSdgCharts extends React.PureComponent {
 						xGridlines
 						xCaptions
 						xTicks
+						xOptions={{
+							name: "Population change"
+						}}
 
 						yGridlines
 						yCaptions
 						yTicks
+						yOptions={{
+							name: "Urban area change",
+							max: 620
+						}}
+
 						withoutYbaseline
 
 						legend
@@ -69,9 +72,6 @@ class UtepSdgCharts extends React.PureComponent {
 						serieDataSourcePath="properties"
 						xSourcePath="period" // in context of serie
 						ySourcePath="Total population" // in context of serie
-						yOptions={{
-							name: "Total population"
-						}}
 
 						height={200}
 						minAspectRatio={1.7}
@@ -82,6 +82,10 @@ class UtepSdgCharts extends React.PureComponent {
 						yTicks
 						yGridlines
 						yCaptions
+						yOptions={{
+							name: "Total population",
+							min: -1
+						}}
 						withoutYbaseline
 
 						sorting={[["period", "asc"]]}
