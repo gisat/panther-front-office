@@ -17,8 +17,8 @@ class UtepSdgCharts extends React.PureComponent {
 			<div className="utep_sdg_11_3_1-right-panel">
 				<ChartWrapper
 					key={"scatter-chart-wrapper"}
-					title="Scatter chart"
-					subtitle="Example of scatter chart"
+					title="Urban area change vs. Population change"
+					subtitle="Between years 1985 and 2015"
 				>
 					<ScatterChart
 						key="scatter-chart"
@@ -40,7 +40,9 @@ class UtepSdgCharts extends React.PureComponent {
 
 						xGridlines
 						xCaptions
+						xCaptionsSize={35}
 						xTicks
+						xLabel
 						xOptions={{
 							name: "Population change",
 							unit: "%"
@@ -49,6 +51,7 @@ class UtepSdgCharts extends React.PureComponent {
 						yGridlines
 						yCaptions
 						yTicks
+						yLabel
 						yOptions={{
 							name: "Urban area change",
 							unit: "%",
@@ -84,15 +87,16 @@ class UtepSdgCharts extends React.PureComponent {
 						yTicks
 						yGridlines
 						yCaptions
+						yLabel
 						yOptions={{
 							name: "Total population",
 							min: -1,
-							unit: "inhabitants"
+							unit: "inh."
 						}}
 						withoutYbaseline
 
 						sorting={[["period", "asc"]]}
-						yCaptionsSize={80}
+						yCaptionsSize={90}
 
 						withPoints
 						// legend
