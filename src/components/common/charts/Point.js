@@ -33,7 +33,8 @@ class Point extends React.PureComponent {
 		xOptions: PropTypes.object,
 		yOptions: PropTypes.object,
 
-		standalone: PropTypes.bool
+		standalone: PropTypes.bool,
+		siblings: PropTypes.array
 	};
 
 	constructor(props) {
@@ -104,6 +105,17 @@ class Point extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		let suppressed = false;
+
+		/* Handle context */
+		if (this.context && this.context.hoveredItems && this.props.itemKey && this.props.siblings) {
+			let intersection = _.intersection(this.context.hoveredItems, this.props.siblings);
+			let isCurrentlyHovered = _.indexOf(intersection, this.props.itemKey);
+			if (!!intersection.length && isCurrentlyHovered === -1) {
+				suppressed = true;
+			}
+		}
+
 		let classes = classnames("ptr-chart-point", {
 			'no-opacity': this.props.highlighted,
 			'standalone': this.props.standalone
@@ -112,6 +124,11 @@ class Point extends React.PureComponent {
 		let style = {};
 		if (props.color) {
 			style.fill = props.color
+		}
+		if (suppressed) {
+			style.opacity = .3;
+		} else {
+			style.opacity = 1;
 		}
 
 		return (

@@ -144,6 +144,8 @@ class ScatterChart extends React.PureComponent {
 	}
 
 	renderPoints(data, xScale, yScale, colors) {
+		let siblings = _.map(data, item => _.get(item, this.props.keySourcePath));
+
 		return _.map(data, (item, index) => {
 			let key = _.get(item, this.props.keySourcePath);
 			let color = _.get(item, this.props.colorSourcePath);
@@ -164,19 +166,19 @@ class ScatterChart extends React.PureComponent {
 						finalName = `${name} (${itemName})`;
 					}
 
-					return this.renderPoint(key, serieItem, xScale(xValue), yScale(yValue), color, finalName, index);
+					return this.renderPoint(key, serieItem, xScale(xValue), yScale(yValue), color, finalName, index, siblings);
 				});
 
 			} else {
 				let xValue = _.get(item, this.props.xSourcePath);
 				let yValue = _.get(item, this.props.ySourcePath);
 
-				return this.renderPoint(key, item, xScale(xValue), yScale(yValue), color, name, 0);
+				return this.renderPoint(key, item, xScale(xValue), yScale(yValue), color, name, 0, siblings);
 			}
 		});
 	}
 
-	renderPoint(key, item, x, y, color, name, index) {
+	renderPoint(key, item, x, y, color, name, index, siblings) {
 		return (
 			<Point
 				key={key + '-' + index}
@@ -191,6 +193,7 @@ class ScatterChart extends React.PureComponent {
 				name={name}
 				r={this.props.pointRadius}
 				color={color}
+				siblings={siblings}
 				standalone
 			/>
 		);
