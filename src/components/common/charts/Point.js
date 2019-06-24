@@ -136,13 +136,26 @@ class Point extends React.PureComponent {
 		if (props.data) {
 			let xName = `x`;
 			let yName = `y`;
+			let xContent = _.get(props.data, props.xSourcePath).toLocaleString();
+			let yContent = _.get(props.data, props.ySourcePath).toLocaleString();
 
-			if (props.xOptions && props.xOptions.name) {
-				xName = props.xOptions.name;
+			if (props.xOptions) {
+				if (props.xOptions.name) {
+					xName = props.xOptions.name;
+				}
+				if (props.xOptions.unit) {
+					xContent += ` ${props.xOptions.unit}`;
+				}
+
 			}
 
-			if (props.yOptions && props.yOptions.name) {
-				yName = props.yOptions.name;
+			if (props.yOptions) {
+				if (props.yOptions.name) {
+					yName = props.yOptions.name;
+				}
+				if (props.yOptions.unit) {
+					yContent += ` ${props.yOptions.unit}`;
+				}
 			}
 
 			content = (
@@ -151,10 +164,10 @@ class Point extends React.PureComponent {
 						<i>{`${props.name}:`}</i>
 					</div>
 					<div>
-						<i>{`${xName}:`}</i> {`${_.get(props.data, props.xSourcePath).toLocaleString()}`}
+						<i>{`${xName}:`}</i> {`${xContent}`}
 					</div>
 					<div>
-						<i>{`${yName}:`}</i> {`${_.get(props.data, props.ySourcePath).toLocaleString()}`}
+						<i>{`${yName}:`}</i> {`${yContent}`}
 					</div>
 				</div>
 			);

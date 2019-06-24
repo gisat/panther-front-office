@@ -175,6 +175,7 @@ class LineChart extends React.PureComponent {
 					gray={mode === 'gray'}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 				/>
 			);
 		});
@@ -276,6 +277,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 					gray
 				/>
 				<Line
@@ -288,6 +290,7 @@ class LineChart extends React.PureComponent {
 					highlightedColor={this.props.highlightedColor ? this.props.highlightedColor : "#0077ff"}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 				/>
 				<Line
 					key={'maximum'}
@@ -299,6 +302,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 					gray
 				/>
 			</>

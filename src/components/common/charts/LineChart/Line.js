@@ -26,7 +26,8 @@ class Line extends React.PureComponent {
 		gray: PropTypes.bool,
 
 		pointNameSourcePath: PropTypes.string,
-		pointValueSourcePath: PropTypes.string
+		pointValueSourcePath: PropTypes.string,
+		yOptions: PropTypes.object
 	};
 
 	constructor(props) {
@@ -187,15 +188,33 @@ class Line extends React.PureComponent {
 	}
 
 	getPopupContent(data) {
+		const props = this.props;
 		let content = null;
 
-		if (this.props.name) {
+		if (props.name) {
+			let name = props.name;
+			let pointName = data ? _.get(data, props.pointNameSourcePath) : null;
+			let value = data ? _.get(data, props.pointValueSourcePath).toLocaleString() : null;
+			let attributeName = null;
+
+			if (pointName) {
+				name += ` (${pointName}):`;
+			}
+
+			if (value && props.yOptions) {
+				if (props.yOptions.name) {
+					attributeName = `${props.yOptions.name}: `;
+				}
+
+				if (props.yOptions.unit) {
+					value = `${value} ${props.yOptions.unit}`;
+				}
+			}
+
 			content = (
 				<div>
-					<div><i>{this.props.name}</i></div>
-					{data ? (
-						<div><i>{`${_.get(data, this.props.pointNameSourcePath)}:`}</i> {`${_.get(data, this.props.pointValueSourcePath).toLocaleString()}`}</div>
-					) : null}
+					<div><i>{name}</i></div>
+					{value ? (<div><i>{attributeName}</i>{value}</div>) : null}
 				</div>
 			);
 		}

@@ -157,6 +157,7 @@ class ColumnChart extends React.PureComponent {
 							nameSourcePath={this.props.xSourcePath}
 							valueSourcePath={this.props.ySourcePath}
 							data={item}
+							yOptions={this.props.yOptions}
 						/>
 					);
 				})}
@@ -189,6 +190,7 @@ class ColumnChart extends React.PureComponent {
 							nameSourcePath={this.props.xSourcePath}
 							valueSourcePath={this.props.ySourcePath}
 							data={group}
+							yOptions={this.props.yOptions}
 						/>
 					);
 				})}
