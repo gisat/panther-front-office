@@ -101,7 +101,7 @@ class ScatterChartDoc extends React.PureComponent {
 
 				<div className="ptr-docs-panel-section">
 					<h2>Data source is serie</h2>
-					<p></p>
+					<p>With axis labels</p>
 					<HoverHandler>
 						<ScatterChart
 							key="scatter-doc-serie"
@@ -127,11 +127,14 @@ class ScatterChartDoc extends React.PureComponent {
 
 							xGridlines
 							xCaptions
+							xCaptionsSize={45}
 							xTicks
+							xLabel
 
 							yGridlines
 							yCaptions
 							yTicks
+							yLabel
 
 							width={this.state.width}
 							legend

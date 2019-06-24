@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 
 import './style.scss';
 
-class AxisLabel extends React.PureComponent {
+class AxisCaption extends React.PureComponent {
 
 	static propTypes = {
 		maxHeight: PropTypes.number,
@@ -66,5 +66,5 @@ class AxisLabel extends React.PureComponent {
 	}
 }
 
-export default AxisLabel;
+export default AxisCaption;
 

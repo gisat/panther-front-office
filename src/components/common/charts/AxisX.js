@@ -5,7 +5,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
-import AxisLabel from "./AxisLabel";
+import AxisCaption from "./AxisCaption";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 10;
@@ -23,12 +23,15 @@ class AxisX extends React.PureComponent {
 		leftMargin: PropTypes.number,
 		leftPadding: PropTypes.number,
 		plotHeight: PropTypes.number,
+		labelSize: PropTypes.number,
 		height: PropTypes.number,
 		width: PropTypes.number,
 
 		gridlines: PropTypes.bool,
 		ticks: PropTypes.bool,
-		withCaption: PropTypes.bool
+		withCaption: PropTypes.bool,
+		label: PropTypes.bool,
+		options: PropTypes.object
 	};
 
 	constructor(props) {
@@ -45,6 +48,7 @@ class AxisX extends React.PureComponent {
 					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
 				/>
 				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
+				{props.label ? this.renderLabel() : null}
 			</g>
 		);
 	}
@@ -141,7 +145,7 @@ class AxisX extends React.PureComponent {
 						translate(${x + TICK_CAPTION_OFFSET_LEFT} ${this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP})
 					`}
 				>
-					<AxisLabel
+					<AxisCaption
 						maxWidth={((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2))}
 						maxHeight={availableHeight}
 						text={text}
@@ -152,6 +156,34 @@ class AxisX extends React.PureComponent {
 		} else {
 			return null;
 		}
+	}
+
+	renderLabel() {
+		const props = this.props;
+		let content = "";
+
+		if (props.options) {
+			if (props.options.name) {
+				content += props.options.name;
+			}
+
+			if (props.options.unit) {
+				content += " (" + props.options.unit + ")"
+			}
+
+		} else {
+			content = "Axis X";
+		}
+
+		return (
+			<g
+				transform={`
+						translate(${props.width/2} ${props.plotHeight + props.height + props.labelSize - 3})
+					`}
+			>
+				<text className="ptr-axis-label" textAnchor="middle">{content}</text>
+			</g>
+		);
 	}
 }
 

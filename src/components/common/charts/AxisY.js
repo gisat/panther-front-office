@@ -4,7 +4,6 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
-import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 5; // TODO optional?
@@ -24,12 +23,15 @@ class AxisY extends React.PureComponent {
 		topPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
+		labelSize: PropTypes.number,
 		width: PropTypes.number,
 
 		hiddenBaseline: PropTypes.bool,
 		gridlines: PropTypes.bool,
 		ticks: PropTypes.bool,
-		withCaption: PropTypes.bool
+		withCaption: PropTypes.bool,
+		label: PropTypes.bool,
+		options: PropTypes.object
 	};
 
 	constructor(props) {
@@ -43,6 +45,7 @@ class AxisY extends React.PureComponent {
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
+				{props.label ? this.renderLabel() : null}
 			</g>
 		);
 	}
@@ -51,7 +54,7 @@ class AxisY extends React.PureComponent {
 		return (
 			<path
 				className="ptr-axis-baseline"
-				d={`M${this.props.width} ${this.props.height} L${this.props.width} 0`}
+				d={`M${this.props.width + this.props.labelSize} ${this.props.height} L${this.props.width + this.props.labelSize} 0`}
 			/>
 		);
 	}
@@ -62,7 +65,7 @@ class AxisY extends React.PureComponent {
 		let topPadding = this.props.topPadding ? this.props.topPadding : 0;
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},${topPadding})`}>
+			<g className="ptr-axis-grid" transform={`translate(${this.props.width + this.props.labelSize - shift},${topPadding})`}>
 				{ticks.map(value => {
 					let yCoord = this.props.scale(value);
 
@@ -94,6 +97,32 @@ class AxisY extends React.PureComponent {
 					}
 				})}
 			</g>
+		);
+	}
+
+	renderLabel() {
+		const props = this.props;
+		let content = "";
+
+		if (props.options) {
+			if (props.options.name) {
+				content += props.options.name;
+			}
+
+			if (props.options.unit) {
+				content += " (" + props.options.unit + ")"
+			}
+
+		} else {
+			content = "Axis Y";
+		}
+
+		return (
+			<text
+				transform={`
+						translate(15 ${props.height/2})
+						rotate(270)
+					`} className="ptr-axis-label" textAnchor="middle">{content}</text>
 		);
 	}
 }
