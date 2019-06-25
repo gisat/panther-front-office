@@ -104,7 +104,7 @@ class LineChart extends React.PureComponent {
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
-				.domain(data.map(record => {return _.get(record, props.serieKeySourcePath)}));
+				.domain(props.data.map(record => {return _.get(record, props.serieKeySourcePath)}));
 
 			if (props.forceMode){
 				mode = props.forceMode;

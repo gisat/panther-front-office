@@ -67,7 +67,7 @@ class ColumnChartDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
-					<h2>With captions, ticks, gridlines and without y baseline, custom max and min, attribute name, units</h2>
+					<h2>With captions, ticks, gridlines and without y baseline, custom max and min, attribute name, units, colour from default scheme</h2>
 					<HoverHandler>
 						<ColumnChart
 							key="test3"
@@ -92,6 +92,8 @@ class ColumnChartDoc extends React.PureComponent {
 								name: "Custom attribute name",
 								unit: "ha"
 							}}
+
+							colored
 						/>
 					</HoverHandler>
 				</div>

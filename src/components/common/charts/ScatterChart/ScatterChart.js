@@ -116,7 +116,7 @@ class ScatterChart extends React.PureComponent {
 			if (props.isSerie) {
 				colors = d3
 					.scaleOrdinal(d3.schemeCategory10)
-					.domain(_.map(data,record => {return _.get(record, props.keySourcePath)}));
+					.domain(_.map(props.data,record => {return _.get(record, props.keySourcePath)}));
 			}
 		}
 
