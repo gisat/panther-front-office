@@ -2,7 +2,7 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
-class TypoDoc extends React.PureComponent {
+class Typography extends React.PureComponent {
 	constructor(props) {
 		super(props);
 	}
@@ -45,4 +45,4 @@ class TypoDoc extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(TypoDoc);
+export default withNamespaces()(Typography);

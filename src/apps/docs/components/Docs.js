@@ -18,11 +18,40 @@ export const Anchor = props => null;
 
 const Docs = ({children, ...props}) => {
 	
-	const processNode = node => {
-		console.log(node, node.type, node.props);
+	const processNode = (level, node, ...args) => {
+		let {children, label, path, component, ...props} = node.props;
+		let className;
+		if (typeof node === "object") {
+			if (node.type === Directory) {
+				// console.log('Directory', label, path, component, props);
+				return (
+					<div className={"ptr-docs-nav-directory level" + level}>
+						<NavLink to={path}>{label}</NavLink>
+						{React.Children.map(children, processNode.bind(this, level + 1))}
+					</div>
+				);
+			}
+			else if (node.type === Page) {
+				// console.log('Page', label, path, component, props);
+				return (
+					<div className={"ptr-docs-nav-page level" + level}>
+						<NavLink to={path}>{label}</NavLink>
+						{React.Children.map(children, processNode.bind(this, level + 1))}
+					</div>
+				);
+			}
+			else if (node.type === Anchor) {
+				// console.log('Anchor', label, path, props);
+				return (
+					<div className={"ptr-docs-nav-anchor level" + level}>
+						<NavLink to={path}>{label}</NavLink>
+					</div>
+				);
+			}
+		}
 	};
 	
-	const tree = React.Children.map(children, processNode);
+	const tree = React.Children.map(children, processNode.bind(this, 1));
 	
 	return (
 		<div className="ptr-docs">

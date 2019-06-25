@@ -12,9 +12,11 @@ import '../../styles/base.scss';
 import './styles/index.scss';
 
 import Action from "../../state/Action";
-import DocsPage from "./components/DocsPage";
 
 import Docs, {Directory, Page, Anchor} from "./components/Docs";
+
+import Design from "./components/pages/design";
+import Typography from "./components/pages/design/Typography";
 
 
 export default (path, baseUrl) => {
@@ -30,13 +32,28 @@ export default (path, baseUrl) => {
 		<Provider store={Store}>
 			<ConnectedRouter history={history}>
 					<Docs>
-						<Directory path="components">
-							<Page path="button"/>
-							<Page path="forms"/>
-							<Page path="pantherSelect">
-								<Anchor path="usage"/>
-								<Anchor path="extending"/>
-							</Page>
+						<Directory label="Design" path="design" component={Design} >
+							<Page label="Typography" path="typography" component={Typography} />
+							<Page label="Colours" path="colours"/>
+						</Directory>
+						<Directory label="Components" path="components">
+							<Directory label="Maps" path="maps">
+								<Page label="WebWorldWind" path="webWorldWind"/>
+							</Directory>
+							<Directory label="Visualizations" path="visualizations">
+								<Page label="Line chart" path="lineChart"/>
+								<Page label="Column chart" path="columnChart"/>
+							</Directory>
+							<Directory label="Atoms" path="atoms">
+								<Page label="Buttons" path="buttons"/>
+								<Page label="Forms" path="forms"/>
+							</Directory>
+							<Directory label="Interface elements" path="interfaceElements">
+								<Page label="Panther select" path="pantherSelect">
+									<Anchor label="Usage" path="usage"/>
+									<Anchor label="Extending" path="extending"/>
+								</Page>
+							</Directory>
 						</Directory>
 					</Docs>
 			</ConnectedRouter>
