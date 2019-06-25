@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router';
 import Store, {history} from './store';
 
 import i18n from '../../i18n';
@@ -30,7 +29,6 @@ export default (path, baseUrl) => {
 	ReactDOM.render(
 		<Provider store={Store}>
 			<ConnectedRouter history={history}>
-				<Switch>
 					<Docs>
 						<Directory path="components">
 							<Page path="button"/>
@@ -41,7 +39,6 @@ export default (path, baseUrl) => {
 							</Page>
 						</Directory>
 					</Docs>
-				</Switch>
 			</ConnectedRouter>
 		</Provider>,document.getElementById('ptr')
 	);

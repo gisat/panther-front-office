@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 // export const Directory = ({children, path, ...props}) => (
@@ -30,7 +30,9 @@ const Docs = ({children, ...props}) => {
 				{tree}
 			</div>
 			<div className="ptr-docs-content">
-				{children}
+				<Switch>
+					{children}
+				</Switch>
 			</div>
 		</div>
 	);
