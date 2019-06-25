@@ -7,14 +7,76 @@ import LineChart from "../../../../../components/common/charts/LineChart/LineCha
 import ScatterChart from "../../../../../components/common/charts/ScatterChart/ScatterChart";
 import data from "../../../data/attributeData";
 
-class UtepSdgCharts extends React.PureComponent {
-	static propTypes = {
+function getGniData(period) {
+	return _.map(data, country => {
+		const {properties, ...countryData} = country;
+		countryData.properties = _.find(properties, {period});
+		return countryData;
+	});
+}
 
-	};
+function getUrbanPopulationRatioData() {
+	return _.map(data, country => {
+		country.properties = _.map(country.properties, property => {
+			return {
+				...property, "UA_POP_change_ratio": property["Urban area change"]/property["Population change"]
+			}
+		});
+		return country;
+	});
+}
+
+class UtepSdgCharts extends React.PureComponent {
+	constructor(props) {
+		super(props);
+
+		this.data = getUrbanPopulationRatioData();
+		this.gniData = getGniData(2015);
+	}
 
 	render() {
 		return (
 			<div className="utep_sdg_11_3_1-right-panel">
+				<ChartWrapper
+					key={"line-chart-ratio-wrapper"}
+					title="Urban area/Population change ratio"
+					subtitle="Ratio of Urban area change and Population change between years 1985 and 2015"
+				>
+					<LineChart
+						key="line-chart-ratio"
+						data={this.data}
+
+						serieKeySourcePath="gid"
+						serieNameSourcePath="name"
+						serieDataSourcePath="properties"
+						xSourcePath="period" // in context of serie
+						ySourcePath="UA_POP_change_ratio" // in context of serie
+
+						height={200}
+						minAspectRatio={1.7}
+
+						yCaptionsSize={40}
+						xCaptionsSize={40}
+
+						xTicks
+						xGridlines
+						xCaptions
+						yTicks
+						yGridlines
+						yCaptions
+						yLabel
+						yOptions={{
+							name: "Change ratio",
+							max: 3.1
+						}}
+						withoutYbaseline
+
+						sorting={[["period", "asc"]]}
+
+						withPoints
+						// legend
+					/>
+				</ChartWrapper>
 				<ChartWrapper
 					key={"scatter-chart-wrapper"}
 					title="Urban area change vs. Population change"
@@ -22,7 +84,7 @@ class UtepSdgCharts extends React.PureComponent {
 				>
 					<ScatterChart
 						key="scatter-chart"
-						data={data}
+						data={this.data}
 						isSerie
 
 						serieDataSourcePath="properties"
@@ -70,7 +132,7 @@ class UtepSdgCharts extends React.PureComponent {
 				>
 					<LineChart
 						key="line-chart"
-						data={data}
+						data={this.data}
 
 						serieKeySourcePath="gid"
 						serieNameSourcePath="name"
@@ -97,9 +159,45 @@ class UtepSdgCharts extends React.PureComponent {
 
 						sorting={[["period", "asc"]]}
 						yCaptionsSize={80}
+						xCaptionsSize={40}
 
 						withPoints
 						// legend
+					/>
+				</ChartWrapper>
+				<ChartWrapper
+					key={"column-chart-wrapper"}
+					title="GNI in 2015"
+					subtitle="GNI per capita, Atlas method (current US$)"
+				>
+					<ColumnChart
+						key="column-chart"
+						data={this.gniData}
+						keySourcePath="gid"
+						xSourcePath="name"
+						ySourcePath="properties.GNI"
+						sorting={[["properties.GNI", "desc"]]}
+
+						height={200}
+						minAspectRatio={1.7}
+
+						xCaptions
+						yCaptions
+						yCaptionsSize={50}
+						xCaptionsSize={60}
+						xTicks
+						yGridlines
+						yLabel
+						withoutYbaseline
+
+						yOptions={{
+							min: -1,
+							// max: 105000,
+							name: "GNI",
+							unit: "current US$"
+						}}
+
+						colored
 					/>
 				</ChartWrapper>
 			</div>
