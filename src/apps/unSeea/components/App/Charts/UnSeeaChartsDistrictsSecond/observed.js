@@ -7,23 +7,23 @@ const getDollars = (val) => `${Math.round(val * 10000) / 10000} $`;
 export default [
 	//hneda
 	{
-		name: 'CD_TP_MEAN',
+		name: 'Agriculture  low vegetation',
 		color: '#CA4466',
-		getTooltip: getCentimeters,
-		title: 'Stem Diameter'
+		getTooltip: (val) => val,
+		title: 'Agriculture  low vegetation'
 	},
 	{
-		name: 'H_TP_MEAN_POP',
+		name: 'Tree canopy',
 		color: '#CA4466',
-		getTooltip: getCentimeters,
-		title: 'Tree Height'
+		getTooltip: (val) => val,
+		title: 'Tree canopy'
 	},
-	{
-		name: 'LF_AR_M2_TP_MEAN_POP',
-		color: '#CA4466',
-		getTooltip: getSquareCentimeters,
-		title: 'Leaf Area'
-	},
+	// {
+	// 	name: 'LF_AR_M2_TP_MEAN_POP',
+	// 	color: '#CA4466',
+	// 	getTooltip: getSquareCentimeters,
+	// 	title: 'Leaf Area'
+	// },
 
 
 	//zelena

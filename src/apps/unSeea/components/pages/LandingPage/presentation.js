@@ -33,7 +33,7 @@ class LandingPage extends React.PureComponent {
 					</div>
 
 					<div className={'unseea-subapp-list'}>
-						<Link to={`${match.path}/districts`}>
+						<Link to={`${match.path}/districtsSecond`}>
 							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
 									<div className="unseea-subapp-card-name">
 										Districts
@@ -41,19 +41,6 @@ class LandingPage extends React.PureComponent {
 									<div className="unseea-subapp-card-description">
 										<Truncate lines={6}>
 											Awereness raising I
-										</Truncate>
-									</div>
-								</div>
-						</Link>
-						
-						<Link to={`${match.path}/districtsSecond`}>
-							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
-									<div className="unseea-subapp-card-name">
-										Districts second
-									</div>
-									<div className="unseea-subapp-card-description">
-										<Truncate lines={6}>
-											Awereness raising II
 										</Truncate>
 									</div>
 								</div>
@@ -67,10 +54,23 @@ class LandingPage extends React.PureComponent {
 								</div>
 								<div className="unseea-subapp-card-description">
 									<Truncate lines={6}>
-										Awereness raising III
+										Awereness raising II
 									</Truncate>
 								</div>
 							</div>
+						</Link>
+
+						<Link to={`${match.path}/districts`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+									<div className="unseea-subapp-card-name">
+										Districts
+									</div>
+									<div className="unseea-subapp-card-description">
+										<Truncate lines={6}>
+											Awereness raising III
+										</Truncate>
+									</div>
+								</div>
 						</Link>
 					</div>
 
