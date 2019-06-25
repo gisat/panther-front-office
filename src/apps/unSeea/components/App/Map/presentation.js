@@ -209,10 +209,10 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 					case 'districtsChoroplet':
 							const statistics = {
 								min: 0,
-								max: 0.07,
-								percentile: [0,0.0001,0.0002,0.0003,0.0004,0.0005,0.007]
+								max: 4,
+								percentile: [0,1,2,3,4]
 							}
-							existingLayer.setStyleFunction(getCartogramStyleFunction('#ca4466', 150, statistics, 'CD_TP_MEAN_POP'));
+							existingLayer.setStyleFunction(getCartogramStyleFunction('#ca4466', 150, statistics, 'GREEN_GRAY'));
 							break;
 					case 'trees':
 							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
@@ -354,7 +354,9 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
 								break;
 						case 'districtsChoroplet':
+								let greenGrayValue = feature.GREEN_GRAY;
 								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+								content.push(<div key={`${spatialId}_green_gray`}><i>Green vs gray index:</i> {greenGrayValue || value === 0 ? greenGrayValue.toLocaleString() : null}</div>);
 								break;
 						case 'trees':
 								content.push(<div key={spatialId}><i>Tree ID:</i> {spatialId}</div>);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
+import classnames from 'classnames';
 
 import '../style.scss';
 import utilsSort from "../../../../utils/sort";
@@ -34,6 +35,9 @@ const INNER_PADDING_RIGHT = 10;
 // TODO custom max, min
 
 class ColumnChart extends React.PureComponent {
+	static defaultProps = {
+		animateChangeData: true,
+	}
 	static propTypes = {
 		data: PropTypes.array,
 		defaultColor: PropTypes.string,
@@ -42,6 +46,7 @@ class ColumnChart extends React.PureComponent {
 			PropTypes.object
 		]),
 		sorting: PropTypes.array,
+		animateChangeData: PropTypes.bool,
 
 		height: PropTypes.number,
 		width: PropTypes.number,
@@ -67,7 +72,8 @@ class ColumnChart extends React.PureComponent {
 		keySourcePath: PropTypes.string,
 		colorSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string,
-		ySourcePath: PropTypes.string
+		ySourcePath: PropTypes.string,
+		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by dafault same like value. Used in relative.
 	};
 
 	constructor(props) {
@@ -77,7 +83,6 @@ class ColumnChart extends React.PureComponent {
 	// TODO axis orientation
 	render() {
 		const props = this.props;
-console.log(props);
 
 		/* dimensions */
 		let width = props.width ? props.width : WIDTH;
@@ -163,9 +168,13 @@ console.log(props);
 			}
 		}
 
+		const chartClassNames = classnames('ptr-chart ptr-column-chart', {
+			'ptr-chart-no-animation': !props.animateChangeData,
+		})
+
 		return (
 			<div className="ptr-chart-container">
-				<svg className="ptr-chart ptr-column-chart" width={width} height={height}>
+				<svg className={chartClassNames} width={width} height={height}>
 					{data ?
 						<>
 							<AxisY
@@ -246,6 +255,7 @@ console.log(props);
 
 							nameSourcePath={this.props.xSourcePath}
 							valueSourcePath={this.props.ySourcePath}
+							hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 							data={item}
 						/>
 					);

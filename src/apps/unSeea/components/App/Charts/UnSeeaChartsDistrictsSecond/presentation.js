@@ -24,9 +24,8 @@ class ChartPanel extends React.PureComponent {
 				transformedData.push({
 					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
-						relative: value.relative,
-						// absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
-						absolute: value.absolute
+						absolute: value.absolute,
+						tooltipValue: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
 					},
 					name: observedValue.title,
 					color: observedValue.color
@@ -80,6 +79,7 @@ class ChartPanel extends React.PureComponent {
 									<ColumnChart
 										key="column-districts-second-hover"
 										data={hoverAsterData.data}
+										animateChangeData={false}
 										keySourcePath="key"
 
 										nameSourcePath="name"
@@ -96,7 +96,7 @@ class ChartPanel extends React.PureComponent {
 										withoutYbaseline
 										width={200}
 										maxWidth={400}
-										height={150}
+										height={250}
 									/>
 							</ChartWrapper> : 
 							(
@@ -128,6 +128,7 @@ class ChartPanel extends React.PureComponent {
 
 									nameSourcePath="name"
 									valueSourcePath="value.absolute"
+									hoverValueSourcePath="value.tooltipValue"
 
 
 									// xSourcePath="title"
@@ -142,7 +143,7 @@ class ChartPanel extends React.PureComponent {
 									withoutYbaseline
 									width={200}
 									maxWidth={400}
-									height={150}
+									height={250}
 								/>
 							</ChartWrapper>
 						</div>

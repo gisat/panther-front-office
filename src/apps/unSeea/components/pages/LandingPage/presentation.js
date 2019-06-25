@@ -9,6 +9,7 @@ import './style.scss';
 
 import treesThumbnail from '../../../assets/img/trees.png';
 import districtsThumbnail from '../../../assets/img/districts.png';
+import districtsTwoThumbnail from '../../../assets/img/districts_two.png';
 
 class LandingPage extends React.PureComponent {
 
@@ -34,13 +35,13 @@ class LandingPage extends React.PureComponent {
 
 					<div className={'unseea-subapp-list'}>
 						<Link to={`${match.path}/districtsSecond`}>
-							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsTwoThumbnail})`}}>
 									<div className="unseea-subapp-card-name">
 										Districts
 									</div>
 									<div className="unseea-subapp-card-description">
 										<Truncate lines={6}>
-											Awereness raising I
+											Understanding of the land use management
 										</Truncate>
 									</div>
 								</div>
@@ -54,7 +55,7 @@ class LandingPage extends React.PureComponent {
 								</div>
 								<div className="unseea-subapp-card-description">
 									<Truncate lines={6}>
-										Awereness raising II
+										Analysis of the individual trees
 									</Truncate>
 								</div>
 							</div>
@@ -63,11 +64,11 @@ class LandingPage extends React.PureComponent {
 						<Link to={`${match.path}/districts`}>
 							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
 									<div className="unseea-subapp-card-name">
-										Districts
+										Trees (districts)
 									</div>
 									<div className="unseea-subapp-card-description">
 										<Truncate lines={6}>
-											Awereness raising III
+											District tree analysis
 										</Truncate>
 									</div>
 								</div>

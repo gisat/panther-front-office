@@ -28,7 +28,8 @@ class Bar extends React.PureComponent {
 		hidden: PropTypes.bool,
 
 		nameSourcePath: PropTypes.string,
-		valueSourcePath: PropTypes.string
+		valueSourcePath: PropTypes.string,
+		hoverValueSourcePath: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -180,7 +181,7 @@ class Bar extends React.PureComponent {
 					let values = [];
 					_.map(data.originalData,(item) => {
 						units.push(_.get(item, this.props.nameSourcePath));
-						values.push(_.get(item, this.props.valueSourcePath));
+						values.push(_.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath).toLocaleString());
 					});
 					content = (
 						<div>
@@ -191,14 +192,15 @@ class Bar extends React.PureComponent {
 				} else {
 					_.map(data.originalData, (item) => {
 						let unit = _.get(item, this.props.nameSourcePath);
-						let value = _.get(item, this.props.valueSourcePath);
+						let value = _.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath);
 						con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
 					});
 					content = (<>{con}</>);
 				}
 			} else {
 				let unit = _.get(data, this.props.nameSourcePath);
-				let value = _.get(data, this.props.valueSourcePath);
+				let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
+				
 				content = (<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
 			}
 		} else {
