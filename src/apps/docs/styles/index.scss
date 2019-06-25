@@ -1,1 +1,17 @@
 @import '../../../styles/variables';
+
+.ptr-docs {
+	display: flex;
+}
+
+.ptr-docs-nav {
+	flex: 0 m(10);
+	background-color: var(--base40);
+}
+
+.ptr-docs-nav-directory,
+.ptr-docs-nav-page,
+.ptr-docs-nav-anchor {
+	padding-left: m(2/3);
+	border-top: 1px solid rgba(var(--base0rgb), .2);
+}

@@ -54,7 +54,7 @@ const Docs = ({children, ...props}) => {
 	const tree = React.Children.map(children, processNode.bind(this, 1));
 	
 	return (
-		<div className="ptr-docs">
+		<div className="ptr-docs ptr-light">
 			<div className="ptr-docs-nav">
 				{tree}
 			</div>
