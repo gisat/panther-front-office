@@ -15,6 +15,8 @@ import './styles/index.scss';
 import Action from "../../state/Action";
 import DocsPage from "./components/DocsPage";
 
+import Docs, {Directory, Page, Anchor} from "./components/Docs";
+
 
 export default (path, baseUrl) => {
 
@@ -29,7 +31,16 @@ export default (path, baseUrl) => {
 		<Provider store={Store}>
 			<ConnectedRouter history={history}>
 				<Switch>
-					<Route path={path + "/"} component={DocsPage} />
+					<Docs>
+						<Directory path="components">
+							<Page path="button"/>
+							<Page path="forms"/>
+							<Page path="pantherSelect">
+								<Anchor path="usage"/>
+								<Anchor path="extending"/>
+							</Page>
+						</Directory>
+					</Docs>
 				</Switch>
 			</ConnectedRouter>
 		</Provider>,document.getElementById('ptr')
