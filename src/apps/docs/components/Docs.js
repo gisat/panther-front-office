@@ -29,14 +29,14 @@ export const Anchor = props => null;
 const Docs = ({path, component, children, ...props}) => {
 	
 	const processNode = (level, parentPath, node, ...args) => {
-		let {children, label, path, component, ...props} = node.props;
+		let {children, label, path, colour, ...props} = node.props;
 		if (typeof node === "object") {
 			if (node.type === Directory) {
 				path = pathUtils.join(parentPath, path);
 				return (
 					<div className={"ptr-docs-nav-directory level" + level}>
 						<span className="ptr-docs-nav-link"><NavLink to={path}>{label}</NavLink></span>
-						{React.Children.map(children, processNode.bind(this, level + 1, path))}
+						<div style={colour ? {borderColor: colour} : null}>{React.Children.map(children, processNode.bind(this, level + 1, path))}</div>
 					</div>
 				);
 			}
@@ -46,7 +46,7 @@ const Docs = ({path, component, children, ...props}) => {
 				return (
 					<div className={"ptr-docs-nav-page level" + level}>
 						<span className="ptr-docs-nav-link"><NavLink to={path}>{label}</NavLink></span>
-						{React.Children.map(children, processNode.bind(this, level + 1, path))}
+						<div>{React.Children.map(children, processNode.bind(this, level + 1, path))}</div>
 					</div>
 				);
 			}

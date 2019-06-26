@@ -33,11 +33,14 @@ export default (path, baseUrl) => {
 		<Provider store={Store}>
 			<ConnectedRouter history={history}>
 					<Docs path={path} component={Index}>
-						<Directory label="Design" path="design" component={Design} >
+						<Directory label="Data" path="data" colour="#91aee4">
+							<Page label="Common types" path="common"/>
+						</Directory>
+						<Directory label="Design" path="design" component={Design} colour="#fbff00">
 							<Page label="Typography" path="typography" component={Typography} />
 							<Page label="Colours" path="colours"/>
 						</Directory>
-						<Directory label="Components" path="components">
+						<Directory label="Components" path="components" colour="#e49191">
 							<Directory label="Maps" path="maps">
 								<Page label="WebWorldWind" path="webWorldWind"/>
 							</Directory>
