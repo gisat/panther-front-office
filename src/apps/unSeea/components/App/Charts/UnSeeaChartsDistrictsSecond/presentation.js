@@ -65,6 +65,30 @@ class ChartPanel extends React.PureComponent {
 		}
 
 		const description = "Mean ecosystem values normalised by population per district."
+		const commonChartsProps = {
+			keySourcePath:"key",
+			nameSourcePath:"name",
+			valueSourcePath:"value.absolute",
+
+			xSourcePath:"name",
+			ySourcePath:"value.absolute",
+			xCaptions: true,
+			yCaptions: true,
+
+			yGridlines: true,
+			withoutYbaseline: true,
+			width:200,
+			maxWidth:350,
+			height:350,
+
+			xCaptionsSize:150,
+			yCaptionsSize:70,
+
+			yOptions:{
+				min: -1,
+				max: 15000000,
+			}
+		}
 
 			return (
 					<div className="ptr-unseea-chart-panel">
@@ -80,23 +104,7 @@ class ChartPanel extends React.PureComponent {
 										key="column-districts-second-hover"
 										data={hoverAsterData.data}
 										animateChangeData={false}
-										keySourcePath="key"
-
-										nameSourcePath="name"
-										valueSourcePath="value.absolute"
-
-										xSourcePath="name"
-										ySourcePath="value.absolute"
-										// sorting={[["data.some_value_1", "desc"]]}
-
-										xCaptions
-										yCaptions
-			
-										yGridlines
-										withoutYbaseline
-										width={200}
-										maxWidth={350}
-										height={250}
+										{...commonChartsProps}
 									/>
 							</ChartWrapper> : 
 							(
@@ -121,29 +129,10 @@ class ChartPanel extends React.PureComponent {
 							subtitle={description}
 							>
 								<ColumnChart
-									
 									key="district-second"
 									data={selectAsterData.data}
-									keySourcePath="key"
-
-									nameSourcePath="name"
-									valueSourcePath="value.absolute"
 									hoverValueSourcePath="value.tooltipValue"
-
-
-									// xSourcePath="title"
-									xSourcePath="name"
-									ySourcePath="value.absolute"
-									// sorting={[["data.some_value_1", "desc"]]}
-
-									xCaptions
-									yCaptions
-		
-									yGridlines
-									withoutYbaseline
-									width={200}
-									maxWidth={350}
-									height={250}
+									{...commonChartsProps}
 								/>
 							</ChartWrapper>
 						</div>
