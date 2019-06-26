@@ -95,7 +95,7 @@ class ChartPanel extends React.PureComponent {
 										yGridlines
 										withoutYbaseline
 										width={200}
-										maxWidth={400}
+										maxWidth={350}
 										height={250}
 									/>
 							</ChartWrapper> : 
@@ -142,7 +142,7 @@ class ChartPanel extends React.PureComponent {
 									yGridlines
 									withoutYbaseline
 									width={200}
-									maxWidth={400}
+									maxWidth={350}
 									height={250}
 								/>
 							</ChartWrapper>
