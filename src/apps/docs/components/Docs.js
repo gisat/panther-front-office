@@ -26,7 +26,7 @@ const Docs = ({children, ...props}) => {
 				// console.log('Directory', label, path, component, props);
 				return (
 					<div className={"ptr-docs-nav-directory level" + level}>
-						<NavLink to={path}>{label}</NavLink>
+						<span className="ptr-docs-nav-link"><NavLink to={path}>{label}</NavLink></span>
 						{React.Children.map(children, processNode.bind(this, level + 1))}
 					</div>
 				);
@@ -35,7 +35,7 @@ const Docs = ({children, ...props}) => {
 				// console.log('Page', label, path, component, props);
 				return (
 					<div className={"ptr-docs-nav-page level" + level}>
-						<NavLink to={path}>{label}</NavLink>
+						<span className="ptr-docs-nav-link"><NavLink to={path}>{label}</NavLink></span>
 						{React.Children.map(children, processNode.bind(this, level + 1))}
 					</div>
 				);
@@ -44,7 +44,7 @@ const Docs = ({children, ...props}) => {
 				// console.log('Anchor', label, path, props);
 				return (
 					<div className={"ptr-docs-nav-anchor level" + level}>
-						<NavLink to={path}>{label}</NavLink>
+						<span className="ptr-docs-nav-link"><NavLink to={path}>{label}</NavLink></span>
 					</div>
 				);
 			}
@@ -56,7 +56,12 @@ const Docs = ({children, ...props}) => {
 	return (
 		<div className="ptr-docs ptr-light">
 			<div className="ptr-docs-nav">
-				{tree}
+				<div className="ptr-docs-nav-header">
+					Panther docs
+				</div>
+				<div className="ptr-docs-nav-tree">
+					{tree}
+				</div>
 			</div>
 			<div className="ptr-docs-content">
 				<Switch>
