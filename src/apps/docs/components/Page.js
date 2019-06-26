@@ -1,5 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+import classNames from 'classnames';
 
 export const PageTitle = ({children}) => (
 	<div className="ptr-docs-page-title">
@@ -8,8 +9,19 @@ export const PageTitle = ({children}) => (
 	</div>
 );
 
-const Page = ({title, children}) => (
-	<div className="ptr-docs-page">
+export const LightDarkBlock = ({children}) => (
+	<div className="ptr-docs-light-dark-block">
+		<div className="ptr-light">
+			{children}
+		</div>
+		<div className="ptr-dark">
+			{children}
+		</div>
+	</div>
+);
+
+const Page = ({title, lightDark, children}) => (
+	<div className={classNames("ptr-docs-page", {lightDark})}>
 		{title ? (<PageTitle>{title}</PageTitle>	) : null}
 		{children}
 	</div>
