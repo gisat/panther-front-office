@@ -31,7 +31,7 @@ export default (path, baseUrl) => {
 	ReactDOM.render(
 		<Provider store={Store}>
 			<ConnectedRouter history={history}>
-					<Docs>
+					<Docs path={path}>
 						<Directory label="Design" path="design" component={Design} >
 							<Page label="Typography" path="typography" component={Typography} />
 							<Page label="Colours" path="colours"/>
