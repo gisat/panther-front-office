@@ -26,7 +26,7 @@ export const Page = ({children, path, parentPath, component, ...props}) => {
 export const Anchor = props => null;
 
 
-const Docs = ({path, children, ...props}) => {
+const Docs = ({path, component, children, ...props}) => {
 	
 	const processNode = (level, parentPath, node, ...args) => {
 		let {children, label, path, component, ...props} = node.props;
@@ -76,6 +76,7 @@ const Docs = ({path, children, ...props}) => {
 				</div>
 			</div>
 			<div className="ptr-docs-content">
+				<Route exact path={path} component={component} />
 				{children}
 			</div>
 		</div>

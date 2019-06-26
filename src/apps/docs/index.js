@@ -15,6 +15,7 @@ import Action from "../../state/Action";
 
 import Docs, {Directory, Page, Anchor} from "./components/Docs";
 
+import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
 
@@ -31,7 +32,7 @@ export default (path, baseUrl) => {
 	ReactDOM.render(
 		<Provider store={Store}>
 			<ConnectedRouter history={history}>
-					<Docs path={path}>
+					<Docs path={path} component={Index}>
 						<Directory label="Design" path="design" component={Design} >
 							<Page label="Typography" path="typography" component={Typography} />
 							<Page label="Colours" path="colours"/>
