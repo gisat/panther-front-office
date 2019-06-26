@@ -32,6 +32,7 @@ class LineChart extends React.PureComponent {
 		serieKeySourcePath: PropTypes.string,
 		serieNameSourcePath: PropTypes.string,
 		serieDataSourcePath: PropTypes.string,
+		colorSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string, // in context of serie
 		ySourcePath: PropTypes.string, // in context of serie
 
@@ -161,6 +162,10 @@ class LineChart extends React.PureComponent {
 				let y = yScale(_.get(record, props.ySourcePath));
 				return {x,y, originalData: record};
 			});
+
+			if (props.colorSourcePath) {
+				color = _.get(item, props.colorSourcePath);
+			}
 
 			return (
 				<Line
