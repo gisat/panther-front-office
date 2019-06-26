@@ -48,8 +48,7 @@ const mapStateToProps = (state, props) => {
 		let label = null;
 		if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
 			const periodKey = map.data.metadataModifiers.period;
-			const period = Select.periods.getDataByKey(state, periodKey);
-			label = period ? period.nameDisplay : null
+			label = periodKey ? periodKey : null
 		}
 
 		let layersVectorData = vectorLayers.reduce((acc, layerData) => {

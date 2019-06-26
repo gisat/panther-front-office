@@ -33,6 +33,9 @@ class CartesianChartContent extends React.PureComponent {
 					ticks={props.yTicks}
 					gridlines={props.yGridlines}
 					withCaption={props.yCaptions}
+					label={props.yLabel}
+					labelSize={props.yLabelSize}
+					options={props.yOptions}
 
 					hiddenBaseline={props.withoutYbaseline}
 				/>
@@ -43,7 +46,7 @@ class CartesianChartContent extends React.PureComponent {
 					sourcePath={props.xSourcePath}
 					keySourcePath={props.keySourcePath}
 
-					leftMargin={props.yCaptionsSize}
+					leftMargin={props.yCaptionsSize + props.yLabelSize}
 					leftPadding={props.innerPaddingLeft}
 					height={props.xCaptionsSize}
 					plotHeight={props.plotHeight}
@@ -52,8 +55,11 @@ class CartesianChartContent extends React.PureComponent {
 					ticks={props.xTicks}
 					gridlines={props.xGridlines}
 					withCaption={props.xCaptions}
+					label={props.xLabel}
+					labelSize={props.xLabelSize}
+					options={props.xOptions}
 				/>
-				<g transform={`translate(${props.yCaptionsSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
+				<g transform={`translate(${props.yCaptionsSize + props.yLabelSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
 					{this.props.children}
 				</g>
 			</>

@@ -49,6 +49,12 @@
 	stroke: var(--base25);
 }
 
+.ptr-axis-label {
+	fill: var(--base50);
+	font-size: $b1;
+	font-style: italic;
+}
+
 .ptr-tick-caption {
 	fill: var(--base50);
 	font-size: $b1;
@@ -124,6 +130,12 @@
 	animation: pathFill .3s ease-in-out 1;
 	animation-delay: 2.5s;
 	animation-fill-mode: forwards;
+}
+
+.ptr-chart-no-animation .ptr-line-chart-area,
+.ptr-chart-no-animation .ptr-column-chart-bar{
+	animation: none;
+	transition: none;
 }
 
 .ptr-line-chart-line-wrapper:hover .ptr-line-chart-line,

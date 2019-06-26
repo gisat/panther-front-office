@@ -61,7 +61,7 @@ class ScatterChartDoc extends React.PureComponent {
 
 				<div className="ptr-docs-panel-section">
 					<h2>Specified colors and custom sizes</h2>
-					<p>Custom width, height, point radius, inner padding</p>
+					<p>Custom width, height, point radius, inner padding, min, max</p>
 					<HoverHandler>
 						<ScatterChart
 							key="scatter-doc-colors"
@@ -81,7 +81,17 @@ class ScatterChartDoc extends React.PureComponent {
 							yCaptions
 							yTicks
 
-							width={300}
+							xOptions={{
+								min: -1000,
+								max: 70000
+							}}
+
+							yOptions={{
+								min: -15,
+								max: 18
+							}}
+
+							width={350}
 							height={200}
 							innerPadding={20}
 							pointRadius={7}
@@ -91,7 +101,7 @@ class ScatterChartDoc extends React.PureComponent {
 
 				<div className="ptr-docs-panel-section">
 					<h2>Data source is serie</h2>
-					<p></p>
+					<p>With axis labels</p>
 					<HoverHandler>
 						<ScatterChart
 							key="scatter-doc-serie"
@@ -105,23 +115,29 @@ class ScatterChartDoc extends React.PureComponent {
 
 							xSourcePath="someStrangeValue" // in context of serie
 							xOptions={{
-								name: "Attribut X"
+								name: "Attribut X",
+								unit: "inhabitants"
 							}}
 							ySourcePath="otherValue" // in context of serie
 							yOptions={{
-								name: "Attribut Y"
+								name: "Attribut Y",
+								unit: "%"
 							}}
 							itemNameSourcePath="period" // in context of serie
 
 							xGridlines
 							xCaptions
+							xCaptionsSize={45}
 							xTicks
+							xLabel
 
 							yGridlines
 							yCaptions
 							yTicks
+							yLabel
 
 							width={this.state.width}
+							legend
 						/>
 					</HoverHandler>
 				</div>

@@ -15,6 +15,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 
 
 import AppContext from '../../context';
+import UtepSdgCharts from "./Charts/UtepSdgCharts";
 
 class UtepSdg extends React.PureComponent {
 
@@ -52,13 +53,7 @@ class UtepSdg extends React.PureComponent {
 																</UtepSdgMap>
 															</MapSet>
 															<MapTools>
-																<MapControlLegend
-																	disabled = {false}
-																	setKey={this.context.windowSetKey}
-																	windowSetKey={this.context.windowSetKey}
-																	itemKey={"legend"}
-																	mapSetKey={this.context.mapSetKey} />
-																<MapControls zoomOnly/>
+																<MapControls/>
 															</MapTools>
 														</>
 														)
@@ -67,16 +62,11 @@ class UtepSdg extends React.PureComponent {
 											)
 										},
 										{
-											width: "40%",
-											minWidth: "20rem",
-											maxWidth: "35rem",
+											width: "60%",
+											minWidth: "30rem",
 											render: props => (
-												<div
-												key="22">
-													<h3>
-														content
-													</h3>
-												</div>
+												<UtepSdgCharts
+													key="utep_sdg_11_3_1-charts"/>
 												)
 										},
 									]}
