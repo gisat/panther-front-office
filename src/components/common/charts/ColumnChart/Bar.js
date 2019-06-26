@@ -29,8 +29,8 @@ class Bar extends React.PureComponent {
 
 		nameSourcePath: PropTypes.string,
 		valueSourcePath: PropTypes.string,
-    hoverValueSourcePath: PropTypes.string,
-    yOptions: PropTypes.object
+    	hoverValueSourcePath: PropTypes.string,
+    	yOptions: PropTypes.object
 	};
 
 	constructor(props) {

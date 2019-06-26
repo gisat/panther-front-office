@@ -7,7 +7,6 @@ import MapSet from "../../../../components/common/maps/MapSet";
 import UtepSdgMap from "./Map";
 import UtepSdgMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/MapControls";
-import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';

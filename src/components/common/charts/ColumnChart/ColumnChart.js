@@ -35,7 +35,7 @@ class ColumnChart extends React.PureComponent {
 
 		keySourcePath: PropTypes.string,
 		colorSourcePath: PropTypes.string, // if color is defined in data
-		colored: PropTypes.string, // if color is not defined in data and should be used from default scheme
+		colored: PropTypes.bool, // if color is not defined in data and should be used from default scheme
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string,
 		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by dafault same like value. Used in relative.
@@ -117,7 +117,7 @@ class ColumnChart extends React.PureComponent {
 
 		const chartClassNames = classnames('ptr-chart ptr-column-chart', {
 			'ptr-chart-no-animation': !props.animateChangeData,
-		})
+		});
 
 		return (
 			<svg className={chartClassNames} width={props.width} height={props.height}>
