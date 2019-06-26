@@ -8,6 +8,7 @@ import './style.scss';
 import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
+const TICK_COUNT = 10;
 const TICK_CAPTION_OFFSET_TOP = 10;
 const TICK_CAPTION_OFFSET_LEFT = 5;
 
@@ -50,18 +51,66 @@ class AxisX extends React.PureComponent {
 
 	renderGrid() {
 		let shift = this.props.ticks ? (TICK_SIZE) : 0;
+
+		if (this.props.data) {
+			return this.renderOrdinalGrid(shift);
+		} else {
+			return this.renderLinearGrid(shift);
+		}
+	}
+
+	renderLinearGrid(shift) {
+		let ticks = this.props.scale.ticks(TICK_COUNT);
+		let availableHeight = this.props.width/ticks.length;
+
+		return (
+			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding}, 0)`}>
+				{ticks.map(value => {
+					let xCoord = this.props.scale(value);
+					if (xCoord || xCoord === 0) {
+						return (
+							<g key={value}>
+								<line
+									className="ptr-axis-gridline"
+									x1={xCoord}
+									x2={xCoord}
+									y1={this.props.plotHeight + shift}
+									y2={this.props.gridlines ? 0 : this.props.plotHeight}
+								/>
+								{this.props.withCaption ? this.renderCaption(xCoord, shift, availableHeight, value.toLocaleString()) : null}
+							</g>
+						);
+					} else {
+						return null;
+					}
+				})}
+			</g>
+		);
+	}
+
+	renderOrdinalGrid(shift) {
 		let barWidth = this.props.scale.bandwidth();
 		let gap = 2*barWidth*this.props.scale.padding();
 
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
 				{this.props.data.map(item => {
+					let xValue = item;
+					let xValueFromObject = _.get(item, this.props.keySourcePath);
 
-					let xValue = this.props.keySourcePath ? _.get(item, this.props.keySourcePath) : item;
+					if (_.isObject(xValue) && this.props.keySourcePath) {
+						xValue = xValueFromObject;
+					}
+
 					let xCoord = this.props.scale(xValue);
 					if (xCoord || xCoord === 0) {
-						let key = this.props.keySourcePath ? _.get(item, this.props.keySourcePath) : item;
-						let text = this.props.sourcePath ? _.get(item, this.props.sourcePath) : item;
+						let key =  (this.props.keySourcePath && xValueFromObject) || item;
+						let text = item;
+						let textFromObject = _.get(item, this.props.sourcePath);
+
+						if (this.props.sourcePath && textFromObject) {
+							text = textFromObject;
+						}
 
 						return (
 							<g key={key}>

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import HoverContext from "../../HoverHandler/context";
 
 import '../style.scss';
-import Point from "./Point";
+import Point from "../Point";
 
 class Line extends React.PureComponent {
 	static contextType = HoverContext;
