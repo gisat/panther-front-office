@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import Store, {history} from './store';
+import Helmet from "react-helmet";
 
+import Store, {history} from './store';
+import Action from "../../state/Action";
 import i18n from '../../i18n';
 
 // base styles need to be imported before all components
@@ -11,7 +13,6 @@ import '../../styles/reset.css';
 import '../../styles/base.scss';
 import './styles/index.scss';
 
-import Action from "../../state/Action";
 
 import Docs, {Directory, Page, Anchor} from "./components/Docs";
 
@@ -31,35 +32,39 @@ export default (path, baseUrl) => {
 
 	ReactDOM.render(
 		<Provider store={Store}>
+			<Helmet
+				titleTemplate="%s | Panther docs"
+				defaultTitle="Panther docs"
+			/>
 			<ConnectedRouter history={history}>
-					<Docs path={path} component={Index}>
-						<Directory label="Data" path="data" colour="#91aee4">
-							<Page label="Common types" path="common"/>
+				<Docs path={path} component={Index}>
+					<Directory label="Data" path="data" colour="#91aee4">
+						<Page label="Common types" path="common"/>
+					</Directory>
+					<Directory label="Design" path="design" component={Design} colour="#fbff00">
+						<Page label="Typography" path="typography" component={Typography} />
+						<Page label="Colours" path="colours"/>
+					</Directory>
+					<Directory label="Components" path="components" colour="#e49191">
+						<Directory label="Maps" path="maps">
+							<Page label="WebWorldWind" path="webWorldWind"/>
 						</Directory>
-						<Directory label="Design" path="design" component={Design} colour="#fbff00">
-							<Page label="Typography" path="typography" component={Typography} />
-							<Page label="Colours" path="colours"/>
+						<Directory label="Visualizations" path="visualizations">
+							<Page label="Line chart" path="lineChart"/>
+							<Page label="Column chart" path="columnChart"/>
 						</Directory>
-						<Directory label="Components" path="components" colour="#e49191">
-							<Directory label="Maps" path="maps">
-								<Page label="WebWorldWind" path="webWorldWind"/>
-							</Directory>
-							<Directory label="Visualizations" path="visualizations">
-								<Page label="Line chart" path="lineChart"/>
-								<Page label="Column chart" path="columnChart"/>
-							</Directory>
-							<Directory label="Atoms" path="atoms">
-								<Page label="Buttons" path="buttons"/>
-								<Page label="Forms" path="forms"/>
-							</Directory>
-							<Directory label="Interface elements" path="interfaceElements">
-								<Page label="Panther select" path="pantherSelect">
-									<Anchor label="Usage" path="usage"/>
-									<Anchor label="Extending" path="extending"/>
-								</Page>
-							</Directory>
+						<Directory label="Atoms" path="atoms">
+							<Page label="Buttons" path="buttons"/>
+							<Page label="Forms" path="forms"/>
 						</Directory>
-					</Docs>
+						<Directory label="Interface elements" path="interfaceElements">
+							<Page label="Panther select" path="pantherSelect">
+								<Anchor label="Usage" path="usage"/>
+								<Anchor label="Extending" path="extending"/>
+							</Page>
+						</Directory>
+					</Directory>
+				</Docs>
 			</ConnectedRouter>
 		</Provider>,document.getElementById('ptr')
 	);
