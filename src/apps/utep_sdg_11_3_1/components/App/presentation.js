@@ -62,9 +62,8 @@ class UtepSdg extends React.PureComponent {
 											)
 										},
 										{
-											width: "40%",
-											minWidth: "20rem",
-											maxWidth: "35rem",
+											width: "60%",
+											minWidth: "30rem",
 											render: props => (
 												<UtepSdgCharts
 													key="utep_sdg_11_3_1-charts"/>

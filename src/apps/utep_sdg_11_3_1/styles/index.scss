@@ -50,3 +50,15 @@
 	padding: m(1);
 	min-height: 100%;
 }
+
+.utep_sdg_11_3_1-charts {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.utep_sdg_11_3_1-charts > .ptr-chart-wrapper{
+	min-width: 22rem;
+	flex-grow: 1;
+	width: calc(50% - #{m(1)});
+	margin-right: m(1);
+}
