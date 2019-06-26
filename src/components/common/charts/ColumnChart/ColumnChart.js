@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
+import classnames from 'classnames';
 
 import '../style.scss';
 import utilsSort from "../../../../utils/sort";
@@ -14,6 +15,7 @@ import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 
 class ColumnChart extends React.PureComponent {
 	static defaultProps = {
+		animateChangeData: true,
 		minBarWidth: 4,
 		barGapRatio: 0.4
 	};
@@ -26,6 +28,7 @@ class ColumnChart extends React.PureComponent {
 			PropTypes.object
 		]),
 		sorting: PropTypes.array,
+		animateChangeData: PropTypes.bool,
 
 		minBarWidth: PropTypes.number,
 		barGapRatio: PropTypes.number,
@@ -34,7 +37,8 @@ class ColumnChart extends React.PureComponent {
 		colorSourcePath: PropTypes.string, // if color is defined in data
 		colored: PropTypes.string, // if color is not defined in data and should be used from default scheme
 		xSourcePath: PropTypes.string,
-		ySourcePath: PropTypes.string
+		ySourcePath: PropTypes.string,
+		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by dafault same like value. Used in relative.
 	};
 
 	constructor(props) {
@@ -43,7 +47,6 @@ class ColumnChart extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-console.log(props);
 
 		/* data preparation */
 		let data, yScale, xScale, xDomain, yDomain, aggregatedData, colors = null;
@@ -112,8 +115,12 @@ console.log(props);
 			}
 		}
 
+		const chartClassNames = classnames('ptr-chart ptr-column-chart', {
+			'ptr-chart-no-animation': !props.animateChangeData,
+		})
+
 		return (
-			<svg className="ptr-chart ptr-column-chart" width={props.width} height={props.height}>
+			<svg className={chartClassNames} width={props.width} height={props.height}>
 				{data ?
 					<CartesianChartContent
 						{...props}
@@ -169,6 +176,7 @@ console.log(props);
 
 							nameSourcePath={this.props.xSourcePath}
 							valueSourcePath={this.props.ySourcePath}
+							hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 							data={item}
 							yOptions={this.props.yOptions}
 						/>

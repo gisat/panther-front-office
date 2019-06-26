@@ -132,6 +132,12 @@
 	animation-fill-mode: forwards;
 }
 
+.ptr-chart-no-animation .ptr-line-chart-area,
+.ptr-chart-no-animation .ptr-column-chart-bar{
+	animation: none;
+	transition: none;
+}
+
 .ptr-line-chart-line-wrapper:hover .ptr-line-chart-line,
 .ptr-line-chart-line-wrapper.gray:hover .ptr-line-chart-line,
 .ptr-line-chart-line-wrapper.highlighted.gray .ptr-line-chart-line,

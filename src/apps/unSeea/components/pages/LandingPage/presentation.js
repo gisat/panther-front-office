@@ -9,6 +9,7 @@ import './style.scss';
 
 import treesThumbnail from '../../../assets/img/trees.png';
 import districtsThumbnail from '../../../assets/img/districts.png';
+import districtsTwoThumbnail from '../../../assets/img/districts_two.png';
 
 class LandingPage extends React.PureComponent {
 
@@ -33,27 +34,14 @@ class LandingPage extends React.PureComponent {
 					</div>
 
 					<div className={'unseea-subapp-list'}>
-						<Link to={`${match.path}/districts`}>
-							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+						<Link to={`${match.path}/districtsSecond`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsTwoThumbnail})`}}>
 									<div className="unseea-subapp-card-name">
 										Districts
 									</div>
 									<div className="unseea-subapp-card-description">
 										<Truncate lines={6}>
-											Awereness raising I
-										</Truncate>
-									</div>
-								</div>
-						</Link>
-						
-						<Link to={`${match.path}/districtsSecond`}>
-							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
-									<div className="unseea-subapp-card-name">
-										Districts second
-									</div>
-									<div className="unseea-subapp-card-description">
-										<Truncate lines={6}>
-											Awereness raising II
+											Understanding of the land use management
 										</Truncate>
 									</div>
 								</div>
@@ -67,10 +55,23 @@ class LandingPage extends React.PureComponent {
 								</div>
 								<div className="unseea-subapp-card-description">
 									<Truncate lines={6}>
-										Awereness raising III
+										Analysis of the individual trees
 									</Truncate>
 								</div>
 							</div>
+						</Link>
+
+						<Link to={`${match.path}/districts`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+									<div className="unseea-subapp-card-name">
+										Trees (districts)
+									</div>
+									<div className="unseea-subapp-card-description">
+										<Truncate lines={6}>
+											District tree analysis
+										</Truncate>
+									</div>
+								</div>
 						</Link>
 					</div>
 
