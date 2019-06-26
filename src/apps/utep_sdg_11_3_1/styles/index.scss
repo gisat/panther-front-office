@@ -47,18 +47,75 @@
 
 .utep_sdg_11_3_1-right-panel {
 	background: var(--base15);
-	padding: m(1);
 	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
+/* header */
+.utep_sdg_11_3_1-header {
+
+}
+
+.utep_sdg_11_3_1-top-bar {
+	display: flex;
+	flex-wrap: wrap-reverse;
+	align-items: center;
+	background: var(--accent50);
+}
+
+.utep_sdg_11_3_1-title-container {
+	flex: 1;
+	padding: .5rem 0 .5rem 1rem;
+}
+
+.utep_sdg_11_3_1-title {
+	color: var(--base0);
+	font-size: $b2;
+	white-space: nowrap;
+}
+
+.utep_sdg_11_3_1-subtitle {
+	color: rgba(var(--base0rgb),.75);
+	font-size: $b1;
+}
+
+.utep_sdg_11_3_1-logos {
+	display: flex;
+	align-items: center;
+	padding: .75rem 0 .75rem 1rem;
+}
+
+.utep_sdg_11_3_1-logo:first-child {
+	height: 1.6rem;
+}
+
+.utep_sdg_11_3_1-logo {
+	height: 1.8rem;
+	padding: 0 1rem;
+}
+
+.utep_sdg_11_3_1-logo:first-child {
+	border-right: 1px solid rgba(var(--base0rgb),.5);
+	padding-left: 0;
+}
+
+.utep_sdg_11_3_1-logo > img {
+	height: 100%;
+}
+
+
+/* charts */
 .utep_sdg_11_3_1-charts {
 	display: flex;
 	flex-wrap: wrap;
+	padding: m(2/3) 0 m(2/3) m(2/3);
 }
 
 .utep_sdg_11_3_1-charts > .ptr-chart-wrapper{
 	min-width: 22rem;
 	flex-grow: 1;
-	width: calc(50% - #{m(1)});
-	margin-right: m(1);
+	width: calc(50% - #{m(2/3)});
+	margin-right: m(2/3);
+	margin-bottom: m(2/3);
 }

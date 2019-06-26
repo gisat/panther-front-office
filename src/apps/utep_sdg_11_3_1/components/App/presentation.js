@@ -15,6 +15,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 
 import AppContext from '../../context';
 import UtepSdgCharts from "./Charts/UtepSdgCharts";
+import UtepSdgHeader from "./UtepSdgHeader";
 
 class UtepSdg extends React.PureComponent {
 
@@ -64,8 +65,10 @@ class UtepSdg extends React.PureComponent {
 											width: "60%",
 											minWidth: "30rem",
 											render: props => (
-												<UtepSdgCharts
-													key="utep_sdg_11_3_1-charts"/>
+												<div className="utep_sdg_11_3_1-right-panel">
+													<UtepSdgHeader/>
+													<UtepSdgCharts key="utep_sdg_11_3_1-charts"/>
+												</div>
 												)
 										},
 									]}
