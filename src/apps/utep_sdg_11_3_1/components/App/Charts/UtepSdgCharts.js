@@ -49,6 +49,7 @@ class UtepSdgCharts extends React.PureComponent {
 						serieKeySourcePath="gid"
 						serieNameSourcePath="name"
 						serieDataSourcePath="properties"
+						colorSourcePath="color"
 						xSourcePath="period" // in context of serie
 						ySourcePath="UA_POP_change_ratio" // in context of serie
 
@@ -89,7 +90,7 @@ class UtepSdgCharts extends React.PureComponent {
 
 						serieDataSourcePath="properties"
 						nameSourcePath="name"
-						// colorSourcePath="data.color"
+						colorSourcePath="color"
 						keySourcePath="gid"
 
 						xSourcePath="Population change" // in context of serie
@@ -137,6 +138,7 @@ class UtepSdgCharts extends React.PureComponent {
 						serieKeySourcePath="gid"
 						serieNameSourcePath="name"
 						serieDataSourcePath="properties"
+						colorSourcePath="color"
 						xSourcePath="period" // in context of serie
 						ySourcePath="Total population" // in context of serie
 
@@ -197,7 +199,7 @@ class UtepSdgCharts extends React.PureComponent {
 							unit: "current US$"
 						}}
 
-						colored
+						colorSourcePath="color"
 					/>
 				</ChartWrapper>
 			</div>
