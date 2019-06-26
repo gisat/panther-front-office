@@ -108,7 +108,7 @@ class Test extends React.PureComponent {
 		let baseScale = chroma.scale(['#fffefc','#040300']).mode('lab').correctLightness();
 		let baseScaleDark = chroma.scale(['#040300', '#fffefc']).mode('lrgb').correctLightness();
 		let accentScale = chroma.scale(['#fffefc', '#2ab2ad', '#040300']).mode('lab').correctLightness();
-		let accentScaleDark = chroma.scale(['#040300', '#2ab2ad', '#fffefc']).mode('lab').correctLightness();
+		let accentScaleDark = chroma.scale(['#040300', '#fd9d24', '#fffefc']).mode('lab').correctLightness();
 		let accentScaleLrgb = chroma.scale(['#fffefc', '#2ab2ad', '#040300']).mode('lrgb').correctLightness();
 		let accentScale2 = chroma.scale(['#fffefc', '#4535b2', '#040300']).mode('lab').correctLightness();
 		let accentScale3 = chroma.scale(['#fffefc', '#b2802d', '#040300']).mode('lab').correctLightness();

@@ -1,5 +1,6 @@
 import React from "react";
 import Helmet from "react-helmet";
+import classnames from 'classnames';
 
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
@@ -17,7 +18,6 @@ import AppContext from '../../context';
 import UtepSdgCharts from "./Charts/UtepSdgCharts";
 import UtepSdgHeader from "./UtepSdgHeader";
 import uTepLogo from '../../assets/urban-tep-logo.png';
-import sdgLogo from "../../assets/sdg_logo_white.png";
 
 class UtepSdg extends React.PureComponent {
 
@@ -25,9 +25,12 @@ class UtepSdg extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		let classes = classnames("utep_sdg_11_3_1-app", {
+			'ptr-dark': props.dark
+		});
 
 			return (
-				<div className="utep_sdg_11_3_1-app">
+				<div className={classes}>
 					<HoverHandler>
 						<Helmet><title>UTEP SDG 11.3.1</title></Helmet>
 						<div className="utep_sdg_11_3_1-content">

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Route } from 'react-router';
+import {Route, Switch} from 'react-router';
 import Helmet from "react-helmet";
 import Favicon from 'react-favicon';
 
@@ -35,7 +35,6 @@ const WINDOW_SET_KEY = "utep_sdg_11_3_1";
 const MAP_SET_KEY = "utep_sdg_11_3_1";
 
 export default (path, baseUrl) => {
-
 	Store.dispatch(Action.views.add(viewCfg));
 	Store.dispatch(Action.views.setActiveKey('UTEP_SDG_11_3_1'));
 	Store.dispatch(Action.views.apply("UTEP_SDG_11_3_1", Action));
@@ -68,9 +67,10 @@ export default (path, baseUrl) => {
 					/>
 					<AppContainer>
 						<ConnectedRouter history={history}>
-							<>
+							<Switch>
+								<Route exact path={path + "/dark"} render={() => (<App dark />)} />
 								<Route component={App} />
-							</>
+							</Switch>
 						</ConnectedRouter>
 					</AppContainer>
 				</AppContext.Provider>

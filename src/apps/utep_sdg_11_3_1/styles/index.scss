@@ -29,6 +29,34 @@
 	--accent100rgb: #{$lightAccent100rgb};
 }
 
+.ptr-dark {
+
+	--accent0: #{$darkAccent0};
+	--accent0rgb: #{$darkAccent0rgb};
+	--accent05: #{$darkAccent05};
+	--accent10: #{$darkAccent10};
+	--accent15: #{$darkAccent15};
+	--accent20: #{$darkAccent20};
+	--accent25: #{$darkAccent25};
+	--accent30: #{$darkAccent30};
+	--accent35: #{$darkAccent35};
+	--accent40: #{$darkAccent40};
+	--accent45: #{$darkAccent45};
+	--accent50: #{$darkAccent50};
+	--accent50rgb: #{$darkAccent50rgb};
+	--accent55: #{$darkAccent55};
+	--accent60: #{$darkAccent60};
+	--accent65: #{$darkAccent65};
+	--accent70: #{$darkAccent70};
+	--accent75: #{$darkAccent75};
+	--accent80: #{$darkAccent80};
+	--accent85: #{$darkAccent85};
+	--accent90: #{$darkAccent90};
+	--accent95: #{$darkAccent95};
+	--accent100: #{$darkAccent100};
+	--accent100rgb: #{$darkAccent100rgb};
+}
+
 .utep_sdg_11_3_1-app {
 	height: 100%;
 	display: flex;
