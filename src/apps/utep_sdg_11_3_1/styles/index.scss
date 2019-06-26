@@ -61,22 +61,22 @@
 	display: flex;
 	flex-wrap: wrap-reverse;
 	align-items: center;
-	background: var(--accent50);
+	background: #fd9d24;
 }
 
 .utep_sdg_11_3_1-title-container {
 	flex: 1;
-	padding: .5rem 0 .5rem 1rem;
+	padding: .5rem 1rem;
 }
 
 .utep_sdg_11_3_1-title {
-	color: var(--base0);
+	color: rgba(255,255,255,1);
 	font-size: $b2;
 	white-space: nowrap;
 }
 
 .utep_sdg_11_3_1-subtitle {
-	color: rgba(var(--base0rgb),.75);
+	color: rgba(255,255,255,1);
 	font-size: $b1;
 }
 
@@ -96,7 +96,7 @@
 }
 
 .utep_sdg_11_3_1-logo:first-child {
-	border-right: 1px solid rgba(var(--base0rgb),.5);
+	border-right: 1px solid rgba(255,255,255,.5);
 	padding-left: 0;
 }
 
@@ -118,4 +118,9 @@
 	width: calc(50% - #{m(2/3)});
 	margin-right: m(2/3);
 	margin-bottom: m(2/3);
+}
+
+/* map */
+.utep_sdg_11_3_1-app .ptr-world-wind-map .map-label {
+	background-color: #fd9d24;
 }
