@@ -16,6 +16,8 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import AppContext from '../../context';
 import UtepSdgCharts from "./Charts/UtepSdgCharts";
 import UtepSdgHeader from "./UtepSdgHeader";
+import uTepLogo from '../../assets/urban-tep-logo.png';
+import sdgLogo from "../../assets/sdg_logo_white.png";
 
 class UtepSdg extends React.PureComponent {
 
@@ -68,6 +70,12 @@ class UtepSdg extends React.PureComponent {
 												<div className="utep_sdg_11_3_1-right-panel">
 													<UtepSdgHeader/>
 													<UtepSdgCharts key="utep_sdg_11_3_1-charts"/>
+													<div className="utep_sdg_11_3_1-footer">
+														<a className="utep_sdg_11_3_1-footer-logo" title="Urban TEP" href="https://urban-tep.eu" target="_blank">
+															<div>Powered by</div>
+															<img alt="UTEP" src={uTepLogo}/>
+														</a>
+													</div>
 												</div>
 												)
 										},

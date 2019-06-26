@@ -109,7 +109,7 @@
 .utep_sdg_11_3_1-charts {
 	display: flex;
 	flex-wrap: wrap;
-	padding: m(2/3) 0 m(2/3) m(2/3);
+	padding: m(2/3) 0 0 m(2/3);
 }
 
 .utep_sdg_11_3_1-charts > .ptr-chart-wrapper{
@@ -119,6 +119,32 @@
 	margin-right: m(2/3);
 	margin-bottom: m(2/3);
 }
+
+/* footer */
+.utep_sdg_11_3_1-footer {
+	width: 100%;
+	padding: m(2/3) m(1) m(1);
+	display: flex;
+	justify-content: flex-end;
+}
+
+a.utep_sdg_11_3_1-footer-logo {
+	display: flex;
+	align-items: center;
+	height: 2rem;
+	text-decoration: none;
+	color: var(--base50);
+	font-size: $b1;
+}
+
+.utep_sdg_11_3_1-footer-logo > div {
+	margin-right: .5rem;
+}
+
+.utep_sdg_11_3_1-footer-logo > img {
+	height: 100%;
+}
+
 
 /* map */
 .utep_sdg_11_3_1-app .ptr-world-wind-map .map-label {
