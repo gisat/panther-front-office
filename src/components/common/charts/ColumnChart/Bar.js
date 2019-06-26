@@ -28,7 +28,8 @@ class Bar extends React.PureComponent {
 		hidden: PropTypes.bool,
 
 		nameSourcePath: PropTypes.string,
-		valueSourcePath: PropTypes.string
+		valueSourcePath: PropTypes.string,
+		yOptions: PropTypes.object
 	};
 
 	constructor(props) {
@@ -169,43 +170,63 @@ class Bar extends React.PureComponent {
 	}
 
 	getPopupContent() {
-		let data = this.props.data;
+		const props = this.props;
+		let data = props.data;
 		let content = null;
+		let unit = null;
+		let attributeName = null;
+
 
 		if (data) {
+			if (props.yOptions) {
+				if (props.yOptions.name) {
+					attributeName = `${props.yOptions.name}: `;
+				}
+
+				if (props.yOptions.unit) {
+					unit = `${props.yOptions.unit}`;
+				}
+			}
+			
+			
 			if (data.originalData) {
 				let con = [];
 				if (data.originalData.length > 20) {
 					let units = [];
 					let values = [];
 					_.map(data.originalData,(item) => {
-						units.push(_.get(item, this.props.nameSourcePath));
-						values.push(_.get(item, this.props.valueSourcePath));
+						units.push(_.get(item, props.nameSourcePath));
+						values.push(_.get(item, props.valueSourcePath));
 					});
 					content = (
 						<div>
 							<i>{`${units.length} items: `}</i>
-							{`from ${_.min(values).toLocaleString()} to ${_.max(values).toLocaleString()}`}
+							{`from ${_.min(values).toLocaleString()} ${unit} to ${_.max(values).toLocaleString()} ${unit}`}
 						</div>
 					);
 				} else {
 					_.map(data.originalData, (item) => {
-						let unit = _.get(item, this.props.nameSourcePath);
-						let value = _.get(item, this.props.valueSourcePath);
-						con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+						let area = _.get(item, props.nameSourcePath);
+						let value = _.get(item, props.valueSourcePath);
+						con.push(<div key={area}><i>{area}:</i> {value.toLocaleString()} {unit}</div>);
 					});
 					content = (<>{con}</>);
 				}
 			} else {
-				let unit = _.get(data, this.props.nameSourcePath);
-				let value = _.get(data, this.props.valueSourcePath);
-				content = (<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
+				let area = _.get(data, props.nameSourcePath);
+				let value = _.get(data, props.valueSourcePath);
+				content = (<div key={area}><i>{area}:</i> {value.toLocaleString()} {unit}</div>);
 			}
 		} else {
 			content = (<div key={"no-data"}><i>No data</i></div>);
 		}
 
-		return content
+		return (
+			<>
+				{attributeName ? (<div><i>{attributeName}</i></div>) : null}
+				{content}
+			</>
+		);
 	}
 }
 

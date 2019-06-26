@@ -67,7 +67,7 @@ class ColumnChartDoc extends React.PureComponent {
 				</div>
 
 				<div className="ptr-docs-panel-section">
-					<h2>With captions, ticks, gridlines and without y baseline</h2>
+					<h2>With captions, ticks, gridlines and without y baseline, custom max and min, attribute name, units, colour from default scheme</h2>
 					<HoverHandler>
 						<ColumnChart
 							key="test3"
@@ -78,12 +78,22 @@ class ColumnChartDoc extends React.PureComponent {
 							sorting={[["data.some_value_1", "desc"]]}
 							xCaptions
 							yCaptions
+							yCaptionsSize={80}
+							xCaptionsSize={80}
 							xTicks
 							yTicks
 							xGridlines
 							yGridlines
 							withoutYbaseline
 							width={this.state.width}
+							yOptions={{
+								min: -1,
+								max: 105000,
+								name: "Custom attribute name",
+								unit: "ha"
+							}}
+
+							colored
 						/>
 					</HoverHandler>
 				</div>
@@ -124,6 +134,10 @@ class ColumnChartDoc extends React.PureComponent {
 							yGridlines
 							withoutYbaseline
 							width={this.state.width}
+							yOptions={{
+								name: "Custom attribute name",
+								unit: "ha"
+							}}
 						/>
 					</HoverHandler>
 				</div>

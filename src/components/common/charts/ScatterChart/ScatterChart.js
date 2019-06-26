@@ -9,6 +9,7 @@ import Point from "../Point";
 import utilsFilter from "../../../../utils/filter";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
+import ChartLegend from "../ChartLegend/ChartLegend";
 
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
@@ -29,6 +30,8 @@ class ScatterChart extends React.PureComponent {
 		xSourcePath: PropTypes.string, // if serie, path in context of serie
 		ySourcePath: PropTypes.string, // if serie, path in context of serie
 		itemNameSourcePath: PropTypes.string, // only if serie
+
+		legend: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -74,8 +77,30 @@ class ScatterChart extends React.PureComponent {
 				});
 			}
 
-			xDomain = [_.min(xValues), _.max(xValues)];
-			yDomain = [_.min(yValues), _.max(yValues)];
+			let xMax = _.max(xValues);
+			let xMin = _.min(xValues);
+
+			if (props.xOptions && props.xOptions.min) {
+				xMin = props.xOptions.min;
+			}
+
+			if (props.xOptions && props.xOptions.max) {
+				xMax = props.xOptions.max;
+			}
+
+			let yMax = _.max(yValues);
+			let yMin = _.min(yValues);
+
+			if (props.yOptions && props.yOptions.min) {
+				yMin = props.yOptions.min;
+			}
+
+			if (props.yOptions && props.yOptions.max) {
+				yMax = props.yOptions.max;
+			}
+
+			xDomain = [xMin, xMax];
+			yDomain = [yMin, yMax];
 
 			/* scales */
 			xScale = d3
@@ -91,25 +116,36 @@ class ScatterChart extends React.PureComponent {
 			if (props.isSerie) {
 				colors = d3
 					.scaleOrdinal(d3.schemeCategory10)
-					.domain(_.map(data,record => {return _.get(record, props.keySourcePath)}));
+					.domain(_.map(props.data,record => {return _.get(record, props.keySourcePath)}));
 			}
 		}
 
 		return (
-			<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
-				{(data) ?
-					<CartesianChartContent
-						{...props}
-						{...{xScale, yScale}}
-					>
-						{this.renderPoints(data, xScale, yScale, colors)}
-					</CartesianChartContent>
-				: null}
-			</svg>
+			<>
+				<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
+					{(data) ?
+						<CartesianChartContent
+							{...props}
+							{...{xScale, yScale}}
+						>
+							{this.renderPoints(data, xScale, yScale, colors)}
+						</CartesianChartContent>
+					: null}
+				</svg>
+				{this.props.legend ? <ChartLegend
+					data={data}
+					keySourcePath={this.props.keySourcePath}
+					nameSourcePath={this.props.nameSourcePath}
+					colorSourcePath={this.props.colorSourcePath}
+					colorScale={colors}
+				/> : null}
+			</>
 		);
 	}
 
 	renderPoints(data, xScale, yScale, colors) {
+		let siblings = _.map(data, item => _.get(item, this.props.keySourcePath));
+
 		return _.map(data, (item, index) => {
 			let key = _.get(item, this.props.keySourcePath);
 			let color = _.get(item, this.props.colorSourcePath);
@@ -130,19 +166,19 @@ class ScatterChart extends React.PureComponent {
 						finalName = `${name} (${itemName})`;
 					}
 
-					return this.renderPoint(key, serieItem, xScale(xValue), yScale(yValue), color, finalName, index);
+					return this.renderPoint(key, serieItem, xScale(xValue), yScale(yValue), color, finalName, index, siblings);
 				});
 
 			} else {
 				let xValue = _.get(item, this.props.xSourcePath);
 				let yValue = _.get(item, this.props.ySourcePath);
 
-				return this.renderPoint(key, item, xScale(xValue), yScale(yValue), color, name, 0);
+				return this.renderPoint(key, item, xScale(xValue), yScale(yValue), color, name, 0, siblings);
 			}
 		});
 	}
 
-	renderPoint(key, item, x, y, color, name, index) {
+	renderPoint(key, item, x, y, color, name, index, siblings) {
 		return (
 			<Point
 				key={key + '-' + index}
@@ -157,6 +193,7 @@ class ScatterChart extends React.PureComponent {
 				name={name}
 				r={this.props.pointRadius}
 				color={color}
+				siblings={siblings}
 				standalone
 			/>
 		);

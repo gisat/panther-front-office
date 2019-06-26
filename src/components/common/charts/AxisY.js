@@ -4,7 +4,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
-import AxisLabel from "./AxisLabel";
+import AxisCaption from "./AxisCaption";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 5; // TODO optional?
@@ -24,12 +24,15 @@ class AxisY extends React.PureComponent {
 		topPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
+		labelSize: PropTypes.number,
 		width: PropTypes.number,
 
 		hiddenBaseline: PropTypes.bool,
 		gridlines: PropTypes.bool,
 		ticks: PropTypes.bool,
-		withCaption: PropTypes.bool
+		withCaption: PropTypes.bool,
+		label: PropTypes.bool,
+		options: PropTypes.object
 	};
 
 	constructor(props) {
@@ -43,6 +46,7 @@ class AxisY extends React.PureComponent {
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
+				{props.label ? this.renderLabel() : null}
 			</g>
 		);
 	}
@@ -51,7 +55,7 @@ class AxisY extends React.PureComponent {
 		return (
 			<path
 				className="ptr-axis-baseline"
-				d={`M${this.props.width} ${this.props.height} L${this.props.width} 0`}
+				d={`M${this.props.width + this.props.labelSize} ${this.props.height} L${this.props.width + this.props.labelSize} 0`}
 			/>
 		);
 	}
@@ -62,7 +66,7 @@ class AxisY extends React.PureComponent {
 		let topPadding = this.props.topPadding ? this.props.topPadding : 0;
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width - shift},${topPadding})`}>
+			<g className="ptr-axis-grid" transform={`translate(${this.props.width + this.props.labelSize - shift},${topPadding})`}>
 				{ticks.map(value => {
 					let yCoord = this.props.scale(value);
 
@@ -78,14 +82,19 @@ class AxisY extends React.PureComponent {
 									y2={yCoord}
 								/>
 								{this.props.withCaption ? (
-									<text
-										className="ptr-tick-caption"
-										textAnchor="end"
-										x={0}
-										y={yCoord + TICK_CAPTION_OFFSET_HORIZONTAL}
+									<g
+									transform={`
+										translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
+									`}
 									>
-										{value.toLocaleString()}
-									</text>
+										<AxisCaption
+											classes="ptr-tick-caption"
+											maxWidth={this.props.width}
+											maxHeight={this.props.height/ticks.length}
+											text={value.toLocaleString()}
+											textAnchor="end"
+										/>
+									</g>
 								) : null}
 							</g>
 						)
@@ -93,6 +102,40 @@ class AxisY extends React.PureComponent {
 						return null;
 					}
 				})}
+			</g>
+		);
+	}
+
+	renderLabel() {
+		const props = this.props;
+		let content = "";
+
+		if (props.options) {
+			if (props.options.name) {
+				content += props.options.name;
+			}
+
+			if (props.options.unit) {
+				content += " (" + props.options.unit + ")"
+			}
+
+		} else {
+			content = "Axis Y";
+		}
+
+		return (
+			<g transform={`
+						translate(13 ${props.height/2})
+						rotate(270)
+					`}>
+				{/*<text className="ptr-axis-label" textAnchor="middle">{content}</text>*/}
+				<AxisCaption
+					classes="ptr-axis-label"
+					maxWidth={props.height}
+					maxHeight={25}
+					text={content}
+					textAnchor="middle"
+				/>
 			</g>
 		);
 	}

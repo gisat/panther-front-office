@@ -31,7 +31,8 @@ class ColumnChart extends React.PureComponent {
 		barGapRatio: PropTypes.number,
 
 		keySourcePath: PropTypes.string,
-		colorSourcePath: PropTypes.string,
+		colorSourcePath: PropTypes.string, // if color is defined in data
+		colored: PropTypes.string, // if color is not defined in data and should be used from default scheme
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string
 	};
@@ -45,7 +46,7 @@ class ColumnChart extends React.PureComponent {
 console.log(props);
 
 		/* data preparation */
-		let data, yScale, xScale, xDomain, yDomain, aggregatedData = null;
+		let data, yScale, xScale, xDomain, yDomain, aggregatedData, colors = null;
 		if (props.data) {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath);
 			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
@@ -53,7 +54,14 @@ console.log(props);
 			let yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
 			let maximum = _.max(yValues);
 			let minimum = _.min(yValues);
-			if (minimum >= 0) minimum = 0; // TODO custom option - forceMinimum?
+
+			if (props.yOptions && props.yOptions.min) {
+				minimum = props.yOptions.min;
+			}
+
+			if (props.yOptions && props.yOptions.max) {
+				maximum = props.yOptions.max;
+			}
 
 			/* domain and scales */
 			xDomain = data.map(i  => _.get(i, props.keySourcePath));
@@ -69,6 +77,12 @@ console.log(props);
 				.scaleLinear()
 				.domain(yDomain)
 				.range([props.innerPlotHeight, 0]);
+
+			if (props.colored) {
+				colors = d3
+					.scaleOrdinal(d3.schemeCategory10)
+					.domain(props.data.map(record => {return _.get(record, props.keySourcePath)}));
+			}
 
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
@@ -105,7 +119,7 @@ console.log(props);
 						{...props}
 						{...{xScale, yScale, contentData: data}}
 					>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, props.innerPlotHeight)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, props.innerPlotHeight, colors)}
 					</CartesianChartContent>
 				: null}
 			</svg>
@@ -121,7 +135,7 @@ console.log(props);
 		)
 	}
 
-	renderBars(data, props, xScale, yScale, availableHeight) {
+	renderBars(data, props, xScale, yScale, availableHeight, colors) {
 		return (
 			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
 				{data.map((item) => {
@@ -132,6 +146,11 @@ console.log(props);
 
 					if (props.colorSourcePath) {
 						defaultColor = _.get(item, props.colorSourcePath);
+						highlightedColor = chroma(defaultColor).darken(1);
+					}
+
+					if (props.colored) {
+						defaultColor = colors(_.get(item, props.keySourcePath));
 						highlightedColor = chroma(defaultColor).darken(1);
 					}
 
@@ -151,6 +170,7 @@ console.log(props);
 							nameSourcePath={this.props.xSourcePath}
 							valueSourcePath={this.props.ySourcePath}
 							data={item}
+							yOptions={this.props.yOptions}
 						/>
 					);
 				})}
@@ -183,6 +203,7 @@ console.log(props);
 							nameSourcePath={this.props.xSourcePath}
 							valueSourcePath={this.props.ySourcePath}
 							data={group}
+							yOptions={this.props.yOptions}
 						/>
 					);
 				})}

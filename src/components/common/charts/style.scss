@@ -49,6 +49,12 @@
 	stroke: var(--base25);
 }
 
+.ptr-axis-label {
+	fill: var(--base50);
+	font-size: $b1;
+	font-style: italic;
+}
+
 .ptr-tick-caption {
 	fill: var(--base50);
 	font-size: $b1;
