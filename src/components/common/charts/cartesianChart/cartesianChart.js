@@ -36,12 +36,14 @@ export default (WrappedChartComponent) => {
 			xOptions: PropTypes.object,
 			xGridlines: PropTypes.bool,
 			xCaptions: PropTypes.bool,
+			xLabel: PropTypes.bool,
 			xTicks: PropTypes.bool,
 
 			yOptions: PropTypes.object,
 			yGridlines: PropTypes.bool,
 			yCaptions: PropTypes.bool,
 			yTicks: PropTypes.bool,
+			yLabel: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
 		};
 
@@ -58,12 +60,23 @@ export default (WrappedChartComponent) => {
 			let xCaptionsSize = props.xCaptionsSize;
 			let yCaptionsSize = props.yCaptionsSize;
 
+			let xLabelSize = 0;
+			let yLabelSize = 0;
+
 			if (!props.xCaptions && !props.xCaptionsSize) {
 				xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
 			}
 
 			if (!props.yCaptions && !props.yCaptionsSize) {
 				yCaptionsSize = props.xCaptions ? 30 : 0; // space for labels
+			}
+
+			if (props.xLabel) {
+				xLabelSize = 20;
+			}
+
+			if (props.yLabel) {
+				yLabelSize = 20;
 			}
 
 			if (width > maxWidth) width = maxWidth;
@@ -73,8 +86,8 @@ export default (WrappedChartComponent) => {
 				height = width/props.minAspectRatio;
 			}
 
-			let plotWidth = width - (yCaptionsSize);
-			let plotHeight = height - (xCaptionsSize);
+			let plotWidth = width - yCaptionsSize - yLabelSize;
+			let plotHeight = height - xCaptionsSize - xLabelSize;
 			let innerPlotWidth = plotWidth - props.innerPaddingLeft - props.innerPaddingRight;
 			let innerPlotHeight = plotHeight - props.innerPaddingTop;
 
@@ -93,6 +106,9 @@ export default (WrappedChartComponent) => {
 
 							xCaptionsSize,
 							yCaptionsSize,
+
+							xLabelSize,
+							yLabelSize,
 
 							plotWidth,
 							plotHeight,

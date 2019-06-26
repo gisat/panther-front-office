@@ -12,6 +12,7 @@ import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
+import ChartLegend from "../ChartLegend/ChartLegend";
 
 class LineChart extends React.PureComponent {
 	static defaultProps = {
@@ -33,6 +34,8 @@ class LineChart extends React.PureComponent {
 		serieDataSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string, // in context of serie
 		ySourcePath: PropTypes.string, // in context of serie
+
+		legend: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -68,8 +71,17 @@ class LineChart extends React.PureComponent {
 			let uniqueXvalues = _.uniqBy(_.flatten(xValues));
 			sortedUniqueXvalues = _.sortBy(uniqueXvalues);
 			let yValuesPrepared = _.flatten(yValues);
+
 			let yMaximum = _.max(yValuesPrepared);
 			let yMinimum = _.min(yValuesPrepared);
+
+			if (props.yOptions && props.yOptions.min) {
+				yMinimum = props.yOptions.min;
+			}
+
+			if (props.yOptions && props.yOptions.max) {
+				yMaximum = props.yOptions.max;
+			}
 
 			xDomain = sortedUniqueXvalues;
 			yDomain = [yMinimum, yMaximum];
@@ -92,7 +104,7 @@ class LineChart extends React.PureComponent {
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
-				.domain(data.map(record => {return _.get(record, props.serieKeySourcePath)}));
+				.domain(props.data.map(record => {return _.get(record, props.serieKeySourcePath)}));
 
 			if (props.forceMode){
 				mode = props.forceMode;
@@ -105,19 +117,30 @@ class LineChart extends React.PureComponent {
 
 
 		return (
-			<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
-				{(data) ?
-					<CartesianChartContent
-						{...props}
-						{...{xScale, yScale, contentData: sortedUniqueXvalues}}
-					>
-						{mode === 'aggregated' ?
-							this.renderAggregated(data, props, xScale, yScale) :
-							this.renderLines(data, props, xScale, yScale, colors, mode)
-						}
-					</CartesianChartContent>
-				: null}
-			</svg>
+			<>
+				<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
+					{(data) ?
+						<CartesianChartContent
+							{...props}
+							{...{xScale, yScale, contentData: sortedUniqueXvalues}}
+						>
+							{mode === 'aggregated' ?
+								this.renderAggregated(data, props, xScale, yScale) :
+								this.renderLines(data, props, xScale, yScale, colors, mode)
+							}
+						</CartesianChartContent>
+					: null}
+				</svg>
+				{this.props.legend ? (
+					<ChartLegend
+						data={data}
+						keySourcePath={this.props.serieKeySourcePath}
+						nameSourcePath={this.props.serieNameSourcePath}
+						colorSourcePath={this.props.colorSourcePath}
+						colorScale={colors}
+					/>
+				) : null}
+			</>
 		);
 	}
 
@@ -152,6 +175,7 @@ class LineChart extends React.PureComponent {
 					gray={mode === 'gray'}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 				/>
 			);
 		});
@@ -253,6 +277,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 					gray
 				/>
 				<Line
@@ -265,6 +290,7 @@ class LineChart extends React.PureComponent {
 					highlightedColor={this.props.highlightedColor ? this.props.highlightedColor : "#0077ff"}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 				/>
 				<Line
 					key={'maximum'}
@@ -276,6 +302,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
+					yOptions={props.yOptions}
 					gray
 				/>
 			</>

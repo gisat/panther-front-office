@@ -58,12 +58,14 @@ class LineChartDoc extends React.PureComponent {
 
 							xCaptionsSize={50}
 							width={this.state.width}
+
+							legend
 						/>
 					</HoverHandler>
 				</div>
 
 				<div className="ptr-docs-panel-section">
-					<h2>With points</h2>
+					<h2>With points, custom min and max, units, attribute name, y axis label</h2>
 					<HoverHandler>
 						<LineChart
 							key="test2"
@@ -78,8 +80,16 @@ class LineChartDoc extends React.PureComponent {
 							xGridlines
 							xCaptions
 							yTicks
+							yLabel
 							yGridlines
 							yCaptions
+							yCaptionsSize={60}
+							yOptions={{
+								name: "Population growth",
+								unit: "inhabitants",
+								min: -2001,
+								max: 2200
+							}}
 							withoutYbaseline
 
 							sorting={[["period", "asc"]]}
