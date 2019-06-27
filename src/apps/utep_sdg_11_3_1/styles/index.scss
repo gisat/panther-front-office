@@ -29,6 +29,34 @@
 	--accent100rgb: #{$lightAccent100rgb};
 }
 
+.ptr-dark {
+
+	--accent0: #{$darkAccent0};
+	--accent0rgb: #{$darkAccent0rgb};
+	--accent05: #{$darkAccent05};
+	--accent10: #{$darkAccent10};
+	--accent15: #{$darkAccent15};
+	--accent20: #{$darkAccent20};
+	--accent25: #{$darkAccent25};
+	--accent30: #{$darkAccent30};
+	--accent35: #{$darkAccent35};
+	--accent40: #{$darkAccent40};
+	--accent45: #{$darkAccent45};
+	--accent50: #{$darkAccent50};
+	--accent50rgb: #{$darkAccent50rgb};
+	--accent55: #{$darkAccent55};
+	--accent60: #{$darkAccent60};
+	--accent65: #{$darkAccent65};
+	--accent70: #{$darkAccent70};
+	--accent75: #{$darkAccent75};
+	--accent80: #{$darkAccent80};
+	--accent85: #{$darkAccent85};
+	--accent90: #{$darkAccent90};
+	--accent95: #{$darkAccent95};
+	--accent100: #{$darkAccent100};
+	--accent100rgb: #{$darkAccent100rgb};
+}
+
 .utep_sdg_11_3_1-app {
 	height: 100%;
 	display: flex;
@@ -47,18 +75,124 @@
 
 .utep_sdg_11_3_1-right-panel {
 	background: var(--base15);
-	padding: m(1);
 	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
+/* header */
+.utep_sdg_11_3_1-header {
+
+}
+
+.utep_sdg_11_3_1-top-bar {
+	display: flex;
+	flex-wrap: wrap-reverse;
+	align-items: center;
+	background: #fd9d24;
+}
+
+.utep_sdg_11_3_1-title-container {
+	flex: 1;
+	padding: .5rem 1rem;
+}
+
+.utep_sdg_11_3_1-title {
+	color: rgba(255,255,255,1);
+	font-size: $b2;
+	white-space: nowrap;
+}
+
+.utep_sdg_11_3_1-subtitle {
+	color: rgba(255,255,255,1);
+	font-size: $b1;
+}
+
+.utep_sdg_11_3_1-logos {
+	display: flex;
+	align-items: center;
+	padding: .75rem 0 .75rem 1rem;
+}
+
+.utep_sdg_11_3_1-logo:first-child {
+	height: 1.6rem;
+}
+
+.utep_sdg_11_3_1-logo {
+	height: 1.8rem;
+	padding: 0 1rem;
+}
+
+.utep_sdg_11_3_1-logo:first-child {
+	border-right: 1px solid rgba(255,255,255,.5);
+	padding-left: 0;
+}
+
+.utep_sdg_11_3_1-logo > img {
+	height: 100%;
+}
+
+
+/* charts */
 .utep_sdg_11_3_1-charts {
 	display: flex;
 	flex-wrap: wrap;
+	padding: m(2/3) 0 0 m(2/3);
 }
 
 .utep_sdg_11_3_1-charts > .ptr-chart-wrapper{
 	min-width: 22rem;
 	flex-grow: 1;
-	width: calc(50% - #{m(1)});
-	margin-right: m(1);
+	width: calc(50% - #{m(2/3)});
+	margin-right: m(2/3);
+	margin-bottom: m(2/3);
+}
+
+/* footer */
+.utep_sdg_11_3_1-footer {
+	width: 100%;
+	padding: m(2/3) m(1) m(1);
+	display: flex;
+	justify-content: flex-end;
+}
+
+a.utep_sdg_11_3_1-footer-logo {
+	display: flex;
+	align-items: center;
+	height: 2rem;
+	text-decoration: none;
+	color: var(--base50);
+	font-size: $b1;
+}
+
+.utep_sdg_11_3_1-footer-logo > div {
+	margin-right: .5rem;
+}
+
+.utep_sdg_11_3_1-footer-logo > img {
+	height: 100%;
+}
+
+
+/* map */
+.utep_sdg_11_3_1-app .ptr-world-wind-map .map-label {
+	background-color: #fd9d24;
+}
+
+@media screen and (max-width: 40rem)  {
+	.utep_sdg_11_3_1-top-bar {
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: end;
+	}
+	.utep_sdg_11_3_1-title {
+		white-space: normal;
+	}
+	.utep_sdg_11_3_1-charts > .ptr-chart-wrapper{
+		min-width: 0;
+		flex-grow: 1;
+		width: auto;
+		margin-right: m(2/3);
+		margin-bottom: m(2/3);
+	}
 }

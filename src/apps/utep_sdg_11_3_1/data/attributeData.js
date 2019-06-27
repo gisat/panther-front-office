@@ -1,6 +1,7 @@
 export default [{
 	"gid": "40",
 	"name": "Cambodia",
+	"color": "#1f77b4",
 	"properties": [{
 		"period": 1985,
 
@@ -45,6 +46,7 @@ export default [{
 }, {
 	"gid": "123",
 	"name": "Laos",
+	"color": "#d62728",
 	"properties": [{
 		"period": 1985,
 
@@ -93,6 +95,7 @@ export default [{
 	, {
 		"gid": "228",
 		"name": "Thailand",
+		"color": "#2ca02c",
 		"properties": [{
 			"period": 1985,
 
@@ -142,6 +145,7 @@ export default [{
 	, {
 		"gid": "250",
 		"name": "Vietnam",
+		"color": "#9467bd",
 		"properties": [{
 			"period": 1985,
 

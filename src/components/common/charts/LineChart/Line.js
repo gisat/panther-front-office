@@ -178,6 +178,7 @@ class Line extends React.PureComponent {
 					data={point.originalData}
 					r={5}
 					color={color}
+					hidden={this.props.gray}
 					highlighted={highlighted}
 					onMouseOver={this.onMouseOver}
 					onMouseMove={this.onMouseMove}

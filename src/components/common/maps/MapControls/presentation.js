@@ -4,6 +4,11 @@ import Icon from '../../atoms/Icon'
 import HoldButton from '../../../presentation/atoms/HoldButton'
 import './mapControls.scss';
 class MapControls extends React.PureComponent {
+
+    static propTypes = {
+        zoomOnly: PropTypes.bool
+    };
+
     constructor() {
         super();
 
