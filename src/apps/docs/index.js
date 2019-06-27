@@ -38,8 +38,12 @@ export default (path, baseUrl) => {
 			/>
 			<ConnectedRouter history={history}>
 				<Docs path={path} component={Index}>
-					<Directory label="Data" path="data" colour="#91aee4">
-						<Page label="Common types" path="common"/>
+					<Directory label="Architecture" path="architecture" colour="#91aee4">
+						<Page label="Applications" path="applications"/>
+						<Page label="Common data types" path="commonDataTypes"/>
+						<Page label="Specific data types" path="specificDataTypes"/>
+						<Page label="Using data in applications ??" path="usingData" />
+						<Page label="API" path="api" />
 					</Directory>
 					<Directory label="Design" path="design" component={Design} colour="#fbff00">
 						<Page label="Typography" path="typography" component={Typography} />
@@ -50,18 +54,40 @@ export default (path, baseUrl) => {
 							<Page label="WebWorldWind" path="webWorldWind"/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
-							<Page label="Line chart" path="lineChart"/>
-							<Page label="Column chart" path="columnChart"/>
+							<Directory label="Cartesian charts" path="cartesianCharts">
+								<Page label="Line chart" path="lineChart"/>
+								<Page label="Column chart" path="columnChart"/>
+								<Page label="Scatter chart" path="scatterChart"/>
+							</Directory>
+							<Page label="Aster chart" path="asterChart"/>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
 							<Page label="Buttons" path="buttons"/>
 							<Page label="Forms" path="forms"/>
+							<Page label="Icon" path="icon"/>
+							<Page label="Loader" path="loader"/>
+							<Page label="EditableText" path="editableText"/>
+							<Page label="Utilities ???" path="utilities"/>{/* center, fadeIn, expandRowButton, etc. */}
 						</Directory>
 						<Directory label="Interface elements" path="interfaceElements">
 							<Page label="Panther select" path="pantherSelect">
 								<Anchor label="Usage" path="usage"/>
 								<Anchor label="Extending" path="extending"/>
 							</Page>
+							<Page label="Adjustable columns" path="adjustableColumns" />
+							<Page label="ScreenAnimator" path="screenAnimator" />
+						</Directory>
+						<Directory label="Controls" path="controls">
+							<Page label="Timeline" path="timeline" />
+							<Page label="Areas" path="areas" />
+							<Page label="Layers" path="layers" />
+							<Page label="User & login overlay" path="user"/>
+							<Page label="Share ???" path="share"/>
+						</Directory>
+						<Directory label="Logical ??? / common features ??? / ???" path="iHaveNoIdea">
+							<Page label="AppContainer" path="appContainer"/>
+							<Page label="HoverHandler" path="hoverHandler"/>
+							<Page label="WindowsContainer" path="windowsContainer"/>
 						</Directory>
 					</Directory>
 				</Docs>
