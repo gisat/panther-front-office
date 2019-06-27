@@ -178,3 +178,21 @@ a.utep_sdg_11_3_1-footer-logo {
 .utep_sdg_11_3_1-app .ptr-world-wind-map .map-label {
 	background-color: #fd9d24;
 }
+
+@media screen and (max-width: 40rem)  {
+	.utep_sdg_11_3_1-top-bar {
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: end;
+	}
+	.utep_sdg_11_3_1-title {
+		white-space: normal;
+	}
+	.utep_sdg_11_3_1-charts > .ptr-chart-wrapper{
+		min-width: 0;
+		flex-grow: 1;
+		width: auto;
+		margin-right: m(2/3);
+		margin-bottom: m(2/3);
+	}
+}

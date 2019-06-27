@@ -35,56 +35,63 @@ class UtepSdg extends React.PureComponent {
 						<Helmet><title>UTEP SDG 11.3.1</title></Helmet>
 						<div className="utep_sdg_11_3_1-content">
 							<WindowsContainer setKey={this.context.windowSetKey}>
-								<AdjustableColumns
-									fixed
-									content={[
-										{
-											render: props => (
-												<ReactResizeDetector
-													key="11"
-													handleWidth
-													handleHeight
-													render={({ width, height }) => {return (
-														<>
-															<MapSet
-																mapSetKey={this.context.mapSetKey}
-																activeAttributeKey={this.props.activeAttributeKey}
-																layerTreesFilter={{applicationKey: 'utep_sdg_11_3_1'}}
-																width={width}
-																height={height}
-															>
-																<UtepSdgMap>
-																	<UtepSdgMapPresentation />
-																</UtepSdgMap>
-															</MapSet>
-															<MapTools>
-																<MapControls
-																	zoomOnly
-																/>
-															</MapTools>
-														</>
-														)
-													}}
-												/>
-											)
-										},
-										{
-											width: "60%",
-											minWidth: "30rem",
-											render: props => (
-												<div className="utep_sdg_11_3_1-right-panel">
-													<UtepSdgHeader/>
-													<UtepSdgCharts key="utep_sdg_11_3_1-charts"/>
-													<div className="utep_sdg_11_3_1-footer">
-														<a className="utep_sdg_11_3_1-footer-logo" title="Urban TEP" href="https://urban-tep.eu" target="_blank">
-															<div>Powered by</div>
-															<img alt="UTEP" src={uTepLogo}/>
-														</a>
-													</div>
-												</div>
-												)
-										},
-									]}
+								<ReactResizeDetector
+									handleWidth
+									render={({ width }) => {
+										return (
+										<AdjustableColumns
+											fixed
+											content={[
+												{
+													render: props => (
+														<ReactResizeDetector
+															key="11"
+															handleWidth
+															handleHeight
+															render={({ width, height }) => {return (
+																<>
+																	<MapSet
+																		mapSetKey={this.context.mapSetKey}
+																		activeAttributeKey={this.props.activeAttributeKey}
+																		layerTreesFilter={{applicationKey: 'utep_sdg_11_3_1'}}
+																		width={width}
+																		height={height}
+																	>
+																		<UtepSdgMap>
+																			<UtepSdgMapPresentation />
+																		</UtepSdgMap>
+																	</MapSet>
+																	<MapTools>
+																		<MapControls
+																			zoomOnly
+																		/>
+																	</MapTools>
+																</>
+															)
+															}}
+														/>
+													)
+												},
+												{
+													width: width > 600 ? "60%" : "100%" ,
+													minWidth: width > 600 ? "30rem" : null,
+													render: props => (
+														<div className="utep_sdg_11_3_1-right-panel">
+															<UtepSdgHeader/>
+															<UtepSdgCharts key="utep_sdg_11_3_1-charts"/>
+															<div className="utep_sdg_11_3_1-footer">
+																<a className="utep_sdg_11_3_1-footer-logo" title="Urban TEP" href="https://urban-tep.eu" target="_blank">
+																	<div>Powered by</div>
+																	<img alt="UTEP" src={uTepLogo}/>
+																</a>
+															</div>
+														</div>
+													)
+												},
+											]}
+										/>
+									)
+									}}
 								/>
 							</WindowsContainer>
 						</div>

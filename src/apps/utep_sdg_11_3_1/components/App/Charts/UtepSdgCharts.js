@@ -54,6 +54,7 @@ class UtepSdgCharts extends React.PureComponent {
 						ySourcePath="UA_POP_change_ratio" // in context of serie
 
 						height={200}
+						minWidth={150}
 						minAspectRatio={1.7}
 
 						yCaptionsSize={40}
@@ -99,6 +100,7 @@ class UtepSdgCharts extends React.PureComponent {
 						itemNameSourcePath="period" // in context of serie
 
 						height={200}
+						minWidth={150}
 						minAspectRatio={1.7}
 
 						xGridlines
@@ -143,6 +145,7 @@ class UtepSdgCharts extends React.PureComponent {
 						ySourcePath="Total population" // in context of serie
 
 						height={200}
+						minWidth={150}
 						minAspectRatio={1.7}
 
 						xTicks
@@ -181,6 +184,7 @@ class UtepSdgCharts extends React.PureComponent {
 						sorting={[["properties.GNI", "desc"]]}
 
 						height={200}
+						minWidth={150}
 						minAspectRatio={1.7}
 
 						xCaptions
