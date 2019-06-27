@@ -58,7 +58,9 @@ class UtepSdg extends React.PureComponent {
 																</UtepSdgMap>
 															</MapSet>
 															<MapTools>
-																<MapControls/>
+																<MapControls
+																	zoomOnly
+																/>
 															</MapTools>
 														</>
 														)
