@@ -81,6 +81,14 @@
 	flex-basis: 60%;
 }
 
+.ptr-table .no-wrap{
+	align-self: flex-end;
+    white-space: unset;
+	overflow: auto;
+	line-height: 1.5rem;
+    text-overflow: unset;
+}
+
 /* .ptr-table.change-reviews-lpis-table .ptr-table-header-item:nth-child(5),
 .ptr-table.change-reviews-lpis-table .ptr-table-row-item:nth-child(5){
 	flex-basis: 20%;

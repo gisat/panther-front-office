@@ -99,8 +99,8 @@ class ChangeReviewsTable extends React.PureComponent {
                         </label>
 					</div> */}
 					<div className="ptr-table-header-item fb20">Kód</div>
-					<div className="ptr-table-header-item fb10">Kultura LPIS</div>
-					{showDeterminatedCulture ? <div className="ptr-table-header-item fb10">Kultura zjištěná</div> : null}
+					<div className="ptr-table-header-item fb10 no-wrap">Kultura LPIS</div>
+					{showDeterminatedCulture ? <div className="ptr-table-header-item fb10 no-wrap">Kultura zjištěná</div> : null}
 					<div className={`ptr-table-header-item ${showDeterminatedCulture ? 'fb50' : 'fb60'}`}>Poznámka</div>
 					<div className="ptr-table-header-item buttons fb10"></div>
 				</div>
