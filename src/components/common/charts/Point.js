@@ -127,7 +127,7 @@ class Point extends React.PureComponent {
 		}
 		if (suppressed) {
 			style.opacity = .3;
-		} else {
+		} else if (!this.props.hidden) {
 			style.opacity = 1;
 		}
 
