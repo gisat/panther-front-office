@@ -1,15 +1,17 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 
-import Button from "../../../components/common/atoms/Button";
-import Icon from "../../../components/common/atoms/Icon";
-import Menu from "../../../components/common/atoms/Menu";
-import {MenuItem} from "../../../components/common/atoms/Menu";
+import Button from "../../../../../../components/common/atoms/Button";
+import Icon from "../../../../../../components/common/atoms/Icon";
+import Menu from "../../../../../../components/common/atoms/Menu";
+import {MenuItem} from "../../../../../../components/common/atoms/Menu";
 
-class ButtonDoc extends React.PureComponent {
+import Page from '../../../Page';
+
+class Buttons extends React.PureComponent {
 	render() {
 		return (
-			<div className="ptr-docs-panel-content">
+			<Page title="Buttons">
 				<h2>Normal size</h2>
 				<div className="ptr-docs-panel-section">
 					<Button>Basic</Button>
@@ -223,9 +225,9 @@ class ButtonDoc extends React.PureComponent {
 					<Button circular large secondary icon="chevron-left"/>
 					<Button circular large secondary icon="chevron-right"/>
 				</div>
-			</div>
+			</Page>
 		);
 	}
 }
 
-export default withNamespaces()(ButtonDoc);
+export default withNamespaces()(Buttons);

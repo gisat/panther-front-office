@@ -11,7 +11,7 @@ import ButtonDoc from "../ButtonDoc";
 import InputDoc from "../InputDoc";
 import InputWrapperDoc from "../InputWrapperDoc";
 import SelectDoc from "../SelectDoc";
-import TypoDoc from "../TypoDoc";
+import TypoDoc from "../pages/design/Typography";
 import FadeInDoc from "../FadeInDoc";
 import MultiSelectDoc from "../MultiSelectDoc";
 import ColumnChartDoc from "../ColumnChartDoc";

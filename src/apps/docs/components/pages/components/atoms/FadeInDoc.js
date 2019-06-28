@@ -1,7 +1,9 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
-import FadeIn from "../../../components/common/atoms/FadeIn/FadeIn";
+import FadeIn from "../../../../../../components/common/atoms/FadeIn/FadeIn";
+
+import Page from '../../../Page';
 
 class FadeInDoc extends React.PureComponent {
 	constructor(props) {
@@ -10,7 +12,7 @@ class FadeInDoc extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="ptr-docs-panel-content">
+			<Page title="FadeIn">
 				<div className="ptr-docs-panel-section">
 					<h2>Basic usage</h2>
 					<FadeIn>
@@ -32,7 +34,7 @@ class FadeInDoc extends React.PureComponent {
 						<p>Item 3</p>
 					</FadeIn>
 				</div>
-			</div>
+			</Page>
 		);
 	}
 }

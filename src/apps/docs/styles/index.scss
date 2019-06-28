@@ -1,1 +1,53 @@
 @import '../../../styles/variables';
+
+.ptr-docs {
+	display: flex;
+	min-height: 100%;
+}
+
+.ptr-docs-nav {
+	flex: 0 0 m(10);
+	background-color: var(--base20);
+}
+
+.ptr-docs-nav-directory,
+.ptr-docs-nav-page,
+.ptr-docs-nav-anchor {
+
+}
+.ptr-docs-nav-directory > div {
+	margin-left: 1.125rem;
+}
+.ptr-docs-nav-page > div {
+	margin-left: .5rem;
+}
+.ptr-docs-nav-directory > div {
+	border-left: 1px solid #b2b2b2;
+}
+
+.ptr-docs-nav-link {
+	display: block;
+}
+.ptr-docs-nav-link > a {
+	text-decoration: none;
+	color: var(--base80);
+	display: block;
+	padding: .25rem 0;
+	padding-left: .75rem;
+}
+.ptr-docs-nav-link > a:hover {
+	background-color: rgba(255,255,255,.2);
+}
+
+
+.ptr-docs-nav-directory > .ptr-docs-nav-link > a {
+	font-weight: bold;
+}
+.ptr-docs-nav-anchor > .ptr-docs-nav-link > a {
+	font-style: italic;
+}
+
+
+.ptr-docs-page {
+	padding: m(1);
+}

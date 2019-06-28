@@ -2,7 +2,9 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
-import MultiSelect from "../../../components/common/atoms/Select/MultiSelect";
+import MultiSelect from "../../../../../../components/common/atoms/Select/MultiSelect";
+
+import Page from '../../../Page';
 
 const baseOptions = ['Chocolate', 'Strawberry', 'Vanilla'];
 
@@ -12,7 +14,7 @@ const customOptions = [
 	{data: {labelCz: 'Vanilka', key: 'dfgdfg84g'}  }
 ];
 
-class MultiSelectDoc extends React.PureComponent {
+class ItemSelectDoc extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
@@ -55,7 +57,7 @@ class MultiSelectDoc extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="ptr-docs-panel-content">
+			<Page title="Item select">
 				<div className="ptr-docs-panel-section">
 					<h2>Basic multiselect</h2>
 					<MultiSelect
@@ -133,9 +135,9 @@ class MultiSelectDoc extends React.PureComponent {
 						onOptionLabelClick={(evt) => {this.onOptionClick('data.key', evt)}}
 					/>
 				</div>
-			</div>
+			</Page>
 		);
 	}
 }
 
-export default withNamespaces()(MultiSelectDoc);
+export default withNamespaces()(ItemSelectDoc);

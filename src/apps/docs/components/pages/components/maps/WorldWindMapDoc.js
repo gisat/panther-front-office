@@ -1,10 +1,11 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
-import layersHelper from '../../../components/common/maps/WorldWindMap/layers/helpers';
-import WorldWindMap from "../../../components/common/maps/WorldWindMap/presentation";
+import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
+import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
+import Page from '../../../Page';
 
-class WorldWinMapdDoc extends React.PureComponent {
+class WorldWinMapDoc extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {};
@@ -34,7 +35,7 @@ class WorldWinMapdDoc extends React.PureComponent {
 	}
 	render() {
 		return (
-			<>
+			<Page title="WebWorldWind map">
 				<h2>
 					Basic map with WMS layer
 				</h2>
@@ -45,9 +46,9 @@ class WorldWinMapdDoc extends React.PureComponent {
 						elevationModel={null}
 					/>
 				</div>
-			</>
+			</Page>
 		)
 	}
 }
 
-export default withNamespaces()(WorldWinMapdDoc);
+export default withNamespaces()(WorldWinMapDoc);
