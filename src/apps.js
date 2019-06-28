@@ -138,15 +138,6 @@ export default [
 	// =============== TESTING ===============
 
 	{
-		key: 'visatDemo',
-		hostname: 'urban-tep.eu',
-		path: '/visat/demo',
-		devPath: '/visatDemo',
-		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
-			module.default(path, baseUrl);
-		})
-	},
-	{
 		key: 'visatMicrositeDemo',
 		hostname: 'urban-tep.eu',
 		path: '/visat/micrositeDemo',
@@ -161,15 +152,6 @@ export default [
 		path: '/visat/micrositeElections',
 		devPath: '/visatMicrositeElections',
 		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
-			module.default(path, baseUrl);
-		})
-	},
-	{
-		key: 'demo',
-		hostname: 'panther.gisat.cz',
-		path: '/demo',
-		devPath: '/demo',
-		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
 			module.default(path, baseUrl);
 		})
 	},
