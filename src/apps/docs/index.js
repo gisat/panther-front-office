@@ -19,6 +19,14 @@ import Docs, {Directory, Page, Anchor} from "./components/Docs";
 import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
+import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
+import Buttons from "./components/pages/components/atoms/Buttons";
+import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
+import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
+import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
+import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
+import FormsDoc from "./components/pages/components/atoms/FormsDoc";
+import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 
 
 export default (path, baseUrl) => {
@@ -51,19 +59,20 @@ export default (path, baseUrl) => {
 					</Directory>
 					<Directory label="Components" path="components" colour="#e49191">
 						<Directory label="Maps" path="maps">
-							<Page label="WebWorldWind" path="webWorldWind"/>
+							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts">
-								<Page label="Line chart" path="lineChart"/>
-								<Page label="Column chart" path="columnChart"/>
-								<Page label="Scatter chart" path="scatterChart"/>
+								<Page label="Line chart" path="lineChart" component={LineChartDoc}/>
+								<Page label="Column chart" path="columnChart" component={ColumnChartDoc} />
+								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
 							</Directory>
-							<Page label="Aster chart" path="asterChart"/>
+							<Page label="Aster chart" path="asterChart" component={AsterChartDoc} />
 						</Directory>
 						<Directory label="Atoms" path="atoms">
-							<Page label="Buttons" path="buttons"/>
-							<Page label="Forms" path="forms"/>
+							<Page label="Buttons" path="buttons" component={Buttons}/>
+							<Page label="Forms" path="forms" component={FormsDoc}/>
+							<Page label="ItemSelect" path="itemSelect" component={ItemSelectDoc}/>
 							<Page label="Icon" path="icon"/>
 							<Page label="Loader" path="loader"/>
 							<Page label="EditableText" path="editableText"/>
