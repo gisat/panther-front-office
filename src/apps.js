@@ -91,10 +91,20 @@ export default [
 	 * 2019-06
 	 */
 	{
-		key: 'utep_sdg_3_11_1',
+		key: 'visatBackOffice',
+		backOffice: true,
+		hostname: 'urban-tep.eu',
+		path: '/visat/backoffice',
+		devPath: '/visatBackOffice',
+		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	{
+		key: 'utep_sdg_11_3_1',
 		configuration: {},
-		hostname: 'fuore.eu',
-		path: null,
+		hostname: 'urban-tep.eu',
+		path: '/visat/sdg',
 		devPath: '/utep_sdg_11_3_1',
 		app: (path, baseUrl) => import(/* webpackChunkName: "utep_sdg_11_3_1" */'./apps/utep_sdg_11_3_1').then(module => {
 			module.default(path, baseUrl);
