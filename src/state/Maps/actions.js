@@ -729,6 +729,12 @@ function updateStateFromView(data) {
 	};
 }
 
+function goToPlace(placeString) {
+	return dispatch => {
+		debugger;
+	};
+}
+
 // ============ actions ===========
 
 const actionSetActiveMapKey = (mapKey) => {
@@ -972,6 +978,8 @@ export default {
 	addSet,
 
 	addLayersToMaps,
+
+	goToPlace,
 
 	removeLayer,
 	removeLayers,
