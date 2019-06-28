@@ -115,6 +115,16 @@ export default [
 	 * 2019-06
 	 */
 	{
+		key: 'visatUnSeea',
+		configuration: {},
+		hostname: 'urban-tep.eu',
+		path: '/visat/unseea',
+		devPath: '/visatUnSeea',
+		app: (path, baseUrl) => import(/* webpackChunkName: "unSeea" */'./apps/unSeea').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	{
 		key: 'unSeea',
 		configuration: {},
 		hostname: 'urban-tep.eu',
@@ -128,11 +138,20 @@ export default [
 	// =============== TESTING ===============
 
 	{
-		key: 'demo',
-		hostname: 'panther.gisat.cz',
-		path: '/demo',
-		devPath: '/demo',
-		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
+		key: 'visatMicrositeDemo',
+		hostname: 'urban-tep.eu',
+		path: '/visat/micrositeDemo',
+		devPath: '/visatMicrositeDemo',
+		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	{
+		key: 'visatMicrositeElections',
+		hostname: 'urban-tep.eu',
+		path: '/visat/micrositeElections',
+		devPath: '/visatMicrositeElections',
+		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
 			module.default(path, baseUrl);
 		})
 	},
