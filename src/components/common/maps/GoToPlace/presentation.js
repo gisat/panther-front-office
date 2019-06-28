@@ -22,18 +22,23 @@ class GoToPlace extends React.PureComponent {
 		};
 
 		this.search = this.search.bind(this);
+		this.onTextChange = this.onTextChange.bind(this);
 	}
 
-	search() {
-		if (this.props.goToPlace) {
+	onTextChange(text) {
+		this.setState({text});
+	}
+
+	search(e) {
+		if ((e.charCode === 13) && this.props.goToPlace) {
 			this.props.goToPlace(this.state.text);
 		}
 	}
 
 	render() {
 		return (
-			<div className="ptr-go-to-place-box">
-				<Input placeholder="Search place">
+			<div className="ptr-go-to-place-box" onKeyPress={this.search}>
+				<Input placeholder="Search place" onChange={this.onTextChange} value={this.state.text}>
 					<Icon icon="search"/>
 				</Input>
 			</div>

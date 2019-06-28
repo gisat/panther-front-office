@@ -5,6 +5,7 @@ import Action from "../../../../state/Action";
 import presentation from './presentation';
 
 const mapStateToProps = (state) => {
+	return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

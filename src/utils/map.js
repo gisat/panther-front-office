@@ -2,6 +2,7 @@ import config from '../config';
 import _ from 'lodash';
 import {geoBounds, geoCentroid, geoDistance} from 'd3-geo';
 import WorldWind from 'webworldwind-esa';
+import fetch from "isomorphic-fetch";
 
 const RANGE_COEFF = 140000;
 const DEFAULT_RANGE = 10000000;
@@ -201,8 +202,73 @@ function getRangeFromBbox(bbox, centroid, wwd){
 	return (range + altitude);
 }
 
+/**
+ * @param placeString {string}
+ * @return {Promise}
+ */
+function getLocationFromPlaceString(placeString) {
+	let boxRange = 100000;
+	let lat, lon = null;
+
+	if (placeString.length) {
+		let firstChar = Number(placeString[0]);
+		if (isNaN(firstChar)) {
+			let url = "http://open.mapquestapi.com/nominatim/v1/search.php?key=2qc94oOJwV6p7KaClJVSoLyevmPsLqlS&format=json&q="+placeString+"&limit=1";
+
+			return fetch(url, {
+				method: 'GET',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				}
+			}).then(
+				response => {
+					let contentType = response.headers.get('Content-type');
+					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+						return response.json().then(body => {
+							if (body.length) {
+								let data = body[0];
+								lat = Number(data.lat);
+								lon = Number(data.lon);
+								// TODO range from bbox
+								if ((lat || lat === 0) && (lon || lon === 0)) {
+									return {boxRange, center: {lat, lon}};
+								}
+
+							} else {
+								console.warn("utils/map#getLocationFromPlaceString: No location found for input: ", placeString);
+							}
+						});
+					} else {
+						console.warn("utils/map#getLocationFromPlaceString: No location found for input: ", placeString);
+					}
+				},
+				error => {
+					throw error;
+				}
+			);
+		} else {
+			let coordinates = placeString.split(/[,; ]/);
+			if (coordinates.length) {
+				lat = Number(coordinates[0]);
+				lon = coordinates[1] ? Number(coordinates[1]) : 0;
+			}
+
+			if ((lat || lat === 0) && (lon || lon === 0)) {
+				return Promise.resolve({boxRange, center: {lat, lon}});
+			} else {
+				console.warn("utils/map#getLocationFromPlaceString: No location found for input: ", placeString);
+			}
+		}
+	} else {
+		console.warn("utils/map#getLocationFromPlaceString: Empty input string!");
+	}
+}
+
 
 export default {
+	getLocationFromPlaceString,
 	/**
 	 * @param bbox {string} minLon, maxLat, maxLon, minLat
 	 * @param wwd {WorldWind.Window}
