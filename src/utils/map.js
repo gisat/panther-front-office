@@ -80,12 +80,13 @@ function getLocationFromPlaceString(placeString) {
  */
 function getBoxRangeFromBoundingBox(bbox) {
 	const MIN_BOX_RANGE = 1000;
+	const RANGE_COEFF = 125000; //approximately one degree of longitude on equator in meters
 
 	// TODO naive for now
 	let latDiff = Math.abs(bbox.maxLat - bbox.minLat);
 	let lonDiff = Math.abs(bbox.maxLon - bbox.minLon);
 	let diff = Math.max(latDiff, lonDiff);
-	let boxRange = 125000*diff;
+	let boxRange = RANGE_COEFF*diff;
 
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
 }
