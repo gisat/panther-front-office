@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import _ from 'lodash';
 import Input from "../../atoms/Input/Input";
-import Button from "../../atoms/Button";
+import {withNamespaces} from "react-i18next";
+import cz from "./locales/cz";
+import en from "./locales/en";
 
 import './style.scss';
 import Icon from "../../atoms/Icon";
+import utils from "../../../../utils/utils";
+
+utils.addI18nResources('GoToPlace', {cz, en});
 
 class GoToPlace extends React.PureComponent {
 
@@ -40,7 +44,7 @@ class GoToPlace extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-go-to-place-box" onKeyPress={this.search}>
-				<Input placeholder="Search place" onChange={this.onTextChange} value={this.state.text}>
+				<Input placeholder={this.props.t('zoomTo')} onChange={this.onTextChange} value={this.state.text}>
 					<Icon icon="search"/>
 				</Input>
 			</div>
@@ -48,5 +52,5 @@ class GoToPlace extends React.PureComponent {
 	}
 }
 
-export default GoToPlace;
+export default withNamespaces(['GoToPlace'])(GoToPlace);
 
