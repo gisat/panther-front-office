@@ -3,6 +3,7 @@ import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
 import commonActions from '../_common/actions';
 import utils from '../../utils/utils';
+import mapUtils from '../../utils/map';
 import * as layerTreeUtils from '../../utils/layerTreeUtils';
 import Action from "../Action";
 
@@ -729,6 +730,28 @@ function updateStateFromView(data) {
 	};
 }
 
+function goToPlace(placeString) {
+	return (dispatch, getState) => {
+		if (placeString && placeString.length) {
+			mapUtils.getLocationFromPlaceString(placeString).then(location => {
+				if (location) {
+					let mapKey = Select.maps.getActiveMapKey(getState());
+
+					// TODO temporary solution for old map state
+					let navigatorUpdate = {
+						range: location.boxRange,
+						lookAtLocation: {
+							latitude: location.center.lat,
+							longitude: location.center.lon
+						}
+					};
+					dispatch(updateWorldWindNavigator(mapKey,navigatorUpdate))
+				}
+			});
+		}
+	};
+}
+
 // ============ actions ===========
 
 const actionSetActiveMapKey = (mapKey) => {
@@ -972,6 +995,8 @@ export default {
 	addSet,
 
 	addLayersToMaps,
+
+	goToPlace,
 
 	removeLayer,
 	removeLayers,

@@ -18,6 +18,7 @@ import AppContext from '../../context';
 import UtepSdgCharts from "./Charts/UtepSdgCharts";
 import UtepSdgHeader from "./UtepSdgHeader";
 import uTepLogo from '../../assets/urban-tep-logo.png';
+import GoToPlace from "../../../../components/common/maps/GoToPlace";
 
 class UtepSdg extends React.PureComponent {
 
@@ -66,6 +67,9 @@ class UtepSdg extends React.PureComponent {
 																			zoomOnly
 																		/>
 																	</MapTools>
+																	<div className="utep_sdg_11_3_1-map-go-to-wrapper">
+																		<GoToPlace/>
+																	</div>
 																</>
 															)
 															}}

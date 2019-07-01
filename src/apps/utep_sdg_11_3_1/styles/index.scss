@@ -69,10 +69,6 @@
 	position: relative;
 }
 
-.utep_sdg_11_3_1-app .map-tools {
-	bottom: 0;
-}
-
 .utep_sdg_11_3_1-right-panel {
 	background: var(--base15);
 	min-height: 100%;
@@ -177,6 +173,38 @@ a.utep_sdg_11_3_1-footer-logo {
 /* map */
 .utep_sdg_11_3_1-app .ptr-world-wind-map .map-label {
 	background-color: #fd9d24;
+}
+
+.utep_sdg_11_3_1-app .map-tools {
+	bottom: .25rem;
+}
+
+.utep_sdg_11_3_1-map-go-to-wrapper {
+	position: absolute;
+	left: m(1/3);
+	bottom: .75rem;
+	border-radius: .25rem;
+	box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);
+}
+
+.utep_sdg_11_3_1-map-go-to-wrapper  .ptr-go-to-place-box > .ptr-input-text {
+	border: 1px solid transparent;
+	background: rgba(255,255,255,.85);
+}
+
+.utep_sdg_11_3_1-map-go-to-wrapper  .ptr-go-to-place-box > .ptr-input-text.focus {
+	background: rgba(255,255,255,1);
+}
+
+.utep_sdg_11_3_1-map-go-to-wrapper  .ptr-go-to-place-box > .ptr-input-text input::placeholder {
+	color: #888
+}
+
+.utep_sdg_11_3_1-map-go-to-wrapper .ptr-go-to-place-box > .ptr-input-text > .ptr-icon .line {
+	fill: #888;
+}
+.utep_sdg_11_3_1-map-go-to-wrapper .ptr-go-to-place-box > .ptr-input-text.focus > .ptr-icon .line {
+	fill: #fd9d24;
 }
 
 @media screen and (max-width: 40rem)  {
