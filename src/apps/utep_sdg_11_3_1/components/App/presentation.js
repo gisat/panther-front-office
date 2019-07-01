@@ -67,7 +67,7 @@ class UtepSdg extends React.PureComponent {
 																			zoomOnly
 																		/>
 																	</MapTools>
-																	<div className="utep_sdg_11_3_1-map-go-to-wrapper">
+																	<div className="utep_sdg_11_3_1-map-go-to-wrapper ptr-light">
 																		<GoToPlace/>
 																	</div>
 																</>

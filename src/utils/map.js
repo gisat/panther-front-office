@@ -12,7 +12,7 @@ function getLocationFromPlaceString(placeString) {
 	if (placeString.length) {
 		let firstChar = Number(placeString[0]);
 		if (isNaN(firstChar)) {
-			let url = "http://open.mapquestapi.com/nominatim/v1/search.php?key=2qc94oOJwV6p7KaClJVSoLyevmPsLqlS&format=json&q="+placeString+"&limit=1";
+			let url = "https://open.mapquestapi.com/nominatim/v1/search.php?key=2qc94oOJwV6p7KaClJVSoLyevmPsLqlS&format=json&q="+placeString+"&limit=1";
 
 			return fetch(url, {
 				method: 'GET',
