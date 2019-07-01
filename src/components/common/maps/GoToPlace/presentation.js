@@ -18,7 +18,8 @@ class GoToPlace extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			text: null
+			text: null,
+			previousSearching: null
 		};
 
 		this.search = this.search.bind(this);
@@ -30,8 +31,9 @@ class GoToPlace extends React.PureComponent {
 	}
 
 	search(e) {
-		if ((e.charCode === 13) && this.props.goToPlace) {
+		if ((e.charCode === 13) && this.props.goToPlace && this.state.text !== this.state.previousSearching) {
 			this.props.goToPlace(this.state.text);
+			this.state.previousSearching = this.state.text;
 		}
 	}
 
