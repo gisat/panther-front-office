@@ -23,16 +23,16 @@ class CartesianChartContent extends React.PureComponent {
 				<AxisY
 					scale={props.yScale}
 
-					bottomMargin={props.xCaptionsSize}
+					bottomMargin={props.xValuesSize}
 					topPadding={props.innerPaddingTop}
 
 					height={props.plotHeight}
 					plotWidth={props.plotWidth}
-					width={props.yCaptionsSize}
+					width={props.yValuesSize}
 
 					ticks={props.yTicks}
 					gridlines={props.yGridlines}
-					withCaption={props.yCaptions}
+					withValues={props.yValues}
 					label={props.yLabel}
 					labelSize={props.yLabelSize}
 					options={props.yOptions}
@@ -46,20 +46,20 @@ class CartesianChartContent extends React.PureComponent {
 					sourcePath={props.xSourcePath}
 					keySourcePath={props.keySourcePath}
 
-					leftMargin={props.yCaptionsSize + props.yLabelSize}
+					leftMargin={props.yValuesSize + props.yLabelSize}
 					leftPadding={props.innerPaddingLeft}
-					height={props.xCaptionsSize}
+					height={props.xValuesSize}
 					plotHeight={props.plotHeight}
 					width={props.plotWidth}
 
 					ticks={props.xTicks}
 					gridlines={props.xGridlines}
-					withCaption={props.xCaptions}
+					withValues={props.xValues}
 					label={props.xLabel}
 					labelSize={props.xLabelSize}
 					options={props.xOptions}
 				/>
-				<g transform={`translate(${props.yCaptionsSize + props.yLabelSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
+				<g transform={`translate(${props.yValuesSize + props.yLabelSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
 					{this.props.children}
 				</g>
 			</>

@@ -50,15 +50,15 @@ class LineChartDoc extends React.PureComponent {
 	
 								xTicks
 								xGridlines
-								xCaptions
+								xValues
 								yTicks
 								yGridlines
-								yCaptions
+								yValues
 								// withoutYbaseline
 	
 								sorting={[["period", "asc"]]}
 	
-								xCaptionsSize={50}
+								xValuesSize={50}
 								width={this.state.width}
 	
 								legend
@@ -80,12 +80,12 @@ class LineChartDoc extends React.PureComponent {
 	
 								xTicks
 								xGridlines
-								xCaptions
+								xValues
 								yTicks
 								yLabel
 								yGridlines
-								yCaptions
-								yCaptionsSize={60}
+								yValues
+								yValuesSize={60}
 								yOptions={{
 									name: "Population growth",
 									unit: "inhabitants",
@@ -96,7 +96,7 @@ class LineChartDoc extends React.PureComponent {
 	
 								sorting={[["period", "asc"]]}
 	
-								xCaptionsSize={50}
+								xValuesSize={50}
 	
 								withPoints
 								width={this.state.width}
@@ -120,13 +120,13 @@ class LineChartDoc extends React.PureComponent {
 	
 								xTicks
 								xGridlines
-								xCaptions
+								xValues
 								yTicks
 								yGridlines
-								yCaptions
+								yValues
 								withoutYbaseline
 	
-								xCaptionsSize={50}
+								xValuesSize={50}
 	
 								withPoints
 								width={this.state.width}
@@ -150,15 +150,15 @@ class LineChartDoc extends React.PureComponent {
 	
 								xTicks
 								xGridlines
-								xCaptions
+								xValues
 								yTicks
 								yGridlines
-								yCaptions
+								yValues
 								withoutYbaseline
 								sorting={[["period", "asc"]]}
 	
 	
-								xCaptionsSize={50}
+								xValuesSize={50}
 	
 								withPoints
 								width={this.state.width}
@@ -180,13 +180,13 @@ class LineChartDoc extends React.PureComponent {
 	
 								xTicks
 								xGridlines
-								xCaptions
+								xValues
 								yTicks
 								yGridlines
-								yCaptions
+								yValues
 								withoutYbaseline
 	
-								xCaptionsSize={50}
+								xValuesSize={50}
 	
 								withPoints
 								width={this.state.width}
@@ -208,13 +208,13 @@ class LineChartDoc extends React.PureComponent {
 	
 								xTicks
 								xGridlines
-								xCaptions
+								xValues
 								yTicks
 								yGridlines
-								yCaptions
+								yValues
 								withoutYbaseline
 	
-								xCaptionsSize={50}
+								xValuesSize={50}
 	
 								withPoints
 								width={this.state.width}

@@ -21,7 +21,6 @@ class LineChart extends React.PureComponent {
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
 		forceMode: PropTypes.string,
 		aggregationThreshold: PropTypes.number,
 		grayingThreshold: PropTypes.number,
@@ -35,8 +34,6 @@ class LineChart extends React.PureComponent {
 		colorSourcePath: PropTypes.string,
 		xSourcePath: PropTypes.string, // in context of serie
 		ySourcePath: PropTypes.string, // in context of serie
-
-		legend: PropTypes.bool
 	};
 
 	constructor(props) {

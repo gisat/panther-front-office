@@ -56,7 +56,9 @@ a:hover {
 a:visited:hover {
 	color: var(--accent55);
 }
-
+li {
+	max-width: 50rem;
+}
 #ptr, #ptr-app {
 	@include positionFill;
 }

@@ -30,12 +30,12 @@ class Elections extends React.PureComponent {
 						colorSourcePath="$.COLOR"
 						xSourcePath="$.NAZ_STR"
 						ySourcePath="HLASY_STRANA[0].$.PROC_HLASU"
-						xCaptions
-						yCaptions
+						xValues
+						yValues
 						yGridlines
 						withoutYbaseline
-						xCaptionsSize={130}
-						yCaptionsSize={30}
+						xValuesSize={130}
+						yValuesSize={30}
 					/>
 					</ChartWrapper>
 					<h3>

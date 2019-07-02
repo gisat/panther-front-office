@@ -62,8 +62,8 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
 								sorting={[["data.some_value_1", "desc"]]}
-								xCaptions
-								yCaptions
+								xValues
+								yValues
 								width={this.state.width}
 							/>
 						</HoverHandler>
@@ -79,10 +79,10 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
 								sorting={[["data.some_value_1", "desc"]]}
-								xCaptions
-								yCaptions
-								yCaptionsSize={80}
-								xCaptionsSize={80}
+								xValues
+								yValues
+								yValuesSize={80}
+								xValuesSize={80}
 								xTicks
 								yTicks
 								xGridlines
@@ -112,7 +112,7 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
 								sorting={[["data.some_value_1", "desc"]]}
-								yCaptions
+								yValues
 								yGridlines
 								withoutYbaseline
 								width={250}
@@ -133,7 +133,7 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
 								sorting={[["data.some_value_1", "desc"]]}
-								yCaptions
+								yValues
 								yGridlines
 								withoutYbaseline
 								width={this.state.width}

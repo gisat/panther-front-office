@@ -57,15 +57,15 @@ class UtepSdgCharts extends React.PureComponent {
 						minWidth={150}
 						minAspectRatio={1.7}
 
-						yCaptionsSize={40}
-						xCaptionsSize={40}
+						yValuesSize={40}
+						xValuesSize={40}
 
 						xTicks
 						xGridlines
-						xCaptions
+						xValues
 						yTicks
 						yGridlines
-						yCaptions
+						yValues
 						yLabel
 						yOptions={{
 							name: "Change ratio",
@@ -104,8 +104,8 @@ class UtepSdgCharts extends React.PureComponent {
 						minAspectRatio={1.7}
 
 						xGridlines
-						xCaptions
-						xCaptionsSize={35}
+						xValues
+						xValuesSize={35}
 						xTicks
 						xLabel
 						xOptions={{
@@ -114,7 +114,7 @@ class UtepSdgCharts extends React.PureComponent {
 						}}
 
 						yGridlines
-						yCaptions
+						yValues
 						yTicks
 						yLabel
 						yOptions={{
@@ -150,10 +150,10 @@ class UtepSdgCharts extends React.PureComponent {
 
 						xTicks
 						xGridlines
-						xCaptions
+						xValues
 						yTicks
 						yGridlines
-						yCaptions
+						yValues
 						yLabel
 						yOptions={{
 							name: "Total population",
@@ -163,8 +163,8 @@ class UtepSdgCharts extends React.PureComponent {
 						withoutYbaseline
 
 						sorting={[["period", "asc"]]}
-						yCaptionsSize={80}
-						xCaptionsSize={40}
+						yValuesSize={80}
+						xValuesSize={40}
 
 						withPoints
 						// legend
@@ -187,10 +187,10 @@ class UtepSdgCharts extends React.PureComponent {
 						minWidth={150}
 						minAspectRatio={1.7}
 
-						xCaptions
-						yCaptions
-						yCaptionsSize={50}
-						xCaptionsSize={60}
+						xValues
+						yValues
+						yValuesSize={50}
+						xValuesSize={60}
 						xTicks
 						yGridlines
 						yLabel

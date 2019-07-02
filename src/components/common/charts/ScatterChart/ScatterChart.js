@@ -17,8 +17,6 @@ class ScatterChart extends React.PureComponent {
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
-
 		isSerie: PropTypes.bool,
 		pointRadius: PropTypes.number,
 
@@ -30,8 +28,6 @@ class ScatterChart extends React.PureComponent {
 		xSourcePath: PropTypes.string, // if serie, path in context of serie
 		ySourcePath: PropTypes.string, // if serie, path in context of serie
 		itemNameSourcePath: PropTypes.string, // only if serie
-
-		legend: PropTypes.bool
 	};
 
 	constructor(props) {

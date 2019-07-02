@@ -21,6 +21,7 @@ import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
 import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
 import Buttons from "./components/pages/components/atoms/Buttons";
+import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
 import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
@@ -62,7 +63,7 @@ export default (path, baseUrl) => {
 							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
-							<Directory label="Cartesian charts" path="cartesianCharts">
+							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
 								<Page label="Line chart" path="lineChart" component={LineChartDoc}/>
 								<Page label="Column chart" path="columnChart" component={ColumnChartDoc} />
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />

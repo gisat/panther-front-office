@@ -72,8 +72,8 @@ class ChartPanel extends React.PureComponent {
 
 			xSourcePath:"name",
 			ySourcePath:"value.absolute",
-			xCaptions: true,
-			yCaptions: true,
+			xValues: true,
+			yValues: true,
 
 			yGridlines: true,
 			withoutYbaseline: true,
@@ -81,8 +81,8 @@ class ChartPanel extends React.PureComponent {
 			maxWidth:350,
 			height:350,
 
-			xCaptionsSize:150,
-			yCaptionsSize:70,
+			xValuesSize:150,
+			yValuesSize:70,
 
 			yOptions:{
 				min: -1,

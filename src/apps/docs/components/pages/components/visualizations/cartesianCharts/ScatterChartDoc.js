@@ -49,11 +49,11 @@ class ScatterChartDoc extends React.PureComponent {
 								keySourcePath="key"
 	
 								xGridlines
-								xCaptions
+								xValues
 								xTicks
 	
 								yGridlines
-								yCaptions
+								yValues
 								yTicks
 	
 								width={this.state.width}
@@ -76,11 +76,11 @@ class ScatterChartDoc extends React.PureComponent {
 								colorSourcePath="data.color"
 	
 								xGridlines
-								xCaptions
+								xValues
 								xTicks
 	
 								yGridlines
-								yCaptions
+								yValues
 								yTicks
 	
 								xOptions={{
@@ -128,13 +128,13 @@ class ScatterChartDoc extends React.PureComponent {
 								itemNameSourcePath="period" // in context of serie
 	
 								xGridlines
-								xCaptions
-								xCaptionsSize={45}
+								xValues
+								xValuesSize={45}
 								xTicks
 								xLabel
 	
 								yGridlines
-								yCaptions
+								yValues
 								yTicks
 								yLabel
 	
