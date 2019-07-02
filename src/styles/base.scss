@@ -58,6 +58,7 @@ a:visited:hover {
 }
 li {
 	max-width: 50rem;
+	color: var(--base90);
 }
 #ptr, #ptr-app {
 	@include positionFill;
