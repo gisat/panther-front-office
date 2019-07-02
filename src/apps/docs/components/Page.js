@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 export const PageTitle = ({children}) => (
 	<div className="ptr-docs-page-title">
@@ -18,6 +19,45 @@ export const LightDarkBlock = ({children}) => (
 			{children}
 		</div>
 	</div>
+);
+
+export const ComponentPropsTable = ({content}) => (
+	<table className="ptr-docs-props-table">
+		<tbody>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Default</th>
+			<th>Required</th>
+			<th>Description</th>
+		</tr>
+		{content.map((prop, index) => {
+			return _.isEmpty(prop) ? (
+				<tr key={index} className="ptr-docs-props-table-empty-row">
+				</tr>
+			) : (
+				<tr key={index}>
+					<td className="ptr-docs-props-table-name">{prop.name}</td>
+					<td className="ptr-docs-props-table-type">{prop.type}</td>
+					<td className="ptr-docs-props-table-default">{prop.default}</td>
+					<td className="ptr-docs-props-table-required">{prop.required ? '\u2b24' : null}</td>
+					<td className="ptr-docs-props-table-description">{prop.description}{
+						prop.objectPropsDescription ? (
+							<div className="ptr-docs-props-table-description-object">
+								{prop.objectPropsDescription.map((objectProp, index) => (
+									<div key={index}>
+										<span>{objectProp.name + ' [' + objectProp.type + ']: '}</span>
+										{objectProp.description}
+									</div>
+								))}
+							</div>
+						) : null
+					}</td>
+				</tr>)
+			}
+		)}
+		</tbody>
+	</table>
 );
 
 const Page = ({title, lightDark, children}) => (
