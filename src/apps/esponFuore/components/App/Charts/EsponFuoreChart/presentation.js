@@ -173,8 +173,7 @@ class EsponFuoreChart extends React.PureComponent {
 			enoughPeriods ? (<LineChart
 				key={this.props.chartKey}
 				keySourcePath="key"
-				serieKeySourcePath="key"
-				serieNameSourcePath="data.name"
+				nameSourcePath="data.name"
 				serieDataSourcePath="data.values"
 				xSourcePath="key" // in context of serie
 				ySourcePath="value" // in context of serie

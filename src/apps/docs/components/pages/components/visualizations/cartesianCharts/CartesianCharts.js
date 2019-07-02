@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Page, {ComponentPropsTable} from "../../../../Page";
 
 class CartesianCharts extends React.PureComponent {
@@ -25,6 +25,38 @@ class CartesianCharts extends React.PureComponent {
 							type: "array",
 							required: true,
 							description: "Data load for chart. See particular chart type documentation for a detailed description."
+						},{
+							name: "keySourcePath",
+							type: "string",
+							required: true,
+							description: "Path to key value in data item object (e.g. 'key' or 'data.key')."
+						},{
+							name: "nameSourcePath",
+							type: "string",
+							required: true,
+							description: "Path to name value in data item object (e.g. 'name' or 'content.name'). If there is no name column in data, use the path to the key."
+						},{
+							name: "colorSourcePath",
+							type: "string",
+							description: "Path to color value in data item object."
+						},{
+							name: "serieDataSourcePath",
+							type: "string",
+							description: "Path to serie data in data item object."
+						},{
+							name: "xSourcePath",
+							type: "string",
+							required: true,
+							description: "Path to value for axis x. The Value could be string or number depending on chart type. If data are serial, the path is in the context of the serie."
+						},{
+							name: "ySourcePath",
+							type: "string",
+							required: true,
+							description: "Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie."
+						}, {}, {
+							name: "sorting",
+							type: "array",
+							description: "List of sorting pairs. [[path, order]] - if data are serial, path is in the cotext of the serie. Example: [['period', 'asc']] - it sorts data by 'period' column in ascending order."
 						}, {}, {
 							name: "width",
 							type: "number",

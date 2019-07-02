@@ -46,8 +46,8 @@ class UtepSdgCharts extends React.PureComponent {
 						key="line-chart-ratio"
 						data={this.data}
 
-						serieKeySourcePath="gid"
-						serieNameSourcePath="name"
+						keySourcePath="gid"
+						nameSourcePath="name"
 						serieDataSourcePath="properties"
 						colorSourcePath="color"
 						xSourcePath="period" // in context of serie
@@ -137,8 +137,8 @@ class UtepSdgCharts extends React.PureComponent {
 						key="line-chart"
 						data={this.data}
 
-						serieKeySourcePath="gid"
-						serieNameSourcePath="name"
+						keySourcePath="gid"
+						nameSourcePath="name"
 						serieDataSourcePath="properties"
 						colorSourcePath="color"
 						xSourcePath="period" // in context of serie

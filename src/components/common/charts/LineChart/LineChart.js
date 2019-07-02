@@ -24,16 +24,7 @@ class LineChart extends React.PureComponent {
 		forceMode: PropTypes.string,
 		aggregationThreshold: PropTypes.number,
 		grayingThreshold: PropTypes.number,
-
-		sorting: PropTypes.array,
 		withPoints: PropTypes.bool,
-
-		serieKeySourcePath: PropTypes.string,
-		serieNameSourcePath: PropTypes.string,
-		serieDataSourcePath: PropTypes.string,
-		colorSourcePath: PropTypes.string,
-		xSourcePath: PropTypes.string, // in context of serie
-		ySourcePath: PropTypes.string, // in context of serie
 	};
 
 	constructor(props) {
@@ -102,7 +93,7 @@ class LineChart extends React.PureComponent {
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
-				.domain(props.data.map(record => {return _.get(record, props.serieKeySourcePath)}));
+				.domain(props.data.map(record => {return _.get(record, props.keySourcePath)}));
 
 			if (props.forceMode){
 				mode = props.forceMode;
@@ -132,8 +123,8 @@ class LineChart extends React.PureComponent {
 				{this.props.legend ? (
 					<ChartLegend
 						data={data}
-						keySourcePath={this.props.serieKeySourcePath}
-						nameSourcePath={this.props.serieNameSourcePath}
+						keySourcePath={this.props.keySourcePath}
+						nameSourcePath={this.props.nameSourcePath}
 						colorSourcePath={this.props.colorSourcePath}
 						colorScale={colors}
 					/>
@@ -144,13 +135,13 @@ class LineChart extends React.PureComponent {
 
 	renderLines(data, props, xScale, yScale, colors, mode) {
 		let leftOffset = xScale.bandwidth()/2;
-		let siblings = data.map((item) => _.get(item, props.serieKeySourcePath));
+		let siblings = data.map((item) => _.get(item, props.keySourcePath));
 
 		return _.map(data, (item) => {
 			let serie = _.get(item, props.serieDataSourcePath);
-			let key = _.get(item, props.serieKeySourcePath);
-			let name = _.get(item, props.serieNameSourcePath);
-			let color = colors(_.get(item, props.serieKeySourcePath));
+			let key = _.get(item, props.keySourcePath);
+			let name = _.get(item, props.nameSourcePath);
+			let color = colors(_.get(item, props.keySourcePath));
 
 			serie = this.props.sorting ? utils.sortByOrder(serie, props.sorting) : serie;
 

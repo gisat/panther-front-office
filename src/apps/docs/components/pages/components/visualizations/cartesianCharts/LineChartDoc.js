@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
@@ -7,7 +8,7 @@ import sample_serie_7 from "../../../../mockData/sample_serie_7";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import Page from "../../../../Page";
+import Page, {ComponentPropsTable} from "../../../../Page";
 
 class LineChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -34,6 +35,12 @@ class LineChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Line chart">
+				<h2>Props</h2>
+				Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).
+				<ComponentPropsTable
+					content={[]}
+				/>
+
 				<div ref={this.ref}>
 					<div className="ptr-docs-panel-section">
 						<h2>Basic settings</h2>
@@ -42,8 +49,8 @@ class LineChartDoc extends React.PureComponent {
 							<LineChart
 								key="test1"
 								data={sample_serie_7}
-								serieKeySourcePath="key"
-								serieNameSourcePath="data.name"
+								keySourcePath="key"
+								nameSourcePath="data.name"
 								serieDataSourcePath="data.data"
 								xSourcePath="period" // in context of serie
 								ySourcePath="someStrangeValue" // in context of serie
@@ -72,8 +79,8 @@ class LineChartDoc extends React.PureComponent {
 							<LineChart
 								key="test2"
 								data={sample_serie_7}
-								serieKeySourcePath="key"
-								serieNameSourcePath="data.name"
+								keySourcePath="key"
+								nameSourcePath="data.name"
 								serieDataSourcePath="data.data"
 								xSourcePath="period" // in context of serie
 								ySourcePath="someStrangeValue" // in context of serie
@@ -110,8 +117,8 @@ class LineChartDoc extends React.PureComponent {
 							<LineChart
 								key="test4"
 								data={sample_serie_7}
-								serieKeySourcePath="key"
-								serieNameSourcePath="data.name"
+								keySourcePath="key"
+								nameSourcePath="data.name"
 								serieDataSourcePath="data.data"
 								xSourcePath="period" // in context of serie
 								ySourcePath="someStrangeValue" // in context of serie
@@ -140,8 +147,8 @@ class LineChartDoc extends React.PureComponent {
 							<LineChart
 								key="test5"
 								data={sample_serie_7}
-								serieKeySourcePath="key"
-								serieNameSourcePath="data.name"
+								keySourcePath="key"
+								nameSourcePath="data.name"
 								serieDataSourcePath="data.data"
 								xSourcePath="period" // in context of serie
 								ySourcePath="someStrangeValue" // in context of serie
@@ -172,8 +179,8 @@ class LineChartDoc extends React.PureComponent {
 							<LineChart
 								key="test3"
 								data={sample_serie_30}
-								serieKeySourcePath="key"
-								serieNameSourcePath="data.name"
+								keySourcePath="key"
+								nameSourcePath="data.name"
 								serieDataSourcePath="data.data"
 								xSourcePath="period" // in context of serie
 								ySourcePath="someStrangeValue" // in context of serie
@@ -200,8 +207,8 @@ class LineChartDoc extends React.PureComponent {
 							<LineChart
 								key="test500"
 								data={sample_serie_500}
-								serieKeySourcePath="key"
-								serieNameSourcePath="data.name"
+								keySourcePath="key"
+								nameSourcePath="data.name"
 								serieDataSourcePath="data.data"
 								xSourcePath="period" // in context of serie
 								ySourcePath="someStrangeValue" // in context of serie

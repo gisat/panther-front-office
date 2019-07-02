@@ -32,12 +32,8 @@ class ColumnChart extends React.PureComponent {
 		minBarWidth: PropTypes.number,
 		barGapRatio: PropTypes.number,
 
-		keySourcePath: PropTypes.string,
-		colorSourcePath: PropTypes.string, // if color is defined in data
 		colored: PropTypes.bool, // if color is not defined in data and should be used from default scheme
-		xSourcePath: PropTypes.string,
-		ySourcePath: PropTypes.string,
-		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by dafault same like value. Used in relative.
+		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by default same like value.
 	};
 
 	constructor(props) {

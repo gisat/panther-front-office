@@ -20,6 +20,14 @@ export default (WrappedChartComponent) => {
 
 		static propTypes = {
 			data: PropTypes.array.isRequired,
+			keySourcePath: PropTypes.string.isRequired,
+			nameSourcePath: PropTypes.string.isRequired,
+			colorSourcePath: PropTypes.string, // only if color is defined in data
+			serieDataSourcePath: PropTypes.string, // only if serie
+			xSourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
+			ySourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
+
+			sorting: PropTypes.array,
 
 			height: PropTypes.number,
 			width: PropTypes.number,
