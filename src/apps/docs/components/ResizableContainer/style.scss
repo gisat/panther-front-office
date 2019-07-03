@@ -1,0 +1,30 @@
+@import '../../../../styles/variables';
+
+.ptr-resizable-container {
+	position: relative;
+	min-height: 250px;
+}
+
+.ptr-resizable-container .react-draggable {
+	border: 1px solid var(--accent50);
+	//border-right-width: 2px;
+}
+
+.ptr-resizable-container .react-draggable:before,
+.ptr-resizable-container .react-draggable:after {
+	display: inline-block;
+	position: absolute;
+	top: calc(50% - 15px);
+	color: var(--accent50);
+}
+
+.ptr-resizable-container .react-draggable:before {
+	content: "\25C0";
+	right: 0;
+}
+
+.ptr-resizable-container .react-draggable:after {
+	content: "\25B6";
+	right: 0;
+	margin-right: -15px;
+}
