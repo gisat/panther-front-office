@@ -69,7 +69,7 @@ const Docs = ({path, component, children, ...props}) => {
 		<div className="ptr-docs ptr-light">
 			<div className="ptr-docs-nav">
 				<div className="ptr-docs-nav-header">
-					Panther docs
+					<span className="ptr-docs-nav-header-title"><NavLink to={path}>Panther docs</NavLink></span>
 				</div>
 				<div className="ptr-docs-nav-tree">
 					{tree}

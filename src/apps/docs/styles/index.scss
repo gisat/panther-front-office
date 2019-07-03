@@ -16,6 +16,24 @@
 	background-color: var(--base20);
 }
 
+.ptr-docs-nav-header {
+	background-color: var(--base80);
+	padding: m(1/3);
+}
+
+.ptr-docs-nav-header-title > a {
+	font-size: $b2;
+	color: var(--base30);
+	text-decoration: none;
+}
+.ptr-docs-nav-header-title > a:hover {
+	color: var(--base0);
+}
+
+.ptr-docs-nav-tree {
+	padding: m(1/3) 0 m(1);
+}
+
 .ptr-docs-nav-directory,
 .ptr-docs-nav-page,
 .ptr-docs-nav-anchor {
