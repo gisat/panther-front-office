@@ -1,16 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {withNamespaces} from "react-i18next";
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import {Rnd} from 'react-rnd';
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
 
 import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import Page, {ComponentPropsTable, LightDarkBlock} from "../../../../Page";
+import Page, {ComponentPropsTable, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 
 class LineChartDoc extends React.PureComponent {
@@ -38,6 +35,7 @@ class LineChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Line chart">
+				<p>TODO: add typical example and describe usage</p>
 				<h2>Props</h2>
 				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
@@ -65,7 +63,8 @@ class LineChartDoc extends React.PureComponent {
 					]}
 				/>
 				<h3>Input data structure</h3>
-				<SyntaxHighlighter language="javascript" style={tomorrow}>
+				<p>TODO: add description</p>
+				<SyntaxHighlighter language="javascript">
 					{'const data = [\n' +
 					'\t{\n' +
 					'\t\tkey: "230bd221-5384-4c09-bfa3-069eacbcfff8",\n' +
@@ -89,7 +88,7 @@ class LineChartDoc extends React.PureComponent {
 
 				<h2>Examples</h2>
 				<h3>Basic necessary settings</h3>
-				<SyntaxHighlighter customStyle={{background: null}} className="ptr-docs-syntax-highlighter" language="jsx" style={tomorrow}>
+				<SyntaxHighlighter language="jsx">
 					{'/* Sorting is not required, but recommended. */ \n' +
 					'<LineChart \n' +
 					'\tkey="test1"\n' +
@@ -122,7 +121,7 @@ class LineChartDoc extends React.PureComponent {
 					</ResizableContainer>
 				</LightDarkBlock>
 
-
+				<p>TODO: refactor examples below</p>
 
 					<h2>With points, custom min and max, units, attribute name, y axis label</h2>
 					<HoverHandler>

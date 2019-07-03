@@ -2,6 +2,8 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import _ from 'lodash';
+import { Prism as Highlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Icon from '../../../components/common/atoms/Icon';
 
 export const PageTitle = ({children}) => (
@@ -59,6 +61,12 @@ export const ComponentPropsTable = ({content}) => (
 		)}
 		</tbody>
 	</table>
+);
+
+export const SyntaxHighlighter = ({language, children}) => (
+	<Highlighter language={language} customStyle={{background: null}} className="ptr-docs-syntax-highlighter" style={tomorrow}>
+		{children}
+	</Highlighter>
 );
 
 const Page = ({title, lightDark, children}) => (
