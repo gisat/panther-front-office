@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import _ from 'lodash';
+import Icon from '../../../components/common/atoms/Icon';
 
 export const PageTitle = ({children}) => (
 	<div className="ptr-docs-page-title">
@@ -40,7 +41,7 @@ export const ComponentPropsTable = ({content}) => (
 					<td className="ptr-docs-props-table-name">{prop.name}</td>
 					<td className="ptr-docs-props-table-type">{prop.type}</td>
 					<td className="ptr-docs-props-table-default">{prop.default}</td>
-					<td className="ptr-docs-props-table-required">{prop.required ? '\u2b24' : null}</td>
+					<td className="ptr-docs-props-table-required">{prop.required ? <Icon icon="circle"/> : null}</td>
 					<td className="ptr-docs-props-table-description">{prop.description}{
 						prop.objectPropsDescription ? (
 							<div className="ptr-docs-props-table-description-object">
