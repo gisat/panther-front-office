@@ -73,7 +73,20 @@
 
 /* Page */
 .ptr-docs-page {
+	padding: m(5/3);
+}
+
+/* Light dark block */
+.ptr-docs-light-dark-block {
+	margin: m(1) 0;
+}
+.ptr-docs-light-dark-block > div {
 	padding: m(1);
+}
+
+.ptr-docs-light-dark-block .ptr-light,
+.ptr-docs-light-dark-block .ptr-dark {
+	background: var(--base0);
 }
 
 /* Component props table */
@@ -109,12 +122,12 @@
 }
 
 .ptr-docs-props-table tr td.ptr-docs-props-table-name {
-	color: #6f3bc7;
+	color: #e2575a;
 	font-weight: bold;
 }
 
 .ptr-docs-props-table tr td.ptr-docs-props-table-type {
-	color: #00b402;
+	color: #9034c7;
 }
 
 .ptr-docs-props-table .ptr-docs-props-table-required {
@@ -128,4 +141,9 @@
 .ptr-docs-props-table-description-object > div > span {
 	font-family: monospace;
 	font-size: 1.15rem;
+}
+
+/* Syntax highlighter */
+.ptr-docs-syntax-highlighter {
+	background: var(--base85);
 }
