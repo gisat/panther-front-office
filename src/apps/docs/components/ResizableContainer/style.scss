@@ -6,8 +6,7 @@
 }
 
 .ptr-resizable-container .react-draggable {
-	border: 1px solid var(--accent50);
-	//border-right-width: 2px;
+	border-right: 1px solid var(--accent50);
 }
 
 .ptr-resizable-container .react-draggable:before,
