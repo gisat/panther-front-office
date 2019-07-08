@@ -35,6 +35,24 @@ class LineChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Line chart">
+				<div className="ptr-docs-visualizations-intro-example">
+					<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="line-chart-doc-typical-usage"
+
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
+
+								sorting={[["period", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</div>
 				<p>TODO: add typical example and describe usage</p>
 				<h2>Props</h2>
 				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
@@ -90,35 +108,39 @@ class LineChartDoc extends React.PureComponent {
 				<h3>Basic necessary settings</h3>
 				<SyntaxHighlighter language="jsx">
 					{'/* Sorting is not required, but recommended. */ \n' +
-					'<LineChart \n' +
-					'\tkey="test1"\n' +
-					'\t\n' +
-					'\tdata={data}\n' +
-					'\tkeySourcePath="key"\n' +
-					'\tnameSourcePath="data.name"\n' +
-					'\tserieDataSourcePath="data.data"\n' +
-					'\txSourcePath="period"\n' +
-					'\tySourcePath="someStrangeValue"\n' +
+					'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="test1"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
 					'\n' +
-					'\tsorting={[["period", "asc"]]}\n' +
-					'/>'}
+					'\t\tsorting={[["period", "asc"]]}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
 				<LightDarkBlock>
-					<ResizableContainer>
-						<LineChart
-							key="test1"
+					<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="test1"
 
-							data={sample_serie_4}
-							keySourcePath="key"
-							nameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
 
-							sorting={[["period", "asc"]]} // not required, but recommended
-						/>
-					</ResizableContainer>
+								sorting={[["period", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
+					</HoverHandler>
 				</LightDarkBlock>
 
 				<p>TODO: refactor examples below</p>
