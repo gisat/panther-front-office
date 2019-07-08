@@ -110,7 +110,7 @@ class ScatterChart extends React.PureComponent {
 
 		return (
 			<>
-				<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
+				<svg className="ptr-chart ptr-cartesian-chart ptr-scatter-chart" height={props.height}>
 					{(data) ?
 						<CartesianChartContent
 							{...props}

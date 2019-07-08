@@ -5,7 +5,7 @@ import './style.scss';
 
 class ResizableContainer extends React.PureComponent {
 	static defaultProps = {
-		width: 500,
+		width: 700,
 		minWidth: 150
 	};
 

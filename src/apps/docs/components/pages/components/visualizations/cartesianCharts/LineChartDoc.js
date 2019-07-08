@@ -132,8 +132,8 @@ class LineChartDoc extends React.PureComponent {
 				<p> In the example below, the baseline and ticks are added and space for y axis values is extended, whereas space for axis x is shrunken. Furthermore, minWidth and maxWidth is defined to restrict width when resizing.</p>
 
 				<SyntaxHighlighter language="jsx">
-					{'/* Sorting is not required, but recommended. /* /n' +
-					'/* Use HoverHandler to see popups when move cursor over line or point.*/ \n' +
+					{'// Sorting is not required, but recommended. \n' +
+					'// Use HoverHandler to see popups when move cursor over line or point. \n' +
 					'<HoverHandler>\n' +
 					'\t<LineChart \n' +
 					'\t\tkey="test1"\n' +
@@ -147,8 +147,8 @@ class LineChartDoc extends React.PureComponent {
 					'\n' +
 					'\t\tsorting={[["period", "asc"]]}\n' +
 					'\n' +
-					'\t\tminWidth={400}\n' +
-					'\t\tmaxWidth={600}\n' +
+					'\t\tminWidth={600}\n' +
+					'\t\tmaxWidth={800}\n' +
 					'\n' +
 					'\t\tyValuesSize={60}\n' +
 					'\t\tyLabel\n' +
@@ -173,8 +173,8 @@ class LineChartDoc extends React.PureComponent {
 				<LightDarkBlock>
 					<HoverHandler>
 						<ResizableContainer
-							minWidth={400}
-							maxWidth={600}
+							minWidth={600}
+							maxWidth={800}
 						>
 							<LineChart
 								key="test1"
@@ -188,8 +188,8 @@ class LineChartDoc extends React.PureComponent {
 
 								sorting={[["period", "asc"]]} // not required, but recommended
 
-								minWidth={400}
-								maxWidth={600}
+								minWidth={600}
+								maxWidth={800}
 
 								yValuesSize={60}
 								yLabel
@@ -212,115 +212,115 @@ class LineChartDoc extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
-					{/*<h2>Force aggregated</h2>*/}
-					{/*<HoverHandler>*/}
-						{/*<LineChart*/}
-							{/*key="test4"*/}
-							{/*data={sample_serie_4}*/}
-							{/*keySourcePath="key"*/}
-							{/*nameSourcePath="data.name"*/}
-							{/*serieDataSourcePath="data.data"*/}
-							{/*xSourcePath="period" // in context of serie*/}
-							{/*ySourcePath="someStrangeValue" // in context of serie*/}
+					<h2>Force aggregated</h2>
+					<HoverHandler>
+						<LineChart
+							key="test4"
+							data={sample_serie_4}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
 
-							{/*forceMode="aggregated"*/}
+							forceMode="aggregated"
 
-							{/*xTicks*/}
-							{/*xGridlines*/}
-							{/*xValues*/}
-							{/*yTicks*/}
-							{/*yGridlines*/}
-							{/*yValues*/}
-							{/*withoutYbaseline*/}
+							xTicks
+							xGridlines
+							xValues
+							yTicks
+							yGridlines
+							yValues
+							withoutYbaseline
 
-							{/*xValuesSize={50}*/}
+							xValuesSize={50}
 
-							{/*withPoints*/}
-							{/*width={this.state.width}*/}
-						{/*/>*/}
-					{/*</HoverHandler>*/}
+							withPoints
+							// width={this.state.width}
+						/>
+					</HoverHandler>
 
-					{/*<h2>Force gray</h2>*/}
-					{/*<HoverHandler>*/}
-						{/*<LineChart*/}
-							{/*key="test5"*/}
-							{/*data={sample_serie_4}*/}
-							{/*keySourcePath="key"*/}
-							{/*nameSourcePath="data.name"*/}
-							{/*serieDataSourcePath="data.data"*/}
-							{/*xSourcePath="period" // in context of serie*/}
-							{/*ySourcePath="someStrangeValue" // in context of serie*/}
+					<h2>Force gray</h2>
+					<HoverHandler>
+						<LineChart
+							key="test5"
+							data={sample_serie_4}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
 
-							{/*forceMode="gray"*/}
+							forceMode="gray"
 
-							{/*xTicks*/}
-							{/*xGridlines*/}
-							{/*xValues*/}
-							{/*yTicks*/}
-							{/*yGridlines*/}
-							{/*yValues*/}
-							{/*withoutYbaseline*/}
-							{/*sorting={[["period", "asc"]]}*/}
+							xTicks
+							xGridlines
+							xValues
+							yTicks
+							yGridlines
+							yValues
+							withoutYbaseline
+							sorting={[["period", "asc"]]}
 
 
-							{/*xValuesSize={50}*/}
+							xValuesSize={50}
 
-							{/*withPoints*/}
-							{/*width={this.state.width}*/}
-						{/*/>*/}
-					{/*</HoverHandler>*/}
+							withPoints
+							// width={this.state.width}
+						/>
+					</HoverHandler>
 
-					{/*<h2>More than 10 series</h2>*/}
-					{/*<HoverHandler>*/}
-						{/*<LineChart*/}
-							{/*key="test3"*/}
-							{/*data={sample_serie_30}*/}
-							{/*keySourcePath="key"*/}
-							{/*nameSourcePath="data.name"*/}
-							{/*serieDataSourcePath="data.data"*/}
-							{/*xSourcePath="period" // in context of serie*/}
-							{/*ySourcePath="someStrangeValue" // in context of serie*/}
+					<h2>More than 10 series</h2>
+					<HoverHandler>
+						<LineChart
+							key="test3"
+							data={sample_serie_30}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
 
-							{/*xTicks*/}
-							{/*xGridlines*/}
-							{/*xValues*/}
-							{/*yTicks*/}
-							{/*yGridlines*/}
-							{/*yValues*/}
-							{/*withoutYbaseline*/}
+							xTicks
+							xGridlines
+							xValues
+							yTicks
+							yGridlines
+							yValues
+							withoutYbaseline
 
-							{/*xValuesSize={50}*/}
+							xValuesSize={50}
 
-							{/*withPoints*/}
-							{/*width={this.state.width}*/}
-						{/*/>*/}
-					{/*</HoverHandler>*/}
+							withPoints
+							// width={this.state.width}
+						/>
+					</HoverHandler>
 
-					{/*<h2>More than 50 series</h2>*/}
-					{/*<HoverHandler>*/}
-						{/*<LineChart*/}
-							{/*key="test500"*/}
-							{/*data={sample_serie_500}*/}
-							{/*keySourcePath="key"*/}
-							{/*nameSourcePath="data.name"*/}
-							{/*serieDataSourcePath="data.data"*/}
-							{/*xSourcePath="period" // in context of serie*/}
-							{/*ySourcePath="someStrangeValue" // in context of serie*/}
+					<h2>More than 50 series</h2>
+					<HoverHandler>
+						<LineChart
+							key="test500"
+							data={sample_serie_500}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
 
-							{/*xTicks*/}
-							{/*xGridlines*/}
-							{/*xValues*/}
-							{/*yTicks*/}
-							{/*yGridlines*/}
-							{/*yValues*/}
-							{/*withoutYbaseline*/}
+							xTicks
+							xGridlines
+							xValues
+							yTicks
+							yGridlines
+							yValues
+							withoutYbaseline
 
-							{/*xValuesSize={50}*/}
+							xValuesSize={50}
 
-							{/*withPoints*/}
-							{/*width={this.state.width}*/}
-						{/*/>*/}
-					{/*</HoverHandler>*/}
+							withPoints
+							// width={this.state.width}
+						/>
+					</HoverHandler>
 			</Page>
 		);
 	}

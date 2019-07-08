@@ -111,7 +111,7 @@ class LineChart extends React.PureComponent {
 
 		return (
 			<>
-				<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
+				<svg className="ptr-chart ptr-cartesian-chart ptr-line-chart" height={props.height}>
 					{(data) ?
 						<CartesianChartContent
 							{...props}

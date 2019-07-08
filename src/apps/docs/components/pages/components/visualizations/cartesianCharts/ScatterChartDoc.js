@@ -12,23 +12,6 @@ import Page from "../../../../Page";
 class ScatterChartDoc extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			width: null
-		};
-		this.ref = React.createRef();
-
-		this.resize = this.resize.bind(this);
-	}
-
-	resize() {
-		this.setState({
-			width: (window.innerWidth) - 270 // TODO do it better
-		})
-	}
-
-	componentDidMount() {
-		this.resize();
-		if (window) window.addEventListener('resize', this.resize, {passive: true}); //todo IE
 	}
 
 	render() {
@@ -55,8 +38,6 @@ class ScatterChartDoc extends React.PureComponent {
 								yGridlines
 								yValues
 								yTicks
-	
-								width={this.state.width}
 							/>
 						</HoverHandler>
 					</div>
@@ -137,8 +118,7 @@ class ScatterChartDoc extends React.PureComponent {
 								yValues
 								yTicks
 								yLabel
-	
-								width={this.state.width}
+
 								legend
 							/>
 						</HoverHandler>

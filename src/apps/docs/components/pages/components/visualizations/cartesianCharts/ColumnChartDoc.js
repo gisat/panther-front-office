@@ -12,23 +12,6 @@ import Page from '../../../../Page';
 class ColumnChartDoc extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			width: null
-		};
-		this.ref = React.createRef();
-
-		this.resize = this.resize.bind(this);
-	}
-
-	resize() {
-		this.setState({
-			width: (window.innerWidth) - 270 // TODO do it better
-		})
-	}
-
-	componentDidMount() {
-		this.resize();
-		if (window) window.addEventListener('resize', this.resize, {passive: true}); //todo IE
 	}
 
 	render() {
@@ -46,7 +29,6 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
 								sorting={[["data.some_value_1", "desc"]]}
-								width={this.state.width}
 							/>
 						</HoverHandler>
 					</div>
@@ -64,7 +46,6 @@ class ColumnChartDoc extends React.PureComponent {
 								sorting={[["data.some_value_1", "desc"]]}
 								xValues
 								yValues
-								width={this.state.width}
 							/>
 						</HoverHandler>
 					</div>
@@ -88,7 +69,6 @@ class ColumnChartDoc extends React.PureComponent {
 								xGridlines
 								yGridlines
 								withoutYbaseline
-								width={this.state.width}
 								yOptions={{
 									min: -1,
 									max: 105000,
@@ -136,7 +116,6 @@ class ColumnChartDoc extends React.PureComponent {
 								yValues
 								yGridlines
 								withoutYbaseline
-								width={this.state.width}
 								yOptions={{
 									name: "Custom attribute name",
 									unit: "ha"

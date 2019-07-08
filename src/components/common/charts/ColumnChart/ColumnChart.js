@@ -110,12 +110,12 @@ class ColumnChart extends React.PureComponent {
 			}
 		}
 
-		const chartClassNames = classnames('ptr-chart ptr-column-chart', {
+		const chartClassNames = classnames('ptr-chart ptr-cartesian-chart ptr-column-chart', {
 			'ptr-chart-no-animation': !props.animateChangeData,
 		});
 
 		return (
-			<svg className={chartClassNames} width={props.width} height={props.height}>
+			<svg className={chartClassNames} height={props.height}>
 				{data ?
 					<CartesianChartContent
 						{...props}

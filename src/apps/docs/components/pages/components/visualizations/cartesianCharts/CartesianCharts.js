@@ -70,7 +70,6 @@ class CartesianCharts extends React.PureComponent {
 						}, {
 							name: "maxWidth",
 							type: "number",
-							default: "1000",
 							description: "Maximal chart width in px."
 						}, {
 							name: "minWidth",
