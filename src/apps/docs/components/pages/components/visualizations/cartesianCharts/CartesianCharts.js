@@ -109,8 +109,8 @@ class CartesianCharts extends React.PureComponent {
 						}, {}, {
 							name: "xGridlines",
 							type: "boolean",
-							default: "false",
-							description: "Show vertical grid."
+							default: "true/false",
+							description: "Show vertical grid. False for column chart by default, otherwise true."
 						}, {
 							name: "xLabel",
 							type: "boolean",
@@ -139,17 +139,17 @@ class CartesianCharts extends React.PureComponent {
 						}, {
 							name: "xTicks",
 							type: "boolean",
-							default: "false",
+							default: "true",
 							description: "Show ticks on axis x."
 						}, {
 							name: "xValues",
 							type: "boolean",
-							default: "false",
+							default: "true",
 							description: "Show values on axis x."
 						},{}, {
 							name: "yGridlines",
 							type: "boolean",
-							default: "false",
+							default: "true",
 							description: "Show horizontal grid."
 						}, {
 							name: "yLabel",
@@ -179,18 +179,18 @@ class CartesianCharts extends React.PureComponent {
 						}, {
 							name: "yTicks",
 							type: "boolean",
-							default: "false",
-							description: "Show ticks on axis y."
+							default: "true/false",
+							description: "Show ticks on axis y. True for scatter chart by default, otherwise false."
 						}, {
 							name: "yValues",
 							type: "boolean",
-							default: "false",
+							default: "true",
 							description: "Show values on axis y."
 						}, {
 							name: "withoutYbaseline",
 							type: "boolean",
-							default: "false",
-							description: "Hide axis y baseline."
+							default: "true/false",
+							description: "Hide axis y baseline. False for scatter chart by default, otherwise true."
 						}, {}, {
 							name: "legend",
 							type: "boolean",
