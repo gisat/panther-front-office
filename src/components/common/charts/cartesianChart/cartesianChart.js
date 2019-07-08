@@ -15,7 +15,14 @@ export default (WrappedChartComponent) => {
 
 			innerPaddingLeft: 10,
 			innerPaddingRight: 10,
-			innerPaddingTop: 10
+			innerPaddingTop: 10,
+
+			xValues: true,
+			yValues: true,
+
+			xTicks: true,
+
+			yGridlines: true
 		};
 
 		static propTypes = {

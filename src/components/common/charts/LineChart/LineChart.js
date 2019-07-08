@@ -17,7 +17,11 @@ import ChartLegend from "../ChartLegend/ChartLegend";
 class LineChart extends React.PureComponent {
 	static defaultProps = {
 		grayingThreshold: 10,
-		aggregationThreshold: 50
+		aggregationThreshold: 50,
+		withPoints: true,
+
+		xGridlines: true,
+		withoutYbaseline: true
 	};
 
 	static propTypes = {
