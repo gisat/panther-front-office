@@ -29,6 +29,7 @@ class ResizableContainer extends React.PureComponent {
 				<Rnd
 					size={{ width: this.state.width}}
 					minWidth={this.props.minWidth}
+					maxWidth={this.props.maxWidth}
 					onResize={this.resize}
 					disableDragging={true}
 					bounds='parent'
