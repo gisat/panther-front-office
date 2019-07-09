@@ -77,18 +77,18 @@ class ChartPanel extends React.PureComponent {
 
 			yGridlines: true,
 			withoutYbaseline: true,
-			width:200,
-			maxWidth:350,
-			height:350,
+			width: 15,
+			maxWidth: 22,
+			height: 22,
 
-			xValuesSize:150,
-			yValuesSize:70,
+			xValuesSize: 10,
+			yValuesSize: 4.5,
 
 			yOptions:{
 				min: -1,
 				max: 15000000,
 			}
-		}
+		};
 
 			return (
 					<div className="ptr-unseea-chart-panel">

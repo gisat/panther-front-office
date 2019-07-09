@@ -60,22 +60,21 @@ class CartesianCharts extends React.PureComponent {
 						}, {}, {
 							name: "width",
 							type: "number",
-							default: "500",
-							description: "Chart width in px."
+							description: "Chart width in rem."
 						}, {
 							name: "height",
 							type: "number",
-							default: "250",
-							description: "Chart height in px."
+							default: "15",
+							description: "Chart height in rem."
 						}, {
 							name: "maxWidth",
 							type: "number",
-							description: "Maximal chart width in px."
+							description: "Maximal chart width in rem."
 						}, {
 							name: "minWidth",
 							type: "number",
-							default: "150",
-							description: "Minimal chart width in px."
+							default: "10",
+							description: "Minimal chart width in rem."
 						}, {
 							name: "minAspectRatio",
 							type: "number",
@@ -83,28 +82,28 @@ class CartesianCharts extends React.PureComponent {
 						}, {}, {
 							name: "xValuesSize",
 							type: "number",
-							default: "50",
-							description: "Space for values below axis x."
+							default: "3",
+							description: "Space for values below axis x in rem."
 						}, {
 							name: "yValuesSize",
 							type: "number",
-							default: "50",
-							description: "Space for values next to axis x."
+							default: "3",
+							description: "Space for values next to axis x in rem."
 						}, {}, {
 							name: "innerPaddingLeft",
 							type: "number",
-							default: "10",
-							description: "Space between chart body and axis x."
+							default: ".7",
+							description: "Space between chart body and axis x in rem."
 						}, {
 							name: "innerPaddingRight",
 							type: "number",
-							default: "10",
-							description: "Space between chart body and right margin."
+							default: ".7",
+							description: "Space between chart body and right margin in rem."
 						}, {
 							name: "innerPaddingTop",
 							type: "number",
-							default: "10",
-							description: "Space between chart body and top margin."
+							default: ".7",
+							description: "Space between chart body and top margin in rem."
 						}, {}, {
 							name: "xGridlines",
 							type: "boolean",

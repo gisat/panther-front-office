@@ -23,20 +23,20 @@ class Elections extends React.PureComponent {
 						title="Volby do Evropského parlamentu 2019"
 						subtitle="Celkové výsledky hlasování v České republice v %, zdroj dat: ČSÚ"
 					>
-					<ColumnChart
-						data={this.props.data}
-						key="ep_elections_2019"
-						keySourcePath="$.ESTRANA"
-						colorSourcePath="$.COLOR"
-						xSourcePath="$.NAZ_STR"
-						ySourcePath="HLASY_STRANA[0].$.PROC_HLASU"
-						xValues
-						yValues
-						yGridlines
-						withoutYbaseline
-						xValuesSize={130}
-						yValuesSize={30}
-					/>
+						<ColumnChart
+							data={this.props.data}
+							key="ep_elections_2019"
+							keySourcePath="$.ESTRANA"
+							colorSourcePath="$.COLOR"
+							xSourcePath="$.NAZ_STR"
+							ySourcePath="HLASY_STRANA[0].$.PROC_HLASU"
+							xValues
+							yValues
+							yGridlines
+							withoutYbaseline
+							xValuesSize={8}
+							yValuesSize={2}
+						/>
 					</ChartWrapper>
 					<h3>
 						Volební účast [%]

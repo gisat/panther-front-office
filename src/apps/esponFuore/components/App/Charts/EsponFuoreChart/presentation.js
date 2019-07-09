@@ -155,8 +155,8 @@ class EsponFuoreChart extends React.PureComponent {
 				yGridlines
 				yValues
 				xValues
-				xValuesSize={80}
-				yValuesSize={70}
+				xValuesSize={5}
+				yValuesSize={4}
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
@@ -188,8 +188,8 @@ class EsponFuoreChart extends React.PureComponent {
 
 				sorting={[["key", "asc"]]}
 
-				xValuesSize={40}
-				yValuesSize={70}
+				xValuesSize={3}
+				yValuesSize={4.5}
 				withPoints
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}

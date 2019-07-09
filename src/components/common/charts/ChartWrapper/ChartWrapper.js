@@ -12,6 +12,7 @@ import Button from "../../atoms/Button";
 import Menu from "../../atoms/Menu";
 import {MenuItem} from "../../atoms/Menu";
 import Loader from "../../atoms/Loader/Loader";
+import utils from "../../../../utils/utils";
 
 class ChartWrapper extends React.PureComponent {
 	static propTypes = {
@@ -101,9 +102,10 @@ class ChartWrapper extends React.PureComponent {
 						</div>
 						{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
 						<div className="ptr-chart-wrapper-content">
-							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => (
-								React.cloneElement(this.props.children, {...propsWithoutChildren, width})
-							)}>
+							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => {
+								let remWidth = width/utils.getRemSize();
+								return React.cloneElement(this.props.children, {...propsWithoutChildren, width: remWidth})
+							}}>
 							</ReactResizeDetector>
 						</div>
 					</>

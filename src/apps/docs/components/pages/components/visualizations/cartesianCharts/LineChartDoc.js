@@ -18,6 +18,18 @@ class LineChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Line chart">
+				<LineChart
+					key="line-chart-doc-typical-usage"
+
+					data={sample_serie_4}
+					keySourcePath="key"
+					nameSourcePath="data.name"
+					serieDataSourcePath="data.data"
+					xSourcePath="period" // in context of serie
+					ySourcePath="someStrangeValue" // in context of serie
+
+					sorting={[["period", "asc"]]} // not required, but recommended
+				/>
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ResizableContainer>
@@ -173,8 +185,8 @@ class LineChartDoc extends React.PureComponent {
 				<LightDarkBlock>
 					<HoverHandler>
 						<ResizableContainer
-							minWidth={600}
-							maxWidth={800}
+							minWidth={35}
+							maxWidth={45}
 						>
 							<LineChart
 								key="test1"
@@ -188,10 +200,10 @@ class LineChartDoc extends React.PureComponent {
 
 								sorting={[["period", "asc"]]} // not required, but recommended
 
-								minWidth={600}
-								maxWidth={800}
+								minWidth={35}
+								maxWidth={45}
 
-								yValuesSize={60}
+								yValuesSize={4}
 								yLabel
 								yOptions={{
 									name: "Population growth",
@@ -202,7 +214,7 @@ class LineChartDoc extends React.PureComponent {
 								yTicks
 								withoutYbaseline={false}
 
-								xValuesSize={40}
+								xValuesSize={2.75}
 								xLabel
 								xOptions={{
 									name: "Years"
@@ -233,8 +245,6 @@ class LineChartDoc extends React.PureComponent {
 							yValues
 							withoutYbaseline
 
-							xValuesSize={50}
-
 							withPoints
 							// width={this.state.width}
 						/>
@@ -262,9 +272,6 @@ class LineChartDoc extends React.PureComponent {
 							withoutYbaseline
 							sorting={[["period", "asc"]]}
 
-
-							xValuesSize={50}
-
 							withPoints
 							// width={this.state.width}
 						/>
@@ -289,8 +296,6 @@ class LineChartDoc extends React.PureComponent {
 							yValues
 							withoutYbaseline
 
-							xValuesSize={50}
-
 							withPoints
 							// width={this.state.width}
 						/>
@@ -314,8 +319,6 @@ class LineChartDoc extends React.PureComponent {
 							yGridlines
 							yValues
 							withoutYbaseline
-
-							xValuesSize={50}
 
 							withPoints
 							// width={this.state.width}

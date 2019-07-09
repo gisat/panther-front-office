@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import utils from "../../../../utils/utils";
 
 export default (WrappedChartComponent) => {
 	class CartesianChart extends React.PureComponent {
 
+		/* sizes in rem */
 		static defaultProps = {
-			height: 250,
-			minWidth: 150,
+			height: 15,
+			minWidth: 10,
 
-			xValuesSize: 50,
-			yValuesSize: 50,
+			xValuesSize: 3,
+			yValuesSize: 3,
 
-			innerPaddingLeft: 10,
-			innerPaddingRight: 10,
-			innerPaddingTop: 10,
+			innerPaddingLeft: .7,
+			innerPaddingRight: .7,
+			innerPaddingTop: .7,
 
 			xValues: true,
 			yValues: true,
@@ -79,45 +81,52 @@ export default (WrappedChartComponent) => {
 
 		resize() {
 			if (!this.props.width && this.ref && this.ref.current) {
+				let pxWidth = this.ref.current.clientWidth;
+
 				this.setState({
-					width: this.ref.current.clientWidth
+					width: pxWidth
 				});
 			}
 		}
 
 		render() {
 			let content = null;
+			let remSize = utils.getRemSize();
 
 			if (this.props.width || this.state.width) {
 				const props = this.props;
 
 				/* dimensions */
-				let width = this.props.width ? this.props.width : this.state.width;
-				let height = props.height;
+				let width = (this.props.width ? this.props.width*remSize : this.state.width);
+				let height = props.height*remSize;
 
-				let minWidth = props.minWidth;
-				let maxWidth = props.maxWidth;
+				let minWidth = props.minWidth*remSize;
+				let maxWidth = props.maxWidth*remSize;
 
-				let xValuesSize = props.xValuesSize;
-				let yValuesSize = props.yValuesSize;
+				let xValuesSize = props.xValuesSize*remSize;
+				let yValuesSize = props.yValuesSize*remSize;
+
+				let innerPaddingLeft = props.innerPaddingLeft*remSize;
+				let innerPaddingRight = props.innerPaddingRight*remSize;
+				let innerPaddingTop = props.innerPaddingTop*remSize;
 
 				let xLabelSize = 0;
 				let yLabelSize = 0;
 
 				if (!props.xValues && !props.xValuesSize) {
-					xValuesSize = props.yValues ? 10 : 0; // space for labels
+					xValuesSize = props.yValues ? 1*remSize : 0; // space for labels
 				}
 
 				if (!props.yValues && !props.yValuesSize) {
-					yValuesSize = props.xValues ? 30 : 0; // space for labels
+					yValuesSize = props.xValues ? 2*remSize : 0; // space for labels
 				}
 
 				if (props.xLabel) {
-					xLabelSize = 20;
+					xLabelSize = 1*remSize;
 				}
 
 				if (props.yLabel) {
-					yLabelSize = 20;
+					yLabelSize = 1*remSize;
 				}
 
 				if (width > maxWidth) width = maxWidth;
@@ -129,8 +138,8 @@ export default (WrappedChartComponent) => {
 
 				let plotWidth = width - yValuesSize - yLabelSize;
 				let plotHeight = height - xValuesSize - xLabelSize;
-				let innerPlotWidth = plotWidth - props.innerPaddingLeft - props.innerPaddingRight;
-				let innerPlotHeight = plotHeight - props.innerPaddingTop;
+				let innerPlotWidth = plotWidth - innerPaddingLeft - innerPaddingRight;
+				let innerPlotHeight = plotHeight - innerPaddingTop;
 
 				content = (<WrappedChartComponent
 					{...this.props}
@@ -149,6 +158,10 @@ export default (WrappedChartComponent) => {
 
 						plotWidth,
 						plotHeight,
+
+						innerPaddingLeft,
+						innerPaddingRight,
+						innerPaddingTop,
 
 						innerPlotWidth,
 						innerPlotHeight

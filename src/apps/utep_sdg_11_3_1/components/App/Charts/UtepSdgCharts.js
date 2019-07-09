@@ -53,12 +53,12 @@ class UtepSdgCharts extends React.PureComponent {
 						xSourcePath="period" // in context of serie
 						ySourcePath="UA_POP_change_ratio" // in context of serie
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
-						yValuesSize={40}
-						xValuesSize={40}
+						yValuesSize={3}
+						xValuesSize={3}
 
 						xTicks
 						xGridlines
@@ -99,13 +99,13 @@ class UtepSdgCharts extends React.PureComponent {
 
 						itemNameSourcePath="period" // in context of serie
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
 						xGridlines
 						xValues
-						xValuesSize={35}
+						xValuesSize={2}
 						xTicks
 						xLabel
 						xOptions={{
@@ -144,8 +144,8 @@ class UtepSdgCharts extends React.PureComponent {
 						xSourcePath="period" // in context of serie
 						ySourcePath="Total population" // in context of serie
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
 						xTicks
@@ -163,8 +163,8 @@ class UtepSdgCharts extends React.PureComponent {
 						withoutYbaseline
 
 						sorting={[["period", "asc"]]}
-						yValuesSize={80}
-						xValuesSize={40}
+						yValuesSize={5}
+						xValuesSize={3}
 
 						withPoints
 						// legend
@@ -183,14 +183,14 @@ class UtepSdgCharts extends React.PureComponent {
 						ySourcePath="properties.GNI"
 						sorting={[["properties.GNI", "desc"]]}
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
 						xValues
 						yValues
-						yValuesSize={50}
-						xValuesSize={60}
+						yValuesSize={3}
+						xValuesSize={4}
 						xTicks
 						yGridlines
 						yLabel

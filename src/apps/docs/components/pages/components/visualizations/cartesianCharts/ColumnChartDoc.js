@@ -62,8 +62,8 @@ class ColumnChartDoc extends React.PureComponent {
 								sorting={[["data.some_value_1", "desc"]]}
 								xValues
 								yValues
-								yValuesSize={80}
-								xValuesSize={80}
+								yValuesSize={5}
+								xValuesSize={5}
 								xTicks
 								yTicks
 								xGridlines
@@ -95,9 +95,9 @@ class ColumnChartDoc extends React.PureComponent {
 								yValues
 								yGridlines
 								withoutYbaseline
-								width={250}
-								minWidth={200}
-								height={150}
+								width={15}
+								minWidth={12}
+								height={10}
 							/>
 						</HoverHandler>
 					</div>

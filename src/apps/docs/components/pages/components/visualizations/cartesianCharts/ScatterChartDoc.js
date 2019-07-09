@@ -74,9 +74,9 @@ class ScatterChartDoc extends React.PureComponent {
 									max: 18
 								}}
 	
-								width={350}
-								height={200}
-								innerPadding={20}
+								width={25}
+								height={15}
+								innerPadding={1.5}
 								pointRadius={7}
 							/>
 						</HoverHandler>
@@ -110,7 +110,6 @@ class ScatterChartDoc extends React.PureComponent {
 	
 								xGridlines
 								xValues
-								xValuesSize={45}
 								xTicks
 								xLabel
 	

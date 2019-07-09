@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Rnd} from 'react-rnd';
 import './style.scss';
+import utils from "../../../../utils/utils";
 
 class ResizableContainer extends React.PureComponent {
+
+	/* Sizes in rem */
 	static defaultProps = {
-		width: 700,
-		minWidth: 150
+		width: 40,
+		minWidth: 10
 	};
 
 	constructor(props) {
@@ -20,16 +23,18 @@ class ResizableContainer extends React.PureComponent {
 	}
 
 	resize(e, direction, ref, delta, coord) {
-		this.setState({width: ref.offsetWidth});
+		this.setState({width: ref.offsetWidth/utils.getRemSize()});
 	}
 
 	render() {
+		const remSize = utils.getRemSize();
+
 		return (
 			<div className="ptr-resizable-container">
 				<Rnd
-					size={{ width: this.state.width}}
-					minWidth={this.props.minWidth}
-					maxWidth={this.props.maxWidth}
+					size={{ width: this.state.width*remSize}}
+					minWidth={this.props.minWidth*remSize}
+					maxWidth={this.props.maxWidth*remSize}
 					onResize={this.resize}
 					disableDragging={true}
 					bounds='parent'
