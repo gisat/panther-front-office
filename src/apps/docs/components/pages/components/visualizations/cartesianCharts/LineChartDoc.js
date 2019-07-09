@@ -18,18 +18,6 @@ class LineChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Line chart">
-				<LineChart
-					key="line-chart-doc-typical-usage"
-
-					data={sample_serie_4}
-					keySourcePath="key"
-					nameSourcePath="data.name"
-					serieDataSourcePath="data.data"
-					xSourcePath="period" // in context of serie
-					ySourcePath="someStrangeValue" // in context of serie
-
-					sorting={[["period", "asc"]]} // not required, but recommended
-				/>
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ResizableContainer>
