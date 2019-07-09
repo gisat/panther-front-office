@@ -159,6 +159,23 @@
 	background: var(--base85);
 }
 
+/* Docs To:Do */
+.ptr-docs-todo {
+	border: 2px dashed rgba(255,144,47,1);
+}
+
+.ptr-docs-todo-title {
+	background: rgba(255,144,47,1);
+	color: #ffffff;
+	font-size: $b2;
+	padding: m(1/3) m(2/3);
+}
+
+.ptr-docs-todo-body {
+	background: rgba(255,144,47,.2);
+	padding: m(2/3);
+}
+
 /* Visualizations */
 .ptr-docs-visualizations-intro-example {
 	margin-bottom: m(1);
