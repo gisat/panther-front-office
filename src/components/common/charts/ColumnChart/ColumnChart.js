@@ -55,11 +55,11 @@ class ColumnChart extends React.PureComponent {
 			let maximum = _.max(yValues);
 			let minimum = _.min(yValues);
 
-			if (props.yOptions && props.yOptions.min) {
+			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
 				minimum = props.yOptions.min;
 			}
 
-			if (props.yOptions && props.yOptions.max) {
+			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
 				maximum = props.yOptions.max;
 			}
 

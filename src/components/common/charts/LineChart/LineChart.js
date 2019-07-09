@@ -68,11 +68,11 @@ class LineChart extends React.PureComponent {
 			let yMaximum = _.max(yValuesPrepared);
 			let yMinimum = _.min(yValuesPrepared);
 
-			if (props.yOptions && props.yOptions.min) {
+			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
 				yMinimum = props.yOptions.min;
 			}
 
-			if (props.yOptions && props.yOptions.max) {
+			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
 				yMaximum = props.yOptions.max;
 			}
 
