@@ -190,6 +190,7 @@ class LineChartDoc extends React.PureComponent {
 						>
 							<LineChart
 								key="test1"
+								height={20}
 
 								data={sample_serie_4}
 								keySourcePath="key"

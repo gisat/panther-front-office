@@ -2,7 +2,7 @@
 
 .ptr-resizable-container {
 	position: relative;
-	min-height: 250px;
+	min-height: m(10);
 }
 
 .ptr-resizable-container .react-draggable {
@@ -13,7 +13,7 @@
 .ptr-resizable-container .react-draggable:after {
 	display: inline-block;
 	position: absolute;
-	top: calc(50% - 15px);
+	top: calc(50% - 1rem);
 	color: var(--accent50);
 }
 
@@ -25,5 +25,5 @@
 .ptr-resizable-container .react-draggable:after {
 	content: "\25B6";
 	right: 0;
-	margin-right: -15px;
+	margin-right: -.9rem;
 }

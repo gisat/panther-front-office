@@ -28,11 +28,13 @@ class ResizableContainer extends React.PureComponent {
 
 	render() {
 		const remSize = utils.getRemSize();
+		let size = {width: this.state.width*remSize};
 
 		return (
 			<div className="ptr-resizable-container">
 				<Rnd
-					size={{ width: this.state.width*remSize}}
+					size={size}
+					style={{position: 'relative'}}
 					minWidth={this.props.minWidth*remSize}
 					maxWidth={this.props.maxWidth*remSize}
 					onResize={this.resize}
