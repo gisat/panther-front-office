@@ -143,16 +143,17 @@ class ColumnChart extends React.PureComponent {
 				{data.map((item) => {
 					let key = _.get(item, props.keySourcePath);
 					let value = _.get(item, props.ySourcePath);
+					let color = _.get(item, props.colorSourcePath);
 					let defaultColor = this.props.defaultColor;
 					let highlightedColor = this.props.highlightedColor;
 
-					if (props.colorSourcePath) {
-						defaultColor = _.get(item, props.colorSourcePath);
+					if (props.colorSourcePath && color) {
+						defaultColor = color;
 						highlightedColor = chroma(defaultColor).darken(1);
 					}
 
 					if (props.colored) {
-						defaultColor = colors(_.get(item, props.keySourcePath));
+						defaultColor = colors(key);
 						highlightedColor = chroma(defaultColor).darken(1);
 					}
 
