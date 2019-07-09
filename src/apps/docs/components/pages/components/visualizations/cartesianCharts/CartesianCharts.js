@@ -180,17 +180,17 @@ class CartesianCharts extends React.PureComponent {
 						}, {}, {
 							name: "innerPaddingLeft",
 							type: "number",
-							default: ".7",
+							default: "0.7",
 							description: "Space between chart body and axis x in rem."
 						}, {
 							name: "innerPaddingRight",
 							type: "number",
-							default: ".7",
+							default: "0.7",
 							description: "Space between chart body and right margin in rem."
 						}, {
 							name: "innerPaddingTop",
 							type: "number",
-							default: ".7",
+							default: "0.7",
 							description: "Space between chart body and top margin in rem."
 						}, {}, {
 							name: "xGridlines",
