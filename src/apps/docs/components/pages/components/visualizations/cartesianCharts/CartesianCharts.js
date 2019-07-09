@@ -23,6 +23,7 @@ class CartesianCharts extends React.PureComponent {
 							key="column-chart-doc-typical-usage"
 							data={sample_4}
 							keySourcePath="key"
+							nameSourcePath="data.name"
 							xSourcePath="data.name"
 							ySourcePath="data.some_value_1"
 							colorSourcePath="data.color"
