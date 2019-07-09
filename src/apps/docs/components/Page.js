@@ -69,6 +69,10 @@ export const SyntaxHighlighter = ({language, children}) => (
 	</Highlighter>
 );
 
+export const InlineCodeHighlighter = ({children}) => (
+	<span className="ptr-docs-inline-code-highlighter">{children}</span>
+);
+
 export const DocsToDo = ({children}) => (
 	<div className="ptr-docs-todo">
 		<div className="ptr-docs-todo-title">Missing documentation</div>

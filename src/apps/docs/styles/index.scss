@@ -159,6 +159,14 @@
 	background: var(--base85);
 }
 
+.ptr-docs-inline-code-highlighter {
+	color: #e2575a;
+	background: var(--base20);
+	font-family: monospace;
+	font-size: 1.35rem;
+	padding: 0 .15rem;
+}
+
 /* Docs To:Do */
 .ptr-docs-todo {
 	border: 2px dashed rgba(255,144,47,1);
