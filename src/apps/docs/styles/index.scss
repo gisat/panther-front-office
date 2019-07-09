@@ -60,16 +60,31 @@
 	text-decoration: none;
 	color: var(--base80);
 	display: block;
-	padding: .25rem 0;
-	padding-left: .75rem;
+	padding: .25rem 1.25rem .25rem .75rem;
 }
 .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
 .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	border-left: 2px solid #b2b2b2;
 	background-color: rgba(255,255,255,.5);
+	position: relative;
 }
 .ptr-docs-nav-directory.active.level1 > .ptr-docs-nav-link > a {
 	border-left: 0;
+}
+.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-nav-page.active > .ptr-docs-nav-link > a:after {
+	content: " ";
+	display: block;
+	position: absolute;
+	right: m(1/3);
+	top: 50%;
+	transform: translateY(-50%);
+
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: m(2/9) 0 m(2/9) m(1/3);
+	border-color: transparent transparent transparent #ccc;
 }
 .ptr-docs-nav-link > a:hover {
 	background-color: rgba(255,255,255,.2);
@@ -114,8 +129,15 @@
 .ptr-docs-node-architecture .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	border-color: #859de4;
 }
-.ptr-docs-node-architecture.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a {
+.ptr-docs-node-architecture.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-architecture .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-architecture .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	color: #5f73e3;
+}
+.ptr-docs-node-architecture.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-architecture .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-architecture .ptr-docs-nav-page.active > .ptr-docs-nav-link > a:after {
+	border-color: transparent transparent transparent #859de4;
 }
 .ptr-docs-node-architecture a:hover {
 	color: #5f73e3;
@@ -133,8 +155,15 @@
 .ptr-docs-node-design .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	border-color: #29c933;
 }
-.ptr-docs-node-design.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a {
+.ptr-docs-node-design.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-design .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-design .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	color: #289e2a;
+}
+.ptr-docs-node-design.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-design .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-design .ptr-docs-nav-page.active > .ptr-docs-nav-link > a:after {
+	border-color: transparent transparent transparent #29c933;
 }
 .ptr-docs-node-design a:hover {
 	color: #289e2a;
@@ -152,8 +181,15 @@
 .ptr-docs-node-components .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	border-color: #e49191;
 }
-.ptr-docs-node-components.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a {
+.ptr-docs-node-components.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-components .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-components .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	color: #e46f73;
+}
+.ptr-docs-node-components.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-components .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-components .ptr-docs-nav-page.active > .ptr-docs-nav-link > a:after {
+	border-color: transparent transparent transparent #e49191;
 }
 .ptr-docs-node-components a:hover {
 	color: #e46f73;
@@ -171,8 +207,15 @@
 .ptr-docs-node-code .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	border-color: #ce9be7;
 }
-.ptr-docs-node-code.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a {
+.ptr-docs-node-code.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-code .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a,
+.ptr-docs-node-code .ptr-docs-nav-page.active > .ptr-docs-nav-link > a {
 	color: #aa67cd;
+}
+.ptr-docs-node-code.ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-code .ptr-docs-nav-directory.active > .ptr-docs-nav-link > a:after,
+.ptr-docs-node-code .ptr-docs-nav-page.active > .ptr-docs-nav-link > a:after {
+	border-color: transparent transparent transparent #ce9be7;
 }
 .ptr-docs-node-code a:hover {
 	color: #aa67cd;
