@@ -10,12 +10,12 @@ import Page, {
 import serie_10 from "../../../../mockData/scatterChart/serie_10";
 import sample_4 from "../../../../mockData/sample_4";
 import sample_15 from "../../../../mockData/sample_15";
+import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
-import sample_serie_4 from "../../../../mockData/sample_serie_4";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
@@ -332,9 +332,54 @@ class CartesianCharts extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
+				<h3>Maximal and minimal width customization</h3>
+				<p>If you want to restrict width of the chart, set <InlineCodeHighlighter>minWidth</InlineCodeHighlighter> or <InlineCodeHighlighter>maxWidth</InlineCodeHighlighter> value in rem. Try to resize the chart box in the examples below to see the restriction.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="cartesians-docs-chart-max-min-width"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_1"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\n' +
+					'\t\tminWidth={30}\n' +
+					'\t\tmaxWidth={45}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<ResizableContainer
+							minWidth={30}
+							maxWidth={45}
+						>
+							<ColumnChart
+								key="cartesians-docs-chart-max-min-width"
+
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath="data.some_value_1"
+
+								sorting={[["data.some_value_1", "desc"]]} // not required, but recommended
+
+								minWidth={30}
+								maxWidth={45}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
 				<DocsToDo>
 					<h3>Minimal aspect ratio</h3>
-					<h3>Maximal and minimal width customization</h3>
 					<h3>Handling inner padding</h3>
 					<h3>Extend space for axis values</h3>
 					<h3>Show/hide axis values, ticks and gridlines</h3>
