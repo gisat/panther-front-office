@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Page, {ComponentPropsTable, DocsToDo} from "../../../../Page";
+import Page, {
+	ComponentPropsTable,
+	DocsToDo,
+	InlineCodeHighlighter,
+	LightDarkBlock,
+	SyntaxHighlighter
+} from "../../../../Page";
 import serie_10 from "../../../../mockData/scatterChart/serie_10";
 import sample_4 from "../../../../mockData/sample_4";
 import sample_15 from "../../../../mockData/sample_15";
@@ -8,6 +14,8 @@ import HoverHandler from "../../../../../../../components/common/HoverHandler/Ho
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
+import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import sample_serie_4 from "../../../../mockData/sample_serie_4";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
@@ -278,8 +286,53 @@ class CartesianCharts extends React.PureComponent {
 					}
 				/>
 				<h2>Examples</h2>
+				<h3>Fixed width and height</h3>
+				<p>By default, cartesian chart <InlineCodeHighlighter>width</InlineCodeHighlighter> is 100 % of parent container and <InlineCodeHighlighter>height</InlineCodeHighlighter> is 15 rem. However, it is possible to set custom value for both properties.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'// Sorting is not required, but recommended. \n' +
+					'// Use HoverHandler to see popups when move cursor over line or point. \n' +
+					'// The input data structure is described for each chart type separately. \n' +
+					'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="cartesians-docs-chart-width"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["period","asc"]]}\n' +
+					'\n' +
+					'\t\twidth={30}\n' +
+					'\t\theight={25}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<LineChart
+							key="cartesians-docs-chart-width"
+
+							data={sample_serie_4}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
+
+							sorting={[["period", "asc"]]} // not required, but recommended
+
+							width={30}
+							height={25}
+						/>
+					</HoverHandler>
+				</LightDarkBlock>
+
 				<DocsToDo>
-					<h3>Fixed width and height (independent of parent container)</h3>
 					<h3>Minimal aspect ratio</h3>
 					<h3>Maximal and minimal width customization</h3>
 					<h3>Handling inner padding</h3>
