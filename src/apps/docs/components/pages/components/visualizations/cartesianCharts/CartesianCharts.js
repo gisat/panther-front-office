@@ -1,6 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Page, {ComponentPropsTable} from "../../../../Page";
+import Page, {ComponentPropsTable, DocsToDo} from "../../../../Page";
+import serie_10 from "../../../../mockData/scatterChart/serie_10";
+import sample_4 from "../../../../mockData/sample_4";
+import sample_15 from "../../../../mockData/sample_15";
+import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
+import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
+import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
+import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
@@ -10,6 +17,78 @@ class CartesianCharts extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Cartesian charts">
+				<div className="ptr-docs-visualizations-intro-example">
+					<HoverHandler>
+						<ColumnChart
+							key="column-chart-doc-typical-usage"
+							data={sample_4}
+							keySourcePath="key"
+							xSourcePath="data.name"
+							ySourcePath="data.some_value_1"
+							colorSourcePath="data.color"
+							sorting={[["data.some_value_1", "desc"]]}
+
+							xValues={false}
+							yValues={false}
+
+							xTicks={false}
+							yTicks={false}
+
+							yOptions={{
+								min: 0
+							}}
+
+							withoutYbaseline={false}
+
+							minAspectRatio={1.7}
+						/>
+					</HoverHandler>
+					<HoverHandler>
+						<LineChart
+							key="line-chart-doc-typical-usage"
+
+							data={serie_10.slice(7,10)}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							xSourcePath="period" // in context of serie
+							ySourcePath="someStrangeValue" // in context of serie
+
+							sorting={[["period", "asc"]]} // not required, but recommended
+
+							xValues={false}
+							yValues={false}
+
+							xTicks={false}
+							yTicks={false}
+
+							withoutYbaseline={false}
+
+							minAspectRatio={1.7}
+						/>
+					</HoverHandler>
+					<HoverHandler>
+						<ScatterChart
+							key="scatter-chart-doc-typical-usage"
+							data={sample_15}
+
+							xSourcePath="data.some_value_1"
+							ySourcePath="data.some_value_2"
+							nameSourcePath="data.name"
+							keySourcePath="key"
+
+							xValues={false}
+							yValues={false}
+
+							xTicks={false}
+							yTicks={false}
+
+							withoutYbaseline={false}
+
+							minAspectRatio={1.7}
+						/>
+					</HoverHandler>
+				</div>
 				<p>Each type of chart is suitable for different use case. For detailed information about proper chart type usage, please go to the particular chart documentation. Based on input data and, mainly, based on the message you want to deliver to your audience, you can choose from following charts:</p>
 				<ul className="ptr-docs-basic-list">
 					<li><Link to="/docs/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
@@ -197,6 +276,18 @@ class CartesianCharts extends React.PureComponent {
 						}]
 					}
 				/>
+				<h2>Examples</h2>
+				<DocsToDo>
+					<h3>Fixed width and height (independent of parent container)</h3>
+					<h3>Minimal aspect ratio</h3>
+					<h3>Maximal and minimal width customization</h3>
+					<h3>Handling inner padding</h3>
+					<h3>Extend space for axis values</h3>
+					<h3>Show/hide axis values, ticks and gridlines</h3>
+					<h3>Axis labels</h3>
+					<h3>Set fixed values range</h3>
+					<h3>Show legend</h3>
+				</DocsToDo>
 			</Page>
 		);
 	}

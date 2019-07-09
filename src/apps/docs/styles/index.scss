@@ -179,4 +179,9 @@
 /* Visualizations */
 .ptr-docs-visualizations-intro-example {
 	margin-bottom: m(1);
+	display: flex;
+}
+
+.ptr-docs-visualizations-intro-example > div {
+	margin-right: m(4/3);
 }
