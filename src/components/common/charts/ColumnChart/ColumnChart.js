@@ -17,7 +17,9 @@ class ColumnChart extends React.PureComponent {
 	static defaultProps = {
 		animateChangeData: true,
 		minBarWidth: 4,
-		barGapRatio: 0.4
+		barGapRatio: 0.4,
+
+		withoutYbaseline: true
 	};
 
 	static propTypes = {

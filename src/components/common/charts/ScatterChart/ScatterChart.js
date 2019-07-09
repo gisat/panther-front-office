@@ -13,7 +13,10 @@ import ChartLegend from "../ChartLegend/ChartLegend";
 
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
-		pointRadius: 5
+		pointRadius: 5,
+
+		yTicks: true,
+		xGridlines: true
 	};
 
 	static propTypes = {
