@@ -134,7 +134,7 @@ class Bar extends React.PureComponent {
 
 
 		if (highlighted) {
-			style.fill = this.props.highlightedColor ? this.props.highlightedColor : '#ff0000';
+			style.fill = this.state.color
 		} else if (this.state.color && !this.state.hidden) {
 			style.fill = this.state.color
 		}
