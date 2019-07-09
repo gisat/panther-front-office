@@ -69,6 +69,13 @@ export const SyntaxHighlighter = ({language, children}) => (
 	</Highlighter>
 );
 
+export const DocsToDo = ({children}) => (
+	<div className="ptr-docs-todo">
+		<div className="ptr-docs-todo-title">Missing documentation</div>
+		<div className="ptr-docs-todo-body">{children}</div>
+	</div>
+);
+
 const Page = ({title, lightDark, children}) => (
 	<div className={classNames("ptr-docs-page", {lightDark})}>
 		{title ? (<PageTitle>{title}</PageTitle>	) : null}
