@@ -47,16 +47,16 @@ export default (path, baseUrl) => {
 			/>
 			<ConnectedRouter history={history}>
 				<Docs path={path} component={Index}>
-					<Directory label="Architecture" path="architecture" colour="#91aee4">
+					<Directory label="Architecture" path="architecture">
 						<Page label="Applications" path="applications"/>
 						<Page label="Common data types" path="commonDataTypes"/>
 						<Page label="Specific data types" path="specificDataTypes"/>
 					</Directory>
-					<Directory label="Design" path="design" component={Design} colour="#fbff00">
+					<Directory label="Design" path="design" component={Design}>
 						<Page label="Typography" path="typography" component={Typography} />
 						<Page label="Colours" path="colours"/>
 					</Directory>
-					<Directory label="Components" path="components" colour="#e49191">
+					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps">
 							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
 						</Directory>
