@@ -7,7 +7,7 @@ import sample_200 from "../../../../mockData/sample_200";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 
-import Page from '../../../../Page';
+import Page, {DocsToDo} from '../../../../Page';
 
 class ColumnChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -17,6 +17,7 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
+				<DocsToDo>
 				<div ref={this.ref}>
 					<div className="ptr-docs-panel-section">
 						<h2>Basic settings</h2>
@@ -124,6 +125,7 @@ class ColumnChartDoc extends React.PureComponent {
 						</HoverHandler>
 					</div>
 				</div>
+				</DocsToDo>
 			</Page>
 		);
 	}

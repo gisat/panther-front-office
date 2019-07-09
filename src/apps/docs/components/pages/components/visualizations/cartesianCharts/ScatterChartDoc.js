@@ -7,7 +7,7 @@ import ScatterChart from "../../../../../../../components/common/charts/ScatterC
 import sample_4 from "../../../../mockData/sample_4";
 import sample_50 from "../../../../mockData/sample_50";
 import sample_serie_10 from "../../../../mockData/scatterChart/serie_10";
-import Page from "../../../../Page";
+import Page, {DocsToDo} from "../../../../Page";
 
 class ScatterChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -17,6 +17,7 @@ class ScatterChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Scatter chart">
+				<DocsToDo>
 				<div ref={this.ref}>
 					<div className="ptr-docs-panel-section">
 						<h2>Basic settings</h2>
@@ -123,6 +124,7 @@ class ScatterChartDoc extends React.PureComponent {
 						</HoverHandler>
 					</div>
 				</div>
+				</DocsToDo>
 			</Page>
 		);
 	}

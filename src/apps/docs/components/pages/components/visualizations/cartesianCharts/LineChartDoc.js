@@ -7,7 +7,7 @@ import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import Page, {ComponentPropsTable, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
+import Page, {ComponentPropsTable, DocsToDo, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 
 class LineChartDoc extends React.PureComponent {
@@ -36,7 +36,9 @@ class LineChartDoc extends React.PureComponent {
 						</ResizableContainer>
 					</HoverHandler>
 				</div>
-				<p>TODO: add typical example and describe usage</p>
+				<DocsToDo>
+					<p>TODO: Describe usage</p>
+				</DocsToDo>
 				<h2>Props</h2>
 				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
@@ -64,7 +66,9 @@ class LineChartDoc extends React.PureComponent {
 					]}
 				/>
 				<h3>Input data structure</h3>
-				<p>TODO: add description</p>
+				<DocsToDo>
+					<p>TODO: Describe data</p>
+				</DocsToDo>
 				<SyntaxHighlighter language="javascript">
 					{'const data = [\n' +
 					'\t{\n' +
@@ -213,6 +217,7 @@ class LineChartDoc extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
+				<DocsToDo>
 					<h2>Force aggregated</h2>
 					<HoverHandler>
 						<LineChart
@@ -313,6 +318,7 @@ class LineChartDoc extends React.PureComponent {
 							// width={this.state.width}
 						/>
 					</HoverHandler>
+				</DocsToDo>
 			</Page>
 		);
 	}
