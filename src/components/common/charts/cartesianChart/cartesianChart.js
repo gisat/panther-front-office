@@ -103,8 +103,8 @@ export default (WrappedChartComponent) => {
 				let minWidth = props.minWidth*remSize;
 				let maxWidth = props.maxWidth*remSize;
 
-				let xValuesSize = props.xValuesSize*remSize;
-				let yValuesSize = props.yValuesSize*remSize;
+				let xValuesSize = props.xValues ? props.xValuesSize*remSize : .5*remSize;
+				let yValuesSize = props.yValues ? props.yValuesSize*remSize : .5*remSize;
 
 				let innerPaddingLeft = props.innerPaddingLeft*remSize;
 				let innerPaddingRight = props.innerPaddingRight*remSize;
