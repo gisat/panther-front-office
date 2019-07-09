@@ -9,7 +9,8 @@ class ResizableContainer extends React.PureComponent {
 	/* Sizes in rem */
 	static defaultProps = {
 		width: 40,
-		minWidth: 10
+		minWidth: 10,
+		maxWidth: 150
 	};
 
 	constructor(props) {
