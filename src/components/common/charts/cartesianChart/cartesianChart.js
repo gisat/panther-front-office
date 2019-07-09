@@ -92,12 +92,13 @@ export default (WrappedChartComponent) => {
 		render() {
 			let content = null;
 			let remSize = utils.getRemSize();
+			let width = null;
 
 			if (this.props.width || this.state.width) {
 				const props = this.props;
 
 				/* dimensions */
-				let width = (this.props.width ? this.props.width*remSize : this.state.width);
+				width = (this.props.width ? this.props.width*remSize : this.state.width);
 				let height = props.height*remSize;
 
 				let minWidth = props.minWidth*remSize;
@@ -169,8 +170,13 @@ export default (WrappedChartComponent) => {
 				/>);
 			}
 
+			let style = {};
+			if (width) {
+				style.width = width;
+			}
+
 			return (
-				<div className="ptr-chart-container" ref={this.ref}>
+				<div className="ptr-chart-container" ref={this.ref} style={style}>
 					{content}
 				</div>
 			);
