@@ -51,8 +51,6 @@ export default (path, baseUrl) => {
 						<Page label="Applications" path="applications"/>
 						<Page label="Common data types" path="commonDataTypes"/>
 						<Page label="Specific data types" path="specificDataTypes"/>
-						<Page label="Using data in applications ??" path="usingData" />
-						<Page label="API" path="api" />
 					</Directory>
 					<Directory label="Design" path="design" component={Design} colour="#fbff00">
 						<Page label="Typography" path="typography" component={Typography} />
@@ -100,6 +98,11 @@ export default (path, baseUrl) => {
 							<Page label="WindowsContainer" path="windowsContainer"/>
 						</Directory>
 					</Directory>
+					<Directory label="Code" path="code">
+						<Page label="Using data in applications ??" path="usingData" />
+						<Page label="API" path="api" />
+					</Directory>
+					<Page label="Panther 2" path="panther2" />
 				</Docs>
 			</ConnectedRouter>
 		</Provider>,document.getElementById('ptr')
