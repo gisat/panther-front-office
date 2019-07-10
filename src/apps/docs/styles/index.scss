@@ -347,7 +347,10 @@
 }
 
 .ptr-docs-visualizations-intro-example .ptr-chart-container {
-	width: auto;
 	min-width: 15rem;
 	margin: 0 m(2/3) m(2/3) 0;
+}
+
+.ptr-docs-visualizations-intro-example.cartesian-charts .ptr-chart-container {
+	max-width: 15rem;
 }

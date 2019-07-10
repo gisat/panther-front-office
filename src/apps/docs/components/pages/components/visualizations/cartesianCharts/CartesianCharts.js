@@ -25,7 +25,7 @@ class CartesianCharts extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Cartesian charts">
-				<div className="ptr-docs-visualizations-intro-example">
+				<div className="ptr-docs-visualizations-intro-example cartesian-charts">
 					<HoverHandler>
 						<ColumnChart
 							key="column-chart-doc-typical-usage"
@@ -50,7 +50,7 @@ class CartesianCharts extends React.PureComponent {
 							withoutYbaseline={false}
 
 							minAspectRatio={1.7}
-							maxWidth={15}
+							// maxWidth={15}
 						/>
 					</HoverHandler>
 					<HoverHandler>
@@ -75,7 +75,7 @@ class CartesianCharts extends React.PureComponent {
 							withoutYbaseline={false}
 
 							minAspectRatio={1.7}
-							maxWidth={15}
+							// maxWidth={15}
 						/>
 					</HoverHandler>
 					<HoverHandler>
@@ -97,7 +97,7 @@ class CartesianCharts extends React.PureComponent {
 							withoutYbaseline={false}
 
 							minAspectRatio={1.7}
-							maxWidth={15}
+							// maxWidth={15}
 						/>
 					</HoverHandler>
 				</div>
