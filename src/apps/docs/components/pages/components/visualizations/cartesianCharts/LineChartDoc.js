@@ -7,7 +7,13 @@ import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import Page, {ComponentPropsTable, DocsToDo, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
+import Page, {
+	ComponentPropsTable,
+	DocsToDo,
+	InlineCodeHighlighter,
+	LightDarkBlock,
+	SyntaxHighlighter
+} from "../../../../Page";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 
 class LineChartDoc extends React.PureComponent {
@@ -35,9 +41,8 @@ class LineChartDoc extends React.PureComponent {
 						/>
 					</HoverHandler>
 				</div>
-				<DocsToDo>
-					<p>TODO: Describe usage</p>
-				</DocsToDo>
+				<p>A line chart is a type of chart which displays information as a series of data points connected by straight line segments. Use this type of chart to <b>show progress</b> of one attribute/indicator in the time, or to show progress of multiple comparable attributes/indicators for one area.</p>
+
 				<h2>Props</h2>
 				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
@@ -65,18 +70,17 @@ class LineChartDoc extends React.PureComponent {
 					]}
 				/>
 				<h3>Input data structure</h3>
-				<DocsToDo>
-					<p>TODO: Describe data</p>
-				</DocsToDo>
+				<p>Input data for line chart has to be a collection, where each object must contain at least key and collection of attribute data objects. The attribute data object must contain at least two key-value pairs, one as source for axis x and second as source for axis y.</p>
 				<SyntaxHighlighter language="javascript">
 					{'const data = [\n' +
 					'\t{\n' +
-					'\t\tkey: "230bd221-5384-4c09-bfa3-069eacbcfff8",\n' +
+					'\t\tkey: "230bd221-5384-4c09-bfa3-069eacbcfff8",   //use \'key\' as keySourcePath\n' +
 					'\t\tdata: {\n' +
-					'\t\t\tname: "Missouri",\n' +
-					'\t\t\tdata: [{\n' +
-					'\t\t\t\tperiod: 2006,\n' +
-					'\t\t\t\tsomeStrangeValue: 1532\n' +
+					'\t\t\tname: "Missouri",   //use \'data.name\' as nameSourcePath\n' +
+					'\t\t\tcolor: "#ff0000",   //use \'data.color\' as colorSourcePath\n' +
+					'\t\t\tdata: [{   //use \'data.data\' as serieDataSourcePath\n' +
+					'\t\t\t\tperiod: 2006,   //use \'period\' as xSourcePath\n' +
+					'\t\t\t\tsomeStrangeValue: 1532   //use \'someStrangeValue\' as ySourcePath\n' +
 					'\t\t\t}, {\n' +
 					'\t\t\t\tperiod: 1991,\n' +
 					'\t\t\t\tsomeStrangeValue": null\n' +
@@ -130,16 +134,13 @@ class LineChartDoc extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
-				<h3>Axis labels & fixed range</h3>
-				<p>It is possible to add a label (title) to both axis and define units. Move cursor over points to see how yOptions setting is reflected and compare it with previous example. Moreover, you can define fixed extreme values for axis y (either minimum, maximum, or both). </p>
-				<p> In the example below, the baseline and ticks are added and space for y axis values is extended, whereas space for axis x is shrunken. Furthermore, minWidth and maxWidth is defined to restrict width when resizing.</p>
+				<h3>Without points</h3>
+				<p>For simple use cases, it is possible to show line chart without points by setting <InlineCodeHighlighter>withPoints</InlineCodeHighlighter> prop to false. Be aware that you will lose information about values in popups in this case.</p>
 
 				<SyntaxHighlighter language="jsx">
-					{'// Sorting is not required, but recommended. \n' +
-					'// Use HoverHandler to see popups when move cursor over line or point. \n' +
-					'<HoverHandler>\n' +
+					{'<HoverHandler>\n' +
 					'\t<LineChart \n' +
-					'\t\tkey="test1"\n' +
+					'\t\tkey="without-points"\n' +
 					'\t\t\n' +
 					'\t\tdata={data}\n' +
 					'\t\tkeySourcePath="key"\n' +
@@ -150,38 +151,16 @@ class LineChartDoc extends React.PureComponent {
 					'\n' +
 					'\t\tsorting={[["period", "asc"]]}\n' +
 					'\n' +
-					'\t\tminWidth={600}\n' +
-					'\t\tmaxWidth={800}\n' +
-					'\n' +
-					'\t\tyValuesSize={60}\n' +
-					'\t\tyLabel\n' +
-					'\t\tyOptions={{\n' +
-					'\t\t\tname: "Population growth",\n' +
-					'\t\t\tunit: "inhabitants",\n' +
-					'\t\t\tmin: -3001,\n' +
-					'\t\t\tmax: 3200\n' +
-					'\t\t}}\n' +
-					'\t\tyTicks\n' +
-					'\t\twithoutYbaseline={false}\n' +
-					'\n' +
-					'\t\txValuesSize={40}\n' +
-					'\t\txLabel\n' +
-					'\t\txOptions={{\n' +
-					'\t\t\tname: "Years"\n' +
-					'\t\t}}\n' +
+					'\t\twithPoints={false}\n' +
 					'\t/>\n' +
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
 				<LightDarkBlock>
 					<HoverHandler>
-						<ResizableContainer
-							minWidth={35}
-							maxWidth={45}
-						>
+						<ResizableContainer>
 							<LineChart
-								key="test1"
-								height={20}
+								key="without-points"
 
 								data={sample_serie_4}
 								keySourcePath="key"
@@ -192,132 +171,156 @@ class LineChartDoc extends React.PureComponent {
 
 								sorting={[["period", "asc"]]} // not required, but recommended
 
-								minWidth={35}
-								maxWidth={45}
-
-								yValuesSize={4}
-								yLabel
-								yOptions={{
-									name: "Population growth",
-									unit: "inhabitants",
-									min: -3001,
-									max: 3200
-								}}
-								yTicks
-								withoutYbaseline={false}
-
-								xValuesSize={2.75}
-								xLabel
-								xOptions={{
-									name: "Years"
-								}}
+								withPoints={false}
 							/>
 						</ResizableContainer>
 					</HoverHandler>
 				</LightDarkBlock>
 
-				<DocsToDo>
-					<h2>Force aggregated</h2>
+				<h3>Graying and aggregation</h3>
+				<p>As you can see in the examples above, every line in the chart has its own color, so the chart is easy to read. However, the more lines are in the chart, the worse is the readability. Graying mode helps solve these cases.</p>
+				<p>By default, <InlineCodeHighlighter>grayingThreshold</InlineCodeHighlighter> is set to 10, so if there are more than 10 lines (and less than aggregation threshold at the same time), all lines will have gray color and no points. In the example below, data with 30 items is used.</p>
+
+				<LightDarkBlock>
 					<HoverHandler>
-						<LineChart
-							key="test4"
-							data={sample_serie_4}
-							keySourcePath="key"
-							nameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+						<ResizableContainer>
+							<LineChart
+								key="without-points"
 
-							forceMode="aggregated"
+								data={sample_serie_30}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
 
-							xTicks
-							xGridlines
-							xValues
-							yTicks
-							yGridlines
-							yValues
-							withoutYbaseline
-
-							withPoints
-							// width={this.state.width}
-						/>
+								sorting={[["period", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
 					</HoverHandler>
+				</LightDarkBlock>
 
-					<h2>Force gray</h2>
+				<p>Number of items in input data could be dynamic in real-world use cases and so setting of grayingThreshold would not be enough. In this case is useful the <InlineCodeHighlighter>forceMode</InlineCodeHighlighter> property. If we set its value to "gray", the lines will be always gray. In the example below, data with 4 items is used.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="graying-threshold"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["period","asc"]]}\n' +
+					'\n' +
+					'\t\tforceMode="gray"\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
 					<HoverHandler>
-						<LineChart
-							key="test5"
-							data={sample_serie_4}
-							keySourcePath="key"
-							nameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+						<ResizableContainer>
+							<LineChart
+								key="without-points"
 
-							forceMode="gray"
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
 
-							xTicks
-							xGridlines
-							xValues
-							yTicks
-							yGridlines
-							yValues
-							withoutYbaseline
-							sorting={[["period", "asc"]]}
+								sorting={[["period", "asc"]]} // not required, but recommended
 
-							withPoints
-							// width={this.state.width}
-						/>
+								forceMode="gray"
+							/>
+						</ResizableContainer>
 					</HoverHandler>
+				</LightDarkBlock>
 
-					<h2>More than 10 series</h2>
+				<p>At the end of the day, even the chart with gray lines only will be confusing for big number of lines and we have to aggregate lines to average values and buffer. By default, <InlineCodeHighlighter>aggregationThreshold</InlineCodeHighlighter> is set to 50, but again we can change the value or use <InlineCodeHighlighter>forceMode</InlineCodeHighlighter> property. </p>
+
+				<SyntaxHighlighter language="jsx">
+					{'// Data with 500 items. \n' +
+					'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="aggregation-threshold"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["period", "asc"]]}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
 					<HoverHandler>
-						<LineChart
-							key="test3"
-							data={sample_serie_30}
-							keySourcePath="key"
-							nameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+						<ResizableContainer>
+							<LineChart
+								key="aggregation-threshold"
 
-							xTicks
-							xGridlines
-							xValues
-							yTicks
-							yGridlines
-							yValues
-							withoutYbaseline
+								data={sample_serie_500}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
 
-							withPoints
-							// width={this.state.width}
-						/>
+								sorting={[["period", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
 					</HoverHandler>
+				</LightDarkBlock>
 
-					<h2>More than 50 series</h2>
+				<SyntaxHighlighter language="jsx">
+					{'// Data with 4 items forced to aggregation. \n' +
+					'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="aggregation-forced"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["period","asc"]]}\n' +
+					'\n' +
+					'\t\tforceMode="aggregated"\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
 					<HoverHandler>
-						<LineChart
-							key="test500"
-							data={sample_serie_500}
-							keySourcePath="key"
-							nameSourcePath="data.name"
-							serieDataSourcePath="data.data"
-							xSourcePath="period" // in context of serie
-							ySourcePath="someStrangeValue" // in context of serie
+						<ResizableContainer>
+							<LineChart
+								key="without-points"
 
-							xTicks
-							xGridlines
-							xValues
-							yTicks
-							yGridlines
-							yValues
-							withoutYbaseline
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
 
-							withPoints
-							// width={this.state.width}
-						/>
+								sorting={[["period", "asc"]]} // not required, but recommended
+
+								forceMode="aggregated"
+							/>
+						</ResizableContainer>
 					</HoverHandler>
-				</DocsToDo>
+				</LightDarkBlock>
 			</Page>
 		);
 	}

@@ -6,8 +6,6 @@ import * as d3 from 'd3';
 import '../style.scss';
 import utils from "../../../../utils/sort";
 
-import AxisX from '../AxisX';
-import AxisY from "../AxisY";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
 import cartesianChart from "../cartesianChart/cartesianChart";
