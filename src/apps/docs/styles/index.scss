@@ -242,9 +242,15 @@
 .ptr-docs-light-dark-block .ptr-light,
 .ptr-docs-light-dark-block .ptr-dark {
 	background: var(--base0);
+	width: 100%;
 }
 
 /* Component props table */
+.ptr-docs-props-table-container {
+	width: 100%;
+	overflow-y: auto;
+}
+
 .ptr-docs-props-table {
 	background: var(--base10);
 	padding: .35rem;
@@ -263,7 +269,7 @@
 
 .ptr-docs-props-table tr th,
 .ptr-docs-props-table tr td {
-	padding: .35rem 1rem .35rem .25rem;
+	padding: .35rem 1rem .35rem .35rem;
 	color: var(--base80);
 }
 

@@ -25,42 +25,44 @@ export const LightDarkBlock = ({children}) => (
 );
 
 export const ComponentPropsTable = ({content}) => (
-	<table className="ptr-docs-props-table">
-		<tbody>
-		<tr>
-			<th>Name</th>
-			<th>Type</th>
-			<th>Default</th>
-			<th>Required</th>
-			<th>Description</th>
-		</tr>
-		{content.map((prop, index) => {
-			return _.isEmpty(prop) ? (
-				<tr key={index} className="ptr-docs-props-table-empty-row">
-				</tr>
-			) : (
-				<tr key={index}>
-					<td className="ptr-docs-props-table-name">{prop.name}</td>
-					<td className="ptr-docs-props-table-type">{prop.type}</td>
-					<td className="ptr-docs-props-table-default">{prop.default}</td>
-					<td className="ptr-docs-props-table-required">{prop.required ? <Icon icon="circle"/> : null}</td>
-					<td className="ptr-docs-props-table-description">{prop.description}{
-						prop.objectPropsDescription ? (
-							<div className="ptr-docs-props-table-description-object">
-								{prop.objectPropsDescription.map((objectProp, index) => (
-									<div key={index}>
-										<span>{objectProp.name + ' [' + objectProp.type + ']: '}</span>
-										{objectProp.description}
-									</div>
-								))}
-							</div>
-						) : null
-					}</td>
-				</tr>)
-			}
-		)}
-		</tbody>
-	</table>
+	<div className="ptr-docs-props-table-container">
+		<table className="ptr-docs-props-table">
+			<tbody>
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Default</th>
+				<th>Required</th>
+				<th>Description</th>
+			</tr>
+			{content.map((prop, index) => {
+				return _.isEmpty(prop) ? (
+					<tr key={index} className="ptr-docs-props-table-empty-row">
+					</tr>
+				) : (
+					<tr key={index}>
+						<td className="ptr-docs-props-table-name">{prop.name}</td>
+						<td className="ptr-docs-props-table-type">{prop.type}</td>
+						<td className="ptr-docs-props-table-default">{prop.default}</td>
+						<td className="ptr-docs-props-table-required">{prop.required ? <Icon icon="circle"/> : null}</td>
+						<td className="ptr-docs-props-table-description">{prop.description}{
+							prop.objectPropsDescription ? (
+								<div className="ptr-docs-props-table-description-object">
+									{prop.objectPropsDescription.map((objectProp, index) => (
+										<div key={index}>
+											<span>{objectProp.name + ' [' + objectProp.type + ']: '}</span>
+											{objectProp.description}
+										</div>
+									))}
+								</div>
+							) : null
+						}</td>
+					</tr>)
+				}
+			)}
+			</tbody>
+		</table>
+	</div>
 );
 
 export const SyntaxHighlighter = ({language, children}) => (
