@@ -77,7 +77,7 @@ class AxisY extends React.PureComponent {
 								<line
 									className="ptr-axis-gridline"
 									x1={TICK_CAPTION_OFFSET_VERTICAL}
-									x2={this.props.gridlines ? (this.props.plotWidth  + shift) : TICK_SIZE}
+									x2={this.props.gridlines ? (this.props.plotWidth  + shift) : shift}
 									y1={yCoord}
 									y2={yCoord}
 								/>
