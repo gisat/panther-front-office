@@ -141,7 +141,7 @@ class ScatterChart extends React.PureComponent {
 			let color = _.get(item, this.props.colorSourcePath);
 			let name = _.get(item, this.props.nameSourcePath);
 
-			if (!color || this.props.colored) {
+			if ((!color && this.props.colorSourcePath) || this.props.colored) {
 				color = colors(key);
 			}
 
