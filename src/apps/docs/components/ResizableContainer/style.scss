@@ -16,6 +16,7 @@
 	position: absolute;
 	top: calc(50% - 1rem);
 	color: var(--accent50);
+	z-index: 1;
 }
 
 .ptr-resizable-container .react-draggable:before {
