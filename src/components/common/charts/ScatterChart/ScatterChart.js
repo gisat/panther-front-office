@@ -23,6 +23,7 @@ class ScatterChart extends React.PureComponent {
 		isSerie: PropTypes.bool,
 		pointRadius: PropTypes.number,
 		itemNameSourcePath: PropTypes.string, // only if serie
+		colored: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -104,11 +105,9 @@ class ScatterChart extends React.PureComponent {
 				.domain(yDomain)
 				.range([props.innerPlotHeight, 0]);
 
-			if (props.isSerie) {
-				colors = d3
-					.scaleOrdinal(d3.schemeCategory10)
-					.domain(_.map(props.data,record => {return _.get(record, props.keySourcePath)}));
-			}
+			colors = d3
+				.scaleOrdinal(d3.schemeCategory10)
+				.domain(_.map(props.data,record => {return _.get(record, props.keySourcePath)}));
 		}
 
 		return (
@@ -142,11 +141,12 @@ class ScatterChart extends React.PureComponent {
 			let color = _.get(item, this.props.colorSourcePath);
 			let name = _.get(item, this.props.nameSourcePath);
 
+			if (!color || this.props.colored) {
+				color = colors(key);
+			}
+
 			if (this.props.isSerie) {
 				let serie = _.get(item, this.props.serieDataSourcePath);
-				if (!color) {
-					color = colors(_.get(item, this.props.keySourcePath));
-				}
 
 				return _.map(serie, (serieItem, index) => {
 					let xValue = _.get(serieItem, this.props.xSourcePath);
