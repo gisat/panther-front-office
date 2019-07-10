@@ -50,6 +50,7 @@ class CartesianCharts extends React.PureComponent {
 							withoutYbaseline={false}
 
 							minAspectRatio={1.7}
+							maxWidth={15}
 						/>
 					</HoverHandler>
 					<HoverHandler>
@@ -74,6 +75,7 @@ class CartesianCharts extends React.PureComponent {
 							withoutYbaseline={false}
 
 							minAspectRatio={1.7}
+							maxWidth={15}
 						/>
 					</HoverHandler>
 					<HoverHandler>
@@ -95,6 +97,7 @@ class CartesianCharts extends React.PureComponent {
 							withoutYbaseline={false}
 
 							minAspectRatio={1.7}
+							maxWidth={15}
 						/>
 					</HoverHandler>
 				</div>
@@ -105,7 +108,7 @@ class CartesianCharts extends React.PureComponent {
 					<li><Link to="/docs/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
 				</ul>
 
-				<h2>Common props</h2>
+				<h2 id="props">Common props</h2>
 				<ComponentPropsTable
 					content={
 						[{
@@ -378,15 +381,256 @@ class CartesianCharts extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
-				<DocsToDo>
-					<h3>Minimal aspect ratio</h3>
-					<h3>Handling inner padding</h3>
-					<h3>Extend space for axis values</h3>
-					<h3>Show/hide axis values, ticks and gridlines</h3>
-					<h3>Axis labels</h3>
-					<h3>Set fixed values range</h3>
-					<h3>Show legend</h3>
-				</DocsToDo>
+				<h3>Minimal aspect ratio</h3>
+				<p>Minimal aspect ratio defines minimal allowed width to height ratio. If this ratio is higher than defined value, the height is adjusted to fit <InlineCodeHighlighter>minAcpectRatio</InlineCodeHighlighter>. Try to resize the box in the example below to see the height adjustment.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ScatterChart \n' +
+					'\t\tkey="cartesians-docs-chart-min-aspect-ratio"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.some_value_1"\n' +
+					'\t\tySourcePath="data.some_value_2"\n' +
+					'\n' +
+					'\t\tminAspectRatio={1.5}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<ResizableContainer>
+							<ScatterChart
+								key="cartesians-docs-chart-min-aspect-ratio"
+
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.some_value_1"
+								ySourcePath="data.some_value_2"
+
+								minAspectRatio={1.5}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h3>Handling inner padding</h3>
+				<p>Inner padding defines the space between plot area edge and plot itself in rem values. Currently, it is possible to set <InlineCodeHighlighter>innerPaddingLeft</InlineCodeHighlighter> - space between plot and axis y, <InlineCodeHighlighter>innerPaddingTop</InlineCodeHighlighter> - space between plot and the top edge of the chart area, and <InlineCodeHighlighter>innerPaddingRight</InlineCodeHighlighter> - space between plot and the right edge of the chart.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="cartesians-docs-chart-inner-padding"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["period","asc"]]}\n' +
+					'\n' +
+					'\t\tinnerPaddingLeft={0}\n' +
+					'\t\tinnerPaddingTop={4}\n' +
+					'\t\tinnerPaddingRight={2}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="cartesians-docs-chart-width"
+
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
+
+								sorting={[["period", "asc"]]} // not required, but recommended
+
+								innerPaddingLeft={0}
+								innerPaddingRight={2}
+								innerPaddingTop={4}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h3>Axis customization</h3>
+				<p>There are plenty of options to customize both axis x and axis y. In the example below, there are listed all props associated with axis for clarity, even if some of them are truthy by default for column chart (<Link to={{hash: "#props"}}>See props table in the top of this page</Link>).</p>
+				<p>The values next to axis y (<InlineCodeHighlighter>yValues</InlineCodeHighlighter>) and below axis x (<InlineCodeHighlighter>xValues</InlineCodeHighlighter>) should be shown by default. However, the default space may not to be enough for them (or is too large on the other hand ). For such cases, it is possible to adjust space for values using <InlineCodeHighlighter>xValuesSize</InlineCodeHighlighter> or <InlineCodeHighlighter>yValuesSize</InlineCodeHighlighter>.</p>
+				<p>To increase readability you can switch on or off gridlines (<InlineCodeHighlighter>xGridlines</InlineCodeHighlighter> - auxiliary horizontal lines, <InlineCodeHighlighter>yGridlines</InlineCodeHighlighter> - auxiliary vertical lines) and ticks (<InlineCodeHighlighter>xTicks</InlineCodeHighlighter>, <InlineCodeHighlighter>yTicks</InlineCodeHighlighter>) for both axis.</p>
+				<p>Use <InlineCodeHighlighter>xLabel</InlineCodeHighlighter>/<InlineCodeHighlighter>yLabel</InlineCodeHighlighter> to add label (title) for axis x/axis y. Source data for the label must be defined in <InlineCodeHighlighter>xOptions</InlineCodeHighlighter>/<InlineCodeHighlighter>yOptions</InlineCodeHighlighter> object as you can see in the example below.</p>
+				<p>Furthermore, you can extend minimum and maximum for axis y (or even for axis x, if its scale is linear - e.g. scatter chart) in the options object.</p>
+				<p>For axis y, there is an additional prop <InlineCodeHighlighter>withoutYbaseline</InlineCodeHighlighter>nset to false. It means show the baseline of axis Y, because the baseline is hidden by default for column chart.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="cartesians-docs-chart-axis"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_1"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\n' +
+					'\t\txGridlines\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "U.S. states"\n' +
+					'\t\t}}\n' +
+					'\t\txLabel\n' +
+					'\t\txTicks\n' +
+					'\t\txValues\n' +
+					'\t\txValuesSize={5}\n' +
+					'\n' +
+					'\t\tyGridlines\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tname: "Urban Area"\n' +
+					'\t\t\tunit: "sqkm"\n' +
+					'\t\t\tmin: 0\n' +
+					'\t\t\tmax: 104000\n' +
+					'\t\t}}\n' +
+					'\t\tyLabel\n' +
+					'\t\tyTicks\n' +
+					'\t\tyValues\n' +
+					'\t\tyValuesSize={4.5}\n' +
+					'\n' +
+					'\t\twithoutYbaseline={false}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="cartesians-docs-chart-max-min-width"
+
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath="data.some_value_1"
+
+								sorting={[["data.some_value_1", "desc"]]} // not required, but recommended
+
+								xGridlines
+								xOptions={{
+									name: "U.S. states"
+								}}
+								xLabel
+								xTicks
+								xValues
+								xValuesSize={5}
+
+								yGridlines
+								yOptions={{
+									name: "Urban Area",
+									unit: "sqkm",
+									min: 0,
+									max: 104000
+								}}
+								yLabel
+								yTicks
+								yValues
+								yValuesSize={4.5}
+
+								withoutYbaseline={false}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h3>Show legend</h3>
+				<p>A legend could be used in line chart or scatter and is hidden by default. To show the legend just add <InlineCodeHighlighter>legend</InlineCodeHighlighter> prop. In the examples below you can se the legend usage for all types of cartesian charts.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="cartesians-docs-chart-legend-line"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tserieDataSourcePath="data.data"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["period","asc"]]}\n' +
+					'\n' +
+					'\t\tlegend\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="cartesians-docs-chart-legend-line"
+
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
+
+								sorting={[["period", "asc"]]} // not required, but recommended
+
+								legend
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ScatterChart \n' +
+					'\t\tkey="cartesians-docs-chart-legend-scatter"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.some_value_1"\n' +
+					'\t\tySourcePath="data.some_value_2"\n' +
+					'\n' +
+					'\t\tcolored\n' +
+					'\t\tlegend\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock>
+					<HoverHandler>
+						<ResizableContainer>
+							<ScatterChart
+								key="cartesians-docs-chart-legend-scatter"
+
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.some_value_1"
+								ySourcePath="data.some_value_2"
+
+								colored
+								legend
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
 			</Page>
 		);
 	}
