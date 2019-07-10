@@ -170,13 +170,8 @@ export default (WrappedChartComponent) => {
 				/>);
 			}
 
-			let style = {};
-			if (width) {
-				style.width = width;
-			}
-
 			return (
-				<div className="ptr-chart-container" ref={this.ref} style={style}>
+				<div className="ptr-chart-container" ref={this.ref}>
 					{content}
 				</div>
 			);
