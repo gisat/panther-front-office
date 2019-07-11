@@ -16,6 +16,7 @@ import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 class ColumnChart extends React.PureComponent {
 	static defaultProps = {
 		animateChangeData: true,
+
 		minBarWidth: 4,
 		barGapRatio: 0.4,
 
@@ -23,18 +24,17 @@ class ColumnChart extends React.PureComponent {
 	};
 
 	static propTypes = {
+		defaultSchemeBarColors: PropTypes.bool, // if color is not defined in data and should be used from default scheme
 		defaultColor: PropTypes.string,
 		highlightedColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
 		]),
-		sorting: PropTypes.array,
-		animateChangeData: PropTypes.bool,
 
 		minBarWidth: PropTypes.number,
 		barGapRatio: PropTypes.number,
 
-		colored: PropTypes.bool, // if color is not defined in data and should be used from default scheme
+		animateChangeData: PropTypes.bool,
 		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by default same like value.
 	};
 
@@ -78,7 +78,7 @@ class ColumnChart extends React.PureComponent {
 				.domain(yDomain)
 				.range([props.innerPlotHeight, 0]);
 
-			if (props.colored) {
+			if (props.defaultSchemeBarColors) {
 				colors = d3
 					.scaleOrdinal(d3.schemeCategory10)
 					.domain(props.data.map(record => {return _.get(record, props.keySourcePath)}));
@@ -154,7 +154,7 @@ class ColumnChart extends React.PureComponent {
 						highlightedColor = chroma(defaultColor).darken(1);
 					}
 
-					if (props.colored) {
+					if (props.defaultSchemeBarColors) {
 						defaultColor = colors(key);
 						highlightedColor = chroma(defaultColor).darken(1);
 					}

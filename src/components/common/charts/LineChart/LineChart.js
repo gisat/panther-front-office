@@ -27,6 +27,8 @@ class LineChart extends React.PureComponent {
 		aggregationThreshold: PropTypes.number,
 		grayingThreshold: PropTypes.number,
 		withPoints: PropTypes.bool,
+
+		serieDataSourcePath: PropTypes.string.isRequired
 	};
 
 	constructor(props) {

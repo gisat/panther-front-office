@@ -69,7 +69,10 @@ export default (path, baseUrl) => {
 									<Anchor label="Lines without points" path="withoutPoints"/>
 									<Anchor label="Graying and aggregation" path="graying"/>
 								</Page>
-								<Page label="Column chart" path="columnChart" component={ColumnChartDoc} />
+								<Page label="Column chart" path="columnChart" component={ColumnChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
 							</Directory>
 							<Page label="Aster chart" path="asterChart" component={AsterChartDoc} />

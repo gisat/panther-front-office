@@ -133,7 +133,7 @@ class CartesianCharts extends React.PureComponent {
 						},{
 							name: "serieDataSourcePath",
 							type: "string",
-							description: "Path to serie data in data item object."
+							description: "Path to serie data in data item object. It is required for Line chart."
 						},{
 							name: "xSourcePath",
 							type: "string",
@@ -607,7 +607,7 @@ class CartesianCharts extends React.PureComponent {
 					'\t\txSourcePath="data.some_value_1"\n' +
 					'\t\tySourcePath="data.some_value_2"\n' +
 					'\n' +
-					'\t\tcolored\n' +
+					'\t\tdefaultSchemeBarColors\n' +
 					'\t\tlegend\n' +
 					'\t/>\n' +
 					'</HoverHandler>'}
