@@ -1,7 +1,7 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 
-import Button, {Buttons} from "../../../../../../components/common/atoms/Button";
+import Button, {Buttons, ButtonGroup} from "../../../../../../components/common/atoms/Button";
 import Icon from "../../../../../../components/common/atoms/Icon";
 import Menu from "../../../../../../components/common/atoms/Menu";
 import {MenuItem} from "../../../../../../components/common/atoms/Menu";
@@ -16,6 +16,16 @@ class ButtonsDoc extends React.PureComponent {
 					<Button icon="search">Search</Button>
 					<Button primary>Save</Button>
 					<Button secondary>Save & close</Button>
+					<ButtonGroup>
+						<Button icon="search"/>
+						<Button icon="info"/>
+						<Button icon="filter"/>
+						<Button icon="dots">
+							<Menu>
+								<MenuItem>Settings…</MenuItem>
+							</Menu>
+						</Button>
+					</ButtonGroup>
 				</Buttons>
 
 				<h2 id="props">Props</h2>
