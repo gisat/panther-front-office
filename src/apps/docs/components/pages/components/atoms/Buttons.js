@@ -106,6 +106,15 @@ class ButtonsDoc extends React.PureComponent {
 						},
 					]}
 				/>
+				
+				<h2>Levels</h2>
+				<h2>Variants</h2>
+				<h2>Sizes</h2>
+				<h2>Content</h2>
+				<Button>Vynalézt příklad víceřádkového popisu tlačítka.</Button>
+				<h2>Special cases</h2>
+				<h3>Circular</h3>
+				<h3>Side</h3>
 
 				<LightDarkBlock>
 					<h2>Normal size</h2>

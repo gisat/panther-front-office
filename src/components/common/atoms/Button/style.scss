@@ -28,11 +28,12 @@
   border-radius: .2rem;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   display: inline-block;
-  height: m(4/3);
+  min-height: m(4/3);
   outline: none;
   padding: 0 .35rem;
   position: relative;
   vertical-align: top;
+	font-size: 0;
 
   transition:
           background .3s ease-in-out,
@@ -134,7 +135,7 @@
 
 /* Sizes */
 .ptr-button.large {
-  height: m(2);
+  min-height: m(2);
   padding: 0 .5rem;
 }
 
@@ -155,7 +156,7 @@
 }
 
 .ptr-button.small {
-  height: m(1);
+  min-height: m(1);
   padding: 0 .35rem;
 }
 
@@ -519,6 +520,7 @@
 /* todo */
 .ptr-button-group {
 	display: inline-block;
+	position: relative;
 }
 
 .ptr-button-group .ptr-button,
@@ -526,11 +528,17 @@
 	margin: 0;
 }
 
-.ptr-button-group .ptr-button:not(:last-child) {
+.ptr-button-group .ptr-button:not(:last-child),
+.ptr-button-group .ptr-button:not(:last-child):after {
 	border-bottom-right-radius: 0;
 	border-top-right-radius: 0;
 }
-.ptr-button-group .ptr-button:not(:first-child) {
+.ptr-button-group .ptr-button:not(:first-child),
+.ptr-button-group .ptr-button:not(:first-child):after {
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;
+}
+
+.ptr-button-group .ptr-button:focus {
+	z-index: 2;
 }
