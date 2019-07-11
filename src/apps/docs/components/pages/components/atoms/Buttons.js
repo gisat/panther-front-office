@@ -12,7 +12,11 @@ class ButtonsDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Buttons">
-				<DocsToDo>Typical example(s) + usage</DocsToDo>
+				<Buttons>
+					<Button icon="search">Search</Button>
+					<Button primary>Save</Button>
+					<Button secondary>Save & close</Button>
+				</Buttons>
 
 				<h2 id="props">Props</h2>
 				<ComponentPropsTable
