@@ -141,3 +141,6 @@ class Button extends React.PureComponent {
 }
 
 export default Button;
+
+export const Buttons =  ({vertical, children}) => (<div className={classNames("ptr-buttons", {vertical})}>{children}</div>);
+export const ButtonGroup =  ({vertical, children}) => (<div className={classNames("ptr-button-group", {vertical})}>{children}</div>);
