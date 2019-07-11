@@ -43,7 +43,7 @@ class LineChartDoc extends React.PureComponent {
 				</div>
 				<p>A line chart is a type of chart which displays information as a series of data points connected by straight line segments. Use this type of chart to <b>show progress</b> of one attribute/indicator in the time, or to show progress of multiple comparable attributes/indicators for one area.</p>
 
-				<h2>Props</h2>
+				<h2 id="props">Props</h2>
 				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
 					content={[
@@ -69,7 +69,7 @@ class LineChartDoc extends React.PureComponent {
 						}
 					]}
 				/>
-				<h3>Input data structure</h3>
+				<h2 id="dataStructure">Input data structure</h2>
 				<p>Input data for line chart has to be a collection, where each object must contain at least key and collection of attribute data objects. The attribute data object must contain at least two key-value pairs, one as source for axis x and second as source for axis y.</p>
 				<SyntaxHighlighter language="javascript">
 					{'const data = [\n' +
@@ -94,8 +94,7 @@ class LineChartDoc extends React.PureComponent {
 					']'}
 				</SyntaxHighlighter>
 
-				<h2>Examples</h2>
-				<h3>Basic necessary settings</h3>
+				<h2 id="basicSettings">Basic necessary settings</h2>
 				<SyntaxHighlighter language="jsx">
 					{'// Sorting is not required, but recommended. \n' +
 					'// Use HoverHandler to see popups when move cursor over line or point. \n' +
@@ -134,7 +133,7 @@ class LineChartDoc extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
-				<h3>Without points</h3>
+				<h2 id="withoutPoints">Lines without points</h2>
 				<p>For simple use cases, it is possible to show line chart without points by setting <InlineCodeHighlighter>withPoints</InlineCodeHighlighter> prop to false. Be aware that you will lose information about values in popups in this case.</p>
 
 				<SyntaxHighlighter language="jsx">
@@ -177,7 +176,7 @@ class LineChartDoc extends React.PureComponent {
 					</HoverHandler>
 				</LightDarkBlock>
 
-				<h3>Graying and aggregation</h3>
+				<h2 id="graying">Graying and aggregation</h2>
 				<p>As you can see in the examples above, every line in the chart has its own color, so the chart is easy to read. However, the more lines are in the chart, the worse is the readability. Graying mode helps solve these cases.</p>
 				<p>By default, <InlineCodeHighlighter>grayingThreshold</InlineCodeHighlighter> is set to 10, so if there are more than 10 lines (and less than aggregation threshold at the same time), all lines will have gray color and no points. In the example below, data with 30 items is used.</p>
 

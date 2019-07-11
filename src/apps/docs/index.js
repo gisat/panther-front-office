@@ -62,7 +62,13 @@ export default (path, baseUrl) => {
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
-								<Page label="Line chart" path="lineChart" component={LineChartDoc}/>
+								<Page label="Line chart" path="lineChart" component={LineChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Lines without points" path="withoutPoints"/>
+									<Anchor label="Graying and aggregation" path="graying"/>
+								</Page>
 								<Page label="Column chart" path="columnChart" component={ColumnChartDoc} />
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
 							</Directory>
