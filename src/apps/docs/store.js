@@ -9,7 +9,11 @@ import appReducers from '../../state/App/reducers';
 import usersReducers from '../../state/Users/reducers';
 
 export const history = createBrowserHistory();
-wrapHistory(history); //todo review behaviour
+const settings = {
+	primaryFocusTarget: "body",
+	smoothScroll: true
+};
+wrapHistory(history, settings); //todo review behaviour
 
 // Redux store
 export default createStore(combineReducers({
