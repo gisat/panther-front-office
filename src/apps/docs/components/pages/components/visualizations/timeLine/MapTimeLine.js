@@ -12,7 +12,7 @@ import HoverHandler from "../../../../../../../components/common/HoverHandler/Ho
 // import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 // import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 
-class MapTimeLine extends React.PureComponent {
+class MapTimeline extends React.PureComponent {
 	constructor(props) {
 		super(props);
 	}
@@ -30,4 +30,4 @@ class MapTimeLine extends React.PureComponent {
 	}
 }
 
-export default MapTimeLine;
+export default MapTimeline;

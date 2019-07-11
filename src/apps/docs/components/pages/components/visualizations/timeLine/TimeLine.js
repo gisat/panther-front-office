@@ -12,7 +12,7 @@ import HoverHandler from "../../../../../../../components/common/HoverHandler/Ho
 // import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 // import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 
-class TimeLine extends React.PureComponent {
+class Timeline extends React.PureComponent {
 	constructor(props) {
 		super(props);
 	}
@@ -30,4 +30,4 @@ class TimeLine extends React.PureComponent {
 	}
 }
 
-export default TimeLine;
+export default Timeline;
