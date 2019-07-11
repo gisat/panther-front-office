@@ -48,10 +48,10 @@
 .ptr-button:after {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  right: -1px;
   background: transparent;
   transition: background .3s ease-in-out;
   z-index: 0;
@@ -144,7 +144,7 @@
 
 .ptr-button.large .ptr-button-caption {
   font-size: $b2;
-  padding: .8455rem 0;
+  padding: calc(.8455rem - 1px) 0;
   margin: 0 .4rem;
 }
 
@@ -347,11 +347,11 @@
 }
 
 .ptr-button.ghost.large .ptr-button-caption {
-  //padding: calc(.8455rem - 2px) 0;
+  padding: calc(.8455rem - 2px) 0;
 }
 
 .ptr-button.ghost.large .ptr-icon {
-  //margin: calc(.75rem - 2px) .4rem;
+  margin: calc(.75rem - 2px) .4rem;
 }
 
 .ptr-button.ghost.primary {
