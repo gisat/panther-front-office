@@ -13,8 +13,8 @@ export const PageTitle = ({children}) => (
 	</div>
 );
 
-export const LightDarkBlock = ({children}) => (
-	<div className="ptr-docs-light-dark-block">
+export const LightDarkBlock = ({forceRows, children}) => (
+	<div className={classNames("ptr-docs-light-dark-block", {forceRows})}>
 		<div className="ptr-light">
 			{children}
 		</div>

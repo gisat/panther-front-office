@@ -233,10 +233,15 @@
 
 /* Light dark block */
 .ptr-docs-light-dark-block {
+	display: flex;
 	margin: m(1) 0 m(2);
 	overflow-x: hidden;
 }
+.ptr-docs-light-dark-block.forceRows {
+	display: block;
+}
 .ptr-docs-light-dark-block > div {
+	flex: 1 50%;
 	padding: m(1);
 }
 
