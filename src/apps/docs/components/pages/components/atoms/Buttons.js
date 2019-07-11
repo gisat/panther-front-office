@@ -1,23 +1,25 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 
-import Button from "../../../../../../components/common/atoms/Button";
+import Button, {Buttons} from "../../../../../../components/common/atoms/Button";
 import Icon from "../../../../../../components/common/atoms/Icon";
 import Menu from "../../../../../../components/common/atoms/Menu";
 import {MenuItem} from "../../../../../../components/common/atoms/Menu";
 
 import Page, {LightDarkBlock} from '../../../Page';
 
-class Buttons extends React.PureComponent {
+class ButtonsDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Buttons">
 				<LightDarkBlock>
 					<h2>Normal size</h2>
 					<div className="ptr-docs-panel-section">
+						<Buttons>
 						<Button>Basic</Button>
 						<Button primary>Primary</Button>
 						<Button secondary>Secondary</Button>
+						</Buttons>
 					</div>
 	
 					<h2>Normal size with icon</h2>
@@ -232,4 +234,4 @@ class Buttons extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(Buttons);
+export default withNamespaces()(ButtonsDoc);
