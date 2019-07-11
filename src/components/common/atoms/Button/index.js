@@ -18,7 +18,7 @@ class Button extends React.PureComponent {
 		inverted: PropTypes.bool,
 		invisible: PropTypes.bool,
 		large: PropTypes.bool,
-		onClick: PropTypes.func,
+		onClick: PropTypes.func.isRequired,
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
 		side: PropTypes.string,
