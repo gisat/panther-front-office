@@ -315,7 +315,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<LineChart
 							key="cartesians-docs-chart-width"
@@ -357,7 +357,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer
 							minWidth={30}
@@ -400,7 +400,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ScatterChart
@@ -442,7 +442,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -512,7 +512,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ColumnChart
@@ -575,7 +575,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -613,7 +613,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ScatterChart
