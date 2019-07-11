@@ -26,6 +26,8 @@ import ColumnChartDoc from "./components/pages/components/visualizations/cartesi
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
 import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
+import TimeLine from "./components/pages/components/visualizations/timeLine/TimeLine";
+import MapTimeLine from "./components/pages/components/visualizations/timeLine/MapTimeLine";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 
@@ -75,7 +77,9 @@ export default (path, baseUrl) => {
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
 							</Directory>
-							<Page label="Aster chart" path="asterChart" component={AsterChartDoc} />
+							<Directory label="Timeline" path="timeLine" component={TimeLine}>
+								<Page label="Map Timeline" path="mapTimeLine" component={MapTimeLine} />
+							</Directory>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
 							<Page label="Buttons" path="buttons" component={Buttons}/>
