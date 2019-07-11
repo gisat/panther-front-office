@@ -55,6 +55,13 @@ class ColumnChart extends React.PureComponent {
 			let maximum = _.max(yValues);
 			let minimum = _.min(yValues);
 
+			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest bar. */
+			if (minimum >= 0) {
+				minimum = 0;
+			} else {
+				minimum = minimum - Math.abs(maximum - minimum)*0.05;
+			}
+
 			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
 				minimum = props.yOptions.min;
 			}
