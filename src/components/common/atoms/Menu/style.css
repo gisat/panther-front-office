@@ -28,19 +28,19 @@
 }
 .ptr-menu-item.disabled {
 	pointer-events: none;
-	color: var(--base30);
+	color: var(--base20);
 }
 .ptr-menu-item.disabled > .ptr-icon .line,
 .ptr-menu-item.disabled > .ptr-icon .polygon {
 	stroke: #b7b7b7;
 }
 .ptr-menu-item:not(:first-child) {
-	border-top: 1px solid var(--base40);
+	border-top: 1px solid var(--base30);
 }
 
 
 .ptr-menu-item:hover {
-	background: var(--base40);
+	background: var(--base30);
 }
 
 .ptr-menu-item > .ptr-icon {
@@ -64,5 +64,5 @@
 }
 
 .ptr-menu-item.disabled .ptr-menu-item-caption {
-	color: var(--base40);
+	color: var(--base30);
 }
