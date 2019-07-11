@@ -23,8 +23,8 @@
 /* General */
 .ptr-button {
   background: var(--base25);
-  color: var(--base100);
-  //border: 1px solid rgba(0,0,0,.02); // TODO why?
+  color: var(--base90);
+  border: 1px solid rgba(0,0,0,.02);
   border-radius: .2rem;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   display: inline-block;
@@ -39,7 +39,7 @@
           color .3s ease-in-out;
 }
 
-.ptr-button > * {
+.ptr-button > * { // todo why?
   position: relative;
   z-index: 1;
 }
@@ -64,9 +64,18 @@
   border-color: transparent;
 }
 
-.ptr-button:not(.ghost):not(.invisible):hover:after,
-.ptr-button.inverted:not(.ghost):not(.invisible):hover:after {
+.ptr-button:not(.ghost):not(.invisible):hover:after {
   background: rgba(255,255,255,.15);
+}
+
+/* todo refactor for god's sake */
+.ptr-button:not(.ghost):not(.invisible):not(.primary):not(.inverted):hover:after,
+.ptr-dark .ptr-button.inverted:not(.ghost):not(.invisible):not(.primary):hover:after {
+  background: rgba(255,255,255,.25);
+}
+.ptr-dark .ptr-button:not(.ghost):not(.invisible):not(.primary):not(.inverted):hover:after,
+.ptr-button.inverted:not(.ghost):not(.invisible):not(.primary):hover:after {
+  background: rgba(255,255,255,.07);
 }
 
 .ptr-button:focus::after {
@@ -101,7 +110,7 @@
   font-size: $a1;
   margin: 0 0.25rem;
   line-height: 1;
-  padding: 0.5rem 0;
+  padding: calc(0.55rem - 1px) 0 calc(0.45rem - 1px);
 }
 
 /* Icon */
@@ -109,7 +118,7 @@
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
-  margin: .375rem .25rem;
+  margin: calc(.375rem - 1px) .25rem;
 }
 
 .ptr-button > .ptr-icon .line {
@@ -141,7 +150,7 @@
 .ptr-button.large > .ptr-icon {
   width: 1.5rem;
   height: 1.5rem;
-  margin: .75rem .4rem;
+  margin: calc(.75rem - 1px) .4rem;
 }
 
 .ptr-button.small {
@@ -151,14 +160,14 @@
 
 .ptr-button.small .ptr-button-caption {
   font-size: $b1;
-  padding: .4rem 0 .291rem;
+	padding: calc(0.4rem - 1px) 0 calc(0.291rem - 1px);
   margin: 0 .15rem;
 }
 
 .ptr-button.small > .ptr-icon {
   width: 1rem;
   height: 1rem;
-  margin: .25rem .15rem;
+  margin: calc(.25rem - 1px) .15rem;
 }
 
 
@@ -173,12 +182,12 @@
 }
 
 .ptr-button.secondary {
-  background: var(--base50);
-  color: var(--base10);
+  background: var(--accent30);
+  color: var(--base90);
 }
 
 .ptr-button.secondary:hover {
-  color: var(--base0);
+  //color: var(--base0);
 }
 
 /* Invisible */
@@ -205,7 +214,7 @@
 .ptr-button.circular {
   width: 2.5rem;
   height: 2.5rem;
-  border: 0;
+  //border: 0;
   border-radius: 50%;
   position: relative;
   top: -.15rem;
@@ -217,7 +226,7 @@
 .ptr-button.circular > .ptr-icon {
   width: 1.25rem;
   height: 1.25rem;
-  margin: .625rem;
+  margin: calc(.625rem - 1px);
 }
 
 .ptr-button.circular {
@@ -240,7 +249,7 @@
 .ptr-button.circular.small > .ptr-icon {
   width: 1rem;
   height: 1rem;
-  margin: .5rem;
+  margin: calc(.5rem - 1px);
 }
 
 .ptr-button.circular.large {
@@ -251,7 +260,7 @@
 .ptr-button.circular.large > .ptr-icon {
   width: 1.5rem;
   height: 1.5rem;
-  margin: 1rem;
+  margin: calc(1rem - 1px);
 }
 
 
@@ -268,7 +277,7 @@
 
 .ptr-button.side-left > .ptr-icon,
 .ptr-button.side-right > .ptr-icon {
-  margin: .625rem .2rem;
+  margin: calc(.625rem - 1px) calc(.2rem - 1px);
 }
 
 .ptr-button.side-left {
@@ -287,7 +296,7 @@
 
 .ptr-button.side-top > .ptr-icon,
 .ptr-button.side-bottom > .ptr-icon {
-  margin: .2rem .625rem;
+  margin: calc(.2rem - 1px) calc(.625rem - 1px);
 }
 
 .ptr-button.side-top {
@@ -302,17 +311,17 @@
 /* Ghost */
 .ptr-button.ghost {
   background: transparent;
-  border: 1px solid var(--base70);
+  border: 1px solid var(--base60);
   box-shadow: none;
   padding: 0 calc(.35rem - 1px);
 }
 
 .ptr-button.ghost .ptr-button-caption {
-  padding: calc(0.5rem - 1px) 0;
+  //padding: calc(0.5rem - 1px) 0;
 }
 
 .ptr-button.ghost > .ptr-icon {
-  margin: calc(.375rem - 1px) .25rem;
+  //margin: calc(.375rem - 1px) .25rem;
 }
 
 .ptr-button.ghost:hover {
@@ -324,11 +333,11 @@
 }
 
 .ptr-button.ghost.small .ptr-button-caption {
-  padding: calc(.3455rem - 1px) 0;
+  //padding: calc(.3455rem - 1px) 0;
 }
 
 .ptr-button.ghost.small .ptr-icon {
-  margin: calc(.25rem - 1px) .15rem;
+  //margin: calc(.25rem - 1px) .15rem;
 }
 
 .ptr-button.ghost.large {
@@ -337,16 +346,16 @@
 }
 
 .ptr-button.ghost.large .ptr-button-caption {
-  padding: calc(.8455rem - 2px) 0;
+  //padding: calc(.8455rem - 2px) 0;
 }
 
 .ptr-button.ghost.large .ptr-icon {
-  margin: calc(.75rem - 2px) .4rem;
+  //margin: calc(.75rem - 2px) .4rem;
 }
 
 .ptr-button.ghost.primary {
   border-color: var(--accent50);
-  color: var(--accent50);
+  color: var(--accent60);
 }
 
 .ptr-button.ghost.primary:hover {
@@ -400,12 +409,12 @@
 }
 
 .ptr-button.secondary.inverted {
-  background: var(--base50);
-  color: var(--base90);
+  background: var(--accent70);
+  color: var(--base10);
 }
 
 .ptr-button.secondary.inverted:hover {
-  color: var(--base100);
+  color: var(--base0);
 }
 
 .ptr-button.inverted.invisible {
