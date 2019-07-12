@@ -20,10 +20,10 @@ class ScatterChart extends React.PureComponent {
 	};
 
 	static propTypes = {
-		isSerie: PropTypes.bool,
+		defaultSchemePointColors: PropTypes.bool,
 		pointRadius: PropTypes.number,
+		isSerie: PropTypes.bool,
 		itemNameSourcePath: PropTypes.string, // only if serie
-		defaultSchemePointColors: PropTypes.bool
 	};
 
 	constructor(props) {

@@ -77,7 +77,13 @@ export default (path, baseUrl) => {
 									<Anchor label="Custom bar colors" path="barColors"/>
 									<Anchor label="Aggregation" path="aggregation"/>
 								</Page>
-								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
+								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Point radius" path="pointRadius"/>
+									<Anchor label="Serial data handling" path="serialData"/>
+								</Page>
 							</Directory>
 							<Page label="Aster chart" path="asterChart" component={AsterChartDoc} />
 						</Directory>
