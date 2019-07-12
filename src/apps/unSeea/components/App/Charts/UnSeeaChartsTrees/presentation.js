@@ -80,8 +80,6 @@ class ChartPanel extends React.PureComponent {
 									key="aster-doc-basic"
 									// data={[]}
 									data={hoverAsterData.data}
-									width={200}
-									maxWidth={500}
 									keySourcePath="key"
 									nameSourcePath="name"
 									valueSourcePath="value.relative"
@@ -124,8 +122,6 @@ class ChartPanel extends React.PureComponent {
 								<AsterChart
 									key={`${selectAsterData.key}-aster-doc-basic`}
 									data={selectAsterData.data}
-									width={200}
-									maxWidth={500}
 
 									keySourcePath="key"
 									nameSourcePath="name"
