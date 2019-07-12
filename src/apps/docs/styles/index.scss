@@ -280,6 +280,22 @@
 	padding: m(2/3);
 }
 
+/* Docs To:Do inline */
+.ptr-docs-todo-inline{
+	border: 2px dashed rgba(255,144,47,1);
+	display: inline-block;
+	padding-right: .5rem;
+	background: rgba(255,144,47,.2);
+}
+
+.ptr-docs-todo-inline i {
+	background: rgba(255,144,47,1);
+	color: #ffffff;
+	font-size: $a1;
+	padding: .15rem m(1/3);
+	margin-right: .5rem;
+}
+
 /* Visualizations */
 .ptr-docs-visualizations-intro-example {
 	margin-bottom: m(1);

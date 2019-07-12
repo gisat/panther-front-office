@@ -41,6 +41,13 @@ export const DocsToDo = ({children}) => (
 	</div>
 );
 
+export const DocsToDoInline = ({children}) => (
+	<span className="ptr-docs-todo-inline">
+		<i>Missing documentation:</i>
+		{children}
+	</span>
+);
+
 const Page = ({title, lightDark, children}) => (
 	<div className={classNames("ptr-docs-page", {lightDark})}>
 		{title ? (<PageTitle>{title}</PageTitle>	) : null}
