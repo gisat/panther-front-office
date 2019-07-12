@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from "lodash";
-import Icon from "../Page";
+import Icon from "../../../../components/common/atoms/Icon";
 
 import './style.scss';
 
@@ -22,6 +22,7 @@ class ComponentPropsTable extends React.PureComponent {
 					{content.map((prop, index) => {
 							return _.isEmpty(prop) ? (
 								<tr key={index} className="ptr-docs-props-table-empty-row">
+									<td colSpan={5}><div></div></td>
 								</tr>
 							) : (
 								<tr key={index}>

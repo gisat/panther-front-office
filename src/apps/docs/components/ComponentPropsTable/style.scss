@@ -1,29 +1,42 @@
+@import '../../../../styles/variables';
+
 /* Component props table */
 .ptr-docs-props-table-container {
 	width: 100%;
 	overflow-y: auto;
 	margin: m(1/3) 0;
+	border: 1px solid var(--base30);
 }
 
 .ptr-docs-props-table {
 	background: var(--base10);
-	padding: .35rem;
 	max-width: 80rem;
 }
 
-.ptr-docs-props-table-empty-row {
-	height: m(1);
+.ptr-docs-props-table tr th,
+.ptr-docs-props-table tr:not(.ptr-docs-props-table-empty-row) td {
+	padding: .35rem .5rem .35rem .35rem;
+	color: var(--base80);
+}
+
+.ptr-docs-props-table tr th:first-child,
+.ptr-docs-props-table tr:not(.ptr-docs-props-table-empty-row) td:first-child {
+	padding-left: 1rem;
+}
+
+.ptr-docs-props-table tr th:last-child,
+.ptr-docs-props-table tr:not(.ptr-docs-props-table-empty-row) td:last-child {
+	padding-right: 1.5rem;
 }
 
 .ptr-docs-props-table tr th {
 	font-weight: bold;
 	text-align: left;
+	padding-top: 1rem;
 }
 
-.ptr-docs-props-table tr th,
-.ptr-docs-props-table tr td {
-	padding: .35rem 1rem .35rem .35rem;
-	color: var(--base80);
+.ptr-docs-props-table tr:last-child td {
+	padding-bottom: 2rem;
 }
 
 .ptr-docs-props-table-name,
@@ -60,4 +73,16 @@
 .ptr-docs-props-table-description-object > div > span {
 	font-family: monospace;
 	font-size: 1.15rem;
+}
+
+/* Empty row */
+.ptr-docs-props-table-empty-row td {
+	padding: 0;
+}
+
+.ptr-docs-props-table-empty-row td > div {
+	height: m(2/3);
+	margin-bottom: m(2/3);
+	border-bottom: 1px solid var(--base30);
+	width: 100%;
 }
