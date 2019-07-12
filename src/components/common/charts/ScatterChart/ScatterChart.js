@@ -23,7 +23,7 @@ class ScatterChart extends React.PureComponent {
 		isSerie: PropTypes.bool,
 		pointRadius: PropTypes.number,
 		itemNameSourcePath: PropTypes.string, // only if serie
-		colored: PropTypes.bool
+		defaultSchemePointColors: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -141,7 +141,7 @@ class ScatterChart extends React.PureComponent {
 			let color = _.get(item, this.props.colorSourcePath);
 			let name = _.get(item, this.props.nameSourcePath);
 
-			if ((!color && this.props.colorSourcePath) || this.props.colored) {
+			if ((!color && this.props.colorSourcePath) || this.props.defaultSchemePointColors) {
 				color = colors(key);
 			}
 

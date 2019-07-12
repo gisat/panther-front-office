@@ -624,7 +624,7 @@ class CartesianCharts extends React.PureComponent {
 								xSourcePath="data.some_value_1"
 								ySourcePath="data.some_value_2"
 
-								colored
+								defaultSchemePointColors
 								legend
 							/>
 						</ResizableContainer>
