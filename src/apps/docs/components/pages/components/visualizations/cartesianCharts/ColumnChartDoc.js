@@ -7,14 +7,14 @@ import ColumnChart from "../../../../../../../components/common/charts/ColumnCha
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 
 import Page, {
-	ComponentPropsTable,
-	DocsToDo,
+	DocsToDoInline,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
 } from '../../../../Page';
 import {Link} from "react-router-dom";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 
 class ColumnChartDoc extends React.PureComponent {
 	constructor(props) {

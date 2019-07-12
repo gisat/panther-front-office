@@ -8,13 +8,12 @@ import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import Page, {
-	ComponentPropsTable,
-	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
 } from "../../../../Page";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 
 class LineChartDoc extends React.PureComponent {
 	constructor(props) {

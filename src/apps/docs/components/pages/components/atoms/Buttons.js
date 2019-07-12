@@ -6,7 +6,8 @@ import Icon from "../../../../../../components/common/atoms/Icon";
 import Menu from "../../../../../../components/common/atoms/Menu";
 import {MenuItem} from "../../../../../../components/common/atoms/Menu";
 
-import Page, {ComponentPropsTable, DocsToDo, LightDarkBlock} from '../../../Page';
+import Page, {LightDarkBlock} from '../../../Page';
+import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";
 
 const nil = () => {};
 

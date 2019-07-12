@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Page, {
-	ComponentPropsTable,
-	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
@@ -16,6 +14,7 @@ import ColumnChart from "../../../../../../../components/common/charts/ColumnCha
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
