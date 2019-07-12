@@ -72,6 +72,10 @@ export default (path, baseUrl) => {
 								<Page label="Column chart" path="columnChart" component={ColumnChartDoc}>
 									<Anchor label="Props" path="props"/>
 									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Serial data handling" path="serialData"/>
+									<Anchor label="Custom bar colors" path="barColors"/>
+									<Anchor label="Aggregation" path="aggregation"/>
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
 							</Directory>
