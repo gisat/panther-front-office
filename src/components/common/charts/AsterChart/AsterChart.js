@@ -227,6 +227,7 @@ class AsterChart extends React.PureComponent {
 					valueSourcePath={this.props.valueSourcePath}
 					hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 					data={segment}
+					relative={this.props.relative}
 					siblings={siblings}
 				/>
 			);
