@@ -18,7 +18,7 @@ const TICK_WIDTH = 8; // in px
 class AsterChart extends React.PureComponent {
 	static defaultProps = {
 		minWidth: 12, // in rem
-		maxWidth: 40, // in rem
+		maxWidth: 30, // in rem
 		padding: 1, // in rem
 
 		grid: true,
@@ -34,16 +34,16 @@ class AsterChart extends React.PureComponent {
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
+		data: PropTypes.array.isRequired,
 		forceMinimum: PropTypes.number,
 		forceMaximum: PropTypes.number,
 		relative: PropTypes.bool,
 		sorting: PropTypes.array,
 
 		colorSourcePath: PropTypes.string,
-		keySourcePath: PropTypes.string,
-		nameSourcePath: PropTypes.string,
-		valueSourcePath: PropTypes.string,
+		keySourcePath: PropTypes.string.isRequired,
+		nameSourcePath: PropTypes.string.isRequired,
+		valueSourcePath: PropTypes.string.isRequired,
 		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		width: PropTypes.number,
