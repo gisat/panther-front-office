@@ -5,7 +5,7 @@ import {
     DEFAULTOUTLINETRANSPARENCY,
     getCartogramColorScale,
     transformScaleDarker,
-} from '../../../components/common/maps/WorldWindMap/styles/colors'
+} from '../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 
 const {Color, ShapeAttributes} = WorldWind;
 

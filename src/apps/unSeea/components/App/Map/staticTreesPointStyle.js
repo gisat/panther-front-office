@@ -1,11 +1,11 @@
 import WorldWind, {ImageSource} from "webworldwind-esa";
 import chroma from 'chroma-js';
-import {getCircle} from '../../../../../components/common/maps/WorldWindMap/styles/images';
+import {getCircle} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/images';
 import {
     hoverPalette
-} from '../../../../../components/common/maps/WorldWindMap/styles/colors'
+} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 
-import {getColorPallet} from '../../../../../components/common/maps/WorldWindMap/styles/colors';
+import {getColorPallet} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors';
 
 const {PlacemarkAttributes} = WorldWind;
 
