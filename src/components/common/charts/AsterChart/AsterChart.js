@@ -136,7 +136,16 @@ class AsterChart extends React.PureComponent {
 			}
 
 			let maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
-			let minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
+			let minimum = _.min(values);
+
+			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest segment. */
+			if (props.forceMinimum || props.forceMinimum === 0) {
+				minimum = props.forceMinimum;
+			} else if (minimum >= 0) {
+				minimum = 0;
+			} else {
+				minimum = minimum - Math.abs(maximum - minimum)*0.05;
+			}
 
 			let origin = [width/2, width/2];
 			let domain = [minimum, maximum];
