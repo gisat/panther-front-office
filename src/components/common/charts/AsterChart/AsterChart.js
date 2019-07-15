@@ -27,7 +27,7 @@ class AsterChart extends React.PureComponent {
 		gridValues: true,
 
 		radials: true,
-		radialsLabels: true,
+		radialsLabels: false,
 		radialsLabelsSize: 1, // in rem
 
 		startingAngle: Math.PI/2
@@ -323,7 +323,7 @@ class AsterChart extends React.PureComponent {
 
 	renderRadials(data, origin, scale, maximum) {
 		let segmentAngle = 2*Math.PI/data.length;
-		let maxRadius = scale(maximum) + TICK_WIDTH;
+		let maxRadius = this.props.radialsLabels ? scale(maximum) + TICK_WIDTH : scale(maximum);
 		let maxTextRadius = scale(maximum) + 2*TICK_WIDTH;
 
 		return _.map(data, (segment, index) => {
