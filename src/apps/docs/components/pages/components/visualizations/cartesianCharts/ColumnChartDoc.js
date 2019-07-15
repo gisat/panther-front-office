@@ -75,11 +75,11 @@ class ColumnChartDoc extends React.PureComponent {
 							name: "animateChangeData",
 							type: "boolean",
 							default: "true",
-							description: () => {return <DocsToDoInline>add description and example</DocsToDoInline>}
+							description: (<DocsToDoInline>add description and example</DocsToDoInline>)
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: () => {return <DocsToDoInline>add description</DocsToDoInline>}
+							description: (<DocsToDoInline>add description</DocsToDoInline>)
 						}
 					]}
 				/>

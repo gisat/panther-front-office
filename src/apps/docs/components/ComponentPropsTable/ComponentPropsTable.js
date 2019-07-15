@@ -41,27 +41,21 @@ class ComponentPropsTable extends React.PureComponent {
 	}
 
 	renderDescription(desc, objectPropsDesc) {
-		let content = null;
-
-		if (typeof desc === 'function') {
-			content = <>{desc()}</>
-		} else {
-			content = (
-				<>
-					{desc}
-					{objectPropsDesc ? (
-						<div className="ptr-docs-props-table-description-object">
-							{objectPropsDesc.map((objectProp, index) => (
-								<div key={index}>
-									<span>{objectProp.name + ' [' + objectProp.type + ']: '}</span>
-									{objectProp.description}
-								</div>
-							))}
-						</div>
-					) : null}
-				</>
-			);
-		}
+		let content = (
+			<>
+				{desc}
+				{objectPropsDesc ? (
+					<div className="ptr-docs-props-table-description-object">
+						{objectPropsDesc.map((objectProp, index) => (
+							<div key={index}>
+								<span>{objectProp.name + ' [' + objectProp.type + ']: '}</span>
+								{objectProp.description}
+							</div>
+						))}
+					</div>
+				) : null}
+			</>
+		);
 
 		return (
 			<td className="ptr-docs-props-table-description">{content}</td>
