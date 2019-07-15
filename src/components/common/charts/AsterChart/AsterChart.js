@@ -17,7 +17,7 @@ const TICK_WIDTH = 8; // in px
 
 class AsterChart extends React.PureComponent {
 	static defaultProps = {
-		minWidth: 12, // in rem
+		minWidth: 10, // in rem
 		maxWidth: 30, // in rem
 		padding: 1, // in rem
 
