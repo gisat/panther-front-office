@@ -93,7 +93,7 @@ class AsterChart extends React.PureComponent {
 		const props = this.props;
 		let remSize = utils.getRemSize();
 
-		let content, width  = null;
+		let content, data, width  = null;
 		if (this.props.width || this.state.width) {
 
 			/* dimensions */
@@ -110,7 +110,6 @@ class AsterChart extends React.PureComponent {
 			let innerWidth = width - 2*padding;
 
 			/* data preparation */
-			let data = null;
 			let values = [];
 
 			if (props.data) {
@@ -162,7 +161,6 @@ class AsterChart extends React.PureComponent {
 						{data ? this.renderSegments(data, origin, scale, maximum) : null}
 						{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
 					</svg>
-					{this.props.legend ? this.renderLegend(data, props.radials && props.radialsLabels) : null}
 				</>
 			);
 		}
@@ -173,10 +171,11 @@ class AsterChart extends React.PureComponent {
 		}
 
 		return (
-			<div className="ptr-chart-container" ref={this.ref}>
+			<div className="ptr-chart-container centered" ref={this.ref}>
 				<div style={style}>
 					{content}
 				</div>
+				{this.props.legend && data ? this.renderLegend(data, props.radials && props.radialsLabels) : null}
 			</div>
 		);
 	}

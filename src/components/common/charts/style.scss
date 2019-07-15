@@ -14,9 +14,15 @@
 	width: 100%;
 	overflow: hidden;
 	max-width: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
-.ptr-chart-container > div {
+.ptr-chart-container.centered {
+	align-items: center;
+}
+
+.ptr-chart-container > div:not(.ptr-chart-legend) {
 	position: relative;
 	display: flex;
 	flex-direction: column;
