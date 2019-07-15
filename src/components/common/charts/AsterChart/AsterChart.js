@@ -238,11 +238,12 @@ class AsterChart extends React.PureComponent {
 		const props = this.props;
 
 		let numOfSteps = props.gridStepsMax;
-		let gap = props.gridGapMin;
+		let gap = props.gridGapMin * utils.getRemSize();
 
 		let min = domain[0];
 		let max = domain[1];
 
+		// adjust the number of steps according to chart height
 		if ((width/2) < numOfSteps * gap) {
 			numOfSteps = Math.floor((width/2)/gap);
 		}

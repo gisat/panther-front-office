@@ -24,19 +24,6 @@ class AsterChartDoc extends React.PureComponent {
 							keySourcePath="key"
 							nameSourcePath="data.name"
 							valueSourcePath="data.someStrangeValue"
-
-							forceMinimum={0}
-							forceMaximum={2000}
-
-							grid
-							gridGapMin={30}
-							gridStepsMax={5}
-							gridValues
-
-							radials
-							radialsLabels
-
-							legend
 						/>
 					</ResizableContainer>
 				</HoverHandler>
@@ -56,6 +43,8 @@ class AsterChartDoc extends React.PureComponent {
 							forceMaximum={100}
 
 							relative
+
+							radialsLabels
 
 							legend
 						/>
