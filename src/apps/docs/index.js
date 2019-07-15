@@ -85,7 +85,16 @@ export default (path, baseUrl) => {
 									<Anchor label="Serial data handling" path="serialData"/>
 								</Page>
 							</Directory>
-							<Page label="Aster chart" path="asterChart" component={AsterChartDoc} />
+							<Page label="Aster chart" path="asterChart" component={AsterChartDoc}>
+								<Anchor label="Props" path="props"/>
+								<Anchor label="Data structure" path="dataStructure"/>
+								<Anchor label="Basic settings" path="basicSettings"/>
+								<Anchor label="Relative values" path="relativeValues"/>
+								<Anchor label="Dimensions" path="dimensions"/>
+								<Anchor label="Forced min & max" path="forceMinMax"/>
+								<Anchor label="Grid" path="grid"/>
+								<Anchor label="Radials & legend" path="radials"/>
+							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
 							<Page label="Buttons" path="buttons" component={Buttons}/>
