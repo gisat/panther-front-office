@@ -1,13 +1,7 @@
 import React from 'react';
 
-export default props => {
-
-	let color = props.color ? props.color : '#000000';
-	let opacity = (props.opacity || props.opacity === 0) ? props.opacity : 1;
-
-	return (
-		<g>
-			<circle className="polygon" cx="16" cy="16" r="5" fill={color} fillOpacity={opacity}/>
-		</g>
-	);
-};
+export default props => (
+	<g>
+		<path className="line" d="M 26,16 A 10,10 0 0 1 16,26 10,10 0 0 1 6,16 10,10 0 0 1 16,6 10,10 0 0 1 26,16 Z"/>
+	</g>
+);

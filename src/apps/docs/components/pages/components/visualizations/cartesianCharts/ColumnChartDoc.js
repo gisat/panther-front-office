@@ -1,150 +1,344 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
-import _ from 'lodash';
-import ReactResizeDetector from 'react-resize-detector';
 import sample_15 from "../../../../mockData/sample_15";
 import sample_200 from "../../../../mockData/sample_200";
+import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 
-import Page from '../../../../Page';
+import Page, {
+	DocsToDoInline,
+	InlineCodeHighlighter,
+	LightDarkBlock,
+	SyntaxHighlighter
+} from '../../../../Page';
+import {Link} from "react-router-dom";
+import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 
 class ColumnChartDoc extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			width: null
-		};
-		this.ref = React.createRef();
-
-		this.resize = this.resize.bind(this);
-	}
-
-	resize() {
-		this.setState({
-			width: (window.innerWidth) - 270 // TODO do it better
-		})
-	}
-
-	componentDidMount() {
-		this.resize();
-		if (window) window.addEventListener('resize', this.resize, {passive: true}); //todo IE
 	}
 
 	render() {
 		return (
 			<Page title="Column chart">
-				<div ref={this.ref}>
-					<div className="ptr-docs-panel-section">
-						<h2>Basic settings</h2>
-						<p>Resize window to see responsiveness.</p>
-						<HoverHandler>
+				<div className="ptr-docs-visualizations-intro-example">
+					<HoverHandler>
+						<ColumnChart
+							maxWidth={50}
+
+							key="typical-example"
+							data={sample_15}
+							keySourcePath="key"
+							nameSourcePath="data.name"
+							xSourcePath="data.name"
+							ySourcePath="data.some_value_1"
+
+							sorting={[["data.some_value_1", "desc"]]}
+							xValuesSize={5}
+						/>
+					</HoverHandler>
+				</div>
+				<p>A column chart presents categorical data with rectangular bars with heights proportional to the values that they represent. Currently, the column charts can show vertical bars only. Use this type of chart to <b>show attribute value for multiple cases</b> ( e.g. areas), or to show multiple comparable attribute values for one case.</p>
+
+				<h2 id="props">Props</h2>
+				<p>Bellow are listed specific props for column chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
+
+				<ComponentPropsTable
+					content={[
+						{
+							name: "defaultSchemeBarColors",
+							type: "boolean",
+							default: "false",
+							description: "By default, all bars in chart have one color. Set to true to have own color for each bar, if there is no color defined in input data."
+						}, {
+							name: "defaultColor",
+							type: "string",
+							description: "Default color of bars."
+						}, {
+							name: "highlightedColor",
+							type: "string|object",
+							description: "Color which is used for hover."
+						}, {}, {
+							name: "minBarWidth",
+							type: "number",
+							default: "4",
+							description: "Minimal width of bar in pixels. Bars will be aggregated, if the width is smaller."
+						}, {
+							name: "barGapRatio",
+							type: "number",
+							default: "0.4",
+							description: "Bar width to gap between bars width ratio."
+						}, {}, {
+							name: "animateChangeData",
+							type: "boolean",
+							default: "true",
+							description: (<DocsToDoInline>add description and example</DocsToDoInline>)
+						}, {
+							name: "hoverValueSourcePath",
+							type: "string",
+							description: (<DocsToDoInline>add description</DocsToDoInline>)
+						}
+					]}
+				/>
+
+				<h2 id="dataStructure">Input data structure</h2>
+				<p>Input data for line chart has to be a collection, where each object (or its children) must contain at least three key-value pairs, one as a source for key, second as a source for axis x and third as a source for axis y.</p>
+				<p>As the data source it is possible to use <Link to="/docs/components/visualizations/cartesianCharts/lineChart#dataStructure">the same data structure as for line chart</Link> as well. See how such data source is handled in the section <Link to="#serialData">Serial data input handling.</Link></p>
+
+				<SyntaxHighlighter language="javascript">
+					{'const data = [\n' +
+					'\t{\n' +
+					'\t\tkey: "230bd221-5384-4c09-bfa3-069eacbcfff8",   //use \'key\' as keySourcePath\n' +
+					'\t\tdata: {\n' +
+					'\t\t\tname: "Missouri",   //use \'data.name\' as nameSourcePath and xSourcePath\n' +
+					'\t\t\tvalue: "12.56",   //use \'data.value\' as ySourcePath\n' +
+					'\t\t\tcolor: "#ff0000",   //use \'data.color\' as colorSourcePath (if present)\n' +
+					'\t\t} \n' +
+					'\t}, {\n' +
+					'\t\tkey: "91c6851e-c5ef-4165-9b15-8cd987a92904",\n' +
+					'\t\tdata: {...}\n'	+
+					'\t},\n' +
+					'\t...\n' +
+					']'}
+				</SyntaxHighlighter>
+
+
+
+
+				<h2 id="basicSettings">Basic necessary settings</h2>
+				<SyntaxHighlighter language="jsx">
+					{'// Sorting is not required, but recommended. \n' +
+					'// Use HoverHandler to see popups when move cursor over line or point. \n' +
+					'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="basic-settings"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_1"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
 							<ColumnChart
-								key="test3"
+								key="basic-settings"
 								data={sample_15}
 								keySourcePath="key"
+								nameSourcePath="data.name"
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
+
 								sorting={[["data.some_value_1", "desc"]]}
-								width={this.state.width}
 							/>
-						</HoverHandler>
-					</div>
-	
-					<div className="ptr-docs-panel-section">
-						<h2>With captions</h2>
-						<p>It is possible to set both x and y captions.</p>
-						<HoverHandler>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+
+
+				<h2 id="serialData">Serial data input handling</h2>
+				<p>It is possible to use data in serial structure as input data for column chart. Examine <Link to="/docs/components/visualizations/cartesianCharts/lineChart#dataStructure">the Line chart documentation</Link> to get an overview of the data structure, as well as the example below to see how such data is handled.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="serial-data-input"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.data[3].someStrangeValue"\n' +
+					'\n' +
+					'\t\tsorting={[["data.data[3].someStrangeValue","desc"]]}\n' +
+					'\t\txValuesSize={4}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
 							<ColumnChart
-								key="test3"
+								maxWidth={50}
+
+								key="serial-data-input"
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath="data.data[3].someStrangeValue"
+
+								sorting={[["data.data[3].someStrangeValue", "desc"]]}
+								xValuesSize={4}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+
+
+				<h2 id="barColors">Custom bar colors</h2>
+
+				<p>By default, all the bars have the same color (accent color from CSS). However, it is possible to change this color using <InlineCodeHighlighter>defaultColor</InlineCodeHighlighter> property as well as the color for hover using   <InlineCodeHighlighter>highlightedColor</InlineCodeHighlighter> property.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="default-color"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_1"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\n' +
+					'\t\tdefaultColor="#ffaaaa"\n' +
+					'\t\thighlightedColor="#ff0000"\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="default-color"
 								data={sample_15}
 								keySourcePath="key"
+								nameSourcePath="data.name"
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
+
 								sorting={[["data.some_value_1", "desc"]]}
-								xCaptions
-								yCaptions
-								width={this.state.width}
+
+								defaultColor="#ffaaaa"
+								highlightedColor="#ff0000"
 							/>
-						</HoverHandler>
-					</div>
-	
-					<div className="ptr-docs-panel-section">
-						<h2>With captions, ticks, gridlines and without y baseline, custom max and min, attribute name, units, colour from default scheme</h2>
-						<HoverHandler>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<p>In some cases, it will be useful if every column has its own color (e.g. for visualizing elections results). There are two options to achieve it. Either use <InlineCodeHighlighter>defaultSchemeBarColors</InlineCodeHighlighter> to assign colors from D3 scheme, or define your own colors in input data. Then use <InlineCodeHighlighter>colorSourcePath</InlineCodeHighlighter> property instead.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="colored"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_1"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\n' +
+					'\t\tdefaultSchemeBarColors\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
 							<ColumnChart
-								key="test3"
+								key="colored"
 								data={sample_15}
 								keySourcePath="key"
+								nameSourcePath="data.name"
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
+
 								sorting={[["data.some_value_1", "desc"]]}
-								xCaptions
-								yCaptions
-								yCaptionsSize={80}
-								xCaptionsSize={80}
-								xTicks
-								yTicks
-								xGridlines
-								yGridlines
-								withoutYbaseline
-								width={this.state.width}
-								yOptions={{
-									min: -1,
-									max: 105000,
-									name: "Custom attribute name",
-									unit: "ha"
-								}}
-	
-								colored
+
+								defaultSchemeBarColors
 							/>
-						</HoverHandler>
-					</div>
-	
-					<div className="ptr-docs-panel-section">
-						<h2>With custom height and width</h2>
-						<p>MinWidth should be equal or less than width.</p>
-						<HoverHandler>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+
+
+				<h2 id="aggregation">Aggregation</h2>
+
+				<p>There are two options how to involve bars aggregation. First of them is <InlineCodeHighlighter>minBarWidth</InlineCodeHighlighter> which defines minimal width of bar in pixels. </p><p>The other one is <InlineCodeHighlighter>barGapRatio</InlineCodeHighlighter> which is the ratio between the bar width and the width of the gap next to the bar. Please notice that there are two gaps for each bar, one on the left and one on the right. So the ratio 0.5 actually means that the gap between two bars will have the same width as the bar itself.</p>
+				<p>Try to resize to see how <InlineCodeHighlighter>minBarWidth</InlineCodeHighlighter> and <InlineCodeHighlighter>barGapRatio</InlineCodeHighlighter> involve aggregation.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="aggregation"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_1"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\t\txValuesSize={5}\n' +
+					'\n' +
+					'\t\tminBarWidth={15}\n' +
+					'\t\tbarGapRatio={0.5}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
 							<ColumnChart
-								key="test3"
+								key="aggregation"
 								data={sample_15}
 								keySourcePath="key"
+								nameSourcePath="data.name"
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
+
 								sorting={[["data.some_value_1", "desc"]]}
-								yCaptions
-								yGridlines
-								withoutYbaseline
-								width={250}
-								minWidth={200}
-								height={150}
+								xValuesSize={5}
+
+								minBarWidth={15}
+								barGapRatio={0.5}
 							/>
-						</HoverHandler>
-					</div>
-	
-					<div className="ptr-docs-panel-section">
-						<h2>Aggregated</h2>
-						<p>Hover the chart area to see aggregation.</p>
-						<HoverHandler>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<p>If number of items in data is too big the bars are aggregated as well. We use 200 items in the example below. The narrower is the chart, the more items are aggregated into one bar. Hover the chart to see the bars.</p>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
 							<ColumnChart
-								key="test3"
+								key="aggregation-200"
 								data={sample_200}
 								keySourcePath="key"
+								nameSourcePath="data.name"
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
+
 								sorting={[["data.some_value_1", "desc"]]}
-								yCaptions
-								yGridlines
-								withoutYbaseline
-								width={this.state.width}
-								yOptions={{
-									name: "Custom attribute name",
-									unit: "ha"
-								}}
 							/>
-						</HoverHandler>
-					</div>
-				</div>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
 			</Page>
 		);
 	}

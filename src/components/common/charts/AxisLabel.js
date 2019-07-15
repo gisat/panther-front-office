@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 
 import './style.scss';
 
-class AxisCaption extends React.PureComponent {
+class AxisLabel extends React.PureComponent {
 
 	static propTypes = {
 		classes: PropTypes.string,
@@ -71,5 +71,5 @@ class AxisCaption extends React.PureComponent {
 	}
 }
 
-export default AxisCaption;
+export default AxisLabel;
 

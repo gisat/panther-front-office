@@ -46,26 +46,26 @@ class UtepSdgCharts extends React.PureComponent {
 						key="line-chart-ratio"
 						data={this.data}
 
-						serieKeySourcePath="gid"
-						serieNameSourcePath="name"
+						keySourcePath="gid"
+						nameSourcePath="name"
 						serieDataSourcePath="properties"
 						colorSourcePath="color"
 						xSourcePath="period" // in context of serie
 						ySourcePath="UA_POP_change_ratio" // in context of serie
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
-						yCaptionsSize={40}
-						xCaptionsSize={40}
+						yValuesSize={3}
+						xValuesSize={3}
 
 						xTicks
 						xGridlines
-						xCaptions
+						xValues
 						yTicks
 						yGridlines
-						yCaptions
+						yValues
 						yLabel
 						yOptions={{
 							name: "Change ratio",
@@ -99,13 +99,13 @@ class UtepSdgCharts extends React.PureComponent {
 
 						itemNameSourcePath="period" // in context of serie
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
 						xGridlines
-						xCaptions
-						xCaptionsSize={35}
+						xValues
+						xValuesSize={2}
 						xTicks
 						xLabel
 						xOptions={{
@@ -114,7 +114,7 @@ class UtepSdgCharts extends React.PureComponent {
 						}}
 
 						yGridlines
-						yCaptions
+						yValues
 						yTicks
 						yLabel
 						yOptions={{
@@ -137,23 +137,23 @@ class UtepSdgCharts extends React.PureComponent {
 						key="line-chart"
 						data={this.data}
 
-						serieKeySourcePath="gid"
-						serieNameSourcePath="name"
+						keySourcePath="gid"
+						nameSourcePath="name"
 						serieDataSourcePath="properties"
 						colorSourcePath="color"
 						xSourcePath="period" // in context of serie
 						ySourcePath="Total population" // in context of serie
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
 						xTicks
 						xGridlines
-						xCaptions
+						xValues
 						yTicks
 						yGridlines
-						yCaptions
+						yValues
 						yLabel
 						yOptions={{
 							name: "Total population",
@@ -163,8 +163,8 @@ class UtepSdgCharts extends React.PureComponent {
 						withoutYbaseline
 
 						sorting={[["period", "asc"]]}
-						yCaptionsSize={80}
-						xCaptionsSize={40}
+						yValuesSize={5}
+						xValuesSize={3}
 
 						withPoints
 						// legend
@@ -183,14 +183,14 @@ class UtepSdgCharts extends React.PureComponent {
 						ySourcePath="properties.GNI"
 						sorting={[["properties.GNI", "desc"]]}
 
-						height={200}
-						minWidth={150}
+						height={12}
+						minWidth={10}
 						minAspectRatio={1.7}
 
-						xCaptions
-						yCaptions
-						yCaptionsSize={50}
-						xCaptionsSize={60}
+						xValues
+						yValues
+						yValuesSize={3}
+						xValuesSize={4}
 						xTicks
 						yGridlines
 						yLabel

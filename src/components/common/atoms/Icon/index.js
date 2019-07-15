@@ -69,8 +69,8 @@ const icon = key => {
 		case 'arrow-left':
 		case 'back':
 			return <ArrowLeft />;
-		// case 'circle':
-		// 	return <Circle />;
+		case 'circle':
+			return <Circle />;
 		case 'chevron-left':
 			return <ChevronLeft />;
 		case 'chevron-right':

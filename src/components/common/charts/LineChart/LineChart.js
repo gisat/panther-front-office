@@ -6,8 +6,6 @@ import * as d3 from 'd3';
 import '../style.scss';
 import utils from "../../../../utils/sort";
 
-import AxisX from '../AxisX';
-import AxisY from "../AxisY";
 import Line from "./Line";
 import utilsFilter from "../../../../utils/filter";
 import cartesianChart from "../cartesianChart/cartesianChart";
@@ -17,26 +15,20 @@ import ChartLegend from "../ChartLegend/ChartLegend";
 class LineChart extends React.PureComponent {
 	static defaultProps = {
 		grayingThreshold: 10,
-		aggregationThreshold: 50
+		aggregationThreshold: 50,
+		withPoints: true,
+
+		xGridlines: true,
+		withoutYbaseline: true
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
 		forceMode: PropTypes.string,
 		aggregationThreshold: PropTypes.number,
 		grayingThreshold: PropTypes.number,
-
-		sorting: PropTypes.array,
 		withPoints: PropTypes.bool,
 
-		serieKeySourcePath: PropTypes.string,
-		serieNameSourcePath: PropTypes.string,
-		serieDataSourcePath: PropTypes.string,
-		colorSourcePath: PropTypes.string,
-		xSourcePath: PropTypes.string, // in context of serie
-		ySourcePath: PropTypes.string, // in context of serie
-
-		legend: PropTypes.bool
+		serieDataSourcePath: PropTypes.string.isRequired
 	};
 
 	constructor(props) {
@@ -76,11 +68,11 @@ class LineChart extends React.PureComponent {
 			let yMaximum = _.max(yValuesPrepared);
 			let yMinimum = _.min(yValuesPrepared);
 
-			if (props.yOptions && props.yOptions.min) {
+			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
 				yMinimum = props.yOptions.min;
 			}
 
-			if (props.yOptions && props.yOptions.max) {
+			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
 				yMaximum = props.yOptions.max;
 			}
 
@@ -105,7 +97,7 @@ class LineChart extends React.PureComponent {
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
-				.domain(props.data.map(record => {return _.get(record, props.serieKeySourcePath)}));
+				.domain(props.data.map(record => {return _.get(record, props.keySourcePath)}));
 
 			if (props.forceMode){
 				mode = props.forceMode;
@@ -119,7 +111,7 @@ class LineChart extends React.PureComponent {
 
 		return (
 			<>
-				<svg className="ptr-chart ptr-line-chart" width={props.width} height={props.height}>
+				<svg className="ptr-chart ptr-cartesian-chart ptr-line-chart" height={props.height}>
 					{(data) ?
 						<CartesianChartContent
 							{...props}
@@ -135,8 +127,8 @@ class LineChart extends React.PureComponent {
 				{this.props.legend ? (
 					<ChartLegend
 						data={data}
-						keySourcePath={this.props.serieKeySourcePath}
-						nameSourcePath={this.props.serieNameSourcePath}
+						keySourcePath={this.props.keySourcePath}
+						nameSourcePath={this.props.nameSourcePath}
 						colorSourcePath={this.props.colorSourcePath}
 						colorScale={colors}
 					/>
@@ -147,13 +139,13 @@ class LineChart extends React.PureComponent {
 
 	renderLines(data, props, xScale, yScale, colors, mode) {
 		let leftOffset = xScale.bandwidth()/2;
-		let siblings = data.map((item) => _.get(item, props.serieKeySourcePath));
+		let siblings = data.map((item) => _.get(item, props.keySourcePath));
 
 		return _.map(data, (item) => {
 			let serie = _.get(item, props.serieDataSourcePath);
-			let key = _.get(item, props.serieKeySourcePath);
-			let name = _.get(item, props.serieNameSourcePath);
-			let color = colors(_.get(item, props.serieKeySourcePath));
+			let key = _.get(item, props.keySourcePath);
+			let name = _.get(item, props.nameSourcePath);
+			let color = colors(_.get(item, props.keySourcePath));
 
 			serie = this.props.sorting ? utils.sortByOrder(serie, props.sorting) : serie;
 

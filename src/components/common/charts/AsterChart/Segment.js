@@ -33,6 +33,7 @@ class Segment extends React.PureComponent {
 		valueSourcePath: PropTypes.string,
 		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by dafault same like value. Used in relative.
 		data: PropTypes.object,
+		relative: PropTypes.bool,
 		siblings: PropTypes.array
 	};
 
@@ -160,9 +161,11 @@ class Segment extends React.PureComponent {
 
 	getPopupContent() {
 		let content = <div>No data</div>;
+		let symbol = this.props.relative ? '%' : null;
+
 		if (this.props.data) {
 			content = (
-				<div><i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i> {`${_.get(this.props.data, this.props.hoverValueSourcePath).toLocaleString()}`}</div>
+				<div><i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i> {`${_.get(this.props.data, this.props.hoverValueSourcePath).toLocaleString()}`} {symbol}</div>
 			);
 		}
 

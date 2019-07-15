@@ -13,25 +13,17 @@ import ChartLegend from "../ChartLegend/ChartLegend";
 
 class ScatterChart extends React.PureComponent {
 	static defaultProps = {
-		pointRadius: 5
+		pointRadius: 5,
+
+		yTicks: true,
+		xGridlines: true
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
-
-		isSerie: PropTypes.bool,
+		defaultSchemePointColors: PropTypes.bool,
 		pointRadius: PropTypes.number,
-
-		nameSourcePath: PropTypes.string,
-		colorSourcePath: PropTypes.string,
-		keySourcePath: PropTypes.string,
-		serieDataSourcePath: PropTypes.string, // only if serie
-
-		xSourcePath: PropTypes.string, // if serie, path in context of serie
-		ySourcePath: PropTypes.string, // if serie, path in context of serie
+		isSerie: PropTypes.bool,
 		itemNameSourcePath: PropTypes.string, // only if serie
-
-		legend: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -80,22 +72,22 @@ class ScatterChart extends React.PureComponent {
 			let xMax = _.max(xValues);
 			let xMin = _.min(xValues);
 
-			if (props.xOptions && props.xOptions.min) {
+			if (props.xOptions && (props.xOptions.min || props.xOptions.min === 0)) {
 				xMin = props.xOptions.min;
 			}
 
-			if (props.xOptions && props.xOptions.max) {
+			if (props.xOptions && (props.xOptions.max || props.xOptions.max === 0)) {
 				xMax = props.xOptions.max;
 			}
 
 			let yMax = _.max(yValues);
 			let yMin = _.min(yValues);
 
-			if (props.yOptions && props.yOptions.min) {
+			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
 				yMin = props.yOptions.min;
 			}
 
-			if (props.yOptions && props.yOptions.max) {
+			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
 				yMax = props.yOptions.max;
 			}
 
@@ -113,16 +105,14 @@ class ScatterChart extends React.PureComponent {
 				.domain(yDomain)
 				.range([props.innerPlotHeight, 0]);
 
-			if (props.isSerie) {
-				colors = d3
-					.scaleOrdinal(d3.schemeCategory10)
-					.domain(_.map(props.data,record => {return _.get(record, props.keySourcePath)}));
-			}
+			colors = d3
+				.scaleOrdinal(d3.schemeCategory10)
+				.domain(_.map(props.data,record => {return _.get(record, props.keySourcePath)}));
 		}
 
 		return (
 			<>
-				<svg className="ptr-chart ptr-scatter-chart" width={props.width} height={props.height}>
+				<svg className="ptr-chart ptr-cartesian-chart ptr-scatter-chart" height={props.height}>
 					{(data) ?
 						<CartesianChartContent
 							{...props}
@@ -151,11 +141,12 @@ class ScatterChart extends React.PureComponent {
 			let color = _.get(item, this.props.colorSourcePath);
 			let name = _.get(item, this.props.nameSourcePath);
 
+			if ((!color && this.props.colorSourcePath) || this.props.defaultSchemePointColors) {
+				color = colors(key);
+			}
+
 			if (this.props.isSerie) {
 				let serie = _.get(item, this.props.serieDataSourcePath);
-				if (!color) {
-					color = colors(_.get(item, this.props.keySourcePath));
-				}
 
 				return _.map(serie, (serieItem, index) => {
 					let xValue = _.get(serieItem, this.props.xSourcePath);

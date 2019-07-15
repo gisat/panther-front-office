@@ -1,33 +1,49 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import utils from "../../../../utils/utils";
 
 export default (WrappedChartComponent) => {
 	class CartesianChart extends React.PureComponent {
 
+		/* sizes in rem */
 		static defaultProps = {
-			width: 500,
-			height: 250,
-			maxWidth: 1000,
-			minWidth: 150,
+			height: 15,
+			minWidth: 10,
 
-			xCaptionsSize: 50,
-			yCaptionsSize: 50,
+			xValuesSize: 3,
+			yValuesSize: 3,
 
-			innerPaddingLeft: 10,
-			innerPaddingRight: 10,
-			innerPaddingTop: 10
+			innerPaddingLeft: .7,
+			innerPaddingRight: .7,
+			innerPaddingTop: .7,
+
+			xValues: true,
+			yValues: true,
+
+			xTicks: true,
+
+			yGridlines: true
 		};
 
 		static propTypes = {
+			data: PropTypes.array.isRequired,
+			keySourcePath: PropTypes.string.isRequired,
+			nameSourcePath: PropTypes.string.isRequired,
+			colorSourcePath: PropTypes.string, // only if color is defined in data
+			serieDataSourcePath: PropTypes.string, // only if serie
+			xSourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
+			ySourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
+
+			sorting: PropTypes.array,
+
 			height: PropTypes.number,
 			width: PropTypes.number,
 			minWidth: PropTypes.number,
 			maxWidth: PropTypes.number,
-
 			minAspectRatio: PropTypes.number,
 
-			xCaptionsSize: PropTypes.number,
-			yCaptionsSize: PropTypes.number,
+			xValuesSize: PropTypes.number,
+			yValuesSize: PropTypes.number,
 
 			innerPaddingLeft: PropTypes.number,
 			innerPaddingRight: PropTypes.number,
@@ -35,88 +51,135 @@ export default (WrappedChartComponent) => {
 
 			xOptions: PropTypes.object,
 			xGridlines: PropTypes.bool,
-			xCaptions: PropTypes.bool,
+			xValues: PropTypes.bool,
 			xLabel: PropTypes.bool,
 			xTicks: PropTypes.bool,
 
 			yOptions: PropTypes.object,
 			yGridlines: PropTypes.bool,
-			yCaptions: PropTypes.bool,
+			yValues: PropTypes.bool,
 			yTicks: PropTypes.bool,
 			yLabel: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
+
+			legend: PropTypes.bool
 		};
 
+		constructor(props) {
+			super(props);
+
+			this.ref = React.createRef();
+			this.state = {
+				width: null
+			}
+		}
+
+		componentDidMount() {
+			this.resize();
+			if (window) window.addEventListener('resize', this.resize.bind(this), {passive: true}); //todo IE
+		}
+
+		resize() {
+			if (!this.props.width && this.ref && this.ref.current) {
+				let pxWidth = this.ref.current.clientWidth;
+
+				this.setState({
+					width: pxWidth
+				});
+			}
+		}
+
 		render() {
-			const props = this.props;
+			let content = null;
+			let remSize = utils.getRemSize();
+			let width = null;
 
-			/* dimensions */
-			let width = props.width;
-			let height = props.height;
+			if (this.props.width || this.state.width) {
+				const props = this.props;
 
-			let minWidth = props.minWidth;
-			let maxWidth = props.maxWidth;
+				/* dimensions */
+				width = (this.props.width ? this.props.width*remSize : this.state.width);
+				let height = props.height*remSize;
 
-			let xCaptionsSize = props.xCaptionsSize;
-			let yCaptionsSize = props.yCaptionsSize;
+				let minWidth = props.minWidth*remSize;
+				let maxWidth = props.maxWidth*remSize;
 
-			let xLabelSize = 0;
-			let yLabelSize = 0;
+				let xValuesSize = props.xValues ? props.xValuesSize*remSize : .5*remSize;
+				let yValuesSize = props.yValues ? props.yValuesSize*remSize : .5*remSize;
 
-			if (!props.xCaptions && !props.xCaptionsSize) {
-				xCaptionsSize = props.yCaptions ? 10 : 0; // space for labels
+				let innerPaddingLeft = props.innerPaddingLeft*remSize;
+				let innerPaddingRight = props.innerPaddingRight*remSize;
+				let innerPaddingTop = props.innerPaddingTop*remSize;
+
+				let xLabelSize = 0;
+				let yLabelSize = 0;
+
+				if (!props.xValues && !props.xValuesSize) {
+					xValuesSize = props.yValues ? 1*remSize : 0; // space for labels
+				}
+
+				if (!props.yValues && !props.yValuesSize) {
+					yValuesSize = props.xValues ? 2*remSize : 0; // space for labels
+				}
+
+				if (props.xLabel) {
+					xLabelSize = 1*remSize;
+				}
+
+				if (props.yLabel) {
+					yLabelSize = 1*remSize;
+				}
+
+				if (width > maxWidth) width = maxWidth;
+				if (width < minWidth) width = minWidth;
+
+				if (props.minAspectRatio && width/height < props.minAspectRatio) {
+					height = width/props.minAspectRatio;
+				}
+
+				let plotWidth = width - yValuesSize - yLabelSize;
+				let plotHeight = height - xValuesSize - xLabelSize;
+				let innerPlotWidth = plotWidth - innerPaddingLeft - innerPaddingRight;
+				let innerPlotHeight = plotHeight - innerPaddingTop;
+
+				content = (<WrappedChartComponent
+					{...this.props}
+					{...{
+						width,
+						height,
+
+						minWidth,
+						maxWidth,
+
+						xValuesSize,
+						yValuesSize,
+
+						xLabelSize,
+						yLabelSize,
+
+						plotWidth,
+						plotHeight,
+
+						innerPaddingLeft,
+						innerPaddingRight,
+						innerPaddingTop,
+
+						innerPlotWidth,
+						innerPlotHeight
+					}}
+				/>);
 			}
 
-			if (!props.yCaptions && !props.yCaptionsSize) {
-				yCaptionsSize = props.xCaptions ? 30 : 0; // space for labels
+			let style = {};
+			if (width) {
+				style.width = width;
 			}
-
-			if (props.xLabel) {
-				xLabelSize = 20;
-			}
-
-			if (props.yLabel) {
-				yLabelSize = 20;
-			}
-
-			if (width > maxWidth) width = maxWidth;
-			if (width < minWidth) width = minWidth;
-
-			if (props.minAspectRatio && width/height < props.minAspectRatio) {
-				height = width/props.minAspectRatio;
-			}
-
-			let plotWidth = width - yCaptionsSize - yLabelSize;
-			let plotHeight = height - xCaptionsSize - xLabelSize;
-			let innerPlotWidth = plotWidth - props.innerPaddingLeft - props.innerPaddingRight;
-			let innerPlotHeight = plotHeight - props.innerPaddingTop;
-
-
 
 			return (
-				<div className="ptr-chart-container">
-					<WrappedChartComponent
-						{...this.props}
-						{...{
-							width,
-							height,
-
-							minWidth,
-							maxWidth,
-
-							xCaptionsSize,
-							yCaptionsSize,
-
-							xLabelSize,
-							yLabelSize,
-
-							plotWidth,
-							plotHeight,
-
-							innerPlotWidth,
-							innerPlotHeight
-						}}
-					/>
+				<div className="ptr-chart-container" ref={this.ref}>
+					<div style={style}>
+						{content}
+					</div>
 				</div>
 			);
 		}

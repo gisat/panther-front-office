@@ -153,10 +153,10 @@ class EsponFuoreChart extends React.PureComponent {
 				sorting={[["data.values[0].value", "desc"]]}
 				// xGridlines
 				yGridlines
-				yCaptions
-				xCaptions
-				xCaptionsSize={80}
-				yCaptionsSize={70}
+				yValues
+				xValues
+				xValuesSize={5}
+				yValuesSize={4}
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
@@ -173,24 +173,23 @@ class EsponFuoreChart extends React.PureComponent {
 			enoughPeriods ? (<LineChart
 				key={this.props.chartKey}
 				keySourcePath="key"
-				serieKeySourcePath="key"
-				serieNameSourcePath="data.name"
+				nameSourcePath="data.name"
 				serieDataSourcePath="data.values"
 				xSourcePath="key" // in context of serie
 				ySourcePath="value" // in context of serie
 
 				xTicks
 				xGridlines
-				xCaptions
+				xValues
 				yGridlines
-				yCaptions
+				yValues
 				minAspectRatio={1.5}
 				withoutYbaseline
 
 				sorting={[["key", "asc"]]}
 
-				xCaptionsSize={40}
-				yCaptionsSize={70}
+				xValuesSize={3}
+				yValuesSize={4.5}
 				withPoints
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}

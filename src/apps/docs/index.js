@@ -21,6 +21,7 @@ import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
 import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
 import Buttons from "./components/pages/components/atoms/Buttons";
+import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
 import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
@@ -46,28 +47,54 @@ export default (path, baseUrl) => {
 			/>
 			<ConnectedRouter history={history}>
 				<Docs path={path} component={Index}>
-					<Directory label="Architecture" path="architecture" colour="#91aee4">
+					<Directory label="Architecture" path="architecture">
 						<Page label="Applications" path="applications"/>
 						<Page label="Common data types" path="commonDataTypes"/>
 						<Page label="Specific data types" path="specificDataTypes"/>
-						<Page label="Using data in applications ??" path="usingData" />
-						<Page label="API" path="api" />
 					</Directory>
-					<Directory label="Design" path="design" component={Design} colour="#fbff00">
+					<Directory label="Design" path="design" component={Design}>
 						<Page label="Typography" path="typography" component={Typography} />
 						<Page label="Colours" path="colours"/>
 					</Directory>
-					<Directory label="Components" path="components" colour="#e49191">
+					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps">
 							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
-							<Directory label="Cartesian charts" path="cartesianCharts">
-								<Page label="Line chart" path="lineChart" component={LineChartDoc}/>
-								<Page label="Column chart" path="columnChart" component={ColumnChartDoc} />
-								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
+							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
+								<Page label="Line chart" path="lineChart" component={LineChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Lines without points" path="withoutPoints"/>
+									<Anchor label="Graying and aggregation" path="graying"/>
+								</Page>
+								<Page label="Column chart" path="columnChart" component={ColumnChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Serial data handling" path="serialData"/>
+									<Anchor label="Custom bar colors" path="barColors"/>
+									<Anchor label="Aggregation" path="aggregation"/>
+								</Page>
+								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Point radius" path="pointRadius"/>
+									<Anchor label="Serial data handling" path="serialData"/>
+								</Page>
 							</Directory>
-							<Page label="Aster chart" path="asterChart" component={AsterChartDoc} />
+							<Page label="Aster chart" path="asterChart" component={AsterChartDoc}>
+								<Anchor label="Props" path="props"/>
+								<Anchor label="Data structure" path="dataStructure"/>
+								<Anchor label="Basic settings" path="basicSettings"/>
+								<Anchor label="Relative values" path="relativeValues"/>
+								<Anchor label="Dimensions" path="dimensions"/>
+								<Anchor label="Forced min & max" path="forceMinMax"/>
+								<Anchor label="Grid" path="grid"/>
+								<Anchor label="Radials & legend" path="radials"/>
+							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
 							<Page label="Buttons" path="buttons" component={Buttons}/>
@@ -99,6 +126,11 @@ export default (path, baseUrl) => {
 							<Page label="WindowsContainer" path="windowsContainer"/>
 						</Directory>
 					</Directory>
+					<Directory label="Code" path="code">
+						<Page label="Using data in applications ??" path="usingData" />
+						<Page label="API" path="api" />
+					</Directory>
+					<Page label="Panther 2" path="panther2" />
 				</Docs>
 			</ConnectedRouter>
 		</Provider>,document.getElementById('ptr')

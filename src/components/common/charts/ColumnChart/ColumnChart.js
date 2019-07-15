@@ -16,29 +16,26 @@ import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 class ColumnChart extends React.PureComponent {
 	static defaultProps = {
 		animateChangeData: true,
+
 		minBarWidth: 4,
-		barGapRatio: 0.4
+		barGapRatio: 0.4,
+
+		withoutYbaseline: true
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
+		defaultSchemeBarColors: PropTypes.bool, // if color is not defined in data and should be used from default scheme
 		defaultColor: PropTypes.string,
 		highlightedColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
 		]),
-		sorting: PropTypes.array,
-		animateChangeData: PropTypes.bool,
 
 		minBarWidth: PropTypes.number,
 		barGapRatio: PropTypes.number,
 
-		keySourcePath: PropTypes.string,
-		colorSourcePath: PropTypes.string, // if color is defined in data
-		colored: PropTypes.bool, // if color is not defined in data and should be used from default scheme
-		xSourcePath: PropTypes.string,
-		ySourcePath: PropTypes.string,
-		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by dafault same like value. Used in relative.
+		animateChangeData: PropTypes.bool,
+		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by default same like value.
 	};
 
 	constructor(props) {
@@ -58,11 +55,18 @@ class ColumnChart extends React.PureComponent {
 			let maximum = _.max(yValues);
 			let minimum = _.min(yValues);
 
-			if (props.yOptions && props.yOptions.min) {
+			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest bar. */
+			if (minimum >= 0) {
+				minimum = 0;
+			} else {
+				minimum = minimum - Math.abs(maximum - minimum)*0.05;
+			}
+
+			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
 				minimum = props.yOptions.min;
 			}
 
-			if (props.yOptions && props.yOptions.max) {
+			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
 				maximum = props.yOptions.max;
 			}
 
@@ -81,7 +85,7 @@ class ColumnChart extends React.PureComponent {
 				.domain(yDomain)
 				.range([props.innerPlotHeight, 0]);
 
-			if (props.colored) {
+			if (props.defaultSchemeBarColors) {
 				colors = d3
 					.scaleOrdinal(d3.schemeCategory10)
 					.domain(props.data.map(record => {return _.get(record, props.keySourcePath)}));
@@ -115,12 +119,12 @@ class ColumnChart extends React.PureComponent {
 			}
 		}
 
-		const chartClassNames = classnames('ptr-chart ptr-column-chart', {
+		const chartClassNames = classnames('ptr-chart ptr-cartesian-chart ptr-column-chart', {
 			'ptr-chart-no-animation': !props.animateChangeData,
 		});
 
 		return (
-			<svg className={chartClassNames} width={props.width} height={props.height}>
+			<svg className={chartClassNames} height={props.height}>
 				{data ?
 					<CartesianChartContent
 						{...props}
@@ -148,16 +152,17 @@ class ColumnChart extends React.PureComponent {
 				{data.map((item) => {
 					let key = _.get(item, props.keySourcePath);
 					let value = _.get(item, props.ySourcePath);
+					let color = _.get(item, props.colorSourcePath);
 					let defaultColor = this.props.defaultColor;
 					let highlightedColor = this.props.highlightedColor;
 
-					if (props.colorSourcePath) {
-						defaultColor = _.get(item, props.colorSourcePath);
+					if (props.colorSourcePath && color) {
+						defaultColor = color;
 						highlightedColor = chroma(defaultColor).darken(1);
 					}
 
-					if (props.colored) {
-						defaultColor = colors(_.get(item, props.keySourcePath));
+					if (props.defaultSchemeBarColors) {
+						defaultColor = colors(key);
 						highlightedColor = chroma(defaultColor).darken(1);
 					}
 

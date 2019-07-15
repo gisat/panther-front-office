@@ -101,6 +101,8 @@ export default {
 	 */
 	randomString: length => ((Math.random() * Math.pow(36, length) >> 0).toString(36)),
 
+	getRemSize: () => parseFloat(getComputedStyle(document.documentElement).fontSize),
+
 	/**
 	 * Promise.all() for objects (instead of arrays)
 	 * @param object of promises

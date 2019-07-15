@@ -5,7 +5,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
-import AxisCaption from "./AxisCaption";
+import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 10;
@@ -29,7 +29,7 @@ class AxisX extends React.PureComponent {
 
 		gridlines: PropTypes.bool,
 		ticks: PropTypes.bool,
-		withCaption: PropTypes.bool,
+		withValues: PropTypes.bool,
 		label: PropTypes.bool,
 		options: PropTypes.object
 	};
@@ -47,7 +47,7 @@ class AxisX extends React.PureComponent {
 					className="ptr-axis-baseline"
 					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
 				/>
-				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
+				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
 			</g>
 		);
@@ -81,7 +81,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withCaption ? this.renderCaption(xCoord, shift, availableHeight, value.toLocaleString()) : null}
+								{this.props.withValues ? this.renderCaption(xCoord, shift, availableHeight, value.toLocaleString()) : null}
 							</g>
 						);
 					} else {
@@ -125,7 +125,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withCaption ? this.renderCaption(xCoord, shift, barWidth + gap, text) : null}
+								{this.props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, text) : null}
 							</g>
 						);
 					} else {
@@ -145,7 +145,7 @@ class AxisX extends React.PureComponent {
 						translate(${x + TICK_CAPTION_OFFSET_LEFT} ${this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP})
 					`}
 				>
-					<AxisCaption
+					<AxisLabel
 						classes="ptr-tick-caption"
 						maxWidth={((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2))}
 						maxHeight={availableHeight}
@@ -182,7 +182,7 @@ class AxisX extends React.PureComponent {
 						translate(${props.width/2} ${props.plotHeight + props.height + props.labelSize - 3})
 					`}
 			>
-				<AxisCaption
+				<AxisLabel
 					classes="ptr-axis-label"
 					maxWidth={props.width}
 					maxHeight={25}

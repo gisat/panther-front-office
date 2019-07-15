@@ -6,147 +6,183 @@ import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import './style.scss';
-import utilsFilter from "../../../../utils/filter";
 import Segment from "./Segment";
 import ChartLegend from "../ChartLegend/ChartLegend";
+
+import utils from "../../../../utils/utils";
+import utilsFilter from "../../../../utils/filter";
 import utilsSort from "../../../../utils/sort";
 
-const MAX_GRID_STEPS = 10;
-const MIN_GRID_GAP = 20;
-
-const STROKE_WIDTH = 2;
-const TICK_WIDTH = 8;
-
-// TODO optional
-const STARTING_ANGLE = Math.PI/2;
-const PADDING = 20;
-const PADDING_WITH_CAPTIONS = 40;
+const TICK_WIDTH = 8; // in px
 
 class AsterChart extends React.PureComponent {
 	static defaultProps = {
-		width: 250,
-		height: 250,
-		minWidth: 150,
-		maxWidth: 800
+		minWidth: 10, // in rem
+		maxWidth: 30, // in rem
+		padding: 1, // in rem
+
+		grid: true,
+		gridGapMin: 1.5, // in rem
+		gridStepsMax: 10,
+		gridValues: true,
+
+		radials: true,
+		radialsLabels: false,
+		radialsLabelsSize: 1, // in rem
+
+		startingAngle: Math.PI/2
 	};
 
 	static propTypes = {
-		data: PropTypes.array,
+		data: PropTypes.array.isRequired,
 		forceMinimum: PropTypes.number,
 		forceMaximum: PropTypes.number,
+		relative: PropTypes.bool,
 		sorting: PropTypes.array,
 
 		colorSourcePath: PropTypes.string,
-		keySourcePath: PropTypes.string,
-		nameSourcePath: PropTypes.string,
-		valueSourcePath: PropTypes.string,
-		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by dafault same like value. Used in relative.
+		keySourcePath: PropTypes.string.isRequired,
+		nameSourcePath: PropTypes.string.isRequired,
+		valueSourcePath: PropTypes.string.isRequired,
+		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		width: PropTypes.number,
 		minWidth: PropTypes.number,
 		maxWidth: PropTypes.number,
+		padding: PropTypes.number,
 
-		relative: PropTypes.bool,
+		grid: PropTypes.bool,
+		gridGapMin: PropTypes.number,
+		gridStepsMax: PropTypes.number,
+		gridValues: PropTypes.bool,
 
-		grid: PropTypes.oneOfType([
-			PropTypes.bool,
-			PropTypes.object
-		]),
+		radials: PropTypes.bool,
+		radialsLabels: PropTypes.bool,
+		radialsLabelsSize: PropTypes.number,
 
-		radials: PropTypes.oneOfType([
-			PropTypes.bool,
-			PropTypes.object
-		]),
+		startingAngle: PropTypes.number,
 
-		legend: PropTypes.oneOfType([
-			PropTypes.bool,
-			PropTypes.object
-		])
+		legend: PropTypes.bool,
 	};
 
 	constructor(props) {
 		super(props);
+
+		this.ref = React.createRef();
+		this.state = {
+			width: null
+		}
+	}
+
+	componentDidMount() {
+		this.resize();
+		if (window) window.addEventListener('resize', this.resize.bind(this), {passive: true}); //todo IE
+	}
+
+	resize() {
+		if (!this.props.width && this.ref && this.ref.current) {
+			let pxWidth = this.ref.current.clientWidth;
+
+			this.setState({
+				width: pxWidth
+			});
+		}
 	}
 
 	render() {
 		const props = this.props;
+		let remSize = utils.getRemSize();
 
-		/* dimensions */
-		let width = props.width;
-		let height = props.height;
+		let content, data, width  = null;
+		if (this.props.width || this.state.width) {
 
-		let minWidth = props.minWidth;
-		let maxWidth = props.maxWidth;
+			/* dimensions */
+			width = this.props.width ? this.props.width*remSize : this.state.width;
 
-		if (width > maxWidth) width = maxWidth;
-		if (width < minWidth) width = minWidth;
+			let minWidth = props.minWidth*remSize;
+			let maxWidth = props.maxWidth*remSize;
 
-		// TODO aspect ratio?
-		height = width;
+			if (width > maxWidth) width = maxWidth;
+			if (width < minWidth) width = minWidth;
 
-		let padding = props.radials && props.radials.captions ? PADDING_WITH_CAPTIONS : PADDING;
+			let padding = (props.radials && props.radialsLabels ? props.padding + props.radialsLabelsSize : props.padding) * remSize;
 
-		let innerWidth = width - 2*padding;
-		let innerHeight = height - 2*padding;
+			let innerWidth = width - 2*padding;
 
-		/* data preparation */
-		let data = null;
-		let values = [];
+			/* data preparation */
+			let values = [];
 
-		if (props.data) {
-			data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
-			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
+			if (props.data) {
+				data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
+				data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
-			/* ensure colors */
-			data = _.map(data, item => {
-				let color = chroma.random().hex();
-				if (!props.colorSourcePath && !item.color) {
-					item.color = color;
-				} else {
-					let definedColor = _.get(item, this.props.colorSourcePath);
-					if (!definedColor) {
-						_.set(item, this.props.colorSourcePath, color);
+				/* ensure colors */
+				data = _.map(data, item => {
+					let color = chroma.random().hex();
+					if (!props.colorSourcePath && !item.color) {
+						item.color = color;
+					} else {
+						let definedColor = _.get(item, this.props.colorSourcePath);
+						if (!definedColor) {
+							_.set(item, this.props.colorSourcePath, color);
+						}
 					}
-				}
 
-				return item;
-			});
+					return item;
+				});
 
-			values = _.map(data, (item) => {return _.get(item, props.valueSourcePath)});
+				values = _.map(data, (item) => {return _.get(item, props.valueSourcePath)});
+			}
+
+			let maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
+			let minimum = _.min(values);
+
+			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest segment. */
+			if (props.forceMinimum || props.forceMinimum === 0) {
+				minimum = props.forceMinimum;
+			} else if (minimum >= 0) {
+				minimum = 0;
+			} else {
+				minimum = minimum - Math.abs(maximum - minimum)*0.05;
+			}
+
+			let origin = [width/2, width/2];
+			let domain = [minimum, maximum];
+
+			let scale = d3
+				.scaleLinear()
+				.domain(domain)
+				.range([0, innerWidth/2]);
+
+			content = (
+				<>
+					<svg className="ptr-chart ptr-aster-chart" height={width}>
+						{data && props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
+						{data ? this.renderSegments(data, origin, scale, maximum) : null}
+						{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
+					</svg>
+				</>
+			);
 		}
 
-		let maximum = props.forceMaximum || props.forceMaximum === 0 ? props.forceMaximum : _.max(values);
-		let minimum = props.forceMinimum || props.forceMinimum === 0 ? props.forceMinimum : _.min(values);
-
-		let origin = [width/2, height/2];
-		let domain = [minimum, maximum];
-
-		let scale = d3
-			.scaleLinear()
-			.domain(domain)
-			.range([0, innerHeight/2]);
-
-		let containerClasses = classnames("ptr-chart-container", {
-			'legend-right': props.legend && props.legend.position && props.legend.position === 'right',
-			'legend-left': props.legend && props.legend.position && props.legend.position === 'left',
-			'legend-top': props.legend && props.legend.position && props.legend.position === 'top',
-		});
+		let style = {};
+		if (width) {
+			style.width = width;
+		}
 
 		return (
-			<div className={containerClasses}>
-				<svg className="ptr-chart ptr-aster-chart" style={{minWidth: width}} width={width} height={height}>
-					{data && props.radials ? this.renderRadials(data, origin, scale, maximum) : null};
-					{data ? this.renderSegments(data, origin, scale, maximum) : null}
-					{props.grid ? this.renderGrid(domain, origin, scale, width) : null}
-				</svg>
-				{this.props.legend ? this.renderLegend(data, props.radials && props.radials.captions) : null}
+			<div className="ptr-chart-container centered" ref={this.ref}>
+				<div style={style}>
+					{content}
+				</div>
+				{this.props.legend && data ? this.renderLegend(data, props.radials && props.radialsLabels) : null}
 			</div>
 		);
 	}
 
 	renderSegments(data, origin, scale, maximum) {
 		let segmentAngle = 2*Math.PI/data.length;
-		let strokeWidth = data.length < 20 ? STROKE_WIDTH : 1;
+		let strokeWidth = data.length < 20 ? 2 : 1;
 		let siblings = data.map((item) => _.get(item, this.props.keySourcePath));
 
 		return _.map(data, (segment, index) => {
@@ -154,8 +190,8 @@ class AsterChart extends React.PureComponent {
 			let color = this.props.colorSourcePath ? _.get(segment, this.props.colorSourcePath) : segment.color;
 
 			let radius = scale(_.get(segment, this.props.valueSourcePath)) + strokeWidth;
-			let startAngle = STARTING_ANGLE + index * segmentAngle;
-			let endAngle = STARTING_ANGLE + (index+1) * segmentAngle;
+			let startAngle = this.props.startingAngle + index * segmentAngle;
+			let endAngle = this.props.startingAngle + (index+1) * segmentAngle;
 
 			let x0 = origin[0] - Math.cos(startAngle) * radius;
 			let y0 = origin[1] - Math.sin(startAngle) * radius;
@@ -191,6 +227,7 @@ class AsterChart extends React.PureComponent {
 					valueSourcePath={this.props.valueSourcePath}
 					hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 					data={segment}
+					relative={this.props.relative}
 					siblings={siblings}
 				/>
 			);
@@ -198,14 +235,15 @@ class AsterChart extends React.PureComponent {
 	}
 
 	renderGrid(domain, origin, scale, width) {
-		let gridProps = this.props.grid;
+		const props = this.props;
 
-		let numOfSteps = gridProps && gridProps.maxSteps ? gridProps.maxSteps : MAX_GRID_STEPS;
-		let gap = gridProps && gridProps.minGap ? gridProps.minGap : MIN_GRID_GAP;
+		let numOfSteps = props.gridStepsMax;
+		let gap = props.gridGapMin * utils.getRemSize();
 
 		let min = domain[0];
 		let max = domain[1];
 
+		// adjust the number of steps according to chart height
 		if ((width/2) < numOfSteps * gap) {
 			numOfSteps = Math.floor((width/2)/gap);
 		}
@@ -246,7 +284,7 @@ class AsterChart extends React.PureComponent {
 					})
 				}
 				{
-					gridProps && gridProps.captions ? (
+					props.gridValues ? (
 						<g>
 							<defs>
 								<filter id="glow" x="-50%" y="-10%" width="200%" height="120%">
@@ -295,12 +333,12 @@ class AsterChart extends React.PureComponent {
 
 	renderRadials(data, origin, scale, maximum) {
 		let segmentAngle = 2*Math.PI/data.length;
-		let maxRadius = scale(maximum) + TICK_WIDTH;
+		let maxRadius = this.props.radialsLabels ? scale(maximum) + TICK_WIDTH : scale(maximum);
 		let maxTextRadius = scale(maximum) + 2*TICK_WIDTH;
 
 		return _.map(data, (segment, index) => {
 			let key = _.get(segment, this.props.keySourcePath) + "-radial";
-			let angle = STARTING_ANGLE + (index * segmentAngle) + segmentAngle/2;
+			let angle = this.props.startingAngle + (index * segmentAngle) + segmentAngle/2;
 			let radius = scale(_.get(segment, this.props.valueSourcePath));
 
 			let x0 = origin[0] - Math.cos(angle) * radius;
@@ -329,7 +367,7 @@ class AsterChart extends React.PureComponent {
 							L${x1} ${y1}
 						`}
 					/>
-					{this.props.radials.captions ? (
+					{this.props.radialsLabels ? (
 						<text
 							className="ptr-aster-chart-grid-radial-caption"
 							textAnchor={textAnchor}

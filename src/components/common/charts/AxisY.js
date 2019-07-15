@@ -4,7 +4,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 
 import './style.scss';
-import AxisCaption from "./AxisCaption";
+import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
 const TICK_COUNT = 5; // TODO optional?
@@ -30,7 +30,7 @@ class AxisY extends React.PureComponent {
 		hiddenBaseline: PropTypes.bool,
 		gridlines: PropTypes.bool,
 		ticks: PropTypes.bool,
-		withCaption: PropTypes.bool,
+		withValues: PropTypes.bool,
 		label: PropTypes.bool,
 		options: PropTypes.object
 	};
@@ -45,7 +45,7 @@ class AxisY extends React.PureComponent {
 		return (
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
-				{(props.ticks || props.gridlines || props.withCaption) ? this.renderGrid() : null}
+				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
 			</g>
 		);
@@ -77,17 +77,17 @@ class AxisY extends React.PureComponent {
 								<line
 									className="ptr-axis-gridline"
 									x1={TICK_CAPTION_OFFSET_VERTICAL}
-									x2={this.props.gridlines ? (this.props.plotWidth  + shift) : TICK_SIZE}
+									x2={this.props.gridlines ? (this.props.plotWidth  + shift) : shift}
 									y1={yCoord}
 									y2={yCoord}
 								/>
-								{this.props.withCaption ? (
+								{this.props.withValues ? (
 									<g
 									transform={`
 										translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
 									`}
 									>
-										<AxisCaption
+										<AxisLabel
 											classes="ptr-tick-caption"
 											maxWidth={this.props.width}
 											maxHeight={this.props.height/ticks.length}
@@ -129,7 +129,7 @@ class AxisY extends React.PureComponent {
 						rotate(270)
 					`}>
 				{/*<text className="ptr-axis-label" textAnchor="middle">{content}</text>*/}
-				<AxisCaption
+				<AxisLabel
 					classes="ptr-axis-label"
 					maxWidth={props.height}
 					maxHeight={25}

@@ -18,7 +18,7 @@ class Button extends React.PureComponent {
 		inverted: PropTypes.bool,
 		invisible: PropTypes.bool,
 		large: PropTypes.bool,
-		onClick: PropTypes.func,
+		onClick: PropTypes.func.isRequired,
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
 		side: PropTypes.string,
@@ -141,3 +141,6 @@ class Button extends React.PureComponent {
 }
 
 export default Button;
+
+export const Buttons =  ({vertical, children}) => (<div className={classNames("ptr-buttons", {vertical})}>{children}</div>);
+export const ButtonGroup =  ({vertical, children}) => (<div className={classNames("ptr-button-group", {vertical})}>{children}</div>);
