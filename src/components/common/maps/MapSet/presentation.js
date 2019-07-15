@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import ReactResizeDetector from 'react-resize-detector';
-import WorldWindMap from "../WorldWindMap";
+import WorldWindMap from "../Deprecated_WorldWindMap";
 
 import './style.css';
 

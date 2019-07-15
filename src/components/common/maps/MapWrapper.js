@@ -1,5 +1,5 @@
 import React from 'react';
-import WorldWindMap from './WorldWindMap/presentation';
+import WorldWindMap from './Deprecated_WorldWindMap/presentation';
 import PropTypes from "prop-types";
 
 class MapWrapper extends React.PureComponent {

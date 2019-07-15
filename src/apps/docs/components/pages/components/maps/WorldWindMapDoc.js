@@ -1,8 +1,8 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
-import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
+import layersHelper from '../../../../../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
+import WorldWindMap from "../../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 import Page from '../../../Page';
 
 class WorldWinMapDoc extends React.PureComponent {
