@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
+import {mergePropsDoc} from "../../../../utils/propTypes";
+
 import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
 import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
@@ -11,7 +13,79 @@ import sample_4 from "../../../mockData/asterChart/sample_4";
 import sample_7 from "../../../mockData/asterChart/sample_7";
 import sample_30 from "../../../mockData/asterChart/sample_30";
 
+
+const propsDescription = [
+	{
+		name: "data",
+		description: (<>Input data. See more in <Link to="#dataValues">Data structure section</Link>.</>)
+	}, {
+		name: "forceMinimum",
+	}, {
+		name: "forceMaximum",
+	}, {
+		name: "relative",
+		description: (<>Detect if input data are relative. <Link to="#relativeValues">See Relative values section</Link> to find out more.</>)
+	}, {
+		name: "sorting",
+	}, {}, {
+		name: "keySourcePath",
+		description: "Path to key value in data item object (e.g. 'key' or 'data.key')."
+	}, {
+		name: "nameSourcePath",
+		description: "Path to name value in data item object (e.g. 'name' or 'content.name'). If there is no name column in data, use the path to the key."
+	}, {
+		name: "colorSourcePath",
+	}, {
+		name: "valueSourcePath",
+		description: "Path to value in data item object."
+	}, {
+		name: "hoverValueSourcePath",
+	}, {}, {
+		name: "width",
+	}, {
+		name: "maxWidth",
+		description: "Maximal chart width in rem."
+	}, {
+		name: "minWidth",
+		description: "Minimal chart width in rem."
+	}, {
+		name: "padding",
+		description: "Chart area padding in rem."
+	}, {}, {
+		name: "grid",
+		description: "Show/hide circular grid."
+	}, {
+		name: "gridGapMin",
+		description: <>Minimal gap between grid lines in rem. See more in the <Link to="#grid">Grid section</Link>.</>
+	}, {
+		name: "gridStepsMax",
+		description: <>Maximal number of grid lines steps. See more in the <Link to="#grid">Grid section</Link>.</>
+	}, {
+		name: "gridValues",
+		description: "Labels of grid lines."
+	}, {}, {
+		name: "radials",
+		description: <>Radial lines from center of the chart to the edge. There is one radial line for each segment. See more in the <Link to="#radials">Radials & legend section</Link>.</>
+	}, {
+		name: "radialsLabels",
+		description: <>If true, each radial will be numbered clockwise starting from 1.</>
+	}, {
+		name: "radialsLabelsSize",
+		description: "A space for radials labels in rem."
+	},{
+		name: "startingAngle",
+		description: <>The angle in radians where the rendering of segments starts. the angle is based on <a href="https://en.wikipedia.org/wiki/Unit_circle" target="_blank">unit circle</a>.</>
+	},
+	{
+		name: "legend",
+		description: <>Show legend below chart. See more in the <Link to="#radials">Radials & legend section</Link>.</>
+	}
+]
+
+const propsDoc = mergePropsDoc(AsterChart, propsDescription);
+
 class AsterChartDoc extends React.PureComponent {
+
 	render() {
 		return (
 			<Page title="Aster chart">
@@ -36,118 +110,7 @@ class AsterChartDoc extends React.PureComponent {
 
 				<h2 id="props">Props</h2>
 				<ComponentPropsTable
-					content={[
-						{
-							name: "data",
-							type: "string",
-							required: true,
-							description: (<>Input data. See more in <Link to="#dataValues">Data structure section</Link>.</>)
-						}, {
-							name: "forceMinimum",
-							type: "number",
-							description: (<>Set fixed minimum. See more in <Link to="#forceMinMax">Forced minimum and maximum section</Link>.</>)
-						}, {
-							name: "forceMaximum",
-							type: "number",
-							description: (<>Set fixed maximum. See more in <Link to="#forceMinMax">Forced minimum and maximum section</Link>.</>)
-						}, {
-							name: "relative",
-							type: "boolean",
-							default: "false",
-							description: (<>Detect if input data are relative. <Link to="#relativeValues">See Relative values section</Link> to find out more.</>)
-					}, {
-							name: "sorting",
-							type: "array",
-							description: "List of sorting pairs. [[path, order]]. Example: [['period', 'asc']] - it sorts data by 'period' column in ascending order."
-						}, {}, {
-							name: "keySourcePath",
-							type: "string",
-							required: true,
-							description: "Path to key value in data item object (e.g. 'key' or 'data.key')."
-						}, {
-							name: "nameSourcePath",
-							type: "string",
-							required: true,
-							description: "Path to name value in data item object (e.g. 'name' or 'content.name'). If there is no name column in data, use the path to the key."
-						}, {
-							name: "colorSourcePath",
-							type: "string",
-							description: "Path to color value in data item object, if it's present."
-						}, {
-							name: "valueSourcePath",
-							type: "string",
-							required: true,
-							description: "Path to value in data item object."
-						}, {
-							name: "hoverValueSourcePath",
-							type: "string",
-							description: <DocsToDoInline>description</DocsToDoInline>
-						}, {}, {
-							name: "width",
-							type: "number",
-							description: "Chart width in rem."
-						}, {
-							name: "maxWidth",
-							type: "number",
-							default: "30",
-							description: "Maximal chart width in rem."
-						}, {
-							name: "minWidth",
-							type: "number",
-							default: "10",
-							description: "Minimal chart width in rem."
-						}, {
-							name: "padding",
-							type: "number",
-							default: "1",
-							description: "Chart area padding in rem."
-						}, {}, {
-							name: "grid",
-							type: "boolean",
-							default: "true",
-							description: "Show/hide circular grid."
-						}, {
-							name: "gridGapMin",
-							type: "number",
-							default: "1.5",
-							description: <>Minimal gap between grid lines in rem. See more in the <Link to="#grid">Grid section</Link>.</>
-						}, {
-							name: "gridStepsMax",
-							type: "number",
-							default: "10",
-							description: <>Maximal number of grid lines steps. See more in the <Link to="#grid">Grid section</Link>.</>
-						}, {
-							name: "gridValues",
-							type: "boolean",
-							default: "true",
-							description: "Labels of grid lines."
-						}, {}, {
-							name: "radials",
-							type: "boolean",
-							default: "true",
-							description: <>Radial lines from center of the chart to the edge. There is one radial line for each segment. See more in the <Link to="#radials">Radials & legend section</Link>.</>
-						}, {
-							name: "radialsLabels",
-							type: "boolean",
-							default: "false",
-							description: <>If true, each radial will be numbered clockwise starting from 1.</>
-						}, {
-							name: "radialsLabelsSize",
-							type: "number",
-							default: "1",
-							description: "A space for radials labels in rem."
-						}, {}, {
-							name: "startingAngle",
-							type: "numeric",
-							default: "\u03C0" + "/2",
-							description: <>The angle in radians where the rendering of segments starts. the angle is based on <a href="https://en.wikipedia.org/wiki/Unit_circle" target="_blank">unit circle</a>.</>
-						}, {}, {
-							name: "legend",
-							type: "boolean",
-							default: "false",
-							description: <>Show legend below chart. See more in the <Link to="#radials">Radials & legend section</Link>.</>
-						}
-					]}
+					content = {propsDoc}
 				/>
 
 				<h2 id="dataStructure">Input data structure</h2>
