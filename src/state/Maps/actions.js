@@ -540,7 +540,7 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 	}
 };
 
-const updateMapAndSetView = (mapKey, updates) => {
+const updateMapAndSetView = (mapKey, update) => {
 	return (dispatch, getState) => {
 		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
 		let forSet = null;
@@ -548,15 +548,15 @@ const updateMapAndSetView = (mapKey, updates) => {
 
 		if (set && set.sync) {
 			// pick key-value pairs that are synced for set
-			forSet = _.pickBy(updates, (updateVal, updateKey) => {
+			forSet = _.pickBy(update, (updateVal, updateKey) => {
 				return set.sync[updateKey];
 			});
 
-			forMap = _.omitBy(updates, (updateVal, updateKey) => {
+			forMap = _.omitBy(update, (updateVal, updateKey) => {
 				return set.sync[updateKey];
 			});
 		} else {
-			forMap = updates;
+			forMap = update;
 		}
 
 		if (forSet) {
@@ -1213,6 +1213,7 @@ export default {
 	updateMapLayer,
 	updateStateFromView,
 	updateWorldWindNavigator,
+	updateMapAndSetView,
 	use,
 	useClear
 }

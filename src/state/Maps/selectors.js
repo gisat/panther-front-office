@@ -211,6 +211,8 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 	}
 );
 
+const getBackgroundLayer = () => {};
+
 /* TODO merge with template
 *  TODO test
 */
@@ -540,6 +542,7 @@ export default {
 	getActiveMapKey,
 	getActiveSetKey,
 
+	getBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
 
 	getFiltersForUse,
