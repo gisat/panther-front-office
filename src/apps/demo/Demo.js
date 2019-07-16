@@ -11,7 +11,7 @@ import Months from "../../components/specific/Demo/Months";
 import cz from "./locales/cz/common";
 import en from "./locales/en/common";
 import MapSet from "../../components/common/maps/MapSet";
-import MapControls from "../../components/common/maps/MapControls";
+import MapControls from "../../components/common/maps/Deprecated_MapControls";
 import LayersTree from "../../components/common/maps/LayersTree";
 
 // override and extend locales in namespaces
