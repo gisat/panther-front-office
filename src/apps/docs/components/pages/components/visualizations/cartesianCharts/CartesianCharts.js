@@ -358,10 +358,7 @@ class CartesianCharts extends React.PureComponent {
 
 				<LightDarkBlock forceRows>
 					<HoverHandler>
-						<ResizableContainer
-							minWidth={30}
-							maxWidth={45}
-						>
+						<ResizableContainer>
 							<ColumnChart
 								key="cartesians-docs-chart-max-min-width"
 
