@@ -7,6 +7,8 @@ import WorldWind from 'webworldwind-esa';
 import decorateWorldWindowController from './controllers/WorldWindowControllerDecorator';
 import navigator from './navigator/helpers';
 
+import './style.scss';
+
 const {WorldWindow, ElevationModel} = WorldWind;
 
 const DEFAULT_VIEW = {
