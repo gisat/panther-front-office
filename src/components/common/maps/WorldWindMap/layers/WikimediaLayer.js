@@ -5,7 +5,7 @@ const {ArgumentError, Logger} = WorldWind;
 
 class WikimediaLayer extends OsmLayer {
     constructor(options) {
-        super(options);
+        super("");
         this.imageSize = 256;
 
         if (!options.source && !options.sourceObject) {
