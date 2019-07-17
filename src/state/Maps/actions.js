@@ -675,35 +675,10 @@ const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 	}
 };
 
-const resetViewHeading = (mapKey, headingIncrement) => {
+const resetViewHeading = (mapKey) => {
 	return (dispatch, getState) => {
 		const view = Select.maps.getView(getState(), mapKey);
-
-		if (!headingIncrement) {
-			headingIncrement = 1.0;
-			if (Math.abs(view.heading) > 60) {
-				headingIncrement = 2.0;
-			} else if (Math.abs(view.heading) > 120) {
-				headingIncrement = 3.0;
-			}
-			//set shortest direction based on angle
-			if (view.heading > 0 && view.heading < 180 || view.heading < 0 && view.heading < -180) {
-				headingIncrement = -headingIncrement;
-			}
-		}
-
-		setTimeout(() => {
-			let heading;
-			if (Math.abs(view.heading) > Math.abs(headingIncrement)) {
-				heading = view.heading + headingIncrement;
-				dispatch(updateMapAndSetView(mapKey, {heading: heading}));
-				dispatch(resetViewHeading(mapKey, headingIncrement));
-			} else {
-				heading = 0;
-				dispatch(updateMapAndSetView(mapKey, {heading: heading}))
-			}
-		}, 20)
-
+		mapUtils.resetHeading(view.heading, heading => dispatch(updateMapAndSetView(mapKey, {heading})));
 	}
 };
 
@@ -1187,6 +1162,7 @@ export default {
 	removeMapKeyFromSet,
 	removeSet,
 
+	resetViewHeading,
 	resetWorldWindNavigatorHeading,
 
 	setActiveMapKey,
