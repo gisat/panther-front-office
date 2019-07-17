@@ -28,6 +28,7 @@ import ScatterChartDoc from "./components/pages/components/visualizations/cartes
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
+import MapsDoc from "./components/pages/components/maps/MapsDoc";
 
 
 export default (path, baseUrl) => {
@@ -57,7 +58,7 @@ export default (path, baseUrl) => {
 						<Page label="Colours" path="colours"/>
 					</Directory>
 					<Directory label="Components" path="components">
-						<Directory label="Maps" path="maps">
+						<Directory label="Maps" path="maps" component={MapsDoc}>
 							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
