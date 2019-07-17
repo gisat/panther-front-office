@@ -81,7 +81,7 @@ class AsterChartDoc extends React.PureComponent {
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. See <Link to="/docs/components/visualizations/asterChart#customHover">Custom Hover section</Link>.</> 
+							description: <>Path to text to be shown on hover. If undefined, then value (from 'valueSourcePath') is shown instead. See <Link to="/docs/components/visualizations/asterChart#customHover">Custom Hover section</Link>.</> 
 						}, {}, {
 							name: "width",
 							type: "number",
