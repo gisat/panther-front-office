@@ -26,8 +26,8 @@ import ColumnChartDoc from "./components/pages/components/visualizations/cartesi
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
 import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
-import Timeline from "./components/pages/components/visualizations/timeline/Timeline";
-import MapTimeline from "./components/pages/components/visualizations/timeline/MapTimeline";
+import Timeline from "./components/pages/components/controls/timeline/Timeline";
+import MapTimeline from "./components/pages/components/controls/timeline/MapTimeline";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 
@@ -77,9 +77,6 @@ export default (path, baseUrl) => {
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
 							</Directory>
-							<Directory label="Timeline" path="timeline" component={Timeline}>
-								<Page label="Map Timeline" path="mapTimeline" component={MapTimeline} />
-							</Directory>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
 							<Page label="Buttons" path="buttons" component={Buttons}/>
@@ -99,7 +96,9 @@ export default (path, baseUrl) => {
 							<Page label="ScreenAnimator" path="screenAnimator" />
 						</Directory>
 						<Directory label="Controls" path="controls">
-							<Page label="Timeline" path="timeline" />
+							<Directory label="Timeline" path="timeline" component={Timeline}>
+								<Page label="Map Timeline" path="mapTimeline" component={MapTimeline} />
+							</Directory>
 							<Page label="Areas" path="areas" />
 							<Page label="Layers" path="layers" />
 							<Page label="User & login overlay" path="user"/>
