@@ -19,7 +19,6 @@ import Docs, {Directory, Page, Anchor} from "./components/Docs";
 import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
-import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
 import Buttons from "./components/pages/components/atoms/Buttons";
 import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
@@ -59,7 +58,7 @@ export default (path, baseUrl) => {
 					</Directory>
 					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps" component={MapsDoc}>
-							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
+							<Page label="WebWorldWind" path="webWorldWind"/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
