@@ -27,7 +27,7 @@ import ScatterChartDoc from "./components/pages/components/visualizations/cartes
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
-import MapsDoc from "./components/pages/components/maps/MapsDoc";
+import MapDoc from "./components/pages/components/maps/MapDoc";
 
 
 export default (path, baseUrl) => {
@@ -57,8 +57,13 @@ export default (path, baseUrl) => {
 						<Page label="Colours" path="colours"/>
 					</Directory>
 					<Directory label="Components" path="components">
-						<Directory label="Maps" path="maps" component={MapsDoc}>
-							<Page label="WebWorldWind" path="webWorldWind"/>
+						<Directory label="Maps" path="maps">
+							<Directory label="Map" path="map" component={MapDoc}>
+								<Page label="WebWorldWind" path="webWorldWind"/>
+							</Directory>
+							<Page label="Map controls" path="mapControls"/>
+							<Page label="Map set" path="mapSet"/>
+							<Page label="GoToPlace" path="goToPlace"/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
