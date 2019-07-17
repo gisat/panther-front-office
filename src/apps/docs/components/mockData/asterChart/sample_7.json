@@ -5,7 +5,7 @@
 	"data": {
 	  "name": "Nevada",
 	  "someStrangeValue": 1389,
-	  "hoverValue": "popupation: 1389 p/km2"
+	  "hoverValue": "Population: 1389 p/km2"
 	}
   },
   {
@@ -14,7 +14,7 @@
 	"data": {
 	  "name": "Virgin Islands",
 	  "someStrangeValue": 408,
-	  "hoverValue": "popupation: 408 p/km2"
+	  "hoverValue": "Population: 408 p/km2"
 	}
   },
   {
@@ -23,7 +23,7 @@
 	"data": {
 	  "name": "California",
 	  "someStrangeValue": 716,
-	  "hoverValue": "popupation: 716 p/km2"
+	  "hoverValue": "Population: 716 p/km2"
 	}
   },
   {
@@ -32,7 +32,7 @@
 	"data": {
 	  "name": "American Samoa",
 	  "someStrangeValue": 1300,
-	  "hoverValue": "popupation: 1300 p/km2"
+	  "hoverValue": "Population: 1300 p/km2"
 	}
   },
   {
@@ -41,7 +41,7 @@
 	"data": {
 	  "name": "Oregon",
 	  "someStrangeValue": 466,
-	  "hoverValue": "popupation: 466 p/km2"
+	  "hoverValue": "Population: 466 p/km2"
 	}
   },
   {
@@ -50,7 +50,7 @@
 	"data": {
 	  "name": "Northern Mariana Islands",
 	  "someStrangeValue": 1021,
-	  "hoverValue": "popupation: 1021 p/km2"
+	  "hoverValue": "Population: 1021 p/km2"
 	}
   },
   {
@@ -59,7 +59,7 @@
 	"data": {
 	  "name": "Arizona",
 	  "someStrangeValue": 1277,
-	  "hoverValue": "popupation: 1277 p/km2"
+	  "hoverValue": "Population: 1277 p/km2"
 	}
   }
 ]
