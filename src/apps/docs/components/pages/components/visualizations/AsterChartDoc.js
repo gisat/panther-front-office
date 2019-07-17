@@ -81,7 +81,7 @@ class AsterChartDoc extends React.PureComponent {
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: "Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value." 
+							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. See <Link to="/docs/components/visualizations/asterChart#customHover">Custom Hover section</Link>.</> 
 						}, {}, {
 							name: "width",
 							type: "number",
@@ -416,7 +416,7 @@ class AsterChartDoc extends React.PureComponent {
 				</LightDarkBlock>
 
 
-				<h2 id="basicSettings">Custom hover content</h2>
+				<h2 id="customHover">Custom hover content</h2>
 				<p>It's possible to compose custom hover content value. Custom hover value must be included in passed data. Path to value is set in <InlineCodeHighlighter>hoverValueSourcePath</InlineCodeHighlighter> prop.</p>
 				<SyntaxHighlighter language="jsx">
 					{'// Use HoverHandler to see popups when move cursor over line or point. \n' +
