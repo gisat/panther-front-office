@@ -1,0 +1,12 @@
+.ptr-timeline-month > line {
+	stroke-width: 1;
+	stroke: rgba(0,0,0,.6);
+}
+.ptr-timeline-month-label {
+	font-size: 0.8rem;
+	fill: rgba(0,0,0,.6);
+}
+
+.ptr-timeline-month.background > line {
+	stroke: rgba(0,0,0,.2);
+}

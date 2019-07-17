@@ -1,0 +1,9 @@
+.ptr-timeline-minute {
+	stroke-width: 1;
+	stroke: rgba(0,0,0,.2);
+}
+
+.ptr-timeline-minute-label {
+	font-size: 0.7rem;
+	fill: rgba(0,0,0,.4);
+}

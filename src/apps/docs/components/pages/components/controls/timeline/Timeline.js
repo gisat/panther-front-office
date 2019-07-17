@@ -11,11 +11,11 @@ import Page, {
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import ReactResizeDetector from 'react-resize-detector';
 
-// import Timeline from "../../../../../../../components/common/timeline/";
-// import PeriodLimit from "../../../../../../../components/common/timeline/periodLimit";
-// import Overlays from "../../../../../../../components/common/timeline/overlay";
-// import Picker from "../../../../../../../components/common/timeline/centerPicker";
-// import Mouse from "../../../../../../../components/common/timeline/mouse";
+import Timeline from "../../../../../../../components/common/timeline/";
+import PeriodLimit from "../../../../../../../components/common/timeline/periodLimit";
+import Overlays from "../../../../../../../components/common/timeline/overlay";
+import Picker from "../../../../../../../components/common/timeline/centerPicker";
+import Mouse from "../../../../../../../components/common/timeline/mouse";
 
 import period from '../../../../../../../utils/period';
 import moment from 'moment';
@@ -73,7 +73,8 @@ class TimelineDoc extends React.PureComponent {
                         if ((vertical && height) || (!vertical && width)) {
                             return (
 								<HoverHandler>
-									{/* <Timeline 
+									{
+										<Timeline 
 											period={this.period}
 											initialPeriod={this.period}
 											selectedDate= {null}
@@ -85,17 +86,14 @@ class TimelineDoc extends React.PureComponent {
 											containerHeight={height}
 											// onClick= {this.onClick}
 											onClick= {() => console.log("onClick")}
-											vertical={vertical}
-											height={70}
-										>
+											containerWidth={width}
+											containerHeight={height}
+											>
 											<PeriodLimit key="periodLimit"/>
 											<Overlays overlays={overlays} key="overlays"/>
-
-											{/* <LevelElement key={activeLevel}/> }*/
-
-										// 	<Picker key="picker"/>
-										// 	<Mouse mouseBufferWidth={20} key="mouse"/>
-										// </Timeline> 
+											<Picker key="picker"/>
+											<Mouse mouseBufferWidth={20} key="mouse"/>
+										</Timeline> 
 									}
 								</HoverHandler>
 							)
