@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import WorldWind from 'webworldwind-esa';
 import decorateWorldWindowController from './controllers/WorldWindowControllerDecorator';
+import layersHelpers from './layers/helpers';
 import navigator from './navigator/helpers';
 
 import './style.scss';
@@ -53,10 +54,19 @@ class WorldWindMap extends React.PureComponent {
 			this.updateNavigator();
 		}
 
+		let layers = [];
 		if (this.props.backgroundLayer) {
-			this.wwd.layers = [this.props.backgroundLayer];
-			this.wwd.redraw();
+			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer));
 		}
+
+		if (this.props.layers) {
+			this.props.layers.forEach((layer) => {
+				layers.push(layersHelpers.getLayerByType(layer));
+			});
+		}
+
+		this.wwd.layers = layers;
+		this.wwd.redraw();
 
 	}
 
