@@ -1179,10 +1179,12 @@ export default {
 	setMapScenario,
 	setMapScope,
 	setMapView,
+	setMapWorldWindNavigator,
 
 	setSetBackgroundLayer,
 	setSetSync,
 	setSetView,
+	setSetWorldWindNavigator,
 
 	setInitial,
 
