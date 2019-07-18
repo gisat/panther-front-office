@@ -88,6 +88,7 @@ class TimelineDoc extends React.PureComponent {
 											onClick= {() => console.log("onClick")}
 											containerWidth={width}
 											containerHeight={height}
+											periodLimitOnCenter={false}
 											>
 											<PeriodLimit key="periodLimit"/>
 											<Overlays overlays={overlays} key="overlays"/>

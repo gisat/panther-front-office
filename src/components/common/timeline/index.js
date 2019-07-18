@@ -37,6 +37,7 @@ class Timeline extends React.PureComponent {
 
 	static propTypes = {
 		onHover: PropTypes.func,
+		onClick: PropTypes.func,
 		period: PropTypes.shape({
 			start: PropTypes.object,
 			end: PropTypes.object
@@ -67,6 +68,8 @@ class Timeline extends React.PureComponent {
 	static defaultProps = {
 		dayWidth: 1.5,
 		levels: LEVELS,
+		onHover: () => {},
+		onClick: () => {},
 	}
 
 	constructor(props){
@@ -76,7 +79,6 @@ class Timeline extends React.PureComponent {
 		this.getX = this.getX.bind(this);
 		this.getTime = this.getTime.bind(this);
 		this.getActiveLevel = this.getActiveLevel.bind(this);
-		this.onClick = this.onClick.bind(this);
 
 
 		const state = this.getStateUpdate({
@@ -237,12 +239,6 @@ class Timeline extends React.PureComponent {
 		return maxDayWidth;
 	}
 
-	onClick(evt) {
-		if(typeof this.props.onClick === 'function') {
-			this.props.onClick(evt);
-		}
-	}
-
 	getXAxisWidth() {
 		const {containerWidth, containerHeight, vertical} = this.props;
 		return vertical ? containerHeight : containerWidth;
@@ -254,7 +250,7 @@ class Timeline extends React.PureComponent {
 	}
 
 	render() {
-		const {levels, period, height, pickDateByCenter, overlays, onHover, vertical, children} = this.props;
+		const {levels, period, height, pickDateByCenter, overlays, onHover, onClick, vertical, children, periodLimitOnCenter} = this.props;
 		const {dayWidth, periodLimit, mouseX} = this.state;
 
 		const maxDayWidth = this.getMaxDayWidth();
@@ -280,11 +276,12 @@ class Timeline extends React.PureComponent {
 				pickDateByCenter,
 				overlays,
 				periodLimitVisible: true,
-				onClick: this.onClick,
+				onClick,
 				onHover,
 				vertical,
 				getXAxisWidth: this.getXAxisHeight,
 				getXAxisHeight: this.getXAxisHeight,
+				periodLimitOnCenter
 				}}>
 				<TimelineContent>
 					{children}

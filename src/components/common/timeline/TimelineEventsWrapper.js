@@ -8,7 +8,7 @@ import {Context as TimeLineContext} from './context';
  * @param {Event} evt 
  * @param {boolean} vertical 
  */
-const getClientXFromEvent = (evt, vertical = false) => {
+const getClientXFromEvent = (evt, vertical = false, targetBoudingBox) => {
 	let clientX;
 	const touch = evt.touches && evt.touches[0] || evt.changedTouches && evt.changedTouches[0]
 	if(touch) {
@@ -16,6 +16,13 @@ const getClientXFromEvent = (evt, vertical = false) => {
 	} else {
 		clientX = vertical ? evt.clientY : evt.clientX;
 	}
+
+	if(vertical) {
+		clientX = clientX - targetBoudingBox.top;  //y position within the element.
+	} else {
+		clientX = clientX - targetBoudingBox.left;  //y position within the element.
+	}
+
 	return clientX;
 }
 
@@ -93,7 +100,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 	end_handler(ev) {
 		const {vertical} = this.context;
 		ev.preventDefault();
-		const clientX = getClientXFromEvent(ev, vertical);
+		const clientX = getClientXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
 		
 		//identify stop touch move by one touch
 		if(ev.changedTouches.length === 1 && this.tpCache.length === 1) {
@@ -148,7 +155,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 		this._pointerLastX = null;
 		this.resetMouseTouchProps();
 		if(this.tpCache.length === 1) {
-			const clientX = getClientXFromEvent(ev, vertical);
+			const clientX = getClientXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
 			this.onPointerDown(clientX);
 		}
 	   }
@@ -164,7 +171,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 		
 		//identify touch by one touch
 		if(this.tpCache.length === 1) {
-			const clientX = getClientXFromEvent(ev, vertical);
+			const clientX = getClientXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
 			this.onPointerMove(clientX);
 
 			this.clearTouchEventCache();
@@ -226,7 +233,8 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 		// Cache the touch points for later processing of 2-touch pinch/zoom
 		this.cacheEvents([point1, point2]);
-		const centerPoint = [(point1.clientX + point2.clientX) / 2, (point1.clientY + point2.clientY) / 2];
+		const targetBox = this.node.current.getBoundingClientRect();
+		const centerPoint = [((point1.clientX + point2.clientX) / 2) - targetBox.left, ((point1.clientY + point2.clientY) / 2) - targetBox.top];
 		this.onPinch(dist/prevDist, centerPoint)
    }
 
@@ -238,13 +246,13 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 	onMouseUp(e) {		
 		const {vertical} = this.context;
-		const clientX = getClientXFromEvent(e, vertical);
+		const clientX = getClientXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 		this.onPointerUp(clientX);
 	}
 
 	onMouseDown(e) {
 		const {vertical} = this.context;
-		const clientX = getClientXFromEvent(e, vertical);
+		const clientX = getClientXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 		this.onPointerDown(clientX);
 	}
 
@@ -260,7 +268,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 	onMouseMove(e) {
 		const {vertical} = this.context;
-		const clientX = getClientXFromEvent(e, vertical);
+		const clientX = getClientXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 		this.context.onHover({
 			x: vertical ? clientX : clientX,
 			y: vertical ? this.context.height : this.context.height,
@@ -288,36 +296,55 @@ class TimelineEventsWrapper extends React.PureComponent {
 	 * @param dragInfo.direction {String} Either past or future. Based on this.
 	 */
 	onDrag(dragInfo) {
-		const {dayWidth, period, periodLimit, width, updateContext} = this.context;
+		const {dayWidth, period, periodLimit, width, updateContext, periodLimitOnCenter} = this.context;
 		const allDays = this.context.width / dayWidth;
-		const halfDays = allDays / 2;
 		const periodStart = moment(period.start);
     	const periodEnd = moment(period.end);
 		let periodLimitStart =  moment(periodLimit.start)
 		let periodLimitEnd = moment(periodLimit.end)
+		
+		//center time
+		const halfDays = allDays / 2;
 		let periodLimitCenter = moment(periodLimit.end).subtract(halfDays * (60 * 60 * 24 * 1000), 'ms')
 
-    // Either add  to start and end.
+    	// Either add  to start and end.
 		let daysChange = Math.abs(dragInfo.distance) / dayWidth;
 		if(dragInfo.direction === 'past') {
 			periodLimitStart.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
 	    	periodLimitEnd.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
-	    	periodLimitCenter.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
-			
-			if(periodLimitCenter.isBefore(periodStart)) {
-				//use last period limit
-				periodLimitStart = moment(periodLimit.start);
-				periodLimitEnd = moment(periodLimit.end);
+			if(periodLimitOnCenter) {
+				periodLimitCenter.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
+				
+				if(periodLimitCenter.isBefore(periodStart)) {
+					//use last period limit
+					periodLimitStart = moment(periodLimit.start);
+					periodLimitEnd = moment(periodLimit.end);
+				}
+			} else {
+				if(periodLimitStart.isBefore(periodStart)) {
+					//use last period limit
+					periodLimitStart = moment(periodLimit.start);
+					periodLimitEnd = moment(periodLimit.end);
+				}
 			}
+			
 		} else {
 			periodLimitStart.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
 			periodLimitEnd.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
 			periodLimitCenter.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
 
-			if(periodLimitCenter.isAfter(periodEnd)) {
-				//use last period limit
-				periodLimitStart = moment(periodLimit.start);
-				periodLimitEnd = moment(periodLimit.end);
+			if(periodLimitOnCenter) {
+				if(periodLimitCenter.isAfter(periodEnd)) {
+					//use last period limit
+					periodLimitStart = moment(periodLimit.start);
+					periodLimitEnd = moment(periodLimit.end);
+				}
+			} else {
+				if(periodLimitEnd.isAfter(periodEnd)) {
+					//use last period limit
+					periodLimitStart = moment(periodLimit.start);
+					periodLimitEnd = moment(periodLimit.end);
+				}
 			}
 		}
 
@@ -503,9 +530,12 @@ class TimelineEventsWrapper extends React.PureComponent {
 	}
 
 	zoom(newWidth, x) {
-		const {mouseX, getTime, updateContext, period} = this.context;
+		const {mouseX, getTime, updateContext, period, periodLimit, periodLimitOnCenter} = this.context;
 		const zoomX = x || mouseX;
 		const mouseTime = zoomX ? getTime(zoomX) : getTime(mouseX);
+		let periodLimitStart =  moment(periodLimit.start)
+		let periodLimitEnd = moment(periodLimit.end)
+
 		
 		if(newWidth > this.context.maxDayWidth) {
 			newWidth = this.context.maxDayWidth;
@@ -525,16 +555,31 @@ class TimelineEventsWrapper extends React.PureComponent {
 		//Don't allow zoom center out of period
 		let center = moment(start).add(moment.duration((allDays / 2) * (60 * 60 * 24 * 1000), 'ms'));
 
-		if(center.isBefore(period.start)) {
-			const startDiff = period.start.diff(center, 'ms');
-			start.add(startDiff, 'ms')
-			end.add(startDiff, 'ms')
-		}
+		if(periodLimitOnCenter) {
+			if(center.isBefore(period.start)) {
+				const diff = period.start.diff(center, 'ms');
+				start.add(diff, 'ms')
+				end.add(diff, 'ms')
+			}
 
-		if(center.isAfter(period.end)) {
-			const startDiff = period.end.diff(center, 'ms');
-			start.add(startDiff, 'ms')
-			end.add(startDiff, 'ms')
+			if(center.isAfter(period.end)) {
+				const diff = period.end.diff(center, 'ms');
+				start.add(diff, 'ms')
+				end.add(diff, 'ms')
+			}
+		} else {
+			//Don`t allow show date out of period
+			if(start.isBefore(period.start)) {
+				const diff = period.start.diff(periodLimitStart, 'ms');
+				start.add(diff, 'ms')
+				end.add(diff, 'ms')
+			}
+
+			if(end.isAfter(period.end)) {
+				const diff = period.end.diff(periodLimitEnd, 'ms');
+				start.add(diff, 'ms')
+				end.add(diff, 'ms')
+			}
 		}
 
 		updateContext({
