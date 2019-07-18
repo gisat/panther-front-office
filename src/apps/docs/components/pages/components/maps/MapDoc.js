@@ -60,7 +60,7 @@ class MapDoc extends React.PureComponent {
 					'\t\turls: ["http://192.168.2.206/geoserver/geonode/wms&${x}&${y}&${z}"],\n' +
 					'\n' +
 					'\t\t// type: worldwind\n' +
-					'\t\tlayer: "wikimedia|bluemarble|bing",\n' +
+					'\t\tlayer: "wikimedia|bluemarble|bingAerial",\n' +
 					'\n' +
 					'\t\t// type: vector\n' +
 					'\t\tfeature: {}, // geojson with or without properties\n' +

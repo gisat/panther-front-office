@@ -1,4 +1,5 @@
-import OsmLayer from './OsmLayer';
+import WorldWind from 'webworldwind-esa';
+
 import WikimediaLayer from './WikimediaLayer';
 import WmsLayer from './WmsLayer';
 
@@ -8,6 +9,10 @@ function getLayerByType(layer){
 		switch (layer.type){
 			case "worldwind":
 				switch (layer.options.layer){
+					case "bingAerial":
+						return new WorldWind.BingAerialLayer(null);
+					case "bluemarble":
+						return new WorldWind.BMNGLayer();
 					case "wikimedia":
 						return new WikimediaLayer({
 							attribution: "Wikimedia maps - Map data \u00A9 OpenStreetMap contributors",
