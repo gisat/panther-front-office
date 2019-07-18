@@ -66,14 +66,14 @@ class Select extends React.PureComponent {
             if (_.isEmpty(selectedObject)) {
                 this.props.onChange(null);
             } else if (this.props.optionValue) {
-                let selected = _.filter(this.props.options, (option) => {
-                    return !!_.find(selectedObject, (object) => {return (_.get(option, this.props.optionValue) === (object && object.value))});
+                let selected = [];
+                _.forEach(selectedObject, (item) => {
+                    let originalObject = _.find(this.props.options, (option) => {return ((item && item.value) === (_.get(option, this.props.optionValue)))});
+                    if (originalObject) {
+                        selected.push(originalObject);
+                    }
                 });
-                if (selected) {
-                    this.props.onChange(selected);
-                } else {
-                    this.props.onChange(null);
-                }
+                this.props.onChange(selected);
             } else {
                 let values = selectedObject.map(object => object.value);
                 this.props.onChange(values);
