@@ -46,6 +46,32 @@ class MapDoc extends React.PureComponent {
 				<h2>Props</h2>
 				<h2>View</h2>
 				<h2>Layers</h2>
+				<SyntaxHighlighter language="javascript">
+					{'{\n' +
+					'\tkey: "layerKey",\n' +
+					'\ttype: "wms|wmts|worldwind|vector",\n' +
+					'\topacity: 0.7,\n' +
+					'\toptions: {\n' +
+					'\t\t// type: wms\n' +
+					'\t\turl: "http://192.168.2.206/geoserver/geonode/wms?",\n' +
+					'\t\tparams: {} // wms query params\n' +
+					'\n' +
+					'\t\t// type: wmts\n' +
+					'\t\turls: ["http://192.168.2.206/geoserver/geonode/wms&${x}&${y}&${z}"],\n' +
+					'\n' +
+					'\t\t// type: worldwind\n' +
+					'\t\tlayer: "wikimedia|bluemarble|bing",\n' +
+					'\n' +
+					'\t\t// type: vector\n' +
+					'\t\tfeature: {}, // geojson with or without properties\n' +
+					'\t\tstyle: {}|"",\n' +
+					'\t\tselected: {selectionKey: [], selectionKey2: []} //keys\n' +
+					'\t\tfiltered: []\n' +
+					'\t\thovered: []\n' +
+					'\t}\n' +
+					'\n}'}
+				</SyntaxHighlighter>
+
 				<DocsToDo>Structure description, ...</DocsToDo>
 
 				<h2>Container component</h2>
