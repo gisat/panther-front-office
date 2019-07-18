@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import {Context as TimeLineContext} from './context';
 
@@ -10,7 +9,7 @@ import {Context as TimeLineContext} from './context';
  */
 const getClientXFromEvent = (evt, vertical = false, targetBoudingBox) => {
 	let clientX;
-	const touch = evt.touches && evt.touches[0] || evt.changedTouches && evt.changedTouches[0]
+	const touch = (evt.touches && evt.touches[0]) || (evt.changedTouches && evt.changedTouches[0])
 	if(touch) {
 		clientX = vertical ? touch.clientY : touch.clientX;
 	} else {

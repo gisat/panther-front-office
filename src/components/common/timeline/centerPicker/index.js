@@ -43,4 +43,14 @@ class Picker extends React.PureComponent {
 
 }
 
+Picker.propTypes = {
+	height: PropTypes.number,
+	width: PropTypes.number,
+	vertical: PropTypes.bool,
+  }
+
+Picker.defaultProps = {
+	vertical: false,
+}
+
 export default Picker;

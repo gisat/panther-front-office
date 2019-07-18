@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './style.css'
-export default (props) => {
+
+const Mouse = (props) => {
 	const {mouseX, mouseBufferWidth, height, vertical} = props;
 	if (mouseX) {
 		const x = vertical ? 0 : mouseX - mouseBufferWidth;
@@ -30,3 +32,16 @@ export default (props) => {
 		return null;
 	}
 };
+
+Mouse.propTypes = {
+	mouseX: PropTypes.number,
+	mouseBufferWidth: PropTypes.number.isRequired,
+	height: PropTypes.number,
+	vertical: PropTypes.bool,
+  }
+
+Mouse.defaultProps = {
+	vertical: false,
+}
+
+export default Mouse;

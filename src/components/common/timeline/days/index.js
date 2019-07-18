@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './style.css';
 import map from 'lodash/map';
 import moment from 'moment';
@@ -63,6 +64,22 @@ const Days = (props) => {
 		</g>
 	);
 };
+
+
+Days.propTypes = {
+    periodLimit: PropTypes.shape({
+		start: PropTypes.object,
+		end: PropTypes.object,
+	}).isRequired,
+	getX: PropTypes.func.isRequired,
+	dayWidth: PropTypes.number.isRequired,
+	height: PropTypes.number.isRequired,
+	vertical: PropTypes.bool,
+  }
+
+Days.defaultProps = {
+	vertical: false,
+}
 
 
 export default Days;

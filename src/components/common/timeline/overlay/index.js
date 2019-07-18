@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import './style.css';
 
-export default (props) => {
+const Overlay = (props) => {
 	const {periodLimit, overlays, getX, vertical} = props;
 	const periodStart = moment(periodLimit.start);
 	const periodEnd = moment(periodLimit.end);
@@ -60,3 +60,20 @@ export default (props) => {
 		</g>
 	);
 };
+
+
+Overlay.propTypes = {
+    periodLimit: PropTypes.shape({
+		start: PropTypes.object,
+		end: PropTypes.object,
+	}),
+	getX: PropTypes.func,
+	overlays: PropTypes.array.isRequired,
+	vertical: PropTypes.bool,
+  }
+
+Overlay.defaultProps = {
+	vertical: false,
+}
+
+export default Overlay;

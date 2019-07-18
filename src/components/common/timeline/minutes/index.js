@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import map from 'lodash/map';
 import moment from 'moment';
 import {getMinutes, getHours} from '../utils/interval';
@@ -40,6 +40,21 @@ const Minutes = (props) => {
 			{minutes}{hours.reverse()}
 		</g>
 	)
+}
+
+Minutes.propTypes = {
+    periodLimit: PropTypes.shape({
+		start: PropTypes.object,
+		end: PropTypes.object,
+	}).isRequired,
+	getX: PropTypes.func.isRequired,
+	dayWidth: PropTypes.number.isRequired,
+	height: PropTypes.number.isRequired,
+	vertical: PropTypes.bool,
+  }
+
+Minutes.defaultProps = {
+	vertical: false,
 }
 
 export default Minutes;

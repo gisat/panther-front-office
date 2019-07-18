@@ -2,6 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class TextLabel extends React.PureComponent {
+
+    static propTypes = {
+        label: PropTypes.string.isRequired,
+        className: PropTypes.string,
+        x: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+        vertical: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        vertical: false,
+        className: '',
+    }
+
 	constructor(props){
         super(props);
 		this.node = React.createRef();

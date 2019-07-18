@@ -20,6 +20,11 @@ class PeriodLimit extends React.PureComponent {
 		}),
 		getX: PropTypes.func,
 		height: PropTypes.number,
+		vertical: PropTypes.bool,
+	};
+
+	static defaultProps = {
+		vertical: false,
 	};
 
 	render() {

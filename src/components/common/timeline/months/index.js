@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Label from '../utils/textLabel';
 import MonthDash from './MonthDash';
 import YearDash from '../years/YearDash';
@@ -42,6 +43,22 @@ const Months = (props) => {
 			{months}{years.reverse()}
 		</g>
 	)
+}
+
+
+Months.propTypes = {
+    periodLimit: PropTypes.shape({
+		start: PropTypes.object,
+		end: PropTypes.object,
+	}).isRequired,
+	getX: PropTypes.func.isRequired,
+	dayWidth: PropTypes.number.isRequired,
+	height: PropTypes.number.isRequired,
+	vertical: PropTypes.bool,
+  }
+
+Months.defaultProps = {
+	vertical: false,
 }
 
 export default Months;

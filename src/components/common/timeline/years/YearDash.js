@@ -1,15 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {D1} from '../utils/dash';
 
-export default (props) => {
+const YearsDash = (props) => {
 	const {x, label, vertical} = props;
-	const dLabel = label || null;
 	return (
 		<g
 			className={'ptr-timeline-year'}
 		>
 			<D1 x={x} vertical={vertical}/>
-			{dLabel}
+			{label}
 		</g>
 	);
-} 
+};
+
+
+YearsDash.propTypes = {
+	x: PropTypes.number.isRequired,
+	label: PropTypes.element,
+	vertical: PropTypes.bool,
+  }
+
+YearsDash.defaultProps = {
+	vertical: false,
+	label: null,
+}
+
+export default YearsDash;
