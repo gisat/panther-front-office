@@ -5,6 +5,8 @@ import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation
 import MapControls from "../../components/common/maps/MapControls/presentation";
 import Select from "../../components/common/atoms/Select/Select";
 
+import central_europe from "./data/central_europe";
+
 const backgroundLayers = {
 	wikimedia: {
 		name: "Wikimedia",
@@ -59,6 +61,14 @@ const layers = {
 				layers: 'GUF10_DenS'
 			}
 		}
+	},
+	boundaries: {
+		key: 'boundaries',
+		name: 'Central Europe vector',
+		type: 'vector',
+		options: {
+			features: central_europe
+		}
 	}
 };
 
@@ -71,13 +81,13 @@ class Demo extends React.PureComponent {
 
 		this.state = {
 			backgroundLayer: backgroundLayers.wikimedia,
-			layers: [layers.nightlights, layers.gufDens, layers.guf12m],
+			layers: [layers.boundaries],
 			view: {
 				center: {
 					lat: 49.5,
 					lon: 15
 				},
-				boxRange: 700000
+				boxRange: 1200000
 			}
 		};
 
