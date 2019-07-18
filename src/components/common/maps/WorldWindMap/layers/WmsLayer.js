@@ -2,21 +2,12 @@ import WorldWind from 'webworldwind-esa';
 import _ from "lodash";
 
 /**
- * Class extending WorldWind.WmsLayer.
- * @param options {Object}
- * @param options.attributions {Array} list of attributions. Each attribution will be rendered on separate line.
- * @param options.params {Object} optional paremeters
- * @param options.format {string} image formate
- * @param options.key {String}
- * @param options.layerNames {String}
- * @param options.levelZeroDelta {WorldWind.Location}
- * @param options.numLevels {number}
- * @param options.opacity {number}
- * @param options.sector {WorldWind.Sector}
- * @param options.size {number} size of tile in pixels
- * @param options.styleNames {String}
- * @param options.url {String}
- * @param options.version {String} WMS version
+ * @param layer {Object}
+ * @param layer.key {string}
+ * @param layer.opacity {number}
+ * @param layer.options {Object}
+ * @param layer.options.url {string}
+ * @param layer.options.params {object}
  * @augments WorldWind.WmsLayer
  * @constructor
  */
