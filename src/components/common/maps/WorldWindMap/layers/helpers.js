@@ -1,5 +1,6 @@
 import WorldWind from 'webworldwind-esa';
 
+import VectorLayer from './VectorLayer';
 import WikimediaLayer from './WikimediaLayer';
 import WmsLayer from './WmsLayer';
 
@@ -27,6 +28,8 @@ function getLayerByType(layer){
 				}
 			case "wms":
 				return new WmsLayer(layer);
+			case "vector":
+				return new VectorLayer(layer);
 			default:
 				return null;
 		}
