@@ -16,6 +16,8 @@ import PeriodLimit from "../../../../../../../components/common/timeline/periodL
 import Overlays from "../../../../../../../components/common/timeline/overlay";
 import Picker from "../../../../../../../components/common/timeline/centerPicker";
 import Mouse from "../../../../../../../components/common/timeline/mouse";
+import Years from '../../../../../../../components/common/timeline/years';
+import Months from '../../../../../../../components/common/timeline/months';
 
 import period from '../../../../../../../utils/period';
 import moment from 'moment';
@@ -68,10 +70,6 @@ class TimelineDoc extends React.PureComponent {
 
 				<p>
 					The main idea is, that container has defined period with start and end. Container calculate dayWidth in px as container width (height) / visible period. Passed children content gets dayWidth and visible period in props. DayWidth could be modified by zoom/pinch or programmatically.
-				</p>
-
-				<p>
-					Timeline can render children in pyramid depends on dayWidth. Every level has max dayWidth value until is visible. While rendering years it does not care about rendering minutes or seconds, it has positive performance aspects. In one moment is visible only one layer of the period.
 				</p>
 
 				<h2 id="props">Common props</h2>
@@ -145,7 +143,7 @@ class TimelineDoc extends React.PureComponent {
 								name: "vertical",
 								type: "bool",
 								required: false,
-								default: false,
+								default: 'false',
 								description: "Whether display timeline in vertical view.",
 							},
 							{
@@ -178,7 +176,7 @@ class TimelineDoc extends React.PureComponent {
 								name: "periodLimitOnCenter",
 								type: "bool",
 								required: false,
-								default: false,
+								default: 'false',
 								description: "Whether limit periodLimit on start/end of element or in center of element."
 							},
 					]
@@ -227,6 +225,109 @@ const width = 1000;
 											>
 												<Picker key="picker"/>
 												<Mouse mouseBufferWidth={20} key="mouse"/>
+										</Timeline> 
+								)
+							} else {
+								return <div></div>
+							}
+						}}
+						/>
+					<h3>Layers</h3>
+					<p>
+						Timeline can render children in pyramid depends on dayWidth. Every level has max dayWidth value until is visible. While rendering years it does not care about rendering minutes or seconds, it has positive performance aspects. In one moment is visible only one layer of the period.
+					</p>
+					<SyntaxHighlighter language="jsx">
+{
+`
+const LEVELS=[
+	{
+		level: 'year',
+		end:2
+	},
+	{
+		level: 'month',
+		end:20
+	}
+];
+
+const period = {
+	start: moment(2010, 'YYYY'),
+	end: moment(2025, 'YYYY')
+}
+
+const Levels = (props) => {
+	const {activeLevel} = props;
+	switch (activeLevel) {
+		case 'year':
+			return React.createElement(Years, {...props, key: 'year'});
+		case 'month':
+			return React.createElement(Months, {...props, key: 'month'});
+	}
+	return React.createElement(Months, {...props, key: 'month'});
+};
+
+return (
+
+		<Timeline 
+			period={period}
+			containerWidth={width}
+			onChange={(timelineState) => {console.log("onChange", timelineState)}}
+			onClick={(evt) => console.log("onClick", evt)}
+			levels={LEVELS}
+			>
+				<Picker key="picker"/>
+				<Mouse mouseBufferWidth={20} key="mouse"/>
+				<Levels key="levels"/>
+		</Timeline> 
+)
+`}
+					</SyntaxHighlighter>
+
+					<ReactResizeDetector
+						handleWidth
+						render={({ width }) => {
+							
+							if(width){
+
+								const LEVELS=[
+									{
+										level: 'year',
+										end:2
+									},
+									{
+										level: 'month',
+										end:20
+									}
+								];
+
+								const period = {
+									start: moment(2010, 'YYYY'),
+									end: moment(2025, 'YYYY')
+								}
+
+								const Levels = (props) => {
+									const {activeLevel} = props;
+									switch (activeLevel) {
+										case 'year':
+											return React.createElement(Years, {...props, key: 'year'});
+										case 'month':
+											return React.createElement(Months, {...props, key: 'month'});
+									}
+									return React.createElement(Months, {...props, key: 'month'});
+								};
+
+								return (
+
+										<Timeline 
+											period={period}
+											containerWidth={width}
+											onChange={(timelineState) => {console.log("onChange", timelineState)}}
+											onClick={(evt) => console.log("onClick", evt)}
+											levels={LEVELS}
+											>
+												<Picker key="picker"/>
+												<Mouse mouseBufferWidth={20} key="mouse"/>
+												<Levels key="levels"/>
 										</Timeline> 
 								)
 							} else {
