@@ -1,17 +1,24 @@
 import React, {createContext} from 'react'
 export const Context = createContext({
+    updateContext: null,
+    width: null,
+    height: null,
+    getX: null,
+    getTime: null,
+    centerTime: null,
+    getActiveLevel: null,
     dayWidth: null,
     maxDayWidth: null,
+    minDayWidth: null,
     period: null,
     periodLimit: null,
     mouseX: null,
-    height: null,
-    containerWidth: null,
-    getX: null,
-    centerTime: null,
-    levels: null,
-    overlays: null,
-    periodLimitVisible: true,
+    activeLevel: null,
+    periodLimitVisible: null,
+    onClick: null,
+    onHover: null,
+    vertical: null,
+    periodLimitOnCenter: null,
 });
 
 export const ContextProvider = (props) => {

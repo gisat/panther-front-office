@@ -36,33 +36,31 @@ const DEFAULT_HORIZONTAL_HEIGHT = 45;
 class Timeline extends React.PureComponent {
 
 	static propTypes = {
-		onHover: PropTypes.func,
-		onClick: PropTypes.func,
 		period: PropTypes.shape({
 			start: PropTypes.object,
 			end: PropTypes.object
-		}),
+		}).isRequired,
 		periodLimit: PropTypes.shape({
 			start: PropTypes.object,
 			end: PropTypes.object
 		}),
 		dayWidth: PropTypes.number,
-		height: PropTypes.number,
+		centerTime: PropTypes.func,
 		containerWidth: PropTypes.number,
 		containerHeight: PropTypes.number,
-		onWheel: PropTypes.func,
-		getX: PropTypes.func,
+		height: PropTypes.number,
+		
+		onHover: PropTypes.func,
+		onClick: PropTypes.func,
 
-		pickDateByCenter: PropTypes.bool,
-		selectedDate: PropTypes.object,
+		periodLimitOnCenter: PropTypes.bool,
+		vertical: PropTypes.bool,
 		
 		levels: PropTypes.arrayOf(PropTypes.shape({
 			end: PropTypes.number,
 			level: PropTypes.string
 		})),										//ordered levels by higher level.end 
 		onChange: PropTypes.func,
-		onTimeClick: PropTypes.func,
-		vertical: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -112,6 +110,7 @@ class Timeline extends React.PureComponent {
 
 		//if parent component set time
 		if(prevProps.containerWidth !== this.props.containerWidth) {
+			//todo take time from state
 			const periodLimit = this.getPeriodLimitByTime(this.props.time);
 
 			//zoom to dayWidth
@@ -244,13 +243,8 @@ class Timeline extends React.PureComponent {
 		return vertical ? containerHeight : containerWidth;
 	}
 
-	getXAxisHeight() {
-		const {containerWidth, containerHeight, vertical} = this.props;
-		return vertical ? containerWidth : containerHeight;
-	}
-
 	render() {
-		const {levels, period, height, pickDateByCenter, overlays, onHover, onClick, vertical, children, periodLimitOnCenter} = this.props;
+		const {levels, period, height, pickDateByCenter, onHover, onClick, vertical, children, periodLimitOnCenter} = this.props;
 		const {dayWidth, periodLimit, mouseX} = this.state;
 
 		const maxDayWidth = this.getMaxDayWidth();
@@ -273,14 +267,10 @@ class Timeline extends React.PureComponent {
 				periodLimit,
 				mouseX,
 				activeLevel,
-				pickDateByCenter,
-				overlays,
 				periodLimitVisible: true,
 				onClick,
 				onHover,
 				vertical,
-				getXAxisWidth: this.getXAxisHeight,
-				getXAxisHeight: this.getXAxisHeight,
 				periodLimitOnCenter
 				}}>
 				<TimelineContent>
