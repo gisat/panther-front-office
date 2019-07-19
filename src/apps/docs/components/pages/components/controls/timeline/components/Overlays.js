@@ -126,19 +126,19 @@ class TimelineDoc extends React.PureComponent {
 							{
 								name: "containerWidth",
 								type: "number",
-								required: false,
-								description: "Required in verhorizontaltical view. Width of parent element.",
+								required: 'in horizontal view',
+								description: "Width of parent element.",
 							},
 							{
 								name: "containerHeight",
 								type: "number",
-								required: false,
-								description: "Required in vertical view. Height of parent element.",
+								required: 'in vertical view',
+								description: "Height of parent element.",
 							},
 							{
 								name: "time",
 								type: "object",
-								required: false,
+								required: true,
 								description: "Momentjs instance. Time in center of visible periodLimit.",
 							},
 							{
@@ -187,7 +187,7 @@ class TimelineDoc extends React.PureComponent {
 					<h2>Examples</h2>
 					<h3>Custom children</h3>
 					<p>As said, timeline is a container with custom children. Children variously display time, or data, layers even graphs. Custom child is also mouse indicator, periods limitations or center of timeline.</p>
-					<p>Picker and Mouse are core component, but it is possible to pass custom children.</p>
+					<p>Overlays, Picker and Mouse are core component, but it is possible to pass custom children.</p>
 					<p>Timeline has onChange and onClick listeners that write events into console. Open developer console to see content.</p>
 					<SyntaxHighlighter language="jsx">
 {
