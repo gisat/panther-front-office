@@ -2,7 +2,7 @@ import React from 'react';
 import WorldWindMap from './Deprecated_WorldWindMap/presentation';
 import PropTypes from "prop-types";
 
-class MapWrapper extends React.PureComponent {
+class Deprecated_MapWrapper extends React.PureComponent {
 
 	static propTypes = {
 		onMount: PropTypes.func,
@@ -36,4 +36,4 @@ class MapWrapper extends React.PureComponent {
 	}
 }
 
-export default MapWrapper;
+export default Deprecated_MapWrapper;

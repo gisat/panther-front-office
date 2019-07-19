@@ -333,7 +333,11 @@ export const commonActionTypesDefinitions = {
 			ADD_MAP: null,
 			SET_MAPS: null,
 			REMOVE_MAP: null,
-			WORLD_WIND_NAVIGATOR: {
+			WORLD_WIND_NAVIGATOR: { // TODO deprecated
+				SET: null,
+				UPDATE: null
+			},
+			VIEW: {
 				SET: null,
 				UPDATE: null
 			},
@@ -344,10 +348,14 @@ export const commonActionTypesDefinitions = {
 			REMOVE: null,
 			SET_NAME: null,
 			SET_DATA: null,
-			WORLD_WIND_NAVIGATOR: {
+			WORLD_WIND_NAVIGATOR: { // TODO deprecated
 				SET: null,
 				UPDATE: null
 			},
+			VIEW: {
+				SET: null,
+				UPDATE: null
+			}
 		},
 		LAYERS: {
 			ADD_LAYERS: null,

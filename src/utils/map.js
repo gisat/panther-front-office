@@ -91,8 +91,36 @@ function getBoxRangeFromBoundingBox(bbox) {
 }
 
 
+function resetHeading(heading, callback, increment) {
+	if (!increment) {
+		increment = 1.0;
+		if (Math.abs(heading) > 60) {
+			increment = 2.0;
+		} else if (Math.abs(heading) > 120) {
+			increment = 3.0;
+		}
+		//set shortest direction based on angle
+		if (heading > 0 && heading < 180 || heading < 0 && heading < -180) {
+			increment = -increment;
+		}
+	}
+
+	setTimeout(() => {
+		if (Math.abs(heading) > Math.abs(increment)) {
+			heading = heading + increment;
+			callback(heading);
+			resetHeading(heading, callback, increment);
+		} else {
+			heading = 0;
+			callback(heading);
+		}
+	}, 20)
+}
+
+
 export default {
 	getLocationFromPlaceString,
+	resetHeading
 }
 
 

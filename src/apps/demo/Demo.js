@@ -1,52 +1,141 @@
 import React from 'react';
-import {withNamespaces} from "react-i18next";
-import utils from '../../utils/utils';
-import propTypes from 'prop-types';
+import _ from 'lodash';
+import PresentationMapWithControls from "../../components/common/maps/PresentationMapWithControls";
+import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation";
+import MapControls from "../../components/common/maps/MapControls/presentation";
+import Select from "../../components/common/atoms/Select/Select";
 
-import Screens from '../../components/common/Screens';
+import central_europe from "./data/central_europe";
 
-import Days from "../../components/specific/Demo/Days";
-import Months from "../../components/specific/Demo/Months";
+const backgroundLayers = {
+	wikimedia: {
+		name: "Wikimedia",
+		type: 'worldwind',
+		options: {layer: 'wikimedia'}
+	},
+	bing: {
+		name: "Bing Aerial",
+		type: 'worldwind',
+		options: {layer: 'bingAerial'}
+	},
+	bluemarble: {
+		name: "Bluemarble",
+		type: 'worldwind',
+		options: {layer: 'bluemarble'}
+	}
+};
 
-import cz from "./locales/cz/common";
-import en from "./locales/en/common";
-import MapSet from "../../components/common/maps/MapSet";
-import MapControls from "../../components/common/maps/MapControls";
-import LayersTree from "../../components/common/maps/LayersTree";
+const layers = {
+	nightlights: {
+		key: 'nightlights',
+		name: 'Nightlights',
+		type: 'wms',
+		opacity: 0.5,
+		options: {
+			url: 'https://utep.it4i.cz/geoserver/ESA_UTEP_EXT/wms',
+			params: {
+				layers: 'SVDNB_2015_v10'
+			}
+		}
+	},
+	guf12m: {
+		key: 'guf12m',
+		name: 'Global Urban Footprint',
+		type: 'wms',
+		opacity: 1,
+		options: {
+			url: 'https://utep.it4i.cz/geoserver/ESA_UTEP/wms',
+			params: {
+				layers: 'GUF04'
+			}
+		}
+	},
+	gufDens: {
+		key: 'gufDens',
+		name: 'GUF Density',
+		type: 'wms',
+		opacity: 1,
+		options: {
+			url: 'https://utep.it4i.cz/geoserver/ESA_UTEP/wms',
+			params: {
+				layers: 'GUF10_DenS'
+			}
+		}
+	},
+	boundaries: {
+		key: 'boundaries',
+		name: 'Central Europe vector',
+		type: 'vector',
+		options: {
+			features: central_europe
+		}
+	}
+};
 
-// override and extend locales in namespaces
-utils.addI18nResources('common', {cz, en});
+const backgroundLayersOptions = _.values(backgroundLayers);
+const layersOptions = _.values(layers);
 
 class Demo extends React.PureComponent {
-	constructor() {
-		super();
-		this.treeUUID = utils.uuid();
-	}
-	render() {
-		const layersFilter = {
-			scopeKey:'c883e330-deb2-4bc4-b1e3-6b412791e5c0',
-			applicationKey: 'esponFuore'
+	constructor(props){
+		super(props);
+
+		this.state = {
+			backgroundLayer: backgroundLayers.wikimedia,
+			layers: [layers.boundaries],
+			view: {
+				center: {
+					lat: 49.5,
+					lon: 15
+				},
+				boxRange: 1200000
+			}
 		};
 
+		this.onBackgroundChange = this.onBackgroundChange.bind(this);
+		this.onLayersChange = this.onLayersChange.bind(this);
+	}
+
+	onBackgroundChange(backgroundLayer) {
+		this.setState({backgroundLayer});
+	}
+
+	onLayersChange(layers) {
+		this.setState({layers});
+	}
+
+	render() {
 		return (
-			<Screens
-				setKey="demo"
-			>
-				<div id="demo" style={{display: 'flex', height: '100%'}}>
-					<LayersTree componentKey="LayersTree_demo" layersTreeKey={this.treeUUID} layerTreesFilter={layersFilter}/>
-					<MapControls />
-					<MapSet
-						mapSetKey="MapSet1"
-						layerTreesFilter={layersFilter}
+			<div className="demo-app ptr-light">
+				<div className="demo-maps">
+					<PresentationMapWithControls
+						map={<WorldWindMap {...this.state}/>}
+						controls={<MapControls/>}
 					/>
 				</div>
-			</Screens>
+				<div className="demo-control-panel">
+					<h2>Background</h2>
+					<Select
+						onChange={this.onBackgroundChange}
+						options={backgroundLayersOptions}
+						optionLabel="name"
+						optionValue="options.layer"
+						value={this.state.backgroundLayer}
+					/>
+
+					<h2>Layers</h2>
+					<Select
+						clearable
+						multi
+						onChange={this.onLayersChange}
+						options={layersOptions}
+						optionLabel="name"
+						optionValue="key"
+						value={this.state.layers}
+					/>
+				</div>
+			</div>
 		);
 	}
 }
 
-Demo.propTypes = {
-	treeKey: propTypes.string,
-}
-
-export default withNamespaces()(Demo);
+export default Demo;

@@ -173,4 +173,13 @@ export default [
 			module.default(path, baseUrl);
 		})
 	},
+	{
+		key: 'demo',
+		hostname: 'panther.gisat.cz',
+		path: '/demo',
+		devPath: '/demo',
+		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
 ];

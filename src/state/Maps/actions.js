@@ -189,6 +189,7 @@ const removeMapKeyFromSet = (setKey, mapKey) => {
 	}
 };
 
+// TODO deprecated
 const setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -197,6 +198,18 @@ const setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
 		} else {
 			return dispatch(actionSetSetWorldWindNavigator(setKey, worldWindNavigator));
+		}
+	}
+};
+
+const setSetView = (setKey, view) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			return dispatch(actionSetSetView(setKey, view));
 		}
 	}
 };
@@ -326,6 +339,7 @@ const setMapData = (mapKey, data) => {
 	};
 };
 
+// TODO deprecated
 const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -334,6 +348,18 @@ const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			return dispatch(actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
+		}
+	};
+};
+
+const setMapView = (mapKey, view) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return dispatch(actionSetMapView(mapKey, view));
 		}
 	};
 };
@@ -473,6 +499,7 @@ const updateMapLayer = (mapKey, layerKey, layer) => {
 	}
 };
 
+// TODO deprecated
 const updateWorldWindNavigator = (mapKey, updates) => {
 	return (dispatch, getState) => {
 		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
@@ -513,6 +540,40 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 	}
 };
 
+const updateMapAndSetView = (mapKey, update) => {
+	return (dispatch, getState) => {
+		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
+		let forSet = null;
+		let forMap = null;
+
+		if (set && set.sync) {
+			// pick key-value pairs that are synced for set
+			forSet = _.pickBy(update, (updateVal, updateKey) => {
+				return set.sync[updateKey];
+			});
+
+			forMap = _.omitBy(update, (updateVal, updateKey) => {
+				return set.sync[updateKey];
+			});
+		} else {
+			forMap = update;
+		}
+
+		if (forSet) {
+			//check data integrity
+			forSet = checkViewIntegrity(forSet); //TODO test
+			dispatch(actionUpdateSetView(set.key, forSet));
+		}
+
+		if (forMap) {
+			//check data integrity
+			forMap = checkViewIntegrity(forMap); //TODO test
+			dispatch(actionUpdateMapView(mapKey, forMap));
+		}
+	}
+};
+
+// TODO deprecated
 const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 	if (WorldWindNavigator.heading && WorldWindNavigator.heading > 360) {
 		WorldWindNavigator.heading = WorldWindNavigator.heading - 360;
@@ -532,6 +593,57 @@ const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 	return WorldWindNavigator;
 };
 
+const checkViewIntegrity = (view) => {
+	if (view) {
+		if (view.heading && view.heading > 360) {
+			view.heading = view.heading % 360;
+		}
+
+		if (view.heading && view.heading < 0) {
+			view.heading = 360 - (view.heading % 360);
+		}
+
+		if (view.tilt && view.tilt < 0) {
+			view.tilt = 0;
+		}
+
+		if (view.tilt && view.tilt > 90) {
+			view.tilt = 90;
+		}
+		
+		if (view.range && view.range < 0.01) {
+			view.range = 0.01;
+		}
+		
+		if (view.center) {
+			if (view.center.lat) {
+				if (view.center.lat > 90) {
+					view.center.lat = 90;
+				} else if (view.center.lat < -90) {
+					view.center.lat = -90;
+				}
+			}
+			
+			if (view.center.lon) {
+				if (view.center.lon > 360 || view.center.lon < -360) {
+					view.center.lon %= 360; 
+				}
+				
+				if (view.center.lon > 180) {
+					view.center.lon = -180 + (view.center.lon - 180);
+				} else if (view.center.lon < -180) {
+					view.center.lon = 180 + (view.center.lon + 180);
+				} else if (view.center.lon === -180) {
+					view.center.lon = 180;
+				}
+			}
+		}
+	} 
+	
+	return view;
+};
+
+// TODO deprecated
 const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 	return (dispatch, getState) => {
 		const mapNavigator = Select.maps.getNavigator(getState(), mapKey);
@@ -561,7 +673,14 @@ const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 		}, 20)
 
 	}
-}
+};
+
+const resetViewHeading = (mapKey) => {
+	return (dispatch, getState) => {
+		const view = Select.maps.getView(getState(), mapKey);
+		mapUtils.resetHeading(view.heading, heading => dispatch(updateMapAndSetView(mapKey, {heading})));
+	}
+};
 
 const setMapScope = (mapKey, scope) => {
 	return (dispatch, getState) => {
@@ -736,6 +855,7 @@ function goToPlace(placeString) {
 			mapUtils.getLocationFromPlaceString(placeString).then(location => {
 				if (location) {
 					let mapKey = Select.maps.getActiveMapKey(getState());
+					dispatch(updateMapAndSetView(mapKey, location));
 
 					// TODO temporary solution for old map state
 					let navigatorUpdate = {
@@ -745,7 +865,7 @@ function goToPlace(placeString) {
 							longitude: location.center.lon
 						}
 					};
-					dispatch(updateWorldWindNavigator(mapKey,navigatorUpdate))
+					dispatch(updateWorldWindNavigator(mapKey,navigatorUpdate)); // TODO deprecated
 				}
 			});
 		}
@@ -798,6 +918,7 @@ const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 	}
 };
 
+// TODO deprecated
 const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
@@ -806,11 +927,28 @@ const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	}
 };
 
+const actionSetSetView = (setKey, view) => {
+	return {
+		type: ActionTypes.MAPS.SET.VIEW.SET,
+		setKey,
+		view
+	}
+};
+
+// TODO deprecated
 const actionUpdateSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE,
 		setKey,
 		worldWindNavigator,
+	}
+};
+
+const actionUpdateSetView = (setKey, update) => {
+	return {
+		type: ActionTypes.MAPS.SET.VIEW.UPDATE,
+		setKey,
+		update
 	}
 };
 
@@ -860,6 +998,7 @@ const actionSetMapData = (mapKey, data) => {
 	}
 };
 
+// TODO deprecated
 const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
@@ -867,11 +1006,29 @@ const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 		worldWindNavigator,
 	}
 };
+
+const actionSetMapView = (mapKey, view) => {
+	return {
+		type: ActionTypes.MAPS.MAP.VIEW.SET,
+		mapKey,
+		view
+	}
+};
+
+// TODO deprecated
 const actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE,
 		mapKey,
 		worldWindNavigator,
+	}
+};
+
+const actionUpdateMapView = (mapKey, update) => {
+	return {
+		type: ActionTypes.MAPS.MAP.VIEW.UPDATE,
+		mapKey,
+		update
 	}
 };
 
@@ -1005,6 +1162,7 @@ export default {
 	removeMapKeyFromSet,
 	removeSet,
 
+	resetViewHeading,
 	resetWorldWindNavigatorHeading,
 
 	setActiveMapKey,
@@ -1020,10 +1178,12 @@ export default {
 	setMapPlace,
 	setMapScenario,
 	setMapScope,
+	setMapView,
 	setMapWorldWindNavigator,
 
 	setSetBackgroundLayer,
 	setSetSync,
+	setSetView,
 	setSetWorldWindNavigator,
 
 	setInitial,
@@ -1031,6 +1191,7 @@ export default {
 	updateMapLayer,
 	updateStateFromView,
 	updateWorldWindNavigator,
+	updateMapAndSetView,
 	use,
 	useClear
 }

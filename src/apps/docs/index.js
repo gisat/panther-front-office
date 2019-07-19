@@ -19,7 +19,6 @@ import Docs, {Directory, Page, Anchor} from "./components/Docs";
 import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
-import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
 import Buttons from "./components/pages/components/atoms/Buttons";
 import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
@@ -28,6 +27,7 @@ import ScatterChartDoc from "./components/pages/components/visualizations/cartes
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
+import MapDoc from "./components/pages/components/maps/MapDoc";
 
 
 export default (path, baseUrl) => {
@@ -58,7 +58,12 @@ export default (path, baseUrl) => {
 					</Directory>
 					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps">
-							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
+							<Directory label="Map" path="map" component={MapDoc}>
+								<Page label="WebWorldWind" path="webWorldWind"/>
+							</Directory>
+							<Page label="Map controls" path="mapControls"/>
+							<Page label="Map set" path="mapSet"/>
+							<Page label="GoToPlace" path="goToPlace"/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>

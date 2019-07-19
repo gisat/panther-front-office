@@ -129,6 +129,7 @@ const getMapSetMapKeys = createSelector(
 	}
 );
 
+// TODO deprecated
 /**
  * @param state {Object}
  * @param mapKey {string}
@@ -146,6 +147,32 @@ const getNavigator = createSelector(
 			} else {
 				let navigator = map.data && map.data.worldWindNavigator;
 				return navigator && !_.isEmpty(navigator) ? navigator : null;
+			}
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getView = createSelector(
+	[
+		getMapByKey,
+		getMapSetByMapKey
+	],
+	(map, set) => {
+		if (map) {
+			if (set) {
+				let mapView = map.data && map.data.view;
+				let mapSetView = set.data && set.data.view;
+				let view = {...mapSetView, ...mapView};
+				return !_.isEmpty(view) ? view : null;
+			} else {
+				let view = map.data && map.data.view;
+				return view && !_.isEmpty(view) ? view : null;
 			}
 		} else {
 			return null;
@@ -183,6 +210,8 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 		}
 	}
 );
+
+const getBackgroundLayer = () => {};
 
 /* TODO merge with template
 *  TODO test
@@ -513,6 +542,7 @@ export default {
 	getActiveMapKey,
 	getActiveSetKey,
 
+	getBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
 
 	getFiltersForUse,
@@ -536,7 +566,8 @@ export default {
 	getMapsAsObject,
 	getMapSetsAsObject,
 
-	getNavigator,
+	getNavigator, // TODO deprecated
+	getView,
 
 	getSubstate
 };

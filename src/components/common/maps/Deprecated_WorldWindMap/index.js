@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 
-import wrapper from '../MapWrapper';
+import wrapper from '../Deprecated_MapWrapper';
 
 import utils from '../../../../utils/utils';
 
