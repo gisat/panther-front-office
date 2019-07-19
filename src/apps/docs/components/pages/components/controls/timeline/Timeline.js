@@ -266,20 +266,17 @@ const Levels = (props) => {
 	return React.createElement(Months, {...props, key: 'month'});
 };
 
-return (
-
-		<Timeline 
-			period={period}
-			containerWidth={width}
-			onChange={(timelineState) => {console.log("onChange", timelineState)}}
-			onClick={(evt) => console.log("onClick", evt)}
-			levels={LEVELS}
-			>
-				<Picker key="picker"/>
-				<Mouse mouseBufferWidth={20} key="mouse"/>
-				<Levels key="levels"/>
-		</Timeline> 
-)
+<Timeline 
+	period={period}
+	containerWidth={width}
+	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onClick={(evt) => console.log("onClick", evt)}
+	levels={LEVELS}
+	>
+		<Picker key="picker"/>
+		<Mouse mouseBufferWidth={20} key="mouse"/>
+		<Levels key="levels"/>
+</Timeline> 
 `}
 					</SyntaxHighlighter>
 
@@ -335,6 +332,104 @@ return (
 							}
 						}}
 						/>
+
+
+					<h3>Vertical</h3>
+					<p>
+						Vertical view is definded by prop <InlineCodeHighlighter>vertical: true</InlineCodeHighlighter>. Timeline childrens gets vertical information in props and they should adapt design to vertical.
+					</p>
+					<SyntaxHighlighter language="jsx">
+{
+`
+const LEVELS=[
+	{
+		level: 'year',
+		end:2
+	},
+	{
+		level: 'month',
+		end:20
+	}
+];
+const period = {
+	start: moment(2010, 'YYYY'),
+	end: moment(2025, 'YYYY')
+}
+const Levels = (props) => {
+	const {activeLevel} = props;
+	switch (activeLevel) {
+		case 'year':
+			return React.createElement(Years, {...props, key: 'year'});
+		case 'month':
+			return React.createElement(Months, {...props, key: 'month'});
+	}
+	return React.createElement(Months, {...props, key: 'month'});
+};
+<Timeline
+	period={period}
+	containerHeight={height}
+	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onClick={(evt) => console.log("onClick", evt)}
+	vertical={true}
+	levels={LEVELS}
+	>
+		<Picker key="picker"/>
+		<Mouse mouseBufferWidth={20} key="mouse"/>
+		<Levels key="levels"/>
+</Timeline> 
+`}
+					</SyntaxHighlighter>
+
+					<div style={{height:'400px',width:'70px'}}>
+						<ReactResizeDetector
+							handleWidth
+							handleHeight
+							render={({ width, height }) => {
+								if(height){
+									const LEVELS=[
+										{
+											level: 'year',
+											end:2
+										},
+										{
+											level: 'month',
+											end:20
+										}
+									];
+									const period = {
+										start: moment(2010, 'YYYY'),
+										end: moment(2025, 'YYYY')
+									}
+									const Levels = (props) => {
+										const {activeLevel} = props;
+										switch (activeLevel) {
+											case 'year':
+												return React.createElement(Years, {...props, key: 'year'});
+											case 'month':
+												return React.createElement(Months, {...props, key: 'month'});
+										}
+										return React.createElement(Months, {...props, key: 'month'});
+									};
+									return (
+											<Timeline
+												period={period}
+												containerHeight={height}
+												onChange={(timelineState) => {console.log("onChange", timelineState)}}
+												onClick={(evt) => console.log("onClick", evt)}
+												vertical={true}
+												levels={LEVELS}
+												>
+													<Picker key="picker"/>
+													<Mouse mouseBufferWidth={20} key="mouse"/>
+													<Levels key="levels"/>
+											</Timeline> 
+									)
+								} else {
+									return <div></div>
+								}
+							}}
+						/>
+					</div>
 			</Page>
 		);
 	}
