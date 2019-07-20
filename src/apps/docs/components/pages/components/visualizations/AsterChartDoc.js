@@ -81,7 +81,7 @@ class AsterChartDoc extends React.PureComponent {
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: <DocsToDoInline>description</DocsToDoInline>
+							description: <>Path to text to be shown on hover. If undefined, then value (from 'valueSourcePath') is shown instead. See <Link to="/docs/components/visualizations/asterChart#customHover">Custom Hover section</Link>.</> 
 						}, {}, {
 							name: "width",
 							type: "number",
@@ -410,6 +410,41 @@ class AsterChartDoc extends React.PureComponent {
 								radialsLabels
 
 								legend
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+				<h2 id="customHover">Custom hover content</h2>
+				<p>It's possible to compose custom hover content value. Custom hover value must be included in passed data. Path to value is set in <InlineCodeHighlighter>hoverValueSourcePath</InlineCodeHighlighter> prop.</p>
+				<SyntaxHighlighter language="jsx">
+					{'// Use HoverHandler to see popups when move cursor over line or point. \n' +
+					'<HoverHandler>\n' +
+					'\t<AsterChart \n' +
+					'\t\tkey="basic-settings"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\tcolorSourcePath="color"\n' +
+					'\t\tvalueSourcePath="data.someStrangeValue"\n' +
+					'\t\thoverValueSourcePath="data.hoverValue"\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<AsterChart
+								key="relative-values"
+								data={sample_7}
+
+								keySourcePath="key"
+								colorSourcePath="color"
+								nameSourcePath="data.name"
+								valueSourcePath="data.someStrangeValue"
+								hoverValueSourcePath="data.hoverValue"
 							/>
 						</ResizableContainer>
 					</HoverHandler>
