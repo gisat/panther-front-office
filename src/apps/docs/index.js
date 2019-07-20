@@ -94,6 +94,7 @@ export default (path, baseUrl) => {
 								<Anchor label="Forced min & max" path="forceMinMax"/>
 								<Anchor label="Grid" path="grid"/>
 								<Anchor label="Radials & legend" path="radials"/>
+								<Anchor label="Custom hover value" path="customHover"/>
 							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">

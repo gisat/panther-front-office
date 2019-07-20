@@ -4,7 +4,8 @@
 	"color": "#ff0000",
 	"data": {
 	  "name": "Nevada",
-	  "someStrangeValue": 1389
+	  "someStrangeValue": 1389,
+	  "hoverValue": "Population: 1389 p/km2"
 	}
   },
   {
@@ -12,7 +13,8 @@
 	"color": "#00ff00",
 	"data": {
 	  "name": "Virgin Islands",
-	  "someStrangeValue": 408
+	  "someStrangeValue": 408,
+	  "hoverValue": "Population: 408 p/km2"
 	}
   },
   {
@@ -20,7 +22,8 @@
 	"color": "#0000ff",
 	"data": {
 	  "name": "California",
-	  "someStrangeValue": 716
+	  "someStrangeValue": 716,
+	  "hoverValue": "Population: 716 p/km2"
 	}
   },
   {
@@ -28,7 +31,8 @@
 	"color": "#ff00ff",
 	"data": {
 	  "name": "American Samoa",
-	  "someStrangeValue": 1300
+	  "someStrangeValue": 1300,
+	  "hoverValue": "Population: 1300 p/km2"
 	}
   },
   {
@@ -36,7 +40,8 @@
 	"color": "#ffff00",
 	"data": {
 	  "name": "Oregon",
-	  "someStrangeValue": 466
+	  "someStrangeValue": 466,
+	  "hoverValue": "Population: 466 p/km2"
 	}
   },
   {
@@ -44,7 +49,8 @@
 	"color": "#00ffff",
 	"data": {
 	  "name": "Northern Mariana Islands",
-	  "someStrangeValue": 1021
+	  "someStrangeValue": 1021,
+	  "hoverValue": "Population: 1021 p/km2"
 	}
   },
   {
@@ -52,7 +58,8 @@
 	"color": "#ffddff",
 	"data": {
 	  "name": "Arizona",
-	  "someStrangeValue": 1277
+	  "someStrangeValue": 1277,
+	  "hoverValue": "Population: 1277 p/km2"
 	}
   }
 ]

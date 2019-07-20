@@ -75,12 +75,12 @@ class ColumnChartDoc extends React.PureComponent {
 							name: "animateChangeData",
 							type: "boolean",
 							default: "true",
-							description: (<DocsToDoInline>add description and example</DocsToDoInline>)
+							description: "Rendering of values is by default animated. Sometime we want fast switch of values without animation. Set to false to turn off animation."
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: (<DocsToDoInline>add description</DocsToDoInline>)
-						}
+							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. <Link to="/docs/components/visualizations/asterChart#customHover"><b>example in Aster chart</b></Link></> 
+						},
 					]}
 				/>
 
