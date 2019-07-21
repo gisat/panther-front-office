@@ -17,6 +17,7 @@
     "i18next": "13.1.2",
     "isomorphic-fetch": "2.2.1",
     "lodash": "4.17.11",
+    "leaflet": "1.5.1",
     "moment": "2.23.0",
     "node-sass": "4.11.0",
     "oaf-react-router": "^2.0.0",

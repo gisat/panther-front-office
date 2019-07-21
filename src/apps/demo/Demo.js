@@ -2,10 +2,22 @@ import React from 'react';
 import _ from 'lodash';
 import PresentationMapWithControls from "../../components/common/maps/PresentationMapWithControls";
 import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation";
+import LeafletMap from "../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../components/common/maps/MapControls/presentation";
 import Select from "../../components/common/atoms/Select/Select";
 
 import central_europe from "./data/central_europe";
+
+const mapFrameworks = {
+	leaflet: {
+		name: "Leaflet",
+		component: LeafletMap
+	},
+	worldWind: {
+		name: "World Wind",
+		component: WorldWindMap
+	}
+};
 
 const backgroundLayers = {
 	wikimedia: {
@@ -13,16 +25,16 @@ const backgroundLayers = {
 		type: 'worldwind',
 		options: {layer: 'wikimedia'}
 	},
-	bing: {
-		name: "Bing Aerial",
-		type: 'worldwind',
-		options: {layer: 'bingAerial'}
-	},
-	bluemarble: {
-		name: "Bluemarble",
-		type: 'worldwind',
-		options: {layer: 'bluemarble'}
-	}
+	// bing: {
+	// 	name: "Bing Aerial",
+	// 	type: 'worldwind',
+	// 	options: {layer: 'bingAerial'}
+	// },
+	// bluemarble: {
+	// 	name: "Bluemarble",
+	// 	type: 'worldwind',
+	// 	options: {layer: 'bluemarble'}
+	// }
 };
 
 const layers = {
@@ -72,6 +84,7 @@ const layers = {
 	}
 };
 
+const mapFrameworkOptions = _.values(mapFrameworks);
 const backgroundLayersOptions = _.values(backgroundLayers);
 const layersOptions = _.values(layers);
 
@@ -80,6 +93,8 @@ class Demo extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			mapKey: 'map',
+			mapFramework: mapFrameworks.worldWind,
 			backgroundLayer: backgroundLayers.wikimedia,
 			layers: [layers.boundaries],
 			view: {
@@ -91,8 +106,13 @@ class Demo extends React.PureComponent {
 			}
 		};
 
+		this.onMapFrameworkChange = this.onMapFrameworkChange.bind(this);
 		this.onBackgroundChange = this.onBackgroundChange.bind(this);
 		this.onLayersChange = this.onLayersChange.bind(this);
+	}
+
+	onMapFrameworkChange(mapFramework) {
+		this.setState({mapFramework});
 	}
 
 	onBackgroundChange(backgroundLayer) {
@@ -104,22 +124,34 @@ class Demo extends React.PureComponent {
 	}
 
 	render() {
+		const {mapFramework, ...state} = this.state;
+
+
 		return (
 			<div className="demo-app ptr-light">
 				<div className="demo-maps">
 					<PresentationMapWithControls
-						map={<WorldWindMap {...this.state}/>}
-						controls={<MapControls/>}
+						map={React.createElement(mapFramework.component, state)}
+						controls={mapFramework.name === 'World Wind' ? <MapControls/> : null}
 					/>
 				</div>
 				<div className="demo-control-panel">
+					<h2>Map framework</h2>
+					<Select
+						onChange={this.onMapFrameworkChange}
+						options={mapFrameworkOptions}
+						optionLabel="name"
+						optionValue="name"
+						value={mapFramework}
+					/>
+
 					<h2>Background</h2>
 					<Select
 						onChange={this.onBackgroundChange}
 						options={backgroundLayersOptions}
 						optionLabel="name"
 						optionValue="options.layer"
-						value={this.state.backgroundLayer}
+						value={state.backgroundLayer}
 					/>
 
 					<h2>Layers</h2>
@@ -130,7 +162,7 @@ class Demo extends React.PureComponent {
 						options={layersOptions}
 						optionLabel="name"
 						optionValue="key"
-						value={this.state.layers}
+						value={state.layers}
 					/>
 				</div>
 			</div>
