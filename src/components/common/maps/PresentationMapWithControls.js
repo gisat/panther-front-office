@@ -59,9 +59,11 @@ class PresentationMapWithControls extends React.PureComponent {
 	}
 
 	updateView(update) {
-		this.setState({
-			view: {...this.state.view, ...update}
-		});
+		const view = {...this.state.view, ...update};
+
+		if (!_.isEqual(view, this.state.view)) {
+			this.setState({view});
+		}
 	}
 
 	render() {
@@ -72,12 +74,12 @@ class PresentationMapWithControls extends React.PureComponent {
 					view: {...this.props.map.props.view, ...this.state.view},
 					onViewChange: this.updateView
 				})}
-				{React.cloneElement(this.props.controls, {
+				{this.props.controls ? React.cloneElement(this.props.controls, {
 					...this.props.controls.props,
 					view: this.state.view,
 					updateView: this.updateView,
 					resetHeading: this.resetHeading
-				})}
+				}):null}
 			</div>
 		);
 
