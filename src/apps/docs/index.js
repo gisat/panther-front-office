@@ -28,6 +28,7 @@ import AsterChartDoc from "./components/pages/components/visualizations/AsterCha
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 import MapDoc from "./components/pages/components/maps/MapDoc";
+import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
 
 
 export default (path, baseUrl) => {
@@ -60,6 +61,7 @@ export default (path, baseUrl) => {
 						<Directory label="Maps" path="maps">
 							<Directory label="Map" path="map" component={MapDoc}>
 								<Page label="WebWorldWind" path="webWorldWind"/>
+								<Page label="Leaflet" path="leaflet" component={LeafletDoc}/>
 							</Directory>
 							<Page label="Map controls" path="mapControls"/>
 							<Page label="Map set" path="mapSet"/>
