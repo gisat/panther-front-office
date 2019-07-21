@@ -45,6 +45,7 @@ export default {
 	getDeletePermissionByKey,
 
 	getEditedDataByKey,
+	getIndexed: common.getIndexed(getSubstate),
 	getPlacesForActiveScope,
 	getUpdatePermissionByKey,
 	getSubstate

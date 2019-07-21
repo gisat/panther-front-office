@@ -1,0 +1,36 @@
+@import '../../../../../../styles/variables';
+@import '../../../../styles/variables';
+
+.scudeoCities-place-select-current > div:first-child {
+	position: relative;
+}
+.scudeoCities-case-value {
+	@include positionCenterVertical;
+	font-size: $a2;
+	//font-weight: bold;
+	left: 1rem;
+	color: var(--base0);
+	letter-spacing: .07rem;
+}
+
+.scudeoCities-place-select-current .ptr-panther-select-current-icon {
+	padding: .8rem .2rem;
+}
+
+.scudeoCities-place-select-current .ptr-panther-select-current-icon > svg {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+.scudeoCities-place-select-current .ptr-panther-select-current-icon > svg .line {
+	fill: var(--base0);
+}
+
+.scudeoCities-place-select.currentDisabled .ptr-panther-select-current-icon {
+	display: none;
+}
+.scudeoCities-place-select:not(.currentDisabled) .scudeoCities-place-select-current {
+	transition: background-color .3s ease-in-out;
+}
+.scudeoCities-place-select:not(.currentDisabled) .scudeoCities-place-select-current:hover {
+	background-color: var(--accent45);
+}

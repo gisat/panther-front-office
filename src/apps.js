@@ -51,6 +51,19 @@ export default [
 		})
 	},
 	/**
+	 * SCUDEO Cities
+	 * tw: SCUDEO
+	 */
+	{
+		key: 'scudeoCities',
+		hostname: 'null',
+		path: null,
+		devPath: '/scudeoCities',
+		app: (path, baseUrl) => import(/* webpackChunkName: "scudeoCities" */'./apps/scudeoCities').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * Geoinvaze
 	 * tw: GEOINV
 	 */
