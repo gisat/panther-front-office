@@ -50,10 +50,7 @@ class WorldWindMap extends React.PureComponent {
 		decorateWorldWindowController(this.wwd.worldWindowController);
 		this.wwd.worldWindowController.onNavigatorChanged = this.onNavigatorChange.bind(this);
 
-		if (this.props.view){
-			this.updateNavigator();
-		}
-
+		this.updateNavigator();
 		this.updateLayers();
 
 	}
