@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapSet from "../../../../components/common/maps/MapSet";
 import MapControls from "../../../../components/common/maps/MapControls";
 import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
@@ -40,7 +39,7 @@ class App extends React.PureComponent {
 						fixed
 						content={[
 							{
-								component: MapSet,
+								// component: MapSet,
 								props: {
 									mapSetKey: "scudeoCities"
 								}

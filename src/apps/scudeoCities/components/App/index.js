@@ -8,7 +8,8 @@ import presentation from "./presentation";
 const mapStateToProps = state => {
 	return {
 		activePlace: Select.places.getActive(state),
-		contentKey: Select.components.get(state, 'scudeoCities_App', 'contentKey'),
+		// contentKey: Select.components.get(state, 'scudeoCities_App', 'contentKey'),
+		contentKey: 'highlights',
 	}
 };
 
