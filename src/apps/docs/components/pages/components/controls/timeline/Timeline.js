@@ -9,7 +9,6 @@ import Page, {
 } from "../../../../Page";
 // import serie_10 from "../../../../mockData/scatterChart/serie_10";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import ReactResizeDetector from 'react-resize-detector';
 
 import Timeline from "../../../../../../../components/common/timeline/";
 import PeriodLimit from "../../../../../../../components/common/timeline/periodLimit";
@@ -60,6 +59,33 @@ class TimelineDoc extends React.PureComponent {
 
 	render() {
 		const vertical = false;
+
+		const period = {
+			start: moment(2010, 'YYYY'),
+			end: moment(2025, 'YYYY')
+		}
+
+		const LEVELS=[
+			{
+				level: 'year',
+				end:2
+			},
+			{
+				level: 'month',
+				end:20
+			}
+		];
+
+		const Levels = (props) => {
+			const {activeLevel} = props;
+			switch (activeLevel) {
+				case 'year':
+					return React.createElement(Years, {...props, key: 'year'});
+				case 'month':
+					return React.createElement(Months, {...props, key: 'month'});
+			}
+			return React.createElement(Months, {...props, key: 'month'});
+		};
 
 		return (
 			<Page title="Timeline">
@@ -115,23 +141,11 @@ class TimelineDoc extends React.PureComponent {
 								description: "Zoom can be modified by dayWidth. DayWidth is xSize of one day in px. If component gets onMount props periodLimit and dayWidth, new dayWidth is calculated from periodLimit.",
 							},
 							{
-								name: "height",
+								name: "contentHeight",
 								type: "number",
 								required: false,
 								default: '45 for horizontal, 70 for vertical',
 								description: "Height of content in horizontal view. In vertical view value define width.",
-							},
-							{
-								name: "containerWidth",
-								type: "number",
-								required: false,
-								description: "Required in verhorizontaltical view. Width of parent element.",
-							},
-							{
-								name: "containerHeight",
-								type: "number",
-								required: false,
-								description: "Required in vertical view. Height of parent element.",
 							},
 							{
 								name: "time",
@@ -199,7 +213,6 @@ const width = 1000;
 
 <Timeline 
 	period={period}
-	containerWidth={width}
 	onChange={(timelineState) => {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	>
@@ -207,31 +220,14 @@ const width = 1000;
 		<Mouse mouseBufferWidth={20} key="mouse"/>
 </Timeline>`}
 					</SyntaxHighlighter>
-
-					<ReactResizeDetector
-						handleWidth
-						render={({ width }) => {
-							if(width){
-								const period = {
-									start: moment(2010, 'YYYY'),
-									end: moment(2025, 'YYYY')
-								}
-								return (
-										<Timeline 
-											period={period}
-											containerWidth={width}
-											onChange= {(timelineState) => {console.log("onChange", timelineState)}}
-											onClick= {(evt) => console.log("onClick", evt)}
-											>
-												<Picker key="picker"/>
-												<Mouse mouseBufferWidth={20} key="mouse"/>
-										</Timeline> 
-								)
-							} else {
-								return <div></div>
-							}
-						}}
-						/>
+						<Timeline 
+							period={period}
+							onChange= {(timelineState) => {console.log("onChange", timelineState)}}
+							onClick= {(evt) => console.log("onClick", evt)}
+							>
+								<Picker key="picker"/>
+								<Mouse mouseBufferWidth={20} key="mouse"/>
+						</Timeline> 
 					<h3>Layers</h3>
 					<p>
 						Timeline can render children in pyramid depends on dayWidth. Every level has max dayWidth value until is visible. While rendering years it does not care about rendering minutes or seconds, it has positive performance aspects. In one moment is visible only one layer of the period.
@@ -268,7 +264,6 @@ const Levels = (props) => {
 
 <Timeline 
 	period={period}
-	containerWidth={width}
 	onChange={(timelineState) => {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	levels={LEVELS}
@@ -279,61 +274,16 @@ const Levels = (props) => {
 </Timeline> 
 `}
 					</SyntaxHighlighter>
-
-					<ReactResizeDetector
-						handleWidth
-						render={({ width }) => {
-							
-							if(width){
-
-								const LEVELS=[
-									{
-										level: 'year',
-										end:2
-									},
-									{
-										level: 'month',
-										end:20
-									}
-								];
-
-								const period = {
-									start: moment(2010, 'YYYY'),
-									end: moment(2025, 'YYYY')
-								}
-
-								const Levels = (props) => {
-									const {activeLevel} = props;
-									switch (activeLevel) {
-										case 'year':
-											return React.createElement(Years, {...props, key: 'year'});
-										case 'month':
-											return React.createElement(Months, {...props, key: 'month'});
-									}
-									return React.createElement(Months, {...props, key: 'month'});
-								};
-
-								return (
-
-										<Timeline 
-											period={period}
-											containerWidth={width}
-											onChange={(timelineState) => {console.log("onChange", timelineState)}}
-											onClick={(evt) => console.log("onClick", evt)}
-											levels={LEVELS}
-											>
-												<Picker key="picker"/>
-												<Mouse mouseBufferWidth={20} key="mouse"/>
-												<Levels key="levels"/>
-										</Timeline> 
-								)
-							} else {
-								return <div></div>
-							}
-						}}
-						/>
-
-
+						<Timeline 
+							period={period}
+							onChange={(timelineState) => {console.log("onChange", timelineState)}}
+							onClick={(evt) => console.log("onClick", evt)}
+							levels={LEVELS}
+							>
+								<Picker key="picker"/>
+								<Mouse mouseBufferWidth={20} key="mouse"/>
+								<Levels key="levels"/>
+						</Timeline> 
 					<h3>Vertical</h3>
 					<p>
 						Vertical view is definded by prop <InlineCodeHighlighter>vertical: true</InlineCodeHighlighter>. Timeline childrens gets vertical information in props and they should adapt design to vertical.
@@ -367,7 +317,6 @@ const Levels = (props) => {
 };
 <Timeline
 	period={period}
-	containerHeight={height}
 	onChange={(timelineState) => {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	vertical={true}
@@ -381,54 +330,56 @@ const Levels = (props) => {
 					</SyntaxHighlighter>
 
 					<div style={{height:'400px',width:'70px'}}>
-						<ReactResizeDetector
-							handleWidth
-							handleHeight
-							render={({ width, height }) => {
-								if(height){
-									const LEVELS=[
-										{
-											level: 'year',
-											end:2
-										},
-										{
-											level: 'month',
-											end:20
-										}
-									];
-									const period = {
-										start: moment(2010, 'YYYY'),
-										end: moment(2025, 'YYYY')
-									}
-									const Levels = (props) => {
-										const {activeLevel} = props;
-										switch (activeLevel) {
-											case 'year':
-												return React.createElement(Years, {...props, key: 'year'});
-											case 'month':
-												return React.createElement(Months, {...props, key: 'month'});
-										}
-										return React.createElement(Months, {...props, key: 'month'});
-									};
-									return (
-											<Timeline
-												period={period}
-												containerHeight={height}
-												onChange={(timelineState) => {console.log("onChange", timelineState)}}
-												onClick={(evt) => console.log("onClick", evt)}
-												vertical={true}
-												levels={LEVELS}
-												>
-													<Picker key="picker"/>
-													<Mouse mouseBufferWidth={20} key="mouse"/>
-													<Levels key="levels"/>
-											</Timeline> 
-									)
-								} else {
-									return <div></div>
-								}
-							}}
-						/>
+						<Timeline
+							period={period}
+							onChange={(timelineState) => {console.log("onChange", timelineState)}}
+							onClick={(evt) => console.log("onClick", evt)}
+							vertical={true}
+							levels={LEVELS}
+							>
+								<Picker key="picker"/>
+								<Mouse mouseBufferWidth={20} key="mouse"/>
+								<Levels key="levels"/>
+						</Timeline> 
+					</div>
+
+
+					<h3>Tooltip</h3>
+					<p>
+					</p>
+					<SyntaxHighlighter language="jsx">
+{
+`
+const period = {
+	start: moment(2010, 'YYYY'),
+	end: moment(2025, 'YYYY')
+}
+
+<Timeline
+	period={period}
+	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onClick={(evt) => console.log("onClick", evt)}
+	levels={LEVELS}
+	>
+		<Picker key="picker"/>
+		<Mouse mouseBufferWidth={20} key="mouse"/>
+		<Levels key="levels"/>
+</Timeline> 
+`}
+					</SyntaxHighlighter>
+
+					<div style={{height:'400px',width:'70px'}}>
+						<Timeline
+							period={period}
+							onChange={(timelineState) => {console.log("onChange", timelineState)}}
+							onClick={(evt) => console.log("onClick", evt)}
+							vertical={true}
+							levels={LEVELS}
+							>
+								<Picker key="picker"/>
+								<Mouse mouseBufferWidth={20} key="mouse"/>
+								<Levels key="levels"/>
+						</Timeline> 
 					</div>
 			</Page>
 		);
