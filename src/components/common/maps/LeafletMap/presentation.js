@@ -37,12 +37,19 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		this.map = L.map(this.props.mapKey,{zoomAnimationThreshold: 2}).setView([DEFAULT_VIEW.center.lat, DEFAULT_VIEW.center.lon], viewHelpers.getZoomLevelFromBoxRange(DEFAULT_VIEW.boxRange));
+		const initialView = {...DEFAULT_VIEW, ...this.props.view};
+
+		/* Setup leaflet map
+		*	- hide default zoom and attribution controls
+		*	- set view
+		*/
+		this.map = L
+			.map(this.props.mapKey,{zoomAnimationThreshold: 2, zoomControl: false, attributionControl: false})
+			.setView([initialView.center.lat, initialView.center.lon], viewHelpers.getZoomLevelFromBoxRange(initialView.boxRange));
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
 
-		this.updateView();
 		this.updateLayers();
 	}
 
