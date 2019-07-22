@@ -5,6 +5,7 @@ const Header = props => (
 	<div className="scudeoCities-header">
 		<div className="scudeoCities-title"><span>City explorer</span></div>
 		<PlaceSelect/>
+		<div className="scudeoCities-header-content">hhhh</div>
 	</div>
 );
 

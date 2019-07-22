@@ -58,7 +58,7 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | City explorer"
 					defaultTitle="City explorer"
 				/>
-				<AppContainer>
+				<AppContainer appKey="scudeoCities">
 					<ConnectedRouter history={history}>
 						<>
 							<Route path={path + "/:placeKey?/:contentKey?/:contentQuery?"} component={App} />
