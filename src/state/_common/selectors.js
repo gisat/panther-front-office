@@ -13,7 +13,10 @@ const activeThemeKey = state => state.themes.activeKey;
  * @returns {Object}
  */
 const getAllByKey = (getSubstate) => {
-	return (state) => getSubstate(state).byKey;
+	return (state) => {
+		console.log("#####", getSubstate, state);
+		return getSubstate(state).byKey;
+	}
 };
 
 /**

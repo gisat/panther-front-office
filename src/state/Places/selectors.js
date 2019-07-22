@@ -40,6 +40,8 @@ export default {
 	getActiveKeys,
 	getActive,
 	getActivePlaces,
+	
+	getByKey: common.getByKey(getSubstate),
 
 	getDataByKey,
 	getDeletePermissionByKey,

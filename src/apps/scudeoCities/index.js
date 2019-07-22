@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
 import Action from '../../state/Action';
-import Store, {history} from './state/Store';
+import createStore, {createHistory} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
 
@@ -25,6 +25,9 @@ import App from './components/App';
 utils.addI18nResources('common', {en});
 
 export default (path, baseUrl) => {
+	
+	const history = createHistory({ basename: path });
+	const Store = createStore(history);
 
 	Store.dispatch(Action.app.setKey('scudeoCities'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
@@ -61,7 +64,7 @@ export default (path, baseUrl) => {
 				<AppContainer appKey="scudeoCities">
 					<ConnectedRouter history={history}>
 						<>
-							<Route path={path + "/:placeKey?/:contentKey?/:contentQuery?"} component={App} />
+							<Route path="/:placeKey?/:contentKey?/:contentQuery?" component={App} />
 						</>
 					</ConnectedRouter>
 				</AppContainer>

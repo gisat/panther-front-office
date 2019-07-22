@@ -37,44 +37,46 @@ import usersReducers from '../../../state/Users/reducers';
 import viewsReducers from '../../../state/Views/reducers';
 import windowsReducers from '../../../state/Windows/reducers';
 
-export const history = createBrowserHistory();
+export const createHistory = createBrowserHistory;
 
-let middleware = applyMiddleware(thunk, routerMiddleware(history));
-if (process.env.NODE_ENV === 'development') {
-	middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+// Redux store creator
+export default history => {
+	
+	let middleware = applyMiddleware(thunk, routerMiddleware(history));
+	if (process.env.NODE_ENV === 'development') {
+		middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+	}
+	return createStore(combineReducers({
+		app: appReducers,
+		areas: areasReducers,
+		attributes: attributesReducers,
+		attributeRelations: attributeRelationsReducers,
+		attributeStatistics: attributeStatisticsReducers,
+		attributeSets: attributeSetsReducers,
+		attributeData: attributeData,
+		attributeDataSources: attributeDataSources,
+		cases: casesReducers,
+		charts: chartsReducers,
+		components: componentsReducers,
+		layerPeriods: layerPeriodsReducers,
+		layerTemplates: layerTemplatesReducers,
+		layersTrees: layerTreeReducers,
+		maps: mapsReducers,
+		periods: periodsReducers,
+		places: placesReducers,
+		router: connectRouter(history),
+		scenarios: scenariosReducers,
+		scopes: scopesReducers,
+		screens: screensReducers,
+		selections: selectionsReducers,
+		snapshots: snapshotsReducers,
+		spatialDataSources: spatialDataSourcesReducers,
+		spatialVectorDataSources: spatialVectorDataSourcesReducers,
+		spatialRelations: spatialRelationsReducers,
+		styles: stylesReducers,
+		tags: tagsReducers,
+		users: usersReducers,
+		views: viewsReducers,
+		windows: windowsReducers
+	}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));
 }
-
-// Redux store
-export default createStore(combineReducers({
-	app: appReducers,
-	areas: areasReducers,
-	attributes: attributesReducers,
-	attributeRelations: attributeRelationsReducers,
-	attributeStatistics: attributeStatisticsReducers,
-	attributeSets: attributeSetsReducers,
-	attributeData: attributeData,
-	attributeDataSources: attributeDataSources,
-	cases: casesReducers,
-	charts: chartsReducers,
-	components: componentsReducers,
-	layerPeriods: layerPeriodsReducers,
-	layerTemplates: layerTemplatesReducers,
-	layersTrees: layerTreeReducers,
-	maps: mapsReducers,
-	periods: periodsReducers,
-	places: placesReducers,
-	router: connectRouter(history),
-	scenarios: scenariosReducers,
-	scopes: scopesReducers,
-	screens: screensReducers,
-	selections: selectionsReducers,
-	snapshots: snapshotsReducers,
-	spatialDataSources: spatialDataSourcesReducers,
-	spatialVectorDataSources: spatialVectorDataSourcesReducers,
-	spatialRelations: spatialRelationsReducers,
-	styles: stylesReducers,
-	tags: tagsReducers,
-	users: usersReducers,
-	views: viewsReducers,
-	windows: windowsReducers
-}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));

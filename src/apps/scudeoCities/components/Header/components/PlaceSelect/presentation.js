@@ -48,8 +48,8 @@ class PlaceSelect extends React.PureComponent {
 
 			<PantherSelect
 				className="scudeoCities-place-select"
-				open={props.placeSelectOpen || !props.activePlace}
-				currentDisabled={!props.activePlace}
+				open={props.placeSelectOpen || !props.activePlaceKey}
+				currentDisabled={!props.activePlaceKey}
 				onSelectClick={() => {
 					props.placeSelectOpen ? props.closeSelect() : props.openSelect()
 				}}

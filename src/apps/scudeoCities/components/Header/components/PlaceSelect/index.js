@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import _ from 'lodash';
 
 import Action from '../../../../../../state/Action';
@@ -12,14 +13,15 @@ const filter = {application: true};
 const mapStateToProps = (state, ownProps) => {
 	return {
 		placeSelectOpen: Select.components.get(state, 'scudeoCities_PlaceSelect', 'placeSelectOpen'),
-		activePlace: Select.places.getActive(state)
+		activePlace: Select.places.getByKey(state, ownProps.match.params.placeKey),
+		activePlaceKey: ownProps.match.params.placeKey
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
 	const componentId = 'scudeoCities_PlaceSelect_' + utils.randomString(6);
 
-	return dispatch => {
+	return (dispatch, ownProps) => {
 		return {
 			openSelect: () => {
 				dispatch(Action.components.set('scudeoCities_PlaceSelect', 'placeSelectOpen', true))
@@ -34,11 +36,12 @@ const mapDispatchToPropsFactory = () => {
 
 			},
 			selectPlace: (key) => {
-				dispatch(Action.places.setActiveKey(key));
+				// dispatch(Action.places.setActiveKey(key));
+				ownProps.history.push('/'+ key);
 				dispatch(Action.components.set('scudeoCities_PlaceSelect', 'placeSelectOpen', false));
 			}
 		}
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToPropsFactory)(presentation);
+export default withRouter(connect(mapStateToProps, mapDispatchToPropsFactory)(presentation));
