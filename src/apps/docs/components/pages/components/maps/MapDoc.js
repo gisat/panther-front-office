@@ -57,7 +57,7 @@ class MapDoc extends React.PureComponent {
 					'\t\tparams: {} // wms query params\n' +
 					'\n' +
 					'\t\t// type: wmts\n' +
-					'\t\turls: ["http://192.168.2.206/geoserver/geonode/wms&${x}&${y}&${z}"],\n' +
+					'\t\turl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",\n' +
 					'\n' +
 					'\t\t// type: worldwind\n' +
 					'\t\tlayer: "wikimedia|bluemarble|bingAerial",\n' +

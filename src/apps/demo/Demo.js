@@ -20,21 +20,18 @@ const mapFrameworks = {
 };
 
 const backgroundLayers = {
-	wikimedia: {
-		name: "Wikimedia",
-		type: 'worldwind',
-		options: {layer: 'wikimedia'}
+	wmts: {
+		key: 'wmts-wiki',
+		name: "Wikimedia WMTS",
+		type: 'wmts',
+		options: {url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'}
 	},
-	// bing: {
-	// 	name: "Bing Aerial",
-	// 	type: 'worldwind',
-	// 	options: {layer: 'bingAerial'}
-	// },
-	// bluemarble: {
-	// 	name: "Bluemarble",
-	// 	type: 'worldwind',
-	// 	options: {layer: 'bluemarble'}
-	// }
+	wmtsOsm: {
+		key: 'wmtsOsm',
+		name: "OpenStreetMap",
+		type: 'wmts',
+		options: {url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'}
+	}
 };
 
 const layers = {
@@ -95,7 +92,7 @@ class Demo extends React.PureComponent {
 		this.state = {
 			mapKey: 'map',
 			mapFramework: mapFrameworks.worldWind,
-			backgroundLayer: backgroundLayers.wikimedia,
+			backgroundLayer: backgroundLayers.wmts,
 			layers: [layers.boundaries],
 			view: {
 				center: {
@@ -150,7 +147,7 @@ class Demo extends React.PureComponent {
 						onChange={this.onBackgroundChange}
 						options={backgroundLayersOptions}
 						optionLabel="name"
-						optionValue="options.layer"
+						optionValue="key"
 						value={state.backgroundLayer}
 					/>
 
