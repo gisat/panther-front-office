@@ -12,7 +12,6 @@ class TimelineContent extends React.PureComponent {
 	render() {
 		const {period, height, width,dayWidth, periodLimit, mouseX, vertical, activeLevel} = this.context;
 		const {children} = this.props;
-		let content = null;
 
 		const elementWidth = vertical ? height : width;
 		const elementHeight = vertical ? width : height;
@@ -41,7 +40,6 @@ class TimelineContent extends React.PureComponent {
 		return (
 				<TimelineEventsWrapper>
 					<div className="ptr-timeline-content">
-						{content}
 						<svg version={"1.1"}
 							xmlns={"http://www.w3.org/2000/svg"}
 							xmlnsXlink={"http://www.w3.org/1999/xlink"} 

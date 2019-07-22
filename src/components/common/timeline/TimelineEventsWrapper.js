@@ -596,7 +596,6 @@ class TimelineEventsWrapper extends React.PureComponent {
 		return (
 			<div
 				ref={this.node}
-				className="ptr-timeline-content"
 				onMouseLeave={this.onMouseLeave}
 				onWheel={this.onWheel}
 				onMouseDown={this.onMouseDown}

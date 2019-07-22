@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import {withResizeDetector} from 'react-resize-detector';
 
 import {ContextProvider} from './context';
 import TimelineContent from './timelineContent';
@@ -46,8 +47,8 @@ class Timeline extends React.PureComponent {
 		}),
 		dayWidth: PropTypes.number,
 		centerTime: PropTypes.func,
-		containerWidth: PropTypes.number,
-		containerHeight: PropTypes.number,
+		contentHeight: PropTypes.number,
+		width: PropTypes.number,
 		height: PropTypes.number,
 		
 		onHover: PropTypes.func,
@@ -68,6 +69,8 @@ class Timeline extends React.PureComponent {
 		levels: LEVELS,
 		onHover: () => {},
 		onClick: () => {},
+		width: 100,
+		height: 100,
 	}
 
 	constructor(props){
@@ -87,31 +90,41 @@ class Timeline extends React.PureComponent {
 
 		this.state = state;
 
-		if(typeof this.props.onChange === 'function') {
-			this.props.onChange(this.state)
+		if(typeof props.onChange === 'function') {
+			props.onChange(this.state)
 		}
 
 	}
 
 	componentDidUpdate(prevProps) {
+		const {dayWidth, time, width, height, period} = this.props;
 		//if parent component set dayWidth
-		if(prevProps.dayWidth !== this.props.dayWidth && this.state.dayWidth !== this.props.dayWidth) {
-			this.updateContext({dayWidth: this.props.dayWidth})
+		if(prevProps.dayWidth !== dayWidth && this.state.dayWidth !== dayWidth) {
+			this.updateContext({dayWidth: dayWidth})
 		}
 	
 		//if parent component set time
-		if(prevProps.time !== this.props.time && this.state.centerTime !== this.props.time) {
+		if(prevProps.time !== time && this.state.centerTime !== time) {
 
-			const periodLimit = this.getPeriodLimitByTime(this.props.time);
+			const periodLimit = this.getPeriodLimitByTime(time);
 
 			//zoom to dayWidth
 			this.updateContext({periodLimit})
 		}
 
 		//if parent component set time
-		if(prevProps.containerWidth !== this.props.containerWidth) {
+		if((prevProps.width !== width) || (prevProps.height !== height)) {
+			//přepočítat day width aby bylo v periodě
+
 			//todo take time from state
-			const periodLimit = this.getPeriodLimitByTime(this.props.time);
+			// const periodLimit = this.getPeriodLimitByTime(time);
+			const xAxis = this.getXAxisWidth();
+			const minPeriodDayWidth = this.getDayWidthForPeriod(period, xAxis);
+			let dayWidth = this.state.dayWidth;
+			if(minPeriodDayWidth >= this.state.dayWidth) {
+				dayWidth = minPeriodDayWidth;
+			}
+			const periodLimit = this.getPeriodLimitByTime(this.state.centerTime, xAxis, period, dayWidth)
 
 			//zoom to dayWidth
 			this.updateContext({periodLimit})
@@ -155,7 +168,8 @@ class Timeline extends React.PureComponent {
 
 	//Find first level with smaller start level.
 	getActiveLevel(dayWidth) {
-		return this.props.levels.find((l) => dayWidth <= l.end)
+		const {levels} = this.props;
+		return levels.find((l) => dayWidth <= l.end)
 	}
 
 
@@ -199,7 +213,9 @@ class Timeline extends React.PureComponent {
 		}
 	}
 
-	getStateUpdate(options) {	
+	getStateUpdate(options) {
+		const {levels, period} = this.props;
+
 		if (options) {
 			const updateContext = {};
 			Object.assign(updateContext, {...options});
@@ -215,7 +231,7 @@ class Timeline extends React.PureComponent {
 			}
 
 			if(updateContext.dayWidth) {
-				Object.assign(updateContext, {activeLevel: this.getActiveLevel(updateContext.dayWidth, this.props.levels).level})
+				Object.assign(updateContext, {activeLevel: this.getActiveLevel(updateContext.dayWidth, levels).level})
 			}
 
 			if(updateContext.dayWidth && !options.centerTime) {
@@ -223,7 +239,7 @@ class Timeline extends React.PureComponent {
 			}
 
 			if(options.centerTime) {
-				Object.assign(updateContext, {periodLimit: this.getPeriodLimitByTime(options.centerTime, this.getXAxisWidth(), this.props.period, updateContext.dayWidth)})
+				Object.assign(updateContext, {periodLimit: this.getPeriodLimitByTime(options.centerTime, this.getXAxisWidth(), period, updateContext.dayWidth)})
 			}
 			
 			return updateContext
@@ -239,12 +255,17 @@ class Timeline extends React.PureComponent {
 	}
 
 	getXAxisWidth() {
-		const {containerWidth, containerHeight, vertical} = this.props;
-		return vertical ? containerHeight : containerWidth;
+		const {width, height, vertical} = this.props;
+		return vertical ? height : width;
+	}
+
+	getContentHeight() {
+		const {contentHeight, vertical} = this.props;
+		return contentHeight || (vertical ? DEFAULT_VERTICAL_HEIGHT : DEFAULT_HORIZONTAL_HEIGHT);
 	}
 
 	render() {
-		const {levels, period, height, pickDateByCenter, onHover, onClick, vertical, children, periodLimitOnCenter} = this.props;
+		const {levels, period, onHover, onClick, vertical, children, periodLimitOnCenter} = this.props;
 		const {dayWidth, periodLimit, mouseX} = this.state;
 
 		const maxDayWidth = this.getMaxDayWidth();
@@ -255,7 +276,7 @@ class Timeline extends React.PureComponent {
 			<ContextProvider value={{
 				updateContext: this.updateContext,
 				width: this.getXAxisWidth(),
-				height: height || (vertical ? DEFAULT_VERTICAL_HEIGHT : DEFAULT_HORIZONTAL_HEIGHT),
+				height: this.getContentHeight(),
 				getX: this.getX,
 				getTime: this.getTime,
 				centerTime: this.state.centerTime,
@@ -283,4 +304,4 @@ class Timeline extends React.PureComponent {
 
 }
 
-export default Timeline;
+export default withResizeDetector(Timeline);
