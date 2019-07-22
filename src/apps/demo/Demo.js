@@ -31,6 +31,34 @@ const backgroundLayers = {
 		name: "OpenStreetMap",
 		type: 'wmts',
 		options: {url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'}
+	},
+	cartoLight: {
+		key: 'cartoLight',
+		name: "Carto Light",
+		type: 'wmts',
+		options: {url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'}
+	},
+	cartoDark: {
+		key: 'cartoDark',
+		name: "Carto Dark",
+		type: 'wmts',
+		options: {url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'}
+	},
+	stamenLite: {
+		key: 'stamenLite',
+		name: 'Stamen Lite',
+		type: 'wmts',
+		options: {
+			url: 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png'
+		}
+	},
+	stamenTerrain: {
+		key: 'stamenTerrain',
+		name: 'Stamen Terrain',
+		type: 'wmts',
+		options: {
+			url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'
+		}
 	}
 };
 
