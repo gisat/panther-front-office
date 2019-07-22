@@ -5,12 +5,22 @@ import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/
 import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 
+import * as dodoma_au_level_3 from '../../../../data/EO4SD_DODOMA_AL3';
+
 const dhakaView = {
 	center: {
 		lat: 23.78,
 		lon: 90.41
 	},
 	boxRange: 60035
+};
+
+const dodomaView = {
+	center: {
+		lat: -6.174,
+		lon: 35.704
+	},
+	boxRange: 50000
 };
 
 const stamenLite = {
@@ -27,6 +37,14 @@ const osm = {
 	options: {url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'}
 };
 
+const dodomaAuLevel3 = {
+	key: 'dodomaAuLevel3',
+	name: 'Analytical units 3',
+	type: 'vector',
+	options: {
+		features: dodoma_au_level_3.features
+	}
+};
 
 const Dhaka = props => {
 	
@@ -59,7 +77,7 @@ const Dhaka = props => {
 					controls={<MapControls/>}
 				/>
 			</div>
-			
+
 			<h2>Leaflet + Informal settlements aka Slums</h2>
 			<div style={{height: 500}}>
 				<PresentationMapWithControls
@@ -83,6 +101,21 @@ const Dhaka = props => {
 								}
 							]}
 							view={dhakaView}
+						/>
+					}
+					controls={<MapControls levelsBased zoomOnly/>}
+				/>
+			</div>
+
+			<h2>Leaflet - Dodoma</h2>
+			<div style={{height: 500}}>
+				<PresentationMapWithControls
+					map={
+						<LeafletMap
+							mapKey='leaflet-dodoma'
+							backgroundLayer={osm}
+							layers={[dodomaAuLevel3]}
+							view={dodomaView}
 						/>
 					}
 					controls={<MapControls levelsBased zoomOnly/>}
