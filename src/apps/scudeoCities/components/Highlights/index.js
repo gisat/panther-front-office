@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import _ from 'lodash';
 import Action from '../../../../state/Action';
 import Select from '../../../../state/Select';
@@ -11,4 +12,4 @@ const mapStateToProps = state => {
 	}
 };
 
-export default connect(mapStateToProps)(presentation);
+export default withRouter(connect(mapStateToProps)(presentation));
