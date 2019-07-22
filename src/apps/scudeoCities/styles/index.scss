@@ -45,7 +45,7 @@ $placeSelectWidth: 15rem;
 	height: $headerHeight;
 }
 
-.scudeoCities > .ptr-adjustable-columns {
+.scudeoCities-content {
 	height: calc(100% - #{$headerHeight});
 }
 

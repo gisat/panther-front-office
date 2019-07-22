@@ -13,6 +13,7 @@ import MapTools from "../../../../components/common/maps/MapTools";
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import Header from '../Header';
+import Highlights from "../Highlights";
 import Sidebar from "../Sidebar";
 
 class App extends React.PureComponent {
@@ -24,26 +25,37 @@ class App extends React.PureComponent {
 			<>
 				<Helmet><title>{props.activePlace ? props.activePlace.data.nameDisplay : null}</title></Helmet>
 				<Header	/>
-				<AdjustableColumns
-					fixed
-					content={[
-						{
-							component: MapSet,
-							props: {
-								mapSetKey: "scudeoCities"
-							}
-						},
-						{
-							width: "40%",
-							minWidth: "20rem",
-							maxWidth: "35rem",
-							component: Sidebar,
-							className: "scudeoCities-column-sidebar"
-						},
-					]}
-				/>
+				<div className="scudeoCities-content">{this.renderContent(props.contentKey)}</div>
 			</>
 		);
+	}
+	
+	renderContent(content) {
+		switch (content) {
+			case 'highlights':
+				return (<Highlights />);
+			case 'explore':
+				return (
+					<AdjustableColumns
+						fixed
+						content={[
+							{
+								component: MapSet,
+								props: {
+									mapSetKey: "scudeoCities"
+								}
+							},
+							{
+								width: "40%",
+								minWidth: "20rem",
+								maxWidth: "35rem",
+								component: Sidebar,
+								className: "scudeoCities-column-sidebar"
+							},
+						]}
+					/>
+				);
+		}
 	}
 }
 
