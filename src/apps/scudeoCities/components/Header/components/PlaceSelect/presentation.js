@@ -22,9 +22,9 @@ class PlaceSelect extends React.PureComponent {
 	}
 
 	selectPlace(key) {
-		if (!this.props.activePlace || (key !== this.props.activePlace.key)) {
+		// if (!this.props.activePlace || (key !== this.props.activePlace.key)) {
 			this.props.selectPlace(key);
-		}
+		// }
 	}
 
 	renderCurrent() {

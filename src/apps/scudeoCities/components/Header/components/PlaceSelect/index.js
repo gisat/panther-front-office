@@ -33,7 +33,7 @@ const mapDispatchToPropsFactory = () => {
 			onUnmount: () => {
 
 			},
-			selectCase: (key) => {
+			selectPlace: (key) => {
 				dispatch(Action.places.setActiveKey(key));
 				dispatch(Action.components.set('scudeoCities_PlaceSelect', 'placeSelectOpen', false));
 			}

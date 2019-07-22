@@ -11,7 +11,7 @@ const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		places: Select.places.getIndexed(state, null, null, null, 1, 20),
+		places: Select.places.getIndexed(state, filter, null, null, 1, 20),
 		activePlace: Select.places.getActive(state)
 	}
 };
@@ -23,7 +23,7 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onMount: () => {
 				// TODO order
-				dispatch(Action.places.useIndexed(null, null, null, 1, 20, componentId));
+				dispatch(Action.places.useIndexed(filter, null, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.places.useIndexedClear(componentId));

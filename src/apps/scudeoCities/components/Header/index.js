@@ -3,7 +3,7 @@ import PlaceSelect from "./components/PlaceSelect";
 
 const Header = props => (
 	<div className="scudeoCities-header">
-		<div className="scudeoCities-title">City explorer</div>
+		<div className="scudeoCities-title"><span>City explorer</span></div>
 		<PlaceSelect/>
 	</div>
 );
