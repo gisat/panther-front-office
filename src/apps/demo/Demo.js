@@ -20,21 +20,46 @@ const mapFrameworks = {
 };
 
 const backgroundLayers = {
-	wikimedia: {
-		name: "Wikimedia",
-		type: 'worldwind',
-		options: {layer: 'wikimedia'}
+	wmts: {
+		key: 'wmts-wiki',
+		name: "Wikimedia WMTS",
+		type: 'wmts',
+		options: {url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'}
 	},
-	// bing: {
-	// 	name: "Bing Aerial",
-	// 	type: 'worldwind',
-	// 	options: {layer: 'bingAerial'}
-	// },
-	// bluemarble: {
-	// 	name: "Bluemarble",
-	// 	type: 'worldwind',
-	// 	options: {layer: 'bluemarble'}
-	// }
+	wmtsOsm: {
+		key: 'wmtsOsm',
+		name: "OpenStreetMap",
+		type: 'wmts',
+		options: {url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'}
+	},
+	cartoLight: {
+		key: 'cartoLight',
+		name: "Carto Light",
+		type: 'wmts',
+		options: {url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'}
+	},
+	cartoDark: {
+		key: 'cartoDark',
+		name: "Carto Dark",
+		type: 'wmts',
+		options: {url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'}
+	},
+	stamenLite: {
+		key: 'stamenLite',
+		name: 'Stamen Lite',
+		type: 'wmts',
+		options: {
+			url: 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png'
+		}
+	},
+	stamenTerrain: {
+		key: 'stamenTerrain',
+		name: 'Stamen Terrain',
+		type: 'wmts',
+		options: {
+			url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'
+		}
+	}
 };
 
 const layers = {
@@ -95,7 +120,7 @@ class Demo extends React.PureComponent {
 		this.state = {
 			mapKey: 'map',
 			mapFramework: mapFrameworks.worldWind,
-			backgroundLayer: backgroundLayers.wikimedia,
+			backgroundLayer: backgroundLayers.wmts,
 			layers: [layers.boundaries],
 			view: {
 				center: {
@@ -132,7 +157,7 @@ class Demo extends React.PureComponent {
 				<div className="demo-maps">
 					<PresentationMapWithControls
 						map={React.createElement(mapFramework.component, state)}
-						controls={mapFramework.name === 'World Wind' ? <MapControls/> : null}
+						controls={mapFramework.name === 'World Wind' ? <MapControls zoomOnly/> :<MapControls levelsBased zoomOnly/>}
 					/>
 				</div>
 				<div className="demo-control-panel">
@@ -150,7 +175,7 @@ class Demo extends React.PureComponent {
 						onChange={this.onBackgroundChange}
 						options={backgroundLayersOptions}
 						optionLabel="name"
-						optionValue="options.layer"
+						optionValue="key"
 						value={state.backgroundLayer}
 					/>
 
