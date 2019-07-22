@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import Icon from '../../atoms/Icon'
-import HoldButton from '../../../presentation/atoms/HoldButton'
+import viewUtils from '../viewUtils';
+import {numberOfLevels as maxNumberOfLevels} from '../constants';
+
+import Icon from '../../atoms/Icon';
+import HoldButton from '../../../presentation/atoms/HoldButton';
 import './style.scss';
 
 class MapControls extends React.PureComponent {
@@ -11,7 +14,8 @@ class MapControls extends React.PureComponent {
 		updateView: PropTypes.func,
 		resetHeading: PropTypes.func,
 		mapKey:PropTypes.string,
-		zoomOnly: PropTypes.bool
+		zoomOnly: PropTypes.bool,
+		levelsBased: PropTypes.bool
 	};
 
 	constructor() {
@@ -42,12 +46,22 @@ class MapControls extends React.PureComponent {
 		this.props.updateView(update, this.props.mapKey);
 	}
 	handleZoomIn() {
-		const update = {boxRange: this.props.view.boxRange * (1 - this.zoomIncrement)};
+		let update = null;
+		if (this.props.levelsBased && this.props.view && this.props.view.boxRange) {
+			update = {boxRange: this.props.view.boxRange/2};
+		} else {
+			update = {boxRange: this.props.view.boxRange * (1 - this.zoomIncrement)};
+		}
 		this.props.updateView(update, this.props.mapKey);
 	}
 
 	handleZoomOut() {
-		const update = {boxRange: this.props.view.boxRange * (1 + this.zoomIncrement)};
+		let update = null;
+		if (this.props.levelsBased && this.props.view && this.props.view.boxRange) {
+			update = {boxRange: this.props.view.boxRange*2};
+		} else {
+			update = {boxRange: this.props.view.boxRange * (1 + this.zoomIncrement)};
+		}
 		this.props.updateView(update, this.props.mapKey);
 	}
 
@@ -66,6 +80,10 @@ class MapControls extends React.PureComponent {
 	}
 
 	render () {
+		let currentZoomLevel = null;
+		if (this.props.levelsBased && this.props.view && this.props.view.boxRange) {
+			currentZoomLevel = viewUtils.getZoomLevelFromBoxRange(this.props.view.boxRange);
+		}
 
 		// TODO different controls for 2D
 		return (
@@ -97,6 +115,7 @@ class MapControls extends React.PureComponent {
 						onMouseDown={200}
 						pressCallbackTimeout={20}
 						finite={false}
+						disabled={this.props.levelsBased && currentZoomLevel === maxNumberOfLevels}
 					>
 						<Icon icon='plus-thick'/>
 					</HoldButton>
@@ -106,6 +125,7 @@ class MapControls extends React.PureComponent {
 						onMouseDown={200}
 						pressCallbackTimeout={20}
 						finite={false}
+						disabled={this.props.levelsBased && currentZoomLevel === 1}
 					>
 						<Icon icon='minus-thick'/>
 					</HoldButton>

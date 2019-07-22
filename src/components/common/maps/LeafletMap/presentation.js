@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import viewHelpers from './viewHelpers';
-import layersHelpers from "./layersHelpers";
+import layersHelpers from './layersHelpers';
+import utils from '../viewUtils';
 
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
@@ -45,7 +46,7 @@ class LeafletMap extends React.PureComponent {
 		*/
 		this.map = L
 			.map(this.props.mapKey,{zoomAnimationThreshold: 2, zoomControl: false, attributionControl: false})
-			.setView([initialView.center.lat, initialView.center.lon], viewHelpers.getZoomLevelFromBoxRange(initialView.boxRange));
+			.setView([initialView.center.lat, initialView.center.lon], utils.getZoomLevelFromBoxRange(initialView.boxRange));
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
@@ -98,7 +99,7 @@ class LeafletMap extends React.PureComponent {
 		if (this.props.onViewChange) {
 			let zoomLevel = this.map.getZoom();
 			let center = this.map.getCenter();
-			let boxRange = viewHelpers.getBoxRangeFromZoomLevel(zoomLevel);
+			let boxRange = utils.getBoxRangeFromZoomLevel(zoomLevel);
 			this.props.onViewChange({boxRange, center: {lon: center.lng, lat: center.lat}});
 		}
 	}

@@ -157,7 +157,7 @@ class Demo extends React.PureComponent {
 				<div className="demo-maps">
 					<PresentationMapWithControls
 						map={React.createElement(mapFramework.component, state)}
-						controls={mapFramework.name === 'World Wind' ? <MapControls/> : null}
+						controls={mapFramework.name === 'World Wind' ? <MapControls zoomOnly/> :<MapControls levelsBased zoomOnly/>}
 					/>
 				</div>
 				<div className="demo-control-panel">

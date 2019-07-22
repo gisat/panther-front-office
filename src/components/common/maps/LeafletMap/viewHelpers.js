@@ -1,5 +1,4 @@
-const LEVELS = 18;
-const ZOOM_COEFF = 256;
+import viewUtils from '../viewUtils';
 
 function getLeafletViewFromViewParams(view) {
 	let leafletView = {
@@ -8,7 +7,7 @@ function getLeafletViewFromViewParams(view) {
 	};
 
 	if (view.boxRange) {
-		leafletView.zoom = getZoomLevelFromBoxRange(view.boxRange);
+		leafletView.zoom = viewUtils.getZoomLevelFromBoxRange(view.boxRange);
 	}
 
 	return leafletView;
@@ -25,29 +24,6 @@ function update(map, view) {
 	}
 }
 
-// TODO naive
-/**
- * Convert box range to zoom level
- * @param boxRange {number} range in meters
- * @return {number} zoom level
- */
-function getZoomLevelFromBoxRange(boxRange) {
-	let zoomLevel = Math.floor(Math.log(boxRange/ZOOM_COEFF) / Math.log(2));
-
-	if (zoomLevel > LEVELS) {
-		zoomLevel = LEVELS;
-	}
-
-	return LEVELS - zoomLevel;
-}
-
-function getBoxRangeFromZoomLevel(level) {
-	return ZOOM_COEFF*Math.pow(2, LEVELS - level);
-}
-
 export default {
-	getBoxRangeFromZoomLevel,
-	getZoomLevelFromBoxRange,
-
 	update
 }
