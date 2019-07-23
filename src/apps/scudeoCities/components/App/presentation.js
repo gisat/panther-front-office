@@ -16,15 +16,24 @@ import Highlights from "../Highlights";
 import Sidebar from "../Sidebar";
 
 class App extends React.PureComponent {
+	
+	componentDidMount() {
+		this.props.onMount && this.props.onMount();
+	}
+	
+	componentWillUnmount() {
+		this.props.onUnmount && this.props.onUnmount();
+	}
 
 	render() {
 		const props = this.props;
+		const contentKey = props.match.params.contentKey || 'highlights';
 
 		return (
 			<>
 				<Helmet><title>{props.activePlace ? props.activePlace.data.nameDisplay : null}</title></Helmet>
-				<Header	/>
-				<div className="scudeoCities-content">{this.renderContent(props.contentKey)}</div>
+				<Header	contentKey={contentKey} match={props.match} />
+				<div className="scudeoCities-content">{this.renderContent(contentKey)}</div>
 			</>
 		);
 	}
