@@ -59,9 +59,6 @@ class PlaceSelect extends React.PureComponent {
 				listClasses="scudeoCities-place-select-list"
 			>
 				<div className="scudeoCities-place-select-overlay">
-					<div className="scudeoCities-place-select-overlay-header">
-						Hic sunt pantherae.
-					</div>
 					<PlaceSelectContent />
 				</div>
 			</PantherSelect>

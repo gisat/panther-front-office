@@ -31,6 +31,7 @@
 
 $headerHeight: m(3);
 $placeSelectWidth: 15rem;
+$titleWidth: 10rem;
 
 //.scudeoCities {
 //	display: flex;
@@ -55,7 +56,7 @@ $placeSelectWidth: 15rem;
 	font-size: $b2;
 	//color: var(--base0);
 	color: var(--base15);
-	width: 10rem;
+	width: $titleWidth;
 	padding: .51825rem 1rem;
 	background-color: var(--base80);
 }
@@ -82,15 +83,17 @@ $placeSelectWidth: 15rem;
 
 
 .scudeoCities-header .ptr-panther-select-list {
-	padding-top: 0;
+	padding-top: $headerHeight;
 }
 .scudeoCities-place-select-list.ptr-panther-select-list > div > div {
-	height: 100%;
+	//height: 100%;
+	margin-left: $titleWidth;
 }
 .scudeoCities-place-select-overlay {
-	height: 100%;
-	background-color: var(--base10);
+	//height: 100%;
+	//background-color: var(--base10);
 	//background-color: var(--accent10);
+	display: inline-block;
 }
 
 .scudeoCities-place-select-overlay-header {
@@ -98,7 +101,8 @@ $placeSelectWidth: 15rem;
 	background-color: var(--base0);
 }
 .scudeoCities-place-select-content {
-	height: calc(100% - #{m(4)});
+	//height: calc(100% - #{m(4)});
+	display: flex;
 }
 
 .scudeoCities-place-list-place {
