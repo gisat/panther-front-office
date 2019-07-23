@@ -8,7 +8,8 @@ import './style.scss';
 import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
-const TICK_COUNT = 10;
+const MIN_TICK_COUNT = 5;
+const MAX_TICK_COUNT = 10;
 const TICK_CAPTION_OFFSET_TOP = 10;
 const TICK_CAPTION_OFFSET_LEFT = 5;
 
@@ -64,7 +65,7 @@ class AxisX extends React.PureComponent {
 	}
 
 	renderLinearGrid(shift) {
-		let ticks = this.props.scale.ticks(TICK_COUNT);
+		let ticks = this.props.scale.ticks(this.props.width > 300 ? MAX_TICK_COUNT : MIN_TICK_COUNT);
 		let availableHeight = this.props.width/ticks.length;
 
 		return (

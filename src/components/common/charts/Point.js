@@ -13,7 +13,10 @@ class Point extends React.PureComponent {
 	static contextType = HoverContext;
 
 	static propTypes = {
-		itemKey: PropTypes.string,
+		itemKey: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 		data: PropTypes.object,
 		name: PropTypes.string,
 		x: PropTypes.number,
