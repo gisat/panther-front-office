@@ -4,6 +4,7 @@ import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
 import PlaceSelectContent from "../PlaceSelectContent";
+import utils from "../../../../../../utils/utils";
 
 class PlaceSelect extends React.PureComponent {
 
@@ -56,6 +57,13 @@ class PlaceSelect extends React.PureComponent {
 				onSelect={this.selectPlace}
 				currentClasses="scudeoCities-place-select-current"
 				renderCurrent={this.renderCurrent}
+				currentStyle={props.activePlaceKey ? {
+					backgroundColor: utils.stringToColours(props.activePlaceKey, 1, {
+					hue: [0,360],
+					saturation: [45,65],
+					lightness: [30,35]
+				})
+				} : null}
 				listClasses="scudeoCities-place-select-list"
 			>
 				<div className="scudeoCities-place-select-overlay">
