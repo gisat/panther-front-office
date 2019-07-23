@@ -80,6 +80,35 @@ $titleWidth: 10rem;
 	z-index: 40;
 	background-color: var(--base70);
 }
+.scudeoCities-header-content-link {
+	display: inline-block;
+	height: 100%;
+	width: 10rem;
+	position: relative;
+	
+	text-decoration: none;
+	transition: background-color .3s ease-in-out;
+}
+a.scudeoCities-header-content-link,
+a.scudeoCities-header-content-link:visited,
+a.scudeoCities-header-content-link:active {
+	color: #fff;
+}
+a.scudeoCities-header-content-link.active {
+	background-color: #fff;
+	color: #444;
+}
+a.scudeoCities-header-content-link:hover,
+a.scudeoCities-header-content-link:focus {
+	background-color: rgba(255,255,255,.2);
+}
+a.scudeoCities-header-content-link.active:hover,
+a.scudeoCities-header-content-link.active:focus {
+	background-color: var(--accent10);
+}
+.scudeoCities-header-content-link > span {
+	@include positionCenter;
+}
 
 
 .scudeoCities-header .ptr-panther-select-list {

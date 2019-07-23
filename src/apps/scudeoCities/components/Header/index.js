@@ -15,7 +15,7 @@ const Header = props => (
 					active: props.contentKey === 'highlights'
 				})}
 			>
-				Highlights
+				<span>Highlights</span>
 			</Link>
 			<Link
 				to={'/' + props.match.params.placeKey + '/explore'}
@@ -23,7 +23,7 @@ const Header = props => (
 					active: props.contentKey === 'explore'
 				})}
 			>
-				Explore
+				<span>Explore</span>
 			</Link>
 		</div>
 	</div>
