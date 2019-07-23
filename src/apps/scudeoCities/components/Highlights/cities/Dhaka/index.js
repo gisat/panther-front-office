@@ -33,7 +33,7 @@ const transportation_level_1_2006_normalized = conversions.featuresToAttributes(
 	{key: 'as_651001000_attr_651000300', name: 'Secondary'},
 	{key: 'as_651001000_attr_651000400', name: 'Local'},
 	{key: 'as_651002000_attr_651000500', name: 'Railways'}
-],'as_653001000_attr_653000010')['8216d59d-baaf-4e94-8ad4-15c78e61b28e'];
+],'as_653001000_attr_653000010_p_600002006')['8216d59d-baaf-4e94-8ad4-15c78e61b28e'];
 
 const dhakaView = {
 	center: {
@@ -75,7 +75,7 @@ const dodomaAuLevel3 = {
 };
 
 const Dhaka = props => {
-	
+
 	return (
 		<>
 			<h2>World wind map + LULC (VHR) - Level 1</h2>

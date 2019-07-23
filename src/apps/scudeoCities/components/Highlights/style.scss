@@ -3,3 +3,26 @@
 .scudeoCities-highlights {
 	padding: m(2);
 }
+
+.scudeoCities-districts-comparator {
+	max-width: 60rem;
+}
+
+.scudeoCities-districts-comparator-columns {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: m(1/3);
+}
+
+.scudeoCities-districts-comparator-column {
+	width: calc(50% - 1.5rem);
+}
+
+.scudeoCities-districts-comparator-column:first-child {
+	margin-right: 3rem;
+}
+
+.scudeoCities-districts-comparator-chart {
+	width: 100%;
+	padding: m(1);
+}
