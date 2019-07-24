@@ -22,13 +22,21 @@ const au_3_serial = conversions.featuresToSerialData(au_3_data);
 
 const au_3_serial_normalized_by_total_area = conversions.featuresToSerialData(au_3_data, 'AL3_AREA');
 
-const au_3_attributes_lulc_1_normalized = conversions.featuresToAttributes(au_3_data, 'AL3_ID', '2006',[
+let au_2_attributes_lulc_1_normalized = conversions.featuresToAttributes(au_2_data, 'AL2_ID', '2016',[
 	{key: 'as_611001000_attr_61110000', name: 'Artificial Surfaces', color: '#ae0214'},
 	{key: 'as_611001000_attr_61120000', name: 'Agricultural Area', color: '#ffdc9b'},
 	{key: 'as_611001000_attr_61130000', name: 'Natural and Semi-natural Areas', color: '#59b642'},
 	{key: 'as_611001000_attr_61140000', name: 'Wetlands', color: '#a6a6ff'},
 	{key: 'as_611001000_attr_61150000', name: 'Water', color: '#56c8ee'}
-],'AL3_AREA');
+],'AL2_AREA');
+
+const aggregationOptions = [{
+	key: 'aggregated',
+	name: 'Aggregated'
+}, {
+	key: 'districts',
+	name: 'Districts'
+}];
 
 class Dodoma extends React.PureComponent {
 	static propTypes = {
@@ -38,22 +46,44 @@ class Dodoma extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			districtValue: au_3_data[0]
-		}
+			aggregationValue: aggregationOptions[1]
+		};
+
+		this.onAggregationChange = this.onAggregationChange.bind(this);
 	}
 
-	onChange(value) {
-		this.setState({districtValue: value})
+	onAggregationChange(value) {
+		this.setState({aggregationValue: value})
 	}
 
 	render() {
 		const state = this.state;
 
-		let data = au_3_attributes_lulc_1_normalized[state.districtValue["properties"]["AL3_ID"]];
 		return (
 			<>
-				<h2>Land Use / Land Cover - Overview</h2>
-				<p>TODO</p>
+				<h2>Land Use / Land Cover - Overview (City core)</h2>
+				<h3>Land cover structure</h3>
+				<div>
+					<HoverHandler>
+						<AsterChart
+							key="overview-lulc-structure"
+							data={au_2_attributes_lulc_1_normalized["1"]}
+							keySourcePath="key"
+							nameSourcePath="name"
+							valueSourcePath="value"
+							colorSourcePath="color"
+							relative
+							forceMinimum={0}
+							forceMaximum={40}
+							maxWidth={25}
+							padding={0.5}
+							gridStepsMax={4}
+
+							legend
+						/>
+					</HoverHandler>
+				</div>
+
 
 				<h2>Land Use / Land Cover - City districts</h2>
 				<h3>Land cover structure - Districts comparison</h3>
@@ -129,35 +159,43 @@ class Dodoma extends React.PureComponent {
 				</div>
 
 				<h3>Agricultural area (normalized) progress</h3>
-				<p>TODO: Switch all districts/average</p>
-				<HoverHandler>
-					<LineChart
-						key="agricultural-area-dodoma"
-
-						data={au_3_serial_normalized_by_total_area}
-						keySourcePath="AL3_ID"
-						nameSourcePath="AL3_NAME"
-						serieDataSourcePath="data"
-						xSourcePath="period"
-						ySourcePath="as_611001000_attr_61120000"
-
-						sorting={[["period", "asc"]]}
-						forceMode="aggregated"
-
-						innerPaddingTop={0}
-						innerPaddingLeft={0}
-						innerPaddingRight={0}
-						height={20}
-						width={40}
-						yValuesSize={4}
-						yLabel
-						yOptions={{
-							name: "Agricultural area",
-							unit: "%",
-							max: 103
-						}}
+				<div style={{maxWidth: '50rem'}}>
+					<Select
+						onChange={this.onAggregationChange}
+						options={aggregationOptions}
+						optionLabel="name"
+						optionValue="key"
+						value={this.state.aggregationValue}
 					/>
-				</HoverHandler>
+					<br/>
+					<HoverHandler>
+						<LineChart
+							key="agricultural-area-dodoma"
+
+							data={au_3_serial_normalized_by_total_area}
+							keySourcePath="AL3_ID"
+							nameSourcePath="AL3_NAME"
+							serieDataSourcePath="data"
+							xSourcePath="period"
+							ySourcePath="as_611001000_attr_61120000"
+
+							sorting={[["period", "asc"]]}
+							forceMode={this.state.aggregationValue.key === "aggregated" ? "aggregated" : false}
+
+							innerPaddingTop={0}
+							innerPaddingLeft={0}
+							innerPaddingRight={0}
+							height={20}
+							yValuesSize={4}
+							yLabel
+							yOptions={{
+								name: "Agricultural area",
+								unit: "%",
+								max: 103
+							}}
+						/>
+					</HoverHandler>
+				</div>
 			</>
 		);
 	}
