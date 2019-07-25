@@ -150,7 +150,9 @@ class Bar extends React.PureComponent {
 		return (
 			<g onMouseOver={this.onMouseOver}
 			   onMouseMove={this.onMouseMove}
-			   onMouseOut={this.onMouseOut}>
+			   onMouseOut={this.onMouseOut}
+			   className="ptr-column-chart-bar-container"
+			>
 				<rect className={placeholderClasses}
 					  key={this.props.itemKeys[0]+'_hover'}
 					  y={0}
