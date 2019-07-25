@@ -14,7 +14,8 @@ const TICK_CAPTION_OFFSET_HORIZONTAL = 4;
 class AxisY extends React.PureComponent {
 
 	static defaultProps = {
-		topPadding: 0
+		topPadding: 0,
+		leftPadding: 0
 	};
 
 	static propTypes = {
@@ -22,6 +23,7 @@ class AxisY extends React.PureComponent {
 
 		bottomMargin: PropTypes.number,
 		topPadding: PropTypes.number,
+		leftPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		labelSize: PropTypes.number,
@@ -34,7 +36,9 @@ class AxisY extends React.PureComponent {
 		label: PropTypes.bool,
 		options: PropTypes.object,
 
-		diverging: PropTypes.bool
+		diverging: PropTypes.bool,
+		xScale: PropTypes.func,
+		xOptions: PropTypes.object
 	};
 
 	constructor(props) {
@@ -54,10 +58,18 @@ class AxisY extends React.PureComponent {
 	}
 
 	renderBaseline() {
+		const props = this.props;
+
+		let xCoord = this.props.width + this.props.labelSize;
+
+		if (props.diverging && props.xOptions && props.xOptions.diversionValue) {
+			xCoord += props.xScale(props.xOptions.diversionValue) + props.leftPadding;
+		}
+
 		return (
 			<path
 				className="ptr-axis-baseline"
-				d={`M${this.props.width + this.props.labelSize} ${this.props.height} L${this.props.width + this.props.labelSize} 0`}
+				d={`M${xCoord} ${this.props.height} L${xCoord} 0`}
 			/>
 		);
 	}
@@ -68,7 +80,6 @@ class AxisY extends React.PureComponent {
 		let shift = props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
 		let ticks = props.scale.ticks(TICK_COUNT);
 
-		// TODO common for both axis?
 		if (props.diverging) {
 			let diversionValue = props.options && props.options.diversionValue || 0;
 			let notInTicks = _.indexOf(ticks, diversionValue) === -1;

@@ -25,6 +25,7 @@ class CartesianChartContent extends React.PureComponent {
 
 					bottomMargin={props.xValuesSize}
 					topPadding={props.innerPaddingTop}
+					leftPadding={props.innerPaddingLeft}
 
 					height={props.plotHeight}
 					plotWidth={props.plotWidth}
@@ -38,6 +39,8 @@ class CartesianChartContent extends React.PureComponent {
 					options={props.yOptions}
 
 					diverging={props.diverging}
+					xScale={props.xScale}
+					xOptions={props.xOptions}
 
 					hiddenBaseline={props.withoutYbaseline}
 				/>
