@@ -296,7 +296,7 @@ class CartesianCharts extends React.PureComponent {
 							name: "diverging",
 							type: "boolean",
 							default: "false",
-							description: "Use if the values are diverging from some point (defined in xOptions or yOptions)."
+							description: (<>Use if the values are diverging from some point (defined in xOptions or yOptions). See <Link to="/docs/components/visualizations/cartesianCharts/columnChart#diverging">Diverging column chart</Link> to find out more.</>)
 						}]
 					}
 				/>

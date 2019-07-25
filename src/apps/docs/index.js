@@ -19,7 +19,6 @@ import Docs, {Directory, Page, Anchor} from "./components/Docs";
 import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
-import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
 import Buttons from "./components/pages/components/atoms/ButtonsDoc";
 import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
