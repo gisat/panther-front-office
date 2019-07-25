@@ -37,6 +37,8 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_2"
 
+								sorting={[["data.some_value_2", "desc"]]}
+
 								diverging
 								xGridlines
 								yOptions={{

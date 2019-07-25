@@ -130,18 +130,18 @@ class ColumnChart extends React.PureComponent {
 						{...props}
 						{...{xScale, yScale, contentData: data}}
 					>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, minimum, props.innerPlotHeight, colors)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, minimum, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, minimum, props.innerPlotHeight, colors)}
 					</CartesianChartContent>
 				: null}
 			</svg>
 		);
 	}
 
-	renderAggregated(data, props, xScale, yScale, availableHeight, availableWidth) {
+	renderAggregated(data, props, xScale, yScale, minimum, availableHeight, availableWidth) {
 		return (
 			<>
-				{this.renderPath(data, props, xScale, yScale, availableHeight, availableWidth)}
-				{this.renderBarsFromAggregated(data, props, xScale, yScale, availableHeight)}
+				{this.renderPath(data, props, xScale, yScale, minimum, availableHeight, availableWidth)}
+				{this.renderBarsFromAggregated(data, props, xScale, yScale, minimum, availableHeight)}
 			</>
 		)
 	}
@@ -214,7 +214,7 @@ class ColumnChart extends React.PureComponent {
 		);
 	}
 
-	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data) {
+	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data, hidden) {
 		return (
 			<Bar
 				itemKeys={[key]}
@@ -233,57 +233,89 @@ class ColumnChart extends React.PureComponent {
 				hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 				data={data}
 				yOptions={this.props.yOptions}
+
+				hidden={hidden}
 			/>
 		);
 	}
 
-	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, availableHeight) {
+	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, minimum, availableHeight) {
+		let positiveDirectionBars = [];
+		let negativeDirectionBars = [];
+
+		let baseValueY = minimum;
+		let y0 = 0;
+
+		if (props.diverging) {
+			baseValueY = props.yOptions && props.yOptions.diversionValue || 0;
+			y0 = availableHeight - yScale(baseValueY);
+		}
+
+		_.map(aggregatedData,(group) => {
+			let firstItemFromGroup = group.originalData[0];
+			let key = _.get(firstItemFromGroup, props.keySourcePath);
+			let value = _.get(firstItemFromGroup, props.ySourcePath);
+			let x0 = xScale(group.keys);
+			let width = xScale.bandwidth();
+
+			let height = availableHeight - yScale(value);
+
+			if (props.diverging) {
+				if (value >= baseValueY) {
+					height = height - y0;
+					positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, true));
+				} else {
+					height = y0 - height;
+					negativeDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, availableHeight - y0, width, height, availableHeight, group, true));
+				}
+			} else {
+				positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, true));
+			}
+		});
+
 		return (
-			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
-				{_.map(aggregatedData,(group) => {
-					let firstItemFromGroup = group.originalData[0];
-					let key = _.get(firstItemFromGroup, props.keySourcePath);
-					let value = _.get(firstItemFromGroup, props.ySourcePath);
-
-					return (
-						<Bar
-							hidden
-							itemKeys={group.keys}
-							key={`${key}_${value}`}
-							defaultColor={this.props.defaultColor}
-							highlightedColor={this.props.highlightedColor}
-
-							y={0}
-							x={xScale(group.keys)}
-							width={xScale.bandwidth()}
-							height={availableHeight - yScale(value)}
-							availableHeight={availableHeight}
-
-							nameSourcePath={this.props.xSourcePath}
-							valueSourcePath={this.props.ySourcePath}
-							data={group}
-							yOptions={this.props.yOptions}
-						/>
-					);
-				})}
-			</g>
+			<>
+				{
+					positiveDirectionBars.length ? (
+						<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
+							{positiveDirectionBars}
+						</g>
+					) : null
+				}
+				{
+					negativeDirectionBars.length ? (
+						<g transform={`translate(0,0)`}>
+							{negativeDirectionBars}
+						</g>
+					) : null
+				}
+			</>
 		);
 	}
 
-	renderPath(aggregatedData, props, xScale, yScale, availableHeight, availableWidth) {
+	renderPath(aggregatedData, props, xScale, yScale, minimum, availableHeight, availableWidth) {
 		let style = {};
 		if (this.props.defaultColor) {
 			style.fill = this.props.defaultColor;
 		}
 
+
+		let firstValueFromGroup = "";
+		let y0 = availableHeight;
+
+		if (this.props.diverging) {
+			let baseValueY = props.yOptions && props.yOptions.diversionValue || 0;
+			y0 = yScale(baseValueY);
+		}
+
 		return (
 			<path className="ptr-column-chart-path"
 				  style={style}
-				d={`M0 ${availableHeight} L${aggregatedData.map((group) => {
-						let firstValueFromGroup = _.get(group.originalData[0], props.ySourcePath);
-						return `${xScale(group.keys)} ${yScale(firstValueFromGroup)}`
-					}).join(' L')} L${availableWidth} ${availableHeight}`
-				}
+				  d={`M0 ${y0} L${aggregatedData.map((group) => {
+					  firstValueFromGroup = _.get(group.originalData[0], props.ySourcePath);
+					  return `${xScale(group.keys)} ${yScale(firstValueFromGroup)}`;
+				  }).join(' L')} L${availableWidth} ${yScale(firstValueFromGroup)} L${availableWidth} ${y0}`
+				  }
 			/>
 		);
 	}
