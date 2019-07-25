@@ -223,6 +223,10 @@ class CartesianCharts extends React.PureComponent {
 								name: "unit",
 								type: "string",
 								description: "Axis x unit. It's displayed in brackets next to the title."
+							},{
+								name: "diversionValue",
+								type: "number",
+								description: "Use together with 'diverging' prop to move axis Y baseline to this value. Scale of axis X has to be linear (currently useful for scatter charts only)."
 							}]
 						}, {
 							name: "xTicks",
@@ -263,6 +267,10 @@ class CartesianCharts extends React.PureComponent {
 								name: "unit",
 								type: "string",
 								description: "Axis y unit. It's displayed in brackets next to the title."
+							},{
+								name: "diversionValue",
+								type: "number",
+								description: "Use together with 'diverging' prop to move axis X baseline to this value."
 							}]
 						}, {
 							name: "yTicks",
@@ -284,6 +292,11 @@ class CartesianCharts extends React.PureComponent {
 							type: "boolean",
 							default: "false",
 							description: "Show legend below chart."
+						}, {}, {
+							name: "diverging",
+							type: "boolean",
+							default: "false",
+							description: "Use if the values are diverging from some point (defined in xOptions or yOptions)."
 						}]
 					}
 				/>

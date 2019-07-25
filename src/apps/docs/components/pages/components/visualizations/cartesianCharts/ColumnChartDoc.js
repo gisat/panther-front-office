@@ -24,31 +24,6 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
-				<h2 id="diverging">Diverging</h2>
-
-				<LightDarkBlock forceRows>
-					<HoverHandler>
-						<ResizableContainer>
-							<ColumnChart
-								key="diverging-chart"
-								data={sample_15}
-								keySourcePath="key"
-								nameSourcePath="data.name"
-								xSourcePath="data.name"
-								ySourcePath="data.some_value_2"
-
-								sorting={[["data.some_value_2", "desc"]]}
-
-								diverging
-								xGridlines
-								yOptions={{
-									diversionValue: 0
-								}}
-							/>
-						</ResizableContainer>
-					</HoverHandler>
-				</LightDarkBlock>
-
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ColumnChart
@@ -360,6 +335,57 @@ class ColumnChartDoc extends React.PureComponent {
 								ySourcePath="data.some_value_1"
 
 								sorting={[["data.some_value_1", "desc"]]}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+
+
+				<h2 id="diverging">Diverging bars</h2>
+				<p>Use <InlineCodeHighlighter>diverging</InlineCodeHighlighter> prop if the values are diverging from some point (typically positive and negative values). The point of diversion can be set via <InlineCodeHighlighter>yOptions</InlineCodeHighlighter>. All the bars representing values greater than the <InlineCodeHighlighter>diversionValue</InlineCodeHighlighter> will be rendered upwards and vice versa.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'// Sorting is not required, but recommended, especially for aggregated bars. \n' +
+					'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="diverging-bars"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath="data.some_value_2"\n' +
+					'\n' +
+					'\t\tsorting={[["data.some_value_2","desc"]]}\n' +
+					'\n' +
+					'\t\tdiverging\n' +
+					'\t\txGridlines\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tdiversionValue: 0\n' +
+					'\t\t}}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="diverging-chart"
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath="data.some_value_2"
+
+								sorting={[["data.some_value_2", "desc"]]}
+
+								diverging
+								xGridlines
+								yOptions={{
+									diversionValue: 0
+								}}
 							/>
 						</ResizableContainer>
 					</HoverHandler>
