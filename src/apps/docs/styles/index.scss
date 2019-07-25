@@ -235,7 +235,8 @@
 .ptr-docs-light-dark-block {
 	display: flex;
 	margin: m(1) 0 m(2);
-	overflow-x: hidden;
+	//overflow-x: hidden;
+	border: 1px solid var(--base30)
 }
 .ptr-docs-light-dark-block.forceRows {
 	display: block;
