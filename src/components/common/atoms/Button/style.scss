@@ -90,13 +90,11 @@
 }
 
 .ptr-button:focus::after,
-.ptr-button.inverted.primary:focus::after,
-.ptr-button.inverted.secondary:focus::after {
+.ptr-button.inverted.primary:focus::after {
   border: 1px solid rgba(var(--base100rgb),.5);
 }
 
 .ptr-button.primary:focus::after,
-.ptr-button.secondary:focus::after,
 .ptr-button.inverted:focus::after {
   border: 1px solid rgba(var(--base0rgb),.5);
 }
@@ -113,6 +111,12 @@
   margin: 0 0.25rem;
   line-height: 1;
   padding: calc(0.55rem - 1px) 0 calc(0.45rem - 1px);
+}
+
+.ptr-button-content {
+  padding: calc(0.55rem - 1px) 0 calc(0.45rem - 1px);
+  margin: 0 0.25rem;
+  font-size: $a1;
 }
 
 /* Icon */
@@ -506,7 +510,9 @@
 
 
 /* === Buttons ======================================= */
-
+.ptr-buttons .ptr-button {
+	margin-bottom: m(1/3);
+}
 .ptr-buttons .ptr-button:not(:first-child),
 .ptr-buttons .ptr-button-group:not(:first-child) {
 	margin-left: m(1/3);
