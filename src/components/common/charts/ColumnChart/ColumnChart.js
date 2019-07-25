@@ -46,14 +46,14 @@ class ColumnChart extends React.PureComponent {
 		const props = this.props;
 
 		/* data preparation */
-		let data, yScale, xScale, xDomain, yDomain, aggregatedData, colors = null;
+		let data, yScale, xScale, xDomain, yDomain, aggregatedData, colors, minimum = null;
 		if (props.data) {
 			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath);
 			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
 			let yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
 			let maximum = _.max(yValues);
-			let minimum = _.min(yValues);
+			minimum = _.min(yValues);
 
 			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest bar. */
 			if (minimum >= 0) {
@@ -130,7 +130,7 @@ class ColumnChart extends React.PureComponent {
 						{...props}
 						{...{xScale, yScale, contentData: data}}
 					>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, props.innerPlotHeight, colors)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, minimum, props.innerPlotHeight, colors)}
 					</CartesianChartContent>
 				: null}
 			</svg>
@@ -146,48 +146,94 @@ class ColumnChart extends React.PureComponent {
 		)
 	}
 
-	renderBars(data, props, xScale, yScale, availableHeight, colors) {
+	renderBars(data, props, xScale, yScale, minimum, availableHeight, colors) {
+
+		let baseValueY = minimum;
+		let y0 = 0;
+
+		if (props.diverging) {
+			baseValueY = props.yOptions && props.yOptions.diversionValue || 0;
+			y0 = availableHeight - yScale(baseValueY);
+		}
+
+		let positiveDirectionBars = [];
+		let negativeDirectionBars = [];
+
+		data.map((item) => {
+			let key = _.get(item, props.keySourcePath);
+			let value = _.get(item, props.ySourcePath);
+			let color = _.get(item, props.colorSourcePath);
+			let defaultColor = this.props.defaultColor;
+			let highlightedColor = this.props.highlightedColor;
+
+			if (props.colorSourcePath && color) {
+				defaultColor = color;
+				highlightedColor = chroma(defaultColor).darken(1);
+			}
+
+			if (props.defaultSchemeBarColors) {
+				defaultColor = colors(key);
+				highlightedColor = chroma(defaultColor).darken(1);
+			}
+
+			let x0 = xScale(key);
+			let width = xScale.bandwidth();
+
+			let height = availableHeight - yScale(value);
+
+			if (props.diverging) {
+				if (value >= baseValueY) {
+					height = height - y0;
+					positiveDirectionBars.push(this.renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item));
+				} else {
+					height = y0 - height;
+					negativeDirectionBars.push(this.renderBar(key, value, defaultColor, highlightedColor, x0, availableHeight - y0, width, height, availableHeight, item));
+				}
+			} else {
+				positiveDirectionBars.push(this.renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item));
+			}
+		});
+
 		return (
-			<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
-				{data.map((item) => {
-					let key = _.get(item, props.keySourcePath);
-					let value = _.get(item, props.ySourcePath);
-					let color = _.get(item, props.colorSourcePath);
-					let defaultColor = this.props.defaultColor;
-					let highlightedColor = this.props.highlightedColor;
+			<>
+				{
+					positiveDirectionBars.length ? (
+						<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
+							{positiveDirectionBars}
+						</g>
+					) : null
+				}
+				{
+					negativeDirectionBars.length ? (
+						<g transform={`translate(0,0)`}>
+							{negativeDirectionBars}
+						</g>
+					) : null
+				}
+			</>
+		);
+	}
 
-					if (props.colorSourcePath && color) {
-						defaultColor = color;
-						highlightedColor = chroma(defaultColor).darken(1);
-					}
+	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data) {
+		return (
+			<Bar
+				itemKeys={[key]}
+				key={`${key}_${value}`}
+				defaultColor={defaultColor}
+				highlightedColor={highlightedColor}
 
-					if (props.defaultSchemeBarColors) {
-						defaultColor = colors(key);
-						highlightedColor = chroma(defaultColor).darken(1);
-					}
+				y={y0}
+				x={x0}
+				width={width}
+				height={height}
+				availableHeight={availableHeight}
 
-					return (
-						<Bar
-							itemKeys={[key]}
-							key={`${key}_${value}`}
-							defaultColor={defaultColor}
-							highlightedColor={highlightedColor}
-
-							y={0}
-							x={xScale(key)}
-							width={xScale.bandwidth()}
-							height={availableHeight - yScale(value)}
-							availableHeight={availableHeight}
-
-							nameSourcePath={this.props.xSourcePath}
-							valueSourcePath={this.props.ySourcePath}
-							hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
-							data={item}
-							yOptions={this.props.yOptions}
-						/>
-					);
-				})}
-			</g>
+				nameSourcePath={this.props.xSourcePath}
+				valueSourcePath={this.props.ySourcePath}
+				hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
+				data={data}
+				yOptions={this.props.yOptions}
+			/>
 		);
 	}
 

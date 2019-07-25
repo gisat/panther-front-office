@@ -32,7 +32,9 @@ class AxisY extends React.PureComponent {
 		ticks: PropTypes.bool,
 		withValues: PropTypes.bool,
 		label: PropTypes.bool,
-		options: PropTypes.object
+		options: PropTypes.object,
+
+		diverging: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -61,46 +63,62 @@ class AxisY extends React.PureComponent {
 	}
 
 	renderGrid() {
-		let shift = this.props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
-		let ticks = this.props.scale.ticks(TICK_COUNT);
-		let topPadding = this.props.topPadding ? this.props.topPadding : 0;
+		const props = this.props;
+
+		let shift = props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
+		let ticks = props.scale.ticks(TICK_COUNT);
+
+		// TODO common for both axis?
+		if (props.diverging) {
+			let diversionValue = props.options && props.options.diversionValue || 0;
+			let notInTicks = _.indexOf(ticks, diversionValue) === -1;
+			if (notInTicks) {
+				let newTicks = [diversionValue];
+				let domain = props.scale.domain();
+				let min = domain[0];
+				let max = domain[1];
+				let step = Math.abs(ticks[0] - ticks[1]);
+				for (let i = (diversionValue + step); i < max; i+=step) {
+					newTicks.push(i);
+				}
+				for (let j = (diversionValue - step); j > min; j-=step) {
+					newTicks.unshift(j);
+				}
+				ticks = newTicks;
+			}
+		}
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width + this.props.labelSize - shift},${topPadding})`}>
+			<g className="ptr-axis-grid" transform={`translate(${props.width + props.labelSize - shift},${props.topPadding })`}>
 				{ticks.map(value => {
-					let yCoord = this.props.scale(value);
+					let yCoord = props.scale(value);
 
-					// avoid too top grid lines
-					if (yCoord > 5) {
-						return (
-							<g key={value}>
-								<line
-									className="ptr-axis-gridline"
-									x1={TICK_CAPTION_OFFSET_VERTICAL}
-									x2={this.props.gridlines ? (this.props.plotWidth  + shift) : shift}
-									y1={yCoord}
-									y2={yCoord}
-								/>
-								{this.props.withValues ? (
-									<g
+					return (
+						<g key={value}>
+							<line
+								className="ptr-axis-gridline"
+								x1={TICK_CAPTION_OFFSET_VERTICAL}
+								x2={props.gridlines ? (props.plotWidth  + shift) : shift}
+								y1={yCoord}
+								y2={yCoord}
+							/>
+							{props.withValues ? (
+								<g
 									transform={`
 										translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
 									`}
-									>
-										<AxisLabel
-											classes="ptr-tick-caption"
-											maxWidth={this.props.width}
-											maxHeight={this.props.height/ticks.length}
-											text={value.toLocaleString()}
-											textAnchor="end"
-										/>
-									</g>
-								) : null}
-							</g>
-						)
-					} else {
-						return null;
-					}
+								>
+									<AxisLabel
+										classes="ptr-tick-caption"
+										maxWidth={props.width}
+										maxHeight={props.height/ticks.length}
+										text={value.toLocaleString()}
+										textAnchor="end"
+									/>
+								</g>
+							) : null}
+						</g>
+					)
 				})}
 			</g>
 		);

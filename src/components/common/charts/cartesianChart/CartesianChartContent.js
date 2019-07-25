@@ -37,6 +37,8 @@ class CartesianChartContent extends React.PureComponent {
 					labelSize={props.yLabelSize}
 					options={props.yOptions}
 
+					diverging={props.diverging}
+
 					hiddenBaseline={props.withoutYbaseline}
 				/>
 				<AxisX
@@ -48,6 +50,8 @@ class CartesianChartContent extends React.PureComponent {
 
 					leftMargin={props.yValuesSize + props.yLabelSize}
 					leftPadding={props.innerPaddingLeft}
+					topPadding={props.innerPaddingTop}
+
 					height={props.xValuesSize}
 					plotHeight={props.plotHeight}
 					width={props.plotWidth}
@@ -58,6 +62,11 @@ class CartesianChartContent extends React.PureComponent {
 					label={props.xLabel}
 					labelSize={props.xLabelSize}
 					options={props.xOptions}
+
+					diverging={props.diverging}
+
+					yScale={props.yScale}
+					yOptions={props.yOptions}
 				/>
 				<g transform={`translate(${props.yValuesSize + props.yLabelSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
 					{this.props.children}

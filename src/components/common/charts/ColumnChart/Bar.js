@@ -153,7 +153,7 @@ class Bar extends React.PureComponent {
 			   onMouseOut={this.onMouseOut}>
 				<rect className={placeholderClasses}
 					  key={this.props.itemKeys[0]+'_hover'}
-					  y={props.y}
+					  y={0}
 					  x={props.x}
 					  width={props.width}
 					  height={this.props.availableHeight}

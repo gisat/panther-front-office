@@ -83,6 +83,7 @@ export default (path, baseUrl) => {
 									<Anchor label="Serial data handling" path="serialData"/>
 									<Anchor label="Custom bar colors" path="barColors"/>
 									<Anchor label="Aggregation" path="aggregation"/>
+									<Anchor label="Diverging" path="diverging"/>
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
 									<Anchor label="Props" path="props"/>

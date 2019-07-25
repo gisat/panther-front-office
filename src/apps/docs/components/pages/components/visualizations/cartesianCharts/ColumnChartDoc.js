@@ -24,6 +24,29 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
+				<h2 id="diverging">Diverging</h2>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="diverging-chart"
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath="data.some_value_2"
+
+								diverging
+								xGridlines
+								yOptions={{
+									diversionValue: 0
+								}}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ColumnChart

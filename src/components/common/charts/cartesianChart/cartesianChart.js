@@ -62,6 +62,8 @@ export default (WrappedChartComponent) => {
 			yLabel: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
 
+			diverging: PropTypes.bool,
+
 			legend: PropTypes.bool
 		};
 
