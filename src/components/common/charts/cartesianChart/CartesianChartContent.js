@@ -10,6 +10,7 @@ import AxisY from "../AxisY";
 class CartesianChartContent extends React.PureComponent {
 	static propTypes = {
 		contentData: PropTypes.array,
+		aggregated: PropTypes.bool,
 
 		xScale: PropTypes.func,
 		yScale: PropTypes.func
@@ -59,8 +60,8 @@ class CartesianChartContent extends React.PureComponent {
 					plotHeight={props.plotHeight}
 					width={props.plotWidth}
 
-					ticks={props.xTicks}
-					gridlines={props.xGridlines}
+					ticks={props.xTicks && !props.aggregated}
+					gridlines={props.xGridlines && !props.aggregated}
 					withValues={props.xValues}
 					label={props.xLabel}
 					labelSize={props.xLabelSize}

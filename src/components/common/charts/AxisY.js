@@ -36,7 +36,10 @@ class AxisY extends React.PureComponent {
 		label: PropTypes.bool,
 		options: PropTypes.object,
 
-		diverging: PropTypes.bool,
+		diverging: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]),
 		xScale: PropTypes.func,
 		xOptions: PropTypes.object
 	};

@@ -17,7 +17,7 @@ class ColumnChart extends React.PureComponent {
 	static defaultProps = {
 		animateChangeData: true,
 
-		minBarWidth: 4,
+		minBarWidth: 3,
 		barGapRatio: 0.4,
 
 		withoutYbaseline: true
@@ -46,20 +46,37 @@ class ColumnChart extends React.PureComponent {
 		const props = this.props;
 
 		/* data preparation */
-		let data, yScale, xScale, xDomain, yDomain, aggregatedData, colors, minimum = null;
+		let data, yScale, xScale, xDomain, yDomain, yValues, aggregatedData, colors, minimum = null;
 		if (props.data) {
-			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath);
+
+			/* Filtering and sorting */
+			let allValuesHasToBeNullToFilterItemOut = !!props.diverging;
+			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath, null, allValuesHasToBeNullToFilterItemOut);
 			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
 
-			let yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
+			/* Maximum and minimum */
+			// TODO ySource instead of ySourcePath
+			if (_.isArray(props.ySourcePath)) {
+				yValues = [];
+				_.forEach(data, (item) => {
+					_.forEach(props.ySourcePath, (sourcePath) => {
+						yValues.push(_.get(item, sourcePath));
+					});
+				});
+			} else {
+				yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
+			}
+
 			let maximum = _.max(yValues);
 			minimum = _.min(yValues);
 
 			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest bar. */
-			if (minimum >= 0) {
-				minimum = 0;
-			} else {
-				minimum = minimum - Math.abs(maximum - minimum)*0.05;
+			if (!props.diverging) {
+				if (minimum >= 0) {
+					minimum = 0;
+				} else {
+					minimum = minimum - Math.abs(maximum - minimum)*0.05;
+				}
 			}
 
 			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
@@ -128,7 +145,7 @@ class ColumnChart extends React.PureComponent {
 				{data ?
 					<CartesianChartContent
 						{...props}
-						{...{xScale, yScale, contentData: data}}
+						{...{xScale, yScale, contentData: data, aggregated: !!aggregatedData.length}}
 					>
 						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, minimum, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, minimum, props.innerPlotHeight, colors)}
 					</CartesianChartContent>
@@ -139,10 +156,17 @@ class ColumnChart extends React.PureComponent {
 
 	renderAggregated(data, props, xScale, yScale, minimum, availableHeight, availableWidth) {
 		return (
+			this.props.diverging !== 'double' ? (
 			<>
 				{this.renderPath(data, props, xScale, yScale, minimum, availableHeight, availableWidth)}
 				{this.renderBarsFromAggregated(data, props, xScale, yScale, minimum, availableHeight)}
-			</>
+			</>) : (<>
+				{(() => {
+					// TODO find out how to aggregate
+					console.warn('Column chart: There is not enough space to render diverging column chart.');
+					return null;
+				})()}
+			</>)
 		)
 	}
 
@@ -161,7 +185,6 @@ class ColumnChart extends React.PureComponent {
 
 		data.map((item) => {
 			let key = _.get(item, props.keySourcePath);
-			let value = _.get(item, props.ySourcePath);
 			let color = _.get(item, props.colorSourcePath);
 			let defaultColor = this.props.defaultColor;
 			let highlightedColor = this.props.highlightedColor;
@@ -179,19 +202,40 @@ class ColumnChart extends React.PureComponent {
 			let x0 = xScale(key);
 			let width = xScale.bandwidth();
 
-			let height = availableHeight - yScale(value);
 
-			if (props.diverging) {
-				if (value >= baseValueY) {
-					height = height - y0;
-					positiveDirectionBars.push(this.renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item));
-				} else {
-					height = y0 - height;
-					negativeDirectionBars.push(this.renderBar(key, value, defaultColor, highlightedColor, x0, availableHeight - y0, width, height, availableHeight, item));
-				}
+			let barsData = [];
+
+			// TODO ySource instead of ySourcePath
+			if (_.isArray(props.ySourcePath)) {
+				_.forEach(props.ySourcePath, (path) => {
+					let value = _.get(item, path);
+					if (value || value === 0) {
+						barsData.push({path, value})
+					}
+				});
 			} else {
-				positiveDirectionBars.push(this.renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item));
+				let value = _.get(item, props.ySourcePath);
+				if (value || value === 0) {
+					barsData.push({path: props.ySourcePath, value})
+				}
 			}
+
+
+			_.forEach(barsData, (bar) => {
+				let height = availableHeight - yScale(bar.value);
+
+				if (props.diverging) {
+					if (bar.value >= baseValueY) {
+						height = height - y0;
+						positiveDirectionBars.push(this.renderBar(key, bar.value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item, bar.path));
+					} else {
+						height = y0 - height;
+						negativeDirectionBars.push(this.renderBar(key, bar.value, defaultColor, highlightedColor, x0, availableHeight - y0, width, height, availableHeight, item, bar.path));
+					}
+				} else {
+					positiveDirectionBars.push(this.renderBar(key, bar.value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item, bar.path));
+				}
+			});
 		});
 
 		return (
@@ -214,7 +258,7 @@ class ColumnChart extends React.PureComponent {
 		);
 	}
 
-	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data, hidden) {
+	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data, path, hidden) {
 		return (
 			<Bar
 				itemKeys={[key]}
@@ -229,11 +273,13 @@ class ColumnChart extends React.PureComponent {
 				availableHeight={availableHeight}
 
 				nameSourcePath={this.props.xSourcePath}
-				valueSourcePath={this.props.ySourcePath}
+				valueSourcePath={path}
 				hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
 				data={data}
 				yOptions={this.props.yOptions}
-
+				
+				placeholder={this.props.diverging !== 'double'}
+				baseline={this.props.diverging === 'double'}
 				hidden={hidden}
 			/>
 		);
@@ -263,13 +309,13 @@ class ColumnChart extends React.PureComponent {
 			if (props.diverging) {
 				if (value >= baseValueY) {
 					height = height - y0;
-					positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, true));
+					positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, props.ySourcePath, true));
 				} else {
 					height = y0 - height;
-					negativeDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, availableHeight - y0, width, height, availableHeight, group, true));
+					negativeDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, availableHeight - y0, width, height, availableHeight, group, props.ySourcePath, true));
 				}
 			} else {
-				positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, true));
+				positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, props.ySourcePath,true));
 			}
 		});
 

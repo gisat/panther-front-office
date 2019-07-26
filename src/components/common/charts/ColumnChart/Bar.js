@@ -12,6 +12,10 @@ class Bar extends React.PureComponent {
 
 	static contextType = HoverContext;
 
+	static defaultProps = {
+		placeholder: true
+	};
+
 	static propTypes = {
 		availableHeight: PropTypes.number,
 		defaultColor: PropTypes.string,
@@ -26,6 +30,8 @@ class Bar extends React.PureComponent {
 		height: PropTypes.number,
 		width: PropTypes.number,
 		hidden: PropTypes.bool,
+		placeholder: PropTypes.bool,
+		baseline: PropTypes.bool,
 
 		nameSourcePath: PropTypes.string,
 		valueSourcePath: PropTypes.string,
@@ -153,13 +159,13 @@ class Bar extends React.PureComponent {
 			   onMouseOut={this.onMouseOut}
 			   className="ptr-column-chart-bar-container"
 			>
-				<rect className={placeholderClasses}
+				{this.props.placeholder ? (<rect className={placeholderClasses}
 					  key={this.props.itemKeys[0]+'_hover'}
 					  y={0}
 					  x={props.x}
 					  width={props.width}
 					  height={this.props.availableHeight}
-				/>
+				/>) : null}
 				<rect className={classes}
 					  style={style}
 					  key={this.props.itemKeys[0]}
@@ -168,6 +174,12 @@ class Bar extends React.PureComponent {
 					  width={props.width}
 					  height={this.state.height}
 				/>
+				{this.props.baseline ? (
+					<polyline
+						className="ptr-column-chart-bar-baseline"
+						points={`${props.x},${props.y} ${props.x + props.width},${props.y}`}
+					/>
+				) : null}
 			</g>
 		);
 	}

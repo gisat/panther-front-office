@@ -3,6 +3,7 @@ import {withNamespaces} from "react-i18next";
 import sample_15 from "../../../../mockData/sample_15";
 import sample_200 from "../../../../mockData/sample_200";
 import sample_serie_4 from "../../../../mockData/sample_serie_4";
+import diverging_stacked from "../../../../mockData/columnChart/diverging_stacked_sample";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 
@@ -390,6 +391,44 @@ class ColumnChartDoc extends React.PureComponent {
 						</ResizableContainer>
 					</HoverHandler>
 				</LightDarkBlock>
+
+
+				<p>Set <InlineCodeHighlighter>diverging='double'</InlineCodeHighlighter> if you want to render bars both upwards and downwards for the same item. In this case, <InlineCodeHighlighter>ySourcePath</InlineCodeHighlighter> must be an array containing paths to both values.</p>
+				<SyntaxHighlighter language="jsx">
+					{'// Sorting is not required, but recommended, especially for aggregated bars. \n' +
+					'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="diverging-bars"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath={["data.positive","data.negative"]}\n' +
+					'\n' +
+					'\t\tdiverging="double"\n' +
+					'\t\txGridlines\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="diverging-chart"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={["data.positive", "data.negative"]}
+
+								diverging="double"
+								xGridlines
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
 			</Page>
 		);
 	}

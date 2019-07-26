@@ -35,7 +35,10 @@ class AxisX extends React.PureComponent {
 		label: PropTypes.bool,
 		options: PropTypes.object,
 
-		diverging: PropTypes.bool,
+		diverging: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]),
 		yScale: PropTypes.func,
 		yOptions: PropTypes.object
 	};
