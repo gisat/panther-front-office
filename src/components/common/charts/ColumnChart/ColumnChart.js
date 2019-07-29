@@ -9,7 +9,7 @@ import '../style.scss';
 import utilsSort from "../../../../utils/sort";
 import utilsFilter from "../../../../utils/filter";
 
-import Bar from "./Bar";
+import Deprecated_Bar from "./Deprecated_Bar";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 
@@ -260,7 +260,7 @@ class ColumnChart extends React.PureComponent {
 
 	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data, path, hidden) {
 		return (
-			<Bar
+			<Deprecated_Bar
 				itemKeys={[key]}
 				key={`${key}_${value}`}
 				defaultColor={defaultColor}

@@ -8,7 +8,7 @@ import HoverContext from "../../../common/HoverHandler/context";
 
 import '../style.scss';
 
-class Bar extends React.PureComponent {
+class Deprecated_Bar extends React.PureComponent {
 
 	static contextType = HoverContext;
 
@@ -245,5 +245,5 @@ class Bar extends React.PureComponent {
 	}
 }
 
-export default Bar;
+export default Deprecated_Bar;
 
