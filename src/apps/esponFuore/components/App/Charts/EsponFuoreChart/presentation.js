@@ -148,6 +148,7 @@ class EsponFuoreChart extends React.PureComponent {
 			<ColumnChart
 				key={this.props.chartKey}
 				keySourcePath="key"
+				nameSourcePath="data.name"
 				xSourcePath="data.name"
 				ySourcePath="data.values[0].value"
 				sorting={[["data.values[0].value", "desc"]]}

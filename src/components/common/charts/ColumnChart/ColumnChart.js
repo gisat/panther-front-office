@@ -5,19 +5,18 @@ import * as d3 from 'd3';
 import chroma from 'chroma-js';
 import classnames from 'classnames';
 
-import '../style.scss';
+import './style.scss';
 import utilsSort from "../../../../utils/sort";
-import utilsFilter from "../../../../utils/filter";
 
-import Deprecated_Bar from "./Deprecated_Bar";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
+import BarGroup from "./BarGroup";
 
 class ColumnChart extends React.PureComponent {
 	static defaultProps = {
 		animateChangeData: true,
 
-		minBarWidth: 3,
+		minBarWidth: 6,
 		barGapRatio: 0.4,
 
 		withoutYbaseline: true
@@ -42,53 +41,169 @@ class ColumnChart extends React.PureComponent {
 		super(props);
 	}
 
+	prepareData() {
+		const props = this.props;
+
+		let defaultColor = props.defaultColor;
+		let highlightColor = props.highlightedColor;
+		let colorScale = null;
+
+		if (props.defaultSchemeBarColors) {
+			colorScale = d3
+				.scaleOrdinal(d3.schemeCategory10)
+				.domain(props.data);
+		}
+		let data = [];
+
+		_.forEach(props.data, (record) => {
+			let key = _.get(record, props.keySourcePath);
+			let preparedRecord = {
+				key,
+				name: _.get(record, props.nameSourcePath),
+				positive: {
+					total: null,
+					data: []
+				},
+				negative: {
+					total: null,
+					data: []
+				}
+			};
+
+			// colors
+			let color = _.get(record, props.colorSourcePath);
+			if (props.colorSourcePath && color) {
+				defaultColor = color;
+				highlightColor = chroma(defaultColor).darken(1);
+			}
+
+			if (props.defaultSchemeBarColors) {
+				defaultColor = colorScale(key);
+				highlightColor = chroma(defaultColor).darken(1);
+			}
+
+			// data
+			let diversionValue = props.yOptions && props.yOptions.diversionValue || 0;
+
+			if (_.isArray(props.ySourcePath)) {
+				_.forEach(props.ySourcePath, source => {
+					if (typeof source === "string" && props.diverging) {
+						let value = _.get(record, source);
+						// Deprecated ySourcePath array -> diverging double
+						if (value >= diversionValue) {
+							preparedRecord.positive.total = value;
+							preparedRecord.positive.data.push({value, defaultColor, highlightColor});
+						} else {
+							preparedRecord.negative.total = value;
+							preparedRecord.negative.data.push({value, defaultColor, highlightColor});
+						}
+					} else {
+						/* TODO stacked*/
+					}
+				});
+			} else {
+				let value = _.get(record, props.ySourcePath);
+
+				if (props.diverging) {
+					if (value >= diversionValue) {
+						preparedRecord.positive.total = value;
+						preparedRecord.positive.data.push({value, defaultColor, highlightColor});
+					} else {
+						preparedRecord.negative.total = value;
+						preparedRecord.negative.data.push({value, defaultColor, highlightColor});
+					}
+				} else {
+					preparedRecord.positive.total = value;
+					preparedRecord.positive.data.push({value, defaultColor, highlightColor});
+				}
+			}
+
+			/* TODO is this enough for filtering? */
+			if (preparedRecord.positive.total || preparedRecord.negative.total) {
+				data.push(preparedRecord);
+			}
+		});
+
+		return data;
+	}
+
+	/* TODO solve sorting properly */
+	sortData(data) {
+		let params = [];
+		let order = 'desc';
+		_.forEach(this.props.sorting, (rule) => {
+			let attribute = rule[0];
+			if (attribute === this.props.nameSourcePath) {
+				params.push(['name', rule[1]]);
+			} else {
+				order = rule[1];
+			}
+		});
+		params.push(['negative.total', order], ['positive.total', order]);
+		return utilsSort.sortByOrder(data, params);
+	}
+
+	getExtremeValues(data) {
+		const props = this.props;
+		let min, max = null;
+
+		let yValues = [];
+		_.forEach(data, record => {
+			if (record.positive.total) {
+				yValues.push(record.positive.total);
+			}
+
+			if (record.negative.total) {
+				yValues.push(record.negative.total);
+			}
+		});
+
+		max = _.max(yValues);
+		min = _.min(yValues);
+
+		/* The min should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the min by 5 % of the values range to ensure some height for the smallest bar. */
+		if (!props.diverging) {
+			if (min >= 0) {
+				min = 0;
+			} else {
+				min = min - Math.abs(max - min)*0.05;
+			}
+		}
+
+		if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
+			min = props.yOptions.min;
+		}
+
+		if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
+			max = props.yOptions.max;
+		}
+		
+		return {min, max};
+	}
+
 	render() {
 		const props = this.props;
 
 		/* data preparation */
-		let data, yScale, xScale, xDomain, yDomain, yValues, aggregatedData, colors, minimum = null;
+		let data, aggregatedData, yScale, xScale, xDomain, yDomain, minimum, maximum, diversionValue = null;
 		if (props.data) {
 
-			/* Filtering and sorting */
-			let allValuesHasToBeNullToFilterItemOut = !!props.diverging;
-			data = utilsFilter.filterDataWithNullValue(props.data, props.ySourcePath, null, allValuesHasToBeNullToFilterItemOut);
-			data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
+			/* Prepare data for column chart */
+			data = this.prepareData();
+			data = props.sorting ? this.sortData(data) : data;
 
-			/* Maximum and minimum */
-			// TODO ySource instead of ySourcePath
-			if (_.isArray(props.ySourcePath)) {
-				yValues = [];
-				_.forEach(data, (item) => {
-					_.forEach(props.ySourcePath, (sourcePath) => {
-						yValues.push(_.get(item, sourcePath));
-					});
-				});
-			} else {
-				yValues = _.map(data, (item) => {return _.get(item, props.ySourcePath)});
+			/* Get maximum and minimum */
+			let extremeValues = this.getExtremeValues(data);
+			minimum = extremeValues.min;
+			maximum = extremeValues.max;
+
+			diversionValue = minimum;
+			if (props.diverging) {
+				diversionValue = props.yOptions && props.yOptions.diversionValue || 0;
 			}
 
-			let maximum = _.max(yValues);
-			minimum = _.min(yValues);
-
-			/* The minimum should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the minimum by 5 % of the values range to ensure some height for the smallest bar. */
-			if (!props.diverging) {
-				if (minimum >= 0) {
-					minimum = 0;
-				} else {
-					minimum = minimum - Math.abs(maximum - minimum)*0.05;
-				}
-			}
-
-			if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
-				minimum = props.yOptions.min;
-			}
-
-			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
-				maximum = props.yOptions.max;
-			}
-
-			/* domain and scales */
-			xDomain = data.map(i  => _.get(i, props.keySourcePath));
+			/* Set domain and scales */
+			xDomain = data.map(i  => i.key);
 			yDomain = [minimum, maximum];
 
 			xScale = d3
@@ -102,12 +217,7 @@ class ColumnChart extends React.PureComponent {
 				.domain(yDomain)
 				.range([props.innerPlotHeight, 0]);
 
-			if (props.defaultSchemeBarColors) {
-				colors = d3
-					.scaleOrdinal(d3.schemeCategory10)
-					.domain(props.data.map(record => {return _.get(record, props.keySourcePath)}));
-			}
-
+			/* Aggregation needed? */
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
 			if (barWidth < 10) {
@@ -121,7 +231,7 @@ class ColumnChart extends React.PureComponent {
 				let keys = [];
 				let originalData = [];
 				_.map(data,(item, index) => {
-					keys.push(_.get(item, props.keySourcePath));
+					keys.push(item.key);
 					originalData.push(item);
 					if (index % itemsInGroup === (itemsInGroup - 1) || index === (data.length - 1)) {
 						aggregatedData.push({keys, originalData});
@@ -131,7 +241,7 @@ class ColumnChart extends React.PureComponent {
 				});
 
 				// adjust domain
-				xDomain = aggregatedData.map(i  => i.keys);
+				xDomain = aggregatedData.map(i  => i.keys[0]);
 				xScale = xScale.domain(xDomain).padding(0);
 			}
 		}
@@ -147,19 +257,41 @@ class ColumnChart extends React.PureComponent {
 						{...props}
 						{...{xScale, yScale, contentData: data, aggregated: !!aggregatedData.length}}
 					>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, props, xScale, yScale, minimum, props.innerPlotHeight, props.innerPlotWidth) : this.renderBars(data, props, xScale, yScale, minimum, props.innerPlotHeight, colors)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth) : this.renderBarGroups(data, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth)}
 					</CartesianChartContent>
 				: null}
 			</svg>
 		);
 	}
 
-	renderAggregated(data, props, xScale, yScale, minimum, availableHeight, availableWidth) {
+	renderBarGroups(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+		return data.map(item => {
+			return (
+				<BarGroup
+					key={item.key}
+					itemKeys={[item.key]}
+					data={item}
+					xScale={xScale}
+					yScale={yScale}
+					yBaseValue={yBaseValue}
+					availableHeight={availableHeight}
+					availableWidth={availableWidth}
+					defaultColor={this.props.defaultColor}
+					highlightColor={this.props.highlightedColor}
+					attributeName={this.props.yOptions && this.props.yOptions.name}
+					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
+					baseline={this.props.diverging === "double"}
+				/>
+			);
+		});
+	}
+
+	renderAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return (
 			this.props.diverging !== 'double' ? (
 			<>
-				{this.renderPath(data, props, xScale, yScale, minimum, availableHeight, availableWidth)}
-				{this.renderBarsFromAggregated(data, props, xScale, yScale, minimum, availableHeight)}
+				{this.renderPath(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
+				{this.renderBarsFromAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
 			</>) : (<>
 				{(() => {
 					// TODO find out how to aggregate
@@ -170,183 +302,35 @@ class ColumnChart extends React.PureComponent {
 		)
 	}
 
-	renderBars(data, props, xScale, yScale, minimum, availableHeight, colors) {
-
-		let baseValueY = minimum;
-		let y0 = 0;
-
-		if (props.diverging) {
-			baseValueY = props.yOptions && props.yOptions.diversionValue || 0;
-			y0 = availableHeight - yScale(baseValueY);
-		}
-
-		let positiveDirectionBars = [];
-		let negativeDirectionBars = [];
-
-		data.map((item) => {
-			let key = _.get(item, props.keySourcePath);
-			let color = _.get(item, props.colorSourcePath);
-			let defaultColor = this.props.defaultColor;
-			let highlightedColor = this.props.highlightedColor;
-
-			if (props.colorSourcePath && color) {
-				defaultColor = color;
-				highlightedColor = chroma(defaultColor).darken(1);
-			}
-
-			if (props.defaultSchemeBarColors) {
-				defaultColor = colors(key);
-				highlightedColor = chroma(defaultColor).darken(1);
-			}
-
-			let x0 = xScale(key);
-			let width = xScale.bandwidth();
-
-
-			let barsData = [];
-
-			// TODO ySource instead of ySourcePath
-			if (_.isArray(props.ySourcePath)) {
-				_.forEach(props.ySourcePath, (path) => {
-					let value = _.get(item, path);
-					if (value || value === 0) {
-						barsData.push({path, value})
-					}
-				});
-			} else {
-				let value = _.get(item, props.ySourcePath);
-				if (value || value === 0) {
-					barsData.push({path: props.ySourcePath, value})
-				}
-			}
-
-
-			_.forEach(barsData, (bar) => {
-				let height = availableHeight - yScale(bar.value);
-
-				if (props.diverging) {
-					if (bar.value >= baseValueY) {
-						height = height - y0;
-						positiveDirectionBars.push(this.renderBar(key, bar.value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item, bar.path));
-					} else {
-						height = y0 - height;
-						negativeDirectionBars.push(this.renderBar(key, bar.value, defaultColor, highlightedColor, x0, availableHeight - y0, width, height, availableHeight, item, bar.path));
-					}
-				} else {
-					positiveDirectionBars.push(this.renderBar(key, bar.value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, item, bar.path));
-				}
-			});
+	renderBarsFromAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+		return data.map(group => {
+			return (
+				<BarGroup
+					key={group.keys[0]}
+					data={group.originalData[0]}
+					xScale={xScale}
+					yScale={yScale}
+					yBaseValue={yBaseValue}
+					availableHeight={availableHeight}
+					availableWidth={availableWidth}
+					defaultColor={this.props.defaultColor}
+					highlightColor={this.props.highlightedColor}
+					attributeName={this.props.yOptions && this.props.yOptions.name}
+					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
+					baseline={this.props.diverging === "double"}
+					hidden
+				/>
+			);
 		});
-
-		return (
-			<>
-				{
-					positiveDirectionBars.length ? (
-						<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
-							{positiveDirectionBars}
-						</g>
-					) : null
-				}
-				{
-					negativeDirectionBars.length ? (
-						<g transform={`translate(0,0)`}>
-							{negativeDirectionBars}
-						</g>
-					) : null
-				}
-			</>
-		);
 	}
 
-	renderBar(key, value, defaultColor, highlightedColor, x0, y0, width, height, availableHeight, data, path, hidden) {
-		return (
-			<Deprecated_Bar
-				itemKeys={[key]}
-				key={`${key}_${value}`}
-				defaultColor={defaultColor}
-				highlightedColor={highlightedColor}
-
-				y={y0}
-				x={x0}
-				width={width}
-				height={height}
-				availableHeight={availableHeight}
-
-				nameSourcePath={this.props.xSourcePath}
-				valueSourcePath={path}
-				hoverValueSourcePath={this.props.hoverValueSourcePath || this.props.valueSourcePath}
-				data={data}
-				yOptions={this.props.yOptions}
-				
-				placeholder={this.props.diverging !== 'double'}
-				baseline={this.props.diverging === 'double'}
-				hidden={hidden}
-			/>
-		);
-	}
-
-	renderBarsFromAggregated(aggregatedData, props, xScale, yScale, minimum, availableHeight) {
-		let positiveDirectionBars = [];
-		let negativeDirectionBars = [];
-
-		let baseValueY = minimum;
-		let y0 = 0;
-
-		if (props.diverging) {
-			baseValueY = props.yOptions && props.yOptions.diversionValue || 0;
-			y0 = availableHeight - yScale(baseValueY);
-		}
-
-		_.map(aggregatedData,(group) => {
-			let firstItemFromGroup = group.originalData[0];
-			let key = _.get(firstItemFromGroup, props.keySourcePath);
-			let value = _.get(firstItemFromGroup, props.ySourcePath);
-			let x0 = xScale(group.keys);
-			let width = xScale.bandwidth();
-
-			let height = availableHeight - yScale(value);
-
-			if (props.diverging) {
-				if (value >= baseValueY) {
-					height = height - y0;
-					positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, props.ySourcePath, true));
-				} else {
-					height = y0 - height;
-					negativeDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, availableHeight - y0, width, height, availableHeight, group, props.ySourcePath, true));
-				}
-			} else {
-				positiveDirectionBars.push(this.renderBar(key, value, props.defaultColor, props.highlightedColor, x0, y0, width, height, availableHeight, group, props.ySourcePath,true));
-			}
-		});
-
-		return (
-			<>
-				{
-					positiveDirectionBars.length ? (
-						<g transform={`scale(1,-1) translate(0,-${availableHeight})`}>
-							{positiveDirectionBars}
-						</g>
-					) : null
-				}
-				{
-					negativeDirectionBars.length ? (
-						<g transform={`translate(0,0)`}>
-							{negativeDirectionBars}
-						</g>
-					) : null
-				}
-			</>
-		);
-	}
-
-	renderPath(aggregatedData, props, xScale, yScale, minimum, availableHeight, availableWidth) {
+	renderPath(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+		const props = this.props;
 		let style = {};
-		if (this.props.defaultColor) {
-			style.fill = this.props.defaultColor;
+		if (props.defaultColor) {
+			style.fill = props.defaultColor;
 		}
 
-
-		let firstValueFromGroup = "";
 		let y0 = availableHeight;
 
 		if (this.props.diverging) {
@@ -354,14 +338,31 @@ class ColumnChart extends React.PureComponent {
 			y0 = yScale(baseValueY);
 		}
 
+		let points = [];
+		_.forEach(data, group => {
+			let firstValue = group.originalData[0].positive.total;
+			if (firstValue) {
+				points.push(`${xScale(group.keys[0])} ${yScale(firstValue)}`)
+			}
+		});
+
+		_.forEach(data, group => {
+			let firstValue = group.originalData[0].negative.total;
+			if (firstValue) {
+				points.push(`${xScale(group.keys[0])} ${yScale(firstValue)}`)
+			}
+		});
+
+		let lastPoint = points[points.length - 1].split(" ");
+		let lastNode = "";
+		if (lastPoint[1] > y0) {
+			lastNode = `L${availableWidth} ${lastPoint[1]}`;
+		}
+
 		return (
 			<path className="ptr-column-chart-path"
 				  style={style}
-				  d={`M0 ${y0} L${aggregatedData.map((group) => {
-					  firstValueFromGroup = _.get(group.originalData[0], props.ySourcePath);
-					  return `${xScale(group.keys)} ${yScale(firstValueFromGroup)}`;
-				  }).join(' L')} L${availableWidth} ${yScale(firstValueFromGroup)} L${availableWidth} ${y0}`
-				  }
+				  d={`M0 ${y0} L${points.join(' L')} ${lastNode} L${availableWidth} ${y0}`}
 			/>
 		);
 	}

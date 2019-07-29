@@ -1,0 +1,42 @@
+.ptr-column-chart {
+}
+
+.ptr-column-chart-bar-group {
+
+}
+
+.ptr-column-chart-bar-container:hover .ptr-column-chart-bar {
+	fill: var(--accent65);
+}
+
+.ptr-column-chart-bar-placeholder {
+	fill: var(--base20);
+	opacity: 0;
+}
+
+.ptr-column-chart-bar-placeholder:hover,
+.ptr-column-chart-bar-placeholder.visible {
+	opacity: 1;
+}
+
+.ptr-column-chart-bar {
+	fill: var(--accent50);
+	transition: height 1.5s ease-in-out .5s;
+}
+
+.ptr-column-chart-bar.hidden {
+	fill: transparent;
+}
+
+.ptr-column-chart-bar:hover {
+	fill: var(--accent65);
+}
+
+.ptr-column-chart-bar-baseline {
+	stroke: var(--base80);
+	stroke-width: 2;
+}
+
+.ptr-column-chart-path {
+	fill: var(--accent50);
+}

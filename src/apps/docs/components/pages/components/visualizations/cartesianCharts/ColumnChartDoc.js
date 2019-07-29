@@ -25,6 +25,63 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
+				{/*<h2 id="stacked">Stacked bars</h2>*/}
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="diverging-chart"
+								data={sample_15}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath="data.some_value_2"
+
+								sorting={[["data.some_value_2", "desc"]]}
+
+								diverging
+								xGridlines
+								yOptions={{
+									diversionValue: 2
+								}}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				{/*<LightDarkBlock forceRows>*/}
+					{/*<HoverHandler>*/}
+						{/*<ResizableContainer>*/}
+							{/*<ColumnChart*/}
+								{/*key="diverging-chart"*/}
+								{/*data={diverging_stacked}*/}
+								{/*keySourcePath="key"*/}
+								{/*nameSourcePath="data.name"*/}
+								{/*xSourcePath="data.name"*/}
+								{/*ySourcePath={[*/}
+									{/*{*/}
+										{/*path: "data.part1",*/}
+										{/*name: "Part 1",*/}
+										{/*color: "#ff0000"*/}
+									{/*},{*/}
+										{/*path: "data.part2",*/}
+										{/*name: "Part 2",*/}
+										{/*color: "#00ff00"*/}
+									{/*},{*/}
+										{/*path: "data.part1",*/}
+										{/*name: "Part 1",*/}
+										{/*color: "#ff00ff"*/}
+									{/*}*/}
+								{/*]}*/}
+
+								{/*stacked*/}
+							{/*/>*/}
+						{/*</ResizableContainer>*/}
+					{/*</HoverHandler>*/}
+				{/*</LightDarkBlock>*/}
+
+
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ColumnChart
@@ -123,7 +180,7 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\txSourcePath="data.name"\n' +
 					'\t\tySourcePath="data.some_value_1"\n' +
 					'\n' +
-					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
+					'\t\tsorting={[["data.some_value_1","asc"]]}\n' +
 					'\t/>\n' +
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
@@ -139,7 +196,7 @@ class ColumnChartDoc extends React.PureComponent {
 								xSourcePath="data.name"
 								ySourcePath="data.some_value_1"
 
-								sorting={[["data.some_value_1", "desc"]]}
+								sorting={[["data.some_value_1", "asc"]]}
 							/>
 						</ResizableContainer>
 					</HoverHandler>
@@ -382,6 +439,7 @@ class ColumnChartDoc extends React.PureComponent {
 
 								sorting={[["data.some_value_2", "desc"]]}
 
+								minBarWidth={4}
 								diverging
 								xGridlines
 								yOptions={{
