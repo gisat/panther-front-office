@@ -5,8 +5,8 @@
 	  "name": "New York",
 	  "positive": 116,
 	  "negative": -1946,
-	  "part1": 2.7922,
-	  "part2": 2.767,
+	  "part1": null,
+	  "part2": null,
 	  "part3": 4.802,
 	  "part4": 2.5241
 	}
@@ -17,9 +17,9 @@
 	  "name": "Florida",
 	  "positive": 1083,
 	  "negative": -1417,
-	  "part1": 3.6319,
-	  "part2": 3.2572,
-	  "part3": 1.1813,
+	  "part1": null,
+	  "part2": null,
+	  "part3": null,
 	  "part4": 2.4483
 	}
   },

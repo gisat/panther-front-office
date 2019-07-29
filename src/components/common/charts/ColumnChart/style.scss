@@ -21,7 +21,14 @@
 
 .ptr-column-chart-bar {
 	fill: var(--accent50);
-	transition: height 1.5s ease-in-out .5s;
+	transition-property: height;
+	transition-delay: 1000ms;
+	transition-duration: 1500ms;
+	transition-timing-function: linear;
+}
+
+.ptr-column-chart-bar:last-child {
+	transition-timing-function: ease-out;
 }
 
 .ptr-column-chart-bar.hidden {

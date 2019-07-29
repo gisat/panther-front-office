@@ -25,7 +25,10 @@ class Bar extends React.PureComponent {
 			PropTypes.object
 		]),
 		attributeName: PropTypes.string,
-		attributeUnits: PropTypes.string
+		attributeUnits: PropTypes.string,
+
+		transitionDelay: PropTypes.number, // in ms
+		transitionDuration: PropTypes.number, // in ms
 	};
 
 	constructor(props) {
@@ -133,6 +136,14 @@ class Bar extends React.PureComponent {
 			style.fill = this.state.color
 		} else if (this.state.color && !this.state.hidden) {
 			style.fill = this.state.color
+		}
+
+		if (props.transitionDelay) {
+			style.transitionDelay = props.transitionDelay + 'ms';
+		}
+
+		if (props.transitionDuration) {
+			style.transitionDuration = props.transitionDuration + 'ms';
 		}
 
 		let classes = classnames("ptr-column-chart-bar", {

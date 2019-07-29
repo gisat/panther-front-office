@@ -9,6 +9,9 @@ import Bar from "./Bar";
 
 import './style.scss';
 
+const ANIMATION_DURATION = 1500;
+const ANIMATION_DELAY = 1000;
+
 class BarGroup extends React.PureComponent {
 
 	static contextType = HoverContext;
@@ -28,6 +31,8 @@ class BarGroup extends React.PureComponent {
 		]),
 		attributeName: PropTypes.string,
 		attributeUnits: PropTypes.string,
+		maximum: PropTypes.number,
+		minimum: PropTypes.number,
 		baseline: PropTypes.bool,
 		hidden: PropTypes.bool
 	};
@@ -91,15 +96,15 @@ class BarGroup extends React.PureComponent {
 				{this.renderPlaceholder(width, highlighted)}
 				{data.positive.total || data.positive.total === 0 ? (
 					<g transform={`scale(1,-1) translate(0,-${props.availableHeight})`}>
-						{this.renderPositiveBars(data.positive.data, y0, width)}
+						{this.renderPositiveBars(data.positive.data, data.positive.total, y0, width)}
 					</g>
 				) : null}
 				{data.negative.total || data.negative.total === 0 ? (
 					<g>
-						{this.renderNegativeBars(data.negative.data, width)}
+						{this.renderNegativeBars(data.negative.data, data.negative.total, width)}
 					</g>
 				) : null}
-				{props.baseline ? this.renderBaseline(y0, width) : null}
+				{props.baseline ? this.renderBaseline(props.availableHeight - y0, width) : null}
 			</g>
 		);
 	}
@@ -122,32 +127,50 @@ class BarGroup extends React.PureComponent {
 		);
 	}
 
-	renderPositiveBars(data, y0, barWidth) {
+	renderPositiveBars(data, total, y0, barWidth) {
 		const props = this.props;
+		let bars = [];
+		let transitionDelay = ANIMATION_DELAY;
 
-		return data.map((item, index) => {
+		_.forEach(data, (item, index) => {
 			let height = props.yScale(props.yBaseValue) - props.yScale(item.value);
-			return (this.renderBar(index, props.data.name, item, y0, height, barWidth));
+			let transitionDuration = Math.abs(((item.value - props.yBaseValue)*ANIMATION_DURATION)/(props.maximum - props.yBaseValue));
+
+			bars.push(this.renderBar(index, item, y0, height, barWidth, transitionDuration, transitionDelay));
+			y0 += height;
+			transitionDelay += transitionDuration;
 		});
+
+		return bars;
 	}
 
-	renderNegativeBars(data, barWidth) {
+	renderNegativeBars(data, total, barWidth) {
 		const props = this.props;
 
-		return data.map((item, index) => {
+		let y0 = props.yScale(props.yBaseValue);
+		let bars = [];
+		let transitionDelay = ANIMATION_DELAY;
+
+		_.forEach(data, (item, index) => {
 			let height = props.yScale(item.value) - props.yScale(props.yBaseValue);
-			return (this.renderBar(index, props.data.name, item, props.yScale(props.yBaseValue), height, barWidth));
+			let transitionDuration = Math.abs(((item.value - props.yBaseValue)*ANIMATION_DURATION)/(props.yBaseValue - props.minimum));
+			console.log(index, transitionDelay, transitionDuration);
+			bars.push(this.renderBar(index, item, y0, height, barWidth, transitionDuration, transitionDelay));
+			y0 += height;
+			transitionDelay += transitionDuration;
 		});
+
+		return bars;
 	}
 
-	renderBar(index, name, data, y, height, width) {
+	renderBar(index, data, y, height, width, transitionDuration, transitionDelay) {
 		const props = this.props;
 		return (
 			<Bar
 				key={props.data.key + '-' + index}
 				itemKeys={this.props.itemKeys}
 				data={data}
-				name={name}
+				name={props.data.name}
 				x={0}
 				y={y}
 				height={height}
@@ -157,6 +180,8 @@ class BarGroup extends React.PureComponent {
 				attributeName={props.attributeName}
 				attributeUnits={props.attributeUnits}
 				hidden={props.hidden}
+				transitionDuration={transitionDuration}
+				transitionDelay={transitionDelay}
 			/>
 		);
 	}

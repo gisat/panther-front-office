@@ -16,7 +16,7 @@ class ColumnChart extends React.PureComponent {
 	static defaultProps = {
 		animateChangeData: true,
 
-		minBarWidth: 6,
+		minBarWidth: 3,
 		barGapRatio: 0.4,
 
 		withoutYbaseline: true
@@ -98,7 +98,29 @@ class ColumnChart extends React.PureComponent {
 							preparedRecord.negative.data.push({value, defaultColor, highlightColor});
 						}
 					} else {
-						/* TODO stacked*/
+						let value = _.get(record, source.path);
+						let name = source.name;
+						if (source.color) {
+							defaultColor = source.color;
+							highlightColor = chroma(defaultColor).darken(1).hex();
+						}
+
+						if (value || value === 0) {
+							if (value >= diversionValue) {
+								if (!preparedRecord.positive.total) {
+									preparedRecord.positive.total = diversionValue;
+								}
+								preparedRecord.positive.total += (value - diversionValue);
+								preparedRecord.positive.data.push({name, value, defaultColor, highlightColor});
+
+							} else {
+								if (!preparedRecord.negative.total) {
+									preparedRecord.negative.total = diversionValue;
+								}
+								preparedRecord.negative.total -= (diversionValue - value);
+								preparedRecord.negative.data.push({name, value, defaultColor, highlightColor});
+							}
+						}
 					}
 				});
 			} else {
@@ -118,7 +140,6 @@ class ColumnChart extends React.PureComponent {
 				}
 			}
 
-			/* TODO is this enough for filtering? */
 			if (preparedRecord.positive.total || preparedRecord.negative.total) {
 				data.push(preparedRecord);
 			}
@@ -220,7 +241,10 @@ class ColumnChart extends React.PureComponent {
 			/* Aggregation needed? */
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
-			if (barWidth < 10) {
+			if (barWidth < 15) {
+				xScale = xScale.padding(0.25);
+			}
+			if (barWidth < 12) {
 				xScale = xScale.padding(0.1);
 			}
 
@@ -257,20 +281,22 @@ class ColumnChart extends React.PureComponent {
 						{...props}
 						{...{xScale, yScale, contentData: data, aggregated: !!aggregatedData.length}}
 					>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth) : this.renderBarGroups(data, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth) : this.renderBarGroups(data, minimum, maximum, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth)}
 					</CartesianChartContent>
 				: null}
 			</svg>
 		);
 	}
 
-	renderBarGroups(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+	renderBarGroups(data, minimum, maximum, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return data.map(item => {
 			return (
 				<BarGroup
 					key={item.key}
 					itemKeys={[item.key]}
 					data={item}
+					minimum={minimum}
+					maximum={maximum}
 					xScale={xScale}
 					yScale={yScale}
 					yBaseValue={yBaseValue}
