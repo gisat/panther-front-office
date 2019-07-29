@@ -35,8 +35,8 @@ export default (path, baseUrl) => {
 	// Store.dispatch(Action.app.loadConfiguration());
 
 	Store.dispatch(Action.maps.addMap({key: 'scudeoCities'}));
-	Store.dispatch(Action.maps.addSet({key: 'scudeoCities'}));
-	Store.dispatch(Action.maps.addMapToSet('scudeoCities', 'scudeoCities'));
+	// Store.dispatch(Action.maps.addSet({key: 'scudeoCities'}));
+	// Store.dispatch(Action.maps.addMapToSet('scudeoCities', 'scudeoCities'));
 	Store.dispatch(Action.maps.setMapView('scudeoCities', {
 		center: {
 			lat: 49.8,

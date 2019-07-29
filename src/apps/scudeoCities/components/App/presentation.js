@@ -7,6 +7,7 @@ import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapControls from "../../../../components/common/maps/MapControls";
 import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
+import Map from "../../../../components/common/maps/Map";
 
 
 import ReactResizeDetector from 'react-resize-detector';
@@ -14,6 +15,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import Header from '../Header';
 import Highlights from "../Highlights";
 import Sidebar from "../Sidebar";
+import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 
 class App extends React.PureComponent {
 	
@@ -48,9 +50,10 @@ class App extends React.PureComponent {
 						fixed
 						content={[
 							{
-								// component: MapSet,
+								component: Map,
 								props: {
-									mapSetKey: "scudeoCities"
+									// mapKey: "scudeoCities",
+									mapComponent: WorldWindMap
 								}
 							},
 							{
