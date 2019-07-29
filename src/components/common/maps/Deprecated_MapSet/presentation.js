@@ -2,108 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import ReactResizeDetector from 'react-resize-detector';
+import WorldWindMap from "../Deprecated_WorldWindMap";
 
-import ContainerMap from '../Map';
-
-import './style.scss';
-
-export class Map extends React.PureComponent {
-	render() {
-		return null;
-	}
-}
-
-export class PresentationMap extends React.PureComponent {
-	render() {
-		return null;
-	}
-}
+import './style.css';
 
 class MapSet extends React.PureComponent {
 
 	static propTypes = {
 		mapSetKey: PropTypes.string,
 		maps: PropTypes.array,
-		mapComponent: PropTypes.func
+		layerTreesFilter: PropTypes.object
 	};
 
 	constructor(props) {
 		super(props);
 		this.ref = React.createRef();
-
-		this.state = {
-			width: null,
-			height: null
-		}
-	}
-
-	componentDidMount() {
-		this.resize();
-		if (window) window.addEventListener('resize', this.resize.bind(this), {passive: true}); //todo IE
-	}
-
-	resize() {
-		if (this.ref && this.ref.current) {
-			let width = this.ref.current.clientWidth;
-			let height = this.ref.current.clientHeight;
-
-			this.setState({
-				width, height
-			});
-		}
 	}
 
 	render() {
 		return (
 			<div className="ptr-map-set" ref={this.ref}>
-				<div className="ptr-map-set-maps">
-					{this.renderMaps()}
-				</div>
-				<div className="ptr-map-set-controls">
-					{this.renderControls()}
-				</div>
+				{this.renderMaps()}
 			</div>
 		);
 	}
 
-	renderControls() {
-		return React.Children.map(this.props.children, child => {
-			if (!(typeof child === "object" && child.type === Map)) {
-				return React.cloneElement(child);
-			}
-		});
-	}
-
 	renderMaps() {
-		let availableWidth = this.state.width;
-		let availableHeight = this.state.height;
+		let availableWidth = this.props.width;
+		let availableHeight = this.props.height;
+		if (!availableWidth) availableWidth = this.ref.current && this.ref.current.clientWidth;
+		if (!availableHeight) availableHeight = this.ref.current && this.ref.current.clientHeight;
 
-		let maps = [];
-
-		// For now, render either maps from state, OR from children
-		if (this.props.maps && this.props.maps.length) {
-			this.props.maps.map(mapKey => {
-				let props = {
-					key: mapKey,
-					mapKey: mapKey
-				};
-				maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
-			});
-		} else {
-			React.Children.map(this.props.children, child => {
-				if (typeof child === "object" && child.type === Map) {
-					maps.push(React.createElement(ContainerMap, {...child.props, mapComponent: this.props.mapComponent}));
-				} else if (typeof child === "object" && child.type === PresentationMap) {
-					maps.push(React.createElement(this.props.mapComponent, child.props));
-				}
-			});
-		}
-
-		if (maps.length && availableWidth && availableHeight) {
+		if (this.props.maps && this.props.maps.length && availableWidth && availableHeight) {
 			let sizeRatio = availableWidth/availableHeight;
+			let numOfMaps = this.props.maps.length;
 			let rows = 1, columns = 1;
 
-			switch (maps.length) {
+			switch (numOfMaps) {
 				case 1:
 					break;
 				case 2:
@@ -183,14 +119,30 @@ class MapSet extends React.PureComponent {
 
 			let style = {width, height};
 
-			return maps.map((map, index) => {
+			return this.props.maps.map((mapKey, index) => {
+				let content = null;
+				const mapProps = {
+					key: mapKey,
+					mapKey: mapKey,
+					elevationModel: null,
+					delayedWorldWindNavigatorSync: null, // miliseconds to wait until synchronize navigator change with store
+					layerTreesFilter: this.props.layerTreesFilter
+				};
+
+				if(this.props.children) {
+					const {children, ...propsWithoutChildren} = this.props;
+					content = React.cloneElement(this.props.children, {...mapProps, ...propsWithoutChildren});
+				} else {
+					content = <WorldWindMap {...mapProps}/>
+				}
+
 				index++;
 				let rowNo = Math.ceil(index / columns);
 				let colNo = index % columns || columns;
 
 				let wrapperClasses = classNames("ptr-map-wrapper", "row"+rowNo, "col"+colNo);
 
-				return <div key={'map-wrapper-' + index} className={wrapperClasses} style={style}>{map}</div>
+				return <div key={mapKey} className={wrapperClasses} style={style}>{content}</div>
 			});
 		} else {
 			return null;

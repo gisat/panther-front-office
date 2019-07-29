@@ -28,6 +28,7 @@ import AsterChartDoc from "./components/pages/components/visualizations/AsterCha
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 import MapDoc from "./components/pages/components/maps/MapDoc";
+import MapSetDoc from "./components/pages/components/maps/MapSetDoc";
 import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
 
 
@@ -64,7 +65,7 @@ export default (path, baseUrl) => {
 								<Page label="Leaflet" path="leaflet" component={LeafletDoc}/>
 							</Directory>
 							<Page label="Map controls" path="mapControls"/>
-							<Page label="Map set" path="mapSet"/>
+							<Page label="Map set" path="mapSet" component={MapSetDoc}/>
 							<Page label="GoToPlace" path="goToPlace"/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">

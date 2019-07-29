@@ -47,8 +47,8 @@ class MapWrapper extends React.PureComponent {
 	}
 
 	render() {
-		const {children, ...propsWithoutChildren} = this.props;
-		return React.cloneElement(React.Children.only(children), propsWithoutChildren);
+		const {children, mapComponent, ...props} = this.props;
+		return React.createElement(mapComponent, props, children);
 	}
 }
 
