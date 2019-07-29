@@ -1,7 +1,7 @@
 @import '../../../../styles/variables';
 
 .ptr-popup {
-	position: absolute;
+	position: fixed;
 	background: rgba(var(--base0rgb), .90);
 	z-index: 99999;
 	padding: .35rem;

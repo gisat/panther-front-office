@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import * as d3 from 'd3';
+import {getTootlipPosition} from '../position';
 
 import './style.scss';
 
 const WIDTH = 250;
 const HEIGHT = 50;
+const TOOLTIP_PADDING = 15;
+
+const getTooltipStyle = () => {
+	// bbox for tooltip default defined by window
+	const windowScrollTop = window.document.documentElement.scrollTop;
+	const windowScrollLeft = window.document.documentElement.scrollLeft;
+	const windowHeight = window.document.documentElement.clientHeight;
+	const windowWidth = window.document.documentElement.clientWidth;
+	const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
+
+	return getTootlipPosition('corner', ['right', 'left', 'top', 'bottom'], windowBBox, TOOLTIP_PADDING);
+}
 
 class Popup extends React.PureComponent {
 
@@ -14,7 +25,12 @@ class Popup extends React.PureComponent {
 		x: PropTypes.number,
 		y: PropTypes.number,
 		maxX: PropTypes.number,
-		content: PropTypes.element
+		content: PropTypes.element,
+		getStyle: PropTypes.func,
+		hoveredElemen: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.object,
+		  ]),
 	};
 
 	constructor(props) {
@@ -24,39 +40,20 @@ class Popup extends React.PureComponent {
 	}
 
 	render() {
-		let maxX = window.innerWidth;
-		let maxY = window.innerHeight;
-		let x = this.props.x + 15;
-		let y = this.props.y + 20;
+		let posX = this.props.x;
+		let posY = this.props.y;
 
 		let width = this.ref.current && this.ref.current.offsetWidth ? this.ref.current.offsetWidth : WIDTH;
 		let height = this.ref.current && this.ref.current.offsetHeight ? this.ref.current.offsetHeight : HEIGHT;
 
-		// positioning
-		if ((x + width) > (maxX - 5)) {
-			x = this.props.x - width - 5;
+		let style;
+
+		if(typeof this.props.getStyle === 'function' && this.props.hoveredElemen) {
+			style = this.props.getStyle()(posX, posY, width, height, this.props.hoveredElemen);
+		} else {
+			//right corner on mouse position
+			style = getTooltipStyle()(posX, posY, width, height);
 		}
-
-		if (x < 0) {
-			x = 0;
-		}
-
-		// positioning
-		if ((y + height) > (maxY - 5)) {
-			y = this.props.y - height - 5;
-		}
-
-		if (y < 0) {
-			y = 0;
-		}
-
-		// TODO calculate y
-
-		let style = {
-			top: y,
-			left: x,
-			width
-		};
 
 		return (
 			<div style={style} className={"ptr-popup"} ref={this.ref}>

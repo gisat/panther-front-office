@@ -6,12 +6,13 @@ import HoverContext from './context';
 import Popup from "./Popup/Popup";
 
 class HoverHandler extends React.PureComponent {
-
 	static propTypes = {
-	};
+		getStyle: PropTypes.func,
+	}
 
 	constructor(props){
 		super(props);
+		this.ref = React.createRef();
 		this.state = {
 			hoveredItems: null,
 			popup: null
@@ -45,24 +46,33 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	render() {
+		const {children} = this.props;
+		const {popup, hoveredItems} = this.state;
 		return (
 			<HoverContext.Provider value={{
-				hoveredItems: this.state.hoveredItems,
+				hoveredItems: hoveredItems,
 				onHover: this.onHover,
 				onHoverOut: this.onHoverOut
 			}}>
-				{this.props.children}
-				{this.state.popup ? this.renderPopup() : null}
+				<div ref={this.ref} style={{height: '100%',width: '100%'}}>
+					{children}
+					{popup ? this.renderPopup() : null}
+				</div>
 			</HoverContext.Provider>
 		);
 	}
 
 	renderPopup() {
+		const {getStyle} = this.props;
+		const {popup} = this.state;
+
 		return <Popup
-			x={this.state.popup.x}
-			y={this.state.popup.y}
-			content={this.state.popup.content}
-		/>
+					x={popup.x}
+					y={popup.y}
+					content={popup.content}
+					getStyle={getStyle}
+					hoveredElemen={this.ref.current}
+				/>
 	}
 }
 
