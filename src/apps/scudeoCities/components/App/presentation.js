@@ -4,10 +4,9 @@ import _ from 'lodash';
 
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapControls from "../../../../components/common/maps/MapControls";
+// import MapControls from "../../../../components/common/maps/MapControls";
 import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
-import Map from "../../../../components/common/maps/Map";
 
 
 import ReactResizeDetector from 'react-resize-detector';
@@ -16,6 +15,8 @@ import Header from '../Header';
 import Highlights from "../Highlights";
 import Sidebar from "../Sidebar";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
+import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 
 class App extends React.PureComponent {
 	
@@ -50,11 +51,51 @@ class App extends React.PureComponent {
 						fixed
 						content={[
 							{
-								component: Map,
-								props: {
-									// mapKey: "scudeoCities",
-									mapComponent: WorldWindMap
-								}
+								// component: Map,
+								// props: {
+								// 	// mapKey: "scudeoCities",
+								// 	mapComponent: WorldWindMap
+								// },
+								render: () => (
+									<PresentationMapWithControls
+										map={(
+											<WorldWindMap
+												backgroundLayer={{
+													key: 'stamen-lite',
+													type: 'wmts',
+													options: {
+														url: 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png'
+													}
+												}}
+												layers={[
+													{
+														key: 'lulc-vhr-level-1',
+														name: 'LULC (VHR) - Level 1',
+														type: 'wms',
+														opacity: 0.8,
+														options: {
+															url: 'https://urban-tep.eu/puma/backend/geoserver/wms',
+															params: {
+																layers: 'geonode:i82049_eo4sd_dhaka_lulcvhr_2017_clp_ar',
+																styles: 'EO4SD_LULC_Level_1'
+															}
+														}
+													}
+												]}
+												view={{
+													center: {
+														lat: 23.78,
+														lon: 90.41
+													},
+													boxRange: 60035
+												}}
+											/>
+										)}
+										controls={(
+											<MapControls/>
+										)}
+									/>
+								)
 							},
 							{
 								width: "40%",
