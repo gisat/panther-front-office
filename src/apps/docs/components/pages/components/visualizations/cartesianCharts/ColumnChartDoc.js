@@ -451,16 +451,16 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\tnameSourcePath="data.name"\n' +
 					'\t\txSourcePath="data.name"\n' +
 					'\t\tySourcePath={[{\n' +
-					'\t\t\tpath: "data.part1"\n' +
-					'\t\t\tname: "Part1"\n' +
+					'\t\t\tpath: "data.part1",\n' +
+					'\t\t\tname: "Part1",\n' +
 					'\t\t\tcolor: "#ff0000"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part2"\n' +
-					'\t\t\tname: "Part2"\n' +
+					'\t\t\tpath: "data.part2",\n' +
+					'\t\t\tname: "Part2",\n' +
 					'\t\t\tcolor: "#00ff00"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part3"\n' +
-					'\t\t\tname: "Part3"\n' +
+					'\t\t\tpath: "data.part3",\n' +
+					'\t\t\tname: "Part3",\n' +
 					'\t\t\tcolor: "#ff00ff"\n' +
 					'\t\t}]}\n' +
 					'\n' +
@@ -527,16 +527,16 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\tnameSourcePath="data.name"\n' +
 					'\t\txSourcePath="data.name"\n' +
 					'\t\tySourcePath={[{\n' +
-					'\t\t\tpath: "data.part1"\n' +
-					'\t\t\tname: "Part1"\n' +
+					'\t\t\tpath: "data.part1",\n' +
+					'\t\t\tname: "Part1",\n' +
 					'\t\t\tcolor: "#ff0000"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part2"\n' +
-					'\t\t\tname: "Part2"\n' +
+					'\t\t\tpath: "data.part2",\n' +
+					'\t\t\tname: "Part2",\n' +
 					'\t\t\tcolor: "#00ff00"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part3"\n' +
-					'\t\t\tname: "Part3"\n' +
+					'\t\t\tpath: "data.part3",\n' +
+					'\t\t\tname: "Part3",\n' +
 					'\t\t\tcolor: "#ff00ff"\n' +
 					'\t\t}]}\n' +
 					'\n' +
@@ -604,28 +604,28 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\tnameSourcePath="data.name"\n' +
 					'\t\txSourcePath="data.name"\n' +
 					'\t\tySourcePath={[{\n' +
-					'\t\t\tpath: "data.part1"\n' +
-					'\t\t\tname: "Part1"\n' +
+					'\t\t\tpath: "data.part1",\n' +
+					'\t\t\tname: "Part1",\n' +
 					'\t\t\tcolor: "#ff0000"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part2"\n' +
-					'\t\t\tname: "Part2"\n' +
+					'\t\t\tpath: "data.part2",\n' +
+					'\t\t\tname: "Part2",\n' +
 					'\t\t\tcolor: "#00ff00"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part3"\n' +
-					'\t\t\tname: "Part3"\n' +
+					'\t\t\tpath: "data.part3",\n' +
+					'\t\t\tname: "Part3",\n' +
 					'\t\t\tcolor: "#ff00ff"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part4"\n' +
-					'\t\t\tname: "Part4"\n' +
+					'\t\t\tpath: "data.part4",\n' +
+					'\t\t\tname: "Part4",\n' +
 					'\t\t\tcolor: "#ffff00"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part5"\n' +
-					'\t\t\tname: "Part5"\n' +
+					'\t\t\tpath: "data.part5",\n' +
+					'\t\t\tname: "Part5",\n' +
 					'\t\t\tcolor: "#aaccff"\n' +
 					'\t\t},{\n' +
-					'\t\t\tpath: "data.part6"\n' +
-					'\t\t\tname: "Part6"\n' +
+					'\t\t\tpath: "data.part6",\n' +
+					'\t\t\tname: "Part6",\n' +
 					'\t\t\tcolor: "#0000ff"\n' +
 					'\t\t}]}\n' +
 					'\n' +
