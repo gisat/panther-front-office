@@ -86,7 +86,7 @@ class ColumnChart extends React.PureComponent {
 			}
 
 			// data
-			let diversionValue = props.yOptions && props.yOptions.diversionValue || 0;
+			let diversionValue = props.diverging && props.yOptions && props.yOptions.diversionValue || 0;
 
 			if (_.isArray(props.ySourcePath)) {
 				_.forEach(props.ySourcePath, source => {
