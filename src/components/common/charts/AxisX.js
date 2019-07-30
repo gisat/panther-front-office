@@ -122,33 +122,16 @@ class AxisX extends React.PureComponent {
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
 				{this.props.data.map(item => {
-					// TODO refactor
-					let xValue = item;
-					let xValueFromObject = _.get(item, this.props.keySourcePath);
+					let key = item;
+					let name = item;
 
-					if (_.isObject(xValue) && this.props.keySourcePath) {
-						xValue = xValueFromObject;
+					if (_.isObject(item)) {
+						key = item.key || _.get(item, this.props.keySourcePath);
+						name = item.name || _.get(item, this.props.nameSourcePath);
 					}
 
-					if (!xValue && !xValueFromObject) {
-						xValue = item.key
-					}
-
-					let xCoord = this.props.scale(xValue);
+					let xCoord = this.props.scale(key);
 					if (xCoord || xCoord === 0) {
-						let key =  (this.props.keySourcePath && xValueFromObject) || item;
-						let text = item;
-						let textFromObject = _.get(item, this.props.sourcePath);
-
-						if (this.props.sourcePath && textFromObject) {
-							text = textFromObject;
-						}
-
-						// TODO refactor
-						if (text && text.name) {
-							text = text.name;
-						}
-
 						return (
 							<g key={key}>
 								<line
@@ -158,7 +141,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, text) : null}
+								{this.props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, name) : null}
 							</g>
 						);
 					} else {
