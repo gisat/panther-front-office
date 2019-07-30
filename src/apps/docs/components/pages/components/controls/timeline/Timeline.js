@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Page, {
-	ComponentPropsTable,
 	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
 } from "../../../../Page";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 // import serie_10 from "../../../../mockData/scatterChart/serie_10";
 
 import Timeline from "../../../../../../../components/common/timeline/";
