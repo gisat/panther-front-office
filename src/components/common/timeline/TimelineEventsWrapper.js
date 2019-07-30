@@ -7,13 +7,15 @@ import {Context as TimeLineContext} from './context';
  * @param {Event} evt 
  * @param {boolean} vertical 
  */
-const getClientXFromEvent = (evt, vertical = false, targetBoudingBox) => {
+const getPageXFromEvent = (evt, vertical = false, targetBoudingBox) => {
 	let clientX;
 	const touch = (evt.touches && evt.touches[0]) || (evt.changedTouches && evt.changedTouches[0])
+	const scrollLeft = window.document.documentElement.scrollLeft;
+	const scrollTop = window.document.documentElement.scrollTop;
 	if(touch) {
-		clientX = vertical ? touch.clientY : touch.clientX;
+		clientX = vertical ? touch.pageY - scrollTop : touch.pageX - scrollLeft;
 	} else {
-		clientX = vertical ? evt.clientY : evt.clientX;
+		clientX = vertical ? evt.pageY - scrollTop : evt.pageX - scrollLeft;
 	}
 
 	if(vertical) {
@@ -99,7 +101,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 	end_handler(ev) {
 		const {vertical} = this.context;
 		ev.preventDefault();
-		const clientX = getClientXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
+		const clientX = getPageXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
 		
 		//identify stop touch move by one touch
 		if(ev.changedTouches.length === 1 && this.tpCache.length === 1) {
@@ -154,7 +156,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 		this._pointerLastX = null;
 		this.resetMouseTouchProps();
 		if(this.tpCache.length === 1) {
-			const clientX = getClientXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
+			const clientX = getPageXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
 			this.onPointerDown(clientX);
 		}
 	   }
@@ -170,7 +172,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 		
 		//identify touch by one touch
 		if(this.tpCache.length === 1) {
-			const clientX = getClientXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
+			const clientX = getPageXFromEvent(ev, vertical, this.node.current.getBoundingClientRect());
 			this.onPointerMove(clientX);
 
 			this.clearTouchEventCache();
@@ -245,13 +247,13 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 	onMouseUp(e) {		
 		const {vertical} = this.context;
-		const clientX = getClientXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
+		const clientX = getPageXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 		this.onPointerUp(clientX);
 	}
 
 	onMouseDown(e) {
 		const {vertical} = this.context;
-		const clientX = getClientXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
+		const clientX = getPageXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 		this.onPointerDown(clientX);
 	}
 
@@ -267,10 +269,11 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 	onMouseMove(e) {
 		const {vertical} = this.context;
-		const clientX = getClientXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
+		const clientX = getPageXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
+	
 		this.context.onHover({
-			x: vertical ? clientX : clientX,
-			y: vertical ? this.context.height : this.context.height,
+			x: e.pageX,
+			y: e.pageY,
 			time: this.context.getTime(clientX),
 			vertical: vertical
 		})

@@ -8,7 +8,6 @@ import Page, {
 	SyntaxHighlighter
 } from "../../../../Page";
 // import serie_10 from "../../../../mockData/scatterChart/serie_10";
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 
 import Timeline from "../../../../../../../components/common/timeline/";
 import PeriodLimit from "../../../../../../../components/common/timeline/periodLimit";
@@ -18,10 +17,14 @@ import Mouse from "../../../../../../../components/common/timeline/mouse";
 import Years from '../../../../../../../components/common/timeline/years';
 import Months from '../../../../../../../components/common/timeline/months';
 
+import TimeLineHover from '../../../../../../../components/common/timeline/TimeLineHover';
+import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
+import {getTootlipPosition} from "../../../../../../../components/common/HoverHandler/position";
+
 import period from '../../../../../../../utils/period';
 import moment from 'moment';
 
-
+const TOOLTIP_PADDING = 5;
 
 const overlays = [
 	{
@@ -56,9 +59,40 @@ const overlays = [
 	}
 ]
 class TimelineDoc extends React.PureComponent {
+	getHoverContent(x, time) {
+		return (
+			<div>
+				time: {` ${time.format("YYYY MM D H:mm:ss")}`}
+			</div>
+		)
+	}
+
+	getHorizontalTootlipStyle() {
+		const referencePoint = 'center';
+		
+		return () => {
+			const windowScrollTop = window.document.documentElement.scrollTop;
+			const windowScrollLeft = window.document.documentElement.scrollLeft;
+			const windowHeight = window.document.documentElement.clientHeight;
+			const windowWidth = window.document.documentElement.clientWidth;
+			const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
+			return getTootlipPosition(referencePoint, ['bottom', 'top'], windowBBox, TOOLTIP_PADDING)
+		}
+	}
+	getVerticalTootlipStyle() {
+		const referencePoint = 'center';
+		
+		return () => {
+			const windowScrollTop = window.document.documentElement.scrollTop;
+			const windowScrollLeft = window.document.documentElement.scrollLeft;
+			const windowHeight = window.document.documentElement.clientHeight;
+			const windowWidth = window.document.documentElement.clientWidth;
+			const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
+			return getTootlipPosition(referencePoint, ['left', 'right'], windowBBox, TOOLTIP_PADDING)
+		}
+	}
 
 	render() {
-		const vertical = false;
 
 		const period = {
 			start: moment(2010, 'YYYY'),
@@ -346,6 +380,7 @@ const Levels = (props) => {
 
 					<h3>Tooltip</h3>
 					<p>
+						It's possible to show tooltip for horizontal or vertical view of timeline. Tooltip content is handle by <InlineCodeHighlighter>TimeLineHover</InlineCodeHighlighter>. Position of tooltip is handle by <Link to="/docs/components/iHaveNoIdea/hoverHandler"><InlineCodeHighlighter>HoverHandler</InlineCodeHighlighter></Link>.
 					</p>
 					<SyntaxHighlighter language="jsx">
 {
@@ -355,31 +390,86 @@ const period = {
 	end: moment(2025, 'YYYY')
 }
 
-<Timeline
-	period={period}
-	onChange={(timelineState) => {console.log("onChange", timelineState)}}
-	onClick={(evt) => console.log("onClick", evt)}
-	levels={LEVELS}
-	>
-		<Picker key="picker"/>
-		<Mouse mouseBufferWidth={20} key="mouse"/>
-		<Levels key="levels"/>
-</Timeline> 
+const getHoverContent = (x, time) => {
+	return (
+		<div>
+			'time': time.format("YYYY MM D H:mm:ss")
+		</div>
+	)
+}
+
+const getHorizontalTootlipStyle = () => {
+	const referencePoint = 'corner';
+	
+	return () => {
+		const windowScrollTop = window.document.documentElement.scrollTop;
+		const windowScrollLeft = window.document.documentElement.scrollLeft;
+		const windowHeight = window.document.documentElement.clientHeight;
+		const windowWidth = window.document.documentElement.clientWidth;
+		const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
+		return getTootlipPosition(referencePoint, ['bottom', 'top'], windowBBox, TOOLTIP_PADDING)
+	}
+}
+
+<HoverHandler getStyle={getHorizontalTootlipStyle()}>
+	<TimeLineHover getHoverContent={getHoverContent}>
+		<Timeline
+			period={period}
+			onChange={(timelineState) => {console.log("onChange", timelineState)}}
+			onClick={(evt) => console.log("onClick", evt)}
+			vertical={false}
+			levels={LEVELS}
+			>
+				<Picker key="picker"/>
+				<Mouse mouseBufferWidth={20} key="mouse"/>
+				<Levels key="levels"/>
+		</Timeline> 
+	</TimeLineHover>
+</HoverHandler>
 `}
 					</SyntaxHighlighter>
 
-					<div style={{height:'400px',width:'70px'}}>
-						<Timeline
-							period={period}
-							onChange={(timelineState) => {console.log("onChange", timelineState)}}
-							onClick={(evt) => console.log("onClick", evt)}
-							vertical={true}
-							levels={LEVELS}
-							>
-								<Picker key="picker"/>
-								<Mouse mouseBufferWidth={20} key="mouse"/>
-								<Levels key="levels"/>
-						</Timeline> 
+					<div>
+						<HoverHandler getStyle={this.getHorizontalTootlipStyle()}>
+							<TimeLineHover getHoverContent={this.getHoverContent}>
+								<Timeline
+									period={period}
+									onChange={(timelineState) => {console.log("onChange", timelineState)}}
+									onClick={(evt) => console.log("onClick", evt)}
+									vertical={false}
+									levels={LEVELS}
+									>
+										<Picker key="picker"/>
+										<Mouse mouseBufferWidth={20} key="mouse"/>
+										<Levels key="levels"/>
+								</Timeline> 
+							</TimeLineHover>
+						</HoverHandler>
+					</div>
+
+					<h4>
+						Tooltip in vertical view
+					</h4>
+					<p>
+						Vertical view with <InlineCodeHighlighter>const referencePoint = 'center';</InlineCodeHighlighter> and position of tooltip in <InlineCodeHighlighter>['left', 'right']</InlineCodeHighlighter>.
+					</p>
+
+					<div style={{height:'500px',width:'70px', 'marginTop': '40px'}}>
+						<HoverHandler getStyle={this.getVerticalTootlipStyle()}>
+							<TimeLineHover getHoverContent={this.getHoverContent}>
+								<Timeline
+									period={period}
+									onChange={(timelineState) => {console.log("onChange", timelineState)}}
+									onClick={(evt) => console.log("onClick", evt)}
+									vertical={true}
+									levels={LEVELS}
+									>
+										<Picker key="picker"/>
+										<Mouse mouseBufferWidth={20} key="mouse"/>
+										<Levels key="levels"/>
+								</Timeline> 
+							</TimeLineHover>
+						</HoverHandler>
 					</div>
 			</Page>
 		);
