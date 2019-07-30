@@ -155,7 +155,6 @@ class BarGroup extends React.PureComponent {
 			let height = props.yScale(props.yBaseValue) - props.yScale(item.value);
 			let transitionDuration = Math.abs(((item.value - props.yBaseValue)*ANIMATION_DURATION)/(props.maximum - props.yBaseValue));
 
-			console.log(index, transitionDelay, transitionDuration);
 			bars.push(this.renderBar(index, item, y0, height, barWidth, transitionDuration, transitionDelay));
 
 			y0 += height;

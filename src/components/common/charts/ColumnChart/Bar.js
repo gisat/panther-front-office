@@ -185,7 +185,7 @@ class Bar extends React.PureComponent {
 						}
 
 						return (
-							<div className="ptr-column-chart-popup-values">
+							<div key={record.name} className="ptr-column-chart-popup-values">
 								{<i>{record.name}:&nbsp;</i>}
 								{valueString.toLocaleString()} {unit}
 							</div>
