@@ -335,7 +335,7 @@ class ColumnChart extends React.PureComponent {
 
 	renderAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return (
-			this.props.diverging !== 'double' ? (
+			!this.props.diverging && !this.props.stacked ? (
 			<>
 				{this.renderPath(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
 				{this.renderBarsFromAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
