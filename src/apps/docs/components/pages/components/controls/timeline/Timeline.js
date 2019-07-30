@@ -156,7 +156,7 @@ class TimelineDoc extends React.PureComponent {
 								name: "periodLimit",
 								type: "object",
 								required: false,
-								description: "Time bounds for actual view. Must be inside period. PeriodLimit define dayWidth. Used only in constructor. If component gets onMount in props periodLimit and dayWidth, new dayWidth is calculated from periodLimit.",
+								description: "Time bounds for actual view. Must be inside period. PeriodLimit defines dayWidth. Used only in constructor. If component gets onMount in props periodLimit and dayWidth, new dayWidth is calculated from periodLimit.",
 								objectPropsDescription: [
 									{
 										name: "start",
@@ -199,7 +199,7 @@ class TimelineDoc extends React.PureComponent {
 								type: "array",
 								required: false,
 								default: '[year/month/day/hour/minute]',
-								description: "Definition of layers pyramid. Every level in array is object with 'end' [number] that is maximum dayWidth when level is wisible and 'level' [string] id of level. Levels must be ordered from top to bottom -> small to max dayWidth.",
+								description: "Definition of layers pyramid. Every level in array is object with 'end' [number] that is maximum dayWidth when level is visible and 'level' [string] id of level. Levels must be ordered from top to bottom -> small to max dayWidth.",
 							},
 							{
 								name: "onHover",
@@ -320,7 +320,7 @@ const Levels = (props) => {
 						</Timeline> 
 					<h3>Vertical</h3>
 					<p>
-						Vertical view is definded by prop <InlineCodeHighlighter>vertical: true</InlineCodeHighlighter>. Timeline childrens gets vertical information in props and they should adapt design to vertical.
+						Vertical view is definded by prop <InlineCodeHighlighter>vertical: true</InlineCodeHighlighter>. Timeline children get vertical information in props and they should adapt to vertical.
 					</p>
 					<SyntaxHighlighter language="jsx">
 {
