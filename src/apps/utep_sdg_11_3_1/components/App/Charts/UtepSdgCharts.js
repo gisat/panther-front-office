@@ -179,6 +179,7 @@ class UtepSdgCharts extends React.PureComponent {
 						key="column-chart"
 						data={this.gniData}
 						keySourcePath="gid"
+						nameSourcePath="name"
 						xSourcePath="name"
 						ySourcePath="properties.GNI"
 						sorting={[["properties.GNI", "desc"]]}

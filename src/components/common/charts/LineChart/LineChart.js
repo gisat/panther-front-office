@@ -166,7 +166,7 @@ class LineChart extends React.PureComponent {
 					name={name}
 					coordinates={coordinates}
 					defaultColor={color}
-					highlightedColor={color}
+					highlightColor={color}
 					withPoints={this.props.withPoints}
 					siblings={siblings}
 					gray={mode === 'gray'}
@@ -270,7 +270,7 @@ class LineChart extends React.PureComponent {
 					name={'Minimum'}
 					coordinates={minCoordinates}
 					defaultColor={"#777777"}
-					highlightedColor={"#555555"}
+					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
@@ -284,7 +284,7 @@ class LineChart extends React.PureComponent {
 					coordinates={averageCoordinates}
 					withPoints={this.props.withPoints}
 					defaultColor={this.props.defaultColor ? this.props.defaultColor : "#0088ff"}
-					highlightedColor={this.props.highlightedColor ? this.props.highlightedColor : "#0077ff"}
+					highlightColor={this.props.highlightColor ? this.props.highlightColor : "#0077ff"}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
@@ -295,7 +295,7 @@ class LineChart extends React.PureComponent {
 					name={'Maximum'}
 					coordinates={maxCoordinates}
 					defaultColor={"#777777"}
-					highlightedColor={"#555555"}
+					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}

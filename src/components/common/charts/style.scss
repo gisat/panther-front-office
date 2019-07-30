@@ -82,36 +82,6 @@
 	font-size: $a0;
 }
 
-/* Column chart */
-.ptr-column-chart {
-}
-
-.ptr-column-chart-bar-placeholder {
-	fill: var(--base20);
-	opacity: 0;
-}
-
-.ptr-column-chart-bar-placeholder.visible {
-	opacity: 1;
-}
-
-.ptr-column-chart-bar {
-	fill: var(--accent50);
-	transition: height 1.5s ease-in-out .5s;
-}
-
-.ptr-column-chart-bar.hidden {
-	fill: transparent;
-}
-
-.ptr-column-chart-bar:hover {
-	fill: var(--accent65);
-}
-
-.ptr-column-chart-path {
-	fill: var(--accent50);
-}
-
 /* Line chart */
 .ptr-line-chart {
 	//background: red;

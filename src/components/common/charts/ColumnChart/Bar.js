@@ -4,33 +4,37 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
+import './style.scss';
+
 import HoverContext from "../../../common/HoverHandler/context";
 
-import '../style.scss';
+const DEFAULT_COLOR = "#2aa8a3";
+const HIGHLIGHT_COLOR = "#2a928e";
 
 class Bar extends React.PureComponent {
 
 	static contextType = HoverContext;
 
 	static propTypes = {
-		availableHeight: PropTypes.number,
-		defaultColor: PropTypes.string,
-		highlightedColor: PropTypes.oneOfType([
-			PropTypes.string,
-			PropTypes.object
-		]),
-		highlighted: PropTypes.bool,
 		itemKeys: PropTypes.array,
+		data: PropTypes.object,
 		x: PropTypes.number,
 		y: PropTypes.number,
 		height: PropTypes.number,
 		width: PropTypes.number,
-		hidden: PropTypes.bool,
+		defaultColor: PropTypes.string,
+		highlightColor: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		]),
 
-		nameSourcePath: PropTypes.string,
-		valueSourcePath: PropTypes.string,
-    	hoverValueSourcePath: PropTypes.string,
-    	yOptions: PropTypes.object
+		classes: PropTypes.string,
+
+		attributeName: PropTypes.string,
+		attributeUnits: PropTypes.string,
+
+		transitionDelay: PropTypes.number, // in ms
+		transitionDuration: PropTypes.number, // in ms
 	};
 
 	constructor(props) {
@@ -42,7 +46,7 @@ class Bar extends React.PureComponent {
 
 		this.state = {
 			height: 0,
-			color: props.defaultColor ? props.defaultColor : null,
+			highlighted: props.highlighted,
 			hidden: props.hidden
 		}
 	}
@@ -58,14 +62,9 @@ class Bar extends React.PureComponent {
 			});
 		}
 
-		let color = null;
-		if (this.props.highlightedColor) {
-			color = this.props.highlightedColor;
-		}
-
 		this.setState({
-			color,
-			hidden: false
+			hidden: false,
+			highlighted: true
 		});
 	}
 
@@ -80,14 +79,9 @@ class Bar extends React.PureComponent {
 			});
 		}
 
-		let color = null;
-		if (this.props.highlightedColor) {
-			color = this.props.highlightedColor;
-		}
-
 		this.setState({
-			color,
-			hidden: false
+			hidden: false,
+			highlighted: true
 		});
 	}
 
@@ -96,14 +90,9 @@ class Bar extends React.PureComponent {
 			this.context.onHoverOut();
 		}
 
-		let color = null;
-		if (this.props.defaultColor) {
-			color = this.props.defaultColor;
-		}
-
 		this.setState({
-			color,
-			hidden: this.props.hidden
+			hidden: this.props.hidden,
+			highlighted: false
 		});
 	}
 
@@ -111,8 +100,13 @@ class Bar extends React.PureComponent {
 		this.updateHeight();
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		this.updateHeight();
+		if (this.props.highlighted !== prevProps.highlighted) {
+			this.setState({
+				highlighted: this.props.highlighted
+			});
+		}
 	}
 
 	updateHeight() {
@@ -125,109 +119,101 @@ class Bar extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+
 		let style = {};
-		let highlighted = false;
+		let highlighted = this.state.highlighted;
+		let defaultColor = props.defaultColor ? props.defaultColor : DEFAULT_COLOR;
+		let highlightColor = props.highlightColor ? props.highlightColor : HIGHLIGHT_COLOR;
 
 		if (this.context && this.context.hoveredItems) {
 			highlighted = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
 		}
 
-
 		if (highlighted) {
-			style.fill = this.state.color
-		} else if (this.state.color && !this.state.hidden) {
-			style.fill = this.state.color
+			style.fill = highlightColor;
+		} else if (!this.state.hidden) {
+			style.fill = defaultColor;
+		} else {
+			style.fill = null;
 		}
 
-		let placeholderClasses = classnames("ptr-column-chart-bar-placeholder", {
-			visible: highlighted
-		});
+		if (props.transitionDelay) {
+			style.transitionDelay = props.transitionDelay + 'ms';
+		}
+
+		if (props.transitionDuration) {
+			style.transitionDuration = props.transitionDuration + 'ms';
+		}
 
 		let classes = classnames("ptr-column-chart-bar", {
 			hidden: this.state.hidden
-		});
+		}, props.classes);
 
 		return (
-			<g onMouseOver={this.onMouseOver}
-			   onMouseMove={this.onMouseMove}
-			   onMouseOut={this.onMouseOut}>
-				<rect className={placeholderClasses}
-					  key={this.props.itemKeys[0]+'_hover'}
-					  y={props.y}
-					  x={props.x}
-					  width={props.width}
-					  height={this.props.availableHeight}
-				/>
-				<rect className={classes}
-					  style={style}
-					  key={this.props.itemKeys[0]}
-					  y={props.y}
-					  x={props.x}
-					  width={props.width}
-					  height={this.state.height}
-				/>
-			</g>
+			<rect
+				onMouseOver={this.onMouseOver}
+				onMouseMove={this.onMouseMove}
+				onMouseOut={this.onMouseOut}
+				className={classes}
+				style={style}
+				y={props.y}
+				x={props.x}
+				width={props.width}
+				height={this.state.height}
+			/>
 		);
 	}
 
 	getPopupContent() {
 		const props = this.props;
-		let data = props.data;
-		let content = null;
-		let unit = null;
-		let attributeName = null;
+		let attrName = props.attributeName;
+		let segmentName = props.data.name;
+		let unit = props.attributeUnits;
 
+		if (_.isArray(props.originalData)) {
+			return (
+				<div className="ptr-column-chart-popup">
+					{segmentName || attrName ? (<div><i>{segmentName || attrName}:&nbsp;</i></div>) : null}
+					{props.originalData.map(record => {
 
-		if (data) {
-			if (props.yOptions) {
-				if (props.yOptions.name) {
-					attributeName = `${props.yOptions.name}: `;
-				}
+						// TODO what if more values?
+						let value = record.positive.data[0].value || record.negative.data[0].value;
 
-				if (props.yOptions.unit) {
-					unit = `${props.yOptions.unit}`;
-				}
-			}
-			
-			
-			if (data.originalData) {
-				let con = [];
-				if (data.originalData.length > 20) {
-					let units = [];
-					let values = [];
-					_.map(data.originalData,(item) => {
-            units.push(_.get(item, this.props.nameSourcePath));
-						values.push(_.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath).toLocaleString());
-					});
-					content = (
-						<div>
-							<i>{`${units.length} items: `}</i>
-							{`from ${_.min(values).toLocaleString()} ${unit} to ${_.max(values).toLocaleString()} ${unit}`}
-						</div>
-					);
-				} else {
-					_.map(data.originalData, (item) => {
-            let unit = _.get(item, this.props.nameSourcePath);
-						let value = _.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath);
-						con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-					});
-					content = (<>{con}</>);
-				}
-			} else {
-				let area = _.get(data, this.props.nameSourcePath);
-				let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
-				content = (<div key={area}><i>{area}:</i> {value.toLocaleString()} {unit}</div>);
-			}
+						let valueString = value;
+						if ((value % 1) !== 0) {
+							valueString = valueString.toFixed(2);
+						}
+
+						return (
+							<div key={record.name} className="ptr-column-chart-popup-values">
+								{<i>{record.name}:&nbsp;</i>}
+								{valueString.toLocaleString()} {unit}
+							</div>
+						);
+					})}
+				</div>
+			);
 		} else {
-			content = (<div key={"no-data"}><i>No data</i></div>);
-		}
+			let columnName = props.name;
+			let value = props.data.value;
+			let color = props.data.highlightColor;
 
-		return (
-			<>
-				{attributeName ? (<div><i>{attributeName}</i></div>) : null}
-				{content}
-			</>
-		);
+			let valueString = value;
+			if ((value % 1) !== 0) {
+				valueString = valueString.toFixed(2);
+			}
+
+			return (
+				<div className="ptr-column-chart-popup">
+					<div><i>{columnName}</i></div>
+					<div className="ptr-column-chart-popup-values">
+						{color ? <div className="ptr-column-chart-popup-color" style={{background: color}}></div> : null}
+						{segmentName || attrName ? (<i>{segmentName || attrName}:&nbsp;</i>) : null}
+						{valueString.toLocaleString()} {unit}
+					</div>
+				</div>
+			);
+		}
 	}
 }
 

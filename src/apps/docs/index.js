@@ -19,7 +19,7 @@ import Docs, {Directory, Page, Anchor} from "./components/Docs";
 import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
-import Buttons from "./components/pages/components/atoms/Buttons";
+import Buttons from "./components/pages/components/atoms/ButtonsDoc";
 import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
@@ -84,6 +84,8 @@ export default (path, baseUrl) => {
 									<Anchor label="Serial data handling" path="serialData"/>
 									<Anchor label="Custom bar colors" path="barColors"/>
 									<Anchor label="Aggregation" path="aggregation"/>
+									<Anchor label="Diverging" path="diverging"/>
+									<Anchor label="Stacked" path="stacked"/>
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
 									<Anchor label="Props" path="props"/>
@@ -106,7 +108,11 @@ export default (path, baseUrl) => {
 							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
-							<Page label="Buttons" path="buttons" component={Buttons}/>
+							<Page label="Buttons" path="buttons" component={Buttons}>
+								<Anchor label="Props" path="props"/>
+								<Anchor label="Levels" path="levels"/>
+								<Anchor label="Sizes" path="sizes"/>
+							</Page>
 							<Page label="Forms" path="forms" component={FormsDoc}/>
 							<Page label="ItemSelect" path="itemSelect" component={ItemSelectDoc}/>
 							<Page label="Icon" path="icon"/>

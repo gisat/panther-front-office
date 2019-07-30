@@ -23,6 +23,7 @@ class AxisX extends React.PureComponent {
 
 		leftMargin: PropTypes.number,
 		leftPadding: PropTypes.number,
+		topPadding: PropTypes.number,
 		plotHeight: PropTypes.number,
 		labelSize: PropTypes.number,
 		height: PropTypes.number,
@@ -32,7 +33,14 @@ class AxisX extends React.PureComponent {
 		ticks: PropTypes.bool,
 		withValues: PropTypes.bool,
 		label: PropTypes.bool,
-		options: PropTypes.object
+		options: PropTypes.object,
+
+		diverging: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]),
+		yScale: PropTypes.func,
+		yOptions: PropTypes.object
 	};
 
 	constructor(props) {
@@ -44,13 +52,27 @@ class AxisX extends React.PureComponent {
 
 		return (
 			<g className="ptr-column-chart-axis-x" transform={`translate(${props.leftMargin},0)`}>
-				<path
-					className="ptr-axis-baseline"
-					d={`M0 ${props.plotHeight} L${props.width} ${props.plotHeight}`}
-				/>
+				{this.renderBaseline()}
 				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
 			</g>
+		);
+	}
+
+	renderBaseline() {
+		const props = this.props;
+
+		let yCoord = props.plotHeight;
+
+		if (props.diverging) {
+			yCoord = props.yScale(props.yOptions && props.yOptions.diversionValue ? props.yOptions.diversionValue : 0) + props.topPadding;
+		}
+
+		return (
+			<path
+				className="ptr-axis-baseline"
+				d={`M0 ${yCoord} L${props.width} ${yCoord}`}
+			/>
 		);
 	}
 
@@ -100,23 +122,16 @@ class AxisX extends React.PureComponent {
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
 				{this.props.data.map(item => {
-					let xValue = item;
-					let xValueFromObject = _.get(item, this.props.keySourcePath);
+					let key = item;
+					let name = item;
 
-					if (_.isObject(xValue) && this.props.keySourcePath) {
-						xValue = xValueFromObject;
+					if (_.isObject(item)) {
+						key = item.key || _.get(item, this.props.keySourcePath);
+						name = item.name || _.get(item, this.props.nameSourcePath);
 					}
 
-					let xCoord = this.props.scale(xValue);
+					let xCoord = this.props.scale(key);
 					if (xCoord || xCoord === 0) {
-						let key =  (this.props.keySourcePath && xValueFromObject) || item;
-						let text = item;
-						let textFromObject = _.get(item, this.props.sourcePath);
-
-						if (this.props.sourcePath && textFromObject) {
-							text = textFromObject;
-						}
-
 						return (
 							<g key={key}>
 								<line
@@ -126,7 +141,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, text) : null}
+								{this.props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, name) : null}
 							</g>
 						);
 					} else {

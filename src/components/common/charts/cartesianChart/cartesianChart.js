@@ -32,7 +32,10 @@ export default (WrappedChartComponent) => {
 			colorSourcePath: PropTypes.string, // only if color is defined in data
 			serieDataSourcePath: PropTypes.string, // only if serie
 			xSourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
-			ySourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
+			ySourcePath: PropTypes.oneOfType([
+				PropTypes.string,
+				PropTypes.array
+			]).isRequired, // if serie, path is in context of serie
 
 			sorting: PropTypes.array,
 
@@ -61,6 +64,11 @@ export default (WrappedChartComponent) => {
 			yTicks: PropTypes.bool,
 			yLabel: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
+
+			diverging: PropTypes.oneOfType([
+				PropTypes.string,
+				PropTypes.bool
+			]),
 
 			legend: PropTypes.bool
 		};
