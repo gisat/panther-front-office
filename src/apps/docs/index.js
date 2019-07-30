@@ -84,6 +84,7 @@ export default (path, baseUrl) => {
 									<Anchor label="Custom bar colors" path="barColors"/>
 									<Anchor label="Aggregation" path="aggregation"/>
 									<Anchor label="Diverging" path="diverging"/>
+									<Anchor label="Stacked" path="stacked"/>
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
 									<Anchor label="Props" path="props"/>

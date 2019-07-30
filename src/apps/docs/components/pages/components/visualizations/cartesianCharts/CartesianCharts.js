@@ -140,9 +140,9 @@ class CartesianCharts extends React.PureComponent {
 							description: "Path to value for axis x. The Value could be string or number depending on chart type. If data are serial, the path is in the context of the serie."
 						},{
 							name: "ySourcePath",
-							type: "string",
+							type: "string|array",
 							required: true,
-							description: "Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie."
+							description: <>Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie. It could be a collection as well (See <Link to="/docs/components/visualizations/cartesianCharts/columnChart#stacked">stacked column charts</Link>).</>
 						}, {}, {
 							name: "sorting",
 							type: "array",

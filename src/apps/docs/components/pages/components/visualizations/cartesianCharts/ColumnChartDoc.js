@@ -25,135 +25,6 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
-
-				<h2 id="stacked">Stacked bars</h2>
-
-				<LightDarkBlock forceRows>
-					<HoverHandler>
-						<ResizableContainer>
-							<ColumnChart
-								key="stacked-chart-relative"
-								data={diverging_stacked}
-								keySourcePath="key"
-								nameSourcePath="data.name"
-								xSourcePath="data.name"
-								ySourcePath={[
-									{
-										path: "data.part1",
-										name: "Part 1",
-										color: "#ff0000"
-									},{
-										path: "data.part2",
-										name: "Part 2",
-										color: "#00ff00"
-									},{
-										path: "data.part3",
-										name: "Part 3",
-										color: "#ff00ff"
-									}
-								]}
-
-								xValuesSize={5}
-								xGridlines
-
-								yLabel
-								yOptions={{
-									name: "Random attribute"
-								}}
-
-								stacked="relative"
-
-							/>
-						</ResizableContainer>
-					</HoverHandler>
-				</LightDarkBlock>
-				<h2 id="stacked">Stacked bars</h2>
-
-				<LightDarkBlock forceRows>
-					<HoverHandler>
-						<ResizableContainer>
-							<ColumnChart
-								key="stacked-chart"
-								data={diverging_stacked}
-								keySourcePath="key"
-								nameSourcePath="data.name"
-								xSourcePath="data.name"
-								ySourcePath={[
-									{
-										path: "data.part1",
-										name: "Part 1",
-										color: "#ff0000"
-									},{
-										path: "data.part2",
-										name: "Part 2",
-										color: "#00ff00"
-									},{
-										path: "data.part3",
-										name: "Part 3",
-										color: "#ff00ff"
-									}
-								]}
-
-								xValuesSize={5}
-								xGridlines
-
-								yLabel
-								yOptions={{
-									name: "Random attribute"
-								}}
-
-							/>
-						</ResizableContainer>
-					</HoverHandler>
-				</LightDarkBlock>
-
-				<h2 id="stacked">Stacked bars</h2>
-
-				<LightDarkBlock forceRows>
-					<HoverHandler>
-						<ResizableContainer>
-							<ColumnChart
-								key="diverging-chart"
-								data={diverging_stacked}
-								keySourcePath="key"
-								nameSourcePath="data.name"
-								xSourcePath="data.name"
-								ySourcePath={[
-									{
-										path: "data.part1",
-										name: "Part 1",
-										color: "#ff0000"
-									},{
-										path: "data.part2",
-										name: "Part 2",
-										color: "#00ff00"
-									},{
-										path: "data.part3",
-										name: "Part 3",
-										color: "#ff00ff"
-									}
-								]}
-
-								xValuesSize={5}
-								xGridlines
-
-								yLabel
-								yOptions={{
-									name: "Random attribute",
-									unit: "%",
-									diversionValue: 3
-								}}
-
-								sorting={[["data.some_value_1", "desc"]]}
-								stacked
-								diverging="double"
-							/>
-						</ResizableContainer>
-					</HoverHandler>
-				</LightDarkBlock>
-
-
-
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ColumnChart
@@ -209,8 +80,12 @@ class ColumnChartDoc extends React.PureComponent {
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. <Link to="/docs/components/visualizations/asterChart#customHover"><b>example in Aster chart</b></Link></> 
-						},
+							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. See <Link to="/docs/components/visualizations/asterChart#customHover">example in Aster chart</Link></>
+						}, {}, {
+							name: "stacked",
+							type: "boolean|string",
+							description: (<>The bars will be composed of segments. There will be one segment per attribute. The attributes has to be defined in <InlineCodeHighlighter>ySourcePath</InlineCodeHighlighter> property. Possible values: 'absolute', 'relative'. If value is not defined, 'absolute' is used by default. See <Link to="#stacked">Stacked section</Link> to find out more.</>)
+						}
 					]}
 				/>
 
@@ -554,6 +429,266 @@ class ColumnChartDoc extends React.PureComponent {
 
 								diverging="double"
 								xGridlines
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+
+
+				<h2 id="stacked">Stacked bars</h2>
+				<p>Stacked bars are useful to visualize more attributes in one bar at once. The attributes have to be defined in <InlineCodeHighlighter>ySourcePath</InlineCodeHighlighter> property. Stacked bars could be either absolute (default option) or <Link to="#stacked-relative">relative</Link>. It is also possible to <Link to="#stacked-diverging">combine diverging and stacked absolute bars</Link>.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'// See ySourcePath. \n' +
+					'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="stacked-chart"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath={[{\n' +
+					'\t\t\tpath: "data.part1"\n' +
+					'\t\t\tname: "Part1"\n' +
+					'\t\t\tcolor: "#ff0000"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part2"\n' +
+					'\t\t\tname: "Part2"\n' +
+					'\t\t\tcolor: "#00ff00"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part3"\n' +
+					'\t\t\tname: "Part3"\n' +
+					'\t\t\tcolor: "#ff00ff"\n' +
+					'\t\t}]}\n' +
+					'\n' +
+					'\t\txValueSize={5}\n' +
+					'\t\txGridlines\n' +
+					'\n' +
+					'\t\txLabel\n' +
+					'\t\tyOptions={{ \n'+
+					'\t\t\tname: "Random attribute"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tstacked\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="stacked-chart"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={[
+									{
+										path: "data.part1",
+										name: "Part 1",
+										color: "#ff0000"
+									},{
+										path: "data.part2",
+										name: "Part 2",
+										color: "#00ff00"
+									},{
+										path: "data.part3",
+										name: "Part 3",
+										color: "#ff00ff"
+									}
+								]}
+
+								xValuesSize={5}
+								xGridlines
+
+								yLabel
+								yOptions={{
+									name: "Random attribute"
+								}}
+
+								stacked
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h3 id="stacked-relative">Relative stacked bars</h3>
+				<SyntaxHighlighter language="jsx">
+					{'// See ySourcePath. \n' +
+					'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="stacked-chart-relative"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath={[{\n' +
+					'\t\t\tpath: "data.part1"\n' +
+					'\t\t\tname: "Part1"\n' +
+					'\t\t\tcolor: "#ff0000"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part2"\n' +
+					'\t\t\tname: "Part2"\n' +
+					'\t\t\tcolor: "#00ff00"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part3"\n' +
+					'\t\t\tname: "Part3"\n' +
+					'\t\t\tcolor: "#ff00ff"\n' +
+					'\t\t}]}\n' +
+					'\n' +
+					'\t\txValueSize={5}\n' +
+					'\t\txGridlines\n' +
+					'\n' +
+					'\t\txLabel\n' +
+					'\t\tyOptions={{ \n'+
+					'\t\t\tname: "Random attribute"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tstacked="relative"\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="stacked-chart-relative"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={[
+									{
+										path: "data.part1",
+										name: "Part 1",
+										color: "#ff0000"
+									},{
+										path: "data.part2",
+										name: "Part 2",
+										color: "#00ff00"
+									},{
+										path: "data.part3",
+										name: "Part 3",
+										color: "#ff00ff"
+									}
+								]}
+
+								xValuesSize={5}
+								xGridlines
+
+								yLabel
+								yOptions={{
+									name: "Random attribute"
+								}}
+
+								stacked="relative"
+
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h3 id="stacked-diverging">Diverging stacked bars</h3>
+				<SyntaxHighlighter language="jsx">
+					{'// See ySourcePath. \n' +
+					'<HoverHandler>\n' +
+					'\t<ColumnChart \n' +
+					'\t\tkey="stacked-diverging-chart"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="data.name"\n' +
+					'\t\tySourcePath={[{\n' +
+					'\t\t\tpath: "data.part1"\n' +
+					'\t\t\tname: "Part1"\n' +
+					'\t\t\tcolor: "#ff0000"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part2"\n' +
+					'\t\t\tname: "Part2"\n' +
+					'\t\t\tcolor: "#00ff00"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part3"\n' +
+					'\t\t\tname: "Part3"\n' +
+					'\t\t\tcolor: "#ff00ff"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part4"\n' +
+					'\t\t\tname: "Part4"\n' +
+					'\t\t\tcolor: "#ffff00"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part5"\n' +
+					'\t\t\tname: "Part5"\n' +
+					'\t\t\tcolor: "#aaccff"\n' +
+					'\t\t},{\n' +
+					'\t\t\tpath: "data.part6"\n' +
+					'\t\t\tname: "Part6"\n' +
+					'\t\t\tcolor: "#0000ff"\n' +
+					'\t\t}]}\n' +
+					'\n' +
+					'\t\txValueSize={5}\n' +
+					'\t\txGridlines\n' +
+					'\n' +
+					'\t\txLabel\n' +
+					'\t\tyOptions={{ \n'+
+					'\t\t\tname: "Random attribute"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tstacked\n' +
+					'\t\tdiverging="double"\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="stacked-diverging-chart"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={[
+									{
+										path: "data.part1",
+										name: "Part 1",
+										color: "#ff0000"
+									},{
+										path: "data.part2",
+										name: "Part 2",
+										color: "#00ff00"
+									},{
+										path: "data.part3",
+										name: "Part 3",
+										color: "#ff00ff"
+									},{
+										path: "data.part4",
+										name: "Part 4",
+										color: "#ffff00"
+									},{
+										path: "data.part5",
+										name: "Part 5",
+										color: "#aaccff"
+									},{
+										path: "data.part6",
+										name: "Part 6",
+										color: "#0000ff"
+									}
+								]}
+
+								xValuesSize={5}
+								xGridlines
+
+								yLabel
+								yOptions={{
+									name: "Random attribute",
+								}}
+
+								stacked
+								diverging="double"
 							/>
 						</ResizableContainer>
 					</HoverHandler>
