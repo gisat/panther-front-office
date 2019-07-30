@@ -8,6 +8,9 @@ import './style.scss';
 
 import HoverContext from "../../../common/HoverHandler/context";
 
+const DEFAULT_COLOR = "#2aa8a3";
+const HIGHLIGHT_COLOR = "#2a928e";
+
 class Bar extends React.PureComponent {
 
 	static contextType = HoverContext;
@@ -43,7 +46,7 @@ class Bar extends React.PureComponent {
 
 		this.state = {
 			height: 0,
-			color: props.defaultColor ? props.defaultColor : null,
+			highlighted: props.highlighted,
 			hidden: props.hidden
 		}
 	}
@@ -59,14 +62,9 @@ class Bar extends React.PureComponent {
 			});
 		}
 
-		let color = null;
-		if (this.props.highlightColor) {
-			color = this.props.highlightColor;
-		}
-
 		this.setState({
-			color,
-			hidden: false
+			hidden: false,
+			highlighted: true
 		});
 	}
 
@@ -81,14 +79,9 @@ class Bar extends React.PureComponent {
 			});
 		}
 
-		let color = null;
-		if (this.props.highlightColor) {
-			color = this.props.highlightColor;
-		}
-
 		this.setState({
-			color,
-			hidden: false
+			hidden: false,
+			highlighted: true
 		});
 	}
 
@@ -97,14 +90,9 @@ class Bar extends React.PureComponent {
 			this.context.onHoverOut();
 		}
 
-		let color = null;
-		if (this.props.defaultColor) {
-			color = this.props.defaultColor;
-		}
-
 		this.setState({
-			color,
-			hidden: this.props.hidden
+			hidden: this.props.hidden,
+			highlighted: false
 		});
 	}
 
@@ -112,8 +100,13 @@ class Bar extends React.PureComponent {
 		this.updateHeight();
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		this.updateHeight();
+		if (this.props.highlighted !== prevProps.highlighted) {
+			this.setState({
+				highlighted: this.props.highlighted
+			});
+		}
 	}
 
 	updateHeight() {
@@ -128,17 +121,20 @@ class Bar extends React.PureComponent {
 		const props = this.props;
 
 		let style = {};
-		let highlighted = false;
+		let highlighted = this.state.highlighted;
+		let defaultColor = props.defaultColor ? props.defaultColor : DEFAULT_COLOR;
+		let highlightColor = props.highlightColor ? props.highlightColor : HIGHLIGHT_COLOR;
 
 		if (this.context && this.context.hoveredItems) {
 			highlighted = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
 		}
 
-
 		if (highlighted) {
-			style.fill = this.state.color
-		} else if (this.state.color && !this.state.hidden) {
-			style.fill = this.state.color
+			style.fill = highlightColor;
+		} else if (!this.state.hidden) {
+			style.fill = defaultColor;
+		} else {
+			style.fill = null;
 		}
 
 		if (props.transitionDelay) {

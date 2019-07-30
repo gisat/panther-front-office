@@ -5,10 +5,6 @@
 
 }
 
-.ptr-column-chart-bar-container:hover .ptr-column-chart-bar {
-	fill: var(--accent65);
-}
-
 .ptr-column-chart-bar-placeholder {
 	fill: var(--base20);
 	opacity: 0;
@@ -20,7 +16,6 @@
 }
 
 .ptr-column-chart-bar {
-	fill: var(--accent50);
 	transition-property: height;
 	transition-delay: 1000ms;
 	transition-duration: 1500ms;
@@ -35,15 +30,11 @@
 	fill: transparent;
 }
 
-.ptr-column-chart-bar:hover {
-	fill: var(--accent65);
-}
-
 .ptr-column-chart-bar-baseline {
 	stroke: var(--base80);
 	stroke-width: 2;
 }
 
 .ptr-column-chart-path {
-	fill: var(--accent50);
+	fill: var(--accent45);
 }

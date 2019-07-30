@@ -18,6 +18,10 @@ class BarGroup extends React.PureComponent {
 
 	static propTypes = {
 		data: PropTypes.object,
+		originalData: PropTypes.oneOfType([
+			PropTypes.array,
+			PropTypes.object
+		]), // used in popups
 		itemKeys: PropTypes.array,
 		xScale: PropTypes.func,
 		yScale: PropTypes.func,
@@ -45,6 +49,10 @@ class BarGroup extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			highlighted: false
+		};
+
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onMouseOver = this.onMouseOver.bind(this);
@@ -60,6 +68,8 @@ class BarGroup extends React.PureComponent {
 				}
 			});
 		}
+
+		this.setState({highlighted: true});
 	}
 
 	onMouseOver(e) {
@@ -72,12 +82,16 @@ class BarGroup extends React.PureComponent {
 				}
 			});
 		}
+
+		this.setState({highlighted: true});
 	}
 
 	onMouseOut(e) {
 		if (this.context && this.context.onHoverOut) {
 			this.context.onHoverOut();
 		}
+
+		this.setState({highlighted: false});
 	}
 
 
@@ -178,6 +192,7 @@ class BarGroup extends React.PureComponent {
 				key={props.data.key + '-' + index}
 				itemKeys={this.props.itemKeys}
 				data={data}
+				originalData={props.originalData}
 				name={props.data.name}
 				x={0}
 				y={y}
@@ -185,6 +200,7 @@ class BarGroup extends React.PureComponent {
 				width={width}
 				defaultColor={data.defaultColor || props.defaultColor}
 				highlightColor={data.highlightColor || props.highlightColor}
+				highlighted={this.state.highlighted}
 				attributeName={props.attributeName}
 				attributeUnits={props.attributeUnits}
 				hidden={props.hidden}

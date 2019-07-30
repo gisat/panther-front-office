@@ -315,6 +315,7 @@ class ColumnChart extends React.PureComponent {
 					key={item.key}
 					itemKeys={[item.key]}
 					data={item}
+					originalData={item}
 					minimum={minimum}
 					maximum={maximum}
 					xScale={xScale}
@@ -354,7 +355,9 @@ class ColumnChart extends React.PureComponent {
 			return (
 				<BarGroup
 					key={group.keys[0]}
+					itemKeys={group.keys}
 					data={group.originalData[0]}
+					originalData={group.originalData}
 					xScale={xScale}
 					yScale={yScale}
 					yBaseValue={yBaseValue}
