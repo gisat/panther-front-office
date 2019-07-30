@@ -5,7 +5,7 @@ import './style.scss';
 import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
 import ColumnChart from "../../../components/common/charts/ColumnChart/ColumnChart";
 import ChartWrapper from "../../../components/common/charts/ChartWrapper/ChartWrapper";
-import WorldWindMap from "../../../components/common/maps/WorldWindMap/presentation";
+import WorldWindMap from "../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 
 
 class Elections extends React.PureComponent {

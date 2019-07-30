@@ -20,7 +20,7 @@ import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
 import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
-import Buttons from "./components/pages/components/atoms/Buttons";
+import Buttons from "./components/pages/components/atoms/ButtonsDoc";
 import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
@@ -74,12 +74,37 @@ export default (path, baseUrl) => {
 								<Page label="Column chart" path="columnChart" component={ColumnChartDoc}>
 									<Anchor label="Props" path="props"/>
 									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Serial data handling" path="serialData"/>
+									<Anchor label="Custom bar colors" path="barColors"/>
+									<Anchor label="Aggregation" path="aggregation"/>
 								</Page>
-								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc} />
+								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
+									<Anchor label="Props" path="props"/>
+									<Anchor label="Data structure" path="dataStructure"/>
+									<Anchor label="Basic settings" path="basicSettings"/>
+									<Anchor label="Point radius" path="pointRadius"/>
+									<Anchor label="Serial data handling" path="serialData"/>
+								</Page>
 							</Directory>
+							<Page label="Aster chart" path="asterChart" component={AsterChartDoc}>
+								<Anchor label="Props" path="props"/>
+								<Anchor label="Data structure" path="dataStructure"/>
+								<Anchor label="Basic settings" path="basicSettings"/>
+								<Anchor label="Relative values" path="relativeValues"/>
+								<Anchor label="Dimensions" path="dimensions"/>
+								<Anchor label="Forced min & max" path="forceMinMax"/>
+								<Anchor label="Grid" path="grid"/>
+								<Anchor label="Radials & legend" path="radials"/>
+								<Anchor label="Custom hover value" path="customHover"/>
+							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
-							<Page label="Buttons" path="buttons" component={Buttons}/>
+							<Page label="Buttons" path="buttons" component={Buttons}>
+								<Anchor label="Props" path="props"/>
+								<Anchor label="Levels" path="levels"/>
+								<Anchor label="Sizes" path="sizes"/>
+							</Page>
 							<Page label="Forms" path="forms" component={FormsDoc}/>
 							<Page label="ItemSelect" path="itemSelect" component={ItemSelectDoc}/>
 							<Page label="Icon" path="icon"/>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Page, {
-	ComponentPropsTable,
-	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
@@ -16,6 +14,7 @@ import ColumnChart from "../../../../../../../components/common/charts/ColumnCha
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
@@ -315,7 +314,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<LineChart
 							key="cartesians-docs-chart-width"
@@ -357,12 +356,9 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
-						<ResizableContainer
-							minWidth={30}
-							maxWidth={45}
-						>
+						<ResizableContainer>
 							<ColumnChart
 								key="cartesians-docs-chart-max-min-width"
 
@@ -400,7 +396,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ScatterChart
@@ -442,7 +438,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -512,7 +508,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ColumnChart
@@ -575,7 +571,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -613,7 +609,7 @@ class CartesianCharts extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ScatterChart
@@ -625,7 +621,7 @@ class CartesianCharts extends React.PureComponent {
 								xSourcePath="data.some_value_1"
 								ySourcePath="data.some_value_2"
 
-								colored
+								defaultSchemePointColors
 								legend
 							/>
 						</ResizableContainer>

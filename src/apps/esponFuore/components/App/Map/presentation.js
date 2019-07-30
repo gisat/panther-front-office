@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
-import layersHelper from '../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import {getCartogramStyleFunction} from '../../../../../components/common/maps/WorldWindMap/styles/cartogram';
-import {getCartodiagramStyleFunction, MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../../../../components/common/maps/WorldWindMap/styles/cartodiagram';
+import layersHelper from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
+import {getCartogramStyleFunction} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
+import {getCartodiagramStyleFunction, MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram';
 
-import ExtendedRenderableLayer from '../../../../../components/common/maps/WorldWindMap/layers/ExtendedGeoJsonLayer';
-import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/WorldWindMap/styles/colors'
-import CartodiagramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartodiagramVectorLayer';
-import CartogramVectorLayer from '../../../../../components/common/maps/WorldWindMap/layers/CartogramVectorLayer';
-import {defaultVectorStyle} from "../../../../../components/common/maps/WorldWindMap/layers/utils/vectorStyle";
+import ExtendedRenderableLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/ExtendedGeoJsonLayer';
+import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+import CartodiagramVectorLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/CartodiagramVectorLayer';
+import CartogramVectorLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/CartogramVectorLayer';
+import {defaultVectorStyle} from "../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/vectorStyle";
 
-import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
+import WorldWindMap from "../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
 

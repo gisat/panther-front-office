@@ -8,13 +8,12 @@ import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import Page, {
-	ComponentPropsTable,
-	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
 } from "../../../../Page";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
+import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 
 class LineChartDoc extends React.PureComponent {
 	constructor(props) {
@@ -114,7 +113,7 @@ class LineChartDoc extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -155,7 +154,7 @@ class LineChartDoc extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -180,7 +179,7 @@ class LineChartDoc extends React.PureComponent {
 				<p>As you can see in the examples above, every line in the chart has its own color, so the chart is easy to read. However, the more lines are in the chart, the worse is the readability. Graying mode helps solve these cases.</p>
 				<p>By default, <InlineCodeHighlighter>grayingThreshold</InlineCodeHighlighter> is set to 10, so if there are more than 10 lines (and less than aggregation threshold at the same time), all lines will have gray color and no points. In the example below, data with 30 items is used.</p>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -220,7 +219,7 @@ class LineChartDoc extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -261,7 +260,7 @@ class LineChartDoc extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart
@@ -300,7 +299,7 @@ class LineChartDoc extends React.PureComponent {
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
 
-				<LightDarkBlock>
+				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<LineChart

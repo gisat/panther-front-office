@@ -233,80 +233,22 @@
 
 /* Light dark block */
 .ptr-docs-light-dark-block {
+	display: flex;
 	margin: m(1) 0 m(2);
-	overflow-x: hidden;
+	//overflow-x: hidden;
+	border: 1px solid var(--base30)
+}
+.ptr-docs-light-dark-block.forceRows {
+	display: block;
 }
 .ptr-docs-light-dark-block > div {
+	flex: 1 50%;
 	padding: m(1);
 }
 
 .ptr-docs-light-dark-block .ptr-light,
 .ptr-docs-light-dark-block .ptr-dark {
 	background: var(--base0);
-}
-
-/* Component props table */
-.ptr-docs-props-table-container {
-	width: 100%;
-	overflow-y: auto;
-	margin: m(1/3) 0;
-}
-
-.ptr-docs-props-table {
-	background: var(--base10);
-	padding: .35rem;
-	max-width: 80rem;
-}
-
-.ptr-docs-props-table-empty-row {
-	height: m(1);
-}
-
-.ptr-docs-props-table tr th {
-	font-weight: bold;
-	text-align: left;
-}
-
-.ptr-docs-props-table tr th,
-.ptr-docs-props-table tr td {
-	padding: .35rem 1rem .35rem .35rem;
-	color: var(--base80);
-}
-
-.ptr-docs-props-table-name,
-.ptr-docs-props-table-type,
-.ptr-docs-props-table-default {
-	font-family: monospace;
-	font-size: 1.15rem;
-}
-
-.ptr-docs-props-table tr td.ptr-docs-props-table-name {
-	color: #e2575a;
-	font-weight: bold;
-}
-
-.ptr-docs-props-table tr td.ptr-docs-props-table-type {
-	color: #9034c7;
-}
-
-.ptr-docs-props-table .ptr-docs-props-table-required {
-	text-align: center;
-}
-
-.ptr-docs-props-table .ptr-docs-props-table-required .ptr-icon {
-	width: 1rem;
-	height: 1rem;
-	position: relative;
-	top: .15rem;
-}
-
-.ptr-docs-props-table-description {
-	width: 99%;
-}
-
-.ptr-docs-props-table-description-object > div > span {
-	font-family: monospace;
-	font-size: 1.15rem;
 }
 
 /* Syntax highlighter */
@@ -337,6 +279,22 @@
 .ptr-docs-todo-body {
 	background: rgba(255,144,47,.2);
 	padding: m(2/3);
+}
+
+/* Docs To:Do inline */
+.ptr-docs-todo-inline{
+	border: 2px dashed rgba(255,144,47,1);
+	display: inline-block;
+	padding-right: .5rem;
+	background: rgba(255,144,47,.2);
+}
+
+.ptr-docs-todo-inline i {
+	background: rgba(255,144,47,1);
+	color: #ffffff;
+	font-size: $a1;
+	padding: .15rem m(1/3);
+	margin-right: .5rem;
 }
 
 /* Visualizations */

@@ -9,7 +9,7 @@ import '../../styles/reset.css';
 import '../../styles/base.scss';
 
 import utils from "../../utils/sort";
-import layersHelper from '../../components/common/maps/WorldWindMap/layers/helpers';
+import layersHelper from '../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
 import {getStyleFunction} from "./Elections/layerTurnoutStyle";
 import Elections from "./Elections/Elections";
 import nuts3 from "./data/nuts3_cr.js";
