@@ -34,7 +34,12 @@ class BarGroup extends React.PureComponent {
 		maximum: PropTypes.number,
 		minimum: PropTypes.number,
 		baseline: PropTypes.bool,
-		hidden: PropTypes.bool
+		hidden: PropTypes.bool,
+
+		stacked: PropTypes.oneOfType([
+			PropTypes.bool,
+			PropTypes.string
+		])
 	};
 
 	constructor(props) {
@@ -136,7 +141,9 @@ class BarGroup extends React.PureComponent {
 			let height = props.yScale(props.yBaseValue) - props.yScale(item.value);
 			let transitionDuration = Math.abs(((item.value - props.yBaseValue)*ANIMATION_DURATION)/(props.maximum - props.yBaseValue));
 
+			console.log(index, transitionDelay, transitionDuration);
 			bars.push(this.renderBar(index, item, y0, height, barWidth, transitionDuration, transitionDelay));
+
 			y0 += height;
 			transitionDelay += transitionDuration;
 		});
@@ -154,8 +161,9 @@ class BarGroup extends React.PureComponent {
 		_.forEach(data, (item, index) => {
 			let height = props.yScale(item.value) - props.yScale(props.yBaseValue);
 			let transitionDuration = Math.abs(((item.value - props.yBaseValue)*ANIMATION_DURATION)/(props.yBaseValue - props.minimum));
-			console.log(index, transitionDelay, transitionDuration);
+
 			bars.push(this.renderBar(index, item, y0, height, barWidth, transitionDuration, transitionDelay));
+
 			y0 += height;
 			transitionDelay += transitionDuration;
 		});
@@ -182,6 +190,9 @@ class BarGroup extends React.PureComponent {
 				hidden={props.hidden}
 				transitionDuration={transitionDuration}
 				transitionDelay={transitionDelay}
+				classes={classnames("", {
+					'stacked-relative': props.stacked === "relative"
+				})}
 			/>
 		);
 	}

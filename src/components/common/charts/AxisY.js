@@ -40,6 +40,10 @@ class AxisY extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.bool
 		]),
+		stacked: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]),
 		xScale: PropTypes.func,
 		xOptions: PropTypes.object
 	};
@@ -147,8 +151,13 @@ class AxisY extends React.PureComponent {
 				content += props.options.name;
 			}
 
-			if (props.options.unit) {
-				content += " (" + props.options.unit + ")"
+			if (props.options.unit || props.stacked === "relative") {
+				let unit = props.options.unit;
+				if (props.stacked === "relative") {
+					unit = "%";
+				}
+
+				content += " (" + unit + ")"
 			}
 
 		} else {

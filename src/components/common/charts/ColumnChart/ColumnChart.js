@@ -34,7 +34,12 @@ class ColumnChart extends React.PureComponent {
 		barGapRatio: PropTypes.number,
 
 		animateChangeData: PropTypes.bool,
-		hoverValueSourcePath: PropTypes.string //path for value to tooltip - by default same like value.
+		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value.
+
+		stacked: PropTypes.oneOfType([
+			PropTypes.bool,
+			PropTypes.string
+		])
 	};
 
 	constructor(props) {
@@ -57,18 +62,16 @@ class ColumnChart extends React.PureComponent {
 
 		_.forEach(props.data, (record) => {
 			let key = _.get(record, props.keySourcePath);
-			let preparedRecord = {
-				key,
-				name: _.get(record, props.nameSourcePath),
-				positive: {
-					total: null,
-					data: []
-				},
-				negative: {
-					total: null,
-					data: []
-				}
+			let name = _.get(record, props.nameSourcePath);
+			let	positive = {
+				total: null,
+				data: []
 			};
+			let	negative = {
+				total: null,
+				data: []
+			};
+			
 
 			// colors
 			let color = _.get(record, props.colorSourcePath);
@@ -91,11 +94,11 @@ class ColumnChart extends React.PureComponent {
 						let value = _.get(record, source);
 						// Deprecated ySourcePath array -> diverging double
 						if (value >= diversionValue) {
-							preparedRecord.positive.total = value;
-							preparedRecord.positive.data.push({value, defaultColor, highlightColor});
+							positive.total = value;
+							positive.data.push({value, defaultColor, highlightColor});
 						} else {
-							preparedRecord.negative.total = value;
-							preparedRecord.negative.data.push({value, defaultColor, highlightColor});
+							negative.total = value;
+							negative.data.push({value, defaultColor, highlightColor});
 						}
 					} else {
 						let value = _.get(record, source.path);
@@ -107,18 +110,17 @@ class ColumnChart extends React.PureComponent {
 
 						if (value || value === 0) {
 							if (value >= diversionValue) {
-								if (!preparedRecord.positive.total) {
-									preparedRecord.positive.total = diversionValue;
+								if (!positive.total) {
+									positive.total = diversionValue;
 								}
-								preparedRecord.positive.total += (value - diversionValue);
-								preparedRecord.positive.data.push({name, value, defaultColor, highlightColor});
-
+								positive.total += (value - diversionValue);
+								positive.data.push({name, value, defaultColor, highlightColor});
 							} else {
-								if (!preparedRecord.negative.total) {
-									preparedRecord.negative.total = diversionValue;
+								if (!negative.total) {
+									negative.total = diversionValue;
 								}
-								preparedRecord.negative.total -= (diversionValue - value);
-								preparedRecord.negative.data.push({name, value, defaultColor, highlightColor});
+								negative.total -= (diversionValue - value);
+								negative.data.push({name, value, defaultColor, highlightColor});
 							}
 						}
 					}
@@ -128,20 +130,38 @@ class ColumnChart extends React.PureComponent {
 
 				if (props.diverging) {
 					if (value >= diversionValue) {
-						preparedRecord.positive.total = value;
-						preparedRecord.positive.data.push({value, defaultColor, highlightColor});
+						positive.total = value;
+						positive.data.push({value, defaultColor, highlightColor});
 					} else {
-						preparedRecord.negative.total = value;
-						preparedRecord.negative.data.push({value, defaultColor, highlightColor});
+						negative.total = value;
+						negative.data.push({value, defaultColor, highlightColor});
 					}
 				} else {
-					preparedRecord.positive.total = value;
-					preparedRecord.positive.data.push({value, defaultColor, highlightColor});
+					positive.total = value;
+					positive.data.push({value, defaultColor, highlightColor});
 				}
 			}
 
-			if (preparedRecord.positive.total || preparedRecord.negative.total) {
-				data.push(preparedRecord);
+			if (props.stacked === "relative") {
+				if (positive.total) {
+					_.forEach(positive.data, record => {
+						record.originalValue = record.value;
+						record.value = Math.abs(record.value * 100 / positive.total);
+					});
+					positive.total = 100;
+				}
+
+				if (negative.total) {
+					_.forEach(negative.data, record => {
+						record.originalValue = record.value;
+						record.value = -Math.abs(record.value * 100 / negative.total);
+					});
+					negative.total = -100;
+				}
+			}
+
+			if (positive.total || negative.total) {
+				data.push({key, name, positive, negative});
 			}
 		});
 
@@ -307,6 +327,7 @@ class ColumnChart extends React.PureComponent {
 					attributeName={this.props.yOptions && this.props.yOptions.name}
 					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
 					baseline={this.props.diverging === "double"}
+					stacked={this.props.stacked}
 				/>
 			);
 		});

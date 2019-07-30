@@ -24,6 +24,9 @@ class Bar extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
+
+		classes: PropTypes.string,
+
 		attributeName: PropTypes.string,
 		attributeUnits: PropTypes.string,
 
@@ -148,7 +151,7 @@ class Bar extends React.PureComponent {
 
 		let classes = classnames("ptr-column-chart-bar", {
 			hidden: this.state.hidden
-		});
+		}, props.classes);
 
 		return (
 			<rect

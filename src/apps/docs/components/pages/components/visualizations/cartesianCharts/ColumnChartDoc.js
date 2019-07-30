@@ -25,6 +25,94 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
+				<h2 id="stacked">Stacked bars</h2>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="diverging-chart"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={[
+									{
+										path: "data.part1",
+										name: "Part 1",
+										color: "#ff0000"
+									},{
+										path: "data.part2",
+										name: "Part 2",
+										color: "#00ff00"
+									},{
+										path: "data.part3",
+										name: "Part 3",
+										color: "#ff00ff"
+									}
+								]}
+
+								xValuesSize={5}
+								xGridlines
+
+								yLabel
+								yOptions={{
+									name: "Random attribute"
+								}}
+
+								stacked="relative"
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h2 id="stacked">Stacked bars</h2>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="diverging-chart"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={[
+									{
+										path: "data.part1",
+										name: "Part 1",
+										color: "#ff0000"
+									},{
+										path: "data.part2",
+										name: "Part 2",
+										color: "#00ff00"
+									},{
+										path: "data.part3",
+										name: "Part 3",
+										color: "#ff00ff"
+									}
+								]}
+
+								xValuesSize={5}
+								xGridlines
+
+								yLabel
+								yOptions={{
+									name: "Random attribute",
+									unit: "%",
+									diversionValue: 3
+								}}
+
+								sorting={[["data.some_value_1", "desc"]]}
+								stacked
+								diverging="double"
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
+
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ColumnChart
@@ -425,54 +513,6 @@ class ColumnChartDoc extends React.PureComponent {
 
 								diverging="double"
 								xGridlines
-								yOptions={{
-									diversionValue: 500
-								}}
-							/>
-						</ResizableContainer>
-					</HoverHandler>
-				</LightDarkBlock>
-
-				<h2 id="stacked">Stacked bars</h2>
-
-				<LightDarkBlock forceRows>
-					<HoverHandler>
-						<ResizableContainer>
-							<ColumnChart
-								key="diverging-chart"
-								data={diverging_stacked}
-								keySourcePath="key"
-								nameSourcePath="data.name"
-								xSourcePath="data.name"
-								ySourcePath={[
-									{
-										path: "data.part1",
-										name: "Part 1",
-										color: "#ff0000"
-									},{
-										path: "data.part2",
-										name: "Part 2",
-										color: "#00ff00"
-									},{
-										path: "data.part3",
-										name: "Part 3",
-										color: "#ff00ff"
-									}
-								]}
-
-								xValuesSize={5}
-								xGridlines
-
-								yLabel
-								yOptions={{
-									name: "Random attribute",
-									unit: "%",
-									diversionValue: 3
-								}}
-
-								sorting={[["data.some_value_1", "desc"]]}
-								stacked
-								diverging="double"
 							/>
 						</ResizableContainer>
 					</HoverHandler>

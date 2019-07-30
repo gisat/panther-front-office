@@ -40,6 +40,7 @@ class CartesianChartContent extends React.PureComponent {
 					options={props.yOptions}
 
 					diverging={props.diverging}
+					stacked={props.stacked}
 					xScale={props.xScale}
 					xOptions={props.xOptions}
 

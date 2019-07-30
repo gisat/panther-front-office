@@ -27,7 +27,7 @@
 	transition-timing-function: linear;
 }
 
-.ptr-column-chart-bar:last-child {
+.ptr-column-chart-bar:not(.stacked-relative):last-child {
 	transition-timing-function: ease-out;
 }
 
