@@ -22,7 +22,7 @@ function start() {
 			(url.hostname === app.hostname) && (!app.path || url.pathname.startsWith(app.path))
 		) {
 			return app.app(app.path, app.hostname + app.path);
-		} else if (((url.hostname === '192.168.1.194' || url.hostname === 'localhost' || _.includes(config.devHostnames, url.hostname)) && url.pathname.startsWith(app.devPath))) {
+		} else if (((url.hostname === 'localhost' || _.includes(config.devHostnames, url.hostname)) && url.pathname.startsWith(app.devPath))) {
 			return app.app(app.devPath, url.hostname);
 		}
 	}
