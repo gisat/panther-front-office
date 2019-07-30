@@ -25,7 +25,7 @@ class ColumnChart extends React.PureComponent {
 	static propTypes = {
 		defaultSchemeBarColors: PropTypes.bool, // if color is not defined in data and should be used from default scheme
 		defaultColor: PropTypes.string,
-		highlightedColor: PropTypes.oneOfType([
+		highlightColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
 		]),
@@ -50,7 +50,7 @@ class ColumnChart extends React.PureComponent {
 		const props = this.props;
 
 		let defaultColor = props.defaultColor;
-		let highlightColor = props.highlightedColor;
+		let highlightColor = props.highlightColor;
 		let colorScale = null;
 
 		if (props.defaultSchemeBarColors) {
@@ -323,7 +323,7 @@ class ColumnChart extends React.PureComponent {
 					availableHeight={availableHeight}
 					availableWidth={availableWidth}
 					defaultColor={this.props.defaultColor}
-					highlightColor={this.props.highlightedColor}
+					highlightColor={this.props.highlightColor}
 					attributeName={this.props.yOptions && this.props.yOptions.name}
 					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
 					baseline={this.props.diverging === "double"}
@@ -361,7 +361,7 @@ class ColumnChart extends React.PureComponent {
 					availableHeight={availableHeight}
 					availableWidth={availableWidth}
 					defaultColor={this.props.defaultColor}
-					highlightColor={this.props.highlightedColor}
+					highlightColor={this.props.highlightColor}
 					attributeName={this.props.yOptions && this.props.yOptions.name}
 					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
 					baseline={this.props.diverging === "double"}

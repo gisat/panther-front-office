@@ -23,7 +23,7 @@ class Segment extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
-		highlightedColor: PropTypes.oneOfType([
+		highlightColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
 		]),
@@ -96,7 +96,7 @@ class Segment extends React.PureComponent {
 
 	setColor(forceHover) {
 		if (forceHover) {
-			this.setState({color: this.props.highlightedColor ? this.props.highlightedColor : null});
+			this.setState({color: this.props.highlightColor ? this.props.highlightColor : null});
 		} else {
 			this.setState({color: this.props.defaultColor ? this.props.defaultColor : null});
 		}
@@ -117,7 +117,7 @@ class Segment extends React.PureComponent {
 			}
 
 			if (highlightedFromContext) {
-				color = this.props.highlightedColor ? this.props.highlightedColor : null;
+				color = this.props.highlightColor ? this.props.highlightColor : null;
 			}
 		}
 

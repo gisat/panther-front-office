@@ -15,7 +15,7 @@ class Line extends React.PureComponent {
 		name: PropTypes.string,
 		coordinates: PropTypes.array,
 		defaultColor: PropTypes.string,
-		highlightedColor: PropTypes.oneOfType([
+		highlightColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
 		]),
@@ -103,7 +103,7 @@ class Line extends React.PureComponent {
 
 	setColor(forceHover) {
 		if (this.props.highlighted || forceHover) {
-			this.setState({color: this.props.highlightedColor ? this.props.highlightedColor : null});
+			this.setState({color: this.props.highlightColor ? this.props.highlightColor : null});
 		} else if (this.props.gray) {
 			this.setState({color: null});
 		} else {
@@ -128,7 +128,7 @@ class Line extends React.PureComponent {
 			}
 
 			if (higlightedFromContext) {
-				color = this.props.highlightedColor ? this.props.highlightedColor : null;
+				color = this.props.highlightColor ? this.props.highlightColor : null;
 			}
 		}
 		let classes = classnames("ptr-line-chart-line-wrapper", {

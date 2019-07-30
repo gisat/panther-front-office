@@ -162,7 +162,7 @@ class EsponFuoreChart extends React.PureComponent {
 				withoutYbaseline
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
-				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
 			/>
 		);
 	}
@@ -194,7 +194,7 @@ class EsponFuoreChart extends React.PureComponent {
 				withPoints
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
-				highlightedColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
 			/>) : (
 				<div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
 			)

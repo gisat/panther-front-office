@@ -25,13 +25,14 @@ class ColumnChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Column chart">
+
 				<h2 id="stacked">Stacked bars</h2>
 
 				<LightDarkBlock forceRows>
 					<HoverHandler>
 						<ResizableContainer>
 							<ColumnChart
-								key="diverging-chart"
+								key="stacked-chart-relative"
 								data={diverging_stacked}
 								keySourcePath="key"
 								nameSourcePath="data.name"
@@ -61,6 +62,46 @@ class ColumnChartDoc extends React.PureComponent {
 								}}
 
 								stacked="relative"
+
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+				<h2 id="stacked">Stacked bars</h2>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ColumnChart
+								key="stacked-chart"
+								data={diverging_stacked}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								xSourcePath="data.name"
+								ySourcePath={[
+									{
+										path: "data.part1",
+										name: "Part 1",
+										color: "#ff0000"
+									},{
+										path: "data.part2",
+										name: "Part 2",
+										color: "#00ff00"
+									},{
+										path: "data.part3",
+										name: "Part 3",
+										color: "#ff00ff"
+									}
+								]}
+
+								xValuesSize={5}
+								xGridlines
+
+								yLabel
+								yOptions={{
+									name: "Random attribute"
+								}}
+
 							/>
 						</ResizableContainer>
 					</HoverHandler>
@@ -147,7 +188,7 @@ class ColumnChartDoc extends React.PureComponent {
 							type: "string",
 							description: "Default color of bars."
 						}, {
-							name: "highlightedColor",
+							name: "highlightColor",
 							type: "string|object",
 							description: "Color which is used for hover."
 						}, {}, {
@@ -281,7 +322,7 @@ class ColumnChartDoc extends React.PureComponent {
 
 				<h2 id="barColors">Custom bar colors</h2>
 
-				<p>By default, all the bars have the same color (accent color from CSS). However, it is possible to change this color using <InlineCodeHighlighter>defaultColor</InlineCodeHighlighter> property as well as the color for hover using   <InlineCodeHighlighter>highlightedColor</InlineCodeHighlighter> property.</p>
+				<p>By default, all the bars have the same color (accent color from CSS). However, it is possible to change this color using <InlineCodeHighlighter>defaultColor</InlineCodeHighlighter> property as well as the color for hover using   <InlineCodeHighlighter>highlightColor</InlineCodeHighlighter> property.</p>
 
 				<SyntaxHighlighter language="jsx">
 					{'<HoverHandler>\n' +
@@ -297,7 +338,7 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\tsorting={[["data.some_value_1","desc"]]}\n' +
 					'\n' +
 					'\t\tdefaultColor="#ffaaaa"\n' +
-					'\t\thighlightedColor="#ff0000"\n' +
+					'\t\thighlightColor="#ff0000"\n' +
 					'\t/>\n' +
 					'</HoverHandler>'}
 				</SyntaxHighlighter>
@@ -316,7 +357,7 @@ class ColumnChartDoc extends React.PureComponent {
 								sorting={[["data.some_value_1", "desc"]]}
 
 								defaultColor="#ffaaaa"
-								highlightedColor="#ff0000"
+								highlightColor="#ff0000"
 							/>
 						</ResizableContainer>
 					</HoverHandler>
