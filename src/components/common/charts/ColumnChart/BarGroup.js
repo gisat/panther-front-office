@@ -223,6 +223,7 @@ class BarGroup extends React.PureComponent {
 	}
 
 	getPopupContent() {
+		// TODO add popup for whole bar
 		return (
 			<div>
 				<i>{this.props.data.name}</i>

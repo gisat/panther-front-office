@@ -38,3 +38,19 @@
 .ptr-column-chart-path {
 	fill: var(--accent45);
 }
+
+.ptr-column-chart-popup {
+	display: flex;
+	flex-direction: column;
+}
+
+.ptr-column-chart-popup-values {
+	display: flex;
+	align-items: center;
+}
+
+.ptr-column-chart-popup-color {
+	height: .5rem;
+	width: .5rem;
+	margin-right: .25rem;
+}
