@@ -226,7 +226,7 @@ class ColumnChart extends React.PureComponent {
 		const props = this.props;
 
 		/* data preparation */
-		let data, aggregatedData, yScale, xScale, xDomain, yDomain, minimum, maximum, diversionValue = null;
+		let data, aggregatedData, yScale, xScale, xDomain, yDomain, minimum, maximum, diversionValue, units = null;
 		if (props.data) {
 
 			/* Prepare data for column chart */
@@ -237,6 +237,12 @@ class ColumnChart extends React.PureComponent {
 			let extremeValues = this.getExtremeValues(data);
 			minimum = extremeValues.min;
 			maximum = extremeValues.max;
+
+			/* Adjust units */
+			units = props.yOptions && props.yOptions.unit;
+			if (props.stacked === 'relative') {
+				units = '%';
+			}
 
 			diversionValue = minimum;
 			if (props.diverging) {
@@ -301,14 +307,14 @@ class ColumnChart extends React.PureComponent {
 						{...props}
 						{...{xScale, yScale, contentData: data, aggregated: !!aggregatedData.length}}
 					>
-						{aggregatedData.length ? this.renderAggregated(aggregatedData, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth) : this.renderBarGroups(data, minimum, maximum, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth)}
+						{aggregatedData.length ? this.renderAggregated(aggregatedData, units, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth) : this.renderBarGroups(data, units, minimum, maximum, xScale, yScale, diversionValue, props.innerPlotHeight, props.innerPlotWidth)}
 					</CartesianChartContent>
 				: null}
 			</svg>
 		);
 	}
 
-	renderBarGroups(data, minimum, maximum, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+	renderBarGroups(data, units, minimum, maximum, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return data.map(item => {
 			return (
 				<BarGroup
@@ -326,7 +332,7 @@ class ColumnChart extends React.PureComponent {
 					defaultColor={this.props.defaultColor}
 					highlightColor={this.props.highlightColor}
 					attributeName={this.props.yOptions && this.props.yOptions.name}
-					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
+					attributeUnits={units}
 					baseline={this.props.diverging === "double"}
 					stacked={this.props.stacked}
 				/>
@@ -334,12 +340,12 @@ class ColumnChart extends React.PureComponent {
 		});
 	}
 
-	renderAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+	renderAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return (
 			!this.props.diverging && !this.props.stacked ? (
 			<>
 				{this.renderPath(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
-				{this.renderBarsFromAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
+				{this.renderBarsFromAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
 			</>) : (<>
 				{(() => {
 					// TODO find out how to aggregate
@@ -350,7 +356,7 @@ class ColumnChart extends React.PureComponent {
 		)
 	}
 
-	renderBarsFromAggregated(data, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
+	renderBarsFromAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return data.map(group => {
 			return (
 				<BarGroup
@@ -366,7 +372,7 @@ class ColumnChart extends React.PureComponent {
 					defaultColor={this.props.defaultColor}
 					highlightColor={this.props.highlightColor}
 					attributeName={this.props.yOptions && this.props.yOptions.name}
-					attributeUnits={this.props.yOptions && this.props.yOptions.unit}
+					attributeUnits={units}
 					baseline={this.props.diverging === "double"}
 					hidden
 				/>
