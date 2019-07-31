@@ -23,6 +23,37 @@ function featuresToAttributes(originalFeatures, key, period, attributes, normAtt
 	return areas;
 }
 
+function featuresToAttributesSerial(originalFeatures, key, attributes, normAttributeKey) {
+	let features = featuresToSerialDataAsObject(originalFeatures, normAttributeKey);
+	let areas = {};
+
+	_.forEach(features, feature => {
+		areas[feature[key]] = attributes.map(attribute => {
+			let serialData = [];
+			_.forIn(feature.data, (value, key) => {
+				let serieValue = 0;
+				if (_.isArray(attribute.key)) {
+					_.forEach(attribute.key, key => {
+						serieValue += value[key]
+					});
+				} else {
+					serieValue = value[attribute.key]
+				}
+
+
+
+				serialData.push({
+					key,
+					value: serieValue
+				});
+			});
+			return {...attribute, key: (_.isArray(attribute.key) ? attribute.key[0] : attribute.key), data: serialData}
+		});
+	});
+
+	return areas;
+}
+
 function featuresToSerialDataAsObject(features, normAttributeKey) {
 	return _.map(features, feature => {
 		let properties = feature.properties;
@@ -32,6 +63,9 @@ function featuresToSerialDataAsObject(features, normAttributeKey) {
 		};
 
 		let normValue = normAttributeKey ? properties[normAttributeKey]: null;
+		if (typeof normAttributeKey === "number") {
+			normValue = normAttributeKey;
+		}
 
 		_.forEach(properties, (propValue, propKey) => {
 			let parsedKey = propKey.split("_p_60000");
@@ -57,11 +91,42 @@ function featuresToSerialDataAsObject(features, normAttributeKey) {
 	});
 }
 
+/**
+ * Calculate changes in attributes between to and from
+ * @param data {Array} prepared data
+ * @param attributes {Array}
+ * @param key {string} area key
+ * @param from {number}
+ * @param to {number}
+ */
+function getAttributeChanges(data, key, attributes, from, to) {
+	let features = featuresToSerialDataAsObject(data);
+	let areas = {};
+
+	_.forEach(features, feature => {
+		let data = feature.data;
+		areas[feature[key]] = attributes.map(attribute => {
+			let absolute = data[to][attribute.key] - data[from][attribute.key];
+			return {
+				...attribute,
+				absolute: data[to][attribute.key] - data[from][attribute.key],
+				relative: absolute*100/data[from][attribute.key]
+			}
+		});
+	});
+
+	return areas;
+}
+
 function normalize(value, normValue) {
 	return +((value*100/normValue).toFixed(2));
 }
 
 export default {
 	featuresToSerialData,
-	featuresToAttributes
+	featuresToSerialDataAsObject,
+	featuresToAttributes,
+	featuresToAttributesSerial,
+
+	getAttributeChanges
 }
