@@ -335,7 +335,7 @@ class Dodoma extends React.PureComponent {
 				</div>
 
 				<div className="scudeoCities-highlights-charts-wrapper" style={{width: "100%", maxWidth: "80rem", marginTop: 0}}>
-					<div className="scudeoCities-highlights-chart-title">Districts structure in 2016</div>
+					<div className="scudeoCities-highlights-chart-title">Districts Land Cover structure in 2016</div>
 					<div className="scudeoCities-highlights-chart">
 						<HoverHandler>
 							<ColumnChart
@@ -377,7 +377,7 @@ class Dodoma extends React.PureComponent {
 				</p>
 
 				<div className="scudeoCities-highlights-charts-wrapper">
-					<div className="scudeoCities-highlights-chart-title">Informal settlements expansion</div>
+					<div className="scudeoCities-highlights-chart-title">Informal settlements expansion between 2006 and 2016</div>
 					<div className="scudeoCities-highlights-chart">
 						<HoverHandler>
 							<LineChart
@@ -424,7 +424,7 @@ class Dodoma extends React.PureComponent {
 											mapKey='leaflet-dodoma-2006-inf'
 											backgroundLayer={osm}
 											layers={[informal_2006, dodomaAuLevel3]}
-											view={dodomaView}
+											view={{...dodomaView, boxRange: 30000}}
 
 											scale
 										/>
@@ -442,7 +442,7 @@ class Dodoma extends React.PureComponent {
 											mapKey='leaflet-dodoma-2016-onf'
 											backgroundLayer={osm}
 											layers={[informal_2016, dodomaAuLevel3]}
-											view={dodomaView}
+											view={{...dodomaView, boxRange: 30000}}
 
 											scale
 										/>
