@@ -2,6 +2,7 @@
 
 import LayerTool from '../LayerTool';
 import stringUtils from '../../../../../util/stringUtils';
+import _ from 'lodash';
 
 let Config = window.Config;
 let polyglot = window.polyglot;
@@ -58,6 +59,8 @@ class LayerLegend extends LayerTool {
      * Add content to a legend floater
      */
     addContent() {
+    	let state = this._stateStore.current();
+    	let scopeConfig = state && state.scopeFull && state.scopeFull.configuration;
     	let floaterOpen = this._floater._floaterSelector.hasClass("open");
         if (this._defaultLayer && floaterOpen){
 			let style = "";
@@ -71,20 +74,16 @@ class LayerLegend extends LayerTool {
 				url = this._defaultLayer.url + '?';
 			}
 
-			// TODO Remove this ugly hack for PUCS
-			if (this._defaultLayer.layerTemplateId === 75291){
-				let currentPlaces = this._stateStore.current().locations;
-				if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
-					style = "pucs_UHI_Ostrava";
-				} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
-					style = "PUCS_UHI_Praha";
-				}
-			} else if (this._defaultLayer.layerTemplateId === 75292){
-				let currentPlaces = this._stateStore.current().locations;
-				if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
-					style = "PUCS_HWD_Ostrava";
-				} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
-					style = "PUCS_HWD_Praha";
+			let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
+			let layerTemplateKey = this._defaultLayer.layerTemplateId;
+			let activePlaceKey = state.locations && state.locations[0];
+
+			if (pucsStyles && layerTemplateKey && activePlaceKey) {
+				if (pucsStyles && layerTemplateKey && activePlaceKey) {
+					let styleObject = _.find(pucsStyles, {'layerTemplateKey': layerTemplateKey, 'placeKey': activePlaceKey});
+					if (styleObject) {
+						style = styleObject.styleId;
+					}
 				}
 			}
 

@@ -61,7 +61,7 @@ class MapStore {
 	 * Add info layer to a particular map according to scenario key
 	 * TODO it uses only first style in a list
 	 */
-	addInfoLayersByScenarios(data, activePlaceKey) {
+	addInfoLayersByScenarios(data, activePlaceKey, scopeConfig) {
 		data.map(item => {
 			let map = null;
 			if (item.scenarioKey){
@@ -81,18 +81,13 @@ class MapStore {
 
 				let alreadyAdded = map.layers.getLayerById(id);
 				if (!alreadyAdded){
-					// TODO Remove this ugly hack for PUCS
-					if (item.layerTemplateKey === 75291){
-						if (activePlaceKey === 75379){
-							style = "pucs_UHI_Ostrava";
-						} else if (activePlaceKey === 75281){
-							style = "PUCS_UHI_Praha";
-						}
-					} else if (item.layerTemplateKey === 75292){
-						if (activePlaceKey === 75379){
-							style = "PUCS_HWD_Ostrava";
-						} else if (activePlaceKey === 75281){
-							style = "PUCS_HWD_Praha";
+					let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
+					let layerTemplateKey = item.layerTemplateKey;
+
+					if (pucsStyles && layerTemplateKey && activePlaceKey) {
+						let styleObject = _.find(pucsStyles, {'layerTemplateKey': layerTemplateKey, 'placeKey': activePlaceKey});
+						if (styleObject) {
+							style = styleObject.styleId;
 						}
 					}
 
@@ -397,7 +392,7 @@ class MapStore {
 		else if (type === "ADD_INFO_LAYERS_BY_SCENARIOS") {
 			if (scope.scenarios){
 				console.log("## ADD_INFO_LAYERS_BY_SCENARIOS", options);
-				this.addInfoLayersByScenarios(options.added, options.activePlaceKey);
+				this.addInfoLayersByScenarios(options.added, options.activePlaceKey, scope.configuration);
 			}
 		} else if (type === "REMOVE_INFO_LAYERS_BY_SCENARIOS") {
 			if (scope.scenarios){

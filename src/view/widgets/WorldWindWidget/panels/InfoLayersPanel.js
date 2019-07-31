@@ -1,5 +1,5 @@
 import jQuery from 'jquery';
-import _ from 'underscore';
+import _ from 'lodash';
 
 import ArgumentError from '../../../../error/ArgumentError';
 import Logger from '../../../../util/Logger';
@@ -214,18 +214,26 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
 	 * @returns {boolean} true, if control should be active
 	 */
 	isControlActive(templateId, style){
-		let state = this._stateStore.current().mapDefaults;
-		if (state && state.layerTemplates){
-			return (_.findIndex(state.layerTemplates, function(template){
+	    let state = this._stateStore.current();
+		let mapDefaults = state.mapDefaults;
+		let scopeConfig = state && state.scopeFull && state.scopeFull.configuration;
+		if (mapDefaults && mapDefaults.layerTemplates){
+			return (_.findIndex(mapDefaults.layerTemplates, function(template){
 			    if (style || template.styles){
 					let savedPath = (template.styles && template.styles.length) ? template.styles[0].path : null;
 
-					// TODO Remove this ugly hack for PUCS
-					if (template.templateId === 75291){
-						savedPath = "PUCS_UHI_Praha";
-					} else if (template.templateId === 75292){
-						savedPath = "PUCS_HWD_Praha";
-					}
+                    let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
+                    let layerTemplateKey = template.templateId;
+                    let activePlaceKey = state.locations && state.locations[0];
+
+                    if (pucsStyles && layerTemplateKey && activePlaceKey) {
+                        if (pucsStyles && layerTemplateKey && activePlaceKey) {
+                            let styleObject = _.find(pucsStyles, {'layerTemplateKey': layerTemplateKey, 'placeKey': activePlaceKey});
+                            if (styleObject) {
+                                savedPath = styleObject.styleId;
+                            }
+                        }
+                    }
 
 			        let requiredPath = style ? style.path : null;
 					return template.templateId === templateId && savedPath === requiredPath;
