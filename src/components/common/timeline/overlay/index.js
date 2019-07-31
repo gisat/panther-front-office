@@ -19,11 +19,12 @@ const Overlay = (props) => {
 		const end = getX(overlay.end);
 		let label = null
 		
-		const x = vertical ? overlay.top : (start + 3);
+		const diff = end-start > 2 ? end-start : 2;
+		const x = vertical ? overlay.top : start;
 		const yL = vertical ? start : (overlay.top + overlay.height - 2);
 		const yR = vertical ? start : overlay.top;
-		const eHeight = vertical ? end-start : overlay.height;
-		const width = vertical ? overlay.height : end-start;
+		const eHeight = vertical ? diff : overlay.height;
+		const width = vertical ? overlay.height : diff;
 
 		//TODO - solve label in vertical
 		if(overlay.label && !vertical) {
