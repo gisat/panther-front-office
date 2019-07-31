@@ -209,7 +209,7 @@ class Bar extends React.PureComponent {
 					<div className="ptr-column-chart-popup-values">
 						{color ? <div className="ptr-column-chart-popup-color" style={{background: color}}></div> : null}
 						{segmentName || attrName ? (<i>{segmentName || attrName}:&nbsp;</i>) : null}
-						{valueString.toLocaleString()} {unit}
+						{valueString.toLocaleString()}&nbsp;{unit}
 					</div>
 				</div>
 			);
