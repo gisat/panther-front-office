@@ -26,6 +26,8 @@ class LeafletMap extends React.PureComponent {
 		layers: PropTypes.array,
 		view: PropTypes.object,
 
+		scale: PropTypes.bool,
+
 		onClick: PropTypes.func,
 		onViewChange: PropTypes.func,
 	};
@@ -50,6 +52,10 @@ class LeafletMap extends React.PureComponent {
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
+
+		if (this.props.scale) {
+			L.control.scale().addTo(this.map);
+		}
 
 		this.updateLayers();
 	}
