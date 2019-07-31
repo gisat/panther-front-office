@@ -1,9 +1,20 @@
+const getAbsoluteElementPosition = (element) => {
+	const rect = element.getBoundingClientRect();
+	const docEl = document.documentElement;
+	const top = rect.top + window.pageYOffset - docEl.clientTop;
+	const left = rect.left + window.pageXOffset - docEl.clientLeft;;
+
+	return {
+		top,
+		left,
+	}
+}
 
 //top
 const getTopPossition = (origPosX, origPosY, width, height, hoveredElemen, padding, BBox, referencePoint) => {
 	const top = hoveredElemen ? hoveredElemen.getBoundingClientRect().top : origPosY;
 	const posY = top - padding - height;
-	const topAbsoplute = hoveredElemen ? hoveredElemen.offsetTop : origPosY;
+	const topAbsoplute = hoveredElemen ? getAbsoluteElementPosition(hoveredElemen).top : origPosY;
 	const posYAbsoplute = topAbsoplute - padding - height;
 	let posX;
 	let posXIncrement;
@@ -27,7 +38,7 @@ const getTopPossition = (origPosX, origPosY, width, height, hoveredElemen, paddi
 		posX = origPosX + posXIncrement;
 	}
 
-	const boundingRect = [posYAbsoplute + height, posX + width, posYAbsoplute, posX];
+	const boundingRect = [posYAbsoplute, posX + width, posYAbsoplute + height, posX];
 
 	// return [posX, posY]
 	return {
@@ -38,9 +49,9 @@ const getTopPossition = (origPosX, origPosY, width, height, hoveredElemen, paddi
 
 //bottom
 const getBottomPossition = (origPosX, origPosY, width, height, hoveredElemen, padding, BBox, referencePoint) => {
-	const bottom = hoveredElemen ? hoveredElemen.getBoundingClientRect().top + hoveredElemen.getBoundingClientRect().height : origPosY;
+	const bottom = hoveredElemen ? hoveredElemen.getBoundingClientRect().top + hoveredElemen.offsetHeight : origPosY;
 	const posY = bottom + padding;
-	const bottomAbsoplute = hoveredElemen ? hoveredElemen.offsetTop + hoveredElemen.getBoundingClientRect().height : origPosY;
+	const bottomAbsoplute = hoveredElemen ? getAbsoluteElementPosition(hoveredElemen).top + hoveredElemen.offsetHeight : origPosY;
 	const posYAbsoplute = bottomAbsoplute + padding;
 	let posX;
 	let posXIncrement;
@@ -74,8 +85,8 @@ const getBottomPossition = (origPosX, origPosY, width, height, hoveredElemen, pa
 
 //right
 const getRightPossition = (origPosX, origPosY, width, height, hoveredElemen, padding, BBox, referencePoint) => {
-	const right = hoveredElemen ? hoveredElemen.getBoundingClientRect().left + hoveredElemen.getBoundingClientRect().width : origPosX;
-	const posX = right + padding;
+	const rightAbsoplute = hoveredElemen ? getAbsoluteElementPosition(hoveredElemen).left + hoveredElemen.offsetWidth : origPosX;
+	const posXAbsoplute = rightAbsoplute + padding;
 	let posY;
 	let posYIncrement;
 	switch (referencePoint) {
@@ -98,18 +109,18 @@ const getRightPossition = (origPosX, origPosY, width, height, hoveredElemen, pad
 		posY = origPosY + posYIncrement;
 	}
 
-	const boundingRect = [posY + height, posX + width, posY, posX];
+	const boundingRect = [posY + height, posXAbsoplute + width, posY, posXAbsoplute];
 
 	return {
-		position: {posX: posX - BBox[3], posY: posY - BBox[0]},
+		position: {posX: posXAbsoplute - BBox[3], posY: posY - BBox[0]},
 		boundingRect,
 	}
 }
 
 //left
 const getLeftPossition = (origPosX, origPosY, width, height, hoveredElemen, padding, BBox, referencePoint) => {
-	const left = hoveredElemen ? hoveredElemen.getBoundingClientRect().left : origPosX;
-	const posX = left - padding - width;
+	const leftAbsoplute = hoveredElemen ? getAbsoluteElementPosition(hoveredElemen).left : origPosX;
+	const posXAbsoplute = leftAbsoplute - padding - width;
 	let posY;
 	let posYIncrement;
 	switch (referencePoint) {
@@ -132,10 +143,10 @@ const getLeftPossition = (origPosX, origPosY, width, height, hoveredElemen, padd
 		posY = origPosY + posYIncrement;
 	}
 
-	const boundingRect = [posY + height, posX + width, posY, posX];
+	const boundingRect = [posY + height, posXAbsoplute + width, posY, posXAbsoplute];
 
 	return {
-		position: {posX: posX - BBox[3], posY: posY - BBox[0]}, //relative to element
+		position: {posX: posXAbsoplute - BBox[3], posY: posY - BBox[0]}, //relative to element
 		boundingRect,
 	}
 }
@@ -225,5 +236,6 @@ const getTootlipPosition = (referencePoint, positions, BBox, padding) => {
 
 
 export {
-    getTootlipPosition,
+	getTootlipPosition,
+	getAbsoluteElementPosition,
 }
