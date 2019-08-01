@@ -70,8 +70,11 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 	[getPucsSourceVectorLayerTemplate,
 		(state) => Select.layerTemplates.getTemplates(state),
 		(state) => Select.attributeSets.getAttributeSets(state),
-		(state) => Select.attributes.getAttributes(state)],
-	(templateKey, templates, attributeSets, attributes) => {
+		(state) => Select.attributes.getAttributes(state),
+		(state) => Select.scopes.getActive(state),
+		(state) => Select.places.getActiveKey(state),
+	],
+	(templateKey, templates, attributeSets, attributes, scope, activePlaceKey) => {
 		let template = _.find(templates, (tmplt) => {
 			return tmplt.key === templateKey;
 		});
@@ -84,6 +87,13 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 					return attr.key === attributeSet.data.attributes[0];
 				});
 				if (attribute && attribute.data && attribute.data.enumerationValues){
+					let landCoverConfig = scope && scope.data && scope.data.configuration && scope.data.configuration.pucsLandUseScenarios && scope.data.configuration.pucsLandUseScenarios.landCoverClasses;
+					if (activePlaceKey && landCoverConfig) {
+						let city = _.find(landCoverConfig, {'placeKey': activePlaceKey});
+						if (city && city.classes) {
+							return JSON.stringify(city.classes);
+						}
+					}
 					return attribute.data.enumerationValues;
 				} else {
 					console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Attibute set ' + attributeSet.key + ' does not contain attributes or first attribute does not have enumeration values parameter!');
