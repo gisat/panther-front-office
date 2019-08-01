@@ -36,7 +36,7 @@ function load(ttl) {
 			if (scope && scope.aoiLayer && scope.aoiLayer.key && scope.aoiLayer.idColumn && scope.aoiLayer.fidColumn) {
 
 				let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
-				url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn + ',' + scope.aoiLayer.fidColumn;
+				url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&&srsName=urn:ogc:def:crs:EPSG::4326&propertyName=' + scope.aoiLayer.idColumn + ',' + scope.aoiLayer.fidColumn;
 
 				return fetch(url).then(
 					response => {
@@ -120,7 +120,7 @@ function loadGeometry(key,ttl) {
 		if (scope && scope.aoiLayer && scope.aoiLayer.key) {
 
 			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
-			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&featureID=' + key;
+			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&srsName=urn:ogc:def:crs:EPSG::4326&featureID=' + key;
 
 			return fetch(url).then(response => {
 				console.log('#### load AOI geometry response', response);

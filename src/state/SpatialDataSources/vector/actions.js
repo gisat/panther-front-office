@@ -25,7 +25,7 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 		if (dataSource && dataSource.type === "shapefile") {
 			dispatch(actionLoadFeaturesForBboxRequest());
 
-			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + `?service=wfs&version=1.1.0&request=GetFeature&typeNames=${dataSource.data.layer_name}&bbox=${bbox.join(',')}&outputFormat=application/json`;
+			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + `?service=wfs&version=1.1.0&request=GetFeature&typeNames=${dataSource.data.layer_name}&bbox=${bbox.join(',')}&outputFormat=application/json&srsName=urn:ogc:def:crs:EPSG::4326`;
 
 			return fetch(url, {
 				method: 'GET',
@@ -84,7 +84,7 @@ function loadFeaturesForPoint(dataSourceKey, point, ttl) {
 				`&request=GetFeature`,
 				`&typeNames=${dataSource.data.layer_name}`,
 				`&FILTER=<Filter xmlns="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>the_geom</PropertyName><gml:Point srsName="EPSG:4326"><gml:coordinates>${point.longitude},${point.latitude}</gml:coordinates></gml:Point></Intersects></Filter>`,
-				`&outputFormat=application/json`
+				`&outputFormat=application/json&srsName=urn:ogc:def:crs:EPSG::4326`
 			];
 
 			url = url.join(``);
@@ -181,7 +181,7 @@ function updateSelectedFeatures(dataSourceKey, luClass) { //todo generalize
 
 		console.log('#### update polygon request body', body);
 
-		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction';
+		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction&srsName=urn:ogc:def:crs:EPSG::4326';
 
 		fetch(url, {
 			body: body, // must match 'Content-Type' header
@@ -239,7 +239,7 @@ function updateFeatures(dataSourceKey, featureKeys) { //todo
 
 		console.log('#### update polygon request body', body);
 
-		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction';
+		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction&srsName=urn:ogc:def:crs:EPSG::4326';
 
 		//fetch(url, {
 		//	body: body, // must match 'Content-Type' header
