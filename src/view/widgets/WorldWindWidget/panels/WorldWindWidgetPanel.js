@@ -382,6 +382,8 @@ class WorldWindWidgetPanel {
     switchLayer(event) {
         let self = this;
         let state = this._stateStore.current().scopeFull;
+        let scopeConfig = state.configuration;
+
         setTimeout(function(){
             let checkbox = $(event.currentTarget);
             let layerId = checkbox.attr("data-id");
@@ -407,10 +409,11 @@ class WorldWindWidgetPanel {
                             });
 						}
 
-                        // TODO Remove this ugly hack for PUCS
-						if (layer.layerTemplateId === 75291 || layer.layerTemplateId === 75292){
-							styles = null;
-						}
+                        // Hack for PUCS
+                        if (scopeConfig && scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles) {
+                            styles = null;
+                        }
+
 					    return {
 					        templateId: layer.layerTemplateId,
                             styles: styles
@@ -435,10 +438,11 @@ class WorldWindWidgetPanel {
 							});
 						}
 
-						// TODO Remove this ugly hack for PUCS
-						if (layer.layerTemplateId === 75291 || layer.layerTemplateId === 75292){
-							styles = null;
-						}
+                        // Hack for PUCS
+                        if (scopeConfig && scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles) {
+                            styles = null;
+                        }
+
 						return {
 							templateId: layer.layerTemplateId,
 							styles: styles

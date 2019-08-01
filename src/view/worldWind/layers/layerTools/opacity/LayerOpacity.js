@@ -27,6 +27,7 @@ class LayerOpacity extends LayerTool {
         this._target = options.target;
         this._layers = options.layers;
         this._mapStore = options.mapStore;
+        this._stateStore = options.stateStore;
         this._name = options.name;
         this._id = options.id;
         this._style = options.style;
@@ -98,6 +99,8 @@ class LayerOpacity extends LayerTool {
         let self = this;
         this._opacityValue = opacity * 100;
         this._maps = this._mapStore.getAll();
+		let state = this._stateStore.current().scopeFull;
+		let isPucs = state && state.configuration && state.configuration.pucsLandUseScenarios && state.configuration.pucsLandUseScenarios.styles;
 
         this._maps.forEach(function (map) {
             if (self._class === "thematic-layers"){
@@ -113,13 +116,10 @@ class LayerOpacity extends LayerTool {
 					let id = layer.id;
 					if (layer.layerTemplateId){
 						id = layer.layerTemplateId;
-						if (self._style && self._style.path) {
-							id += "-" + self._style.path;
-						}
 
-						// todo remove this hack for PUCS
-						if (layer.layerTemplateId === 75291 || layer.layerTemplateId === 75292){
-							id = layer.layerTemplateId;
+						// hack for PUCS
+						if (self._style && self._style.path && !isPucs) {
+							id += "-" + self._style.path;
 						}
 					}
 					if (self._class === "wms-layers") {

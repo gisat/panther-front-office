@@ -62,6 +62,8 @@ class MapStore {
 	 * TODO it uses only first style in a list
 	 */
 	addInfoLayersByScenarios(data, activePlaceKey, scopeConfig) {
+		let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
+
 		data.map(item => {
 			let map = null;
 			if (item.scenarioKey){
@@ -75,13 +77,15 @@ class MapStore {
 				let style = null;
 
 				if (item.styleSource && item.styleSource[0]){
-					id += "-" + item.styleSource[0].path;
+					// Hack for PUCS
+					if (!pucsStyles) {
+						id += "-" + item.styleSource[0].path;
+					}
 					style = item.styleSource[0].path
 				}
 
 				let alreadyAdded = map.layers.getLayerById(id);
 				if (!alreadyAdded){
-					let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
 					let layerTemplateKey = item.layerTemplateKey;
 
 					if (pucsStyles && layerTemplateKey && activePlaceKey) {
@@ -102,7 +106,9 @@ class MapStore {
 		});
 	};
 
-	removeInfoLayersByScenarios(data) {
+	removeInfoLayersByScenarios(data, scopeConfig) {
+		let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
+
 		data.map(item => {
 			let map = null;
 			if (item.scenarioKey){
@@ -113,7 +119,9 @@ class MapStore {
 
 			if (map){
 				let id = item.layerTemplateKey;
-				if (item.styleSource && item.styleSource[0]){
+
+				// Hack for PUCS
+				if (item.styleSource && item.styleSource[0] && !pucsStyles){
 					id += "-" + item.styleSource[0].path;
 				}
 
@@ -397,7 +405,7 @@ class MapStore {
 		} else if (type === "REMOVE_INFO_LAYERS_BY_SCENARIOS") {
 			if (scope.scenarios){
 				console.log("## REMOVE_INFO_LAYERS_BY_SCENARIOS", options);
-				this.removeInfoLayersByScenarios(options);
+				this.removeInfoLayersByScenarios(options, scope.configuration);
 			}
 		} else if (type === "ADD_WMS_LAYER") {
             console.log("## ADD_WMS_LAYER", options);

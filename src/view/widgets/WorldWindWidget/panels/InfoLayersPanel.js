@@ -219,23 +219,13 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
 		let scopeConfig = state && state.scopeFull && state.scopeFull.configuration;
 		if (mapDefaults && mapDefaults.layerTemplates){
 			return (_.findIndex(mapDefaults.layerTemplates, function(template){
-			    if (style || template.styles){
+
+                let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
+
+			    if ((style || template.styles) && !pucsStyles){
 					let savedPath = (template.styles && template.styles.length) ? template.styles[0].path : null;
-
-                    let pucsStyles = scopeConfig && scopeConfig.pucsLandUseScenarios && scopeConfig.pucsLandUseScenarios.styles;
-                    let layerTemplateKey = template.templateId;
-                    let activePlaceKey = state.locations && state.locations[0];
-
-                    if (pucsStyles && layerTemplateKey && activePlaceKey) {
-                        if (pucsStyles && layerTemplateKey && activePlaceKey) {
-                            let styleObject = _.find(pucsStyles, {'layerTemplateKey': layerTemplateKey, 'placeKey': activePlaceKey});
-                            if (styleObject) {
-                                savedPath = styleObject.styleId;
-                            }
-                        }
-                    }
-
 			        let requiredPath = style ? style.path : null;
+
 					return template.templateId === templateId && savedPath === requiredPath;
                 } else {
 			        return template.templateId === templateId;

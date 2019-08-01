@@ -69,12 +69,16 @@ function addLayerTemplates(templates) {
 function removeLayerTemplates(templates) {
 	return (dispatch, getState) => {
 		let state = Select.maps.getMapDefaults(getState());
+		let scope = Select.scopes.getActive(getState());
+		let isPucs = scope && scope.data && scope.data.configuration && scope.data.configuration.pucsLandUseScenarios && scope.data.configuration.pucsLandUseScenarios.styles;
+
 		if (state && state.layerTemplates){
 			let finalTemplates = [];
 			state.layerTemplates.map(layerTemplate => {
 				let stylePath = (layerTemplate.styles && layerTemplate.styles.length) ? layerTemplate.styles[0].path : null;
 				let toRemove = _.find(templates, template => {
-					if (stylePath || template.styles){
+					// Hack for PUCS
+					if ((stylePath || template.styles) && !isPucs){
 						let requiredPath = template.styles && template.styles.length ? template.styles[0].path : null;
 						return template.templateId === layerTemplate.templateId &&
 							requiredPath === stylePath;

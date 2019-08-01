@@ -135,6 +135,7 @@ class LayerTools {
             target: this._toolsContainer,
             layers: this._layers,
             mapStore: this._mapStore,
+            stateStore: this._stateStore,
             style: this._style
         });
         this.tools.push(opacity);
