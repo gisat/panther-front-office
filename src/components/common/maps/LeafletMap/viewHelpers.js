@@ -7,7 +7,7 @@ function getLeafletViewFromViewParams(view) {
 	};
 
 	if (view.boxRange) {
-		leafletView.zoom = viewUtils.getZoomLevelFromBoxRange(view.boxRange);
+		leafletView.zoom = viewUtils.getZoomLevelFromView(view);
 	}
 
 	return leafletView;

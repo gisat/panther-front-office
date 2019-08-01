@@ -127,7 +127,7 @@ class Demo extends React.PureComponent {
 					lat: 49.5,
 					lon: 15
 				},
-				boxRange: 1200000
+				boxRange: 700000
 			}
 		};
 

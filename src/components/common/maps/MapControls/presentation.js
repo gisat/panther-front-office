@@ -82,7 +82,7 @@ class MapControls extends React.PureComponent {
 	render () {
 		let currentZoomLevel = null;
 		if (this.props.levelsBased && this.props.view && this.props.view.boxRange) {
-			currentZoomLevel = viewUtils.getZoomLevelFromBoxRange(this.props.view.boxRange);
+			currentZoomLevel = viewUtils.getZoomLevelFromView(this.props.view);
 		}
 
 		// TODO different controls for 2D
