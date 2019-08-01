@@ -122,6 +122,19 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 this.wwd.redraw();
             }
 
+            let style = props.sourceLayer.style;
+
+            /* Hack for PUCS */
+            let pucsConfig = props.scope && props.scope.data && props.scope.data.configuration && props.scope.data.configuration.pucsLandUseScenarios;
+
+            if (pucsConfig && this.props.placeKey) {
+                let templateKey = pucsConfig.templates.sourceVector;
+                let styleObject = _.find(pucsConfig.styles, {'placeKey': this.props.placeKey, 'layerTemplateKey': templateKey});
+                if (styleObject) {
+                    style = styleObject.styleId;
+                }
+            }
+
             this.sourceLayer = new MyWmsLayer({
                 name: 'Polygons ' + utils.guid(),
                 service: props.sourceLayer.url,
@@ -133,7 +146,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 opacity: (props.sourceLayer.opacity / 100) || 1,
                 size: 256,
                 version: "1.3.0",
-                styleNames: props.sourceLayer.style || "urbanAtlas",
+                styleNames: style,
                 customParams: {
                     time: moment(new Date().toString()).utc().format()
                 }

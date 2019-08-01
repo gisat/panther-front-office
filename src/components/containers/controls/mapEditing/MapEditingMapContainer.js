@@ -9,7 +9,9 @@ const mapStateToProps = (state, ownProps) => {
         navigatorState: Select.maps.getNavigator(state),
         editedFeatures: Select.spatialDataSources.vector.noMemoGetEditedFeaturesBySourceKey(state, ownProps),
         selectedFeatures: Select.spatialDataSources.vector.noMemoGetSelectedFeaturesBySourceKey(state, ownProps),
-        editedPolygonsInfo: Select.components.overlays.getEditedPolygonInfo(state)
+        editedPolygonsInfo: Select.components.overlays.getEditedPolygonInfo(state),
+		scope: Select.scopes.getActive(state),
+		placeKey: Select.places.getActiveKey(state)
     };
 
 	return relevantState;

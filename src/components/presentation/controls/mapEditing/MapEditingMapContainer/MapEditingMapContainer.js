@@ -22,7 +22,9 @@ class MapEditingMapContainer extends React.PureComponent {
 		mapData: PropTypes.object,
 		sourceLayer: PropTypes.object,
 		editedPolygonsInfo: PropTypes.string,
-		selectFeatureForPoint: PropTypes.func
+		selectFeatureForPoint: PropTypes.func,
+		placeKey: PropTypes.number,
+		scope: PropTypes.object
 	};
 
 	constructor(props){
@@ -57,6 +59,8 @@ class MapEditingMapContainer extends React.PureComponent {
 					selectedFeatures={this.props.selectedFeatures}
 					editedPolygonsInfo={this.props.editedPolygonsInfo}
 					selectFeatureForPoint={this.props.selectFeatureForPoint}
+					placeKey={this.props.placeKey}
+					scope={this.props.scope}
 				/>
 				<MapEditingTools
 					onCloseClick={this.onClose}
