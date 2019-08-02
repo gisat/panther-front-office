@@ -160,16 +160,44 @@ class Segment extends React.PureComponent {
 	}
 
 	getPopupContent() {
-		let content = <div>No data</div>;
-		let symbol = this.props.relative ? '%' : null;
-
-		if (this.props.data) {
-			content = (
-				<div><i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i> {`${_.get(this.props.data, this.props.hoverValueSourcePath).toLocaleString()}`} {symbol}</div>
-			);
+		const props = this.props;
+		let style = {};
+		
+		let segmentName = _.get(props.data, props.nameSourcePath);
+		let color = this.state.color || props.highlightColor;
+		let value = _.get(props.data, props.valueSourcePath);
+		let customValue = _.get(props.data, props.hoverValueSourcePath);
+		
+		// TODO pass custom units
+		let units = props.relative ? "%" : null;
+		
+		let valueString = value;
+		if (value && (value % 1) !== 0) {
+			valueString = valueString.toFixed(2);
 		}
 
-		return content
+		if (color) {
+			style.background = color;
+		}
+
+		return (
+			<>
+				<div className="ptr-popup-header">
+					<div className="ptr-popup-record-color" style={style}></div>
+					{segmentName}
+				</div>
+				<div className="ptr-popup-record-group">
+					<div className="ptr-popup-record">
+						<div className="ptr-popup-record-value-group">
+							{customValue ? <span className="value">{customValue}</span> : <>
+								{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
+								{units ? <span className="unit">{units}</span> : null}
+							</>}
+						</div>
+					</div>
+				</div>
+			</>
+		);
 	}
 }
 
