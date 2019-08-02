@@ -189,7 +189,10 @@ class Segment extends React.PureComponent {
 				<div className="ptr-popup-record-group">
 					<div className="ptr-popup-record">
 						<div className="ptr-popup-record-value-group">
-							{customValue ? <span className="value">{customValue}</span> : <>
+							{customValue ? <>
+								<span className="value">{customValue}</span>
+								{units && customValue === value ? <span className="unit">{units}</span> : null}
+							</> : <>
 								{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
 								{units ? <span className="unit">{units}</span> : null}
 							</>}
