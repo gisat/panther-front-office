@@ -25,7 +25,7 @@ class Popup extends React.PureComponent {
 
 	render() {
 		let maxX = window.innerWidth;
-		let maxY = window.innerHeight;
+		let maxY = window.innerHeight + window.pageYOffset;
 		let x = this.props.x + 15;
 		let y = this.props.y + 20;
 
@@ -33,8 +33,8 @@ class Popup extends React.PureComponent {
 		let height = this.ref.current && this.ref.current.offsetHeight ? this.ref.current.offsetHeight : HEIGHT;
 
 		// positioning
-		if ((x + width) > (maxX - 5)) {
-			x = this.props.x - width - 5;
+		if ((x + width) > (maxX - 20)) {
+			x = this.props.x - width - 10;
 		}
 
 		if (x < 0) {
@@ -42,15 +42,13 @@ class Popup extends React.PureComponent {
 		}
 
 		// positioning
-		if ((y + height) > (maxY - 5)) {
-			y = this.props.y - height - 5;
+		if ((y + height) > (maxY - 20)) {
+			y = this.props.y - height - 10;
 		}
 
 		if (y < 0) {
 			y = 0;
 		}
-
-		// TODO calculate y
 
 		let style = {
 			top: y,

@@ -111,6 +111,9 @@ class BarGroup extends React.PureComponent {
 		return (
 			<g transform={`translate(${x},0)`}
 			   className="ptr-column-chart-bar-group"
+			   onMouseOver={this.onMouseOver}
+			   onMouseMove={this.onMouseMove}
+			   onMouseOut={this.onMouseOut}
 			>
 				{this.renderPlaceholder(width, highlighted)}
 				{data.positive.total || data.positive.total === 0 ? (
@@ -139,9 +142,6 @@ class BarGroup extends React.PureComponent {
 				  x={0}
 				  width={width}
 				  height={this.props.availableHeight}
-				  onMouseOver={this.onMouseOver}
-				  onMouseMove={this.onMouseMove}
-				  onMouseOut={this.onMouseOut}
 			/>
 		);
 	}
@@ -222,11 +222,85 @@ class BarGroup extends React.PureComponent {
 	}
 
 	getPopupContent() {
-		// TODO add popup for whole bar
+		const props = this.props;
+		const data = props.originalData;
+
+		let attributeName = props.attributeName;
+		let units = props.attributeUnits;
+
+		if (_.isArray(props.originalData)) {
+			return (
+				<>
+					{attributeName ? <div className="ptr-popup-header">{attributeName}</div> : null}
+					{props.originalData.map(record => {
+						// TODO what if more values?
+						let value = record.positive.data[0].value || record.negative.data[0].value;
+						let valueString = value;
+						if ((value % 1) !== 0) {
+							valueString = valueString.toFixed(2);
+						}
+
+						return (
+							<div key={record.name} className="ptr-popup-record-value-group">
+								{<span className="name">{record.name}:</span>}
+								{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
+								{units ? <span className="unit">{units}</span> : null}
+							</div>
+						);
+
+					})}
+				</>
+			);
+
+		} else {
+			let columnName = props.data.name;
+			let color = props.highlightColor;
+
+			return (
+				<>
+					<div className="ptr-popup-header">{columnName}</div>
+					{data.positive.data.map(record => {
+						return this.getPopupRecordGroup(record, attributeName, units, color)
+					})}
+					{data.negative.data.map(record => {
+						return this.getPopupRecordGroup(record, attributeName, units, color)
+					})}
+				</>
+			);
+		}
+	}
+
+	getPopupRecordGroup(record, attributeName, attributeUnits, color) {
+		let style = {};
+		let attribute = record.name || attributeName;
+
+		if (record.highlightColor || record.defaultColor) {
+			color = record.highlightColor || record.defaultColor;
+		}
+
+		if (color) {
+			style.background = color;
+		}
+
+		let valueString = record.value;
+		if ((record.value % 1) !== 0) {
+			valueString = valueString.toFixed(2);
+		}
+
+
 		return (
-			<div>
-				<i>{this.props.data.name}</i>
-			</div>
+			<>
+				{valueString ? <div className="ptr-popup-record-group">
+					<div className="ptr-popup-record-color" style={style}></div>
+					<div className="ptr-popup-record">
+						{attribute ? <div className="ptr-popup-record-attribute">{attribute}</div> : null}
+						<div className="ptr-popup-record-value-group">
+							{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
+							{attributeUnits ? <span className="unit">{attributeUnits}</span> : null}
+						</div>
+					</div>
+				</div> : null}
+			</>
 		);
 	}
 }

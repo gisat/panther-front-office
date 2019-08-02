@@ -2,17 +2,71 @@
 
 .ptr-popup {
 	position: absolute;
-	background: rgba(var(--base0rgb), .90);
+	background: rgba(var(--base0rgb), .95);
 	z-index: 99999;
-	padding: .35rem;
-	border: 1px solid var(--base30);
-	box-shadow: 0 3px 7px 0 rgba(0, 0, 0, .2);
+	padding: .5rem .75rem;
+	border: 1px solid rgba(255,255,255,.5);
+	border-radius: .3rem;
+	box-shadow: 1px 3px 7px 3px rgba(0, 0, 0, .2);
 	font-size: $b1;
 	color: var(--base80);
 	min-width: 8rem;
 	min-height: 2rem;
 }
 
-.ptr-popup div i {
+.ptr-popup-header {
+	font-size: $a1;
 	font-weight: bold;
+	display: flex;
+	align-items: center;
+	margin-bottom: .25rem;
+
+}
+
+.ptr-popup-record-group {
+	display: flex;
+	align-items: stretch;
+	margin: .25rem 0 .5rem;
+}
+
+.ptr-popup-record-group:last-child {
+	display: flex;
+	align-items: stretch;
+	margin-bottom: .25rem;
+}
+
+
+.ptr-popup-record-color {
+	min-width: .35rem;
+	margin: .1rem .5rem .1rem 0;
+	background: var(--accent50);
+}
+
+.ptr-popup-header .ptr-popup-record-color {
+	height: .75rem;
+	width: .75rem;
+}
+
+.ptr-popup-record {
+	flex: 1;
+}
+
+.ptr-popup-record-attribute {
+
+}
+
+.ptr-popup-record-value-group {
+	line-height: 1.15;
+}
+
+.ptr-popup-record-value-group .name {
+	margin-right: .25rem;
+}
+
+.ptr-popup-record-value-group .value {
+	font-size: $a1;
+}
+
+.ptr-popup-record-value-group .unit {
+	margin-left: .15rem;
 }

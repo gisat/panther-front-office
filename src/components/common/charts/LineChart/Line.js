@@ -190,37 +190,44 @@ class Line extends React.PureComponent {
 
 	getPopupContent(data) {
 		const props = this.props;
-		let content = null;
 
-		if (props.name) {
-			let name = props.name;
-			let pointName = data ? _.get(data, props.pointNameSourcePath) : null;
-			let value = data ? _.get(data, props.pointValueSourcePath).toLocaleString() : null;
-			let attributeName = null;
+		let style = {};
+		let lineName = props.name;
+		let units = props.yOptions && props.yOptions.unit;
+		let color = this.state.color || this.props.defaultColor;
 
-			if (pointName) {
-				name += ` (${pointName}):`;
-			}
+		let pointName = data && _.get(data, props.pointNameSourcePath);
+		let pointValue = data && _.get(data, props.pointValueSourcePath);
 
-			if (value && props.yOptions) {
-				if (props.yOptions.name) {
-					attributeName = `${props.yOptions.name}: `;
-				}
-
-				if (props.yOptions.unit) {
-					value = `${value} ${props.yOptions.unit}`;
-				}
-			}
-
-			content = (
-				<div>
-					<div><i>{name}</i></div>
-					{value ? (<div><i>{attributeName}</i>{value}</div>) : null}
-				</div>
-			);
+		let valueString = pointValue;
+		if (pointValue && (pointValue % 1) !== 0) {
+			valueString = _.isNumber(valueString) ? valueString.toFixed(2) : valueString;
 		}
 
-		return content
+		if (pointName) {
+			lineName += ` (${pointName})`;
+		}
+
+		if (color) {
+			style.background = color;
+		}
+
+		return (
+			<>
+				<div className="ptr-popup-header">
+					<div className="ptr-popup-record-color" style={style}></div>
+					{lineName}
+				</div>
+				<div className="ptr-popup-record-group">
+					{valueString ? <div className="ptr-popup-record">
+						<div className="ptr-popup-record-value-group">
+							{<span className="value">{valueString.toLocaleString()}</span>}
+							{units ? <span className="unit">{units}</span> : null}
+						</div>
+					</div> : null}
+				</div>
+			</>
+		);
 	}
 }
 

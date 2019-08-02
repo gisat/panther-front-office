@@ -151,49 +151,60 @@ class Point extends React.PureComponent {
 
 	getPopupContent() {
 		const props = this.props;
-		let content = <div>No data</div>;
 
-		if (props.data) {
-			let xName = `x`;
-			let yName = `y`;
-			let xContent = _.get(props.data, props.xSourcePath).toLocaleString();
-			let yContent = _.get(props.data, props.ySourcePath).toLocaleString();
+		let style = {};
+		let pointName = props.name;
+		let xUnits = props.xOptions && props.xOptions.unit;
+		let yUnits = props.yOptions && props.yOptions.unit;
 
-			if (props.xOptions) {
-				if (props.xOptions.name) {
-					xName = props.xOptions.name;
-				}
-				if (props.xOptions.unit) {
-					xContent += ` ${props.xOptions.unit}`;
-				}
+		let xName = props.xOptions && props.xOptions.name || 'X value';
+		let yName = props.yOptions && props.yOptions.name || 'Y value';
 
-			}
+		let color = this.props.color;
 
-			if (props.yOptions) {
-				if (props.yOptions.name) {
-					yName = props.yOptions.name;
-				}
-				if (props.yOptions.unit) {
-					yContent += ` ${props.yOptions.unit}`;
-				}
-			}
+		let xValue = _.get(props.data, props.xSourcePath);
+		let yValue = _.get(props.data, props.ySourcePath);
 
-			content = (
-				<div>
-					<div>
-						<i>{`${props.name}:`}</i>
-					</div>
-					<div>
-						<i>{`${xName}:`}</i> {`${xContent}`}
-					</div>
-					<div>
-						<i>{`${yName}:`}</i> {`${yContent}`}
-					</div>
-				</div>
-			);
+		let xValueString = xValue;
+		if (xValue && (xValue % 1) !== 0) {
+			xValueString = xValueString.toFixed(2);
 		}
 
-		return content;
+		let yValueString = yValue;
+		if (yValue && (yValue % 1) !== 0) {
+			yValueString = yValueString.toFixed(2);
+		}
+
+		if (color) {
+			style.background = color;
+		}
+
+		return (
+			<>
+				<div className="ptr-popup-header">
+					<div className="ptr-popup-record-color" style={style}></div>
+					{pointName}
+				</div>
+				<div className="ptr-popup-record-group">
+					<div className="ptr-popup-record">
+						{<div className="ptr-popup-record-attribute">{xName}</div> }
+						<div className="ptr-popup-record-value-group">
+							{xValueString ? <span className="value">{xValueString.toLocaleString()}</span> : null}
+							{xUnits ? <span className="unit">{xUnits}</span> : null}
+						</div>
+					</div>
+				</div>
+				<div className="ptr-popup-record-group">
+					<div className="ptr-popup-record">
+						{<div className="ptr-popup-record-attribute">{yName}</div> }
+						<div className="ptr-popup-record-value-group">
+							{yValueString ? <span className="value">{yValueString.toLocaleString()}</span> : null}
+							{yUnits ? <span className="unit">{yUnits}</span> : null}
+						</div>
+					</div>
+				</div>
+			</>
+		);
 	}
 }
 

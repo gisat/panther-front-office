@@ -52,16 +52,6 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseMove(e) {
-		if (this.context && this.context.onHover) {
-			this.context.onHover(this.props.itemKeys, {
-				popup: {
-					x: e.pageX,
-					y: e.pageY,
-					content: this.getPopupContent()
-				}
-			});
-		}
-
 		this.setState({
 			hidden: false,
 			highlighted: true
@@ -69,16 +59,6 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseOver(e) {
-		if (this.context && this.context.onHover) {
-			this.context.onHover(this.props.itemKeys, {
-				popup: {
-					x: e.pageX,
-					y: e.pageY,
-					content: this.getPopupContent()
-				}
-			});
-		}
-
 		this.setState({
 			hidden: false,
 			highlighted: true
@@ -86,10 +66,6 @@ class Bar extends React.PureComponent {
 	}
 
 	onMouseOut(e) {
-		if (this.context && this.context.onHoverOut) {
-			this.context.onHoverOut();
-		}
-
 		this.setState({
 			hidden: this.props.hidden,
 			highlighted: false
@@ -162,58 +138,6 @@ class Bar extends React.PureComponent {
 				height={this.state.height}
 			/>
 		);
-	}
-
-	getPopupContent() {
-		const props = this.props;
-		let attrName = props.attributeName;
-		let segmentName = props.data.name;
-		let unit = props.attributeUnits;
-
-		if (_.isArray(props.originalData)) {
-			return (
-				<div className="ptr-column-chart-popup">
-					{segmentName || attrName ? (<div><i>{segmentName || attrName}:&nbsp;</i></div>) : null}
-					{props.originalData.map(record => {
-
-						// TODO what if more values?
-						let value = record.positive.data[0].value || record.negative.data[0].value;
-
-						let valueString = value;
-						if ((value % 1) !== 0) {
-							valueString = valueString.toFixed(2);
-						}
-
-						return (
-							<div key={record.name} className="ptr-column-chart-popup-values">
-								{<i>{record.name}:&nbsp;</i>}
-								{valueString.toLocaleString()} {unit}
-							</div>
-						);
-					})}
-				</div>
-			);
-		} else {
-			let columnName = props.name;
-			let value = props.data.value;
-			let color = props.data.highlightColor;
-
-			let valueString = value;
-			if ((value % 1) !== 0) {
-				valueString = valueString.toFixed(2);
-			}
-
-			return (
-				<div className="ptr-column-chart-popup">
-					<div><i>{columnName}</i></div>
-					<div className="ptr-column-chart-popup-values">
-						{color ? <div className="ptr-column-chart-popup-color" style={{background: color}}></div> : null}
-						{segmentName || attrName ? (<i>{segmentName || attrName}:&nbsp;</i>) : null}
-						{valueString.toLocaleString()}&nbsp;{unit}
-					</div>
-				</div>
-			);
-		}
 	}
 }
 

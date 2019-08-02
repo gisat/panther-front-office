@@ -390,7 +390,8 @@ class ColumnChartDoc extends React.PureComponent {
 								diverging
 								xGridlines
 								yOptions={{
-									diversionValue: 3
+									diversionValue: 3,
+									name: "Random attribute with pretty looooooooooong name"
 								}}
 							/>
 						</ResizableContainer>
@@ -506,7 +507,7 @@ class ColumnChartDoc extends React.PureComponent {
 
 								yLabel
 								yOptions={{
-									name: "Random attribute"
+									name: "Random attribute with pretty looooooooooong name"
 								}}
 
 								stacked
@@ -654,7 +655,7 @@ class ColumnChartDoc extends React.PureComponent {
 								ySourcePath={[
 									{
 										path: "data.part1",
-										name: "Part 1",
+										name: "Very loooooooooong part name, realy loooooooong",
 										color: "#ff0000"
 									},{
 										path: "data.part2",
