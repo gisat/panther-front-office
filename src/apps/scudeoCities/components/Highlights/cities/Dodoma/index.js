@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import conversions from "../../../../data/conversions";
 import Select from "../../../../../../components/common/atoms/Select/Select";
 
@@ -7,12 +8,12 @@ import * as dodoma_au_level_1 from '../../../../data/EO4SD_DODOMA_AL1.json';
 import * as dodoma_au_level_2 from '../../../../data/EO4SD_DODOMA_AL2.json';
 import * as dodoma_au_level_3 from '../../../../data/EO4SD_DODOMA_AL3.json';
 
-import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import PresentationMapWithControls from "../../../../../../components/common/maps/PresentationMapWithControls";
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
+import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
 
 const au_1_data = dodoma_au_level_1.features;
 const au_2_data = dodoma_au_level_2.features;
@@ -38,21 +39,20 @@ const au_2_lulc_1_changes = conversions.getAttributeChanges(au_2_data, 'AL2_ID',
 	{key: 'as_611001000_attr_61150000', name: 'Water', color: '#56c8ee'}
 ], 2006, 2016);
 
-const dodomaAuLevel3 = {
-	key: 'dodomaAuLevel3',
-	name: 'Analytical units 3',
-	type: 'vector',
-	options: {
-		features: au_3_data
-	}
-};
-
 const dodomaView = {
 	center: {
 		lat: -6.15,
 		lon: 35.75
 	},
 	boxRange: 50000
+};
+
+const dodomaViewDetailed = {
+	center: {
+		lat: -6.15,
+		lon: 35.75
+	},
+	boxRange: 30000
 };
 
 const stamenLite = {
@@ -141,6 +141,19 @@ const informal_2016 = {
 	}
 };
 
+let dodomaAuLevel3 = {
+	key: 'dodomaAuLevel3',
+	name: 'Analytical units 3',
+	type: 'vector',
+	options: {
+		features: au_3_data,
+		keyProperty: 'AL3_ID',
+		nameProperty: 'AL3_NAME'
+	}
+};
+
+const layers_lulc_2016 = [lulc_1_2016, dodomaAuLevel3];
+
 class Dodoma extends React.PureComponent {
 	static propTypes = {
 
@@ -152,17 +165,17 @@ class Dodoma extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="scudeoCities-highlights-page">
-				<h2>Land Use / Land Cover structure</h2>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at cursus enim. Morbi et odio eget tortor hendrerit euismod lacinia a metus. Integer enim sapien, efficitur nec est id, fermentum suscipit tortor. Curabitur eget est vitae purus faucibus maximus id nec nulla. Etiam sit amet nulla eu turpis commodo venenatis. Mauris eu imperdiet ante. Nunc ut volutpat ligula. Maecenas porttitor vehicula magna et finibus. Phasellus sed nisi vel eros luctus tincidunt. Ut sagittis dolor a ipsum feugiat consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-				</p>
+			<HoverHandler>
+				<div className="scudeoCities-highlights-page">
+					<h2>Land Use / Land Cover structure</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at cursus enim. Morbi et odio eget tortor hendrerit euismod lacinia a metus. Integer enim sapien, efficitur nec est id, fermentum suscipit tortor. Curabitur eget est vitae purus faucibus maximus id nec nulla. Etiam sit amet nulla eu turpis commodo venenatis. Mauris eu imperdiet ante. Nunc ut volutpat ligula. Maecenas porttitor vehicula magna et finibus. Phasellus sed nisi vel eros luctus tincidunt. Ut sagittis dolor a ipsum feugiat consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+					</p>
 
-				<div className="scudeoCities-highlights-charts-wrapper">
-					<div className="scudeoCities-highlights-chart-title">Core city Land Cover structure</div>
-					<div style={{maxWidth: '27rem', display: 'flex', alignItems: 'center'}}>
-						<div style={{width: '15rem'}}>
-							<HoverHandler>
+					<div className="scudeoCities-highlights-charts-wrapper">
+						<div className="scudeoCities-highlights-chart-title">Core city Land Cover structure</div>
+						<div style={{maxWidth: '27rem', display: 'flex', alignItems: 'center'}}>
+							<div style={{width: '15rem'}}>
 								<ColumnChart
 									key="lulc-aoi-2006"
 
@@ -194,12 +207,10 @@ class Dodoma extends React.PureComponent {
 
 									stacked="relative"
 								/>
-							</HoverHandler>
-						</div>
+							</div>
 
 
-						<div style={{width: '15rem', marginLeft: '-3rem'}}>
-							<HoverHandler>
+							<div style={{width: '15rem', marginLeft: '-3rem'}}>
 								<ColumnChart
 									key="lulc-aoi"
 
@@ -226,19 +237,17 @@ class Dodoma extends React.PureComponent {
 
 									stacked="relative"
 								/>
-							</HoverHandler>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<p>
-					Mauris posuere nisi vitae mauris aliquam, sit amet aliquet lectus ultricies. Aenean sollicitudin velit ac nisl consectetur hendrerit. Sed mi lacus, faucibus non ullamcorper a, gravida vel tellus. Praesent viverra feugiat arcu ut pharetra. Integer ultrices ipsum eu augue molestie, et varius lorem faucibus. Aliquam efficitur, orci ut suscipit pellentesque, nisi nibh semper ante, at vestibulum est ex vel ligula. Integer iaculis varius mauris, eget varius felis vehicula vel.
-				</p>
+					<p>
+						Mauris posuere nisi vitae mauris aliquam, sit amet aliquet lectus ultricies. Aenean sollicitudin velit ac nisl consectetur hendrerit. Sed mi lacus, faucibus non ullamcorper a, gravida vel tellus. Praesent viverra feugiat arcu ut pharetra. Integer ultrices ipsum eu augue molestie, et varius lorem faucibus. Aliquam efficitur, orci ut suscipit pellentesque, nisi nibh semper ante, at vestibulum est ex vel ligula. Integer iaculis varius mauris, eget varius felis vehicula vel.
+					</p>
 
-				<div className="scudeoCities-highlights-charts-wrapper">
-					<div className="scudeoCities-highlights-chart-title">Core city LULC relative change between 2006 and 2016</div>
-					<div className="scudeoCities-highlights-chart">
-						<HoverHandler>
+					<div className="scudeoCities-highlights-charts-wrapper">
+						<div className="scudeoCities-highlights-chart-title">Core city LULC relative change between 2006 and 2016</div>
+						<div className="scudeoCities-highlights-chart">
 							<ColumnChart
 								key="lulc-aoi-change"
 
@@ -263,81 +272,79 @@ class Dodoma extends React.PureComponent {
 
 								diverging
 							/>
-						</HoverHandler>
+						</div>
 					</div>
-				</div>
 
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at cursus enim. Morbi et odio eget tortor hendrerit euismod lacinia a metus. Integer enim sapien, efficitur nec est id, fermentum suscipit tortor. Curabitur eget est vitae purus faucibus maximus id nec nulla. Etiam sit amet nulla eu turpis commodo venenatis. Mauris eu imperdiet ante. Nunc ut volutpat ligula. Maecenas porttitor vehicula magna et finibus. Phasellus sed nisi vel eros luctus tincidunt. Ut sagittis dolor a ipsum feugiat consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-				</p>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at cursus enim. Morbi et odio eget tortor hendrerit euismod lacinia a metus. Integer enim sapien, efficitur nec est id, fermentum suscipit tortor. Curabitur eget est vitae purus faucibus maximus id nec nulla. Etiam sit amet nulla eu turpis commodo venenatis. Mauris eu imperdiet ante. Nunc ut volutpat ligula. Maecenas porttitor vehicula magna et finibus. Phasellus sed nisi vel eros luctus tincidunt. Ut sagittis dolor a ipsum feugiat consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+					</p>
 
-				<div className="scudeoCities-highlights-maps-wrapper">
-					<div className="scudeoCities-highlights-map-set-wrapper">
-						<div className="scudeoCities-highlights-map-wrapper">
-							<div className="scudeoCities-highlights-map-title">2006</div>
-							<div className="scudeoCities-highlights-map">
-								<PresentationMapWithControls
-									map={
-										<LeafletMap
-											mapKey='leaflet-dodoma-2006'
-											backgroundLayer={esriWorld}
-											layers={[lulc_1_2006, dodomaAuLevel3]}
-											view={dodomaView}
+					<div className="scudeoCities-highlights-maps-wrapper">
+						<div className="scudeoCities-highlights-map-set-wrapper">
+							<div className="scudeoCities-highlights-map-wrapper">
+								<div className="scudeoCities-highlights-map-title">2006</div>
+								<div className="scudeoCities-highlights-map">
+									<PresentationMapWithControls
+										map={
+											<LeafletMap
+												mapKey='leaflet-dodoma-2006'
+												backgroundLayer={esriWorld}
+												layers={[lulc_1_2006, dodomaAuLevel3]}
+												view={dodomaView}
 
-											scale
-										/>
-									}
-									controls={<MapControls levelsBased zoomOnly/>}
-								/>
+												scale
+											/>
+										}
+										controls={<MapControls levelsBased zoomOnly/>}
+									/>
+								</div>
+							</div>
+							<div className="scudeoCities-highlights-map-wrapper">
+								<div className="scudeoCities-highlights-map-title">2016</div>
+								<div className="scudeoCities-highlights-map">
+									<PresentationMapWithControls
+										map={
+											<LeafletMap
+												mapKey='leaflet-dodoma-2016'
+												backgroundLayer={esriWorld}
+												layers={layers_lulc_2016}
+												view={dodomaView}
+
+												scale
+											/>
+										}
+										controls={<MapControls levelsBased zoomOnly/>}
+									/>
+								</div>
 							</div>
 						</div>
-						<div className="scudeoCities-highlights-map-wrapper">
-							<div className="scudeoCities-highlights-map-title">2016</div>
-							<div className="scudeoCities-highlights-map">
-								<PresentationMapWithControls
-									map={
-										<LeafletMap
-											mapKey='leaflet-dodoma-2016'
-											backgroundLayer={esriWorld}
-											layers={[lulc_1_2016, dodomaAuLevel3]}
-											view={dodomaView}
-
-											scale
-										/>
-									}
-									controls={<MapControls levelsBased zoomOnly/>}
-								/>
+						<div className="scudeoCities-highlights-map-legend">
+							<div className="item">
+								<div className="color" style={{background: "#ae0214"}}></div>
+								<div className="title">Artificial Surfaces</div>
+							</div>
+							<div className="item">
+								<div className="color" style={{background: "#ffdc9b"}}></div>
+								<div className="title">Agricultural Area</div>
+							</div>
+							<div className="item">
+								<div className="color" style={{background: "#59b642"}}></div>
+								<div className="title">Natural and Semi-natural Areas</div>
+							</div>
+							<div className="item">
+								<div className="color" style={{background: "#a6a6ff"}}></div>
+								<div className="title">Wetlands</div>
+							</div>
+							<div className="item">
+								<div className="color" style={{background: "#56c8ee"}}></div>
+								<div className="title">Water</div>
 							</div>
 						</div>
 					</div>
-					<div className="scudeoCities-highlights-map-legend">
-						<div className="item">
-							<div className="color" style={{background: "#ae0214"}}></div>
-							<div className="title">Artificial Surfaces</div>
-						</div>
-						<div className="item">
-							<div className="color" style={{background: "#ffdc9b"}}></div>
-							<div className="title">Agricultural Area</div>
-						</div>
-						<div className="item">
-							<div className="color" style={{background: "#59b642"}}></div>
-							<div className="title">Natural and Semi-natural Areas</div>
-						</div>
-						<div className="item">
-							<div className="color" style={{background: "#a6a6ff"}}></div>
-							<div className="title">Wetlands</div>
-						</div>
-						<div className="item">
-							<div className="color" style={{background: "#56c8ee"}}></div>
-							<div className="title">Water</div>
-						</div>
-					</div>
-				</div>
 
-				<div className="scudeoCities-highlights-charts-wrapper" style={{width: "100%", maxWidth: "80rem", marginTop: 0}}>
-					<div className="scudeoCities-highlights-chart-title">Districts Land Cover structure in 2016</div>
-					<div className="scudeoCities-highlights-chart">
-						<HoverHandler>
+					<div className="scudeoCities-highlights-charts-wrapper" style={{width: "100%", maxWidth: "80rem", marginTop: 0}}>
+						<div className="scudeoCities-highlights-chart-title">Districts Land Cover structure in 2016</div>
+						<div className="scudeoCities-highlights-chart">
 							<ColumnChart
 								key="lulc-districts"
 
@@ -365,21 +372,19 @@ class Dodoma extends React.PureComponent {
 
 								stacked="relative"
 							/>
-						</HoverHandler>
+						</div>
 					</div>
-				</div>
 
 
 
-				<h2>Informal settlements expansion</h2>
-				<p>
-					Mauris posuere nisi vitae mauris aliquam, sit amet aliquet lectus ultricies. Aenean sollicitudin velit ac nisl consectetur hendrerit. Sed mi lacus, faucibus non ullamcorper a, gravida vel tellus. Praesent viverra feugiat arcu ut pharetra. Integer ultrices ipsum eu augue molestie, et varius lorem faucibus. Aliquam efficitur, orci ut suscipit pellentesque, nisi nibh semper ante, at vestibulum est ex vel ligula. Integer iaculis varius mauris, eget varius felis vehicula vel.
-				</p>
+					<h2>Informal settlements expansion</h2>
+					<p>
+						Mauris posuere nisi vitae mauris aliquam, sit amet aliquet lectus ultricies. Aenean sollicitudin velit ac nisl consectetur hendrerit. Sed mi lacus, faucibus non ullamcorper a, gravida vel tellus. Praesent viverra feugiat arcu ut pharetra. Integer ultrices ipsum eu augue molestie, et varius lorem faucibus. Aliquam efficitur, orci ut suscipit pellentesque, nisi nibh semper ante, at vestibulum est ex vel ligula. Integer iaculis varius mauris, eget varius felis vehicula vel.
+					</p>
 
-				<div className="scudeoCities-highlights-charts-wrapper">
-					<div className="scudeoCities-highlights-chart-title">Informal settlements expansion between 2006 and 2016</div>
-					<div className="scudeoCities-highlights-chart">
-						<HoverHandler>
+					<div className="scudeoCities-highlights-charts-wrapper">
+						<div className="scudeoCities-highlights-chart-title">Informal settlements expansion between 2006 and 2016</div>
+						<div className="scudeoCities-highlights-chart">
 							<LineChart
 								key="urban-expansion"
 
@@ -405,65 +410,65 @@ class Dodoma extends React.PureComponent {
 
 								legend
 							/>
-						</HoverHandler>
+						</div>
 					</div>
-				</div>
 
-				<p>
-					Mauris posuere nisi vitae mauris aliquam, sit amet aliquet lectus ultricies. Aenean sollicitudin velit ac nisl consectetur hendrerit. Sed mi lacus, faucibus non ullamcorper a, gravida vel tellus. Praesent viverra feugiat arcu ut pharetra. Integer ultrices ipsum eu augue molestie, et varius lorem faucibus. Aliquam efficitur, orci ut suscipit pellentesque, nisi nibh semper ante, at vestibulum est ex vel ligula. Integer iaculis varius mauris, eget varius felis vehicula vel.
-				</p>
+					<p>
+						Mauris posuere nisi vitae mauris aliquam, sit amet aliquet lectus ultricies. Aenean sollicitudin velit ac nisl consectetur hendrerit. Sed mi lacus, faucibus non ullamcorper a, gravida vel tellus. Praesent viverra feugiat arcu ut pharetra. Integer ultrices ipsum eu augue molestie, et varius lorem faucibus. Aliquam efficitur, orci ut suscipit pellentesque, nisi nibh semper ante, at vestibulum est ex vel ligula. Integer iaculis varius mauris, eget varius felis vehicula vel.
+					</p>
 
-				<div className="scudeoCities-highlights-maps-wrapper">
-					<div className="scudeoCities-highlights-map-set-wrapper">
-						<div className="scudeoCities-highlights-map-wrapper">
-							<div className="scudeoCities-highlights-map-title">2006</div>
-							<div className="scudeoCities-highlights-map">
-								<PresentationMapWithControls
-									map={
-										<LeafletMap
-											mapKey='leaflet-dodoma-2006-inf'
-											backgroundLayer={osm}
-											layers={[informal_2006, dodomaAuLevel3]}
-											view={{...dodomaView, boxRange: 30000}}
+					<div className="scudeoCities-highlights-maps-wrapper">
+						<div className="scudeoCities-highlights-map-set-wrapper">
+							<div className="scudeoCities-highlights-map-wrapper">
+								<div className="scudeoCities-highlights-map-title">2006</div>
+								<div className="scudeoCities-highlights-map">
+									<PresentationMapWithControls
+										map={
+											<LeafletMap
+												mapKey='leaflet-dodoma-2006-inf'
+												backgroundLayer={osm}
+												layers={[informal_2006, dodomaAuLevel3]}
+												view={dodomaViewDetailed}
 
-											scale
-										/>
-									}
-									controls={<MapControls levelsBased zoomOnly/>}
-								/>
+												scale
+											/>
+										}
+										controls={<MapControls levelsBased zoomOnly/>}
+									/>
+								</div>
+							</div>
+							<div className="scudeoCities-highlights-map-wrapper">
+								<div className="scudeoCities-highlights-map-title">2016</div>
+								<div className="scudeoCities-highlights-map">
+									<PresentationMapWithControls
+										map={
+											<LeafletMap
+												mapKey='leaflet-dodoma-2016-onf'
+												backgroundLayer={osm}
+												layers={[informal_2016, dodomaAuLevel3]}
+												view={dodomaViewDetailed}
+
+												scale
+											/>
+										}
+										controls={<MapControls levelsBased zoomOnly/>}
+									/>
+								</div>
 							</div>
 						</div>
-						<div className="scudeoCities-highlights-map-wrapper">
-							<div className="scudeoCities-highlights-map-title">2016</div>
-							<div className="scudeoCities-highlights-map">
-								<PresentationMapWithControls
-									map={
-										<LeafletMap
-											mapKey='leaflet-dodoma-2016-onf'
-											backgroundLayer={osm}
-											layers={[informal_2016, dodomaAuLevel3]}
-											view={{...dodomaView, boxRange: 30000}}
-
-											scale
-										/>
-									}
-									controls={<MapControls levelsBased zoomOnly/>}
-								/>
+						<div className="scudeoCities-highlights-map-legend">
+							<div className="item">
+								<div className="color" style={{background: "#4c4cff"}}></div>
+								<div className="title">Planned</div>
+							</div>
+							<div className="item">
+								<div className="color" style={{background: "#808080"}}></div>
+								<div className="title">Unplanned</div>
 							</div>
 						</div>
 					</div>
-					<div className="scudeoCities-highlights-map-legend">
-						<div className="item">
-							<div className="color" style={{background: "#4c4cff"}}></div>
-							<div className="title">Planned</div>
-						</div>
-						<div className="item">
-							<div className="color" style={{background: "#808080"}}></div>
-							<div className="title">Unplanned</div>
-						</div>
-					</div>
 				</div>
-			</div>
+			</HoverHandler>
 		);
 	}
 }
