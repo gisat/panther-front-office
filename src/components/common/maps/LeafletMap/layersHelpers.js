@@ -1,29 +1,35 @@
 import L from 'leaflet';
+import React from 'react';
 
-function getLayerByType(layer) {
+import {vectorLayerDefaultFeatureStyle as featureStyle, vectorLayerHighlightedFeatureStyle as highlightedFeatureStyle} from '../constants';
+import VectorLayer from "./layers/VectorLayer";
+import WmsLayer from "./layers/WmsLayer";
+import WmtsLayer from "./layers/WmtsLayer";
+
+function getLayerByType(layer, map) {
 	if (layer.type){
 		switch (layer.type) {
 			case 'wmts':
-				return L.tileLayer(layer.options.url);
+				return (
+					<WmtsLayer
+						data={layer}
+						map={map}
+					/>
+				);
 			case 'wms':
-				// todo add other params
-				return L.tileLayer.wms(layer.options.url, {
-					layers: layer.options.params.layers,
-					format: layer.options.params.imageFormat || 'image/png',
-					transparent: true,
-					opacity: layer.opacity || 1,
-					styles: layer.options.params.styles
-				});
+				return (
+					<WmsLayer
+						data={layer}
+						map={map}
+					/>
+				);
 			case 'vector':
-				// todo handle styles
-				return L.geoJSON(layer.options.features, {
-					style: {
-						opacity: layer.opacity || 1,
-						fillOpacity: 0,
-						weight: 2,
-						color: "#444"
-					}
-				});
+				return (
+					<VectorLayer
+						data={layer}
+						map={map}
+					/>
+				);
 			default:
 				return null;
 		}
