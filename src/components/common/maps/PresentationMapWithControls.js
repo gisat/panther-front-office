@@ -2,17 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import mapUtils from "../../../utils/map";
-
-const DEFAULT_VIEW = {
-	center: {
-		lat: 45,
-		lon: 10
-	},
-	boxRange: 10000000,
-	tilt: 0,
-	roll: 0,
-	heading: 0
-};
+import {defaultMapView} from './constants';
 
 class PresentationMapWithControls extends React.PureComponent {
 	static propTypes = {
@@ -24,7 +14,7 @@ class PresentationMapWithControls extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			view: {...DEFAULT_VIEW, ...(props.map && props.map.props && props.map.props.view)}
+			view: {...defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
 		};
 
 		this.updateView = this.updateView.bind(this);
@@ -41,12 +31,12 @@ class PresentationMapWithControls extends React.PureComponent {
 			if (prevProps && prevProps.map && prevProps.map.props && prevProps.map.props.view) {
 				if (!_.isEqual(props.map.props.view, prevProps.map.props.view)) {
 					this.setState({
-						view: {...DEFAULT_VIEW, ...(props.map && props.map.props && props.map.props.view)}
+						view: {...defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
 					});
 				}
 			} else {
 				this.setState({
-					view: {...DEFAULT_VIEW, ...(props.map && props.map.props && props.map.props.view)}
+					view: {...defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
 				});
 			}
 		}

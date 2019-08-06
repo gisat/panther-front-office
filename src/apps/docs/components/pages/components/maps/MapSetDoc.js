@@ -11,9 +11,17 @@ class MapSetDoc extends React.PureComponent {
 			<Page title="Map">
 				<div style={{height: 500}}>
 					<MapSet
+						activeMapKey='map-2'
 						mapComponent={WorldWindMap}
+						view={{
+							boxRange: 100000
+						}}
+						sync={{
+							boxRange: true
+						}}
 					>
 						<PresentationMap
+							mapKey='map-1'
 							backgroundLayer={{
 								type: 'worldwind',
 								options: {
@@ -22,6 +30,16 @@ class MapSetDoc extends React.PureComponent {
 							}}
 						/>
 						<PresentationMap
+							mapKey='map-2'
+							backgroundLayer={{
+								type: 'worldwind',
+								options: {
+									layer: 'wikimedia'
+								}
+							}}
+						/>
+						<PresentationMap
+							mapKey='map-3'
 							backgroundLayer={{
 								type: 'worldwind',
 								options: {

@@ -4,30 +4,56 @@ import Action from "../../../state/Action";
 import React from "react";
 
 const mapStateToProps = (state, ownProps) => {
-	return {
-		backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.mapKey),
-		layers: Select.maps.getLayers(state, ownProps.mapKey),
-		view: Select.maps.getView(state, ownProps.mapKey)
+	if (ownProps.stateMapKey) {
+		return {
+			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.stateMapKey),
+			layers: Select.maps.getLayers(state, ownProps.stateMapKey),
+			view: Select.maps.getView(state, ownProps.stateMapKey)
+		}
+	} else {
+		return {
+			// TODO implement selectors
+			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
+			layers: Select.maps.getLayers(state, ownProps.layers)
+		}
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		onMount: () => {
-			dispatch(Action.maps.use(ownProps.mapKey));
-		},
+	if (ownProps.stateMapKey) {
+		return {
+			onMount: () => {
+				dispatch(Action.maps.use(ownProps.stateMapKey));
+			},
 
-		onUnmount: () => {
-			dispatch(Action.maps.useClear(ownProps.mapKey));
-		},
+			onUnmount: () => {
+				dispatch(Action.maps.useClear(ownProps.stateMapKey));
+			},
 
-		onViewChange: (update) => {
-			dispatch(Action.maps.updateMapAndSetView(ownProps.mapKey, update));
-			// dispatch(Action.maps.setActiveMapKey(ownProps.mapKey));
-		},
+			onViewChange: (update) => {
+				dispatch(Action.maps.updateMapAndSetView(ownProps.stateMapKey, update));
+				// dispatch(Action.maps.setActiveMapKey(ownProps.mapKey));
+			},
 
-		onClick: () => {
-			dispatch(Action.maps.setActiveMapKey(ownProps.mapKey));
+			onClick: (view) => {
+				dispatch(Action.maps.setActiveMapKey(ownProps.stateMapKey));
+			}
+		}
+	} else {
+		return {
+			onMount: () => {
+				// TODO implement action
+				// dispatch(Action.maps.usePresentational(ownProps));
+			},
+
+			onUnmount: () => {
+				// TODO implement action
+				// dispatch(Action.maps.usePresentationalClear(ownProps));
+			},
+
+			onViewChange: ownProps.onViewChange || ((update) => {}),
+
+			onClick: ownProps.onClick || ((view) => {})
 		}
 	}
 };

@@ -1,6 +1,8 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
+import mapUtils from '../../utils/map';
+
 import LayerTemplatesSelectors from '../LayerTemplates/selectors';
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
@@ -168,7 +170,7 @@ const getView = createSelector(
 			if (set) {
 				let mapView = map.data && map.data.view;
 				let mapSetView = set.data && set.data.view;
-				let view = {...mapSetView, ...mapView};
+				let view = mapUtils.mergeViews(mapSetView, mapView);
 				return !_.isEmpty(view) ? view : null;
 			} else {
 				let view = map.data && map.data.view;

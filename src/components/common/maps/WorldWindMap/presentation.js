@@ -7,21 +7,11 @@ import WorldWind from 'webworldwind-esa';
 import decorateWorldWindowController from './controllers/WorldWindowControllerDecorator';
 import layersHelpers from './layers/helpers';
 import navigator from './navigator/helpers';
+import {defaultMapView} from '../constants';
 
 import './style.scss';
 
 const {WorldWindow, ElevationModel} = WorldWind;
-
-const DEFAULT_VIEW = {
-	center: {
-		lat: 45,
-		lon: 10
-	},
-	boxRange: 10000000,
-	tilt: 0,
-	roll: 0,
-	heading: 0
-};
 
 class WorldWindMap extends React.PureComponent {
 	static defaultProps = {
@@ -42,6 +32,8 @@ class WorldWindMap extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.canvasId = utils.uuid();
+
+		this.onClick = this.onClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -50,7 +42,7 @@ class WorldWindMap extends React.PureComponent {
 		decorateWorldWindowController(this.wwd.worldWindowController);
 		this.wwd.worldWindowController.onNavigatorChanged = this.onNavigatorChange.bind(this);
 
-		this.updateNavigator();
+		this.updateNavigator(defaultMapView);
 		this.updateLayers();
 
 	}
@@ -86,9 +78,10 @@ class WorldWindMap extends React.PureComponent {
 		this.wwd.redraw();
 	}
 
-	updateNavigator() {
-		const currentView = {...DEFAULT_VIEW, ...this.props.view};
-		navigator.update(this.wwd, currentView);
+	updateNavigator(defaultView) {
+		let currentView = defaultView || navigator.getViewParamsFromWorldWindNavigator(this.wwd.navigator);
+		let nextView = {...currentView, ...this.props.view};
+		navigator.update(this.wwd, nextView);
 	}
 
 	/**
@@ -108,7 +101,7 @@ class WorldWindMap extends React.PureComponent {
 	onNavigatorChange(event) {
 		if (event) {
 			const viewParams = navigator.getViewParamsFromWorldWindNavigator(event);
-			const changedViewParams = navigator.getChangedViewParams({...DEFAULT_VIEW, ...this.props.view}, viewParams);
+			const changedViewParams = navigator.getChangedViewParams({...defaultMapView, ...this.props.view}, viewParams);
 
 			if(this.props.onViewChange) {
 				if (!_.isEmpty(changedViewParams)) {
@@ -127,9 +120,14 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
+	onClick() {
+		let currentView = navigator.getViewParamsFromWorldWindNavigator(this.wwd.navigator);
+		this.props.onClick(currentView);
+	}
+
 	render() {
 		return (
-			<div className="ptr-world-wind-map" onClick={this.props.onClick}>
+			<div className="ptr-world-wind-map" onClick={this.onClick}>
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>

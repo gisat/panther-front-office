@@ -1,6 +1,56 @@
 import _ from 'lodash';
 import fetch from "isomorphic-fetch";
 
+const checkViewIntegrity = (view) => {
+	if (view) {
+		if (view.heading && view.heading > 360) {
+			view.heading = view.heading % 360;
+		}
+
+		if (view.heading && view.heading < 0) {
+			view.heading = 360 - (view.heading % 360);
+		}
+
+		if (view.tilt && view.tilt < 0) {
+			view.tilt = 0;
+		}
+
+		if (view.tilt && view.tilt > 90) {
+			view.tilt = 90;
+		}
+
+		if (view.range && view.range < 0.01) {
+			view.range = 0.01;
+		}
+
+		if (view.center) {
+			if (view.center.lat) {
+				if (view.center.lat > 90) {
+					view.center.lat = 90;
+				} else if (view.center.lat < -90) {
+					view.center.lat = -90;
+				}
+			}
+
+			if (view.center.lon) {
+				if (view.center.lon > 360 || view.center.lon < -360) {
+					view.center.lon %= 360;
+				}
+
+				if (view.center.lon > 180) {
+					view.center.lon = -180 + (view.center.lon - 180);
+				} else if (view.center.lon < -180) {
+					view.center.lon = 180 + (view.center.lon + 180);
+				} else if (view.center.lon === -180) {
+					view.center.lon = 180;
+				}
+			}
+		}
+	}
+
+	return view;
+};
+
 /**
  * @param placeString {string} Text (e.g. Praha, France, ...) or coordinates (e.g. 10,50 or 10;50 or 10 50 as latitude,longitude) as input
  * @return {Promise} {{center: {lon: number, lat: number}, boxRange: number}}
@@ -90,6 +140,20 @@ function getBoxRangeFromBoundingBox(bbox) {
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
 }
 
+function mergeLayers(one, two) {
+	// TODO remove duplicate keys
+	if (one && two) {
+		return [...one, ...two];
+	} else {
+		return one || two || null;
+	}
+}
+
+
+function mergeViews(one, two) {
+	return {...one, ...two};
+}
+
 
 function resetHeading(heading, callback, increment) {
 	if (!increment) {
@@ -119,8 +183,11 @@ function resetHeading(heading, callback, increment) {
 
 
 export default {
+	checkViewIntegrity,
 	getLocationFromPlaceString,
-	resetHeading
+	mergeLayers,
+	mergeViews,
+	resetHeading,
 }
 
 

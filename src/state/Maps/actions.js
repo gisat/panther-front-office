@@ -561,13 +561,13 @@ const updateMapAndSetView = (mapKey, update) => {
 
 		if (forSet) {
 			//check data integrity
-			forSet = checkViewIntegrity(forSet); //TODO test
+			forSet = mapUtils.checkViewIntegrity(forSet); //TODO test
 			dispatch(actionUpdateSetView(set.key, forSet));
 		}
 
 		if (forMap) {
 			//check data integrity
-			forMap = checkViewIntegrity(forMap); //TODO test
+			forMap = mapUtils.checkViewIntegrity(forMap); //TODO test
 			dispatch(actionUpdateMapView(mapKey, forMap));
 		}
 	}
@@ -591,56 +591,6 @@ const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 		WorldWindNavigator.tilt = 90;
 	}
 	return WorldWindNavigator;
-};
-
-const checkViewIntegrity = (view) => {
-	if (view) {
-		if (view.heading && view.heading > 360) {
-			view.heading = view.heading % 360;
-		}
-
-		if (view.heading && view.heading < 0) {
-			view.heading = 360 - (view.heading % 360);
-		}
-
-		if (view.tilt && view.tilt < 0) {
-			view.tilt = 0;
-		}
-
-		if (view.tilt && view.tilt > 90) {
-			view.tilt = 90;
-		}
-		
-		if (view.range && view.range < 0.01) {
-			view.range = 0.01;
-		}
-		
-		if (view.center) {
-			if (view.center.lat) {
-				if (view.center.lat > 90) {
-					view.center.lat = 90;
-				} else if (view.center.lat < -90) {
-					view.center.lat = -90;
-				}
-			}
-			
-			if (view.center.lon) {
-				if (view.center.lon > 360 || view.center.lon < -360) {
-					view.center.lon %= 360; 
-				}
-				
-				if (view.center.lon > 180) {
-					view.center.lon = -180 + (view.center.lon - 180);
-				} else if (view.center.lon < -180) {
-					view.center.lon = 180 + (view.center.lon + 180);
-				} else if (view.center.lon === -180) {
-					view.center.lon = 180;
-				}
-			}
-		}
-	} 
-	
-	return view;
 };
 
 // TODO deprecated

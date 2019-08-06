@@ -4,20 +4,10 @@ import L from 'leaflet';
 import viewHelpers from './viewHelpers';
 import layersHelpers from './layersHelpers';
 import utils from '../viewUtils';
+import {defaultMapView} from '../constants';
 
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
-
-const DEFAULT_VIEW = {
-	center: {
-		lat: 45,
-		lon: 10
-	},
-	boxRange: 10000000,
-	tilt: 0,
-	roll: 0,
-	heading: 0
-};
 
 class LeafletMap extends React.PureComponent {
 	static propTypes = {
@@ -44,7 +34,7 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const initialView = {...DEFAULT_VIEW, ...this.props.view};
+		const initialView = {...defaultMapView, ...this.props.view};
 
 		/* Setup leaflet map
 		*	- hide default zoom and attribution controls
@@ -99,8 +89,9 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	updateView() {
-		const currentView = {...DEFAULT_VIEW, ...this.props.view};
-		viewHelpers.update(this.map, currentView);
+		// TODO merge with current view
+		const nextView = {...defaultMapView, ...this.props.view};
+		viewHelpers.update(this.map, nextView);
 	}
 
 	onZoomChange() {
@@ -119,9 +110,14 @@ class LeafletMap extends React.PureComponent {
 		}
 	}
 
+	onClick() {
+		// TODO
+		// this.props.onClick(currentView);
+	}
+
 	render() {
 		return (
-			<div className="ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey}>
+			<div className="ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey} onClick={this.onClick}>
 				{this.state.layers}
 			</div>
 		);
