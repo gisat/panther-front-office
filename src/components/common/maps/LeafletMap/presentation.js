@@ -35,6 +35,10 @@ class LeafletMap extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			layers: null
+		};
+
 		this.onZoomChange = this.onZoomChange.bind(this);
 		this.onMoveChange = this.onMoveChange.bind(this);
 	}
@@ -73,26 +77,24 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	updateLayers() {
-		let layers = [];
-		if (this.props.backgroundLayer) {
-			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer));
-		}
-
-		if (this.props.layers) {
-			this.props.layers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer));
-			});
-		}
-
 		// TODO optimalize - layer groups?
 		this.map.eachLayer(layer => {
 			this.map.removeLayer(layer);
 		});
 
-		layers.forEach(layer => {
-			if (layer && !this.map.hasLayer(layer)) {
-				this.map.addLayer(layer);
-			}
+		let layers = [];
+		if (this.props.backgroundLayer) {
+			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer, this.map));
+		}
+
+		if (this.props.layers) {
+			this.props.layers.forEach((layer) => {
+				layers.push(layersHelpers.getLayerByType(layer, this.map));
+			});
+		}
+
+		this.setState({
+			layers
 		});
 	}
 
@@ -120,6 +122,7 @@ class LeafletMap extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey}>
+				{this.state.layers}
 			</div>
 		);
 

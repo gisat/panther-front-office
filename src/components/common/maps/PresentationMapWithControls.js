@@ -71,7 +71,10 @@ class PresentationMapWithControls extends React.PureComponent {
 			<div className="ptr-presentation-map-with-controls" style={{height: '100%', position: 'relative'}}>
 				{React.cloneElement(this.props.map, {
 					...this.props.map.props,
-					view: {...(this.props.map.props && this.props.map.props.view), ...this.state.view},
+
+					// TODO do not mutate view if it is not needed. Check if this is enough
+					view: this.state.view,
+					// view: {...(this.props.map.props && this.props.map.props.view), ...this.state.view},
 					onViewChange: this.updateView
 				})}
 				{this.props.controls ? React.cloneElement(this.props.controls, {
