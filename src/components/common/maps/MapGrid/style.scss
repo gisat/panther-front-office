@@ -10,14 +10,16 @@
 
 .ptr-map-grid .ptr-map {
 	position: relative;
+}
 
+.ptr-map {
 	$border: 1px solid #888;
 
-	:not(.row1) > & {
+	.ptr-map-grid :not(.row1) > & {
 		border-top: $border;
 	}
 
-	:not(.col1) > & {
+	.ptr-map-grid :not(.col1) > & {
 		border-left: $border;
 	}
 }
