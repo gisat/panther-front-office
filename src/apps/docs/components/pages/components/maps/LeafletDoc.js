@@ -17,7 +17,7 @@ class LeafletDoc extends React.PureComponent {
 							key: 'background-osm',
 							type: 'wmts',
 							options: {
-								urls: ['http://{s}.tile.osm.org/{z}/{x}/{y}.png']
+								url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 							}
 						}}
 					/>
