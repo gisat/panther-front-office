@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import Helmet from "react-helmet";
-
-import Store, {history} from './store';
+import createStore, {createHistory} from './state/Store';
 import Action from "../../state/Action";
 import i18n from '../../i18n';
 
@@ -33,6 +32,9 @@ import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
 
 
 export default (path, baseUrl) => {
+
+	const history = createHistory({ basename: path });
+	const Store = createStore(history);
 
 	Store.dispatch(Action.app.setKey('docs'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
