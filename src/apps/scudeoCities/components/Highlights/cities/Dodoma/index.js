@@ -14,6 +14,7 @@ import PresentationMapWithControls from "../../../../../../components/common/map
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
 import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
+import MapSet, {PresentationMap} from "../../../../../../components/common/maps/MapSet/presentation";
 
 const au_1_data = dodoma_au_level_1.features;
 const au_2_data = dodoma_au_level_2.features;
@@ -281,42 +282,26 @@ class Dodoma extends React.PureComponent {
 
 					<div className="scudeoCities-highlights-maps-wrapper">
 						<div className="scudeoCities-highlights-map-set-wrapper">
-							<div className="scudeoCities-highlights-map-wrapper">
-								<div className="scudeoCities-highlights-map-title">2006</div>
-								<div className="scudeoCities-highlights-map">
-									<PresentationMapWithControls
-										map={
-											<LeafletMap
-												mapKey='leaflet-dodoma-2006'
-												backgroundLayer={esriWorld}
-												layers={[lulc_1_2006, dodomaAuLevel3]}
-												view={dodomaView}
-
-												scale
-											/>
-										}
-										controls={<MapControls levelsBased zoomOnly/>}
-									/>
-								</div>
-							</div>
-							<div className="scudeoCities-highlights-map-wrapper">
-								<div className="scudeoCities-highlights-map-title">2016</div>
-								<div className="scudeoCities-highlights-map">
-									<PresentationMapWithControls
-										map={
-											<LeafletMap
-												mapKey='leaflet-dodoma-2016'
-												backgroundLayer={esriWorld}
-												layers={layers_lulc_2016}
-												view={dodomaView}
-
-												scale
-											/>
-										}
-										controls={<MapControls levelsBased zoomOnly/>}
-									/>
-								</div>
-							</div>
+							<MapSet
+								activeMapKey='map-2'
+								mapComponent={LeafletMap}
+								view={dodomaView}
+								sync={{
+									boxRange: true,
+									center: true
+								}}
+								backgroundLayer={esriWorld}
+							>
+								<PresentationMap
+									mapKey='lulc-map-1'
+									layers={[lulc_1_2006, dodomaAuLevel3]}
+								/>
+								<PresentationMap
+									mapKey='lulc-map-2'
+									layers={[lulc_1_2016, dodomaAuLevel3]}
+								/>
+								<MapControls zoomOnly levelsBased/>
+							</MapSet>
 						</div>
 						<div className="scudeoCities-highlights-map-legend">
 							<div className="item">
@@ -419,42 +404,30 @@ class Dodoma extends React.PureComponent {
 
 					<div className="scudeoCities-highlights-maps-wrapper">
 						<div className="scudeoCities-highlights-map-set-wrapper">
-							<div className="scudeoCities-highlights-map-wrapper">
-								<div className="scudeoCities-highlights-map-title">2006</div>
-								<div className="scudeoCities-highlights-map">
-									<PresentationMapWithControls
-										map={
-											<LeafletMap
-												mapKey='leaflet-dodoma-2006-inf'
-												backgroundLayer={osm}
-												layers={[informal_2006, dodomaAuLevel3]}
-												view={dodomaViewDetailed}
-
-												scale
-											/>
-										}
-										controls={<MapControls levelsBased zoomOnly/>}
-									/>
-								</div>
-							</div>
-							<div className="scudeoCities-highlights-map-wrapper">
-								<div className="scudeoCities-highlights-map-title">2016</div>
-								<div className="scudeoCities-highlights-map">
-									<PresentationMapWithControls
-										map={
-											<LeafletMap
-												mapKey='leaflet-dodoma-2016-onf'
-												backgroundLayer={osm}
-												layers={[informal_2016, dodomaAuLevel3]}
-												view={dodomaViewDetailed}
-
-												scale
-											/>
-										}
-										controls={<MapControls levelsBased zoomOnly/>}
-									/>
-								</div>
-							</div>
+							<MapSet
+								activeMapKey='map-2'
+								mapComponent={LeafletMap}
+								view={dodomaView}
+								sync={{
+									boxRange: true,
+									center: true
+								}}
+								backgroundLayer={{
+									key: 'osm',
+									type: 'wmts',
+									options: {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'}
+								}}
+							>
+								<PresentationMap
+									mapKey='map-1'
+									layers={[informal_2006, dodomaAuLevel3]}
+								/>
+								<PresentationMap
+									mapKey='map-2'
+									layers={[informal_2016, dodomaAuLevel3]}
+								/>
+								<MapControls zoomOnly levelsBased/>
+							</MapSet>
 						</div>
 						<div className="scudeoCities-highlights-map-legend">
 							<div className="item">
