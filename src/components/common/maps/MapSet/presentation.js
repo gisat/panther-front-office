@@ -105,7 +105,6 @@ class MapSet extends React.PureComponent {
 	renderControls() {
 		return React.Children.map(this.props.children, child => {
 			if (!(typeof child === "object" && child.type === Map)) {
-				console.log("******aa", this.state.activeMapView);
 				return React.cloneElement(child, {
 					...child.props,
 					view: this.state.activeMapView,

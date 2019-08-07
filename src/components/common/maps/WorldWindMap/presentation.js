@@ -121,8 +121,10 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	onClick() {
-		let currentView = navigator.getViewParamsFromWorldWindNavigator(this.wwd.navigator);
-		this.props.onClick(currentView);
+		if (this.props.onClick) {
+			let currentView = navigator.getViewParamsFromWorldWindNavigator(this.wwd.navigator);
+			this.props.onClick(currentView);
+		}
 	}
 
 	render() {

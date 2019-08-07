@@ -31,6 +31,7 @@ class LeafletMap extends React.PureComponent {
 
 		this.onZoomChange = this.onZoomChange.bind(this);
 		this.onMoveChange = this.onMoveChange.bind(this);
+		this.onClick = this.onClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -55,12 +56,10 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps) {
-		// TODO compare references only?
 		if (this.props.view && prevProps.view !== this.props.view) {
 			this.updateView();
 		}
 
-		// TODO compare references only?
 		if ((this.props.layers || this.props.backgroundLayer) && (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer)) {
 			this.updateLayers();
 		}
@@ -89,30 +88,60 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	updateView() {
-		// TODO merge with current view
-		const nextView = {...defaultMapView, ...this.props.view};
+		this.map.off("zoomend", this.onZoomChange);
+		this.map.off("moveend", this.onMoveChange);
+
+		let currentView = this.getCurrentView();
+		let nextView = {...currentView, ...this.props.view};
 		viewHelpers.update(this.map, nextView);
+
+		this.map.on("zoomend", this.onZoomChange);
+		this.map.on("moveend", this.onMoveChange);
 	}
 
 	onZoomChange() {
 		if (this.props.onViewChange) {
-			let zoomLevel = this.map.getZoom();
-			let center = this.map.getCenter();
-			let boxRange = utils.getBoxRangeFromZoomLevelAndLatitude(zoomLevel, center.lat);
-			this.props.onViewChange({boxRange, center: {lon: center.lng, lat: center.lat}});
+			this.props.onViewChange({
+				boxRange: this.getBoxRange(),
+				center: this.getCenter()
+			});
 		}
 	}
 
 	onMoveChange() {
 		if (this.props.onViewChange) {
-			let center = this.map.getCenter();
-			this.props.onViewChange({center: {lon: center.lng, lat: center.lat}});
+			this.props.onViewChange({
+				center: this.getCenter()
+			});
 		}
 	}
 
 	onClick() {
-		// TODO
-		// this.props.onClick(currentView);
+		if (this.props.onClick) {
+			let currentView = this.getCurrentView();
+			this.props.onClick(currentView);
+		}
+	}
+
+	getCurrentView() {
+		return {
+			boxRange: this.getBoxRange(),
+			center: this.getCenter()
+		};
+	}
+
+	getCenter() {
+		let center = this.map.getCenter();
+		return {
+			lon: center.lng,
+			lat: center.lat
+		}
+	}
+
+	getBoxRange() {
+		let center = this.getCenter();
+		let zoomLevel = this.map.getZoom();
+		return utils.getBoxRangeFromZoomLevelAndLatitude(zoomLevel, center.lat);
 	}
 
 	render() {

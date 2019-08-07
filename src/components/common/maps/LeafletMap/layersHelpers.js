@@ -12,6 +12,7 @@ function getLayerByType(layer, map) {
 			case 'wmts':
 				return (
 					<WmtsLayer
+						key={layer.key}
 						data={layer}
 						map={map}
 					/>
@@ -19,6 +20,7 @@ function getLayerByType(layer, map) {
 			case 'wms':
 				return (
 					<WmsLayer
+						key={layer.key}
 						data={layer}
 						map={map}
 					/>
@@ -26,6 +28,7 @@ function getLayerByType(layer, map) {
 			case 'vector':
 				return (
 					<VectorLayer
+						key={layer.key}
 						data={layer}
 						map={map}
 					/>

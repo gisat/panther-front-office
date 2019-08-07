@@ -8,7 +8,8 @@ import {zoomCoefficient, numberOfLevels} from './constants';
  */
 function getZoomLevelFromView(view) {
 	let latitude = view.center.lat;
-	let coeff = (zoomCoefficient*Math.abs(Math.cos(Math.PI*latitude/180)));
+	// let coeff = (zoomCoefficient*Math.abs(Math.cos(Math.PI*latitude/180)));
+	let coeff = (zoomCoefficient*Math.abs(Math.cos(Math.PI/180)));
 	let zoomLevel = Math.floor(Math.log(view.boxRange/coeff) / Math.log(2));
 
 	if (zoomLevel > numberOfLevels) {
@@ -19,7 +20,8 @@ function getZoomLevelFromView(view) {
 }
 
 function getBoxRangeFromZoomLevelAndLatitude(level, latitude) {
-	let coeff = (zoomCoefficient*Math.abs(Math.cos(Math.PI*latitude/180)));
+	// let coeff = (zoomCoefficient*Math.abs(Math.cos(Math.PI*latitude/180)));
+	let coeff = (zoomCoefficient*Math.abs(Math.cos(Math.PI/180)));
 	return coeff*Math.pow(2, numberOfLevels - level);
 }
 
