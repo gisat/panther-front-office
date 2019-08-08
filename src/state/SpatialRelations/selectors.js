@@ -59,7 +59,7 @@ const getFilteredDataGroupedByLayerKey = createSelector(
 			let groupedRelations = {};
 			layers.forEach(layer => {
 				if (layer.data && layer.data.key) {
-					if (relations) {
+					if (relations && relations.length) {
 						const filter = cloneDeep(layer.filter);
 						//TODO
 						//sapatial data should not be filtered by period and attributeKey
@@ -98,6 +98,7 @@ const getDataSourceKeysFiltered = createSelector(
 	}
 );
 
+// TODO wtf?
 /**
  * Collect and prepare data relations grouped by layer key
  *
@@ -180,7 +181,7 @@ export default {
 	getAllData,
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
-	getDataSourceRelationsGroupedByLayerKey,
+	getDataSourceRelationsGroupedByLayerKey: getFilteredDataGroupedByLayerKey,
 	getDataSourceRelationsForLayerKey,
 	getFilteredData,
 	getFilteredDataGroupedByLayerKey,

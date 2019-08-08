@@ -28,7 +28,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 	 * @return {null | Object} Data sources grouped by layer key
 	 */
 	(dataSources, groupedKeys, groupedRelations) => {
-		if (groupedKeys) {
+		if (groupedKeys && Object.keys(dataSources).length) {
 			let groupedSources = {};
 			_.forIn(groupedKeys, (keys, layerKey) => {
 				let sources = [];

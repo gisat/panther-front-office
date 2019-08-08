@@ -3,18 +3,29 @@ import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import React from "react";
 
+const backgroundLayer = {
+	key: 'osm',
+	type: 'wmts',
+	options: {url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'}
+};
+
 const mapStateToProps = (state, ownProps) => {
+
+
 	if (ownProps.stateMapKey) {
 		return {
+			// TODO provisional
+			// backgroundLayer: backgroundLayer,
 			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.stateMapKey),
-			layers: Select.maps.getLayers(state, ownProps.stateMapKey),
-			view: Select.maps.getView(state, ownProps.stateMapKey)
+			// layers: Select.maps.getLayers(state, ownProps.stateMapKey),
+			view: Select.maps.getView(state, ownProps.stateMapKey),
+			mapKey: ownProps.stateMapKey
 		}
 	} else {
 		return {
 			// TODO implement selectors
-			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
-			layers: Select.maps.getLayers(state, ownProps.layers)
+			// backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
+			// layers: Select.maps.getLayers(state, ownProps.layers)
 		}
 	}
 };
