@@ -14,7 +14,6 @@ const activeThemeKey = state => state.themes.activeKey;
  */
 const getAllByKey = (getSubstate) => {
 	return (state) => {
-		console.log("#####", getSubstate, state);
 		return getSubstate(state).byKey;
 	}
 };
