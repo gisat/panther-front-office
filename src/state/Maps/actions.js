@@ -830,7 +830,9 @@ function use(mapKey) {
 }
 
 function useClear() {
-	// TODO
+	return dispatch => {
+
+	}
 }
 
 function updateStateFromView(data) {
