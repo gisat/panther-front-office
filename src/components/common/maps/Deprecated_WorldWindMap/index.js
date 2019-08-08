@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
 	return {
 		onMount: () => {
-			dispatch(Action.maps.use(props.mapKey));
+			dispatch(Action.maps.deprecated_use(props.mapKey));
 			const layerTreesFilter = props.layerTreesFilter;
 			//action to load LT data and add visible layers to map store
 			dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 
 		onUnmount: () => {
-			dispatch(Action.maps.useClear(props.mapKey));
+			dispatch(Action.maps.deprecated_useClear(props.mapKey));
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
 			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));
 		},

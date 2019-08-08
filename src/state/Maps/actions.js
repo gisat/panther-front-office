@@ -12,7 +12,7 @@ const {actionGeneralError} = commonActions;
 const setInitial = commonActions.setInitial(ActionTypes.MAPS);
 
 // ============ creators ===========
-const useClear = (mapKey) => {
+const deprecated_useClear = (mapKey) => {
 	return (dispatch) => {
 		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
 	};
@@ -388,7 +388,7 @@ const addLayer = (mapKey, layer, index, useActiveMetadataKeys) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			dispatch(actionAddLayer(mapKey, layer, index));
-			dispatch(Action.maps.use(mapKey, useActiveMetadataKeys));
+			dispatch(Action.maps.deprecated_use(mapKey, useActiveMetadataKeys));
 		}
 	};
 };
@@ -703,7 +703,7 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			dispatch(actionSetMapBackgroundLayer(mapKey, backgroundLayer));
-			dispatch(Action.maps.use(mapKey));
+			dispatch(Action.maps.deprecated_use(mapKey));
 		}
 	};
 };
@@ -720,7 +720,7 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
-const use = (mapKey, useActiveMetadataKeys) => {
+const deprecated_use = (mapKey, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		let state = getState();
 		let layers = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
@@ -790,6 +790,14 @@ const use = (mapKey, useActiveMetadataKeys) => {
 		}
 	};
 };
+
+function use() {
+
+}
+
+function useClear() {
+
+}
 
 function updateStateFromView(data) {
 	return dispatch => {
@@ -1142,6 +1150,10 @@ export default {
 	updateStateFromView,
 	updateWorldWindNavigator,
 	updateMapAndSetView,
+
 	use,
-	useClear
+	useClear,
+
+	deprecated_use,
+	deprecated_useClear
 }
