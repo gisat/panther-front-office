@@ -50,7 +50,7 @@ export default (path, baseUrl) => {
 				defaultTitle="Panther docs"
 			/>
 			<ConnectedRouter history={history}>
-				<Docs path={path} component={Index}>
+				<Docs component={Index}>
 					<Directory label="Architecture" path="architecture">
 						<Page label="Applications" path="applications"/>
 						<Page label="Common data types" path="commonDataTypes"/>
