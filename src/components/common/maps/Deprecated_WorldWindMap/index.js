@@ -7,10 +7,10 @@ import wrapper from '../Deprecated_MapWrapper';
 import utils from '../../../../utils/utils';
 
 const mapStateToProps = (state, props) => {
-	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
+	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
 	let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 
-	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
+	let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey);
 	let layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : null;
 	let layers = Select.maps.getLayers(state, layersData);
 

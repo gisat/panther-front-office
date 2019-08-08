@@ -21,7 +21,7 @@ const mapStateToProps = (state, props) => {
 	let chartCfg = {};
 
 	return (state) => {
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}

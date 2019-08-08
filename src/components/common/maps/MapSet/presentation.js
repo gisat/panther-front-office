@@ -30,6 +30,7 @@ class MapSet extends React.PureComponent {
 		mapSetKey: PropTypes.string,
 		maps: PropTypes.array,
 		mapComponent: PropTypes.func,
+		view: PropTypes.object,
 		sync: PropTypes.object
 	};
 
@@ -42,7 +43,7 @@ class MapSet extends React.PureComponent {
 		};
 
 		_.forEach(this.props.children, child => {
-			if (typeof child === "object"
+			if (child && typeof child === "object"
 				&& (child.type === Map || child.type === ContainerMap || child.type === PresentationMap)
 				&& child.props.mapKey === props.activeMapKey) {
 				this.state.activeMapView = {...defaultMapView, ...props.view, ...child.props.view}
@@ -103,7 +104,7 @@ class MapSet extends React.PureComponent {
 	}
 
 	renderControls() {
-		return React.Children.map(this.props.children, child => {
+		return React.Children.map(this.props.children, (child) => {
 			if (!(typeof child === "object" && child.type === Map)) {
 				return React.cloneElement(child, {
 					...child.props,
@@ -130,9 +131,10 @@ class MapSet extends React.PureComponent {
 				maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
 			});
 		} else {
-			React.Children.map(this.props.children, child => {
+			React.Children.map(this.props.children, (child,index) => {
 				let {view, layers, backgroundLayer, mapKey, ...restProps} = child.props;
 				let props = {
+					key: index,
 					view: mapUtils.mergeViews(this.state.view, view),
 					backgroundLayer: backgroundLayer || this.props.backgroundLayer,
 					layers: mapUtils.mergeLayers(this.props.layers, layers),

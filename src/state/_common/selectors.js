@@ -517,6 +517,7 @@ const getIndexedDataUses = (getSubstate) => {
 	return (state) => getSubstate(state).inUse.indexes;
 };
 
+// TODO case, scenario, ...
 const getAllActiveKeys = createSelector(
 	[
 		state => state.scopes.activeKey,

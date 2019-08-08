@@ -215,6 +215,21 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 
 const getBackgroundLayer = () => {};
 
+
+// TODO re-reselect?
+// TODO test
+const getFilterByActiveByMapKey = createSelector(
+	[
+		getMapSetByMapKey,
+		getMapByKey
+	],
+	(set, map) => {
+		return (set.data.filterByActive || map.data.filterByActive) && {...set.data.filterByActive, ...map.data.filterByActive};
+	}
+);
+
+
+
 /* TODO merge with template
 *  TODO test
 */
@@ -245,11 +260,27 @@ const getLayers = createSelector(
 	}
 );
 
+const getBackgroundLayerStateByMapKey = createSelector(
+	[
+		getMapByKey,
+		getMapSetByMapKey,
+	],
+	(map, set) => {
+		if (map && map.data && map.data.backgroundLayer) {
+			return map.data.backgroundLayer;
+		} else if (set && set.data && set.data.backgroundLayer) {
+			return set.data.backgroundLayer;
+		} else {
+			return null;
+		}
+	}
+);
+
 /**
  * @param state {Object}
  * @param mapKey {string}
  */
-const getBackgroundLayerStateByMapKey = createSelector(
+const getBackgroundLayerStateByMapKey_deprecated = createSelector(
 	[
 		getMapByKey,
 		getMapSetByMapKey,
@@ -277,11 +308,71 @@ const getBackgroundLayerStateByMapKey = createSelector(
 	}
 );
 
+// TODO re-reselect
 /**
  * @param state {Object}
  * @param mapKey {string}
  */
 const getLayersStateByMapKey = createSelector(
+	[
+		getMapByKey,
+		getMapSetByMapKey,
+		getFilterByActiveByMapKey
+	],
+	(map, set, mapFilterByActive) => {
+		let setLayers = (set && set.data && set.data.layers) || null;
+		let mapLayers = (map && map.data && map.data.layers) || null;
+
+		if (map && (mapLayers || setLayers)) {
+			let layers = [...(setLayers || []), ...(mapLayers || [])];
+			let modifiers = {};
+			if (set) {
+				modifiers = set.data.metadataModifiers;
+			}
+			modifiers = {...modifiers, ...map.data.metadataModifiers};
+
+			layers = layers.map(layer => {
+				let layerMetadataModifiers = layer.metadataModifiers ? {...modifiers, ...layer.metadataModifiers} : modifiers;
+				let layerFilterByActive = layer.filterByActive ? {...mapFilterByActive, ...layer.filterByActive} : mapFilterByActive;
+
+				return {...layer, metadataModifiers: layerMetadataModifiers, filterByActive: layerFilterByActive};
+			});
+
+			// TODO return error for duplicates?
+			return _.uniqBy(layers, 'key');
+		} else {
+			return null;
+		}
+	}
+);
+
+const getAllLayersStateByMapKey = createSelector(
+	[
+		getBackgroundLayerStateByMapKey,
+		getLayersStateByMapKey
+	],
+	(backgroundLayer, layers) => {
+		if (layers || backgroundLayer) {
+			layers = layers || [];
+
+			if (backgroundLayer) {
+				// TODO do not create new object for background layer on change in layers
+				backgroundLayer = {...backgroundLayer, key: 'pantherBackgroundLayer'};
+				return [backgroundLayer, ...layers];
+			}
+
+			return layers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getLayersStateByMapKey_deprecated = createSelector(
 	[
 		getMapByKey,
 		getMapSetByMapKey,
@@ -317,10 +408,10 @@ const getLayersStateByMapKey = createSelector(
  * @param state {Object}
  * @param mapKey {string}
  */
-const getAllLayersStateByMapKey = createSelector(
+const getAllLayersStateByMapKey_deprecated = createSelector(
 	[
-		getLayersStateByMapKey,
-		getBackgroundLayerStateByMapKey
+		getLayersStateByMapKey_deprecated,
+		getBackgroundLayerStateByMapKey_deprecated
 	],
 	(layersState, backgroundLayerState) => {
 		const backgroundLayerData = backgroundLayerState ? [getLayerState(backgroundLayerState)] : [];
@@ -376,7 +467,7 @@ const getLayerConfiguration = (layer, spatialSourcesForLayer, attributeSourcesFo
 		});
 	}
 	return layerConfig;
-}
+};
 
 /**
  * Prepare filters for use from layers state
@@ -538,19 +629,25 @@ const getLayersStateByMapSetKey = createSelector(
 
 	return mapsLayersState;
 	}
-)
+);
 
 export default {
 	getActiveMapKey,
 	getActiveSetKey,
 
+	getAllLayersStateByMapKey,
+	getAllLayersStateByMapKey_deprecated,
+
 	getBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
+	getBackgroundLayerStateByMapKey_deprecated,
 
-	getFiltersForUse,
+	getFilterByActiveByMapKey,
+	getFiltersForUse, // TODO deprecated?
 
 	getLayers,
 	getLayersStateByMapKey,
+	getLayersStateByMapKey_deprecated,
 	getLayersStateByMapSetKey,
 	getLayerTemplatesKeysByMapSetKey,
 
@@ -563,7 +660,6 @@ export default {
 
 	getMapLayersByMapKey, //TODO - test
 	getMapLayerByMapKeyAndLayerKey,
-	getAllLayersStateByMapKey,
 	
 	getMapsAsObject,
 	getMapSetsAsObject,

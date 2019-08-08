@@ -2,6 +2,8 @@ import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
 import commonActions from '../_common/actions';
+import commonHelpers from '../_common/helpers';
+import commonSelectors from '../_common/selectors';
 import utils from '../../utils/utils';
 import mapUtils from '../../utils/map';
 import * as layerTreeUtils from '../../utils/layerTreeUtils';
@@ -115,7 +117,7 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys, useActiveMetadat
 			mapKeys.forEach((mapKey) => {
 
 				// check if layer in map
-				const layersState = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
+				const layersState = Select.maps.getLayersStateByMapKey_deprecated(state, mapKey, useActiveMetadataKeys);
 
 				// clean templateKeys found in map
 				const uniqVisibleLayersKeys = layersState ? visibleLayersKeys.filter((lk) => !layersState.some(ls => ls.layer && ls.layer.layerTemplate === lk)) : visibleLayersKeys;
@@ -723,8 +725,8 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 const deprecated_use = (mapKey, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		let state = getState();
-		let layers = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
-		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey(state, mapKey);
+		let layers = Select.maps.getLayersStateByMapKey_deprecated(state, mapKey, useActiveMetadataKeys);
+		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, mapKey);
 		let finalLayers = [];
 
 		if (backgroundLayer) {
@@ -791,12 +793,44 @@ const deprecated_use = (mapKey, useActiveMetadataKeys) => {
 	};
 };
 
-function use() {
+function use(mapKey) {
+	return (dispatch, getState) => {
+		let state = getState();
 
+		// let filterByActive = Select.maps.getFilterByActiveByMapKey(state, mapKey);
+		let layers = Select.maps.getAllLayersStateByMapKey(state, mapKey);
+		let activeKeys = commonSelectors.getAllActiveKeys(state);
+
+		if (layers) {
+			const componentId = `map_${mapKey}`;
+			layers.forEach(layer => {
+				let filter = {...layer.metadataModifiers, layerTemplateKey: layer.layerTemplateKey};
+				let filterByActive = layer.filterByActive || null;
+				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
+
+				/* Ensure spatial relations */
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filterByActive, filter, null, 1, 1000));
+				dispatch(Action.spatialRelations.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
+
+					/* Ensure spatial data sources */
+					let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), mergedFilter);
+					if (spatialDataSourcesKeys) {
+
+						dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
+
+							// TODO load data for vector data sources
+						});
+					}
+				});
+
+				// TODO use layer template keys
+			});
+		}
+	}
 }
 
 function useClear() {
-
+	// TODO
 }
 
 function updateStateFromView(data) {

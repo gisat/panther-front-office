@@ -45,7 +45,8 @@ const INITIAL_MAP_STATE = {
 		layers: null,
 		metadataModifiers: null,
 		worldWindNavigator: null, // TODO deprecated
-		view: null
+		view: null,
+		filterByActive: null
 	}
 };
 
@@ -67,7 +68,8 @@ const INITIAL_SET_STATE = {
 		layers: null,
 		metadataModifiers: null,
 		worldWindNavigator: null, // TODO deprecated
-		view: null
+		view: null,
+		filterByActive: null
 	}
 };
 

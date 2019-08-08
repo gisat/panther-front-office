@@ -75,7 +75,7 @@ describe('#getLayersStateByMapKey', () => {
 				layerTemplate: 'template2'
 			}
 		}];
-		Selector(Select.maps.getLayersStateByMapKey).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getLayersStateByMapKey_deprecated).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should select layers state both from set and map', () => {
@@ -125,10 +125,10 @@ describe('#getLayersStateByMapKey', () => {
 				layerTemplate: 'template4'
 			}
 		}];
-		Selector(Select.maps.getLayersStateByMapKey).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getLayersStateByMapKey_deprecated).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should select null, if no map key was passed', () => {
-		expect(Selector(Select.maps.getLayersStateByMapKey).execute(BASIC_STATE)).toBeNull();
+		expect(Selector(Select.maps.getLayersStateByMapKey_deprecated).execute(BASIC_STATE)).toBeNull();
 	});
 });

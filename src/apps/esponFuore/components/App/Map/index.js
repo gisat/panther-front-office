@@ -122,7 +122,7 @@ const mapStateToProps = (state, props) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
-		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
+		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
 		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);
 
@@ -131,7 +131,7 @@ const mapStateToProps = (state, props) => {
 			namesFilter = cloneDeep(currentNamesFilter);
 		}
 
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}

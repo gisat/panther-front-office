@@ -19,7 +19,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
 		//FIXME - from context
-		let layersState = Select.maps.getLayersStateByMapKey(state, 'un_seea_trees', useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, 'un_seea_trees', useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = _.cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
