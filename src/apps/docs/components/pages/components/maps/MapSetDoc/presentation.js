@@ -8,6 +8,7 @@ import MapSetPresentation, {PresentationMap} from "../../../../../../../componen
 import WorldWindMap from "../../../../../../../components/common/maps/WorldWindMap/presentation";
 import LeafletMap from "../../../../../../../components/common/maps/LeafletMap/presentation";
 import * as dodoma_au_level_3 from '../../../../../../scudeoCities/data/EO4SD_DODOMA_AL3.json';
+import Button, {Buttons} from "../../../../../../../components/common/atoms/Button";
 const au_3_data = dodoma_au_level_3.features;
 
 class MapSetDoc extends React.PureComponent {
@@ -62,12 +63,26 @@ class MapSetDoc extends React.PureComponent {
 		props.addMapToSet('docs-MapSet', 'docs-MapSet-Map1');
 		props.addMapToSet('docs-MapSet', 'docs-MapSet-Map2');
 		props.addMapToSet('docs-MapSet', 'docs-MapSet-Map3');
+
+		this.removeSetBackgroundLayer = this.removeSetBackgroundLayer.bind(this);
+	}
+
+	removeSetBackgroundLayer() {
+		this.props.removeSetBackgroundLayer(this.props.activeSetKey);
+	}
+
+	setSetBackgroundLayer(layerTemplateKey) {
+		this.props.setSetBackgroundLayer(this.props.activeSetKey, {layerTemplateKey});
 	}
 
 	render() {
 		return (
 			<Page title="Map">
 				<h2>Connected to store</h2>
+				<Buttons>
+					<Button onClick={this.removeSetBackgroundLayer}>Remove background layer from set</Button>
+					<Button onClick={this.setSetBackgroundLayer.bind(this, '2793f35f-5433-45e1-9f59-55aa99985fc2')}>Add OSM as set background layer</Button>
+				</Buttons>
 				<div style={{height: 500}}>
 					<MapSet
 						mapSetKey="docs-MapSet"

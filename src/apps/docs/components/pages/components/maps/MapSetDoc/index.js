@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 
 import Action from '../../../../../../../state/Action';
+import Select from '../../../../../../../state/Select';
 import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-
+		activeSetKey: Select.maps.getActiveSetKey(state)
 	}
 };
 
@@ -22,7 +23,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		setSetSync: (setKey, sync) => {
 			dispatch(Action.maps.setSetSync(setKey, sync));
-		}
+		},
+		setSetBackgroundLayer: (setKey, backgroundLayer) => {
+			dispatch(Action.maps.setSetBackgroundLayer(setKey, backgroundLayer))
+		},
+		removeSetBackgroundLayer: (setKey) => {
+			dispatch(Action.maps.setSetBackgroundLayer(setKey, null))
+		},
 	}
 };
 
