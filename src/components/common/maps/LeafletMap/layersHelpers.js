@@ -6,7 +6,7 @@ import VectorLayer from "./layers/VectorLayer";
 import WmsLayer from "./layers/WmsLayer";
 import WmtsLayer from "./layers/WmtsLayer";
 
-function getLayerByType(layer, map) {
+function getLayerByType(layer, group) {
 	if (layer.type){
 		switch (layer.type) {
 			case 'wmts':
@@ -14,7 +14,7 @@ function getLayerByType(layer, map) {
 					<WmtsLayer
 						key={layer.key}
 						data={layer}
-						map={map}
+						group={group}
 					/>
 				);
 			case 'wms':
@@ -22,7 +22,7 @@ function getLayerByType(layer, map) {
 					<WmsLayer
 						key={layer.key}
 						data={layer}
-						map={map}
+						group={group}
 					/>
 				);
 			case 'vector':
@@ -30,7 +30,7 @@ function getLayerByType(layer, map) {
 					<VectorLayer
 						key={layer.key}
 						data={layer}
-						map={map}
+						group={group}
 					/>
 				);
 			default:

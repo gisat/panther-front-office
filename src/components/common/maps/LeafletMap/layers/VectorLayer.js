@@ -16,7 +16,7 @@ class VectorLayer extends React.PureComponent {
 	// todo handle custom styles
 	static propTypes = {
 		data: PropTypes.object,
-		map: PropTypes.object
+		group: PropTypes.object
 	};
 
 	constructor(props) {
@@ -32,7 +32,7 @@ class VectorLayer extends React.PureComponent {
 			onEachFeature: this.onEachFeature.bind(this)
 		});
 
-		this.layer.addTo(props.map);
+		props.group.addLayer(this.layer);
 	}
 
 	componentDidUpdate() {

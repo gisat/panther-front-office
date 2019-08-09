@@ -5,7 +5,7 @@ import L from 'leaflet';
 class WmsLayer extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
-		map: PropTypes.object
+		group: PropTypes.object
 	};
 
 	constructor(props) {
@@ -20,7 +20,7 @@ class WmsLayer extends React.PureComponent {
 			styles: props.data.options.params.styles
 		});
 
-		this.layer.addTo(props.map);
+		props.group.addLayer(this.layer);
 	}
 
 	render() {

@@ -45,6 +45,8 @@ class LeafletMap extends React.PureComponent {
 			.map(this.props.mapKey,{zoomAnimationThreshold: 2, zoomControl: false, attributionControl: false})
 			.setView([initialView.center.lat, initialView.center.lon], utils.getZoomLevelFromView(initialView));
 
+		this.layers = L.layerGroup().addTo(this.map);
+
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
 
@@ -60,25 +62,34 @@ class LeafletMap extends React.PureComponent {
 			this.updateView();
 		}
 
-		if ((this.props.layers || this.props.backgroundLayer) && (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer)) {
-			this.updateLayers();
+		if (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer) {
+
+			// TODO handle update properly
+			this.clearLayers();
+
+			let self = this;
+			setTimeout(() => {
+				self.updateLayers();
+			}, 200);
 		}
 	}
 
-	updateLayers() {
-		// TODO optimalize - layer groups?
-		this.map.eachLayer(layer => {
-			this.map.removeLayer(layer);
+	clearLayers() {
+		this.layers.clearLayers();
+		this.setState({
+			layers: null
 		});
+	}
 
+	updateLayers() {
 		let layers = [];
 		if (this.props.backgroundLayer) {
-			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer, this.map));
+			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer, this.layers));
 		}
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer, this.map));
+				layers.push(layersHelpers.getLayerByType(layer, this.layers));
 			});
 		}
 
