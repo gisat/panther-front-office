@@ -215,9 +215,10 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 
 const getBackgroundLayer = (state, mapKey) => {
 	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
-	let layerKey = 'pantherBackgroundLayer';
+	if (layerState) {
+		let layerKey = 'pantherBackgroundLayer';
 
-	let layers = [{
+		let layers = [{
 			// TODO
 			data: {
 				key: layerKey
@@ -225,30 +226,33 @@ const getBackgroundLayer = (state, mapKey) => {
 			filter: {
 				layerTemplateKey: layerState.layerTemplateKey
 			}
-	}];
+		}];
 
-	let data = SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey(state, layers);
-	if (data && data[layerKey] && data[layerKey][0]) {
-		let layerData = data[layerKey][0].data;
-		let {attribution, nameInternal, type, ...options} = layerData;
+		let data = SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey(state, layers);
+		if (data && data[layerKey] && data[layerKey][0]) {
+			let layerData = data[layerKey][0].data;
+			let {attribution, nameInternal, type, ...options} = layerData;
 
-		// TODO data source strucutre
-		if (type === 'wmts') {
-			options.url = options.urls[0];
-		}
-		if (type === 'wms') {
-			let {url, ...params} = options;
-			options = {
-				params,
-				url
+			// TODO data source strucutre
+			if (type === 'wmts') {
+				options.url = options.urls[0];
 			}
-		}
+			if (type === 'wms') {
+				let {url, ...params} = options;
+				options = {
+					params,
+					url
+				}
+			}
 
-		return {
-			key: layerKey,
-			type,
-			options
-		};
+			return {
+				key: layerKey,
+				type,
+				options
+			};
+		} else {
+			return null;
+		}
 	} else {
 		return null;
 	}
