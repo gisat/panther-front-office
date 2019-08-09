@@ -129,7 +129,7 @@ class WorldWindMap extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="ptr-world-wind-map" onClick={this.onClick}>
+			<div className="ptr-map ptr-world-wind-map" onClick={this.onClick}>
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>
