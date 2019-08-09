@@ -56,7 +56,7 @@ class WorldWindMap extends React.PureComponent {
 			}
 
 			// TODO compare references only?
-			if ((this.props.layers || this.props.backgroundLayer) && (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer)) {
+			if (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer) {
 				this.updateLayers();
 			}
 		}
