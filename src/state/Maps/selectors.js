@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _ from 'lodash';
 
 import mapUtils from '../../utils/map';
@@ -304,20 +305,42 @@ const getLayers = createSelector(
 	}
 );
 
-const getBackgroundLayerStateByMapKey = createSelector(
+const getMapBackgroundLayerStateByMapKey = createSelector(
 	[
-		getMapByKey,
-		getMapSetByMapKey,
+		getMapByKey
 	],
-	(map, set) => {
+	(map) => {
 		if (map && map.data && map.data.backgroundLayer) {
 			return map.data.backgroundLayer;
-		} else if (set && set.data && set.data.backgroundLayer) {
+		} else {
+			return null;
+		}
+	}
+);
+
+const getMapSetBackgroundLayerStateByMapKey = createSelector(
+	[
+		getMapSetByMapKey
+	],
+	(set) => {
+		if (set && set.data && set.data.backgroundLayer) {
 			return set.data.backgroundLayer;
 		} else {
 			return null;
 		}
 	}
+);
+
+const getBackgroundLayerStateByMapKey = createCachedSelector(
+	[
+		getMapBackgroundLayerStateByMapKey,
+		getMapSetBackgroundLayerStateByMapKey,
+	],
+	(mapBackgroundLayer, setBackgroundLayer) => {
+		return mapBackgroundLayer || setBackgroundLayer;
+	}
+)(
+	(state, mapKey) => `${mapKey}`
 );
 
 /**
