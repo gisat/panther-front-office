@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import fetch from "isomorphic-fetch";
+import * as turf from '@turf/turf';
 import createCachedSelector from "re-reselect";
 
 const checkViewIntegrity = (view) => {
@@ -126,19 +127,49 @@ function getLocationFromPlaceString(placeString) {
 /**
  *
  * @param bbox {{minLat: number, minLon: number, maxLat: number, maxLon: number}}
+ * @param latitude {boolean}
  * @return {number}
  */
-function getBoxRangeFromBoundingBox(bbox) {
+function getBoxRangeFromBoundingBox(bbox, latitude) {
 	const MIN_BOX_RANGE = 1000;
 	const RANGE_COEFF = 125000; //approximately one degree of longitude on equator in meters
 
 	// TODO naive for now
 	let latDiff = Math.abs(bbox.maxLat - bbox.minLat);
 	let lonDiff = Math.abs(bbox.maxLon - bbox.minLon);
+
+	if (latitude) {
+		lonDiff = lonDiff*Math.cos(latitude * Math.PI/180)
+	}
+
 	let diff = Math.max(latDiff, lonDiff);
 	let boxRange = RANGE_COEFF*diff;
 
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
+}
+
+/**
+ * @param geometry {Object} geojson geometry
+ * @param reflectLatitude {boolean}
+ * @return {Object} view
+ */
+function getViewFromGeometry(geometry, reflectLatitude) {
+	let bbox = turf.bbox(geometry);
+	let center = turf.center(geometry);
+	let boxRange = getBoxRangeFromBoundingBox({
+		minLat: bbox[1],
+		minLon: bbox[0],
+		maxLat: bbox[3],
+		maxLon: bbox[2]
+	}, reflectLatitude ? center.geometry.coordinates[1] : null);
+
+	return {
+		center: {
+			lat: center.geometry.coordinates[1],
+			lon: center.geometry.coordinates[0]
+		},
+		boxRange
+	}
 }
 
 function mergeLayers(one, two) {
@@ -193,6 +224,7 @@ function resetHeading(heading, callback, increment) {
 export default {
 	checkViewIntegrity,
 	getLocationFromPlaceString,
+	getViewFromGeometry,
 	mergeLayers,
 	mergeViews,
 	resetHeading,
