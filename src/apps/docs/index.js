@@ -29,6 +29,7 @@ import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 import MapDoc from "./components/pages/components/maps/MapDoc";
 import MapSetDoc from "./components/pages/components/maps/MapSetDoc";
 import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
+import HoverHandlerDoc from "./components/pages/components/commonFeatures/HoverHandlerDoc";
 
 
 export default (path, baseUrl) => {
@@ -137,9 +138,9 @@ export default (path, baseUrl) => {
 							<Page label="User & login overlay" path="user"/>
 							<Page label="Share ???" path="share"/>
 						</Directory>
-						<Directory label="Logical ??? / common features ??? / ???" path="iHaveNoIdea">
+						<Directory label="Common features" path="commonFeatures">
 							<Page label="AppContainer" path="appContainer"/>
-							<Page label="HoverHandler" path="hoverHandler"/>
+							<Page label="HoverHandler" path="hoverHandler" component={HoverHandlerDoc}/>
 							<Page label="WindowsContainer" path="windowsContainer"/>
 						</Directory>
 					</Directory>
