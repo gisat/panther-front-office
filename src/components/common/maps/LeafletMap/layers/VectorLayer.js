@@ -36,11 +36,15 @@ class VectorLayer extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		this.checkContext();
+		if (this.context) {
+			this.checkContext();
+		}
 	}
 
 	componentDidUpdate() {
-		this.checkContext();
+		if (this.context) {
+			this.checkContext();
+		}
 	}
 
 	checkContext() {
@@ -78,13 +82,13 @@ class VectorLayer extends React.PureComponent {
 	onEachFeature(feature, layer) {
 		layer.on({
 			mousemove: (e) => {
-				this.highlightFeature(e.target);
-
-				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-					layer.bringToFront();
-				}
-
 				if (this.context && this.context.onHover) {
+					this.highlightFeature(e.target);
+
+					if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+						layer.bringToFront();
+					}
+
 					let keyColumn = this.props.data.options.keyProperty;
 					let nameColumn = this.props.data.options.nameProperty;
 					if (keyColumn) {
