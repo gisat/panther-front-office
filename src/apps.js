@@ -64,6 +64,19 @@ export default [
 		})
 	},
 	/**
+	 * SCUDEO Stories
+	 * tw: SCUDEO
+	 */
+	{
+		key: 'scudeoStories19',
+		hostname: 'null',
+		path: null,
+		devPath: '/scudeoStories19',
+		app: (path, baseUrl) => import(/* webpackChunkName: "scudeoStories19" */'./apps/scudeoStories19').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * Geoinvaze
 	 * tw: GEOINV
 	 */

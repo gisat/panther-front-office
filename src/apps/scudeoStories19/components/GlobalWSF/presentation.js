@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from "react-helmet";
 import PropTypes from 'prop-types';
 import mapUtils from '../../../../utils/map';
 
@@ -56,6 +57,7 @@ class GlobalWSF extends React.PureComponent {
 
 		return (
 			<div>
+				<Helmet><title>Global WSF</title></Helmet>
 				<Select
 					onChange={this.onCityChange}
 					options={data}

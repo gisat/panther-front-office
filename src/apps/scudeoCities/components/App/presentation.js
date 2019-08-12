@@ -17,7 +17,6 @@ import Sidebar from "../Sidebar";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
-import GlobalWSF from "../GlobalWSF/presentation";
 
 class App extends React.PureComponent {
 	
@@ -44,9 +43,6 @@ class App extends React.PureComponent {
 	
 	renderContent(content) {
 		switch (content) {
-			// TODO move to another app
-			case 'globalWsf':
-				return (<GlobalWSF/>);
 			case 'highlights':
 				return (<Highlights />);
 			case 'explore':
