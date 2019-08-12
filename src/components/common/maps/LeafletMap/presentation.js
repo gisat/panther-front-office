@@ -17,6 +17,7 @@ class LeafletMap extends React.PureComponent {
 		view: PropTypes.object,
 
 		scale: PropTypes.bool,
+		scrollWheelZoom: PropTypes.string,
 
 		onClick: PropTypes.func,
 		onViewChange: PropTypes.func,
@@ -54,6 +55,7 @@ class LeafletMap extends React.PureComponent {
 			L.control.scale().addTo(this.map);
 		}
 
+		this.handleScrollWheelZoom();
 		this.updateLayers();
 	}
 
@@ -108,6 +110,17 @@ class LeafletMap extends React.PureComponent {
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
+	}
+
+	handleScrollWheelZoom() {
+		if (this.props.scrollWheelZoom === 'disabled') {
+			this.map.scrollWheelZoom.disable();
+		} else if (this.props.scrollWheelZoom === 'afterClick') {
+			this.map.scrollWheelZoom.disable();
+			this.map.on("click", () => {
+				this.map.scrollWheelZoom.enable();
+			});
+		}
 	}
 
 	onZoomChange() {
