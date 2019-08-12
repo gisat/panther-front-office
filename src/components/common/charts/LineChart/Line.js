@@ -119,15 +119,19 @@ class Line extends React.PureComponent {
 		let highlighted = this.props.highlighted;
 
 		/* Handle context */
-		if (this.context && this.context.hoveredItems) {
-			let higlightedFromContext = _.includes(this.context.hoveredItems, this.props.itemKey);
-			highlighted = higlightedFromContext;
+		if (this.context && (this.context.hoveredItems || this.context.selectedItems)) {
+			let isHovered = _.includes(this.context.hoveredItems, this.props.itemKey);
+			let isSelected = _.includes(this.context.selectedItems, this.props.itemKey);
+			highlighted = isHovered || isSelected;
 
-			if (this.props.siblings && !!_.intersection(this.context.hoveredItems, this.props.siblings).length) {
-				suppressed = !higlightedFromContext;
+			if (this.props.siblings && (
+				!!_.intersection(this.context.hoveredItems, this.props.siblings).length ||
+				!!_.intersection(this.context.selectedItems, this.props.siblings).length
+			)) {
+				suppressed = !highlighted;
 			}
 
-			if (higlightedFromContext) {
+			if (isHovered || isSelected) {
 				color = this.props.highlightColor ? this.props.highlightColor : null;
 			}
 		}
@@ -142,7 +146,7 @@ class Line extends React.PureComponent {
 				className={classes}
 				id={props.itemKey}
 				style={{
-					opacity: suppressed ? .3 : 1
+					opacity: suppressed ? .15 : 1
 				}}
 			>
 				<path

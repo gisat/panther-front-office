@@ -8,6 +8,7 @@ import Popup from "./Popup/Popup";
 class HoverHandler extends React.PureComponent {
 
 	static propTypes = {
+		selectedItems: PropTypes.array
 	};
 
 	constructor(props){
@@ -48,6 +49,7 @@ class HoverHandler extends React.PureComponent {
 		return (
 			<HoverContext.Provider value={{
 				hoveredItems: this.state.hoveredItems,
+				selectedItems: this.props.selectedItems,
 				onHover: this.onHover,
 				onHoverOut: this.onHoverOut
 			}}>

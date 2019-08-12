@@ -104,8 +104,10 @@ class BarGroup extends React.PureComponent {
 		const width = props.xScale.bandwidth();
 
 		let highlighted = false;
-		if (this.context && this.context.hoveredItems) {
-			highlighted = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
+		if (this.context && (this.context.hoveredItems || this.context.selectedItems)) {
+			let isHovered = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
+			let isSelected = !!_.intersection(this.context.selectedItems, this.props.itemKeys).length;
+			highlighted = isHovered || isSelected;
 		}
 
 		return (

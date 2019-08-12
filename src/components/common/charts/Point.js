@@ -111,10 +111,13 @@ class Point extends React.PureComponent {
 		let suppressed = false;
 
 		/* Handle context */
-		if (this.context && this.context.hoveredItems && this.props.itemKey && this.props.siblings) {
-			let intersection = _.intersection(this.context.hoveredItems, this.props.siblings);
-			let isCurrentlyHovered = _.indexOf(intersection, this.props.itemKey);
-			if (!!intersection.length && isCurrentlyHovered === -1) {
+		if (this.context && (this.context.hoveredItems || this.context.selectedItems) && this.props.itemKey && this.props.siblings) {
+			let hoverIntersection = _.intersection(this.context.hoveredItems, this.props.siblings);
+			let selectIntersection = _.intersection(this.context.selectedItems, this.props.siblings);
+			let isHovered = _.indexOf(hoverIntersection, this.props.itemKey);
+			let isSelected = _.indexOf(selectIntersection, this.props.itemKey);
+
+			if ((!!hoverIntersection.length || !!selectIntersection.length) && isHovered === -1 && isSelected === -1) {
 				suppressed = true;
 			}
 		}
@@ -129,7 +132,7 @@ class Point extends React.PureComponent {
 			style.fill = props.color
 		}
 		if (suppressed) {
-			style.opacity = .3;
+			style.opacity = .25;
 		} else if (!this.props.hidden) {
 			style.opacity = 1;
 		}

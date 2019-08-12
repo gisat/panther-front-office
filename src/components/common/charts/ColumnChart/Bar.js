@@ -101,8 +101,10 @@ class Bar extends React.PureComponent {
 		let defaultColor = props.defaultColor ? props.defaultColor : DEFAULT_COLOR;
 		let highlightColor = props.highlightColor ? props.highlightColor : HIGHLIGHT_COLOR;
 
-		if (this.context && this.context.hoveredItems) {
-			highlighted = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
+		if (this.context && (this.context.hoveredItems || this.context.selectedItems)) {
+			let isHovered = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
+			let isSelected = !!_.intersection(this.context.selectedItems, this.props.itemKeys).length;
+			highlighted = isHovered || isSelected;
 		}
 
 		if (highlighted) {

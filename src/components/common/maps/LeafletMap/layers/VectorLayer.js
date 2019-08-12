@@ -35,17 +35,29 @@ class VectorLayer extends React.PureComponent {
 		props.group.addLayer(this.layer);
 	}
 
+	componentDidMount() {
+		this.checkContext();
+	}
+
 	componentDidUpdate() {
+		this.checkContext();
+	}
+
+	checkContext() {
 		let keyColumn = this.props.data.options.keyProperty;
 		if (keyColumn) {
 			let self = this;
 			this.layer.eachLayer(function (feature) {
 				let key = feature.feature.properties[keyColumn];
 				let hovered = false;
+				let selected = false;
 				if (self.context.hoveredItems) {
 					hovered = _.indexOf(self.context.hoveredItems, key) !== -1;
 				}
-				if (hovered) {
+				if (self.context.selectedItems) {
+					selected = _.indexOf(self.context.selectedItems, key) !== -1;
+				}
+				if (hovered || selected) {
 					self.highlightFeature(feature);
 				} else {
 					self.layer.resetStyle(feature);

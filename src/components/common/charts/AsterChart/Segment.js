@@ -106,23 +106,28 @@ class Segment extends React.PureComponent {
 		const props = this.props;
 		let color = this.state.color;
 		let suppressed = false;
-		let highlightedFromContext = false;
+		let highlighted = false;
 
 		/* Handle context */
-		if (this.context && this.context.hoveredItems) {
-			highlightedFromContext = _.includes(this.context.hoveredItems, this.props.itemKey);
+		if (this.context && (this.context.hoveredItems || this.context.selectedItems)) {
+			let isHovered = _.includes(this.context.hoveredItems, this.props.itemKey);
+			let isSelected = _.includes(this.context.selectedItems, this.props.itemKey);
+			highlighted = isHovered || isSelected;
 
-			if (this.props.siblings && !!_.intersection(this.context.hoveredItems, this.props.siblings).length) {
-				suppressed = !highlightedFromContext;
+			if (this.props.siblings && (
+				!!_.intersection(this.context.hoveredItems, this.props.siblings).length ||
+				!!_.intersection(this.context.selectedItems, this.props.siblings).length
+			)) {
+				suppressed = !highlighted;
 			}
 
-			if (highlightedFromContext) {
+			if (isHovered || isSelected) {
 				color = this.props.highlightColor ? this.props.highlightColor : null;
 			}
 		}
 
 		let placeholderClasses = classnames("ptr-aster-chart-segment-placeholder", {
-			highlighted: highlightedFromContext
+			highlighted: highlighted
 		});
 
 		return (
@@ -146,7 +151,7 @@ class Segment extends React.PureComponent {
 					style={{
 						fill: color,
 						strokeWidth: this.props.strokeWidth ? this.props.strokeWidth : 1,
-						opacity: suppressed ? .4 : 1
+						opacity: suppressed ? .15 : 1
 					}}
 					d={`
 						M${props.origin[0]} ${props.origin[1]}
