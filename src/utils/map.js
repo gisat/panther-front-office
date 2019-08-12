@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import fetch from "isomorphic-fetch";
+import createCachedSelector from "re-reselect";
 
 const checkViewIntegrity = (view) => {
 	if (view) {
@@ -149,10 +150,17 @@ function mergeLayers(one, two) {
 	}
 }
 
-
-function mergeViews(one, two) {
-	return {...one, ...two};
-}
+const mergeViews = createCachedSelector(
+	[
+		(one) => one,
+		(one, two) => two
+	],
+	(one, two) => {
+		return {...one, ...two};
+	}
+)(
+	(one, two) => `${one}_${two}`
+);
 
 
 function resetHeading(heading, callback, increment) {
