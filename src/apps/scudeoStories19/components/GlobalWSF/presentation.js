@@ -2,17 +2,15 @@ import React from 'react';
 import Helmet from "react-helmet";
 import PropTypes from 'prop-types';
 import mapUtils from '../../../../utils/map';
+import {Visualization} from '../Page';
 
 import mockData from './mockData';
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 import Select from "../../../../components/common/atoms/Select/Select";
-import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
-import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
-import viewHelpers from "../../../../components/common/maps/LeafletMap/viewHelpers";
 
 const BASE_MAP_SIZE = 1400; // size of map container in px, for which the view is calibrated
 const data = mockData;
@@ -93,76 +91,105 @@ class GlobalWSF extends React.PureComponent {
 					<h1>Global urban growth dynamic monitoring</h1>
 					<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
-					<h2>Settlement Area Expansion (1985-2015)</h2>
-					<div className="scudeoStories19-page-map-container">
-						<div ref={this.mapRef}>
-							<PresentationMapWithControls
-								map={
-									<LeafletMap
-										mapKey="scudeoStories19-urbanExtent-map-1"
-										scrollWheelZoom="afterClick"
-										view={this.getView(this.state.cityOne, true, true)}
-										backgroundLayer={backgroundLayer}
-										layers={vectorLayers}
-									/>
-								}
-								controls={
-									<MapControls zoomOnly levelsBased/>
-								}
-							>
-								<div className="scudeoStories19-map-label">
-									<Select
-										onChange={this.onCityChange.bind(this, 'cityOne')}
-										options={data}
-										optionLabel="properties.name"
-										optionValue="properties.key"
-										value={this.state.cityOne}
-									/>
-								</div>
-							</PresentationMapWithControls>
-						</div>
-						<div>
-							<PresentationMapWithControls
-								map={
-									<LeafletMap
-										mapKey="scudeoStories19-urbanExtent-map-2"
-										scrollWheelZoom="afterClick"
-										view={this.getView(this.state.cityTwo, true, true)}
-										backgroundLayer={backgroundLayer}
-										layers={vectorLayers}
-									/>
-								}
-								controls={
-									<MapControls zoomOnly levelsBased/>
-								}
-							>
-								<div className="scudeoStories19-map-label">
-									<Select
-										onChange={this.onCityChange.bind(this, 'cityTwo')}
-										options={data}
-										optionLabel="properties.name"
-										optionValue="properties.key"
-										value={this.state.cityTwo}
-									/>
-								</div>
-							</PresentationMapWithControls>
-						</div>
-					</div>
 
-					<HoverHandler
-						selectedItems={[this.state.cityOne.properties.key, this.state.cityTwo.properties.key]}
+
+					<Visualization
+						title="Settlement Area Expansion (1985-2015)"
+						description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 					>
-						<LineChart
-							key="line-chart-1"
+						<div className="scudeoStories19-map-container">
+							<div ref={this.mapRef}>
+								<PresentationMapWithControls
+									map={
+										<LeafletMap
+											mapKey="scudeoStories19-urbanExtent-map-1"
+											scrollWheelZoom="afterClick"
+											view={this.getView(this.state.cityOne, true, true)}
+											backgroundLayer={backgroundLayer}
+											layers={vectorLayers}
+										/>
+									}
+									controls={
+										<MapControls zoomOnly levelsBased/>
+									}
+								>
+									<div className="scudeoStories19-map-label">
+										<Select
+											onChange={this.onCityChange.bind(this, 'cityOne')}
+											options={data}
+											optionLabel="properties.name"
+											optionValue="properties.key"
+											value={this.state.cityOne}
+										/>
+									</div>
+								</PresentationMapWithControls>
+							</div>
+							<div>
+								<PresentationMapWithControls
+									map={
+										<LeafletMap
+											mapKey="scudeoStories19-urbanExtent-map-2"
+											scrollWheelZoom="afterClick"
+											view={this.getView(this.state.cityTwo, true, true)}
+											backgroundLayer={backgroundLayer}
+											layers={vectorLayers}
+										/>
+									}
+									controls={
+										<MapControls zoomOnly levelsBased/>
+									}
+								>
+									<div className="scudeoStories19-map-label">
+										<Select
+											onChange={this.onCityChange.bind(this, 'cityTwo')}
+											options={data}
+											optionLabel="properties.name"
+											optionValue="properties.key"
+											value={this.state.cityTwo}
+										/>
+									</div>
+								</PresentationMapWithControls>
+							</div>
+						</div>
+					</Visualization>
 
-							data={data}
-							keySourcePath="properties.key"
-							nameSourcePath="properties.name"
-							serieDataSourcePath="properties.sampleSerialData"
-							xSourcePath="period"
-							ySourcePath="someStrangeValue"
-						/>
-					</HoverHandler>
+
+					<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+
+					<Visualization
+						title="Settlement Area Expansion (area growth in km2)"
+						description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+					>
+						<div className="scudeoStories19-chart-container">
+							<HoverHandler
+								selectedItems={[this.state.cityOne.properties.key, this.state.cityTwo.properties.key]}
+							>
+								<LineChart
+									key="line-chart-1"
+
+									data={data}
+									keySourcePath="properties.key"
+									nameSourcePath="properties.name"
+									serieDataSourcePath="properties.sampleSerialData"
+									xSourcePath="period"
+									ySourcePath="someStrangeValue"
+
+									xValuesSize={2.5}
+
+									yLabel
+									yOptions={{
+										name: "Attribut name",
+										unit: "unit"
+									}}
+
+									legend
+								/>
+							</HoverHandler>
+						</div>
+					</Visualization>
+
+
+
 					<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 				</div>
 			</>
