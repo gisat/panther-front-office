@@ -138,12 +138,11 @@ function getBoxRangeFromBoundingBox(bbox, latitude) {
 	let latDiff = Math.abs(bbox.maxLat - bbox.minLat);
 	let lonDiff = Math.abs(bbox.maxLon - bbox.minLon);
 
-	if (latitude) {
-		lonDiff = lonDiff*Math.cos(latitude * Math.PI/180)
-	}
-
 	let diff = Math.max(latDiff, lonDiff);
 	let boxRange = RANGE_COEFF*diff;
+	if (latitude) {
+		boxRange /= Math.cos(latitude * Math.PI/180)
+	}
 
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
 }
