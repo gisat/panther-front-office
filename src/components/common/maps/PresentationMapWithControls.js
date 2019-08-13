@@ -73,6 +73,7 @@ class PresentationMapWithControls extends React.PureComponent {
 					updateView: this.updateView,
 					resetHeading: this.resetHeading
 				}):null}
+				{this.props.children}
 			</div>
 		);
 
