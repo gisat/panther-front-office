@@ -33,7 +33,7 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | SCUDEO Stories"
 					defaultTitle="SCUDEO Stories"
 				/>
-				<AppContainer appKey="scudeoCities19">
+				<AppContainer appKey="scudeoStories19">
 					<ConnectedRouter history={history}>
 						<>
 							<Route path="/globalWSF" component={GlobalWSF} />
