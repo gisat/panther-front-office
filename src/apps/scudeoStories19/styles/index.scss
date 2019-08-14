@@ -186,7 +186,7 @@
 }
 
 
-@media screen and (max-width: 50rem) {
+@media screen and (max-width: 50rem), screen and (max-height: 35rem) {
 	.scudeoStories19-header-content {
 		padding: 0 m(2);
 		max-width: 60rem;
@@ -220,7 +220,7 @@
 	}
 }
 
-@media screen and (max-width: 30rem) {
+@media screen and (max-width: 30rem), screen and (max-height: 25rem)  {
 	.scudeoStories19-header {
 		height: auto;
 	}
