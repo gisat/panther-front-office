@@ -4,7 +4,7 @@ import Zoom from 'react-reveal/Zoom';
 import Helmet from "react-helmet";
 import PropTypes from 'prop-types';
 import mapUtils from '../../../../utils/map';
-import {Visualization} from '../Page';
+import {Footer, Visualization} from '../Page';
 
 import mockData from './mockData';
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
@@ -13,6 +13,9 @@ import LineChart from "../../../../components/common/charts/LineChart/LineChart"
 import Select from "../../../../components/common/atoms/Select/Select";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import {Header} from "../Page";
+
+import "./styles/style.scss";
 
 const BASE_MAP_SIZE = 1400; // size of map container in px, for which the view is calibrated
 const data = mockData;
@@ -88,9 +91,12 @@ class GlobalWSF extends React.PureComponent {
 	render() {
 		return (
 			<>
-				<Helmet><title>Global WSF</title></Helmet>
-				<div className="scudeoStories19-page">
-					<h1>Global urban growth dynamic monitoring</h1>
+				<Header
+					navigation={this.props.navigation}
+					title="Global urban growth dynamic monitoring"
+					intro="Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl."
+				/>
+				<div className="scudeoStories19-content">
 					<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
 

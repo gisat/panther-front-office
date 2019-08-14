@@ -1,14 +1,74 @@
 @import '../../../styles/variables';
-@import './variables';
 
 .scudeoStories19-page {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+/* Header */
+.scudeoStories19-header {
+	height: 100%;
+	width: 100%;
+	background: var(--accent80);
+	color: var(--base0);
+	display: flex;
+	flex-direction: column;
+}
+
+.scudeoStories19-navigation {
+	display: flex;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	padding: m(1);
+}
+
+.scudeoStories19-navigation > a {
+	display: inline-block;
+	color: var(--accent10);
+	margin: 0 .7rem;
+	padding: .3rem;
+	text-transform: uppercase;
+	text-decoration: none;
+	border-bottom: 2px solid transparent;
+	transition: border .3s ease-in-out, color .3s ease-in-out;
+}
+
+.scudeoStories19-navigation > a:hover {
+	color: var(--accent0);
+	border-bottom-color: var(--accent40);
+}
+
+.scudeoStories19-header-content {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0 m(3);
+	max-width: 60rem;
+}
+
+.scudeoStories19-title {
+	margin-bottom: m(2);
+	font-size: $a4;
+	line-height: 1.25;
+}
+
+.scudeoStories19-intro {
+	font-size: $b2;
+}
+
+/* Page */
+.scudeoStories19-content {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: m(2) 0;
 }
 
-.scudeoStories19-page > * {
+.scudeoStories19-content > * {
 	padding: 0 m(1);
 }
 
@@ -104,9 +164,45 @@
 	max-width: 60rem;
 }
 
+/* Footer */
+.scudeoStories19-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: m(2);
+	padding: m(1) 0;
+	background: var(--accent80);
+}
+
+.scudeoStories19-footer p {
+	padding: 0 m(1);
+	font-size: $b1;
+}
+
+.scudeoStories19-footer,
+.scudeoStories19-footer p,
+.scudeoStories19-footer a {
+	color: var(--accent30);
+}
+
 
 @media screen and (max-width: 50rem) {
-	.scudeoStories19-page {
+	.scudeoStories19-header-content {
+		padding: 0 m(2);
+		max-width: 60rem;
+	}
+
+	.scudeoStories19-title {
+		margin-bottom: m(4/3);
+		font-size: $a3;
+	}
+
+	.scudeoStories19-intro {
+		font-size: $a1;
+	}
+
+
+	.scudeoStories19-content {
 		padding: m(5/3) 0;
 	}
 
@@ -121,5 +217,36 @@
 
 	.scudeoStories19-map-container > div {
 		min-width: 100%;
+	}
+}
+
+@media screen and (max-width: 30rem) {
+	.scudeoStories19-header {
+		height: auto;
+	}
+
+	.scudeoStories19-navigation {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		padding: m(1);
+	}
+
+	.scudeoStories19-navigation > a {
+		margin: 0;
+		padding: .3rem 0;
+	}
+
+	.scudeoStories19-header-content {
+		padding: m(1) m(1) m(2);
+	}
+
+	.scudeoStories19-title {
+		margin-bottom: m(2/3);
+		font-size: $b3;
+	}
+
+	.scudeoStories19-intro {
+		font-size: $a1;
 	}
 }
