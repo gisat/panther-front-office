@@ -1,10 +1,8 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 import Zoom from 'react-reveal/Zoom';
-import Helmet from "react-helmet";
-import PropTypes from 'prop-types';
 import mapUtils from '../../../../utils/map';
-import {Footer, Visualization} from '../Page';
+import {Visualization, Header} from '../Page';
 
 import mockData from './mockData';
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
@@ -13,7 +11,6 @@ import LineChart from "../../../../components/common/charts/LineChart/LineChart"
 import Select from "../../../../components/common/atoms/Select/Select";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
-import {Header} from "../Page";
 
 import "./styles/style.scss";
 
@@ -24,7 +21,7 @@ const backgroundLayer = {
 	key: 'background-osm',
 	type: 'wmts',
 	options: {
-		url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+		url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
 	}
 };
 

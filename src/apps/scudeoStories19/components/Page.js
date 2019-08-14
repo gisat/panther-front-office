@@ -1,5 +1,6 @@
 import React from 'react';
 import Helmet from "react-helmet";
+import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
 import { NavLink } from 'react-router-dom';
 
@@ -31,12 +32,16 @@ export const Footer = (props) => {
 export const Header = (props) => {
 	return (
 		<div className="scudeoStories19-header-wrapper">
+			<div className="scudeoStories19-header-background">
+			</div>
 			<div className="scudeoStories19-header">
 				{props.navigation}
-				<div className="scudeoStories19-header-content">
-					<div className="scudeoStories19-title">{props.title}</div>
-					<div className="scudeoStories19-intro">{props.intro}</div>
-				</div>
+				<Fade cascade duration={1500}>
+					<div className="scudeoStories19-header-content">
+						<div className="scudeoStories19-title">{props.title}</div>
+						<div className="scudeoStories19-intro">{props.intro}</div>
+					</div>
+				</Fade>
 			</div>
 		</div>
 	);
@@ -46,9 +51,11 @@ export const Navigation = (props) => {
 	let links = _.reject(props.allPages, {'key': props.pageKey});
 
 	return (
-		<div className="scudeoStories19-navigation">
-			{links.map(link => <NavLink key={link.key} to={"/" + link.key}>{link.navigationName}</NavLink>)}
-		</div>
+		<Fade duration={1500}>
+			<div className="scudeoStories19-navigation">
+				{links.map(link => <NavLink key={link.key} to={"/" + link.key}>{link.navigationName}</NavLink>)}
+			</div>
+		</Fade>
 	);
 };
 

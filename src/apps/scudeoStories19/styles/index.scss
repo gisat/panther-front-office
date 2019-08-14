@@ -10,13 +10,28 @@
 	width: 100%;
 	background: var(--accent80);
 	position: relative;
+	overflow: hidden;
 }
 
-.scudeoStories19-header-wrapper:before {
+.scudeoStories19-header-wrapper:after {
 	content: "";
 	@include positionFill;
 	background: var(--accent90);
-	opacity: .75;
+	opacity: .5;
+	z-index: 2;
+}
+
+.scudeoStories19-header-background {
+	background-size: cover;
+	background-attachment: fixed;
+	transform: scale(1.05);
+	height: 100%;
+	width: 100%;
+	position: absolute;
+
+	filter: blur(7px);
+	-webkit-filter: blur(7px);
+	z-index: 1;
 }
 
 .scudeoStories19-header {
@@ -25,7 +40,7 @@
 	color: var(--base0);
 	display: flex;
 	flex-direction: column;
-	z-index: 1;
+	z-index: 3;
 }
 
 .scudeoStories19-navigation {
@@ -37,7 +52,7 @@
 
 .scudeoStories19-navigation > a {
 	display: inline-block;
-	color: var(--accent20);
+	color: var(--accent10);
 	margin: 0 .7rem;
 	padding: .3rem;
 	text-transform: uppercase;
