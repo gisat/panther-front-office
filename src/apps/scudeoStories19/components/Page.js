@@ -63,7 +63,7 @@ export default (props) => {
 	const {component, allPages, ...restProps} = props;
 
 	return (
-		<div className={"scudeoStories19-page " + props.pageKey}>
+		<div className={"scudeoStories19-page " + props.pageKey} id={props.pageKey}>
 			<Helmet><title>{props.pageTitle}</title></Helmet>
 			{React.createElement(component, {...restProps, navigation: (<Navigation allPages={allPages} {...restProps}/>)})}
 			<Footer/>

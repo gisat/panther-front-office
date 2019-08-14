@@ -32,7 +32,10 @@ class Select extends React.PureComponent {
         withKeyPrefix: PropTypes.bool,
 
         // creatable
-        onCreate: PropTypes.func
+        onCreate: PropTypes.func,
+
+        // id of the element where menu will be rendered
+        menuPortalTarget: PropTypes.string
     };
 
     constructor(props) {
@@ -171,7 +174,7 @@ class Select extends React.PureComponent {
                         const { zIndex, ...rest } = base;  // remove zIndex from base by destructuring
                         return { ...rest, zIndex: 9999 };
                     }}}
-                menuPortalTarget={document.getElementById("ptr-app")}
+                menuPortalTarget={document.getElementById(this.props.menuPortalTarget || "ptr-app")}
             />
         );
     }
@@ -197,7 +200,7 @@ class Select extends React.PureComponent {
                         const { zIndex, ...rest } = base;  // remove zIndex from base by destructuring
                         return { ...rest, zIndex: 9999 };
                     }}}
-                menuPortalTarget={document.getElementById("ptr-app")}
+                menuPortalTarget={document.getElementById(this.props.menuPortalTarget || "ptr-app")}
             />
         )
     }

@@ -125,6 +125,7 @@ class GlobalWSF extends React.PureComponent {
 													optionLabel="properties.name"
 													optionValue="properties.key"
 													value={this.state.cityOne}
+													menuPortalTarget={this.props.pageKey}
 												/>
 											</div>
 										</PresentationMapWithControls>
@@ -151,6 +152,7 @@ class GlobalWSF extends React.PureComponent {
 													optionLabel="properties.name"
 													optionValue="properties.key"
 													value={this.state.cityTwo}
+													menuPortalTarget={this.props.pageKey}
 												/>
 											</div>
 										</PresentationMapWithControls>
