@@ -30,11 +30,13 @@ export const Footer = (props) => {
 
 export const Header = (props) => {
 	return (
-		<div className="scudeoStories19-header">
-			{props.navigation}
-			<div className="scudeoStories19-header-content">
-				<div className="scudeoStories19-title">{props.title}</div>
-				<div className="scudeoStories19-intro">{props.intro}</div>
+		<div className="scudeoStories19-header-wrapper">
+			<div className="scudeoStories19-header">
+				{props.navigation}
+				<div className="scudeoStories19-header-content">
+					<div className="scudeoStories19-title">{props.title}</div>
+					<div className="scudeoStories19-intro">{props.intro}</div>
+				</div>
 			</div>
 		</div>
 	);

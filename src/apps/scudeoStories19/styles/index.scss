@@ -1,21 +1,31 @@
 @import '../../../styles/variables';
 
 .scudeoStories19-page {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	@include positionFill;
 }
 
 /* Header */
-.scudeoStories19-header {
+.scudeoStories19-header-wrapper {
 	height: 100%;
 	width: 100%;
 	background: var(--accent80);
+	position: relative;
+}
+
+.scudeoStories19-header-wrapper:before {
+	content: "";
+	@include positionFill;
+	background: var(--accent90);
+	opacity: .75;
+}
+
+.scudeoStories19-header {
+	height: 100%;
+	position: relative;
 	color: var(--base0);
 	display: flex;
 	flex-direction: column;
+	z-index: 1;
 }
 
 .scudeoStories19-navigation {
@@ -27,12 +37,12 @@
 
 .scudeoStories19-navigation > a {
 	display: inline-block;
-	color: var(--accent10);
+	color: var(--accent20);
 	margin: 0 .7rem;
 	padding: .3rem;
 	text-transform: uppercase;
 	text-decoration: none;
-	border-bottom: 2px solid transparent;
+	border-bottom: 3px solid transparent;
 	transition: border .3s ease-in-out, color .3s ease-in-out;
 }
 
@@ -51,13 +61,15 @@
 }
 
 .scudeoStories19-title {
-	margin-bottom: m(2);
+	margin-bottom: m(4/3);
 	font-size: $a4;
-	line-height: 1.25;
+	font-weight: bold;
+	line-height: 1.15;
 }
 
 .scudeoStories19-intro {
 	font-size: $b2;
+	padding-bottom: m(1);
 }
 
 /* Page */
@@ -65,7 +77,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: m(2) 0;
+	padding: m(3) 0;
 }
 
 .scudeoStories19-content > * {
@@ -182,7 +194,7 @@
 .scudeoStories19-footer,
 .scudeoStories19-footer p,
 .scudeoStories19-footer a {
-	color: var(--accent30);
+	color: var(--accent20);
 }
 
 
@@ -193,7 +205,7 @@
 	}
 
 	.scudeoStories19-title {
-		margin-bottom: m(4/3);
+		margin-bottom: m(1);
 		font-size: $a3;
 	}
 
@@ -203,7 +215,7 @@
 
 
 	.scudeoStories19-content {
-		padding: m(5/3) 0;
+		padding: m(2) 0;
 	}
 
 	.scudeoStories19-visualization {
@@ -221,8 +233,11 @@
 }
 
 @media screen and (max-width: 30rem), screen and (max-height: 25rem)  {
-	.scudeoStories19-header {
+	.scudeoStories19-header-wrapper {
 		height: auto;
+	}
+	.scudeoStories19-header-wrapper:before {
+		height: 100%;
 	}
 
 	.scudeoStories19-navigation {
@@ -235,6 +250,12 @@
 	.scudeoStories19-navigation > a {
 		margin: 0;
 		padding: .3rem 0;
+		text-decoration: underline;
+	}
+
+	.scudeoStories19-navigation > a:hover {
+		color: var(--accent0);
+		border-bottom-color: transparent;
 	}
 
 	.scudeoStories19-header-content {
