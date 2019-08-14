@@ -61,6 +61,7 @@ export default (path, baseUrl) => {
 						<>
 						{pages.map(page =>
 							<Route
+								key={page.key}
 								path={"/" + page.key}
 								render={(props) => (
 									<Page

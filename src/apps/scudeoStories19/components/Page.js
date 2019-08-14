@@ -18,12 +18,12 @@ export const Visualization = (props) => {
 };
 
 export const Footer = (props) => {
-	// TODO get current year
+	const currentYear = new Date().getFullYear();
 
 	return (
 		<div className="scudeoStories19-footer">
 			<div><p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus.</p></div>
-			<div>&copy; <a href="http://gisat.cz/content/en" target="_blank">Gisat 2019</a></div>
+			<div>&copy; <a href="http://gisat.cz/content/en" target="_blank">{"Gisat " + currentYear}</a></div>
 		</div>
 	);
 };
@@ -45,7 +45,7 @@ export const Navigation = (props) => {
 
 	return (
 		<div className="scudeoStories19-navigation">
-			{links.map(link => <NavLink to={"/" + link.key}>{link.navigationName}</NavLink>)}
+			{links.map(link => <NavLink key={link.key} to={"/" + link.key}>{link.navigationName}</NavLink>)}
 		</div>
 	);
 };
