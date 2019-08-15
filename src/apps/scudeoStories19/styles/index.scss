@@ -185,6 +185,18 @@
 	margin-top: 3px;
 }
 
+/* Map attribution */
+.scudeoStories19-map-attribution {
+	background: rgba(var(--base0rgb), .6);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 3;
+	font-size: $a0;
+	padding: .3rem .5rem;
+	max-width: calc(100% - 10rem);
+}
+
 /* Charts */
 .scudeoStories19-chart-container {
 	width: 90%;

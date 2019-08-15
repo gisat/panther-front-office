@@ -128,6 +128,9 @@ class GlobalWSF extends React.PureComponent {
 													menuPortalTarget={this.props.pageKey}
 												/>
 											</div>
+											<div className="scudeoStories19-map-attribution">
+												Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
+											</div>
 										</PresentationMapWithControls>
 									</div>
 									<div>
