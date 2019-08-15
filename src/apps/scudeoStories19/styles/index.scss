@@ -26,7 +26,7 @@
 .scudeoStories19-header-wrapper:after {
 	content: "";
 	@include positionFill;
-	background: var(--accent90);
+	background-color: var(--accent90);
 	opacity: .5;
 	z-index: 2;
 }
@@ -34,14 +34,14 @@
 .scudeoStories19-header-background {
 	background-size: cover;
 	background-attachment: fixed;
-	transform: scale(1.05);
+	transform: scaleX(1.05);
 	height: 100%;
 	width: 100%;
 	position: absolute;
 
 	filter: blur(5px);
+	-ms-filter: blur(5px);
 	-webkit-filter: blur(5px);
-	z-index: 1;
 }
 
 .scudeoStories19-header {
