@@ -109,9 +109,14 @@
 	padding: 0 m(1);
 }
 
+.scudeoStories19-content > .react-reveal {
+	width: 100%;
+	padding: 0;
+}
+
 /* Visualization container */
 .scudeoStories19-visualization {
-	margin: m(3) 0;
+	margin: m(2) 0;
 	padding: 0;
 	display: flex;
 	flex-direction: column;
@@ -120,10 +125,11 @@
 }
 
 .scudeoStories19-visualization-title {
-	font-size: $b2;
+	font-size: $a1;
 	font-weight: bold;
 	margin-bottom: m(2/3);
 	padding: 0 m(1);
+	color: var(--base75);
 }
 
 .scudeoStories19-visualization-description {
@@ -210,7 +216,7 @@
 /* Charts */
 .scudeoStories19-chart-container {
 	width: 90%;
-	max-width: 60rem;
+	max-width: 50rem;
 }
 
 /* Footer */
@@ -256,7 +262,7 @@
 	}
 
 	.scudeoStories19-visualization {
-		margin: m(5/3) 0;
+		margin: m(4/3) 0;
 	}
 
 	.scudeoStories19-map-container > div:first-child {

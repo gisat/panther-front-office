@@ -3,7 +3,7 @@ import Fade from 'react-reveal/Fade';
 import mapUtils from '../../../../utils/map';
 import {Visualization, Header} from '../Page';
 
-import mockData from './mockData';
+import mockData from '../../mockData';
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
@@ -97,72 +97,72 @@ class GlobalWSF extends React.PureComponent {
 					<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
 
+					<Fade left distance="50px">
 						<Visualization
 							title="Settlement Area Expansion (1985-2015)"
 							description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 						>
-							<Fade left distance="50px">
-								<div className="scudeoStories19-map-container">
-									<div ref={this.mapRef}>
-										<PresentationMapWithControls
-											map={
-												<LeafletMap
-													mapKey="scudeoStories19-urbanExtent-map-1"
-													scrollWheelZoom="afterClick"
-													view={this.getView(this.state.cityOne, true, true)}
-													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
-												/>
-											}
-											controls={
-												<MapControls zoomOnly levelsBased/>
-											}
-										>
-											<div className="scudeoStories19-map-label">
-												<Select
-													onChange={this.onCityChange.bind(this, 'cityOne')}
-													options={data}
-													optionLabel="properties.name"
-													optionValue="properties.key"
-													value={this.state.cityOne}
-													menuPortalTarget={this.props.pageKey}
-												/>
-											</div>
-											<div className="scudeoStories19-map-attribution">
-												Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
-											</div>
-										</PresentationMapWithControls>
-									</div>
-									<div>
-										<PresentationMapWithControls
-											map={
-												<LeafletMap
-													mapKey="scudeoStories19-urbanExtent-map-2"
-													scrollWheelZoom="afterClick"
-													view={this.getView(this.state.cityTwo, true, true)}
-													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
-												/>
-											}
-											controls={
-												<MapControls zoomOnly levelsBased/>
-											}
-										>
-											<div className="scudeoStories19-map-label">
-												<Select
-													onChange={this.onCityChange.bind(this, 'cityTwo')}
-													options={data}
-													optionLabel="properties.name"
-													optionValue="properties.key"
-													value={this.state.cityTwo}
-													menuPortalTarget={this.props.pageKey}
-												/>
-											</div>
-										</PresentationMapWithControls>
-									</div>
+							<div className="scudeoStories19-map-container">
+								<div ref={this.mapRef}>
+									<PresentationMapWithControls
+										map={
+											<LeafletMap
+												mapKey="scudeoStories19-urbanExtent-map-1"
+												scrollWheelZoom="afterClick"
+												view={this.getView(this.state.cityOne, true, true)}
+												backgroundLayer={backgroundLayer}
+												layers={vectorLayers}
+											/>
+										}
+										controls={
+											<MapControls zoomOnly levelsBased/>
+										}
+									>
+										<div className="scudeoStories19-map-label">
+											<Select
+												onChange={this.onCityChange.bind(this, 'cityOne')}
+												options={data}
+												optionLabel="properties.name"
+												optionValue="properties.key"
+												value={this.state.cityOne}
+												menuPortalTarget={this.props.pageKey}
+											/>
+										</div>
+										<div className="scudeoStories19-map-attribution">
+											Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
+										</div>
+									</PresentationMapWithControls>
 								</div>
-							</Fade>
+								<div>
+									<PresentationMapWithControls
+										map={
+											<LeafletMap
+												mapKey="scudeoStories19-urbanExtent-map-2"
+												scrollWheelZoom="afterClick"
+												view={this.getView(this.state.cityTwo, true, true)}
+												backgroundLayer={backgroundLayer}
+												layers={vectorLayers}
+											/>
+										}
+										controls={
+											<MapControls zoomOnly levelsBased/>
+										}
+									>
+										<div className="scudeoStories19-map-label">
+											<Select
+												onChange={this.onCityChange.bind(this, 'cityTwo')}
+												options={data}
+												optionLabel="properties.name"
+												optionValue="properties.key"
+												value={this.state.cityTwo}
+												menuPortalTarget={this.props.pageKey}
+											/>
+										</div>
+									</PresentationMapWithControls>
+								</div>
+							</div>
 						</Visualization>
+					</Fade>
 
 					<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
