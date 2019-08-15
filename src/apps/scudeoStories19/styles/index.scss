@@ -71,6 +71,7 @@
 	transition: border .3s ease-in-out, color .3s ease-in-out;
 }
 
+.scudeoStories19-navigation > a.active,
 .scudeoStories19-navigation > a:hover {
 	color: var(--accent0);
 	border-bottom-color: var(--accent40);
@@ -296,8 +297,9 @@
 		text-decoration: underline;
 	}
 
+	.scudeoStories19-navigation > a.active,
 	.scudeoStories19-navigation > a:hover {
-		color: var(--accent0);
+		color: var(--accent40);
 		border-bottom-color: transparent;
 	}
 

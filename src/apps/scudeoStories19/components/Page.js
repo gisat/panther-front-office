@@ -48,12 +48,14 @@ export const Header = (props) => {
 };
 
 export const Navigation = (props) => {
-	let links = _.reject(props.allPages, {'key': props.pageKey});
-
 	return (
 		<Fade duration={1500}>
 			<div className="scudeoStories19-navigation">
-				{links.map(link => <NavLink key={link.key} to={"/" + link.key}>{link.navigationName}</NavLink>)}
+				{props.allPages.map(link => <NavLink
+					key={link.key}
+					className={link.key === props.pageKey ? 'active' : null}
+					to={"/" + link.key}
+				>{link.navigationName}</NavLink>)}
 			</div>
 		</Fade>
 	);
