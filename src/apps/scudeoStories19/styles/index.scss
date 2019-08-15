@@ -4,6 +4,16 @@
 	@include positionFill;
 }
 
+.scudeoStories19-page h2,.scudeoStories19-page  h3,.scudeoStories19-page  h4 {
+	width: 100%;
+}
+
+.scudeoStories19-page ul {
+	width: 100%;
+	max-width: 50rem;
+	margin-left: m(4/3);
+}
+
 /* Header */
 .scudeoStories19-header-wrapper {
 	height: 100%;
