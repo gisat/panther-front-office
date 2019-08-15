@@ -98,19 +98,36 @@
 	padding-bottom: m(1);
 }
 
-/* Page */
+/* Content */
 .scudeoStories19-content {
+	width: 100%;
+}
+
+.scudeoStories19-content section {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: m(3) 0;
+	padding: m(2) 0;
+	width: 100%;
 }
 
-.scudeoStories19-content > * {
+.scudeoStories19-content section:first-child {
+	padding-top: m(3);
+}
+
+.scudeoStories19-content section:last-child {
+	padding-bottom: m(4);
+}
+
+.scudeoStories19-content section:nth-child(even) {
+	background: var(--accent15);
+}
+
+.scudeoStories19-content section > * {
 	padding: 0 m(1);
 }
 
-.scudeoStories19-content > .react-reveal {
+.scudeoStories19-content section > .react-reveal {
 	width: 100%;
 	padding: 0;
 }
@@ -225,7 +242,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: m(2);
 	padding: m(1) 0;
 	background: var(--accent80);
 }
@@ -255,11 +271,6 @@
 
 	.scudeoStories19-intro {
 		font-size: $a1;
-	}
-
-
-	.scudeoStories19-content {
-		padding: m(2) 0;
 	}
 
 	.scudeoStories19-visualization {
