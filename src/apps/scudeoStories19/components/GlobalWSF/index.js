@@ -1,6 +1,5 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
-import mapUtils from '../../../../utils/map';
 import {Visualization, Header} from '../Page';
 
 import mockData from '../../mockData';
@@ -13,8 +12,8 @@ import PresentationMapWithControls from "../../../../components/common/maps/Pres
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 
 import "./styles/style.scss";
+import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
-const BASE_MAP_SIZE = 1400; // size of map container in px, for which the view is calibrated
 const data = mockData;
 
 const backgroundLayer = {
@@ -45,44 +44,16 @@ class GlobalWSF extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.mapRef = React.createRef();
-
 		this.state = {
-			mapSizeRatio: 1,
 			cityOne: data[2],
 			cityTwo: data[3]
 		};
-	}
-
-	componentDidMount() {
-		if (window) window.addEventListener('resize', this.resize.bind(this), {passive: true});
-		this.resize();
-	}
-
-	resize() {
-		if (this.mapRef && this.mapRef.current) {
-			let width = this.mapRef.current.clientWidth;
-			let height = this.mapRef.current.clientHeight;
-			let minSize = Math.min(width, height);
-			this.setState({mapSizeRatio: BASE_MAP_SIZE/minSize});
-		}
 	}
 
 	onCityChange(city, data) {
 		this.setState({
 			[city]: data
 		});
-	}
-
-	getView(city, reflectLatitude, isLeaflet) {
-		let view = mapUtils.getViewFromGeometry(city.geometry, reflectLatitude);
-
-		// TODO leaflet map doesn't adapt box range to map container size, solve it in LeafletMap component
-		if (isLeaflet) {
-			view.boxRange *= this.state.mapSizeRatio;
-		}
-
-		return view;
 	}
 
 	render() {
@@ -104,13 +75,12 @@ class GlobalWSF extends React.PureComponent {
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 								<div className="scudeoStories19-map-container">
-									<div ref={this.mapRef}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
 										<PresentationMapWithControls
 											map={
 												<LeafletMap
 													mapKey="scudeoStories19-urbanExtent-map-1"
 													scrollWheelZoom="afterClick"
-													view={this.getView(this.state.cityOne, true, true)}
 													backgroundLayer={backgroundLayer}
 													layers={vectorLayers}
 												/>
@@ -133,14 +103,13 @@ class GlobalWSF extends React.PureComponent {
 												Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
 											</div>
 										</PresentationMapWithControls>
-									</div>
-									<div>
+									</AdjustViewOnResizeLeafletWrapper>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityTwo.geometry}>
 										<PresentationMapWithControls
 											map={
 												<LeafletMap
 													mapKey="scudeoStories19-urbanExtent-map-2"
 													scrollWheelZoom="afterClick"
-													view={this.getView(this.state.cityTwo, true, true)}
 													backgroundLayer={backgroundLayer}
 													layers={vectorLayers}
 												/>
@@ -160,7 +129,7 @@ class GlobalWSF extends React.PureComponent {
 												/>
 											</div>
 										</PresentationMapWithControls>
-									</div>
+									</AdjustViewOnResizeLeafletWrapper>
 								</div>
 							</Visualization>
 						</Fade>
