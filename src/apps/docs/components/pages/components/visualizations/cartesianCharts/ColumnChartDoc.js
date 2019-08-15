@@ -465,7 +465,7 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\t\tcolor: "#ff00ff"\n' +
 					'\t\t}]}\n' +
 					'\n' +
-					'\t\txValueSize={5}\n' +
+					'\t\txValuesSize={5}\n' +
 					'\t\txGridlines\n' +
 					'\n' +
 					'\t\txLabel\n' +
@@ -541,7 +541,7 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\t\tcolor: "#ff00ff"\n' +
 					'\t\t}]}\n' +
 					'\n' +
-					'\t\txValueSize={5}\n' +
+					'\t\txValuesSize={5}\n' +
 					'\t\txGridlines\n' +
 					'\n' +
 					'\t\txLabel\n' +
@@ -630,7 +630,7 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\t\tcolor: "#0000ff"\n' +
 					'\t\t}]}\n' +
 					'\n' +
-					'\t\txValueSize={5}\n' +
+					'\t\txValuesSize={5}\n' +
 					'\t\txGridlines\n' +
 					'\n' +
 					'\t\txLabel\n' +
