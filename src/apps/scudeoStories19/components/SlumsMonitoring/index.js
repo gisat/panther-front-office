@@ -17,7 +17,7 @@ import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrappe
 
 //Data
 import dhakaDataset from './data/dhaka.json';
-import otherDataset from './data/dhaka.json';
+import dodomaDataset from './data/dodoma.json';
 
 const mergedDataset = [
 	{
@@ -26,8 +26,8 @@ const mergedDataset = [
 		key: 1,
 	},
 	{
-		data: otherDataset,
-		name: 'Dillí',
+		data: dodomaDataset,
+		name: 'Dodoma',
 		key: 2,
 	},
 ]
