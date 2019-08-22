@@ -122,7 +122,21 @@ function normalize(value, normValue) {
 	return +((value*100/normValue).toFixed(2));
 }
 
+function avarage(features, valuePath) {
+	return features.reduce((acc, feature) => {
+		return (acc + _.get(feature, valuePath)) / 2;
+	}, 0)
+}
+
+function sum(features, valuePath) {
+	return features.reduce((acc, feature) => {
+		return acc + _.get(feature, valuePath);
+	}, 0)
+}
+
 export default {
+	avarage,
+	sum,
 	featuresToSerialData,
 	featuresToSerialDataAsObject,
 	featuresToAttributes,

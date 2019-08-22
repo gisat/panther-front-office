@@ -5,7 +5,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 
-import mockData from "../../mockData";
+import conversions from "../../data/conversions";
 
 import './styles/style.scss';
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
@@ -14,7 +14,22 @@ import MapControls from "../../../../components/common/maps/MapControls/presenta
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
-const data = mockData;
+//Data
+import dhakaDataset from './data/dhaka.json';
+import otherDataset from './data/dhaka.json';
+
+const mergedDataset = [
+	{
+		data: dhakaDataset,
+		name: 'Dhaka',
+		key: 1,
+	},
+	{
+		data: otherDataset,
+		name: 'Dillí',
+		key: 2,
+	},
+]
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -24,16 +39,32 @@ const backgroundLayer = {
 	}
 };
 
-let vectorLayers = [{
-	key: 'aoi-vector',
-	name: 'AOI',
-	type: 'vector',
-	options: {
-		keyProperty: 'key',
-		nameProperty: 'name',
-		features: data
-	}
-}];
+const slumsAreaShare = mergedDataset.map((dataSet) => (
+	{
+		value: conversions.avarage(dataSet.data.features, 'properties.informal_percentage'),
+		key: dataSet.key,
+		name: dataSet.name,
+	})
+);
+
+const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
+	{
+		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_coverage'),
+		urbanAreas: conversions.avarage(dataSet.data.features, 'properties.urban_coverage'),
+		key: dataSet.key,
+		name: dataSet.name,
+	})
+);
+
+const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => (
+	{
+		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_coverage'),
+		cityArea: conversions.sum(dataSet.data.features, 'properties.urban_coverage'),
+		key: dataSet.key,
+		name: dataSet.name,
+	})
+);
+
 
 class SlumsMonitoring extends React.PureComponent {
 	static propTypes = {
@@ -43,7 +74,7 @@ class SlumsMonitoring extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			city: data[1]
+			city: mergedDataset[0]
 		};
 	}
 
@@ -54,6 +85,18 @@ class SlumsMonitoring extends React.PureComponent {
 	}
 
 	render() {
+
+		let vectorLayers = [{
+			key: 'aoi-vector',
+			name: 'AOI',
+			type: 'vector',
+			options: {
+				keyProperty: 'AL3_ID',
+				nameProperty: 'AL3_NAME',
+				features: this.state.city.data
+			}
+		}];
+
 		return (
 			<>
 				<Header
@@ -75,29 +118,18 @@ class SlumsMonitoring extends React.PureComponent {
 											<ColumnChart
 												key="green-areas-stacked-chart"
 
-												data={data}
-												keySourcePath="properties.key"
-												nameSourcePath="properties.name"
-												xSourcePath="properties.name"
-												ySourcePath={[{
-													path: "properties.population",
-													name: "Population",
-													color: "#ff0000"
-												},{
-													path: "properties.area",
-													name: "Area",
-													color: "#00ff00"
-												}]}
+												data={slumsAreaShare}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="name"
+												ySourcePath="value"
 
-												xValuesSize={5.5}
 
 												yLabel
 												yOptions={{
-													name: "Total",
-													unit: "count"
+													name: "Percentage",
+													unit: "%"
 												}}
-
-												stacked
 											/>
 										</HoverHandler>
 									</div>
@@ -116,23 +148,59 @@ class SlumsMonitoring extends React.PureComponent {
 											<ScatterChart
 												key="scatter-chart-1"
 
-												data={data}
-												keySourcePath="properties.key"
-												nameSourcePath="properties.name"
-												xSourcePath="properties.population"
-												ySourcePath="properties.area"
+												data={slumAreasVsUrbanAreas}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="slumAreas"
+												ySourcePath="urbanAreas"
 
 												yLabel
 												yValuesSize={3.5}
 												yOptions={{
-													name: "Area",
-													unit: "unit"
+													name: "Urban area",
+													unit: "km2"
 												}}
 												xLabel
 												xValuesSize={3}
 												xOptions={{
-													name: "Population",
-													unit: "inh"
+													name: "Slum area",
+													unit: "km2"
+												}}
+											/>
+										</HoverHandler>
+									</div>
+								</Fade>
+							</Visualization>
+						</Fade>
+
+						<Fade left distance="50px">
+							<Visualization
+								title="Slum Areas vs. City total Area"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+								<Fade cascade className="aaaa">
+									<div className="scudeoStories19-chart-container">
+										<HoverHandler>
+											<ScatterChart
+												key="scatter-chart-1"
+
+												data={slumAreasVsCityTotalAreas}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="slumAreas"
+												ySourcePath="cityArea"
+
+												yLabel
+												yValuesSize={8}
+												yOptions={{
+													name: "City area",
+													unit: "km2"
+												}}
+												xLabel
+												xValuesSize={8}
+												xOptions={{
+													name: "Slum area",
+													unit: "km2"
 												}}
 											/>
 										</HoverHandler>
@@ -153,7 +221,7 @@ class SlumsMonitoring extends React.PureComponent {
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 								<div className="scudeoStories19-map-container">
-									<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.geometry}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
 										<PresentationMapWithControls
 											map={
 												<LeafletMap
@@ -170,9 +238,9 @@ class SlumsMonitoring extends React.PureComponent {
 											<div className="scudeoStories19-map-label">
 												<Select
 													onChange={this.onCityChange.bind(this)}
-													options={data}
-													optionLabel="properties.name"
-													optionValue="properties.key"
+													options={mergedDataset}
+													optionLabel="name"
+													optionValue="key"
 													value={this.state.city}
 													menuPortalTarget={this.props.pageKey}
 												/>
