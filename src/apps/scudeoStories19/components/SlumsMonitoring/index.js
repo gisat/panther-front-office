@@ -6,6 +6,7 @@ import ColumnChart from "../../../../components/common/charts/ColumnChart/Column
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 
 import conversions from "../../data/conversions";
+import LayerSelect from "../LayerSelect/index";
 
 import './styles/style.scss';
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
@@ -31,13 +32,32 @@ const mergedDataset = [
 	},
 ]
 
-const backgroundLayer = {
+const OSM = {
+	name: 'OSM',
 	key: 'background-osm',
 	type: 'wmts',
 	options: {
 		url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
 	}
 };
+
+const wildAreas = {
+	name: 'Wild Areas',
+	key: 'wildAreas',
+	type: 'wms',
+	options: {
+		url: 'https://sedac.ciesin.columbia.edu/geoserver/wms',
+		params:{
+			layers: 'wildareas-v2:wildareas-v2-human-footprint-geographic',
+			styles: '',
+		},
+	}
+};
+
+const backgroundLayers = [
+	OSM,
+	wildAreas
+]
 
 const slumsAreaShare = mergedDataset.map((dataSet) => (
 	{
@@ -74,13 +94,20 @@ class SlumsMonitoring extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			city: mergedDataset[0]
+			city: mergedDataset[0],
+			backgroundLayer: backgroundLayers[0]
 		};
 	}
 
 	onCityChange(data) {
 		this.setState({
 			city: data
+		});
+	}
+
+	onBackgroundLayerChange(data) {
+		this.setState({
+			backgroundLayer: data
 		});
 	}
 
@@ -227,7 +254,7 @@ class SlumsMonitoring extends React.PureComponent {
 												<LeafletMap
 													mapKey="scudeoStories19-greenAreas-map-1"
 													scrollWheelZoom="afterClick"
-													backgroundLayer={backgroundLayer}
+													backgroundLayer={this.state.backgroundLayer}
 													layers={vectorLayers}
 												/>
 											}
@@ -242,6 +269,16 @@ class SlumsMonitoring extends React.PureComponent {
 													optionLabel="name"
 													optionValue="key"
 													value={this.state.city}
+													menuPortalTarget={this.props.pageKey}
+												/>
+											</div>
+											<div className="scudeoStories19-map-label scudeoStories19-map-layers">
+												<LayerSelect
+													onChange={this.onBackgroundLayerChange.bind(this)}
+													options={backgroundLayers}
+													optionLabel="name"
+													optionValue="key"
+													value={this.state.backgroundLayer}
 													menuPortalTarget={this.props.pageKey}
 												/>
 											</div>
