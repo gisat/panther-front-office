@@ -95,8 +95,8 @@ class GreenAreas extends React.PureComponent {
 
 												yLabel
 												yOptions={{
-													name: "Total",
-													unit: "count"
+													name: "Share",
+													unit: "%"
 												}}
 
 												stacked
@@ -127,14 +127,49 @@ class GreenAreas extends React.PureComponent {
 												yLabel
 												yValuesSize={3.5}
 												yOptions={{
-													name: "Area",
-													unit: "unit"
+													name: "Urban area",
+													unit: "km2"
 												}}
 												xLabel
 												xValuesSize={3}
 												xOptions={{
-													name: "Population",
-													unit: "inh"
+													name: "Green area",
+													unit: "km2"
+												}}
+											/>
+										</HoverHandler>
+									</div>
+								</Fade>
+							</Visualization>
+						</Fade>
+						<Fade left distance="50px">
+							<Visualization
+								title="Green Areas vs. City Total Area"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+								<Fade cascade className="aaaa">
+									<div className="scudeoStories19-chart-container">
+										<HoverHandler>
+											<ScatterChart
+												key="scatter-chart-1"
+
+												data={data}
+												keySourcePath="properties.key"
+												nameSourcePath="properties.name"
+												xSourcePath="properties.population"
+												ySourcePath="properties.area"
+
+												yLabel
+												yValuesSize={3.5}
+												yOptions={{
+													name: "City area",
+													unit: "km2"
+												}}
+												xLabel
+												xValuesSize={3}
+												xOptions={{
+													name: "Green area",
+													unit: "km2"
 												}}
 											/>
 										</HoverHandler>
