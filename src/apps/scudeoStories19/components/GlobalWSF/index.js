@@ -232,8 +232,8 @@ class GlobalWSF extends React.PureComponent {
 												yLabel
 												yValuesSize={3.5}
 												yOptions={{
-													name: "Area",
-													unit: "unit"
+													name: "Settlement Area",
+													unit: "km2"
 												}}
 												xLabel
 												xValuesSize={2}
