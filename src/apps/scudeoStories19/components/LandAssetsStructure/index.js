@@ -133,34 +133,35 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade cascade>
 								<div className="scudeoStories19-chart-container">
 
+								<HoverHandler>
+									<ColumnChart
+											key="lulc-structure"
 
-								<ColumnChart
-										key="lulc-structure"
+											data={au_3_serial_as_object}
+											keySourcePath="AL3_ID"
+											nameSourcePath="AL3_NAME"
+											xSourcePath="AL3_NAME"
+											ySourcePath={[
+												{path: 'data.2016.as_611001000_attr_61110000', name: 'Artificial Surfaces', color: '#ae0214'},
+												{path: 'data.2016.as_611001000_attr_61120000', name: 'Agricultural Area', color: '#ffdc9b'},
+												{path: 'data.2016.as_611001000_attr_61130000', name: 'Natural and Semi-natural Areas', color: '#59b642'},
+												{path: 'data.2016.as_611001000_attr_61140000', name: 'Wetlands', color: '#a6a6ff'},
+												{path: 'data.2016.as_611001000_attr_61150000', name: 'Water', color: '#56c8ee'}
+											]}
 
-										data={au_3_serial_as_object}
-										keySourcePath="AL3_ID"
-										nameSourcePath="AL3_NAME"
-										xSourcePath="AL3_NAME"
-										ySourcePath={[
-											{path: 'data.2016.as_611001000_attr_61110000', name: 'Artificial Surfaces', color: '#ae0214'},
-											{path: 'data.2016.as_611001000_attr_61120000', name: 'Agricultural Area', color: '#ffdc9b'},
-											{path: 'data.2016.as_611001000_attr_61130000', name: 'Natural and Semi-natural Areas', color: '#59b642'},
-											{path: 'data.2016.as_611001000_attr_61140000', name: 'Wetlands', color: '#a6a6ff'},
-											{path: 'data.2016.as_611001000_attr_61150000', name: 'Water', color: '#56c8ee'}
-										]}
+											height={20}
+											xValuesSize={6}
 
-										height={20}
-										xValuesSize={6}
+											yLabel
+											yOptions={{
+												name: "Land cover",
+												unit: "sqm"
+											}}
+											yValuesSize={3}
 
-										yLabel
-										yOptions={{
-											name: "Land cover",
-											unit: "sqm"
-										}}
-										yValuesSize={3}
-
-										stacked="relative"
-									/>
+											stacked="relative"
+										/>
+									</HoverHandler>
 								</div>
 							</Fade>
 						</Visualization>
@@ -173,18 +174,25 @@ class LandAssetsStructure extends React.PureComponent {
 							>
 							<Fade cascade>
 								<div className="scudeoStories19-chart-container">
-
-									<ColumnChart 
-											key="diverging-bars"
-											
-											data={changes}
-											keySourcePath="key"
-											nameSourcePath="name"
-											xSourcePath="name"
-											ySourcePath={["positive","negative"]}
-											diverging="double"
-											xGridlines
-										/>
+									<HoverHandler>
+										<ColumnChart 
+												key="diverging-bars"
+												
+												data={changes}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="name"
+												ySourcePath={["positive","negative"]}
+												diverging="double"
+												xGridlines
+												yLabel
+												yOptions={{
+													name: "Change",
+													unit: "%"
+												}}
+												xValuesSize={6}
+											/>
+										</HoverHandler>
 									</div>
 							</Fade>
 						</Visualization>
@@ -197,8 +205,8 @@ class LandAssetsStructure extends React.PureComponent {
 						<Fade cascade>
 							<div className="scudeoStories19-chart-container">
 
-
-								<ColumnChart 
+								<HoverHandler>
+									<ColumnChart 
 										key="stacked-diverging-chart"
 										
 										data={changesPerCategory}
@@ -216,20 +224,25 @@ class LandAssetsStructure extends React.PureComponent {
 											{path: 'as_611001000_attr_61150000_r', name: 'Water', color: '#56c8ee'}
 										]}
 
-										xValuesSize={5}
 										xGridlines
 
-										xLabel
 										yOptions={{ 
 											name: "Random attribute"
 										}}
 
 										stacked
 										diverging="double"
+										yLabel
+										yOptions={{
+											name: "Change",
+											unit: "%"
+										}}
+										xValuesSize={6}
 									/>
-								</div>
-							</Fade>
-						</Visualization>
+								</HoverHandler>
+							</div>
+						</Fade>
+					</Visualization>
 					</Fade>
 					</section>
 					<section key="section-2">
