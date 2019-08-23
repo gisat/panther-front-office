@@ -160,8 +160,44 @@ class GlobalWSF extends React.PureComponent {
 
 												yLabel
 												yOptions={{
-													name: "Attribut name",
-													unit: "unit"
+													name: "Settlement area",
+													unit: "km2"
+												}}
+
+												legend
+											/>
+										</HoverHandler>
+									</div>
+								</Fade>
+							</Visualization>
+						</Fade>
+						
+						<Fade left distance="50px">
+							<Visualization
+								title="Settlement Area Expansion (annual growth rate in %, base = 1985)"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+								<Fade cascade>
+									<div className="scudeoStories19-chart-container">
+										<HoverHandler
+											selectedItems={[this.state.cityOne.properties.key, this.state.cityTwo.properties.key]}
+										>
+											<LineChart
+												key="line-chart-1"
+
+												data={data}
+												keySourcePath="properties.key"
+												nameSourcePath="properties.name"
+												serieDataSourcePath="properties.sampleSerialData"
+												xSourcePath="period"
+												ySourcePath="someStrangeValue"
+
+												xValuesSize={2.5}
+
+												yLabel
+												yOptions={{
+													name: "Settlement are growth",
+													unit: "%"
 												}}
 
 												legend
@@ -203,7 +239,7 @@ class GlobalWSF extends React.PureComponent {
 												xValuesSize={2}
 												xOptions={{
 													name: "Population",
-													unit: "inh"
+													unit: "100k"
 												}}
 
 												legend
