@@ -16,8 +16,8 @@ import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
 //Data
-import dhakaDataset from './data/dhaka.json';
-import dodomaDataset from './data/dodoma.json';
+import dhakaDataset from './data/dhaka_combined_output.json';
+import dodomaDataset from './data/dodoma_combined_output.json';
 
 const mergedDataset = [
 	{
@@ -61,7 +61,7 @@ const backgroundLayers = [
 
 const slumsAreaShare = mergedDataset.map((dataSet) => (
 	{
-		value: conversions.avarage(dataSet.data.features, 'properties.informal_percentage'),
+		value: conversions.avarage(dataSet.data.features, 'properties.informal_16_total_percentage'),
 		key: dataSet.key,
 		name: dataSet.name,
 	})
@@ -69,8 +69,8 @@ const slumsAreaShare = mergedDataset.map((dataSet) => (
 
 const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
 	{
-		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_coverage'),
-		urbanAreas: conversions.avarage(dataSet.data.features, 'properties.urban_coverage'),
+		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_16_total_coverage'),
+		urbanAreas: conversions.avarage(dataSet.data.features, 'properties.lulc_16_total_coverage'),
 		key: dataSet.key,
 		name: dataSet.name,
 	})
@@ -78,8 +78,8 @@ const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
 
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => (
 	{
-		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_coverage'),
-		cityArea: conversions.sum(dataSet.data.features, 'properties.urban_coverage'),
+		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_16_total_coverage'),
+		cityArea: conversions.sum(dataSet.data.features, 'properties.lulc_16_total_coverage'),
 		key: dataSet.key,
 		name: dataSet.name,
 	})
@@ -113,7 +113,7 @@ class SlumsMonitoring extends React.PureComponent {
 
 	render() {
 
-		let vectorLayers = [{
+		const vectorLayers = [{
 			key: 'aoi-vector',
 			name: 'AOI',
 			type: 'vector',
@@ -123,6 +123,19 @@ class SlumsMonitoring extends React.PureComponent {
 				features: this.state.city.data
 			}
 		}];
+
+		const dataLayer = {
+			name: 'Data layer',
+			key: 'slums',
+			type: 'wms',
+			options: {
+				url: 'https://urban-tep.eu/puma/geoserver/wms',
+				params:{
+					layers: 'scudeo_slums',
+					styles: '',
+				},
+			}
+		};
 
 		return (
 			<>
@@ -150,11 +163,11 @@ class SlumsMonitoring extends React.PureComponent {
 												nameSourcePath="name"
 												xSourcePath="name"
 												ySourcePath="value"
-
+												xValuesSize={4}
 
 												yLabel
 												yOptions={{
-													name: "Percentage",
+													name: "Slum area",
 													unit: "%"
 												}}
 											/>
@@ -188,7 +201,8 @@ class SlumsMonitoring extends React.PureComponent {
 													unit: "km2"
 												}}
 												xLabel
-												xValuesSize={3}
+												xValuesSize={4}
+												yValuesSize={6}
 												xOptions={{
 													name: "Slum area",
 													unit: "km2"
@@ -218,13 +232,13 @@ class SlumsMonitoring extends React.PureComponent {
 												ySourcePath="cityArea"
 
 												yLabel
-												yValuesSize={8}
+												xValuesSize={4}
+												yValuesSize={6}
 												yOptions={{
 													name: "City area",
 													unit: "km2"
 												}}
 												xLabel
-												xValuesSize={8}
 												xOptions={{
 													name: "Slum area",
 													unit: "km2"
@@ -255,7 +269,7 @@ class SlumsMonitoring extends React.PureComponent {
 													mapKey="scudeoStories19-greenAreas-map-1"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={this.state.backgroundLayer}
-													layers={vectorLayers}
+													layers={[...vectorLayers, dataLayer]}
 												/>
 											}
 											controls={
