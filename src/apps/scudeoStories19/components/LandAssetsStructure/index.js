@@ -19,6 +19,9 @@ import Helmet from "react-helmet";
 import {Footer, Visualization} from '../Page';
 import {Header} from "../Page";
 
+//Data
+import dodomaDataset from './data/dodoma.json';
+import dhakaDataset from './data/dodoma.json';
 
 import './styles/style.scss';
 
@@ -44,6 +47,67 @@ let vectorLayers = [{
 		features: data
 	}
 }];
+
+
+const classes = {
+    "11100":"Continuous Urban Fabric (Sealing level: 80% - 100%)",
+    "11200":"Discontinuous Urban Fabric (Sealing level: 10% - 80%)",
+    "12100":"Industrial, Commercial, Public, Military and Private Units",
+    "12200":"Roads and rail network and associated land",
+    "12300":"Roads and rail network and associated land",
+    "12400":"Airport",
+    "13100":"Mineral Extraction and Dump Sites",
+    "13300":"Construction Sites",
+    "13400":"Land without current use",
+    "14100":"Green Urban Areas",
+    "14200":"Recreation Facilities (Sport Facilities, Stadiums, Golf Courses, etc.)",
+    "14300":"Cemeteries",
+    "20000":"Agricultural Area",
+    "31000":"Forest",
+    "32000":"Other Natural and Semi-natural Areas (Savannah, Grassland)",
+    "33000":"Bare land",
+    "40000":"Wetlands",
+    "51000":"Inland Water"
+};
+
+const mergedDataset = [
+	{
+		data: dodomaDataset.features,
+		name: 'Dodoma',
+		key: 1,
+	},
+	{
+		data: dhakaDataset.features,
+		name: 'Dhaka',
+		key: 2,
+	},
+]
+
+const LULCStructureDataset = mergedDataset.map((dataSet) => {
+	const avarageData = {
+		data:{}
+	};
+
+	for (const [classId, className] of Object.entries(classes)) {
+		const key = `lulc_${classId}_percentage_2006`;
+		const valuePath = `properties.${key}`;
+		const avarage = conversions.avarage(dataSet.data, valuePath);
+		avarageData.data[key] = isNaN(avarage) ? 0 : avarage;
+	}
+	avarageData.AL3_NAME = dataSet.name;
+	avarageData.AL3_ID = dataSet.key;
+	return avarageData;
+});
+
+const pathLULCStructureYSourcePath = [];
+for (const [classId, className] of Object.entries(classes)) {
+	const key = `lulc_${classId}_percentage_2006`;
+	const valuePath = `data.${key}`;
+	pathLULCStructureYSourcePath.push({
+		path: valuePath,
+		name: className,
+	})
+}
 
 class LandAssetsStructure extends React.PureComponent {
 	static propTypes = {
@@ -137,17 +201,11 @@ class LandAssetsStructure extends React.PureComponent {
 									<ColumnChart
 											key="lulc-structure"
 
-											data={au_3_serial_as_object}
+											data={LULCStructureDataset}
 											keySourcePath="AL3_ID"
 											nameSourcePath="AL3_NAME"
 											xSourcePath="AL3_NAME"
-											ySourcePath={[
-												{path: 'data.2016.as_611001000_attr_61110000', name: 'Artificial Surfaces', color: '#ae0214'},
-												{path: 'data.2016.as_611001000_attr_61120000', name: 'Agricultural Area', color: '#ffdc9b'},
-												{path: 'data.2016.as_611001000_attr_61130000', name: 'Natural and Semi-natural Areas', color: '#59b642'},
-												{path: 'data.2016.as_611001000_attr_61140000', name: 'Wetlands', color: '#a6a6ff'},
-												{path: 'data.2016.as_611001000_attr_61150000', name: 'Water', color: '#56c8ee'}
-											]}
+											ySourcePath={pathLULCStructureYSourcePath}
 
 											height={20}
 											xValuesSize={6}
