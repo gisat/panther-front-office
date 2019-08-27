@@ -67,7 +67,30 @@ const classes = {
     "32000":"Other Natural and Semi-natural Areas (Savannah, Grassland)",
     "33000":"Bare land",
     "40000":"Wetlands",
-    "51000":"Inland Water"
+    "51000":"Inland Water",
+    "52000":"Marine Water"
+};
+
+const colors = {
+    "11100":"#9f1313",
+    "11200":"#d31414",
+    "12100":"#9b1794",
+    "12200":"#9C9C9C",
+    "12300":"#61007F",
+    "12400":"#FFAA00",
+    "13100":"#734d37",
+    "13300":"#FF73DF",
+    "13400":"#BEE8FF",
+    "14100":"#4dca00",
+    "14200":"#8cdc00",
+    "14300":"#A34963",
+    "20000":"#ffdc9b",
+    "31000":"#006a00",
+    "32000":"#B4D79E",
+    "33000":"#CCCCCC",
+    "40000":"#a6a6ff",
+    "51000":"#4c96e4",
+    "52000":"#95d6ea"
 };
 
 const mergedDataset = [
@@ -106,6 +129,7 @@ for (const [classId, className] of Object.entries(classes)) {
 	pathLULCStructureYSourcePath.push({
 		path: valuePath,
 		name: className,
+		color: colors[classId],
 	})
 }
 
@@ -212,7 +236,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 											yLabel
 											yOptions={{
-												name: "Land cover",
+												name: "Structure",
 												unit: "sqm"
 											}}
 											yValuesSize={3}
