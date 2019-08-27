@@ -645,181 +645,166 @@ Ext.define('PumaMain.controller.Layers', {
 	getSymObj: function(params) {
 
 		var symbolizer = null;
-		if (true) {
-			symbolizer = {};
-			var normalization = params['normalization'];
-			var classConfig = params['classConfig'] ? JSON.parse(params['classConfig']) : [];
-			var colors = [];
-			var thresholds = [];
-			for (var i = 0; i < classConfig.length; i++) {
-				colors.push(classConfig[i].color);
-				thresholds.push(classConfig[i].threshold);
-			}
-			var colorRange = null;
-
-			var attrs = JSON.parse(params['attrs']);
-			if (params['useAttributeColors']) {
-				var attrStore = Ext.StoreMgr.lookup('attribute');
-				var attrId = attrs[0].attr;
-				var baseColor = attrStore.getById(attrId).get('color');
-				if (baseColor.length == 0){
-					baseColor = "#000000";
-				}
-				colorRange = Puma.util.Color.determineColorRange(baseColor);
-			}
-			normalization = attrs[0].normType || normalization;
-			var normAttrSet = attrs[0].normAs || params['normalizationAttributeSet'];
-			var normAttribute = attrs[0].normAttr || params['normalizationAttribute'];
-			var normalizationUnits = attrs[0].normalizationUnits;
-			var customFactor = attrs[0].customFactor;
-
-			var factor = 1;
-			var attrUnits = Ext.StoreMgr.lookup('attribute').getById(attrs[0].attr).get('units');
-			var normAttrUnits = null;
-			if (normalization == 'attribute' || normalization == 'attributeset') {
-				normAttrUnits = Ext.StoreMgr.lookup('attribute').getById(normAttribute).get('units');
-			}
-
-			var units = new Units();
-			customFactor = customFactor || 1;
-			if (normalization=='area') {
-				normAttrUnits = attrs[0].areaUnits || 'm2';
-			}
-
-			// Specific use case is when I normalize over attribute. In this case, it is necessary to first handle the
-			// Basic factor handling and then use normalizationUnits to get final.
-			// TODO: Make sure that the units are correctly counted.
-
-			if(normalization) {
-				factor = units.translate(attrUnits, normAttrUnits, false);
-			} else {
-				factor = 1;
-			}
-			factor = factor * customFactor;
-
-			var props = '';
-			var filtersNull = [];
-			var filtersNotNull = [];
-			if (normalization && normalization != 'none' && normalization != 'year') { // normalization != area only in case of stuff.
-				var normAttr = normalization == 'area' ? 'area' : '';
-				normAttr = normalization == 'attributeset' ? ('as_' + normAttrSet + '_attr_#attrid#') : normAttr;
-				normAttr = normalization == 'attribute' ? ('as_' + normAttrSet + '_attr_' + normAttribute) : normAttr;
-				normAttr = normalization == 'toptree' ? '#toptree#' : normAttr;
-
-				if (normalization != 'toptree') {
-					filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: normAttr, value: 0}));
-					filtersNotNull.push(new OpenLayers.Filter.Comparison({type: '!=', property: normAttr, value: 0}));
-					normAttr = '${' + normAttr + '}';
-				}
-
-				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
-			} else {
-				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
-			}
-			if (params['zeroesAsNull']) {
-				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
-				filtersNotNull.push(new OpenLayers.Filter.Comparison({type: '!=', property: '#attr#', value: 0}));
-			}
-
-			var nullFilter = new OpenLayers.Filter.Comparison({type:'NULL',property:'#attr#'});
-			filtersNotNull.push(new OpenLayers.Filter.Logical({type: '!', filters:[nullFilter]}));
-			filtersNull.push(nullFilter);
-
-			var fcParams = [props];
-			var numCat = params['numCategories'];
-
-			var legendRules = [new OpenLayers.Rule({
-				name: '#units#',
-				symbolizer: {
-					'Polygon': new OpenLayers.Symbolizer.Polygon({strokeWidth: 0, fillOpacity:0, strokeOpacity:0})
-				}
-			})];
-
-			for (var i = 0; i < numCat; i++) {
-				var ratio = i / (numCat - 1);
-				var legendName ='';
-				var color = colorRange ? Puma.util.Color.determineColorFromRange(colorRange[0], colorRange[1], ratio) : colors[i];
-				if (params['classType'] == 'continuous') {
-					fcParams.push('#minmax_' + (i + 1) + '#');
-					fcParams.push(color);
-					legendName = '#minmax_' + (i + 1) + '#';
-				} else {
-					fcParams.push(color);
-					if (i < numCat - 1) {
-						var val = params['classType'] == 'range' ? thresholds[i] : ('#val_' + (i + 1) + '#');
-						fcParams.push(val);
-					}
-					if (i==0) {
-						legendName = '< '+'#val_1#';
-					} else if (i == numCat - 1) {
-						legendName = '#val_'+i+'# >';
-					} else {
-						legendName = '#val_'+i+'#'+' - '+'#val_'+(i+1)+'#';
-					}
-
-				}
-
-				var legendRule = new OpenLayers.Rule({
-					name: legendName,
-					symbolizer: {
-						'Polygon': new OpenLayers.Symbolizer.Polygon({fillColor: color, strokeColor: '#000000', strokeWidth: 1})
-					}
-				});
-				legendRules.push(legendRule);
-			}
-			if (params['classType'] == 'continuous') {
-				fcParams.push('color');
-			}
-			var fcName = params['classType'] == 'continuous' ? 'Interpolate' : 'Categorize';
-			var fillColor = new OpenLayers.Filter.Function({name: fcName, params: fcParams});
-
-			symbolizer['Polygon'] = new OpenLayers.Symbolizer.Polygon({fillColor: fillColor, strokeColor: '#000000', strokeWidth: 1});
-			var rule1 = {
-				filter: filtersNotNull.length > 1 ? new OpenLayers.Filter.Logical({type: '&&', filters: filtersNotNull}) : filtersNotNull[0],
-				//maxScaleDenominator: this.scaleBorder,
-				maxScaleDenominator: 100000000,
-				symbolizer: symbolizer
-			};
-			var rule2 = {
-				filter: filtersNotNull.length > 1 ? new OpenLayers.Filter.Logical({type: '&&', filters: filtersNotNull}) : filtersNotNull[0],
-				//minScaleDenominator: this.scaleBorder,
-				minScaleDenominator: 100000000,
-				symbolizer: {"Point": new OpenLayers.Symbolizer.Point({geometry: {property:'centroid'},strokeWidth: 1, strokeOpacity: 1, graphicName: 'square', pointRadius: 18, strokeColor: '#222222',fillColor: fillColor, fillOpacity: 1})}
-			};
-			var nullColor = params['nullColor'] || '#bbbbbb';
-			var nullSymbolizer = {
-				'Polygon': new OpenLayers.Symbolizer.Polygon({fillColor: nullColor, strokeColor: '#000000', strokeWidth: 1})
-			};
-			var rule3 = {
-				filter: filtersNull.length > 1 ? new OpenLayers.Filter.Logical({type: '||', filters: filtersNull}) : filtersNull[0],
-				symbolizer: nullSymbolizer
-			};
+		var attrs = JSON.parse(params['attrs']);
+		var attrStore = Ext.StoreMgr.lookup('attribute');
+		if(!attrStore.getById(attrs[0].attr)) {
 			return {
-				rules: [rule1, rule2, rule3],
-				legend: legendRules
+				rules: [],
+				legend: []
 			};
 		}
-		if (params['showMapChart']) {
-			symbolizer = {};
-			var max = new OpenLayers.Filter.Function({name: 'env', params: ['maxsize']});
-			var min = new OpenLayers.Filter.Function({name: 'Div', params: [max, 20]});
-			var sizeRange = new OpenLayers.Filter.Function({name: 'Sub', params: [max, min]});
-			var valRange = new OpenLayers.Filter.Function({name: 'Sub', params: ['#maxval#', '#minval#']});
-			var valFactor = new OpenLayers.Filter.Function({name: 'Sub', params: ['${#attr#}', '#minval#']});
 
-			var factor = new OpenLayers.Filter.Function({name: 'Div', params: [valFactor, valRange]});
-			var sizeAdd = new OpenLayers.Filter.Function({name: 'Mul', params: [sizeRange, factor]});
-			var size = new OpenLayers.Filter.Function({name: 'Add', params: [min, sizeAdd]});
-			var sizeSqrt = new OpenLayers.Filter.Function({name: 'pow', params: [size, 0.5]});
+		symbolizer = {};
+		var normalization = params['normalization'];
+		var classConfig = params['classConfig'] ? JSON.parse(params['classConfig']) : [];
+		var colors = [];
+		var thresholds = [];
+		for (var i = 0; i < classConfig.length; i++) {
+			colors.push(classConfig[i].color);
+			thresholds.push(classConfig[i].threshold);
+		}
+		var colorRange = null;
 
-			var url = Config.url + 'api/chart/drawChart/#url#';
-			symbolizer['Point'] = new OpenLayers.Symbolizer.Point({externalGraphic: url, graphicFormat: 'image/svg+xml', graphicWidth: sizeSqrt});
-			var rule1 = {
-				symbolizer: symbolizer
-			};
-			return [rule1];
+		if (params['useAttributeColors']) {
+			var attrId = attrs[0].attr;
+			var baseColor = attrStore.getById(attrId) && attrStore.getById(attrId).get('color') || [];
+			if (baseColor.length == 0){
+				baseColor = "#000000";
+			}
+			colorRange = Puma.util.Color.determineColorRange(baseColor);
+		}
+		normalization = attrs[0].normType || normalization;
+		var normAttrSet = attrs[0].normAs || params['normalizationAttributeSet'];
+		var normAttribute = attrs[0].normAttr || params['normalizationAttribute'];
+		var normalizationUnits = attrs[0].normalizationUnits;
+		var customFactor = attrs[0].customFactor;
+
+		var factor = 1;
+		var attributeById = Ext.StoreMgr.lookup('attribute').getById(attrs[0].attr);
+		var attrUnits = attributeById && attributeById.get('units') || '';
+		var normAttrUnits = null;
+		if (normalization == 'attribute' || normalization == 'attributeset') {
+			normAttrUnits = Ext.StoreMgr.lookup('attribute').getById(normAttribute).get('units');
 		}
 
+		var units = new Units();
+		customFactor = customFactor || 1;
+		if (normalization=='area') {
+			normAttrUnits = attrs[0].areaUnits || 'm2';
+		}
+
+		// Specific use case is when I normalize over attribute. In this case, it is necessary to first handle the
+		// Basic factor handling and then use normalizationUnits to get final.
+		// TODO: Make sure that the units are correctly counted.
+
+		if(normalization) {
+			factor = units.translate(attrUnits, normAttrUnits, false);
+		} else {
+			factor = 1;
+		}
+		factor = factor * customFactor;
+
+		var props = '';
+		var filtersNull = [];
+		var filtersNotNull = [];
+		if (normalization && normalization != 'none' && normalization != 'year') { // normalization != area only in case of stuff.
+			var normAttr = normalization == 'area' ? 'area' : '';
+			normAttr = normalization == 'attributeset' ? ('as_' + normAttrSet + '_attr_#attrid#') : normAttr;
+			normAttr = normalization == 'attribute' ? ('as_' + normAttrSet + '_attr_' + normAttribute) : normAttr;
+			normAttr = normalization == 'toptree' ? '#toptree#' : normAttr;
+
+			if (normalization != 'toptree') {
+				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: normAttr, value: 0}));
+				filtersNotNull.push(new OpenLayers.Filter.Comparison({type: '!=', property: normAttr, value: 0}));
+				normAttr = '${' + normAttr + '}';
+			}
+
+			props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
+		} else {
+			props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
+		}
+		if (params['zeroesAsNull']) {
+			filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
+			filtersNotNull.push(new OpenLayers.Filter.Comparison({type: '!=', property: '#attr#', value: 0}));
+		}
+
+		var nullFilter = new OpenLayers.Filter.Comparison({type:'NULL',property:'#attr#'});
+		filtersNotNull.push(new OpenLayers.Filter.Logical({type: '!', filters:[nullFilter]}));
+		filtersNull.push(nullFilter);
+
+		var fcParams = [props];
+		var numCat = params['numCategories'];
+
+		var legendRules = [new OpenLayers.Rule({
+			name: '#units#',
+			symbolizer: {
+				'Polygon': new OpenLayers.Symbolizer.Polygon({strokeWidth: 0, fillOpacity:0, strokeOpacity:0})
+			}
+		})];
+
+		for (var i = 0; i < numCat; i++) {
+			var ratio = i / (numCat - 1);
+			var legendName ='';
+			var color = colorRange ? Puma.util.Color.determineColorFromRange(colorRange[0], colorRange[1], ratio) : colors[i];
+			if (params['classType'] == 'continuous') {
+				fcParams.push('#minmax_' + (i + 1) + '#');
+				fcParams.push(color);
+				legendName = '#minmax_' + (i + 1) + '#';
+			} else {
+				fcParams.push(color);
+				if (i < numCat - 1) {
+					var val = params['classType'] == 'range' ? thresholds[i] : ('#val_' + (i + 1) + '#');
+					fcParams.push(val);
+				}
+				if (i==0) {
+					legendName = '< '+'#val_1#';
+				} else if (i == numCat - 1) {
+					legendName = '#val_'+i+'# >';
+				} else {
+					legendName = '#val_'+i+'#'+' - '+'#val_'+(i+1)+'#';
+				}
+
+			}
+
+			var legendRule = new OpenLayers.Rule({
+				name: legendName,
+				symbolizer: {
+					'Polygon': new OpenLayers.Symbolizer.Polygon({fillColor: color, strokeColor: '#000000', strokeWidth: 1})
+				}
+			});
+			legendRules.push(legendRule);
+		}
+		if (params['classType'] == 'continuous') {
+			fcParams.push('color');
+		}
+		var fcName = params['classType'] == 'continuous' ? 'Interpolate' : 'Categorize';
+		var fillColor = new OpenLayers.Filter.Function({name: fcName, params: fcParams});
+
+		symbolizer['Polygon'] = new OpenLayers.Symbolizer.Polygon({fillColor: fillColor, strokeColor: '#000000', strokeWidth: 1});
+		var rule1 = {
+			filter: filtersNotNull.length > 1 ? new OpenLayers.Filter.Logical({type: '&&', filters: filtersNotNull}) : filtersNotNull[0],
+			//maxScaleDenominator: this.scaleBorder,
+			maxScaleDenominator: 100000000,
+			symbolizer: symbolizer
+		};
+		var rule2 = {
+			filter: filtersNotNull.length > 1 ? new OpenLayers.Filter.Logical({type: '&&', filters: filtersNotNull}) : filtersNotNull[0],
+			//minScaleDenominator: this.scaleBorder,
+			minScaleDenominator: 100000000,
+			symbolizer: {"Point": new OpenLayers.Symbolizer.Point({geometry: {property:'centroid'},strokeWidth: 1, strokeOpacity: 1, graphicName: 'square', pointRadius: 18, strokeColor: '#222222',fillColor: fillColor, fillOpacity: 1})}
+		};
+		var nullColor = params['nullColor'] || '#bbbbbb';
+		var nullSymbolizer = {
+			'Polygon': new OpenLayers.Symbolizer.Polygon({fillColor: nullColor, strokeColor: '#000000', strokeWidth: 1})
+		};
+		var rule3 = {
+			filter: filtersNull.length > 1 ? new OpenLayers.Filter.Logical({type: '||', filters: filtersNull}) : filtersNull[0],
+			symbolizer: nullSymbolizer
+		};
+		return {
+			rules: [rule1, rule2, rule3],
+			legend: legendRules
+		};
 	},
 	getWmsLayerDefaults: function() {
 		var layerParams = {

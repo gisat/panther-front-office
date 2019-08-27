@@ -21,7 +21,7 @@ class Chart {
 
         this.id = new Uuid().generate();
         this.containerComponent = options.containerComponent;
-        this.renderTo = this.containerComponent.el.dom;
+        this.renderTo = this.containerComponent && this.containerComponent.el && this.containerComponent.el.dom || {};
 
         window.Stores.addListener(this.onEvent.bind(this));
     };

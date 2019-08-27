@@ -66,6 +66,18 @@ class LayerLegend extends LayerTool {
 			let style = "";
 			let layer = this._defaultLayer.path;
 			let url = Config.url + "geoserver/wms?";
+			try{
+				const custom = JSON.parse(this._defaultLayer.custom);
+				if(custom.url) {
+					url = custom.url + '?';
+				}
+				if(custom.layerPaths) {
+					layer = custom.layerPaths;
+				}
+			} catch(e) {
+
+			}
+
 			if (this._style) {
 				style = this._style.path;
 			}
