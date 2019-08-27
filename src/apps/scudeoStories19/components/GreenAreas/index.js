@@ -4,17 +4,31 @@ import {Header, Visualization} from "../Page";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
-
-import mockData from "../../mockData";
-
-import './styles/style.scss';
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
+import conversions from "../../data/conversions";
 
-const data = mockData;
+import './styles/style.scss';
+
+//Data
+import dodomaDataset from './data/dodoma_green_vs_urban_2016.json';
+import dhakaDataset from './data/dhaka_green_vs_urban_2017.json';
+
+const mergedDataset = [
+	{
+		data: dhakaDataset,
+		name: 'Dhaka',
+		key: 1,
+	},
+	{
+		data: dodomaDataset,
+		name: 'Dodoma',
+		key: 2,
+	},
+];
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -24,16 +38,21 @@ const backgroundLayer = {
 	}
 };
 
-let vectorLayers = [{
-	key: 'aoi-vector',
-	name: 'AOI',
-	type: 'vector',
-	options: {
-		keyProperty: 'key',
-		nameProperty: 'name',
-		features: data
+const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => {
+	const area = conversions.sum(dataSet.data.features, 'properties.area') / 1000000;
+	const urban_coverage = conversions.sum(dataSet.data.features, 'properties.urban_coverage') / 1000000;
+	const green_coverage = conversions.sum(dataSet.data.features, 'properties.green_coverage') / 1000000;
+	const green_areas_share = area / green_coverage;
+	return {
+		area,
+		urban_coverage,
+		green_coverage,
+		green_areas_share,
+		key: dataSet.key,
+		name: dataSet.name,
 	}
-}];
+});
+
 
 class GreenAreas extends React.PureComponent {
 	static propTypes = {
@@ -44,7 +63,7 @@ class GreenAreas extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			city: data[1]
+			city: mergedDataset[1]
 		};
 	}
 
@@ -55,6 +74,17 @@ class GreenAreas extends React.PureComponent {
 	}
 
 	render() {
+		const vectorLayers = [{
+			key: 'aoi-vector',
+			name: 'AOI',
+			type: 'vector',
+			options: {
+				keyProperty: 'AL3_ID',
+				nameProperty: 'AL3_NAME',
+				features: this.state.city.data
+			}
+		}];
+
 		return (
 			<>
 				<Header
@@ -77,20 +107,11 @@ class GreenAreas extends React.PureComponent {
 											<ColumnChart
 												key="green-areas-stacked-chart"
 
-												data={data}
-												keySourcePath="properties.key"
-												nameSourcePath="properties.name"
-												xSourcePath="properties.name"
-												ySourcePath={[{
-													path: "properties.population",
-													name: "Population",
-													color: "#ff0000"
-												},{
-													path: "properties.area",
-													name: "Area",
-													color: "#00ff00"
-												}]}
-
+												data={slumAreasVsCityTotalAreas}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="name"
+												ySourcePath="green_areas_share"
 												xValuesSize={5.5}
 
 												yLabel
@@ -98,8 +119,6 @@ class GreenAreas extends React.PureComponent {
 													name: "Share",
 													unit: "%"
 												}}
-
-												stacked
 											/>
 										</HoverHandler>
 									</div>
@@ -118,11 +137,11 @@ class GreenAreas extends React.PureComponent {
 											<ScatterChart
 												key="scatter-chart-1"
 
-												data={data}
-												keySourcePath="properties.key"
-												nameSourcePath="properties.name"
-												xSourcePath="properties.population"
-												ySourcePath="properties.area"
+												data={slumAreasVsCityTotalAreas}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="green_coverage"
+												ySourcePath="urban_coverage"
 
 												yLabel
 												yValuesSize={3.5}
@@ -153,11 +172,11 @@ class GreenAreas extends React.PureComponent {
 											<ScatterChart
 												key="scatter-chart-1"
 
-												data={data}
-												keySourcePath="properties.key"
-												nameSourcePath="properties.name"
-												xSourcePath="properties.population"
-												ySourcePath="properties.area"
+												data={slumAreasVsCityTotalAreas}
+												keySourcePath="key"
+												nameSourcePath="name"
+												xSourcePath="urban_coverage"
+												ySourcePath="area"
 
 												yLabel
 												yValuesSize={3.5}
@@ -191,7 +210,7 @@ class GreenAreas extends React.PureComponent {
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 								<div className="scudeoStories19-map-container">
-									<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.geometry}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
 										<PresentationMapWithControls
 											map={
 												<LeafletMap
@@ -208,9 +227,9 @@ class GreenAreas extends React.PureComponent {
 											<div className="scudeoStories19-map-label">
 												<Select
 													onChange={this.onCityChange.bind(this)}
-													options={data}
-													optionLabel="properties.name"
-													optionValue="properties.key"
+													options={mergedDataset}
+													optionLabel="name"
+													optionValue="key"
 													value={this.state.city}
 													menuPortalTarget={this.props.pageKey}
 												/>
