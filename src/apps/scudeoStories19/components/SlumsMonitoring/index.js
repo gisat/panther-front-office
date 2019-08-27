@@ -16,8 +16,8 @@ import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
 //Data
-import dhakaDataset from './data/dhaka_combined_output.json';
-import dodomaDataset from './data/dodoma_combined_output.json';
+import dodomaDataset from './data/dodoma_informal_vs_urban_2016.json';
+import dhakaDataset from './data/dhaka_informal_vs_urban_2017.json';
 
 const mergedDataset = [
 	{
@@ -59,18 +59,20 @@ const backgroundLayers = [
 	wildAreas
 ]
 
-const slumsAreaShare = mergedDataset.map((dataSet) => (
-	{
-		value: conversions.avarage(dataSet.data.features, 'properties.informal_16_total_percentage'),
+const slumsAreaShare = mergedDataset.map((dataSet) => {
+	const area = conversions.sum(dataSet.data.features, 'properties.area');
+	const informal_coverage = conversions.sum(dataSet.data.features, 'properties.informal_coverage');
+	return {
+		value: informal_coverage / (area / 100),
 		key: dataSet.key,
 		name: dataSet.name,
-	})
-);
+	}
+});
 
 const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
 	{
-		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_16_total_coverage'),
-		urbanAreas: conversions.avarage(dataSet.data.features, 'properties.lulc_16_total_coverage'),
+		slumAreas: conversions.sum(dataSet.data.features, 'properties.informal_coverage') / 1000000,
+		urbanAreas: conversions.sum(dataSet.data.features, 'properties.urban_coverage') / 1000000,
 		key: dataSet.key,
 		name: dataSet.name,
 	})
@@ -78,8 +80,8 @@ const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
 
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => (
 	{
-		slumAreas: conversions.avarage(dataSet.data.features, 'properties.informal_16_total_coverage'),
-		cityArea: conversions.sum(dataSet.data.features, 'properties.lulc_16_total_coverage'),
+		slumAreas: conversions.sum(dataSet.data.features, 'properties.informal_coverage') / 1000000,
+		cityArea: conversions.sum(dataSet.data.features, 'properties.area') / 1000000,
 		key: dataSet.key,
 		name: dataSet.name,
 	})
