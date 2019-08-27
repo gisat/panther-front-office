@@ -112,6 +112,8 @@ class GreenAreas extends React.PureComponent {
 												nameSourcePath="name"
 												xSourcePath="name"
 												ySourcePath="green_areas_share"
+												defaultColor="#42982e"
+												highlightColor="#39782b"
 												xValuesSize={5.5}
 
 												yLabel

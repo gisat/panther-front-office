@@ -159,7 +159,8 @@ class SlumsMonitoring extends React.PureComponent {
 										<HoverHandler>
 											<ColumnChart
 												key="green-areas-stacked-chart"
-
+												defaultColor="#ce6763"
+												highlightColor="#a24744"
 												data={slumsAreaShare}
 												keySourcePath="key"
 												nameSourcePath="name"
