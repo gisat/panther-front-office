@@ -32,6 +32,11 @@ const mergedDataset = [
 	},
 ]
 
+const empty = {
+	name: 'No overlay',
+	key: 'empty',
+};
+
 const OSM = {
 	name: 'OSM',
 	key: 'background-osm',
@@ -54,8 +59,8 @@ const wildAreas = {
 	}
 };
 
-const backgroundLayers = [
-	OSM,
+const overlayLayers = [
+	empty,
 	wildAreas
 ]
 
@@ -97,7 +102,8 @@ class SlumsMonitoring extends React.PureComponent {
 		super(props);
 		this.state = {
 			city: mergedDataset[0],
-			backgroundLayer: backgroundLayers[0]
+			overlayLayer: overlayLayers[0],
+			backgroundLayer: OSM,
 		};
 	}
 
@@ -107,9 +113,9 @@ class SlumsMonitoring extends React.PureComponent {
 		});
 	}
 
-	onBackgroundLayerChange(data) {
+	onOverlayChange(data) {
 		this.setState({
-			backgroundLayer: data
+			overlayLayer: data
 		});
 	}
 
@@ -138,6 +144,8 @@ class SlumsMonitoring extends React.PureComponent {
 				},
 			}
 		};
+
+		const overlayLayer = this.state.overlayLayer.type ? [this.state.overlayLayer] : [];
 
 		return (
 			<>
@@ -272,7 +280,7 @@ class SlumsMonitoring extends React.PureComponent {
 													mapKey="scudeoStories19-greenAreas-map-1"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={this.state.backgroundLayer}
-													layers={[...vectorLayers, dataLayer]}
+													layers={[...vectorLayers, dataLayer, ...overlayLayer]}
 												/>
 											}
 											controls={
@@ -291,11 +299,11 @@ class SlumsMonitoring extends React.PureComponent {
 											</div>
 											<div className="scudeoStories19-map-label scudeoStories19-map-layers">
 												<LayerSelect
-													onChange={this.onBackgroundLayerChange.bind(this)}
-													options={backgroundLayers}
+													onChange={this.onOverlayChange.bind(this)}
+													options={overlayLayers}
 													optionLabel="name"
 													optionValue="key"
-													value={this.state.backgroundLayer}
+													value={this.state.overlayLayer}
 													menuPortalTarget={this.props.pageKey}
 												/>
 											</div>
