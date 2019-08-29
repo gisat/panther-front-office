@@ -12,7 +12,6 @@ import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrappe
 
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 import * as dodoma_au_level_3 from '../../data/EO4SD_DODOMA_AL3.json';
-import mockData from '../../mockData';
 import conversions from "../../data/conversions";
 
 import Helmet from "react-helmet";
@@ -20,14 +19,10 @@ import {Footer, Visualization} from '../Page';
 import {Header} from "../Page";
 
 //Data
-import dodomaDataset from './data/dodoma.json';
-import dhakaDataset from './data/dodoma.json';
+import dodomaDataset from './data/dhaka_lulc.json';
+import dhakaDataset from './data/dhaka_lulc.json';
 
 import './styles/style.scss';
-
-const au_3_data = dodoma_au_level_3.features;
-
-const data = mockData;
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -36,18 +31,6 @@ const backgroundLayer = {
 		url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
 	}
 };
-
-let vectorLayers = [{
-	key: 'aoi-vector',
-	name: 'AOI',
-	type: 'vector',
-	options: {
-		keyProperty: 'key',
-		nameProperty: 'name',
-		features: data
-	}
-}];
-
 
 const classes = {
     "11100":"Continuous Urban Fabric (Sealing level: 80% - 100%)",
@@ -95,38 +78,95 @@ const colors = {
 
 const mergedDataset = [
 	{
-		data: dodomaDataset.features,
+		data: dodomaDataset,
+		lastYear: 2017,
+		firstYear: 2006,
 		name: 'Dodoma',
 		key: 1,
 	},
 	{
-		data: dhakaDataset.features,
+		data: dhakaDataset,
+		lastYear: 2017,
+		firstYear: 2006,
 		name: 'Dhaka',
 		key: 2,
 	},
 ]
 
-const LULCStructureDataset = mergedDataset.map((dataSet) => {
+
+let vectorLayers = [{
+	key: 'aoi-vector',
+	name: 'AOI',
+	type: 'vector',
+	options: {
+		keyProperty: 'key',
+		nameProperty: 'name',
+		features: {
+			"type":"FeatureCollection",
+			"name":"EO4SD_DHAKA_AL2",
+			"crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},
+			"features": mergedDataset.reduce((acc, d) => [...acc, ...d.data.features], [])
+		}
+	}
+}];
+
+
+
+const getClassPercentagePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_percentage`
+const getClassCoveragePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_coverage`
+
+const LULCStructureDataset = [];
+const changesStructure = [];
+mergedDataset.forEach((dataSet) => {
+	//LULCStructureDataset
 	const avarageData = {
 		data:{}
 	};
 
+	const changes = {
+		data:{},
+		sum: 0,
+	};
+
 	for (const [classId, className] of Object.entries(classes)) {
-		const key = `lulc_${classId}_percentage_2006`;
-		const valuePath = `properties.${key}`;
-		const avarage = conversions.avarage(dataSet.data, valuePath);
-		avarageData.data[key] = isNaN(avarage) ? 0 : avarage;
+		const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
+		avarageData.data[classId] = dataSet.data.features[0].properties[percentageKey];
+		
+		//change
+		const coverageKeyFirst = getClassCoveragePropertyKey(classId, dataSet.firstYear);
+		const coverageKeyLast = getClassCoveragePropertyKey(classId, dataSet.lastYear);
+
+		const change = (dataSet.data.features[0].properties[coverageKeyFirst] - dataSet.data.features[0].properties[coverageKeyLast]) / (dataSet.data.features[0].properties.area / 100)
+		changes.data[classId] = isNaN(change) ? 0 : change;
 	}
 	avarageData.AL3_NAME = dataSet.name;
 	avarageData.AL3_ID = dataSet.key;
-	return avarageData;
+	LULCStructureDataset.push(avarageData);
+	
+	changes.AL3_NAME = dataSet.name;
+	changes.AL3_ID = dataSet.key;
+
+	for(const [key, value] of Object.entries(changes.data)){
+		changes.sum += Math.abs(value);
+	}
+
+	changesStructure.push(changes);
 });
 
 const pathLULCStructureYSourcePath = [];
 for (const [classId, className] of Object.entries(classes)) {
-	const key = `lulc_${classId}_percentage_2006`;
-	const valuePath = `data.${key}`;
+	const valuePath = `data.${classId}`;
 	pathLULCStructureYSourcePath.push({
+		path: valuePath,
+		name: className,
+		color: colors[classId],
+	})
+}
+
+const pathchangesStructureYSourcePath = [];
+for (const [classId, className] of Object.entries(classes)) {
+	const valuePath = `data.${classId}`;
+	pathchangesStructureYSourcePath.push({
 		path: valuePath,
 		name: className,
 		color: colors[classId],
@@ -142,7 +182,7 @@ class LandAssetsStructure extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			cityOne: data[2],
+			cityOne: mergedDataset[0],
 		};
 	}
 
@@ -155,53 +195,6 @@ class LandAssetsStructure extends React.PureComponent {
 
 
 	render() {
-
-		const au_3_serial_as_object = conversions.featuresToSerialDataAsObject(au_3_data);
-
-		const au_2_lulc_1_changes = conversions.getAttributeChanges(au_3_data, 'AL3_ID', [
-			{key: 'as_611001000_attr_61110000', name: 'Artificial Surfaces', color: '#ae0214'},
-			{key: 'as_611001000_attr_61120000', name: 'Agricultural Area', color: '#ffdc9b'},
-			{key: 'as_611001000_attr_61130000', name: 'Natural and Semi-natural Areas', color: '#59b642'},
-		], 2006, 2016);
-
-		const changes = []
-		for(const[key, value] of Object.entries(au_2_lulc_1_changes)) {
-			const entry = au_3_data.find(a => a.properties['AL3_ID'] == key);
-			const name = entry.properties.AL3_NAME;
-			const positive = value.reduce((acc, val) => {
-
-				
-				acc += val.relative !== Infinity && val.relative > 0 ? val.relative : 0;
-				return Math.round(acc)
-			}, 0)
-			const negative = value.reduce((acc, val) => {
-				 acc += val.relative < 0 ? val.relative : 0;
-				 return Math.round(acc)
-			}, 0)
-			changes.push({key, name, positive, negative, ...value})
-
-		}
-		
-
-		const changesPerCategory = []
-		for(const[key, value] of Object.entries(au_2_lulc_1_changes)) {
-			const entry = au_3_data.find(a => a.properties['AL3_ID'] == key);
-			const name = entry.properties.AL3_NAME;
-
-			const values = value.reduce((acc, val) => {
-				acc[`${val.key}_a`] = isNaN(val.absolute) || !isFinite(val.absolute) ? 0 : val.absolute;
-				acc[`${val.key}_r`] = isNaN(val.relative)  || !isFinite(val.relative) ? 0 : val.relative;
-				acc[`${val.key}_color`] = val.color;
-				acc[`${val.key}_name`] = val.name;
-				return acc;
-			}, {});
-
-			changesPerCategory.push({
-				key,
-				name,
-				...values
-			})
-		}
 
 		return (
 			<>
@@ -260,19 +253,25 @@ class LandAssetsStructure extends React.PureComponent {
 										<ColumnChart 
 												key="diverging-bars"
 												
-												data={changes}
-												keySourcePath="key"
-												nameSourcePath="name"
-												xSourcePath="name"
-												ySourcePath={["positive","negative"]}
-												diverging="double"
-												xGridlines
+												data={changesStructure}
+												keySourcePath="AL3_ID"
+												nameSourcePath="AL3_NAME"
+												xSourcePath="AL3_NAME"
+												ySourcePath="sum"
+												
+												height={20}
+												xValuesSize={6}
+
 												yLabel
 												yOptions={{
-													name: "Change",
-													unit: "%"
+													name: "Change intensity",
+													unit: "%",
+													max: 100,
+													min: 0
 												}}
-												xValuesSize={6}
+												yValuesSize={3}
+
+												// stacked="relative"
 											/>
 										</HoverHandler>
 									</div>
@@ -289,37 +288,27 @@ class LandAssetsStructure extends React.PureComponent {
 
 								<HoverHandler>
 									<ColumnChart 
-										key="stacked-diverging-chart"
+										key="diverging-bars"
 										
-										data={changesPerCategory}
-										keySourcePath="key"
-										nameSourcePath="name"
-										xSourcePath="name"
+										data={changesStructure}
+										keySourcePath="AL3_ID"
+										nameSourcePath="AL3_NAME"
+										xSourcePath="AL3_NAME"
+										ySourcePath={pathLULCStructureYSourcePath}
 										
-
-
-										ySourcePath={[
-											{path: 'as_611001000_attr_61110000_r', name: 'Artificial Surfaces', color: '#ae0214'},
-											{path: 'as_611001000_attr_61120000_r', name: 'Agricultural Area', color: '#ffdc9b'},
-											{path: 'as_611001000_attr_61130000_r', name: 'Natural and Semi-natural Areas', color: '#59b642'},
-											{path: 'as_611001000_attr_61140000_r', name: 'Wetlands', color: '#a6a6ff'},
-											{path: 'as_611001000_attr_61150000_r', name: 'Water', color: '#56c8ee'}
-										]}
-
-										xGridlines
-
-										yOptions={{ 
-											name: "Random attribute"
-										}}
-
-										stacked
-										diverging="double"
+										height={20}
+										xValuesSize={6}
+										diverging
 										yLabel
 										yOptions={{
-											name: "Change",
-											unit: "%"
+											name: "Change structure",
+											unit: "%",
+											max: 100,
+											min: -100
 										}}
-										xValuesSize={6}
+										yValuesSize={3}
+
+										// stacked="relative"
 									/>
 								</HoverHandler>
 							</div>
@@ -338,7 +327,7 @@ class LandAssetsStructure extends React.PureComponent {
 								suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
 							>
 								<div className="scudeoStories19-map-container">
-									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
 										{/* //year 2016 */}
 										<PresentationMapWithControls
 											map={
@@ -356,9 +345,9 @@ class LandAssetsStructure extends React.PureComponent {
 											<div className="scudeoStories19-map-label">
 												<Select
 													onChange={this.onCityChange.bind(this, 'cityOne')}
-													options={data}
-													optionLabel="properties.name"
-													optionValue="properties.key"
+													options={mergedDataset}
+													optionLabel="name"
+													optionValue="key"
 													value={this.state.cityOne}
 													menuPortalTarget={this.props.pageKey}
 												/>
@@ -368,7 +357,7 @@ class LandAssetsStructure extends React.PureComponent {
 											</div>
 										</PresentationMapWithControls>
 									</AdjustViewOnResizeLeafletWrapper>
-									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
 										{/* //year 2006 */}
 										<PresentationMapWithControls
 											map={
@@ -395,7 +384,7 @@ class LandAssetsStructure extends React.PureComponent {
 								suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
 							>
 								<div className="scudeoStories19-map-container">
-									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
 										{/* //year 2016 */}
 										<PresentationMapWithControls
 											map={
@@ -413,9 +402,9 @@ class LandAssetsStructure extends React.PureComponent {
 											<div className="scudeoStories19-map-label">
 												<Select
 													onChange={this.onCityChange.bind(this, 'cityOne')}
-													options={data}
-													optionLabel="properties.name"
-													optionValue="properties.key"
+													options={mergedDataset}
+													optionLabel="name"
+													optionValue="key"
 													value={this.state.cityOne}
 													menuPortalTarget={this.props.pageKey}
 												/>
@@ -425,7 +414,7 @@ class LandAssetsStructure extends React.PureComponent {
 											</div>
 										</PresentationMapWithControls>
 									</AdjustViewOnResizeLeafletWrapper>
-									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
+									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
 										{/* //year 2006 */}
 										<PresentationMapWithControls
 											map={
