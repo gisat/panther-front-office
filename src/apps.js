@@ -82,8 +82,8 @@ export default [
 	 */
 	{
 		key: 'tacrGeoinvaze',
-		hostname: 'geoinvaze.gisat.cz',
-		path: null,
+		hostname: 'panther.gisat.cz',
+		path: '/ptr3-beta/geoinvaze',
 		devPath: '/tacrGeoinvaze',
 		app: (path, baseUrl) => import(/* webpackChunkName: "tacrGeoinvaze" */'./apps/tacrGeoinvaze').then(module => {
 			module.default(path, baseUrl);
