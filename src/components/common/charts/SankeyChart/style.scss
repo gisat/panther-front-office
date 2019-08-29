@@ -1,0 +1,21 @@
+@import '../../../../styles/variables';
+@import '../style';
+
+.ptr-sankey-chart {
+
+}
+
+.ptr-sankey-chart-node {
+	fill: var(--accent50);
+	stroke: var(--accent50);
+}
+
+.ptr-sankey-chart-node-highlighted {
+	fill: var(--accent80);
+	stroke: var(--accent80);
+}
+
+.ptr-sankey-chart-text {
+	fill: var(--base75);
+	font-size: $b1;
+}
