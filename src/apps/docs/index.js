@@ -26,6 +26,7 @@ import ColumnChartDoc from "./components/pages/components/visualizations/cartesi
 import LineChartDoc from "./components/pages/components/visualizations/cartesianCharts/LineChartDoc";
 import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
+import SankesChartDoc from "./components/pages/components/visualizations/SankeyChartDoc";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
 
@@ -95,6 +96,17 @@ export default (path, baseUrl) => {
 								<Anchor label="Grid" path="grid"/>
 								<Anchor label="Radials & legend" path="radials"/>
 								<Anchor label="Custom hover value" path="customHover"/>
+							</Page>
+							<Page label="Sankey chart" path="sankesChart" component={SankesChartDoc}>
+								{/* <Anchor label="Props" path="props"/>
+								<Anchor label="Data structure" path="dataStructure"/>
+								<Anchor label="Basic settings" path="basicSettings"/>
+								<Anchor label="Relative values" path="relativeValues"/>
+								<Anchor label="Dimensions" path="dimensions"/>
+								<Anchor label="Forced min & max" path="forceMinMax"/>
+								<Anchor label="Grid" path="grid"/>
+								<Anchor label="Radials & legend" path="radials"/>
+								<Anchor label="Custom hover value" path="customHover"/> */}
 							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
