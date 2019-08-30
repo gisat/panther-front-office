@@ -4,6 +4,7 @@ import Fade from "react-reveal/Fade";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
+import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import Select from "../../../../components/common/atoms/Select/Select";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
@@ -76,9 +77,52 @@ const colors = {
     "52000":"#95d6ea"
 };
 
+const getL3Nodes = (dataset, years) => {
+	const nodes = [];
+	for (const [key, value] of Object.entries(classes)) {
+		for (const year of years) {
+			const propsKey = `lulc_l3_${year}_${key}_coverage`;
+			const node = {
+				id: `${key}_${year}`,
+				name: value,
+				color: colors[key],
+				valueSize: dataset.features[0].properties[propsKey]
+			}
+			nodes.push(node);
+		}
+	}
+	return nodes;
+}
+
+const getL3Links = (dataset, fromYear, toYear) => {
+// lulc_l4_2006_11210_percentage
+
+	const links = [];
+	for (const [key, value] of Object.entries(classes)) {
+		const changeFromKey = `lulc_l3_${fromYear}_${key}_percentage`
+		const changeToKey = `lulc_l3_${toYear}_${key}_percentage`
+		const fromValue = dataset.features[0].properties[changeFromKey];
+		const toValue = dataset.features[0].properties[changeToKey];
+		const change = fromValue - toValue;
+		const link = {
+			source: `${key}_${fromYear}`,
+			target: `${key}_${toYear}`,
+			value: change,
+			name: value
+		}
+		links.push(link);
+	}
+	return links;
+
+}
+
 const mergedDataset = [
 	{
 		data: dodomaDataset,
+		overallFlows: {
+			nodes: getL3Nodes(dodomaDataset, [2006, 2017]),
+			links: getL3Links(dodomaDataset, 2006, 2017),
+		},
 		lastYear: 2017,
 		firstYear: 2006,
 		name: 'Dodoma',
@@ -86,6 +130,10 @@ const mergedDataset = [
 	},
 	{
 		data: dhakaDataset,
+		overallFlows: {
+			nodes: getL3Nodes(dodomaDataset, [2006, 2017]),
+			links: getL3Links(dodomaDataset, 2006, 2017),
+		},
 		lastYear: 2017,
 		firstYear: 2006,
 		name: 'Dhaka',
@@ -93,6 +141,7 @@ const mergedDataset = [
 	},
 ]
 
+console.log(mergedDataset);
 
 let vectorLayers = [{
 	key: 'aoi-vector',
@@ -434,6 +483,40 @@ class LandAssetsStructure extends React.PureComponent {
 								</div>
 							</Visualization>
 						</Fade>
+
+
+						<Fade left distance="50px">
+							<Visualization
+								title="Land Cover Land Use Changes Structure"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+							<Fade cascade>
+								<div className="scudeoStories19-chart-container">
+
+									<HoverHandler>
+										<SankeyChart
+											hoverValueSourcePath="valueSize"
+											key="sankey-overall-flows"
+											// data={sample_1}
+											data={this.state.cityOne.overallFlows}
+
+											nodeColorSourcePath="color"
+											keySourcePath="key"
+											nameSourcePath="name"
+											valueSourcePath="value"
+
+											width={50}
+											height={100}
+											yOptions={{
+												// name: 'Node title',
+												unit: 'm2'
+											}}
+										/>
+									</HoverHandler>
+								</div>
+							</Fade>
+						</Visualization>
+					</Fade>
 						<h3>More resources</h3>
 						<ul>
 							<li><a href="#" target="_blank">Link A ullamcorper urna</a></li>

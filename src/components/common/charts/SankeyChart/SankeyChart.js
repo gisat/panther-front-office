@@ -201,9 +201,9 @@ class SankeyChart extends React.PureComponent {
 					width={Math.abs(n.x1 - n.x0)}
 					defaultColor={defaultColor}
 					highlightedColor={highlightedColor}
-					nameSourcePath={'id'}
+					nameSourcePath={this.props.nameSourcePath}
 					valueSourcePath={this.props.valueSourcePath}
-					// valueSourcePath={'valueXXX'}
+					hoverValueSourcePath={this.props.hoverValueSourcePath}
 					data={{
 						...n
 					}}
