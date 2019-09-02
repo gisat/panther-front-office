@@ -31,11 +31,15 @@
     "links": [{
         "source": "A1",
         "target": "B1",
-        "value": 27
+        "value": 27,
+        "name": "Value",
+        "color": "blue"
     }, {
         "source": "A1",
         "target": "B2",
-        "value": 9
+        "name": "Move",
+        "value": 9,
+        "color": "blue"
     }, {
         "source": "A2",
         "target": "B2",
