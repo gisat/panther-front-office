@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
-
-import HoverContext from "../../../common/HoverHandler/context";
+import * as d3Sankey from 'd3-sankey';
+import HoverContext from "../../HoverHandler/context";
 
 import '../style.scss';
 
-class Node extends React.PureComponent {
+class Link extends React.PureComponent {
 
     static contextType = HoverContext;
 
@@ -20,7 +20,7 @@ class Node extends React.PureComponent {
         ]),
         highlighted: PropTypes.bool,
         itemKeys: PropTypes.array,
-
+        strokeWidth: PropTypes.number,
         x0: PropTypes.number,
         x1: PropTypes.number,
         y0: PropTypes.number,
@@ -31,11 +31,9 @@ class Node extends React.PureComponent {
         nameSourcePath: PropTypes.string,
         valueSourcePath: PropTypes.string,
         data: PropTypes.object,
-        
-        hoverNameSourcePath: PropTypes.string,
+
         hoverValueSourcePath: PropTypes.string,
-        yOptions: PropTypes.object,
-        maxNodeDepth: PropTypes.number,
+        yOptions: PropTypes.object
     };
 
     constructor(props) {
@@ -122,8 +120,8 @@ class Node extends React.PureComponent {
             highlighted = !!_.intersection(this.context.hoveredItems, this.props.itemKeys).length;
         }
 
-        let classes = classnames("ptr-sankey-chart-node", {
-            'ptr-sankey-chart-node-highlighted': highlighted
+        let classes = classnames("ptr-sankey-chart-link", {
+            'ptr-sankey-chart-link-highlighted': highlighted
         });
 
         if (this.state.color) {
@@ -131,38 +129,28 @@ class Node extends React.PureComponent {
 			style.stroke = this.state.color
         }
 
-        const width = Math.abs(props.x1 - props.x0);
-        const height = Math.abs(props.y1 - props.y0);
+        // const width = Math.abs(props.x1 - props.x0);
+        // const height = Math.abs(props.y1 - props.y0);
 
-        const name = props.nameSourcePath && _.get(props.data, props.nameSourcePath);
+        let d = d3Sankey.sankeyLinkHorizontal();
 
-        const textPadding = 2;
-        const textAnchor = props.maxNodeDepth === props.data.depth ? 'end' : 'start';
-        const textX = props.maxNodeDepth === props.data.depth ? props.x0 - textPadding : props.x1 + textPadding;
         return (
             <g 
                 onMouseOver={this.onMouseOver}
                 onMouseMove={this.onMouseMove}
                 onMouseOut={this.onMouseOut}>
-                <rect
+                <path
+                // FIX key
                     key={this.props.itemKeys[0]}
                     className={classes}
-                    x={props.x0}
-                    y={props.y0}
-                    height={height}
-                    width={width}
+                    d={d(props.data)}
                     style={style}
+
+                    strokeWidth={props.strokeWidth}
+                    fill={'none'}
+                    // strokeOpacity={0.5}
+                    // stroke={'red'}
                     />
-                    {name ? 
-                        <text 
-                            y={(props.y1 + props.y0) / 2}
-                            dy={'0.35em'}
-                            x={textX}
-                            textAnchor={textAnchor}
-                            className={'ptr-sankey-chart-text'}
-                            >
-                            {name}
-                        </text> : null}
             </g>
         );
     }
@@ -186,19 +174,13 @@ class Node extends React.PureComponent {
                     unit = `${props.yOptions.unit}`;
                 }
             }
-
-            let defaultName = `${_.get(data, 'id')}`;
+            
+            let defaultName = `${_.get(data, 'source.id')}->${_.get(data, 'target.id')}`;
             let name = defaultName;
-            const nameSourcePath = _.get(data, this.props.nameSourcePath);
+            let nameSourcePath = _.get(data, this.props.nameSourcePath);
             if(this.props.nameSourcePath && nameSourcePath) {
                 name = nameSourcePath;
             }
-
-            const hoverNameSourcePath = _.get(data, this.props.hoverNameSourcePath);
-            if(this.props.hoverNameSourcePath && hoverNameSourcePath) {
-                name = hoverNameSourcePath;
-            }
-
             let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
             content = (<div key={name}><i>{name}:</i> {value && value.toLocaleString()} {unit}</div>);
         } else {
@@ -214,4 +196,4 @@ class Node extends React.PureComponent {
     }
 }
 
-export default Node;                        
+export default Link;                        
