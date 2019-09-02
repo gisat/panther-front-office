@@ -12,7 +12,6 @@ import MapControls from "../../../../components/common/maps/MapControls/presenta
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
-import * as dodoma_au_level_3 from '../../data/EO4SD_DODOMA_AL3.json';
 import conversions from "../../data/conversions";
 
 import Helmet from "react-helmet";
@@ -20,14 +19,13 @@ import {Footer, Visualization} from '../Page';
 import {Header} from "../Page";
 
 //Data
-import arushaDataset from './data/scudeo_stories_data/arusha_combined_output_p7.json';
-import dhakaDataset from './data/scudeo_stories_data/dhaka_combined_output_p7.json';
-import dodomaDataset from './data/scudeo_stories_data/dodoma_combined_output_p7.json';
-import kigomaDataset from './data/scudeo_stories_data/kigoma_combined_output_p7.json';
-import mbeyaDataset from './data/scudeo_stories_data/mbeya_combined_output_p7.json';
-import mtwaraDataset from './data/scudeo_stories_data/mtwara_combined_output_p7.json';
-import mwanzaDataset from './data/scudeo_stories_data/mwanza_combined_output_p7.json';
-// import dhakaDataset from './data/dhaka_lulc.json';
+import arushaDataset from '../../data/arusha_combined_output_p7.json';
+import dhakaDataset from '../../data/dhaka_combined_output_p7.json';
+import dodomaDataset from '../../data/dodoma_combined_output_p7.json';
+import kigomaDataset from '../../data/kigoma_combined_output_p7.json';
+import mbeyaDataset from '../../data/mbeya_combined_output_p7.json';
+import mtwaraDataset from '../../data/mtwara_combined_output_p7.json';
+import mwanzaDataset from '../../data/mwanza_combined_output_p7.json';
 
 import './styles/style.scss';
 
@@ -223,7 +221,7 @@ let vectorLayers = [{
 
 
 const getClassPercentagePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_percentage`
-const getClassCoveragePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_coverage`
+const getClassCoveragePropertyKey = (classId, yearFirst, yearLast) => `lulc_l3_${yearFirst}_${classId}_lulc_l3_${yearLast}_${classId}_coverage`
 
 const LULCStructureDataset = [];
 const changesStructure = [];
@@ -243,10 +241,10 @@ mergedDataset.forEach((dataSet) => {
 		avarageData.data[classId] = dataSet.data.features[0].properties[percentageKey];
 		
 		//change
-		const coverageKeyFirst = getClassCoveragePropertyKey(classId, dataSet.firstYear);
-		const coverageKeyLast = getClassCoveragePropertyKey(classId, dataSet.lastYear);
+		// const coverageKeyFirst = getClassCoveragePropertyKey(classId, dataSet.firstYear);
+		const changeCoverageKey = getClassCoveragePropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
 
-		const change = (dataSet.data.features[0].properties[coverageKeyFirst] - dataSet.data.features[0].properties[coverageKeyLast]) / (dataSet.data.features[0].properties.area / 100)
+		const change = dataSet.data.features[0].properties[changeCoverageKey] / (dataSet.data.features[0].properties.area / 100)
 		changes.data[classId] = isNaN(change) ? 0 : change;
 	}
 	avarageData.AL3_NAME = dataSet.name;
@@ -360,7 +358,7 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade cascade>
 								<div className="scudeoStories19-chart-container">
 									<HoverHandler>
-										<ColumnChart 
+										{/* <ColumnChart 
 												key="diverging-bars"
 												
 												data={changesStructure}
@@ -382,6 +380,30 @@ class LandAssetsStructure extends React.PureComponent {
 												yValuesSize={3}
 
 												// stacked="relative"
+											/> */}
+
+										<ColumnChart 
+											key="diverging-bars"
+											
+											data={changesStructure}
+											keySourcePath="AL3_ID"
+											nameSourcePath="AL3_NAME"
+											xSourcePath="AL3_NAME"
+											ySourcePath={pathLULCStructureYSourcePath}
+											
+											height={20}
+											xValuesSize={6}
+											diverging
+											yLabel
+											yOptions={{
+												name: "Change structure",
+												unit: "%",
+												max: 100,
+												min: 0
+											}}
+											yValuesSize={3}
+
+											// stacked="relative"
 											/>
 										</HoverHandler>
 									</div>
