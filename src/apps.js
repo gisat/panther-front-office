@@ -50,6 +50,19 @@ export default [
 			module.default(path, baseUrl);
 		})
 	},
+
+	/**
+	 * INSAR for BMW story line
+	 */
+	{
+		key: 'insarBmwStory',
+		hostname: 'urban-tep.eu',
+		path: 'insarBmw',
+		devPath: '/insarBmwStory',
+		app: (path, baseUrl) => import(/* webpackChunkName: "insarBmwStory" */'./apps/insarBmwStory').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
 	/**
 	 * SCUDEO Cities
 	 * tw: SCUDEO
