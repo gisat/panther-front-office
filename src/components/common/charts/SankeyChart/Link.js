@@ -175,40 +175,14 @@ class Link extends React.PureComponent {
                 }
             }
             
-            
-            if (data.originalData) {
-                let con = [];
-                if (data.originalData.length > 20) {
-                    let units = [];
-                    let values = [];
-                    _.map(data.originalData,(item) => {
-            units.push(_.get(item, this.props.nameSourcePath));
-                        values.push(_.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath).toLocaleString());
-                    });
-                    content = (
-                        <div>
-                            <i>{`${units.length} items: `}</i>
-                            {`from ${_.min(values).toLocaleString()} ${unit} to ${_.max(values).toLocaleString()} ${unit}`}
-                        </div>
-                    );
-                } else {
-                    _.map(data.originalData, (item) => {
-            let unit = _.get(item, this.props.nameSourcePath);
-                        let value = _.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath);
-                        con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-                    });
-                    content = (<>{con}</>);
-                }
-            } else {
-                let defaultName = `${_.get(data, 'source.id')}->${_.get(data, 'target.id')}`;
-                let name = defaultName;
-                let nameSourcePath = _.get(data, this.props.nameSourcePath);
-                if(this.props.nameSourcePath && nameSourcePath) {
-                    name = nameSourcePath;
-                }
-                let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
-                content = (<div key={name}><i>{name}:</i> {value && value.toLocaleString()} {unit}</div>);
+            let defaultName = `${_.get(data, 'source.id')}->${_.get(data, 'target.id')}`;
+            let name = defaultName;
+            let nameSourcePath = _.get(data, this.props.nameSourcePath);
+            if(this.props.nameSourcePath && nameSourcePath) {
+                name = nameSourcePath;
             }
+            let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
+            content = (<div key={name}><i>{name}:</i> {value && value.toLocaleString()} {unit}</div>);
         } else {
             content = (<div key={"no-data"}><i>No data</i></div>);
         }

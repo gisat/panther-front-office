@@ -31,7 +31,8 @@ class Node extends React.PureComponent {
         nameSourcePath: PropTypes.string,
         valueSourcePath: PropTypes.string,
         data: PropTypes.object,
-
+        
+        hoverNameSourcePath: PropTypes.string,
         hoverValueSourcePath: PropTypes.string,
         yOptions: PropTypes.object,
         maxNodeDepth: PropTypes.number,
@@ -156,7 +157,6 @@ class Node extends React.PureComponent {
                         <text 
                             y={(props.y1 + props.y0) / 2}
                             dy={'0.35em'}
-                            filter={props.x0 < width / 2}
                             x={textX}
                             textAnchor={textAnchor}
                             className={'ptr-sankey-chart-text'}
@@ -186,36 +186,21 @@ class Node extends React.PureComponent {
                     unit = `${props.yOptions.unit}`;
                 }
             }
-            
-            
-            if (data.originalData) {
-                let con = [];
-                if (data.originalData.length > 20) {
-                    let units = [];
-                    let values = [];
-                    _.map(data.originalData,(item) => {
-            units.push(_.get(item, this.props.nameSourcePath));
-                        values.push(_.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath).toLocaleString());
-                    });
-                    content = (
-                        <div>
-                            <i>{`${units.length} items: `}</i>
-                            {`from ${_.min(values).toLocaleString()} ${unit} to ${_.max(values).toLocaleString()} ${unit}`}
-                        </div>
-                    );
-                } else {
-                    _.map(data.originalData, (item) => {
-            let unit = _.get(item, this.props.nameSourcePath);
-                        let value = _.get(item, this.props.hoverValueSourcePath || this.props.valueSourcePath);
-                        con.push(<div key={unit}><i>{unit}:</i> {value.toLocaleString()}</div>);
-                    });
-                    content = (<>{con}</>);
-                }
-            } else {
-                let area = _.get(data, this.props.nameSourcePath);
-                let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
-                content = (<div key={area}><i>{area}:</i> {value && value.toLocaleString()} {unit}</div>);
+
+            let defaultName = `${_.get(data, 'id')}`;
+            let name = defaultName;
+            const nameSourcePath = _.get(data, this.props.nameSourcePath);
+            if(this.props.nameSourcePath && nameSourcePath) {
+                name = nameSourcePath;
             }
+
+            const hoverNameSourcePath = _.get(data, this.props.hoverNameSourcePath);
+            if(this.props.hoverNameSourcePath && hoverNameSourcePath) {
+                name = hoverNameSourcePath;
+            }
+
+            let value = _.get(data, this.props.hoverValueSourcePath || this.props.valueSourcePath);
+            content = (<div key={name}><i>{name}:</i> {value && value.toLocaleString()} {unit}</div>);
         } else {
             content = (<div key={"no-data"}><i>No data</i></div>);
         }

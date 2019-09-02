@@ -45,6 +45,8 @@ class SankeyChart extends React.PureComponent {
 		]),
 		linkColorSourcePath: PropTypes.string,
 		linkNameSourcePath: PropTypes.string,
+		linkValueSourcePath: PropTypes.string.isRequired,
+		linkHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		yOptions: PropTypes.object,
 		data: PropTypes.object.isRequired,
@@ -55,9 +57,11 @@ class SankeyChart extends React.PureComponent {
 
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string.isRequired,
-		nameSourcePath: PropTypes.string.isRequired,
-		valueSourcePath: PropTypes.string.isRequired,
-		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
+
+		nodeNameSourcePath: PropTypes.string.isRequired,
+		nodeHoverNameSourcePath: PropTypes.string,
+		nodeValueSourcePath: PropTypes.string.isRequired,
+		nodeHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		width: PropTypes.number,
 		height: PropTypes.number,
@@ -186,7 +190,7 @@ class SankeyChart extends React.PureComponent {
 					defaultColor={defaultColor}
 					highlightedColor={highlightedColor}
 					nameSourcePath={this.props.linkNameSourcePath}
-					valueSourcePath={this.props.valueSourcePath}
+					valueSourcePath={this.props.linkValueSourcePath}
 					hoverValueSourcePath={this.props.hoverValueSourcePath}
 					data={{
 						...l
@@ -226,9 +230,10 @@ class SankeyChart extends React.PureComponent {
 					width={Math.abs(n.x1 - n.x0)}
 					defaultColor={defaultColor}
 					highlightedColor={highlightedColor}
-					nameSourcePath={this.props.nameSourcePath}
-					valueSourcePath={this.props.valueSourcePath}
-					hoverValueSourcePath={this.props.hoverValueSourcePath}
+					nameSourcePath={this.props.nodeNameSourcePath}
+					hoverNameSourcePath={this.props.nodeHoverNameSourcePath}
+					valueSourcePath={this.props.nodeValueSourcePath}
+					hoverValueSourcePath={this.props.nodeHoverValueSourcePath}
 					maxNodeDepth={maxNodeDepth}
 					data={{
 						...n

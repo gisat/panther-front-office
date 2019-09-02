@@ -24,9 +24,12 @@ class SankeyChartDocs extends React.PureComponent {
 							nodeColorSourcePath="color"
 							linkColorSourcePath="color"
 							linkNameSourcePath="name"
+							linkValueSourcePath="value"
 							keySourcePath="key"
-							nameSourcePath="id"
-							valueSourcePath="value"
+							nodeNameSourcePath="id"
+							nodeValueSourcePath="value"
+							nodeHoverNameSourcePath="name"
+							nodeHoverValueSourcePath="hoverValue"
 
 							width={50}
 							height={40}
