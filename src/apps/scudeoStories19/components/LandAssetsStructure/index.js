@@ -90,7 +90,7 @@ const getL3Nodes = (dataset, years) => {
 				id: `${key}_${year}`,
 				name: value,
 				color: colors[key],
-				valueSize: dataset.features[0].properties[propsKey]
+				// valueSize: dataset.features[0].properties[propsKey]
 			}
 			nodes.push(node);
 		}
@@ -99,34 +99,48 @@ const getL3Nodes = (dataset, years) => {
 }
 
 const getL3Links = (dataset, fromYear, toYear) => {
-// lulc_l4_2006_11210_percentage
-
 	const links = [];
-	for (const [key, value] of Object.entries(classes)) {
-		const changeFromKey = `lulc_l3_${fromYear}_${key}_percentage`
-		const changeToKey = `lulc_l3_${toYear}_${key}_percentage`
-		const fromValue = dataset.features[0].properties[changeFromKey];
-		const toValue = dataset.features[0].properties[changeToKey];
-		const change = fromValue - toValue;
-		const link = {
-			source: `${key}_${fromYear}`,
-			target: `${key}_${toYear}`,
-			value: change,
-			name: value
+	for (const [sourceKey, sourceValue] of Object.entries(classes)) {
+		for (const [targetKey, targetValue] of Object.entries(classes)) {
+			const changeKey = `lulc_l3_${fromYear}_${sourceKey}_lulc_l3_${toYear}_${targetKey}_percentage`
+			const change = dataset.features[0].properties[changeKey];
+			if(change) {
+				const link = {
+					source: `${sourceKey}_${fromYear}`,
+					target: `${targetKey}_${toYear}`,
+					value: change,
+					name: `${sourceValue} -> ${targetValue}`
+				}
+				links.push(link);
+
+			}
 		}
-		links.push(link);
 	}
 	return links;
 
 }
 
+const clearEmptyNodes = (nodes, links) => {
+	return nodes.filter(n => {
+		return links.some(l => l.target === n.id || l.source === n.id);
+	})
+}
+
+const addOverallFlows = (dataset, links) => {
+	dataset.forEach(ds => {
+		const nodes = getL3Nodes(ds.data, [ds.firstYear, ds.lastYear]);
+		const links = getL3Links(ds.data, ds.firstYear, ds.lastYear);
+		const nonEmptyNodes = clearEmptyNodes(nodes, links);
+		ds['overallFlows'] = {
+			nodes: nonEmptyNodes,
+			links: links,
+		}
+	})
+}
+
 const mergedDataset = [
 	{
 		data: arushaDataset,
-		overallFlows: {
-			nodes: getL3Nodes(arushaDataset, [2005, 2016]),
-			links: getL3Links(arushaDataset, 2005, 2016),
-		},
 		lastYear: 2016,
 		firstYear: 2005,
 		name: 'Arusha',
@@ -134,10 +148,6 @@ const mergedDataset = [
 	},
 	{
 		data: dhakaDataset,
-		overallFlows: {
-			nodes: getL3Nodes(dhakaDataset, [2006, 2017]),
-			links: getL3Links(dhakaDataset, 2006, 2017),
-		},
 		lastYear: 2017,
 		firstYear: 2006,
 		name: 'Dhaka',
@@ -145,10 +155,6 @@ const mergedDataset = [
 	},
 	{
 		data: dodomaDataset,
-		overallFlows: {
-			nodes: getL3Nodes(dodomaDataset, [2006, 2016]),
-			links: getL3Links(dodomaDataset, 2006, 2016),
-		},
 		lastYear: 2016,
 		firstYear: 2006,
 		name: 'Dodoma',
@@ -156,10 +162,6 @@ const mergedDataset = [
 	},
 	{
 		data: kigomaDataset,
-		overallFlows: {
-			nodes: getL3Nodes(kigomaDataset, [2005, 2015]),
-			links: getL3Links(kigomaDataset, 2005, 2015),
-		},
 		lastYear: 2015,
 		firstYear: 2005,
 		name: 'Kigoma',
@@ -167,10 +169,6 @@ const mergedDataset = [
 	},
 	{
 		data: mbeyaDataset,
-		overallFlows: {
-			nodes: getL3Nodes(mbeyaDataset, [2004, 2017]),
-			links: getL3Links(mbeyaDataset, 2004, 2017),
-		},
 		lastYear: 2017,
 		firstYear: 2004,
 		name: 'Mbeya',
@@ -178,10 +176,6 @@ const mergedDataset = [
 	},
 	{
 		data: mtwaraDataset,
-		overallFlows: {
-			nodes: getL3Nodes(mtwaraDataset, [2008, 2016]),
-			links: getL3Links(mtwaraDataset, 2008, 2016),
-		},
 		lastYear: 2016,
 		firstYear: 2008,
 		name: 'Mtwara',
@@ -189,10 +183,6 @@ const mergedDataset = [
 	},
 	{
 		data: mwanzaDataset,
-		overallFlows: {
-			nodes: getL3Nodes(mwanzaDataset, [2005, 2015]),
-			links: getL3Links(mwanzaDataset, 2005, 2015),
-		},
 		lastYear: 2015,
 		firstYear: 2005,
 		name: 'Mwanza',
@@ -200,7 +190,7 @@ const mergedDataset = [
 	},
 ]
 
-console.log(mergedDataset);
+addOverallFlows(mergedDataset);
 
 let vectorLayers = [{
 	key: 'aoi-vector',
@@ -577,24 +567,28 @@ class LandAssetsStructure extends React.PureComponent {
 								<div className="scudeoStories19-chart-container">
 
 									<HoverHandler>
-										{/* <SankeyChart
+										<SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-overall-flows"
-											// data={sample_1}
 											data={this.state.cityOne.overallFlows}
-
-											nodeColorSourcePath="color"
 											keySourcePath="key"
-											nameSourcePath="name"
-											valueSourcePath="value"
 
+											nodeNameSourcePath="name"
+											nodeValueSourcePath="value"
+											nodeColorSourcePath="color"
+											
+											linkNameSourcePath="name"
+											hoverValueSourcePath="value"
+
+											// valueSourcePath="value"
+											maxWidth = {50}
 											width={50}
 											height={100}
 											yOptions={{
 												// name: 'Node title',
-												unit: 'm2'
+												unit: '%'
 											}}
-										/> */}
+										/>
 									</HoverHandler>
 								</div>
 							</Fade>
