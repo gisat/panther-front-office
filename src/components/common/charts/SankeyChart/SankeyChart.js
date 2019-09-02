@@ -202,7 +202,8 @@ class SankeyChart extends React.PureComponent {
 	}
 
 	renderNodes(nodes) {
-		
+		const maxNodeDepth = nodes.reduce((max, n) => Math.max(max, n.depth), 0)
+
 		const nodesElms = nodes.map((n) => {
 			let color = _.get(n, `${this.props.nodeColorSourcePath}`);
 			let defaultColor = this.props.nodeDefaultColor;
@@ -228,6 +229,7 @@ class SankeyChart extends React.PureComponent {
 					nameSourcePath={this.props.nameSourcePath}
 					valueSourcePath={this.props.valueSourcePath}
 					hoverValueSourcePath={this.props.hoverValueSourcePath}
+					maxNodeDepth={maxNodeDepth}
 					data={{
 						...n
 					}}

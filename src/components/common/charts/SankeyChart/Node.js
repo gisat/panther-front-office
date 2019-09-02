@@ -33,7 +33,8 @@ class Node extends React.PureComponent {
         data: PropTypes.object,
 
         hoverValueSourcePath: PropTypes.string,
-        yOptions: PropTypes.object
+        yOptions: PropTypes.object,
+        maxNodeDepth: PropTypes.number,
     };
 
     constructor(props) {
@@ -135,7 +136,8 @@ class Node extends React.PureComponent {
         const name = props.nameSourcePath && _.get(props.data, props.nameSourcePath);
 
         const textPadding = 2;
-
+        const textAnchor = props.maxNodeDepth === props.data.depth ? 'end' : 'start';
+        const textX = props.maxNodeDepth === props.data.depth ? props.x0 - textPadding : props.x1 + textPadding;
         return (
             <g 
                 onMouseOver={this.onMouseOver}
@@ -152,13 +154,11 @@ class Node extends React.PureComponent {
                     />
                     {name ? 
                         <text 
-                            x={props.x0 - textPadding}
                             y={(props.y1 + props.y0) / 2}
                             dy={'0.35em'}
-                            textAnchor={'end'}
                             filter={props.x0 < width / 2}
-                            x={props.x1 + textPadding}
-                            textAnchor={'start'}
+                            x={textX}
+                            textAnchor={textAnchor}
                             className={'ptr-sankey-chart-text'}
                             >
                             {name}
