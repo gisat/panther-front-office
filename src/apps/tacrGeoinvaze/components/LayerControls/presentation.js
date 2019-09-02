@@ -1,6 +1,9 @@
 import React from "react";
 
 import './style.scss';
+import Button, {ButtonGroup} from "../../../../components/common/atoms/Button";
+import ButtonSwitch, {Option} from "../../../../components/common/atoms/ButtonSwitch";
+import Select from "../../../../components/common/atoms/Select/Select";
 
 class LayerControls extends React.PureComponent {
 
@@ -20,7 +23,14 @@ class LayerControls extends React.PureComponent {
 			actualExpansionInsert = (
 				<div className="tacrGeoinvaze-actual-expansion">
 					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
-					<div>(timeline)</div>
+					<div>
+						<ButtonGroup>
+							<Button ghost>Aktuální</Button>
+							<Button ghost>2019/Q1</Button>
+							<Button ghost>2018/Q4</Button>
+						</ButtonGroup>
+						<Select/>
+					</div>
 				</div>
 			);
 		}
@@ -30,11 +40,23 @@ class LayerControls extends React.PureComponent {
 				{actualExpansionInsert}
 				<div className="tacrGeoinvaze-model-gis">
 					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření</div>
-					<div>(rok, dva, tři)</div>
+					<div>
+						<ButtonGroup>
+							<Button ghost>+ 1 rok</Button>
+							<Button ghost>+ 3 roky</Button>
+							<Button ghost>+ 10 let</Button>
+						</ButtonGroup>
+					</div>
 				</div>
 				<div className="tacrGeoinvaze-model-biomod">
 					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření</div>
-					<div>(varianty)</div>
+					<div>
+						<ButtonSwitch onClick={() => {}}>
+							<Option value={"gam"} ghost>gen. lineární</Option>
+							<Option value={"gbm"} ghost>gradient boosting</Option>
+							<Option value={"maxent"} ghost>maximum entropy</Option>
+						</ButtonSwitch>
+					</div>
 				</div>
 			</div>
 		);
