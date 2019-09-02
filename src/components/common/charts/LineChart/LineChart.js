@@ -19,6 +19,7 @@ class LineChart extends React.PureComponent {
 		withPoints: true,
 
 		xGridlines: true,
+		xScale: 'yearBased', // TODO temporary solution, which fills missing years in source data
 		withoutYbaseline: true
 	};
 
@@ -63,6 +64,7 @@ class LineChart extends React.PureComponent {
 
 			let uniqueXvalues = _.uniqBy(_.flatten(xValues));
 			sortedUniqueXvalues = _.sortBy(uniqueXvalues);
+
 			let yValuesPrepared = _.flatten(yValues);
 
 			let yMaximum = _.max(yValuesPrepared);
@@ -76,10 +78,19 @@ class LineChart extends React.PureComponent {
 				yMaximum = props.yOptions.max;
 			}
 
-			xDomain = sortedUniqueXvalues;
 			yDomain = [yMinimum, yMaximum];
 
 			/* scales */
+			if (this.props.xScale === 'yearBased') {
+				let xMaximum = _.max(sortedUniqueXvalues);
+				let xMinimum = _.min(sortedUniqueXvalues);
+				sortedUniqueXvalues = [];
+				for (let i = xMinimum; i <= xMaximum; i++) {
+					sortedUniqueXvalues.push(i);
+				}
+			}
+
+			xDomain = sortedUniqueXvalues;
 			xScale = d3
 				.scaleBand()
 				.padding(0)
@@ -115,7 +126,7 @@ class LineChart extends React.PureComponent {
 					{(data) ?
 						<CartesianChartContent
 							{...props}
-							{...{xScale, yScale, contentData: sortedUniqueXvalues}}
+							{...{xScale, yScale, contentData: xDomain}}
 						>
 							{mode === 'aggregated' ?
 								this.renderAggregated(data, props, xScale, yScale) :

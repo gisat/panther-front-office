@@ -61,6 +61,11 @@ class LineChartDoc extends React.PureComponent {
 							default: "10",
 							description: "If there is more lines than threshold, lines will be gray."
 						}, {
+							name: "xScale",
+							type: "string",
+							default: "yearBased",
+							description: "Temporary solution. It fills missing years in source data so the xAxis is linear."
+						}, {
 							name: "withPoints",
 							type: "boolean",
 							default: "false",
