@@ -126,7 +126,7 @@ const clearEmptyNodes = (nodes, links) => {
 	})
 }
 
-const addOverallFlows = (dataset, links) => {
+const addOverallFlows = (dataset) => {
 	dataset.forEach(ds => {
 		const nodes = getL3Nodes(ds.data, [ds.firstYear, ds.lastYear]);
 		const links = getL3Links(ds.data, ds.firstYear, ds.lastYear);
@@ -136,6 +136,39 @@ const addOverallFlows = (dataset, links) => {
 			links: links,
 		}
 	})
+}
+
+// LULC Level III
+const URBAN_FABRIC_KEYS = ["11100", "11200"];
+
+// LULC Level IV
+const URBAN_FABRIC_DISCONTINUOUS_KEYS = ["11210", "11220", "11221", "11222", "11240", "11300"]
+const URBAN_FABRIC_CONTINUOUS_KEYS = ["11100"]
+
+const filterUrbanExpansion = (dataset) => {
+	const links = dataset.links.filter(l => {
+		return URBAN_FABRIC_KEYS.includes(l.target.split("_")[0]);
+	})
+	const nodes = [...dataset.nodes];
+	const nonEmptyNodes = clearEmptyNodes(nodes, links);
+	return {
+		nodes: nonEmptyNodes,
+		links,
+	};
+}
+
+const filterUrbanDensifications = (dataset) => {
+	const links = dataset.links.filter(l => {
+		const sourceFromDISCONTINUOUS = URBAN_FABRIC_DISCONTINUOUS_KEYS.includes(l.source.split("_")[0]);
+		const targetToCONTINUOUS = URBAN_FABRIC_CONTINUOUS_KEYS.includes(l.target.split("_")[0]);
+		return sourceFromDISCONTINUOUS && targetToCONTINUOUS;
+	})
+	const nodes = [...dataset.nodes];
+	const nonEmptyNodes = clearEmptyNodes(nodes, links);
+	return {
+		nodes: nonEmptyNodes ,
+		links,
+	};
 }
 
 const mergedDataset = [
@@ -293,6 +326,10 @@ class LandAssetsStructure extends React.PureComponent {
 
 
 	render() {
+
+		const densificationsData = filterUrbanDensifications(this.state.cityOne.overallFlows);
+		const densificationsDataEmpty = densificationsData.nodes.length === 0 && densificationsData.links.length === 0
+
 
 		return (
 			<>
@@ -560,7 +597,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 						<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Changes Structure"
+								title="Land Cover Land Use Changes Structure - Overall flows"
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 							<Fade cascade>
@@ -594,6 +631,80 @@ class LandAssetsStructure extends React.PureComponent {
 							</Fade>
 						</Visualization>
 					</Fade>
+						<Fade left distance="50px">
+							<Visualization
+								title="Land Cover Land Use Changes Structure - Urban Expansion"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+							<Fade cascade>
+								<div className="scudeoStories19-chart-container">
+
+									<HoverHandler>
+										<SankeyChart
+											hoverValueSourcePath="valueSize"
+											key="sankey-expansions-flows"
+											data={filterUrbanExpansion(this.state.cityOne.overallFlows)}
+											keySourcePath="key"
+
+											nodeNameSourcePath="name"
+											nodeValueSourcePath="value"
+											nodeColorSourcePath="color"
+											
+											linkNameSourcePath="name"
+											hoverValueSourcePath="value"
+
+											// valueSourcePath="value"
+											maxWidth = {50}
+											width={50}
+											height={50}
+											yOptions={{
+												// name: 'Node title',
+												unit: '%'
+											}}
+										/>
+									</HoverHandler>
+								</div>
+							</Fade>
+						</Visualization>
+					</Fade>
+
+					{ !densificationsDataEmpty ?
+						<Fade left distance="50px">
+							<Visualization
+								title="Land Cover Land Use Changes Structure - Urban Expansion"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+							<Fade cascade>
+								<div className="scudeoStories19-chart-container">
+
+									<HoverHandler>
+										<SankeyChart
+											hoverValueSourcePath="valueSize"
+											key="sankey-densifacation-flows"
+											data={filterUrbanDensifications(this.state.cityOne.overallFlows)}
+											keySourcePath="key"
+
+											nodeNameSourcePath="name"
+											nodeValueSourcePath="value"
+											nodeColorSourcePath="color"
+											
+											linkNameSourcePath="name"
+											hoverValueSourcePath="value"
+
+											// valueSourcePath="value"
+											maxWidth = {50}
+											width={50}
+											height={50}
+											yOptions={{
+												// name: 'Node title',
+												unit: '%'
+											}}
+										/>
+									</HoverHandler>
+								</div>
+							</Fade> 
+						</Visualization>
+					</Fade>: null}
 						<h3>More resources</h3>
 						<ul>
 							<li><a href="#" target="_blank">Link A ullamcorper urna</a></li>
