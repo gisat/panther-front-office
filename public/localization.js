@@ -112,7 +112,7 @@ var langEn = {
 	dataviewOverlaySwitchToOld: "Original scope selection",
 	dataviewOverlaySwitchToNew: "New scope selection",
     dataViewUrl: "Data view URL",
-    defaultState: "Výchozí stav",
+    defaultState: "Default state",
     delete: "Delete",
     deleted: " deleted",
     deleteWholeSet: " Delete whole set ",
