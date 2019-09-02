@@ -20,8 +20,14 @@ import {Footer, Visualization} from '../Page';
 import {Header} from "../Page";
 
 //Data
-import dodomaDataset from './data/dhaka_lulc.json';
-import dhakaDataset from './data/dhaka_lulc.json';
+import arushaDataset from './data/scudeo_stories_data/arusha_combined_output_p7.json';
+import dhakaDataset from './data/scudeo_stories_data/dhaka_combined_output_p7.json';
+import dodomaDataset from './data/scudeo_stories_data/dodoma_combined_output_p7.json';
+import kigomaDataset from './data/scudeo_stories_data/kigoma_combined_output_p7.json';
+import mbeyaDataset from './data/scudeo_stories_data/mbeya_combined_output_p7.json';
+import mtwaraDataset from './data/scudeo_stories_data/mtwara_combined_output_p7.json';
+import mwanzaDataset from './data/scudeo_stories_data/mwanza_combined_output_p7.json';
+// import dhakaDataset from './data/dhaka_lulc.json';
 
 import './styles/style.scss';
 
@@ -118,26 +124,81 @@ const getL3Links = (dataset, fromYear, toYear) => {
 
 const mergedDataset = [
 	{
-		data: dodomaDataset,
+		data: arushaDataset,
 		overallFlows: {
-			nodes: getL3Nodes(dodomaDataset, [2006, 2017]),
-			links: getL3Links(dodomaDataset, 2006, 2017),
+			nodes: getL3Nodes(arushaDataset, [2005, 2016]),
+			links: getL3Links(arushaDataset, 2005, 2016),
 		},
-		lastYear: 2017,
-		firstYear: 2006,
-		name: 'Dodoma',
+		lastYear: 2016,
+		firstYear: 2005,
+		name: 'Arusha',
 		key: 1,
 	},
 	{
 		data: dhakaDataset,
 		overallFlows: {
-			nodes: getL3Nodes(dodomaDataset, [2006, 2017]),
-			links: getL3Links(dodomaDataset, 2006, 2017),
+			nodes: getL3Nodes(dhakaDataset, [2006, 2017]),
+			links: getL3Links(dhakaDataset, 2006, 2017),
 		},
 		lastYear: 2017,
 		firstYear: 2006,
 		name: 'Dhaka',
 		key: 2,
+	},
+	{
+		data: dodomaDataset,
+		overallFlows: {
+			nodes: getL3Nodes(dodomaDataset, [2006, 2016]),
+			links: getL3Links(dodomaDataset, 2006, 2016),
+		},
+		lastYear: 2016,
+		firstYear: 2006,
+		name: 'Dodoma',
+		key: 3,
+	},
+	{
+		data: kigomaDataset,
+		overallFlows: {
+			nodes: getL3Nodes(kigomaDataset, [2005, 2015]),
+			links: getL3Links(kigomaDataset, 2005, 2015),
+		},
+		lastYear: 2015,
+		firstYear: 2005,
+		name: 'Kigoma',
+		key: 4,
+	},
+	{
+		data: mbeyaDataset,
+		overallFlows: {
+			nodes: getL3Nodes(mbeyaDataset, [2004, 2017]),
+			links: getL3Links(mbeyaDataset, 2004, 2017),
+		},
+		lastYear: 2017,
+		firstYear: 2004,
+		name: 'Mbeya',
+		key: 5,
+	},
+	{
+		data: mtwaraDataset,
+		overallFlows: {
+			nodes: getL3Nodes(mtwaraDataset, [2008, 2016]),
+			links: getL3Links(mtwaraDataset, 2008, 2016),
+		},
+		lastYear: 2016,
+		firstYear: 2008,
+		name: 'Mtwara',
+		key: 6,
+	},
+	{
+		data: mwanzaDataset,
+		overallFlows: {
+			nodes: getL3Nodes(mwanzaDataset, [2005, 2015]),
+			links: getL3Links(mwanzaDataset, 2005, 2015),
+		},
+		lastYear: 2015,
+		firstYear: 2005,
+		name: 'Mwanza',
+		key: 7,
 	},
 ]
 
@@ -494,7 +555,7 @@ class LandAssetsStructure extends React.PureComponent {
 								<div className="scudeoStories19-chart-container">
 
 									<HoverHandler>
-										<SankeyChart
+										{/* <SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-overall-flows"
 											// data={sample_1}
@@ -511,7 +572,7 @@ class LandAssetsStructure extends React.PureComponent {
 												// name: 'Node title',
 												unit: 'm2'
 											}}
-										/>
+										/> */}
 									</HoverHandler>
 								</div>
 							</Fade>
