@@ -62,7 +62,7 @@
     "babel-jest": "^23.6.0",
     "babel-plugin-jest-hoist": "23.2.0",
     "babel-preset-env": "1.7.0",
-    "d3-sankey": "^0.12.1",
+    "d3-sankey": "^0.12.3",
     "jest": "23.6.0",
     "redux-testkit": "1.0.6"
   },
