@@ -30,7 +30,7 @@ class ChartWrapper extends React.PureComponent {
 
 		return (
 			<>
-				{React.cloneElement(this.props.children, {data})};
+				{React.cloneElement(this.props.children, {data})}
 			</>
 		);
 	}

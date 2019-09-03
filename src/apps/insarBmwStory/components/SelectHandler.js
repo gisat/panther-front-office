@@ -13,57 +13,45 @@ class SelectHandler extends React.PureComponent {
 
 	constructor(props){
 		super(props);
-		this.state = {
-			selectedItems: props.selectedItems,
-			hoveredItems: null,
-			popup: null
-		};
 
 		this.onClick = this.onClick.bind(this);
 		this.onHover = this.onHover.bind(this);
 		this.onHoverOut = this.onHoverOut.bind(this);
+
+		this.state = {
+			data: {
+				selectedItems: props.selectedItems,
+				onClick: this.onClick,
+				onHover: this.onHover,
+				onHoverOut: this.onHoverOut
+			},
+			popup: null
+		};
 	}
 
 	onClick(selectedItems) {
 		this.setState({
-			selectedItems
+			data: {...this.state.data, selectedItems}
 		});
 	}
 
 	onHover(hoveredItems, options) {
-		let update = {};
-
-		if (hoveredItems) {
-			update.hoveredItems = hoveredItems;
-		}
-
 		if (options && options.popup) {
-			update.popup = options.popup;
-		}
-
-		if (!_.isEmpty(update)) {
-			this.setState(update);
+			this.setState({popup:  options.popup});
 		}
 	}
 
 	onHoverOut() {
 		this.setState({
-			hoveredItems: null,
 			popup: null
 		});
 	}
 
 	render() {
 		return (
-			<SelectContext.Provider value={{
-				// hoveredItems: this.state.hoveredItems,
-				selectedItems: this.state.selectedItems,
-				onClick: this.onClick,
-				// onHover: this.onHover,
-				// onHoverOut: this.onHoverOut
-			}}>
+			<SelectContext.Provider value={this.state.data}>
 				{this.props.children}
-				{/*{this.state.popup ? this.renderPopup() : null}*/}
+				{this.state.popup ? this.renderPopup() : null}
 			</SelectContext.Provider>
 		);
 	}
