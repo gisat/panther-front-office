@@ -8,6 +8,7 @@ import mtwaraDataset from './mtwara_combined_output_p7.json';
 import mwanzaDataset from './mwanza_combined_output_p7.json';
 import bhopalDataset from './output_bhopal_stories_data_p7.json';
 import campecheDataset from './output_campeche_stories_data_p7.json';
+import limaDataset from './output_lima_stories_data_p7.json';
 
 
 
@@ -320,6 +321,13 @@ export const mergedDataset = [
 		firstYear: 2006,
 		name: 'Campeche',
 		key: 9,
+	},
+	{
+        data: limaDataset,
+		lastYear: 2016,
+		firstYear: 2009,
+		name: 'Lima',
+		key: 10,
 	},
 ];
 
