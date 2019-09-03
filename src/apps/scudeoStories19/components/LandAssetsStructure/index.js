@@ -37,7 +37,8 @@ const backgroundLayer = {
 	}
 };
 
-const classes = {
+//L3 classes
+const classesL3 = {
     "11100":"Continuous Urban Fabric (Sealing level: 80% - 100%)",
     "11200":"Discontinuous Urban Fabric (Sealing level: 10% - 80%)",
     "12100":"Industrial, Commercial, Public, Military and Private Units",
@@ -59,6 +60,26 @@ const classes = {
     "52000":"Marine Water"
 };
 
+const classesL4 = {
+	
+}
+// LCF level 1
+const classesLCF1 = {
+	"LCF10": 'Urban expansion',
+	"LCF20": 'Urban internal changes',
+	"LCF30": 'Agriculture development',
+	"LCF40": 'Natural and semi-natural internal changes',
+	"LCF50": 'Riverbed and water bodies development',
+	"LCF60": 'Natural and semi-natural development',
+	// "LCF70": 'Urban Greenery Development',
+}
+
+//LCFG
+const classesLCFG = {
+	"LCF71": 'Formation of urban greenery',
+	"LCF73": 'Internal change of urban greenery',
+}
+
 const colors = {
     "11100":"#9f1313",
     "11200":"#d31414",
@@ -78,12 +99,20 @@ const colors = {
     "33000":"#CCCCCC",
     "40000":"#a6a6ff",
     "51000":"#4c96e4",
-    "52000":"#95d6ea"
+	"52000":"#95d6ea",
+	"LCF10":"#e60000",
+	"LCF20":"#ff9999",
+	"LCF30":"#ffcc66",
+	"LCF40":"#9CCC65",
+	"LCF50":"#66d9ff",
+	"LCF60":"#53c653",
+	"LCF70":"#734d37",
+	
 };
 
 const getL3Nodes = (dataset, years) => {
 	const nodes = [];
-	for (const [key, value] of Object.entries(classes)) {
+	for (const [key, value] of Object.entries(classesL3)) {
 		for (const year of years) {
 			const propsKey = `lulc_l3_${year}_${key}_coverage`;
 			const node = {
@@ -100,8 +129,8 @@ const getL3Nodes = (dataset, years) => {
 
 const getL3Links = (dataset, fromYear, toYear) => {
 	const links = [];
-	for (const [sourceKey, sourceValue] of Object.entries(classes)) {
-		for (const [targetKey, targetValue] of Object.entries(classes)) {
+	for (const [sourceKey, sourceValue] of Object.entries(classesL3)) {
+		for (const [targetKey, targetValue] of Object.entries(classesL3)) {
 			const changeKey = `lulc_l3_${fromYear}_${sourceKey}_lulc_l3_${toYear}_${targetKey}_percentage`
 			const change = dataset.features[0].properties[changeKey];
 			if(change) {
@@ -244,10 +273,13 @@ let vectorLayers = [{
 
 
 const getClassPercentagePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_percentage`
-const getClassCoveragePropertyKey = (classId, yearFirst, yearLast) => `lulc_l3_${yearFirst}_${classId}_lulc_l3_${yearLast}_${classId}_coverage`
+const getLCFGClassPropertyKey = (classId, yearFirst, yearLast) => `lcfg_${yearFirst}_${yearLast}_${classId}_percentage`
+const getLCF1ClassPropertyKey = (classId, yearFirst, yearLast) => `lcf1_${yearFirst}_${yearLast}_${classId}_percentage`
+const getClassCoveragePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_coverage`
 
 const LULCStructureDataset = [];
 const changesStructure = [];
+const differenceStructure = [];
 mergedDataset.forEach((dataSet) => {
 	//LULCStructureDataset
 	const avarageData = {
@@ -259,17 +291,39 @@ mergedDataset.forEach((dataSet) => {
 		sum: 0,
 	};
 
-	for (const [classId, className] of Object.entries(classes)) {
+	const difference = {
+		data:{},
+		sum: 0,
+	};
+
+	for (const [classId, className] of Object.entries(classesL3)) {
 		const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
 		avarageData.data[classId] = dataSet.data.features[0].properties[percentageKey];
 		
 		//change
-		// const coverageKeyFirst = getClassCoveragePropertyKey(classId, dataSet.firstYear);
-		const changeCoverageKey = getClassCoveragePropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
+		const coverageKeyFirst = getClassCoveragePropertyKey(classId, dataSet.firstYear);
+		const coverageFirst = dataSet.data.features[0].properties[coverageKeyFirst];
+		const coverageKeyLast = getClassCoveragePropertyKey(classId, dataSet.lastYear);
+		const coverageLast = dataSet.data.features[0].properties[coverageKeyLast];
+		// const changeCoverageKey = getClassCoveragePropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
 
-		const change = dataSet.data.features[0].properties[changeCoverageKey] / (dataSet.data.features[0].properties.area / 100)
-		changes.data[classId] = isNaN(change) ? 0 : change;
+		const change = (coverageLast - coverageFirst) / (dataSet.data.features[0].properties.area / 100)
+		difference.data[classId] = isNaN(change) ? 0 : change;
 	}
+
+	for (const [classId, className] of Object.entries(classesLCF1)) {
+		// const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
+		const changeKey = getLCF1ClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
+		changes.data[classId] = dataSet.data.features[0].properties[changeKey];
+	}
+	for (const [classId, className] of Object.entries(classesLCFG)) {
+		// const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
+		const changeKey = getLCFGClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
+		changes.data[classId] = dataSet.data.features[0].properties[changeKey];
+	}
+
+
+
 	avarageData.AL3_NAME = dataSet.name;
 	avarageData.AL3_ID = dataSet.key;
 	LULCStructureDataset.push(avarageData);
@@ -277,15 +331,20 @@ mergedDataset.forEach((dataSet) => {
 	changes.AL3_NAME = dataSet.name;
 	changes.AL3_ID = dataSet.key;
 
-	for(const [key, value] of Object.entries(changes.data)){
-		changes.sum += Math.abs(value);
-	}
+	// for(const [key, value] of Object.entries(changes.data)){
+	// 	changes.sum += Math.abs(value);
+	// }
+
+
+	difference.AL3_NAME = dataSet.name;
+	difference.AL3_ID = dataSet.key;
+	differenceStructure.push(difference);
 
 	changesStructure.push(changes);
 });
 
 const pathLULCStructureYSourcePath = [];
-for (const [classId, className] of Object.entries(classes)) {
+for (const [classId, className] of Object.entries(classesL3)) {
 	const valuePath = `data.${classId}`;
 	pathLULCStructureYSourcePath.push({
 		path: valuePath,
@@ -294,8 +353,18 @@ for (const [classId, className] of Object.entries(classes)) {
 	})
 }
 
+const pathLULCChangesStructureYSourcePath = [];
+for (const [classId, className] of Object.entries({...classesLCF1, ...classesLCFG})) {
+	const valuePath = `data.${classId}`;
+	pathLULCChangesStructureYSourcePath.push({
+		path: valuePath,
+		name: className,
+		color: colors[classId],
+	})
+}
+
 const pathchangesStructureYSourcePath = [];
-for (const [classId, className] of Object.entries(classes)) {
+for (const [classId, className] of Object.entries(classesL3)) {
 	const valuePath = `data.${classId}`;
 	pathchangesStructureYSourcePath.push({
 		path: valuePath,
@@ -379,7 +448,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 					<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Changes Intensity"
+								title="Land Cover Land Use Changes Structure"
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 							<Fade cascade>
@@ -416,7 +485,7 @@ class LandAssetsStructure extends React.PureComponent {
 											keySourcePath="AL3_ID"
 											nameSourcePath="AL3_NAME"
 											xSourcePath="AL3_NAME"
-											ySourcePath={pathLULCStructureYSourcePath}
+											ySourcePath={pathLULCChangesStructureYSourcePath}
 											
 											height={20}
 											xValuesSize={6}
@@ -426,7 +495,7 @@ class LandAssetsStructure extends React.PureComponent {
 												name: "Change structure",
 												unit: "%",
 												max: 100,
-												min: 0
+												min: -100
 											}}
 											yValuesSize={3}
 
@@ -439,7 +508,7 @@ class LandAssetsStructure extends React.PureComponent {
 					</Fade>
 					<Fade left distance="50px">
 						<Visualization
-							title="Land Cover Land Use Changes Structure"
+							title="Land Cover Land Use Changes Rozdíly???"
 							description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 						>
 						<Fade cascade>
@@ -449,7 +518,7 @@ class LandAssetsStructure extends React.PureComponent {
 									<ColumnChart 
 										key="diverging-bars"
 										
-										data={changesStructure}
+										data={differenceStructure}
 										keySourcePath="AL3_ID"
 										nameSourcePath="AL3_NAME"
 										xSourcePath="AL3_NAME"
@@ -462,8 +531,8 @@ class LandAssetsStructure extends React.PureComponent {
 										yOptions={{
 											name: "Change structure",
 											unit: "%",
-											max: 100,
-											min: -100
+											max: 50,
+											min: -50
 										}}
 										yValuesSize={3}
 
