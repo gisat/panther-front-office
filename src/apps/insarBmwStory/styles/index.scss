@@ -82,6 +82,15 @@
 /* Chart */
 .insarBmwStory .ptr-line-chart-line {
 	stroke: var(--base40);
+	animation: pathDraw 0s ease-in-out 1;
+	animation-fill-mode: forwards;
+	animation-delay: 0s;
+}
+
+.insarBmwStory .ptr-chart-point {
+	animation: none;
+	fill-opacity: 1;
+	stroke-opacity: 1;
 }
 
 @media screen and (max-width: 70rem) {

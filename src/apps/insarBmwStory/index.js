@@ -13,7 +13,7 @@ import '../../styles/base.scss';
 import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer/presentation";
-import Story from "./components/Story";
+import App from "./components/App";
 
 import vuhu from './data/vuhu_krivky.json';
 import vuhu0 from './data/vuhu_krivky_0.json';
@@ -38,7 +38,7 @@ export default (path, baseUrl) => {
 					defaultTitle="Insar4BMW"
 				/>
 				<AppContainer appKey="insarBmwStory">
-					<Story/>
+					<App/>
 				</AppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')

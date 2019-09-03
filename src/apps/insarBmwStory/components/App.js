@@ -10,6 +10,7 @@ import MapControls from "../../../components/common/maps/MapControls/presentatio
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
 import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
+import ChartWrapper from "./ChartWrapper";
 
 // const backgroundLayer = {
 // 	key: 'background-osm',
@@ -52,7 +53,7 @@ const view = {
 	boxRange: 20000
 };
 
-class Story extends React.PureComponent {
+class App extends React.PureComponent {
 	static propTypes = {
 
 	};
@@ -91,66 +92,73 @@ class Story extends React.PureComponent {
 
 						<div className="insarBmwStory-charts">
 							<div>
-								<LineChart
-									key="vuhu"
-
+								<ChartWrapper
 									data={vuhu}
-									keySourcePath="id"
-									nameSourcePath="id"
-									serieDataSourcePath="data"
-									xSourcePath="period"
-									ySourcePath="value"
+								>
+									<LineChart
+										key="vuhu"
 
-									aggregationThreshold={200}
-									height={20}
+										data={vuhu}
+										keySourcePath="id"
+										nameSourcePath="id"
+										serieDataSourcePath="data"
+										xSourcePath="period"
+										ySourcePath="value"
 
-									diverging
+										aggregationThreshold={200}
+										height={20}
 
-									yLabel
-									yOptions={{
-										min: -100,
-										name: "Restrospective projection/prognosis",
-										unit: "cm"
-									}}
+										diverging
 
-									xOptions={{
-										startingTick: 2,
-										tickStep: 5
-									}}
+										yLabel
+										yOptions={{
+											min: -100,
+											name: "Restrospective projection/prognosis",
+											unit: "cm"
+										}}
 
-									sorting={[["period", "asc"]]}
-								/>
+										xOptions={{
+											startingTick: 2,
+											tickStep: 5
+										}}
+
+										sorting={[["period", "asc"]]}
+									/>
+								</ChartWrapper>
 							</div>
 
 							<div>
-								<LineChart
-									key="vuhu0"
-
+								<ChartWrapper
 									data={vuhu0}
-									keySourcePath="id"
-									nameSourcePath="id"
-									serieDataSourcePath="data"
-									xSourcePath="period"
-									ySourcePath="value"
+								>
+									<LineChart
+										key="vuhu0"
 
-									aggregationThreshold={200}
-									height={20}
+										keySourcePath="id"
+										nameSourcePath="id"
+										serieDataSourcePath="data"
+										xSourcePath="period"
+										ySourcePath="value"
 
-									diverging
+										aggregationThreshold={200}
+										height={20}
 
-									sorting={[["period", "asc"]]}
+										diverging
 
-									yLabel
-									yOptions={{
-										name: "Overall subsidence projection",
-										unit: "cm"
-									}}
+										sorting={[["period", "asc"]]}
 
-									xOptions={{
-										startingTick: 2,
-										tickStep: 5
-									}}
-								/>
+										yLabel
+										yOptions={{
+											name: "Overall subsidence projection",
+											unit: "cm"
+										}}
+
+										xOptions={{
+											startingTick: 2,
+											tickStep: 5
+										}}
+									/>
+								</ChartWrapper>
 							</div>
 						</div>
 					</div>
@@ -160,5 +168,5 @@ class Story extends React.PureComponent {
 	}
 }
 
-export default Story;
+export default App;
 
