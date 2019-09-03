@@ -3,6 +3,7 @@ import Fade from "react-reveal/Fade";
 import {Header, Visualization} from "../Page";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
+import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
@@ -10,25 +11,8 @@ import MapControls from "../../../../components/common/maps/MapControls/presenta
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
-
+import {mergedDataset, clearEmptyNodes} from '../../data/data';
 import './styles/style.scss';
-
-//Data
-import dodomaDataset from './data/dodoma_green_vs_urban_2016.json';
-import dhakaDataset from './data/dhaka_green_vs_urban_2017.json';
-
-const mergedDataset = [
-	{
-		data: dhakaDataset,
-		name: 'Dhaka',
-		key: 1,
-	},
-	{
-		data: dodomaDataset,
-		name: 'Dodoma',
-		key: 2,
-	},
-];
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -38,10 +22,29 @@ const backgroundLayer = {
 	}
 };
 
+// LULC Level IV
+const L4_GREEN_AREAS_CLASSES = ["14100", "14110"];
+
+const filterGreenAreaFlows = (dataset) => {
+	const links = dataset.links.filter(l => {
+		const sourceFromDISCONTINUOUS = L4_GREEN_AREAS_CLASSES.includes(l.source.split("_")[0]);
+		const targetToCONTINUOUS = L4_GREEN_AREAS_CLASSES.includes(l.target.split("_")[0]);
+		return sourceFromDISCONTINUOUS || targetToCONTINUOUS;
+	})
+	const nodes = [...dataset.nodes];
+	const nonEmptyNodes = clearEmptyNodes(nodes, links);
+	return {
+		nodes: nonEmptyNodes ,
+		links,
+	};
+}
+
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => {
 	const area = conversions.sum(dataSet.data.features, 'properties.area') / 1000000;
-	const urban_coverage = conversions.sum(dataSet.data.features, 'properties.urban_coverage') / 1000000;
-	const green_coverage = conversions.sum(dataSet.data.features, 'properties.green_coverage') / 1000000;
+	// urban_2017_coverage
+	const urban_coverage = conversions.sum(dataSet.data.features, `properties.urban_${dataSet.lastYear}_coverage`) / 1000000;
+	// green_2017_coverage
+	const green_coverage = conversions.sum(dataSet.data.features, `properties.green_${dataSet.lastYear}_coverage`) / 1000000;
 	const green_areas_share = area / green_coverage;
 	return {
 		area,
@@ -84,6 +87,8 @@ class GreenAreas extends React.PureComponent {
 				features: this.state.city.data
 			}
 		}];
+
+		const densificationsData = filterGreenAreaFlows(this.state.city.l4OverallFlows);
 
 		return (
 			<>
@@ -244,6 +249,40 @@ class GreenAreas extends React.PureComponent {
 								</div>
 							</Visualization>
 						</Fade>
+						<Fade left distance="50px">
+							<Visualization
+								title="Green Area Flows"
+								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+							>
+							<Fade cascade>
+								<div className="scudeoStories19-chart-container">
+
+									<HoverHandler>
+										<SankeyChart
+											hoverValueSourcePath="valueSize"
+											key="sankey-green-area-flows"
+											data={densificationsData}
+											keySourcePath="key"
+
+											nodeNameSourcePath="name"
+											nodeValueSourcePath="value"
+											nodeColorSourcePath="color"
+											
+											linkNameSourcePath="name"
+											hoverValueSourcePath="value"
+
+											maxWidth = {50}
+											width={50}
+											height={50}
+											yOptions={{
+												unit: '%'
+											}}
+										/>
+									</HoverHandler>
+								</div>
+							</Fade> 
+						</Visualization>
+					</Fade>
 						<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
 						<h3>More resources</h3>
