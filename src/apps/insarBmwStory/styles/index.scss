@@ -16,28 +16,72 @@
 }
 
 .insarBmwStory-map {
-	flex-basis: 40%;
+	flex-basis: 45%;
 	height: 100%;
 	min-width: 30rem;
-	max-width: 40rem;
 }
 
 .insarBmwStory-charts {
 	flex: 1;
-	margin: m(2/3) m(1);
+	margin: m(1) m(1) 0 m(2);
 }
 
-/* Map attribution */
-.insarBmwStory-map-attribution {
-	background: rgba(var(--base0rgb), .6);
+.insarBmwStory-charts > div {
+	margin-bottom: m(1);
+}
+
+/* Map content */
+.insarBmwStory-zone-info {
+	background: rgba(var(--base100rgb), .6);
 	position: absolute;
 	bottom: 0;
+	left: 0;
+	z-index: 3;
+	font-size: $b1;
+	padding: .3rem .5rem;
+	width: 100%;
+	color: var(--base30);
+}
+
+.insarBmwStory-zone-info table tr {
+	border-bottom: 1px solid var(--base70);
+}
+
+.insarBmwStory-zone-info table tr:last-child {
+	border-bottom: 0;
+}
+
+.insarBmwStory-zone-info table tr td {
+	padding: .15rem 0;
+	width: 100%;
+}
+
+.insarBmwStory-zone-info table tr td:last-child {
+	text-align: right;
+}
+
+.insarBmwStory-map-attribution {
+	position: absolute;
+	bottom: 11.5rem;
 	left: 0;
 	z-index: 3;
 	font-size: $a0;
 	padding: .3rem .5rem;
 	max-width: calc(100% - 10rem);
-	color: var(--base90);
+	color: var(--base20);
+}
+
+.insarBmwStory-map-attribution a {
+	color: var(--base20);
+}
+
+.insarBmwStory .ptr-map-controls {
+	bottom: 12rem;
+}
+
+/* Chart */
+.insarBmwStory .ptr-line-chart-line {
+	stroke: var(--base40);
 }
 
 @media screen and (max-width: 70rem) {
