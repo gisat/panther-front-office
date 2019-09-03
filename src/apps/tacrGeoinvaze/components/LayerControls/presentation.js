@@ -7,6 +7,35 @@ import Select from "../../../../components/common/atoms/Select/Select";
 
 class LayerControls extends React.PureComponent {
 
+	constructor(props) {
+		super(props);
+
+		this.switchLayer = this.switchLayer.bind(this);
+	}
+
+	switchLayer(value, e) {
+		if (value && this.props.templateKeys) {
+			let templates = this.props.templateKeys;
+			switch (value) {
+				case "gam":
+					if (templates.modelBiomod && templates.modelBiomod.generalisedLinear) {
+						// this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.generalisedLinear);
+					}
+					break;
+				case "gbm":
+					if (templates.modelBiomod && templates.modelBiomod.gradientBoosting) {
+						// this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.gradientBoosting);
+					}
+					break;
+				case "maxent":
+					if (templates.modelBiomod && templates.modelBiomod.maximumEntropy) {
+						// this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.maximumEntropy);
+					}
+					break;
+			}
+		}
+	}
+
 	render() {
 		const props = this.props;
 		
@@ -51,7 +80,7 @@ class LayerControls extends React.PureComponent {
 				<div className="tacrGeoinvaze-model-biomod">
 					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření</div>
 					<div>
-						<ButtonSwitch onClick={() => {}} ghost>
+						<ButtonSwitch onClick={this.switchLayer} ghost>
 							<Option value={"gam"}>gen. lineární</Option>
 							<Option value={"gbm"}>gradient boosting</Option>
 							<Option value={"maxent"}>maximum entropy</Option>

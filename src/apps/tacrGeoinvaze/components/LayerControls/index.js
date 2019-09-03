@@ -7,7 +7,7 @@ import presentation from "./presentation";
 
 const mapStateToProps = state => {
 	return {
-
+		templateKeys: Select.app.getConfiguration(state, 'templates')
 	}
 };
 

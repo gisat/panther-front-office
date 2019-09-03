@@ -34,11 +34,10 @@ class ButtonSwitch extends React.PureComponent {
 	}
 
 
-	onClick(...args) {
+	onClick(value, e) {
 		if (!this.props.disabled) {
 			if (this.props.onClick) {
-				// this.props.onClick(e);
-				console.log(...args);
+				this.props.onClick(value, e);
 			}
 		}
 	}
