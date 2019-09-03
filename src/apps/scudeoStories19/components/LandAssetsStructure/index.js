@@ -68,7 +68,60 @@ const filterUrbanDensifications = (dataset) => {
 	};
 }
 
-let vectorLayers = [{
+const lulcFirstYearStructureLayer = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_first_year',
+			styles: '',
+		},
+	}
+};
+
+const lulcLastYearStructureLayer = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_second_year',
+			styles: '',
+		},
+	}
+};
+
+const lulcFirstYearChangeStructureLayer = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_first_year',
+			styles: '',
+		},
+	}
+};
+
+const lulcLastYearChangeStructureLayer = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_change_lcfg',
+			styles: '',
+		},
+	}
+};
+
+
+let vectorLayer = {
 	key: 'aoi-vector',
 	name: 'AOI',
 	type: 'vector',
@@ -82,7 +135,15 @@ let vectorLayers = [{
 			"features": mergedDataset.reduce((acc, d) => [...acc, ...d.data.features], [])
 		}
 	}
-}];
+};
+
+const firstYearStructureLayers = [lulcFirstYearStructureLayer, vectorLayer];
+const lastYearStructureLayers = [lulcLastYearStructureLayer, vectorLayer];
+
+const firstYearChangeStructureLayers = [lulcFirstYearChangeStructureLayer, vectorLayer];
+const lastYearChangeStructureLayers = [lulcLastYearChangeStructureLayer, vectorLayer];
+
+
 
 const getClassPercentagePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_percentage`
 const getLCFGClassPropertyKey = (classId, yearFirst, yearLast) => `lcfg_${yearFirst}_${yearLast}_${classId}_percentage`
@@ -358,7 +419,7 @@ class LandAssetsStructure extends React.PureComponent {
 													mapKey="scudeoStories19-urbanExtent-map-1"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
+													layers={firstYearStructureLayers}
 												/>
 											}
 											controls={
@@ -380,7 +441,7 @@ class LandAssetsStructure extends React.PureComponent {
 													mapKey="scudeoStories19-urbanExtent-map-2"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
+													layers={lastYearStructureLayers}
 												/>
 											}
 											controls={
@@ -410,7 +471,7 @@ class LandAssetsStructure extends React.PureComponent {
 													mapKey="scudeoStories19-urbanExtent-map-3"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
+													layers={firstYearChangeStructureLayers}
 												/>
 											}
 											controls={
@@ -433,7 +494,7 @@ class LandAssetsStructure extends React.PureComponent {
 													mapKey="scudeoStories19-urbanExtent-map-4"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
+													layers={lastYearChangeStructureLayers}
 												/>
 											}
 											controls={

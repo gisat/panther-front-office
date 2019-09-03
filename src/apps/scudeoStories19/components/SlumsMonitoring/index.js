@@ -122,19 +122,20 @@ class SlumsMonitoring extends React.PureComponent {
 			}
 		}];
 
+
+
 		const dataLayer = {
 			name: 'Data layer',
 			key: 'slums',
 			type: 'wms',
 			options: {
-				url: 'https://urban-tep.eu/puma/geoserver/wms',
+				url: 'https://urban-tep.eu/puma/geoserver/wms?',
 				params:{
 					layers: 'scudeo_slums',
 					styles: '',
 				},
 			}
 		};
-
 		const overlayLayer = this.state.overlayLayer.type ? [this.state.overlayLayer] : [];
 
 		return (
