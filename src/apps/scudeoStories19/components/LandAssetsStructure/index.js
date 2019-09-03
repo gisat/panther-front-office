@@ -266,30 +266,6 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade cascade>
 								<div className="scudeoStories19-chart-container">
 									<HoverHandler>
-										{/* <ColumnChart 
-												key="diverging-bars"
-												
-												data={changesStructure}
-												keySourcePath="AL3_ID"
-												nameSourcePath="AL3_NAME"
-												xSourcePath="AL3_NAME"
-												ySourcePath="sum"
-												
-												height={20}
-												xValuesSize={6}
-
-												yLabel
-												yOptions={{
-													name: "Change intensity",
-													unit: "%",
-													max: 100,
-													min: 0
-												}}
-												yValuesSize={3}
-
-												// stacked="relative"
-											/> */}
-
 										<ColumnChart 
 											key="diverging-bars"
 											
@@ -306,8 +282,8 @@ class LandAssetsStructure extends React.PureComponent {
 											yOptions={{
 												name: "Change structure",
 												unit: "%",
-												max: 100,
-												min: -100
+												max: 50,
+												min: 0
 											}}
 											yValuesSize={3}
 
@@ -318,7 +294,7 @@ class LandAssetsStructure extends React.PureComponent {
 							</Fade>
 						</Visualization>
 					</Fade>
-					<Fade left distance="50px">
+					{/* <Fade left distance="50px">
 						<Visualization
 							title="Land Cover Land Use Changes Rozdíly???"
 							description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
@@ -354,7 +330,7 @@ class LandAssetsStructure extends React.PureComponent {
 							</div>
 						</Fade>
 					</Visualization>
-					</Fade>
+					</Fade> */}
 					</section>
 					<section key="section-2">
 						<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
