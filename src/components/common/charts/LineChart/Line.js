@@ -38,10 +38,17 @@ class Line extends React.PureComponent {
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onMouseOver = this.onMouseOver.bind(this);
+		this.onClick = this.onClick.bind(this);
 
 		this.state = {
 			color: (!props.gray && props.defaultColor) ? props.defaultColor : null,
 			length: null
+		}
+	}
+
+	onClick() {
+		if (this.context && this.context.onClick) {
+			this.context.onClick([this.props.itemKey]);
 		}
 	}
 
@@ -124,7 +131,7 @@ class Line extends React.PureComponent {
 			let isSelected = _.includes(this.context.selectedItems, this.props.itemKey);
 			highlighted = isHovered || isSelected;
 
-			if (this.props.siblings && (
+			if (!this.props.gray && this.props.siblings && (
 				!!_.intersection(this.context.hoveredItems, this.props.siblings).length ||
 				!!_.intersection(this.context.selectedItems, this.props.siblings).length
 			)) {
@@ -150,6 +157,7 @@ class Line extends React.PureComponent {
 				}}
 			>
 				<path
+					onClick={this.onClick}
 					onMouseOver={this.onMouseOver}
 					onMouseMove={this.onMouseMove}
 					onMouseOut={this.onMouseOut}
@@ -176,6 +184,7 @@ class Line extends React.PureComponent {
 		return props.coordinates.map((point) => {
 			return (
 				<Point
+					itemKey={props.itemKey}
 					key={point.x + '-' + point.y}
 					x={point.x}
 					y={point.y}

@@ -103,9 +103,23 @@ class VectorLayer extends React.PureComponent {
 				}
 			},
 			mouseout: (e) => {
-				this.layer.resetStyle(e.target);
 				if (this.context && this.context.onHoverOut) {
+					this.layer.resetStyle(e.target);
 					this.context.onHoverOut();
+				}
+			},
+			click: (e) => {
+				if (this.context && this.context.onClick) {
+					this.highlightFeature(e.target);
+
+					if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+						layer.bringToFront();
+					}
+
+					let keyColumn = this.props.data.options.keyProperty;
+					if (keyColumn) {
+						this.context.onClick([e.target.feature.properties[keyColumn]]);
+					}
 				}
 			}
 		});
