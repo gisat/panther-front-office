@@ -61,8 +61,56 @@ const classesL3 = {
 };
 
 const classesL4 = {
-	
-}
+    "11100": "High density continuous residential urban fabric (80% - 100% sealed)",
+    "11210": "Discontinuous dense residential urban fabric (50% - 80% sealed)",
+	"11220": "Discontinuous medium density urban fabric (10 - 50 % Sealed",
+	"11221": "Discontinuous medium density urban fabric (30 - 50 % Sealed)",
+	"11222": "Discontinuous low-density urban fabric (10 - 30 % Sealed)",
+	"11240": "Discontinuous very low density urban fabric (0 - 10 % Sealed) / Village Settlements",
+	"11300": "Isolated structures ",
+	"12110": "Commercial and Industrial units",
+	"12111": "Commercial units",
+	"12112": "Industrial units",
+	"12120": "Non-residential urban fabric",
+	"12121": "Education",
+	"12122": "Museum",
+	"12123": "Government",
+	"12124": "Military",
+	"12125": "Medical",
+	"12126": "Religious",
+	"12127": "Hotel",
+	"12128": "Other",
+	"12130": "Mix function",
+	"12131": "Public Buildings",
+	"12132": "University",
+	"12133": "School ",
+	"12210": "Transportation units",
+	"12211": "Arterial roads",
+	"12212": "Collector roads",
+	"12220": "Railway",
+	"12300": "Port ",
+	"12400": "Airport ",
+	"13100": "Mineral Extraction and Dump Sites",
+	"13300": "Construction Sites ",
+	"13310": "Sand-filled areas",
+	"13400": "Land without current use (Vacant Land not obviously being prepared for construction) ",
+	"14100": "Urban Greenery",
+	"14110": "Parks ",
+	"14200": "Sport and leisure facilities",
+	"14210": "Stadium",
+	"14220": "Sport fields",
+	"14230": "Recreational",
+	"14300": "Cemetery ",
+	"20000": "Agricultural Land",
+	"21000": "Permanent culture ",
+	"31000": "Forest ",
+	"32000": "Other Natural and Semi-natural Areas (Savannah, Grassland) ",
+	"33000": "Bare land ",
+	"40000": "Wetlands ",
+	"51000": "Inland Water ",
+	"52000": "Marine Water",
+};
+
 // LCF level 1
 const classesLCF1 = {
 	"LCF10": 'Urban expansion',
@@ -107,14 +155,58 @@ const colors = {
 	"LCF50":"#66d9ff",
 	"LCF60":"#53c653",
 	"LCF70":"#734d37",
+	"11210": "#d31414",
+	"11220": "#ef5959",
+	"11221": "#ef5959",
+	"11222": "#ffbfbf",
+	"11240": "#cc6666",
+	"11300": "#f2a64d",
+	"12110": "#9b1794",
+	"12111": "#DF73FF",
+	"12112": "#C500FF",
+	"12120": "#E8BEFF",
+	"12121": "#FFFF73",
+	"12122": "#FFBEBE",
+	"12123": "#E9FFBE",
+	"12124": "#ABCD66",
+	"12125": "#ff7f00",
+	"12126": "#734C00",
+	"12127": "#A87000",
+	"12128": "#e6cce6",
+	"12130": "#FFBEE8",
+	"12210": "#2f2f2f",
+	"12211": "#4E4E4E",
+	"12212": "#959595",
+	"12220": "#b3b3b3",
+	"12300": "#61007F",
+	"12400": "#FFAA00",
+	"13100": "#734d37",
+	"13300": "#FF73DF",
+	"13310": "#ffffb2",
+	"13400": "#BEE8FF",
+	"14100": "#00e800",
+	"14110": "#8cdc00",
+	"14200": "#00FFC5",
+	"14210": "#00E6A9",
+	"14220": "#BEFFE8",
+	"14230": "#A3FF73",
+	"14300": "#A34963",
+	"20000": "#FFD37F",
+	"21000": "#FFEBAF",
+	"31000": "#006a00",
+	"32000": "#B4D79E",
+	"33000": "#CCCCCC",
+	"40000": "#a6a6ff",
+	"51000": "#4c96e4",
+	"52000": "#95d6ea",
 	
 };
 
-const getL3Nodes = (dataset, years) => {
+const getSankeyNodes = (dataset, years, level, classes) => {
 	const nodes = [];
-	for (const [key, value] of Object.entries(classesL3)) {
+	for (const [key, value] of Object.entries(classes)) {
 		for (const year of years) {
-			const propsKey = `lulc_l3_${year}_${key}_coverage`;
+			const propsKey = `lulc_${level}_${year}_${key}_coverage`;
 			const node = {
 				id: `${key}_${year}`,
 				name: value,
@@ -127,11 +219,11 @@ const getL3Nodes = (dataset, years) => {
 	return nodes;
 }
 
-const getL3Links = (dataset, fromYear, toYear) => {
+const getSankeyLinks = (dataset, fromYear, toYear, level, classes) => {
 	const links = [];
-	for (const [sourceKey, sourceValue] of Object.entries(classesL3)) {
-		for (const [targetKey, targetValue] of Object.entries(classesL3)) {
-			const changeKey = `lulc_l3_${fromYear}_${sourceKey}_lulc_l3_${toYear}_${targetKey}_percentage`
+	for (const [sourceKey, sourceValue] of Object.entries(classes)) {
+		for (const [targetKey, targetValue] of Object.entries(classes)) {
+			const changeKey = `lulc_${level}_${fromYear}_${sourceKey}_lulc_${level}_${toYear}_${targetKey}_percentage`
 			const change = dataset.features[0].properties[changeKey];
 			if(change) {
 				const link = {
@@ -155,12 +247,24 @@ const clearEmptyNodes = (nodes, links) => {
 	})
 }
 
-const addOverallFlows = (dataset) => {
+const addL3OverallFlows = (dataset) => {
 	dataset.forEach(ds => {
-		const nodes = getL3Nodes(ds.data, [ds.firstYear, ds.lastYear]);
-		const links = getL3Links(ds.data, ds.firstYear, ds.lastYear);
+		const nodes = getSankeyNodes(ds.data, [ds.firstYear, ds.lastYear], 'l3', classesL3);
+		const links = getSankeyLinks(ds.data, ds.firstYear, ds.lastYear, 'l3', classesL3);
 		const nonEmptyNodes = clearEmptyNodes(nodes, links);
-		ds['overallFlows'] = {
+		ds['l3OverallFlows'] = {
+			nodes: nonEmptyNodes,
+			links: links,
+		}
+	})
+}
+
+const addL4OverallFlows = (dataset) => {
+	dataset.forEach(ds => {
+		const nodes = getSankeyNodes(ds.data, [ds.firstYear, ds.lastYear], 'l4', classesL4);
+		const links = getSankeyLinks(ds.data, ds.firstYear, ds.lastYear, 'l4', classesL4);
+		const nonEmptyNodes = clearEmptyNodes(nodes, links);
+		ds['l4OverallFlows'] = {
 			nodes: nonEmptyNodes,
 			links: links,
 		}
@@ -252,7 +356,8 @@ const mergedDataset = [
 	},
 ]
 
-addOverallFlows(mergedDataset);
+addL3OverallFlows(mergedDataset);
+addL4OverallFlows(mergedDataset);
 
 let vectorLayers = [{
 	key: 'aoi-vector',
@@ -396,7 +501,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 	render() {
 
-		const densificationsData = filterUrbanDensifications(this.state.cityOne.overallFlows);
+		const densificationsData = filterUrbanDensifications(this.state.cityOne.l4OverallFlows);
 		const densificationsDataEmpty = densificationsData.nodes.length === 0 && densificationsData.links.length === 0
 
 
@@ -676,7 +781,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-overall-flows"
-											data={this.state.cityOne.overallFlows}
+											data={this.state.cityOne.l3OverallFlows}
 											keySourcePath="key"
 
 											nodeNameSourcePath="name"
@@ -712,7 +817,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-expansions-flows"
-											data={filterUrbanExpansion(this.state.cityOne.overallFlows)}
+											data={filterUrbanExpansion(this.state.cityOne.l3OverallFlows)}
 											keySourcePath="key"
 
 											nodeNameSourcePath="name"
@@ -750,7 +855,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-densifacation-flows"
-											data={filterUrbanDensifications(this.state.cityOne.overallFlows)}
+											data={densificationsData}
 											keySourcePath="key"
 
 											nodeNameSourcePath="name"
