@@ -333,18 +333,25 @@ class LandAssetsStructure extends React.PureComponent {
 					</Fade> */}
 					</section>
 					<section key="section-2">
+						<Select
+													onChange={this.onCityChange.bind(this, 'cityOne')}
+													options={mergedDataset}
+													optionLabel="name"
+													optionValue="key"
+													value={this.state.cityOne}
+													menuPortalTarget={this.props.pageKey}
+												/>
 						<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
 
 						<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Structure (2006 / 2016)"
+								title="Land Cover Land Use Structure"
 								description="Footer maps description. Lorem ipsum dolor sit amet, causae incorrupte ut nec, eu vix iuvaret tacimates lobortis. In tollit
 								suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
 							>
 								<div className="scudeoStories19-map-container">
 									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
-										{/* //year 2016 */}
 										<PresentationMapWithControls
 											map={
 												<LeafletMap
@@ -359,14 +366,7 @@ class LandAssetsStructure extends React.PureComponent {
 											}
 										>
 											<div className="scudeoStories19-map-label">
-												<Select
-													onChange={this.onCityChange.bind(this, 'cityOne')}
-													options={mergedDataset}
-													optionLabel="name"
-													optionValue="key"
-													value={this.state.cityOne}
-													menuPortalTarget={this.props.pageKey}
-												/>
+												{this.state.cityOne.firstYear}
 											</div>
 											<div className="scudeoStories19-map-attribution">
 												Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
@@ -374,7 +374,6 @@ class LandAssetsStructure extends React.PureComponent {
 										</PresentationMapWithControls>
 									</AdjustViewOnResizeLeafletWrapper>
 									<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
-										{/* //year 2006 */}
 										<PresentationMapWithControls
 											map={
 												<LeafletMap
@@ -388,6 +387,9 @@ class LandAssetsStructure extends React.PureComponent {
 												<MapControls zoomOnly levelsBased/>
 											}
 										>
+											<div className="scudeoStories19-map-label">
+												{this.state.cityOne.lastYear}
+											</div>
 										</PresentationMapWithControls>
 									</AdjustViewOnResizeLeafletWrapper>
 								</div>
@@ -395,7 +397,7 @@ class LandAssetsStructure extends React.PureComponent {
 						</Fade>
 						<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Change Structure (2006 / 2016)"
+								title="Land Cover Land Use Change Structure"
 								description="Footer maps description. Lorem ipsum dolor sit amet, causae incorrupte ut nec, eu vix iuvaret tacimates lobortis. In tollit
 								suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
 							>
@@ -416,14 +418,7 @@ class LandAssetsStructure extends React.PureComponent {
 											}
 										>
 											<div className="scudeoStories19-map-label">
-												<Select
-													onChange={this.onCityChange.bind(this, 'cityOne')}
-													options={mergedDataset}
-													optionLabel="name"
-													optionValue="key"
-													value={this.state.cityOne}
-													menuPortalTarget={this.props.pageKey}
-												/>
+												{this.state.cityOne.firstYear}
 											</div>
 											<div className="scudeoStories19-map-attribution">
 												Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
@@ -445,6 +440,9 @@ class LandAssetsStructure extends React.PureComponent {
 												<MapControls zoomOnly levelsBased/>
 											}
 										>
+											<div className="scudeoStories19-map-label">
+												{this.state.cityOne.lastYear}
+											</div>
 										</PresentationMapWithControls>
 									</AdjustViewOnResizeLeafletWrapper>
 								</div>
@@ -454,7 +452,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 						<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Changes Structure - Overall flows"
+								title={`Land Cover Land Use Changes Structure - Overall flows ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 							<Fade cascade>
@@ -490,7 +488,7 @@ class LandAssetsStructure extends React.PureComponent {
 					</Fade>
 						<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Changes Structure - Urban Expansion"
+								title={`Land Cover Land Use Changes Structure - Urban Expansion ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 							<Fade cascade>
@@ -528,7 +526,7 @@ class LandAssetsStructure extends React.PureComponent {
 					{ !densificationsDataEmpty ?
 						<Fade left distance="50px">
 							<Visualization
-								title="Land Cover Land Use Changes Structure - Urban Expansion"
+								title={`Land Cover Land Use Changes Structure - Urban Densification ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
 							<Fade cascade>
