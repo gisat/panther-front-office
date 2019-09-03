@@ -108,7 +108,8 @@ class GreenAreas extends React.PureComponent {
 
 		const layers = [greenLayer, vectorLayers];
 
-		const densificationsData = filterGreenAreaFlows(this.state.city.l4OverallFlows);
+		const sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlows);
+		const sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
 
 		return (
 			<>
@@ -269,40 +270,41 @@ class GreenAreas extends React.PureComponent {
 								</div>
 							</Visualization>
 						</Fade>
-						<Fade left distance="50px">
-							<Visualization
-								title="Green Area Flows"
-								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
-							>
-							<Fade cascade>
-								<div className="scudeoStories19-chart-container">
+						{ !sankeyGreenDataEmpty ?
+							<Fade left distance="50px">
+								<Visualization
+									title="Green Area Flows"
+									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+								>
+								<Fade cascade>
+									<div className="scudeoStories19-chart-container">
 
-									<HoverHandler>
-										<SankeyChart
-											hoverValueSourcePath="valueSize"
-											key="sankey-green-area-flows"
-											data={densificationsData}
-											keySourcePath="key"
+										<HoverHandler>
+											<SankeyChart
+												hoverValueSourcePath="valueSize"
+												key="sankey-green-area-flows"
+												data={sankeyGreenData}
+												keySourcePath="key"
 
-											nodeNameSourcePath="name"
-											nodeValueSourcePath="value"
-											nodeColorSourcePath="color"
-											
-											linkNameSourcePath="name"
-											hoverValueSourcePath="value"
+												nodeNameSourcePath="name"
+												nodeValueSourcePath="value"
+												nodeColorSourcePath="color"
+												
+												linkNameSourcePath="name"
+												hoverValueSourcePath="value"
 
-											maxWidth = {50}
-											width={50}
-											height={50}
-											yOptions={{
-												unit: '%'
-											}}
-										/>
-									</HoverHandler>
-								</div>
-							</Fade> 
-						</Visualization>
-					</Fade>
+												maxWidth = {50}
+												width={50}
+												height={50}
+												yOptions={{
+													unit: '%'
+												}}
+											/>
+										</HoverHandler>
+									</div>
+								</Fade> 
+							</Visualization>
+						</Fade> : null }
 						<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
 						<h3>More resources</h3>
