@@ -26,6 +26,20 @@ const backgroundLayer = {
 	}
 };
 
+
+const greenLayer = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_green',
+			styles: '',
+		},
+	}
+};
+
 // LULC Level IV
 const L4_GREEN_AREAS_CLASSES = ["14100", "14110"];
 
@@ -81,7 +95,7 @@ class GreenAreas extends React.PureComponent {
 	}
 
 	render() {
-		const vectorLayers = [{
+		const vectorLayers = {
 			key: 'aoi-vector',
 			name: 'AOI',
 			type: 'vector',
@@ -90,7 +104,9 @@ class GreenAreas extends React.PureComponent {
 				nameProperty: 'AL3_NAME',
 				features: this.state.city.data
 			}
-		}];
+		};
+
+		const layers = [greenLayer, vectorLayers];
 
 		const densificationsData = filterGreenAreaFlows(this.state.city.l4OverallFlows);
 
@@ -228,7 +244,7 @@ class GreenAreas extends React.PureComponent {
 													mapKey="scudeoStories19-greenAreas-map-1"
 													scrollWheelZoom="afterClick"
 													backgroundLayer={backgroundLayer}
-													layers={vectorLayers}
+													layers={layers}
 												/>
 											}
 											controls={

@@ -114,7 +114,7 @@ const lulcLastYearChangeStructureLayer = {
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
 		params:{
-			layers: 'scudeo_change_lcfg',
+			layers: 'scudeo_change_lcf2',
 			styles: '',
 		},
 	}
