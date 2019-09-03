@@ -113,6 +113,11 @@ class Story extends React.PureComponent {
 										unit: "cm"
 									}}
 
+									xOptions={{
+										startingTick: 2,
+										tickStep: 5
+									}}
+
 									sorting={[["period", "asc"]]}
 								/>
 							</div>
@@ -139,6 +144,11 @@ class Story extends React.PureComponent {
 									yOptions={{
 										name: "Overall subsidence projection",
 										unit: "cm"
+									}}
+
+									xOptions={{
+										startingTick: 2,
+										tickStep: 5
 									}}
 								/>
 							</div>
