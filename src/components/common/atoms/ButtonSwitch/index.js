@@ -58,9 +58,12 @@ class ButtonSwitch extends React.PureComponent {
 
 	render() {
 
+		 let {onClick, ...switchProps} = this.props;
+
 		let content = React.Children.map(this.props.children, child => {
 			let {active, value, ...props} = child.props;
 			props = {
+				...switchProps, //todo should be done by ButtonGroup ?
 				...props,
 				active: active, //or state
 				onClick: this.onClick.bind(this, value)

@@ -51,10 +51,10 @@ class LayerControls extends React.PureComponent {
 				<div className="tacrGeoinvaze-model-biomod">
 					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření</div>
 					<div>
-						<ButtonSwitch onClick={() => {}}>
-							<Option value={"gam"} ghost>gen. lineární</Option>
-							<Option value={"gbm"} ghost>gradient boosting</Option>
-							<Option value={"maxent"} ghost>maximum entropy</Option>
+						<ButtonSwitch onClick={() => {}} ghost>
+							<Option value={"gam"}>gen. lineární</Option>
+							<Option value={"gbm"}>gradient boosting</Option>
+							<Option value={"maxent"}>maximum entropy</Option>
 						</ButtonSwitch>
 					</div>
 				</div>
