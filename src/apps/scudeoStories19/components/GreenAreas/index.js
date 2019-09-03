@@ -14,6 +14,8 @@ import conversions from "../../data/conversions";
 import {getMergedDataset, clearEmptyNodes} from '../../data/data';
 import './styles/style.scss';
 
+const toSquareKm = (squareMeters) => squareMeters / 1000000;
+
 const mergedDataset = getMergedDataset();
 
 const backgroundLayer = {
@@ -44,12 +46,10 @@ const filterGreenAreaFlows = (dataset) => {
 }
 
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => {
-	const area = conversions.sum(dataSet.data.features, 'properties.area') / 1000000;
-	// urban_2017_coverage
-	const urban_coverage = conversions.sum(dataSet.data.features, `properties.urban_${dataSet.lastYear}_coverage`) / 1000000;
-	// green_2017_coverage
-	const green_coverage = conversions.sum(dataSet.data.features, `properties.green_${dataSet.lastYear}_coverage`) / 1000000;
-	const green_areas_share = area / green_coverage;
+	const area = toSquareKm(dataSet.data.features[0].properties.area);
+	const urban_coverage = toSquareKm(dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]);
+	const green_coverage = toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]);
+	const green_areas_share = green_coverage / (area / 100);
 	return {
 		area,
 		urban_coverage,
