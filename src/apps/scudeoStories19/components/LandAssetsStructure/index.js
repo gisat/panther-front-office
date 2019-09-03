@@ -18,9 +18,11 @@ import Helmet from "react-helmet";
 import {Footer, Visualization} from '../Page';
 import {Header} from "../Page";
 
-import {mergedDataset, clearEmptyNodes, classesL3, classesL4, colors, classesLCF1, classesLCFG} from '../../data/data';
+import {getMergedDataset, clearEmptyNodes, classesL3, classesL4, colors, classesLCF1, classesLCFG} from '../../data/data';
 
 import './styles/style.scss';
+
+const mergedDataset = getMergedDataset();
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -39,7 +41,8 @@ const URBAN_FABRIC_CONTINUOUS_KEYS = ["11100"]
 
 const filterUrbanExpansion = (dataset) => {
 	const links = dataset.links.filter(l => {
-		return URBAN_FABRIC_KEYS.includes(l.target.split("_")[0]);
+		const targetId = l.source.id || l.target;
+		return URBAN_FABRIC_KEYS.includes(targetId.split("_")[0]);
 	})
 	const nodes = [...dataset.nodes];
 	const nonEmptyNodes = clearEmptyNodes(nodes, links);
@@ -51,8 +54,10 @@ const filterUrbanExpansion = (dataset) => {
 
 const filterUrbanDensifications = (dataset) => {
 	const links = dataset.links.filter(l => {
-		const sourceFromDISCONTINUOUS = URBAN_FABRIC_DISCONTINUOUS_KEYS.includes(l.source.split("_")[0]);
-		const targetToCONTINUOUS = URBAN_FABRIC_CONTINUOUS_KEYS.includes(l.target.split("_")[0]);
+		const sourceId = l.source.id || l.source;
+		const targetId = l.source.id || l.target;
+		const sourceFromDISCONTINUOUS = URBAN_FABRIC_DISCONTINUOUS_KEYS.includes(sourceId.split("_")[0]);
+		const targetToCONTINUOUS = URBAN_FABRIC_CONTINUOUS_KEYS.includes(targetId.split("_")[0]);
 		return sourceFromDISCONTINUOUS && targetToCONTINUOUS;
 	})
 	const nodes = [...dataset.nodes];

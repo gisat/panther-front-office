@@ -14,7 +14,9 @@ import LeafletMap from "../../../../components/common/maps/LeafletMap/presentati
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
-import {mergedDataset} from '../../data/data';
+import {getMergedDataset} from '../../data/data';
+
+const mergedDataset = getMergedDataset();
 
 const empty = {
 	name: 'No overlay',

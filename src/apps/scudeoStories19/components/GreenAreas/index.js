@@ -11,8 +11,10 @@ import MapControls from "../../../../components/common/maps/MapControls/presenta
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
-import {mergedDataset, clearEmptyNodes} from '../../data/data';
+import {getMergedDataset, clearEmptyNodes} from '../../data/data';
 import './styles/style.scss';
+
+const mergedDataset = getMergedDataset();
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -27,8 +29,10 @@ const L4_GREEN_AREAS_CLASSES = ["14100", "14110"];
 
 const filterGreenAreaFlows = (dataset) => {
 	const links = dataset.links.filter(l => {
-		const sourceFromDISCONTINUOUS = L4_GREEN_AREAS_CLASSES.includes(l.source.split("_")[0]);
-		const targetToCONTINUOUS = L4_GREEN_AREAS_CLASSES.includes(l.target.split("_")[0]);
+		const sourceId = l.source.id || l.source;
+		const targetId = l.source.id || l.target;
+		const sourceFromDISCONTINUOUS = L4_GREEN_AREAS_CLASSES.includes(sourceId.split("_")[0]);
+		const targetToCONTINUOUS = L4_GREEN_AREAS_CLASSES.includes(targetId.split("_")[0]);
 		return sourceFromDISCONTINUOUS || targetToCONTINUOUS;
 	})
 	const nodes = [...dataset.nodes];

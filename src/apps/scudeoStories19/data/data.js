@@ -215,7 +215,11 @@ const getSankeyLinks = (dataset, fromYear, toYear, level, classes) => {
 
 export const clearEmptyNodes = (nodes, links) => {
 	return nodes.filter(n => {
-		return links.some(l => l.target === n.id || l.source === n.id);
+		return links.some((l) => {
+            const targetId = l.target.id || l.target;
+            const sourceId = l.source.id || l.source;
+            return targetId === n.id || sourceId === n.id
+        });
 	})
 }
 
@@ -298,3 +302,11 @@ export const mergedDataset = [
 
 addL3OverallFlows(mergedDataset);
 addL4OverallFlows(mergedDataset);
+
+export const getMergedDataset = () => {
+    const data = [...mergedDataset];
+    addL3OverallFlows(data);
+    addL4OverallFlows(data);
+
+    return data;
+}
