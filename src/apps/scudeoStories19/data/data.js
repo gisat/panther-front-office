@@ -6,6 +6,8 @@ import kigomaDataset from './kigoma_combined_output_p7.json';
 import mbeyaDataset from './mbeya_combined_output_p7.json';
 import mtwaraDataset from './mtwara_combined_output_p7.json';
 import mwanzaDataset from './mwanza_combined_output_p7.json';
+import bhopalDataset from './output_bhopal_stories_data_p7.json';
+import campecheDataset from './output_campeche_stories_data_p7.json';
 
 
 
@@ -305,13 +307,34 @@ export const mergedDataset = [
 		name: 'Mwanza',
 		key: 7,
 	},
+	{
+        data: bhopalDataset,
+		lastYear: 2017,
+		firstYear: 2005,
+		name: 'Bhopal',
+		key: 8,
+	},
+	{
+        data: campecheDataset,
+		lastYear: 2018,
+		firstYear: 2006,
+		name: 'Campeche',
+		key: 9,
+	},
 ];
 
 addL3OverallFlows(mergedDataset);
 addL4OverallFlows(mergedDataset);
 
-export const getMergedDataset = () => {
-    const data = [...mergedDataset];
+const mergedDatasetNames = mergedDataset.map(d => d.name);
+
+/**
+ * 
+ * @param {Array.<string>} names - Array of wanted datasources names. Default is all.
+ */
+export const getMergedDataset = (names = mergedDatasetNames) => {
+	const data = [...mergedDataset.filter(d => names.includes(d.name))];
+	
     addL3OverallFlows(data);
     addL4OverallFlows(data);
 

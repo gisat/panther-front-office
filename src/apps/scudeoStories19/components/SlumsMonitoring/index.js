@@ -16,7 +16,8 @@ import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import {getMergedDataset} from '../../data/data';
 
-const mergedDataset = getMergedDataset();
+const wantedDatasources = ['Arusha','Dhaka','Dodoma','Kigoma','Mbeya','Mtwara','Mwanza'];
+const mergedDataset = getMergedDataset(wantedDatasources);
 
 const empty = {
 	name: 'No overlay',
