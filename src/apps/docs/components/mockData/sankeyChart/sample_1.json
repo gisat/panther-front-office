@@ -3,16 +3,17 @@
         "id": "A1",
         "name": "Custum hover title",
         "hoverValue": "Fixed value example",
-        "color": "red",
+        "color": "#ff0000",
         "fixedValue": 50 
     }, {
         "id": "A2",
-        "color": "green"
+        "color": "#008000"
     }, {
         "id": "A3",
-        "color": "blue"
+        "color": "#0000ff"
     }, {
-        "id": "B1"
+        "id": "B1",
+        "color": "#008000"
     }, {
         "id": "B2"
     }, {
