@@ -26,34 +26,36 @@ class ZoneInfo extends React.PureComponent {
 			return (
 				<div className="insarBmwStory-zone-info">
 					<table>
-						<tr>
-							<td>Area key: </td>
-							<td>{props.group_key}</td>
-						</tr>
-						<tr>
-							<td>Zone: </td>
-							<td>{props.cs}</td>
-						</tr>
-						<tr>
-							<td>Distance: </td>
-							<td>{props.dist}</td>
-						</tr>
-						<tr>
-							<td>Weighted mean subsidence (mm/year):</td>
-							<td>{props.wmean_vel_}</td>
-						</tr>
-						<tr>
-							<td>Max subsidence (coh > 0.5) (mm/year): </td>
-							<td>{props.min_vel_av}</td>
-						</tr>
-						<tr>
-							<td>Number of input PS (weights): </td>
-							<td>{props.n_points}</td>
-						</tr>
-						<tr>
-							<td>Mean coherence: </td>
-							<td>{props.mean_coh}</td>
-						</tr>
+						<tbody>
+							<tr>
+								<td>Area key: </td>
+								<td>{props.group_key}</td>
+							</tr>
+							<tr>
+								<td>Zone: </td>
+								<td>{props.cs}</td>
+							</tr>
+							<tr>
+								<td>Distance: </td>
+								<td>{props.dist}</td>
+							</tr>
+							<tr>
+								<td>Weighted mean subsidence (mm/year):</td>
+								<td>{props.wmean_vel_}</td>
+							</tr>
+							<tr>
+								<td>Max subsidence (coh > 0.5) (mm/year): </td>
+								<td>{props.min_vel_av}</td>
+							</tr>
+							<tr>
+								<td>Number of input PS (weights): </td>
+								<td>{props.n_points}</td>
+							</tr>
+							<tr>
+								<td>Mean coherence: </td>
+								<td>{props.mean_coh}</td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			);
