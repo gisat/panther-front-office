@@ -20,8 +20,6 @@ export const vectorLayerDefaultFeatureStyle = {
 };
 
 export const vectorLayerHighlightedFeatureStyle = {
-	fillOpacity: 0.2,
-	fillColor: "#ff0000",
-	strokeColor: "#ff0000",
-	strokeWidth: 3,
+	strokeColor: "#00FFFF",
+	strokeWidth: 2,
 };

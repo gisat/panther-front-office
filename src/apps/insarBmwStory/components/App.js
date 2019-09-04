@@ -12,14 +12,6 @@ import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
 import ChartWrapper from "./ChartWrapper";
 
-// const backgroundLayer = {
-// 	key: 'background-osm',
-// 	type: 'wmts',
-// 	options: {
-// 		url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
-// 	}
-// };
-
 const backgroundLayer = {
 	key: 'cuzk_ortofoto',
 	name: 'CUZK Ortofoto',
@@ -38,8 +30,15 @@ const zones = {
 	type: 'vector',
 	options: {
 		features: bmw_zones.features,
+		style: {
+			fillColor: getColor,
+			fillOpacity: 1,
+			strokeColor: "#fff",
+			strokeWidth: 1,
+		},
 		keyProperty: 'group_key',
-		nameProperty: 'group_key'
+		nameProperty: 'group_key',
+		valueProperty: 'wmean_vel_'
 	}
 };
 
@@ -52,6 +51,63 @@ const view = {
 	},
 	boxRange: 10000
 };
+
+const MapInfo = () => {
+	return (
+		<div className="insarBmwStory-map-tools">
+			<div className="insarBmwStory-map-attribution">
+				Background: © <a href="https://geoportal.cuzk.cz/Dokumenty/Podminky.html" target="_blank">ČÚZK</a>
+			</div>
+			<div className="insarBmwStory-map-legend">
+				<div className="legend-title">
+					Weighted mean subsidence (mm/year)
+				</div>
+				<div className="legend-content">
+					<div className="legend-field">
+						<div className="legend-color" style={{backgroundColor: '#bd0026'}}></div>
+						<div className="legend-value">&lt; -12</div>
+					</div>
+					<div className="legend-field">
+						<div className="legend-color" style={{backgroundColor: '#f03b20'}}></div>
+						<div className="legend-value">-12 to -9 </div>
+					</div>
+					<div className="legend-field">
+						<div className="legend-color" style={{backgroundColor: '#fd8d3c'}}></div>
+						<div className="legend-value">-9 to -6</div>
+					</div>
+					<div className="legend-field">
+						<div className="legend-color" style={{backgroundColor: '#fecc5c'}}></div>
+						<div className="legend-value">-6 to -3</div>
+					</div>
+					<div className="legend-field">
+						<div className="legend-color" style={{backgroundColor: '#ffffb2'}}></div>
+						<div className="legend-value">&gt; -3</div>
+					</div>
+					<div className="legend-field">
+						<div className="legend-color" style={{backgroundColor: '#cccccc'}}></div>
+						<div className="legend-value">No data</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+function getColor(d) {
+	if (d <= -12) {
+		return '#bd0026';
+	} else if (d <= -9) {
+		return '#f03b20';
+	} else if (d <= -6) {
+		return '#fd8d3c';
+	} else if (d <= -3) {
+		return '#fecc5c';
+	} else if (d) {
+		return '#ffffb2';
+	} else {
+		return '#cccccc';
+	}
+}
 
 class App extends React.PureComponent {
 	static propTypes = {
@@ -83,10 +139,8 @@ class App extends React.PureComponent {
 									<MapControls zoomOnly levelsBased/>
 								}
 							>
+								<MapInfo/>
 								<ZoneInfo data={bmw_zones.features}/>
-								<div className="insarBmwStory-map-attribution">
-									Background: © <a href="https://geoportal.cuzk.cz/Dokumenty/Podminky.html" target="_blank">ČÚZK</a>
-								</div>
 							</PresentationMapWithControls>
 						</div>
 
