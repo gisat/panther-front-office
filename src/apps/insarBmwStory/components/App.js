@@ -1,8 +1,8 @@
 import React from 'react';
 
-import vuhu from '../data/vuhu';
-import vuhu0 from '../data/vuhu0';
-import bmw_zones from '../data/bmw_zones';
+// import vuhu from '../data/vuhu';
+// import vuhu0 from '../data/vuhu0';
+// import bmw_zones from '../data/bmw_zones';
 
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
 import PresentationMapWithControls from "../../../components/common/maps/PresentationMapWithControls";
@@ -11,6 +11,10 @@ import LeafletMap from "../../../components/common/maps/LeafletMap/presentation"
 import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
 import ChartWrapper from "./ChartWrapper";
+
+const bmwZonesLoader = import(/* webpackChunkName: "bmwZones" */ '../data/bmw_zones.json');
+const vuhuLoader = import(/* webpackChunkName: "vuhu" */ '../data/vuhu.json');
+const vuhu0Loader = import(/* webpackChunkName: "vuhu0" */ '../data/vuhu0.json');
 
 const backgroundLayer = {
 	key: 'cuzk_ortofoto',
@@ -23,26 +27,6 @@ const backgroundLayer = {
 		}
 	}
 };
-
-const zones = {
-	key: 'zones',
-	name: 'BMW Zones',
-	type: 'vector',
-	options: {
-		features: bmw_zones.features,
-		style: {
-			fillColor: getColor,
-			fillOpacity: 1,
-			strokeColor: "#fff",
-			strokeWidth: 1,
-		},
-		keyProperty: 'group_key',
-		nameProperty: 'group_key',
-		valueProperty: 'wmean_vel_'
-	}
-};
-
-const layers = [zones];
 
 const view = {
 	center: {
@@ -116,6 +100,24 @@ class App extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			features: [],
+			vuhu: [],
+			vuhu0: []
+		};
+	}
+
+	componentDidMount() {
+		let self = this;
+
+		Promise.all([bmwZonesLoader, vuhuLoader, vuhu0Loader]).then((data) => {
+			self.setState({
+				features: data[0].features,
+				vuhu: data[1],
+				vuhu0: data[2]
+			});
+		});
 	}
 
 	render() {
@@ -131,7 +133,23 @@ class App extends React.PureComponent {
 									<LeafletMap
 										mapKey="insarBmwStory-map1"
 										backgroundLayer={backgroundLayer}
-										layers={layers}
+										layers={[{
+											key: 'zones',
+											name: 'BMW Zones',
+											type: 'vector',
+											options: {
+												features: this.state.features,
+												style: {
+													fillColor: getColor,
+													fillOpacity: 1,
+													strokeColor: "#fff",
+													strokeWidth: 1,
+												},
+												keyProperty: 'group_key',
+												nameProperty: 'group_key',
+												valueProperty: 'wmean_vel_'
+											}
+										}]}
 										view={view}
 									/>
 								}
@@ -140,7 +158,7 @@ class App extends React.PureComponent {
 								}
 							>
 								<MapInfo/>
-								<ZoneInfo data={bmw_zones.features}/>
+								<ZoneInfo data={this.state.features}/>
 							</PresentationMapWithControls>
 						</div>
 
@@ -148,12 +166,11 @@ class App extends React.PureComponent {
 							<div className="insarBmwStory-chart-container">
 								<div className="insarBmwStory-chart-title">Restrospective subsidence projection / Subsidence prognosis</div>
 								<ChartWrapper
-									data={vuhu}
+									data={this.state.vuhu}
 								>
 									<LineChart
 										key="vuhu"
 
-										data={vuhu}
 										keySourcePath="id"
 										nameSourcePath="id"
 										serieDataSourcePath="data"
@@ -187,7 +204,7 @@ class App extends React.PureComponent {
 							<div className="insarBmwStory-chart-container">
 								<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
 								<ChartWrapper
-									data={vuhu0}
+									data={this.state.vuhu0}
 								>
 									<LineChart
 										key="vuhu0"
