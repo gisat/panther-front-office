@@ -104,8 +104,10 @@ class VectorLayer extends React.PureComponent {
 			},
 			mouseout: (e) => {
 				if (this.context && this.context.onHoverOut) {
-					this.layer.resetStyle(e.target);
+					this.checkContext();
 					this.context.onHoverOut();
+				} else {
+					this.layer.resetStyle(e.target);
 				}
 			},
 			click: (e) => {
