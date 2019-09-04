@@ -12,6 +12,14 @@ class LayerControls extends React.PureComponent {
 
 		this.switchLayer = this.switchLayer.bind(this);
 	}
+	
+	componentDidMount() {
+		this.props.onMount();
+	}
+	
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
 
 	switchLayer(value, e) {
 		if (value && this.props.templateKeys) {

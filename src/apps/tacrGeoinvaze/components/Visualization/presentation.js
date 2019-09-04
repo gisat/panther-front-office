@@ -18,19 +18,20 @@ const Visualization = props => {
 				handleWidth
 				handleHeight
 				render={({width, height}) => {
-					return (
-						<>
-							<MapSet
-								mapSetKey="tacrGeoinvaze"
-								width={width}
-								height={height}
-							>
-							</MapSet>
-							<MapTools>
-								<MapControls zoomOnly/>
-							</MapTools>
-						</>
-					)
+					// return (
+					// 	<>
+					// 		<MapSet
+					// 			mapSetKey="tacrGeoinvaze"
+					// 			width={width}
+					// 			height={height}
+					// 		>
+					// 		</MapSet>
+					// 		<MapTools>
+					// 			<MapControls zoomOnly/>
+					// 		</MapTools>
+					// 	</>
+					// )
+					return (<div></div>);
 				}}
 			/>
 		);

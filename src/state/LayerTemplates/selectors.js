@@ -23,6 +23,8 @@ export default {
 	getDeletePermissionByKey,
 
 	getEditedDataByKey,
+	
+	getIndexed: common.getIndexed(getSubstate),
 
 	getUpdatePermissionByKey,
 
