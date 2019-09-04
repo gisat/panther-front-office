@@ -11,6 +11,7 @@ import bhopalDataset from './output_bhopal_stories_data_p7.json';
 import campecheDataset from './output_campeche_stories_data_p7.json';
 import limaDataset from './output_lima_stories_data_p7.json';
 import mandalayDataset from './output_mandalay_stories_data_p7.json';
+import abidjanDataset from './output_abidjan_stories_data_p7.json';
 
 
 
@@ -217,7 +218,6 @@ const getSankeyLinks = (dataset, fromYear, toYear, classes, getValueKey) => {
 		}
 	}
 	return links;
-
 }
 
 export const clearEmptyNodes = (nodes, links) => {
@@ -325,13 +325,16 @@ export const mergedDataset = [
 		name: 'Mandalay',
 		key: 11,
 	},
+	{
+        data: abidjanDataset,
+		lastYear: 2018,
+		firstYear: 2005,
+		name: 'Abidjan',
+		key: 12,
+	},
 ];
 
-// addL3OverallFlows(mergedDataset);
-// addL4OverallFlows(mergedDataset);
-
 const mergedDatasetNames = mergedDataset.map(d => d.name);
-
 
 const transformLinksValues = (links, transformFunction) => {
 	return links.map((l) => ({
@@ -348,7 +351,6 @@ export const getMergedDataset = (names = mergedDatasetNames) => {
 	const data = [...mergedDataset.filter(d => names.includes(d.name))];
 	
 	data.forEach(dataset => {
-		// const getValueKey = (sourceKey, targetKey) => `lulc_${level}_${dataset.firstYear}_${sourceKey}_lulc_${level}_${dataset.lastYear}_${targetKey}_percentage`
 		const getL3CoverageValueKey = (sourceKey, targetKey) => `lulc_l3_${dataset.firstYear}_${sourceKey}_lulc_l3_${dataset.lastYear}_${targetKey}_coverage`;
 		const getL4CoverageValueKey = (sourceKey, targetKey) =>   `lulc_l4_${dataset.firstYear}_${sourceKey}_lulc_l4_${dataset.lastYear}_${targetKey}_coverage`;
 
