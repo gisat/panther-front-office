@@ -137,6 +137,7 @@ class SankeyChart extends React.PureComponent {
 				//TODO -> to props
 				const sankey = d3Sankey.sankey()
 					.size([width, height])
+					.extent([[5,5], [width-5, height-5]])
 					.nodeId(d => d.id)
 					.nodeWidth(20)
 					.nodePadding(10)
@@ -175,10 +176,10 @@ class SankeyChart extends React.PureComponent {
 		const getGradient = (link) => {
 			const startColor = link.source.color;
 			const stopColor = link.target.color;
-			return (<linearGradient key={`${link.index}_${link.value}`} id={`gradient_link_${link.index}_${link.value}`}>
+			return (<linearGradient key={`${link.index}_${link.value}`} id={`gradient_link_${link.index}_${link.value}`} gradientUnits="userSpaceOnUse">
+			{/* // return (<linearGradient key={`${link.index}_${link.value}`} id={`gradient_link_${link.index}_${link.value}`} > */}
 				<stop offset={"10%"} stopColor={startColor}></stop>
-				{/* <stop offset={"90%"} stopColor={stopColor}></stop> */}
-				<stop offset={"90%"} stopColor={'#00ccbc'} style={{stopColor: '#00ccbc'}}></stop>
+				<stop offset={"90%"} stopColor={stopColor}></stop>
 			</linearGradient>)
 		}
 
