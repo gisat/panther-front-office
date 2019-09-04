@@ -50,7 +50,7 @@ const view = {
 		lat: 50.225,
 		lon: 12.635
 	},
-	boxRange: 20000
+	boxRange: 10000
 };
 
 class App extends React.PureComponent {
@@ -66,7 +66,7 @@ class App extends React.PureComponent {
 		return (
 			<div className="insarBmwStory">
 				<SelectHandler
-					selectedItems={['A_3300']}
+					selectedItems={['E_4046']}
 				>
 					<div className="insarBmwStory-visualizations">
 						<div className="insarBmwStory-map">
@@ -91,7 +91,8 @@ class App extends React.PureComponent {
 						</div>
 
 						<div className="insarBmwStory-charts">
-							<div>
+							<div className="insarBmwStory-chart-container">
+								<div className="insarBmwStory-chart-title">Restrospective subsidence projection / Subsidence prognosis</div>
 								<ChartWrapper
 									data={vuhu}
 								>
@@ -106,17 +107,18 @@ class App extends React.PureComponent {
 										ySourcePath="value"
 
 										aggregationThreshold={200}
-										height={20}
+										height={18}
 
 										diverging
 
 										yLabel
 										yOptions={{
 											min: -100,
-											name: "Restrospective projection/prognosis",
+											name: "Subsidence",
 											unit: "cm"
 										}}
 
+										xValuesSize={2.5}
 										xOptions={{
 											startingTick: 2,
 											tickStep: 5
@@ -128,6 +130,7 @@ class App extends React.PureComponent {
 							</div>
 
 							<div>
+								<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
 								<ChartWrapper
 									data={vuhu0}
 								>
@@ -141,7 +144,7 @@ class App extends React.PureComponent {
 										ySourcePath="value"
 
 										aggregationThreshold={200}
-										height={20}
+										height={18}
 
 										diverging
 
@@ -149,10 +152,11 @@ class App extends React.PureComponent {
 
 										yLabel
 										yOptions={{
-											name: "Overall subsidence projection",
+											name: "Subsidence",
 											unit: "cm"
 										}}
 
+										xValuesSize={2.5}
 										xOptions={{
 											startingTick: 2,
 											tickStep: 5
