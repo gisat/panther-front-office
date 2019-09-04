@@ -63,8 +63,7 @@ class LineChartDoc extends React.PureComponent {
 						}, {
 							name: "xScale",
 							type: "string",
-							default: "yearBased",
-							description: "Temporary solution. It fills missing years in source data so the xAxis is linear."
+							description: "Temporary solution. When set to 'yearBased' it fills missing years in source data so the xAxis is linear."
 						}, {
 							name: "withPoints",
 							type: "boolean",

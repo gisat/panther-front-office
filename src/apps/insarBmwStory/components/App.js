@@ -177,6 +177,7 @@ class App extends React.PureComponent {
 											startingTick: 2,
 											tickStep: 5
 										}}
+										xScale="yearBased"
 
 										sorting={[["period", "asc"]]}
 									/>
@@ -215,6 +216,7 @@ class App extends React.PureComponent {
 											startingTick: 2,
 											tickStep: 5
 										}}
+										xScale="yearBased"
 									/>
 								</ChartWrapper>
 							</div>

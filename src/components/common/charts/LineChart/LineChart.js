@@ -19,7 +19,6 @@ class LineChart extends React.PureComponent {
 		withPoints: true,
 
 		xGridlines: true,
-		xScale: 'yearBased', // TODO temporary solution, which fills missing years in source data
 		withoutYbaseline: true
 	};
 
