@@ -129,7 +129,7 @@ class App extends React.PureComponent {
 								</ChartWrapper>
 							</div>
 
-							<div>
+							<div className="insarBmwStory-chart-container">
 								<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
 								<ChartWrapper
 									data={vuhu0}
