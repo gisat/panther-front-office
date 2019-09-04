@@ -96,10 +96,11 @@
 @media screen and (max-width: 70rem) {
 	.insarBmwStory-visualizations {
 		flex-direction: column;
+		padding: m(2/3);
 	}
 
 	.insarBmwStory-map {
-		min-height: 20rem;
+		min-height: 30rem;
 		min-width: 0;
 		max-width: 100%;
 	}
