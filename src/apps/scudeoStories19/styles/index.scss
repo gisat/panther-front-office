@@ -120,7 +120,7 @@
 }
 
 .scudeoStories19-content section:nth-child(even) {
-	background: var(--accent15);
+	background: var(--accent05);
 }
 
 .scudeoStories19-content section > * {
@@ -190,6 +190,7 @@
 	border-right: .25rem solid var(--accent50);
 	padding-top: .25rem;
 	padding-bottom: .15rem;
+    padding: .1875rem .375rem;
 }
 
 .scudeoStories19-map-label .ptr-select-container .ptr-select__control {
