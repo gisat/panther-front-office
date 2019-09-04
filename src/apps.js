@@ -57,7 +57,7 @@ export default [
 	{
 		key: 'insarBmwStory',
 		hostname: 'urban-tep.eu',
-		path: 'insarBmw',
+		path: '/visat/insarBmw',
 		devPath: '/insarBmwStory',
 		app: (path, baseUrl) => import(/* webpackChunkName: "insarBmwStory" */'./apps/insarBmwStory').then(module => {
 			module.default(path, baseUrl);
