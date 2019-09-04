@@ -269,7 +269,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 	render() {
 
-		const densificationsData = filterUrbanDensifications(this.state.cityOne.l4OverallFlows);
+		const densificationsData = filterUrbanDensifications(this.state.cityOne.l4OverallFlowsCoverage);
 		const densificationsDataEmpty = densificationsData.nodes.length === 0 && densificationsData.links.length === 0
 
 
@@ -523,7 +523,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-overall-flows"
-											data={this.state.cityOne.l3OverallFlows}
+											data={this.state.cityOne.l3OverallFlowsCoverage}
 											keySourcePath="key"
 
 											nodeNameSourcePath="name"
@@ -539,7 +539,7 @@ class LandAssetsStructure extends React.PureComponent {
 											height={100}
 											yOptions={{
 												// name: 'Node title',
-												unit: '%'
+												unit: 'km2'
 											}}
 										/>
 									</HoverHandler>
@@ -559,7 +559,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<SankeyChart
 											hoverValueSourcePath="valueSize"
 											key="sankey-expansions-flows"
-											data={filterUrbanExpansion(this.state.cityOne.l3OverallFlows)}
+											data={filterUrbanExpansion(this.state.cityOne.l3OverallFlowsCoverage)}
 											keySourcePath="key"
 
 											nodeNameSourcePath="name"
@@ -575,7 +575,7 @@ class LandAssetsStructure extends React.PureComponent {
 											height={50}
 											yOptions={{
 												// name: 'Node title',
-												unit: '%'
+												unit: 'km2'
 											}}
 										/>
 									</HoverHandler>
@@ -613,7 +613,7 @@ class LandAssetsStructure extends React.PureComponent {
 											height={50}
 											yOptions={{
 												// name: 'Node title',
-												unit: '%'
+												unit: 'km2'
 											}}
 										/>
 									</HoverHandler>

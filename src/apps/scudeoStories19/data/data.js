@@ -1,3 +1,4 @@
+import conversions from './conversions';
 //Data
 import arushaDataset from './arusha_combined_output_p7.json';
 import dhakaDataset from './dhaka_combined_output_p7.json';
@@ -181,16 +182,14 @@ export const colors = {
 	
 };
 
-const getSankeyNodes = (dataset, years, level, classes) => {
+const getSankeyNodes = (years, classes) => {
 	const nodes = [];
 	for (const [key, value] of Object.entries(classes)) {
 		for (const year of years) {
-			const propsKey = `lulc_${level}_${year}_${key}_coverage`;
 			const node = {
 				id: `${key}_${year}`,
 				name: value,
 				color: colors[key],
-				// valueSize: dataset.features[0].properties[propsKey]
 			}
 			nodes.push(node);
 		}
@@ -198,11 +197,12 @@ const getSankeyNodes = (dataset, years, level, classes) => {
 	return nodes;
 }
 
-const getSankeyLinks = (dataset, fromYear, toYear, level, classes) => {
+const getSankeyLinks = (dataset, fromYear, toYear, classes, getValueKey) => {
 	const links = [];
 	for (const [sourceKey, sourceValue] of Object.entries(classes)) {
 		for (const [targetKey, targetValue] of Object.entries(classes)) {
-			const changeKey = `lulc_${level}_${fromYear}_${sourceKey}_lulc_${level}_${toYear}_${targetKey}_percentage`
+			// const changeKey = `lulc_${level}_${fromYear}_${sourceKey}_lulc_${level}_${toYear}_${targetKey}_percentage`
+			const changeKey = getValueKey(sourceKey, targetKey);
 			const change = dataset.features[0].properties[changeKey];
 			if(change) {
 				const link = {
@@ -230,30 +230,15 @@ export const clearEmptyNodes = (nodes, links) => {
 	})
 }
 
-const addL3OverallFlows = (dataset) => {
-	dataset.forEach(ds => {
-		const nodes = getSankeyNodes(ds.data, [ds.firstYear, ds.lastYear], 'l3', classesL3);
-		const links = getSankeyLinks(ds.data, ds.firstYear, ds.lastYear, 'l3', classesL3);
-		const nonEmptyNodes = clearEmptyNodes(nodes, links);
-		ds['l3OverallFlows'] = {
-			nodes: nonEmptyNodes,
-			links: links,
-		}
-	})
+const getOverallFlows = (dataset, classes, getValueKey) => {
+	const nodes = getSankeyNodes([dataset.firstYear, dataset.lastYear], classes);
+	const links = getSankeyLinks(dataset.data, dataset.firstYear, dataset.lastYear, classes, getValueKey);
+	const nonEmptyNodes = clearEmptyNodes(nodes, links);
+	return {
+		nodes: nonEmptyNodes,
+		links: links,
+	}
 }
-
-const addL4OverallFlows = (dataset) => {
-	dataset.forEach(ds => {
-		const nodes = getSankeyNodes(ds.data, [ds.firstYear, ds.lastYear], 'l4', classesL4);
-		const links = getSankeyLinks(ds.data, ds.firstYear, ds.lastYear, 'l4', classesL4);
-		const nonEmptyNodes = clearEmptyNodes(nodes, links);
-		ds['l4OverallFlows'] = {
-			nodes: nonEmptyNodes,
-			links: links,
-		}
-	})
-}
-
 
 export const mergedDataset = [
 	{
@@ -342,10 +327,18 @@ export const mergedDataset = [
 	},
 ];
 
-addL3OverallFlows(mergedDataset);
-addL4OverallFlows(mergedDataset);
+// addL3OverallFlows(mergedDataset);
+// addL4OverallFlows(mergedDataset);
 
 const mergedDatasetNames = mergedDataset.map(d => d.name);
+
+
+const transformLinksValues = (links, transformFunction) => {
+	return links.map((l) => ({
+		...l,
+		value: transformFunction(l.value),
+	}))
+}
 
 /**
  * 
@@ -354,8 +347,17 @@ const mergedDatasetNames = mergedDataset.map(d => d.name);
 export const getMergedDataset = (names = mergedDatasetNames) => {
 	const data = [...mergedDataset.filter(d => names.includes(d.name))];
 	
-    addL3OverallFlows(data);
-    addL4OverallFlows(data);
+	data.forEach(dataset => {
+		// const getValueKey = (sourceKey, targetKey) => `lulc_${level}_${dataset.firstYear}_${sourceKey}_lulc_${level}_${dataset.lastYear}_${targetKey}_percentage`
+		const getL3CoverageValueKey = (sourceKey, targetKey) => `lulc_l3_${dataset.firstYear}_${sourceKey}_lulc_l3_${dataset.lastYear}_${targetKey}_coverage`;
+		const getL4CoverageValueKey = (sourceKey, targetKey) =>   `lulc_l4_${dataset.firstYear}_${sourceKey}_lulc_l4_${dataset.lastYear}_${targetKey}_coverage`;
+
+		dataset['l3OverallFlowsCoverage'] = getOverallFlows(dataset, classesL3, getL3CoverageValueKey);
+		dataset['l3OverallFlowsCoverage'].links = transformLinksValues(dataset['l3OverallFlowsCoverage'].links, conversions.toSquareKm);
+
+		dataset['l4OverallFlowsCoverage'] = getOverallFlows(dataset, classesL4, getL4CoverageValueKey);
+		dataset['l4OverallFlowsCoverage'].links = transformLinksValues(dataset['l4OverallFlowsCoverage'].links, conversions.toSquareKm);
+	})
 
     return data;
 }

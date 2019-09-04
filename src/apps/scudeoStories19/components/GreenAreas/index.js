@@ -14,8 +14,6 @@ import conversions from "../../data/conversions";
 import {getMergedDataset, clearEmptyNodes, urbanFabricL3classes} from '../../data/data';
 import './styles/style.scss';
 
-const toSquareKm = (squareMeters) => squareMeters / 1000000;
-
 const mergedDataset = getMergedDataset();
 
 const backgroundLayer = {
@@ -60,15 +58,15 @@ const filterGreenAreaFlows = (dataset) => {
 }
 
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => {
-	const area = toSquareKm(dataSet.data.features[0].properties.area);
-	const urban_fabric_coverage = toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`)));
+	const area = conversions.toSquareKm(dataSet.data.features[0].properties.area);
+	const urban_fabric_coverage = conversions.toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`)));
 	const urban_fabric_share = urban_fabric_coverage / (area / 100);
-	const urban_coverage = toSquareKm(dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]);
+	const urban_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]);
 	const urban_share = dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_percentage`];
-	const green_coverage = toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]);
+	const green_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]);
 	const green_share = dataSet.data.features[0].properties[`green_${dataSet.lastYear}_percentage`];
 	const sport_leisure_facilities_share = dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_percentage`];
-	const sport_leisure_facilities_area = toSquareKm(dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_coverage`]);
+	const sport_leisure_facilities_area = conversions.toSquareKm(dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_coverage`]);
 	const green_areas_share = green_coverage / (area / 100);
 	const green_fabricarea_share = green_coverage / (urban_fabric_coverage / 100);
 	
@@ -124,7 +122,7 @@ class GreenAreas extends React.PureComponent {
 
 		const layers = [greenLayer, vectorLayers];
 
-		const sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlows);
+		const sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlowsCoverage);
 		const sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
 
 		return (
@@ -381,7 +379,7 @@ class GreenAreas extends React.PureComponent {
 												width={50}
 												height={50}
 												yOptions={{
-													unit: '%'
+													unit: 'km2'
 												}}
 											/>
 										</HoverHandler>
