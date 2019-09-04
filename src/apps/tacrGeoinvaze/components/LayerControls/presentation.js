@@ -10,7 +10,8 @@ class LayerControls extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.switchLayer = this.switchLayer.bind(this);
+		this.switchToModel = this.switchToModel.bind(this);
+		this.switchToActual = this.switchToActual.bind(this);
 	}
 	
 	componentDidMount() {
@@ -21,11 +22,29 @@ class LayerControls extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
-	switchLayer(value, e) {
+	switchToModel(value, e) {
 		if (value && this.props.templateKeys && this.props.periods) {
 			let templates = this.props.templateKeys;
 			let latestPeriodKey = this.props.periods[0].key;
 			switch (value) {
+				case "gis1":
+					if (templates.modelGis && templates.modelGis.year1) {
+						this.props.setActiveLayerTemplate(templates.modelGis.year1);
+						this.props.setActivePeriod(latestPeriodKey);
+					}
+					break;
+				case "gis3":
+					if (templates.modelGis && templates.modelGis.year3) {
+						this.props.setActiveLayerTemplate(templates.modelGis.year3);
+						this.props.setActivePeriod(latestPeriodKey);
+					}
+					break;
+				case "gis10":
+					if (templates.modelGis && templates.modelGis.year10) {
+						this.props.setActiveLayerTemplate(templates.modelGis.year10);
+						this.props.setActivePeriod(latestPeriodKey);
+					}
+					break;
 				case "gam":
 					if (templates.modelBiomod && templates.modelBiomod.generalisedLinear) {
 						this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.generalisedLinear);
@@ -47,6 +66,15 @@ class LayerControls extends React.PureComponent {
 			}
 		}
 	}
+	
+	switchToActual(periodKey, e) {
+		if (periodKey && this.props.templateKeys) {
+			let actualTemplateKey = this.props.templateKeys.actualExpansion;
+			
+			this.props.setActiveLayerTemplate(actualTemplateKey);
+			this.props.setActivePeriod(periodKey);
+		}
+	}
 
 	render() {
 		const props = this.props;
@@ -61,19 +89,33 @@ class LayerControls extends React.PureComponent {
 				</div>
 			);
 		} else {
-			actualExpansionInsert = (
-				<div className="tacrGeoinvaze-actual-expansion">
-					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
-					<div>
-						<ButtonGroup>
-							<Button ghost>Aktuální</Button>
-							<Button ghost>2019/Q1</Button>
-							<Button ghost>2018/Q4</Button>
-						</ButtonGroup>
-						<Select/>
+			
+			if (this.props.periods) {
+				let latestPeriods = this.props.periods.slice(0, 3); //todo all periods to select
+				
+				actualExpansionInsert = (
+					<div className="tacrGeoinvaze-actual-expansion">
+						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
+						<div>
+							<ButtonSwitch onClick={this.switchToActual} ghost>
+								{latestPeriods.map(period => (
+									<Option value={period.key}>{period.data.nameDisplay}</Option>
+								))}
+							</ButtonSwitch>
+							{/*<Select/>*/}
+						</div>
 					</div>
-				</div>
-			);
+				);
+			} else {
+				actualExpansionInsert = (
+					<div className="tacrGeoinvaze-actual-expansion">
+						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
+						<div>
+							(žádná data)
+						</div>
+					</div>
+				);
+			}
 		}
 
 		return (
@@ -82,17 +124,17 @@ class LayerControls extends React.PureComponent {
 				<div className="tacrGeoinvaze-model-gis">
 					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření</div>
 					<div>
-						<ButtonGroup>
-							<Button ghost>+ 1 rok</Button>
-							<Button ghost>+ 3 roky</Button>
-							<Button ghost>+ 10 let</Button>
-						</ButtonGroup>
+						<ButtonSwitch onClick={this.switchToModel} ghost>
+							<Option value={"gis1"}>+ 1 rok</Option>
+							<Option value={"gis3"}>+ 3 roky</Option>
+							<Option value={"gis10"}>+ 10 let</Option>
+						</ButtonSwitch>
 					</div>
 				</div>
 				<div className="tacrGeoinvaze-model-biomod">
 					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření</div>
 					<div>
-						<ButtonSwitch onClick={this.switchLayer} ghost>
+						<ButtonSwitch onClick={this.switchToModel} ghost>
 							<Option value={"gam"}>gen. lineární</Option>
 							<Option value={"gbm"}>gradient boosting</Option>
 							<Option value={"maxent"}>maximum entropy</Option>
