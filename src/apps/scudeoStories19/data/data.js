@@ -18,7 +18,7 @@ export const classesL3 = {
     "11100":"Continuous Urban Fabric (Sealing level: 80% - 100%)",
     "11200":"Discontinuous Urban Fabric (Sealing level: 10% - 80%)",
     "12100":"Industrial, Commercial, Public, Military and Private Units",
-    "12200":"Roads and rail network and associated land",
+	"12200":"Roads and rail network and associated land",
     "12300":"Roads and rail network and associated land",
     "12400":"Airport",
     "13100":"Mineral Extraction and Dump Sites",
@@ -103,6 +103,9 @@ export const classesLCFG = {
 	"LCF71": 'Formation of urban greenery',
 	"LCF73": 'Internal change of urban greenery',
 }
+
+//subclasses
+export const urbanFabricL3classes = ['11100', '11200', '12100', '12200', '12300', '12400', '13100', '13300', '13400', '14100', '14200', '14300'];
 
 export const colors = {
     "11100":"#9f1313",

@@ -11,7 +11,7 @@ import MapControls from "../../../../components/common/maps/MapControls/presenta
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
-import {getMergedDataset, clearEmptyNodes} from '../../data/data';
+import {getMergedDataset, clearEmptyNodes, urbanFabricL3classes} from '../../data/data';
 import './styles/style.scss';
 
 const toSquareKm = (squareMeters) => squareMeters / 1000000;
@@ -61,6 +61,8 @@ const filterGreenAreaFlows = (dataset) => {
 
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => {
 	const area = toSquareKm(dataSet.data.features[0].properties.area);
+	const urban_fabric_coverage = toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`)));
+	const urban_fabric_share = urban_fabric_coverage / (area / 100);
 	const urban_coverage = toSquareKm(dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]);
 	const urban_share = dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_percentage`];
 	const green_coverage = toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]);
@@ -68,15 +70,21 @@ const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => {
 	const sport_leisure_facilities_share = dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_percentage`];
 	const sport_leisure_facilities_area = toSquareKm(dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_coverage`]);
 	const green_areas_share = green_coverage / (area / 100);
+	const green_fabricarea_share = green_coverage / (urban_fabric_coverage / 100);
+	
+	
 	return {
 		sport_leisure_facilities_share,
 		sport_leisure_facilities_area,
 		area,
 		urban_coverage,
 		urban_share,
+		urban_fabric_coverage,
+		urban_fabric_share,
 		green_coverage,
 		green_share,
 		green_areas_share,
+		green_fabricarea_share,
 		key: dataSet.key,
 		name: dataSet.name,
 	}
@@ -187,7 +195,7 @@ class GreenAreas extends React.PureComponent {
 						<Fade left distance="50px">
 							<Visualization
 								title="Green Areas Share (%)"
-								description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of the city; and on total area of artificial urban areas (urban fabric)."
+								description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of artificial urban areas (urban fabric)."
 							>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -202,7 +210,7 @@ class GreenAreas extends React.PureComponent {
 												// ySourcePath="green_areas_share"
 												ySourcePath={[
 													{
-														path: 'green_areas_share',
+														path: 'green_fabricarea_share',
 														name: 'Urban green',
 														color: '#42982e',
 													},
@@ -280,12 +288,12 @@ class GreenAreas extends React.PureComponent {
 												keySourcePath="key"
 												nameSourcePath="name"
 												xSourcePath="green_share"
-												ySourcePath="urban_share"
+												ySourcePath="urban_fabric_share"
 
 												yLabel
 												yValuesSize={3.5}
 												yOptions={{
-													name: "Urban area",
+													name: "Urban fabric area",
 													unit: "%"
 												}}
 												xLabel

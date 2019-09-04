@@ -52,8 +52,8 @@ const overlayLayers = [
 ]
 
 const slumsAreaShare = mergedDataset.map((dataSet) => {
-	const area = conversions.sum(dataSet.data.features, 'properties.area');
-	const informal_coverage = conversions.sum(dataSet.data.features, `properties.informal_${dataSet.lastYear}_coverage`);
+	// const area = conversions.sum(dataSet.data.features, 'properties.area');
+	// const informal_coverage = conversions.sum(dataSet.data.features, `properties.informal_${dataSet.lastYear}_coverage`);
 	return {
 		value: dataSet.data.features[0].properties[`informal_${dataSet.informalYear}_percentage`],
 		key: dataSet.key,

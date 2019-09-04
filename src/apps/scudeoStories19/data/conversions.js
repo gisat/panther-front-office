@@ -128,9 +128,17 @@ function avarage(features, valuePath) {
 	}, 0)
 }
 
-function sum(features, valuePath) {
+/**
+ * 
+ * @param {Array} features 
+ * @param {Array} valuePaths 
+ */
+function sum(features, valuePaths) {
 	return features.reduce((acc, feature) => {
-		return acc + _.get(feature, valuePath);
+		return acc + valuePaths.reduce((acc, valuePath) => {
+			const val = _.get(feature, valuePath) || 0;
+			return acc + val;
+		}, 0)
 	}, 0)
 }
 
