@@ -22,22 +22,26 @@ class LayerControls extends React.PureComponent {
 	}
 
 	switchLayer(value, e) {
-		if (value && this.props.templateKeys) {
+		if (value && this.props.templateKeys && this.props.periods) {
 			let templates = this.props.templateKeys;
+			let latestPeriodKey = this.props.periods[0].key;
 			switch (value) {
 				case "gam":
 					if (templates.modelBiomod && templates.modelBiomod.generalisedLinear) {
-						// this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.generalisedLinear);
+						this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.generalisedLinear);
+						this.props.setActivePeriod(latestPeriodKey);
 					}
 					break;
 				case "gbm":
 					if (templates.modelBiomod && templates.modelBiomod.gradientBoosting) {
-						// this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.gradientBoosting);
+						this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.gradientBoosting);
+						this.props.setActivePeriod(latestPeriodKey);
 					}
 					break;
 				case "maxent":
 					if (templates.modelBiomod && templates.modelBiomod.maximumEntropy) {
-						// this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.maximumEntropy);
+						this.props.setActiveLayerTemplate(this.props.templateKeys.modelBiomod.maximumEntropy);
+						this.props.setActivePeriod(latestPeriodKey);
 					}
 					break;
 			}

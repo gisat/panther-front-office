@@ -7,11 +7,12 @@ import presentation from "./presentation";
 import utils from "../../../../utils/utils";
 
 const filterByActive = {application: true};
+const periodsOrder = [["period", "descending"]];
 
 const mapStateToProps = state => {
 	return {
 		templateKeys: Select.app.getConfiguration(state, 'templates'),
-		periods: Select.periods.getIndexed(state, filterByActive, null, null, 1, 200),
+		periods: Select.periods.getIndexed(state, filterByActive, null, periodsOrder, 1, 200),
 		layerTemplates: Select.layerTemplates.getIndexed(state, filterByActive, null, null, 1, 20)
 	}
 };
@@ -24,12 +25,18 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onMount: () => {
 				// TODO order
-				dispatch(Action.periods.useIndexed(filterByActive, null, null, 1, 200, componentId));
+				dispatch(Action.periods.useIndexed(filterByActive, null, periodsOrder, 1, 200, componentId));
 				dispatch(Action.layerTemplates.useIndexed(filterByActive, null, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.periods.useIndexedClear(componentId));
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));
+			},
+			setActiveLayerTemplate: (key) => {
+				dispatch(Action.layerTemplates.setActiveKey(key));
+			},
+			setActivePeriod: (key) => {
+				dispatch(Action.periods.setActiveKey(key));
 			}
 		}
 	}
