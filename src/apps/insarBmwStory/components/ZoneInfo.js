@@ -41,11 +41,11 @@ class ZoneInfo extends React.PureComponent {
 							</tr>
 							<tr>
 								<td>Weighted mean subsidence (mm/year):</td>
-								<td>{props.wmean_vel_}</td>
+								<td>{props.wmean_vel_ ? props.wmean_vel_.toFixed(2) : null}</td>
 							</tr>
 							<tr>
 								<td>Max subsidence (coh > 0.5) (mm/year): </td>
-								<td>{props.min_vel_av}</td>
+								<td>{props.min_vel_av ? props.min_vel_av.toFixed(2) : null}</td>
 							</tr>
 							<tr>
 								<td>Number of input PS (weights): </td>
@@ -53,7 +53,7 @@ class ZoneInfo extends React.PureComponent {
 							</tr>
 							<tr>
 								<td>Mean coherence: </td>
-								<td>{props.mean_coh}</td>
+								<td>{props.mean_coh ? props.mean_coh.toFixed(2) : null}</td>
 							</tr>
 						</tbody>
 					</table>
