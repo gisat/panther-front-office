@@ -27,6 +27,7 @@ class Link extends React.PureComponent {
         y1: PropTypes.number,
         height: PropTypes.number,
         width: PropTypes.number,
+        gradientLinks: PropTypes.bool,
 
         nameSourcePath: PropTypes.string,
         valueSourcePath: PropTypes.string,
@@ -125,10 +126,15 @@ class Link extends React.PureComponent {
         });
 
         if (this.state.color) {
-			style.fill = this.state.color
+            style.fill = 'none';
 			style.stroke = this.state.color
         }
-
+        
+        if (props.gradientLinks) {
+            style.fill = 'none'
+            // style.stroke = `url(#gradient_${this.props.itemKeys[0]})`
+            style.stroke = `url(#gradient_link_1_9)`
+        }
         // const width = Math.abs(props.x1 - props.x0);
         // const height = Math.abs(props.y1 - props.y0);
 

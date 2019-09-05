@@ -30,7 +30,7 @@ class SankeyChartDocs extends React.PureComponent {
 							nodeValueSourcePath="value"
 							nodeHoverNameSourcePath="name"
 							nodeHoverValueSourcePath="hoverValue"
-
+							// gradientLinks
 							width={50}
 							height={40}
 							yOptions={{
