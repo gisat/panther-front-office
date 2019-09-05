@@ -11,14 +11,19 @@ class WmsLayer extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		// todo add other params
-		this.layer = L.tileLayer.wms(props.data.options.url, {
+		let data = {
 			layers: props.data.options.params.layers,
 			format: props.data.options.params.imageFormat || 'image/png',
 			transparent: true,
 			opacity: props.data.opacity || 1,
-			styles: props.data.options.params.styles
-		});
+		};
+
+		if (props.data.options.params.styles) {
+			data.styles = props.data.options.params.styles;
+		}
+
+		// todo add other params
+		this.layer = L.tileLayer.wms(props.data.options.url, data);
 
 		props.group.addLayer(this.layer);
 	}
