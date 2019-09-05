@@ -14,23 +14,10 @@ import LeafletMap from "../../../../components/common/maps/LeafletMap/presentati
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
+import {getMergedDataset} from '../../data/data';
 
-//Data
-import dodomaDataset from './data/dodoma_informal_vs_urban_2016.json';
-import dhakaDataset from './data/dhaka_informal_vs_urban_2017.json';
-
-const mergedDataset = [
-	{
-		data: dhakaDataset,
-		name: 'Dhaka',
-		key: 1,
-	},
-	{
-		data: dodomaDataset,
-		name: 'Dodoma',
-		key: 2,
-	},
-]
+const wantedDatasources = ['Arusha','Dhaka','Dodoma','Kigoma','Mbeya','Mtwara','Mwanza'];
+const mergedDataset = getMergedDataset(wantedDatasources);
 
 const empty = {
 	name: 'No overlay',
@@ -65,10 +52,10 @@ const overlayLayers = [
 ]
 
 const slumsAreaShare = mergedDataset.map((dataSet) => {
-	const area = conversions.sum(dataSet.data.features, 'properties.area');
-	const informal_coverage = conversions.sum(dataSet.data.features, 'properties.informal_coverage');
+	// const area = conversions.sum(dataSet.data.features, 'properties.area');
+	// const informal_coverage = conversions.sum(dataSet.data.features, `properties.informal_${dataSet.lastYear}_coverage`);
 	return {
-		value: informal_coverage / (area / 100),
+		value: dataSet.data.features[0].properties[`informal_${dataSet.informalYear}_percentage`],
 		key: dataSet.key,
 		name: dataSet.name,
 	}
@@ -76,8 +63,10 @@ const slumsAreaShare = mergedDataset.map((dataSet) => {
 
 const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
 	{
-		slumAreas: conversions.sum(dataSet.data.features, 'properties.informal_coverage') / 1000000,
-		urbanAreas: conversions.sum(dataSet.data.features, 'properties.urban_coverage') / 1000000,
+		// slumAreas: conversions.sum(dataSet.data.features, 'properties.informal_coverage') / 1000000,
+		// urbanAreas: conversions.sum(dataSet.data.features, 'properties.urban_coverage') / 1000000,
+		slumAreas:  dataSet.data.features[0].properties[`informal_${dataSet.informalYear}_coverage`]/ 1000000,
+		urbanAreas:  dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]/ 1000000,
 		key: dataSet.key,
 		name: dataSet.name,
 	})
@@ -85,8 +74,10 @@ const slumAreasVsUrbanAreas = mergedDataset.map((dataSet) => (
 
 const slumAreasVsCityTotalAreas = mergedDataset.map((dataSet) => (
 	{
-		slumAreas: conversions.sum(dataSet.data.features, 'properties.informal_coverage') / 1000000,
-		cityArea: conversions.sum(dataSet.data.features, 'properties.area') / 1000000,
+		// slumAreas: conversions.sum(dataSet.data.features, 'properties.informal_coverage') / 1000000,
+		// cityArea: conversions.sum(dataSet.data.features, 'properties.area') / 1000000,
+		slumAreas:  dataSet.data.features[0].properties[`informal_${dataSet.informalYear}_coverage`]/ 1000000,
+		cityArea:  dataSet.data.features[0].properties.area/ 1000000,
 		key: dataSet.key,
 		name: dataSet.name,
 	})
@@ -132,19 +123,20 @@ class SlumsMonitoring extends React.PureComponent {
 			}
 		}];
 
+
+
 		const dataLayer = {
 			name: 'Data layer',
 			key: 'slums',
 			type: 'wms',
 			options: {
-				url: 'https://urban-tep.eu/puma/geoserver/wms',
+				url: 'https://urban-tep.eu/puma/geoserver/wms?',
 				params:{
 					layers: 'scudeo_slums',
 					styles: '',
 				},
 			}
 		};
-
 		const overlayLayer = this.state.overlayLayer.type ? [this.state.overlayLayer] : [];
 
 		return (
@@ -193,7 +185,7 @@ class SlumsMonitoring extends React.PureComponent {
 								title="Slum Areas vs. Urban Areas"
 								description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
 							>
-								<Fade cascade className="aaaa">
+								<Fade cascade className="">
 									<div className="scudeoStories19-chart-container">
 										<HoverHandler>
 											<ScatterChart

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
 import chroma from 'chroma-js';
 
@@ -11,8 +10,7 @@ import './style.scss';
 import utils from "../../../../utils/utils";
 
 import Node from "./Node";
-
-const TICK_WIDTH = 8; // in px
+import Link from "./Link";
 
 class SankeyChart extends React.PureComponent {
 	static defaultProps = {
@@ -39,6 +37,17 @@ class SankeyChart extends React.PureComponent {
 			PropTypes.object
 		]),
 		nodeColorSourcePath: PropTypes.string,
+
+		linkDefaultColor: PropTypes.string,
+		linkHighlightedColor: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		]),
+		linkColorSourcePath: PropTypes.string,
+		linkNameSourcePath: PropTypes.string,
+		linkValueSourcePath: PropTypes.string.isRequired,
+		linkHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
+
 		yOptions: PropTypes.object,
 		data: PropTypes.object.isRequired,
 		forceMinimum: PropTypes.number,
@@ -48,9 +57,11 @@ class SankeyChart extends React.PureComponent {
 
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string.isRequired,
-		nameSourcePath: PropTypes.string.isRequired,
-		valueSourcePath: PropTypes.string.isRequired,
-		hoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
+
+		nodeNameSourcePath: PropTypes.string.isRequired,
+		nodeHoverNameSourcePath: PropTypes.string,
+		nodeValueSourcePath: PropTypes.string.isRequired,
+		nodeHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		width: PropTypes.number,
 		height: PropTypes.number,
@@ -134,7 +145,7 @@ class SankeyChart extends React.PureComponent {
 
 				content = (
 					<>
-						<svg className="ptr-chart ptr-sankey-chart" height={height}>
+						<svg className="ptr-chart ptr-sankey-chart" height={height} width={width}>
 							{props.data ? this.renderLinks(graph.links) : null}
 							{props.data ? this.renderNodes(graph.nodes) : null}
 						</svg>
@@ -158,18 +169,35 @@ class SankeyChart extends React.PureComponent {
 	}
 
 	renderLinks(links) {
-		let d = d3Sankey.sankeyLinkHorizontal()
-		
 		const linksElms = links.map((l) => {
+			let color = _.get(l, `${this.props.linkColorSourcePath}`);
+			let defaultColor = this.props.linkDefaultColor;
+			let highlightedColor = this.props.linkHighlightedColor;
+
+			if (this.props.linkColorSourcePath && color) {
+				defaultColor = color;
+				highlightedColor = chroma(defaultColor).darken(1);
+			}
+
 			return (
-					<path
-						key={l.index}
-						d={d(l)}
-						strokeWidth={l.width}
-						fill={'none'}
-						strokeOpacity={0.5}
-						stroke={'red'}
-						/>)
+				<Link
+					itemKeys={[`link_${l.index}_${l.value}`]}
+					key={`link_${l.index}_${l.value}`}
+					strokeWidth={l.width}
+					fill={'none'}
+					strokeWidth={l.width}
+
+					defaultColor={defaultColor}
+					highlightedColor={highlightedColor}
+					nameSourcePath={this.props.linkNameSourcePath}
+					valueSourcePath={this.props.linkValueSourcePath}
+					hoverValueSourcePath={this.props.hoverValueSourcePath}
+					data={{
+						...l
+					}}
+					yOptions={this.props.yOptions}
+					/>
+			)
 		})
 
 		return (
@@ -178,7 +206,8 @@ class SankeyChart extends React.PureComponent {
 	}
 
 	renderNodes(nodes) {
-		
+		const maxNodeDepth = nodes.reduce((max, n) => Math.max(max, n.depth), 0)
+
 		const nodesElms = nodes.map((n) => {
 			let color = _.get(n, `${this.props.nodeColorSourcePath}`);
 			let defaultColor = this.props.nodeDefaultColor;
@@ -191,8 +220,8 @@ class SankeyChart extends React.PureComponent {
 
 			return (
 				<Node
-					itemKeys={[n.index]}
-					key={`${n.index}_${n.value}`}
+					itemKeys={[`node_${n.index}_${n.value}`]}
+					key={`node_${n.index}_${n.value}`}
 					x0={n.x0}
 					x1={n.x1}
 					y0={n.y0}
@@ -201,9 +230,11 @@ class SankeyChart extends React.PureComponent {
 					width={Math.abs(n.x1 - n.x0)}
 					defaultColor={defaultColor}
 					highlightedColor={highlightedColor}
-					nameSourcePath={'id'}
-					valueSourcePath={this.props.valueSourcePath}
-					// valueSourcePath={'valueXXX'}
+					nameSourcePath={this.props.nodeNameSourcePath}
+					hoverNameSourcePath={this.props.nodeHoverNameSourcePath}
+					valueSourcePath={this.props.nodeValueSourcePath}
+					hoverValueSourcePath={this.props.nodeHoverValueSourcePath}
+					maxNodeDepth={maxNodeDepth}
 					data={{
 						...n
 					}}

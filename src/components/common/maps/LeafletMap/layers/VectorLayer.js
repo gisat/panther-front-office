@@ -4,7 +4,7 @@ import L from 'leaflet';
 import _ from 'lodash';
 
 import {
-	vectorLayerDefaultFeatureStyle as featureStyle,
+	vectorLayerDefaultFeatureStyle as defaultStyle,
 	vectorLayerHighlightedFeatureStyle as highlightedFeatureStyle
 } from "../../constants";
 
@@ -23,12 +23,7 @@ class VectorLayer extends React.PureComponent {
 		super(props);
 
 		this.layer = L.geoJSON(props.data.options.features, {
-			style: {
-				opacity: props.data.opacity || 1,
-				fillOpacity: featureStyle.fillOpacity,
-				weight: featureStyle.strokeWidth,
-				color: featureStyle.strokeColor
-			},
+			style: this.getLayerStyle.bind(this),
 			onEachFeature: this.onEachFeature.bind(this)
 		});
 
@@ -45,6 +40,27 @@ class VectorLayer extends React.PureComponent {
 		if (this.context) {
 			this.checkContext();
 		}
+	}
+
+	// TODO quick solution for choropleths. Find out choropleths in general.
+	getLayerStyle(feature) {
+		const propStyle = this.props.data && this.props.data.options && this.props.data.options.style;
+		let fillColor = defaultStyle.fillColor;
+		if (propStyle && propStyle.fillColor) {
+			if (typeof propStyle.fillColor === 'function') {
+				fillColor = propStyle.fillColor(feature.properties[this.props.data.options.valueProperty]);
+			} else {
+				fillColor = propStyle.fillColor;
+			}
+		}
+
+		return {
+			opacity: (this.props.data && this.props.data.opacity) || 1,
+			fillOpacity: (propStyle && propStyle.fillOpacity) || defaultStyle.fillOpacity,
+			fillColor,
+			weight: (propStyle && propStyle.strokeWidth) || defaultStyle.strokeWidth,
+			color: (propStyle && propStyle.strokeColor) || defaultStyle.strokeColor
+		};
 	}
 
 	checkContext() {
@@ -72,10 +88,10 @@ class VectorLayer extends React.PureComponent {
 
 	highlightFeature(feature) {
 		feature.setStyle({
-			color: highlightedFeatureStyle.strokeColor,
-			fillOpacity: highlightedFeatureStyle.fillOpacity,
-			fillColor: highlightedFeatureStyle.fillColor,
-			weight: highlightedFeatureStyle.strokeWidth
+			color: highlightedFeatureStyle.strokeColor || feature.options.color,
+			fillOpacity: highlightedFeatureStyle.fillOpacity  || feature.options.fillOpacity,
+			fillColor: highlightedFeatureStyle.fillColor || feature.options.fillColor,
+			weight: highlightedFeatureStyle.strokeWidth || feature.options.weight
 		});
 	}
 
@@ -103,9 +119,25 @@ class VectorLayer extends React.PureComponent {
 				}
 			},
 			mouseout: (e) => {
-				this.layer.resetStyle(e.target);
 				if (this.context && this.context.onHoverOut) {
+					this.checkContext();
 					this.context.onHoverOut();
+				} else {
+					this.layer.resetStyle(e.target);
+				}
+			},
+			click: (e) => {
+				if (this.context && this.context.onClick) {
+					this.highlightFeature(e.target);
+
+					if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+						layer.bringToFront();
+					}
+
+					let keyColumn = this.props.data.options.keyProperty;
+					if (keyColumn) {
+						this.context.onClick([e.target.feature.properties[keyColumn]]);
+					}
 				}
 			}
 		});

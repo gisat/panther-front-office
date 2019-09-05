@@ -22,14 +22,19 @@ class SankeyChartDocs extends React.PureComponent {
 							data={sample_1}
 
 							nodeColorSourcePath="color"
+							linkColorSourcePath="color"
+							linkNameSourcePath="name"
+							linkValueSourcePath="value"
 							keySourcePath="key"
-							nameSourcePath="id"
-							valueSourcePath="value"
+							nodeNameSourcePath="id"
+							nodeValueSourcePath="value"
+							nodeHoverNameSourcePath="name"
+							nodeHoverValueSourcePath="hoverValue"
 
 							width={50}
 							height={40}
 							yOptions={{
-								name: 'Node title',
+								// name: 'Node title',
 								unit: 'm2'
 							}}
 						/>

@@ -19,3 +19,13 @@
 	fill: var(--base75);
 	font-size: $b1;
 }
+
+.ptr-sankey-chart-link {
+	// fill: var(--accent50);
+	stroke: var(--accent30);
+}
+
+.ptr-sankey-chart-link-highlighted {
+	// fill: var(--accent80);
+	stroke: var(--accent40);
+}

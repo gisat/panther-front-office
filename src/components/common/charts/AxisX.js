@@ -116,21 +116,50 @@ class AxisX extends React.PureComponent {
 	}
 
 	renderOrdinalGrid(shift) {
-		let barWidth = this.props.scale.bandwidth();
-		let gap = 2*barWidth*this.props.scale.padding();
+		const props = this.props;
+		const options = props.options;
+
+		let scale = props.scale;
+		let data = [];
+
+		if (options && (options.startingTick || options.tickStep)) {
+			let start = 0;
+			let step = 1;
+
+			if (options.startingTick) {
+				start = options.startingTick;
+			}
+			if (options.tickStep) {
+				step = options.tickStep;
+			}
+
+			for (let i = start; i<= props.data.length; i+=step) {
+				data.push(props.data[i]);
+			}
+
+			scale = props.scale.domain(data);
+
+
+		} else {
+			data = props.data;
+
+		}
+
+		let barWidth = scale.bandwidth();
+		let gap = scale.padding();
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding + barWidth/2}, 0)`}>
-				{this.props.data.map(item => {
+			<g className="ptr-axis-grid" transform={`translate(${props.leftPadding + barWidth/2}, 0)`}>
+				{data.map(item => {
 					let key = item;
 					let name = item;
 
 					if (_.isObject(item)) {
-						key = item.key || _.get(item, this.props.keySourcePath);
-						name = item.name || _.get(item, this.props.nameSourcePath);
+						key = item.key || _.get(item, props.keySourcePath);
+						name = item.name || _.get(item, props.nameSourcePath);
 					}
 
-					let xCoord = this.props.scale(key);
+					let xCoord = props.scale(key);
 					if (xCoord || xCoord === 0) {
 						return (
 							<g key={key}>
@@ -138,10 +167,10 @@ class AxisX extends React.PureComponent {
 									className="ptr-axis-gridline"
 									x1={xCoord}
 									x2={xCoord}
-									y1={this.props.plotHeight + shift}
-									y2={this.props.gridlines ? 0 : this.props.plotHeight}
+									y1={props.plotHeight + shift}
+									y2={props.gridlines ? 0 : props.plotHeight}
 								/>
-								{this.props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, name) : null}
+								{props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, name) : null}
 							</g>
 						);
 					} else {

@@ -1,8 +1,10 @@
 {
     "nodes": [{
         "id": "A1",
-        "name": "name 11",
-        "color": "red"
+        "name": "Custum hover title",
+        "hoverValue": "Fixed value example",
+        "color": "red",
+        "fixedValue": 50 
     }, {
         "id": "A2",
         "color": "green"
@@ -26,16 +28,21 @@
     }, {
         "id": "D1"
     }, {
-        "id": "D2"
+        "id": "D2",
+        "fixedValue": 35 
     }],
     "links": [{
         "source": "A1",
         "target": "B1",
-        "value": 27
+        "value": 27,
+        "name": "Value",
+        "color": "blue"
     }, {
         "source": "A1",
         "target": "B2",
-        "value": 9
+        "name": "Move",
+        "value": 9,
+        "color": "blue"
     }, {
         "source": "A2",
         "target": "B2",
