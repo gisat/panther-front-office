@@ -19,7 +19,7 @@ import AppContainer from "../../components/common/AppContainer/presentation";
 import GlobalWSF from "./components/GlobalWSF";
 import GreenAreas from "./components/GreenAreas";
 import LandAssetsStructure from "./components/LandAssetsStructure";
-import SlumsMonitoring from "./components/SlumsMonitoring";
+// import SlumsMonitoring from "./components/SlumsMonitoring";
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
@@ -43,11 +43,13 @@ export default (path, baseUrl) => {
 		key: "landAssetsStructure",
 		component: LandAssetsStructure,
 		navigationName: "Land assets structure"
-	}, {
-		key: "slumsMonitoring",
-		component: SlumsMonitoring,
-		navigationName: "Slums monitoring"
-	}];
+	}, 
+	// {
+	// 	key: "slumsMonitoring",
+	// 	component: SlumsMonitoring,
+	// 	navigationName: "Slums monitoring"
+	// }
+];
 
 	ReactDOM.render(
 		<>
