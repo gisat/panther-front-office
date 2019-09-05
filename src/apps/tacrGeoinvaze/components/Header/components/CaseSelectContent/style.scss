@@ -31,9 +31,20 @@
 .tacrGeoinvaze-case-select-content-intro {
   height: 0;
   overflow: hidden;
+	transition: height .3s ease-in-out;
 }
 .tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro {
   height: 14rem;
+}
+
+.tacrGeoinvaze-case-select-content-link-home {
+	display: inline-block;
+	width: 0;
+	overflow: hidden;
+	transition: width .3s ease-in-out;
+}
+.tacrGeoinvaze-case-select-content:not(.showIntro) .tacrGeoinvaze-case-select-content-link-home{
+	width: 3.6rem;
 }
 
 .tacrGeoinvaze-case-select-content-cases > div:nth-child(2n) {

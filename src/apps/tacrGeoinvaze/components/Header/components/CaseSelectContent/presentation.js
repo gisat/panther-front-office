@@ -5,6 +5,8 @@ import classnames from "classnames";
 import CaseList from "../CaseList";
 import Button from "../../../../../../components/common/atoms/Button";
 import Models from "../Models";
+import Inputs from "../Inputs";
+import About from "../About";
 
 class CaseSelectContent extends React.PureComponent {
 
@@ -28,7 +30,9 @@ class CaseSelectContent extends React.PureComponent {
 					</p>
 					</div>
 					<div className="tacrGeoinvaze-case-select-content-links">
-						<Button invisible primary onClick={props.changeContent.bind(null, null)}>Úvod</Button>
+						<div className="tacrGeoinvaze-case-select-content-link-home">
+							<Button invisible primary onClick={props.changeContent.bind(null, null)} >Úvod</Button>
+						</div>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'inputs')}>Vstupní data</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
@@ -78,6 +82,10 @@ class CaseSelectContent extends React.PureComponent {
 	
 	renderContent(key) {
 		switch(key) {
+			case "about":
+				return React.createElement(About);
+			case "inputs":
+				return React.createElement(Inputs);
 			case "models":
 				return React.createElement(Models);
 			default:
