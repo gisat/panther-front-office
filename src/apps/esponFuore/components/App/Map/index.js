@@ -34,11 +34,13 @@ const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 
 	const layersByLayerTemplateKey = {};
 	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
-		for (const layer of layers) {
-			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
-			if(layerTemplateKey) {
-				if(!layersByLayerTemplateKey[layerTemplateKey]) {
-					layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+		if(layers) {
+			for (const layer of layers) {
+				const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+				if(layerTemplateKey) {
+					if(!layersByLayerTemplateKey[layerTemplateKey]) {
+						layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+					}
 				}
 			}
 		}
@@ -65,21 +67,24 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 	};
 
 	const layersByLayerTemplateKey = {};
+	
 	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
-		for (const layer of layers) {
-			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
-			if(layerTemplateKey) {
-				if(!layersByLayerTemplateKey[layerTemplateKey]) {
-					layersByLayerTemplateKey[layerTemplateKey] = {};
-					layersByLayerTemplateKey[layerTemplateKey] = {
-						key: layerTemplateKey,
-						type: layer.type,
-						statistics: {},
-						mergedStatistics: null,
-						layers: {}
-					};
+		if(layers) {
+			for (const layer of layers) {
+				const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+				if(layerTemplateKey) {
+					if(!layersByLayerTemplateKey[layerTemplateKey]) {
+						layersByLayerTemplateKey[layerTemplateKey] = {};
+						layersByLayerTemplateKey[layerTemplateKey] = {
+							key: layerTemplateKey,
+							type: layer.type,
+							statistics: {},
+							mergedStatistics: null,
+							layers: {}
+						};
+					}
+					layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
 				}
-				layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
 			}
 		}
 	}
