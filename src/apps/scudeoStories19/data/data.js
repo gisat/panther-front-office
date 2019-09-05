@@ -419,7 +419,9 @@ export const getMergedDataset = (names = mergedDatasetNames) => {
 				dataset['l4OverallFlowsCoverage'] = getOverallFlows(dataset, classesL4, getL4CoverageValueKey);
 				dataset['l4OverallFlowsCoverage'].links = transformLinksValues(dataset['l4OverallFlowsCoverage'].links, conversions.toSquareKm);
 			})
-			resolve(data);
+			const ordered =  data.sort((a,b) => {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
+
+			resolve(ordered);
 		})
 	});
 
