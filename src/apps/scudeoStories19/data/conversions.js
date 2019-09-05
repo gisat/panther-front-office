@@ -142,6 +142,8 @@ function sum(features, valuePaths) {
 	}, 0)
 }
 
+const toSquareKm = (squareMeters) => squareMeters / 1000000;
+
 export default {
 	avarage,
 	sum,
@@ -149,6 +151,6 @@ export default {
 	featuresToSerialDataAsObject,
 	featuresToAttributes,
 	featuresToAttributesSerial,
-
+	toSquareKm,
 	getAttributeChanges
 }
