@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import HoverContext from "../../../components/common/HoverHandler/context";
-import bmw_zones from "../data/bmw_zones";
 
 class ZoneInfo extends React.PureComponent {
 	static contextType = HoverContext;

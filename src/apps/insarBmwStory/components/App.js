@@ -1,10 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 
-// import vuhu from '../data/vuhu';
-// import vuhu0 from '../data/vuhu0';
-// import bmw_zones from '../data/bmw_zones';
-
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
 import PresentationMapWithControls from "../../../components/common/maps/PresentationMapWithControls";
 import MapControls from "../../../components/common/maps/MapControls/presentation";
@@ -13,9 +9,9 @@ import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
 import ChartWrapper from "./ChartWrapper";
 
-const bmwZonesLoader = import(/* webpackChunkName: "bmwZones" */ '../data/bmw_zones.json');
-const vuhuLoader = import(/* webpackChunkName: "vuhu" */ '../data/vuhu.json');
-const vuhu0Loader = import(/* webpackChunkName: "vuhu0" */ '../data/vuhu0.json');
+const bmwZonesLoader = import(/* webpackChunkName: "insarBmwStory_bmwZones" */ '../data/bmw_zones.json');
+const vuhuLoader = import(/* webpackChunkName: "insarBmwStory_vuhu" */ '../data/vuhu.json');
+const vuhu0Loader = import(/* webpackChunkName: "insarBmwStory_vuhu0" */ '../data/vuhu0.json');
 
 const backgroundLayer = {
 	key: 'cuzk_ortofoto',
