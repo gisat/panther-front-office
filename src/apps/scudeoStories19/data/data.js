@@ -1,15 +1,65 @@
-//Data
-import arushaDataset from './arusha_combined_output_p7.json';
-import dhakaDataset from './dhaka_combined_output_p7.json';
-import dodomaDataset from './dodoma_combined_output_p7.json';
-import kigomaDataset from './kigoma_combined_output_p7.json';
-import mbeyaDataset from './mbeya_combined_output_p7.json';
-import mtwaraDataset from './mtwara_combined_output_p7.json';
-import mwanzaDataset from './mwanza_combined_output_p7.json';
-import bhopalDataset from './output_bhopal_stories_data_p7.json';
-import campecheDataset from './output_campeche_stories_data_p7.json';
-import limaDataset from './output_lima_stories_data_p7.json';
-import mandalayDataset from './output_mandalay_stories_data_p7.json';
+import conversions from './conversions';
+
+const data = [
+	{
+		loader: import(/* webpackChunkName: "dhakaDataset" */ './dhaka_combined_output_p7.json'),
+		name: 'Dhaka'
+	},
+	{
+		loader: import(/* webpackChunkName: "dodomaDataset" */ './dodoma_combined_output_p7.json'),
+		name: 'Dodoma'
+	},
+	{
+		loader: import(/* webpackChunkName: "kigomaDataset" */ './kigoma_combined_output_p7.json'),
+		name: 'Kigoma'
+	},
+	{
+		loader: import(/* webpackChunkName: "mbeyaDataset" */ './mbeya_combined_output_p7.json'),
+		name: 'Mbeya'
+	},
+	{
+		loader: import(/* webpackChunkName: "mtwaraDataset" */ './mtwara_combined_output_p7.json'),
+		name: 'Mtwara'
+	},
+	{
+		loader: import(/* webpackChunkName: "mwanzaDataset" */ './mwanza_combined_output_p7.json'),
+		name: 'Mwanza'
+	},
+	{
+		loader: import(/* webpackChunkName: "bhopalDataset" */ './output_bhopal_stories_data_p7.json'),
+		name: 'Bhopal'
+	},
+	{
+		loader: import(/* webpackChunkName: "campecheDataset" */ './output_campeche_stories_data_p7.json'),
+		name: 'Campeche'
+	},
+	{
+		loader: import(/* webpackChunkName: "limaDataset" */ './output_lima_stories_data_p7.json'),
+		name: 'Lima'
+	},
+	{
+		loader: import(/* webpackChunkName: "mandalayDataset" */ './output_mandalay_stories_data_p7.json'),
+		name: 'Mandalay'
+	},
+	{
+		loader: import(/* webpackChunkName: "arushaDataset" */ './arusha_combined_output_p7.json'),
+		name: 'Arusha'
+	},
+	{
+		loader: import(/* webpackChunkName: "abidjanDataset" */ './output_abidjan_stories_data_p7.json'),
+		name: 'Abidjan'
+	},
+];
+
+const dataLoaders = data.map((d) => {
+	return d.loader.then(({default: dataset}) => {
+		dataset.name = d.name;
+		return dataset;
+	});
+});
+
+
+// const dataLoaders = [arushaDatasetLoader];
 
 
 
@@ -181,16 +231,14 @@ export const colors = {
 	
 };
 
-const getSankeyNodes = (dataset, years, level, classes) => {
+const getSankeyNodes = (years, classes) => {
 	const nodes = [];
 	for (const [key, value] of Object.entries(classes)) {
 		for (const year of years) {
-			const propsKey = `lulc_${level}_${year}_${key}_coverage`;
 			const node = {
 				id: `${key}_${year}`,
 				name: value,
 				color: colors[key],
-				// valueSize: dataset.features[0].properties[propsKey]
 			}
 			nodes.push(node);
 		}
@@ -198,11 +246,12 @@ const getSankeyNodes = (dataset, years, level, classes) => {
 	return nodes;
 }
 
-const getSankeyLinks = (dataset, fromYear, toYear, level, classes) => {
+const getSankeyLinks = (dataset, fromYear, toYear, classes, getValueKey) => {
 	const links = [];
 	for (const [sourceKey, sourceValue] of Object.entries(classes)) {
 		for (const [targetKey, targetValue] of Object.entries(classes)) {
-			const changeKey = `lulc_${level}_${fromYear}_${sourceKey}_lulc_${level}_${toYear}_${targetKey}_percentage`
+			// const changeKey = `lulc_${level}_${fromYear}_${sourceKey}_lulc_${level}_${toYear}_${targetKey}_percentage`
+			const changeKey = getValueKey(sourceKey, targetKey);
 			const change = dataset.features[0].properties[changeKey];
 			if(change) {
 				const link = {
@@ -217,7 +266,6 @@ const getSankeyLinks = (dataset, fromYear, toYear, level, classes) => {
 		}
 	}
 	return links;
-
 }
 
 export const clearEmptyNodes = (nodes, links) => {
@@ -230,34 +278,19 @@ export const clearEmptyNodes = (nodes, links) => {
 	})
 }
 
-const addL3OverallFlows = (dataset) => {
-	dataset.forEach(ds => {
-		const nodes = getSankeyNodes(ds.data, [ds.firstYear, ds.lastYear], 'l3', classesL3);
-		const links = getSankeyLinks(ds.data, ds.firstYear, ds.lastYear, 'l3', classesL3);
-		const nonEmptyNodes = clearEmptyNodes(nodes, links);
-		ds['l3OverallFlows'] = {
-			nodes: nonEmptyNodes,
-			links: links,
-		}
-	})
+const getOverallFlows = (dataset, classes, getValueKey) => {
+	const nodes = getSankeyNodes([dataset.firstYear, dataset.lastYear], classes);
+	const links = getSankeyLinks(dataset.data, dataset.firstYear, dataset.lastYear, classes, getValueKey);
+	const nonEmptyNodes = clearEmptyNodes(nodes, links);
+	return {
+		nodes: nonEmptyNodes,
+		links: links,
+	}
 }
-
-const addL4OverallFlows = (dataset) => {
-	dataset.forEach(ds => {
-		const nodes = getSankeyNodes(ds.data, [ds.firstYear, ds.lastYear], 'l4', classesL4);
-		const links = getSankeyLinks(ds.data, ds.firstYear, ds.lastYear, 'l4', classesL4);
-		const nonEmptyNodes = clearEmptyNodes(nodes, links);
-		ds['l4OverallFlows'] = {
-			nodes: nonEmptyNodes,
-			links: links,
-		}
-	})
-}
-
 
 export const mergedDataset = [
 	{
-        data: arushaDataset,
+        data: null,
         informalYear: 2015,
 		lastYear: 2016,
 		firstYear: 2005,
@@ -265,7 +298,7 @@ export const mergedDataset = [
 		key: 1,
 	},
 	{
-        data: dhakaDataset,
+        data: null,
         informalYear: 2017,
 		lastYear: 2017,
 		firstYear: 2006,
@@ -273,7 +306,7 @@ export const mergedDataset = [
 		key: 2,
 	},
 	{
-        data: dodomaDataset,
+        data: null,
         informalYear: 2016,
 		lastYear: 2016,
 		firstYear: 2006,
@@ -281,7 +314,7 @@ export const mergedDataset = [
 		key: 3,
 	},
 	{
-        data: kigomaDataset,
+        data: null,
         informalYear: 2016,
         lastYear: 2015,
 		firstYear: 2005,
@@ -289,7 +322,7 @@ export const mergedDataset = [
 		key: 4,
 	},
 	{
-        data: mbeyaDataset,
+        data: null,
         informalYear: 2017,
 		lastYear: 2017,
 		firstYear: 2004,
@@ -297,7 +330,7 @@ export const mergedDataset = [
 		key: 5,
 	},
 	{
-        data: mtwaraDataset,
+        data: null,
         informalYear: 2017,
 		lastYear: 2016,
 		firstYear: 2008,
@@ -305,7 +338,7 @@ export const mergedDataset = [
 		key: 6,
 	},
 	{
-        data: mwanzaDataset,
+        data: null,
         informalYear: 2015,
 		lastYear: 2015,
 		firstYear: 2005,
@@ -313,49 +346,103 @@ export const mergedDataset = [
 		key: 7,
 	},
 	{
-        data: bhopalDataset,
+        data: null,
 		lastYear: 2017,
 		firstYear: 2005,
 		name: 'Bhopal',
 		key: 8,
 	},
 	{
-        data: campecheDataset,
+        data: null,
 		lastYear: 2018,
 		firstYear: 2006,
 		name: 'Campeche',
 		key: 9,
 	},
 	{
-        data: limaDataset,
+        data: null,
 		lastYear: 2016,
 		firstYear: 2009,
 		name: 'Lima',
 		key: 10,
 	},
 	{
-        data: mandalayDataset,
+        data: null,
 		lastYear: 2016,
 		firstYear: 2002,
 		name: 'Mandalay',
 		key: 11,
 	},
+	{
+        data: null,
+		lastYear: 2018,
+		firstYear: 2005,
+		name: 'Abidjan',
+		key: 12,
+	},
 ];
 
-addL3OverallFlows(mergedDataset);
-addL4OverallFlows(mergedDataset);
-
 const mergedDatasetNames = mergedDataset.map(d => d.name);
+
+//add data to prepared datasets
+const dataLoader = Promise.all(dataLoaders).then(datasets => {
+	datasets.forEach(data => {
+		const name = data.name;
+		const dataset = mergedDataset.find(md => md.name === name)
+		dataset.data = data;
+	})
+});
+
+const transformLinksValues = (links, transformFunction) => {
+	return links.map((l) => ({
+		...l,
+		value: transformFunction(l.value),
+	}))
+}
 
 /**
  * 
  * @param {Array.<string>} names - Array of wanted datasources names. Default is all.
  */
 export const getMergedDataset = (names = mergedDatasetNames) => {
-	const data = [...mergedDataset.filter(d => names.includes(d.name))];
-	
-    addL3OverallFlows(data);
-    addL4OverallFlows(data);
+	const loader = new Promise((resolve, reject) => {
+		dataLoader.then(() => {
+			const data = [...mergedDataset.filter(d => names.includes(d.name))];
+			
+			data.forEach(dataset => {
+				const getL3CoverageValueKey = (sourceKey, targetKey) => `lulc_l3_${dataset.firstYear}_${sourceKey}_lulc_l3_${dataset.lastYear}_${targetKey}_coverage`;
+				const getL4CoverageValueKey = (sourceKey, targetKey) =>   `lulc_l4_${dataset.firstYear}_${sourceKey}_lulc_l4_${dataset.lastYear}_${targetKey}_coverage`;
+		
+				dataset['l3OverallFlowsCoverage'] = getOverallFlows(dataset, classesL3, getL3CoverageValueKey);
+				dataset['l3OverallFlowsCoverage'].links = transformLinksValues(dataset['l3OverallFlowsCoverage'].links, conversions.toSquareKm);
+		
+				dataset['l4OverallFlowsCoverage'] = getOverallFlows(dataset, classesL4, getL4CoverageValueKey);
+				dataset['l4OverallFlowsCoverage'].links = transformLinksValues(dataset['l4OverallFlowsCoverage'].links, conversions.toSquareKm);
+			})
+			const ordered =  data.sort((a,b) => {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
 
-    return data;
+			resolve(ordered);
+		})
+	});
+
+
+	return loader;
 }
+
+export const getVectorLayer = (dataset) => {
+	return {
+		key: 'aoi-vector',
+		name: 'AOI',
+		type: 'vector',
+		options: {
+			keyProperty: 'key',
+			nameProperty: 'name',
+			features: {
+				"type":"FeatureCollection",
+				"name":"areas_boundaries",
+				"crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},
+				"features": dataset.reduce((acc, d) => [...acc, ...d.data.features], [])
+			}
+		}
+	}
+};

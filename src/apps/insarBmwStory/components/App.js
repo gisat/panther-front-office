@@ -1,10 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 
-// import vuhu from '../data/vuhu';
-// import vuhu0 from '../data/vuhu0';
-// import bmw_zones from '../data/bmw_zones';
-
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
 import PresentationMapWithControls from "../../../components/common/maps/PresentationMapWithControls";
 import MapControls from "../../../components/common/maps/MapControls/presentation";
@@ -13,9 +9,9 @@ import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
 import ChartWrapper from "./ChartWrapper";
 
-const bmwZonesLoader = import(/* webpackChunkName: "bmwZones" */ '../data/bmw_zones.json');
-const vuhuLoader = import(/* webpackChunkName: "vuhu" */ '../data/vuhu.json');
-const vuhu0Loader = import(/* webpackChunkName: "vuhu0" */ '../data/vuhu0.json');
+const bmwZonesLoader = import(/* webpackChunkName: "insarBmwStory_bmwZones" */ '../data/bmw_zones.json');
+const vuhuLoader = import(/* webpackChunkName: "insarBmwStory_vuhu" */ '../data/vuhu.json');
+const vuhu0Loader = import(/* webpackChunkName: "insarBmwStory_vuhu0" */ '../data/vuhu0.json');
 
 const backgroundLayer = {
 	key: 'cuzk_ortofoto',
@@ -38,16 +34,16 @@ const view = {
 };
 
 function getColor(d) {
-	if (d <= -12) {
+	if (d <= -30) {
 		return '#bd0026';
-	} else if (d <= -9) {
+	} else if (d <= -20) {
 		return '#f03b20';
-	} else if (d <= -6) {
+	} else if (d <= -10) {
 		return '#fd8d3c';
-	} else if (d <= -3) {
+	} else if (d <= -5) {
 		return '#fecc5c';
 	} else if (d) {
-		return '#ffffb2';
+		return '#c2e699';
 	} else {
 		return '#cccccc';
 	}
@@ -141,23 +137,23 @@ class App extends React.PureComponent {
 										<div className="legend-content">
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#bd0026'}}></div>
-												<div className="legend-value">&lt; -12</div>
+												<div className="legend-value">&lt; -30</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#f03b20'}}></div>
-												<div className="legend-value">-12 to -9 </div>
+												<div className="legend-value">-30 to -20 </div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#fd8d3c'}}></div>
-												<div className="legend-value">-9 to -6</div>
+												<div className="legend-value">-20 to -10</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#fecc5c'}}></div>
-												<div className="legend-value">-6 to -3</div>
+												<div className="legend-value">-10 to -5</div>
 											</div>
 											<div className="legend-field">
-												<div className="legend-color" style={{backgroundColor: '#ffffb2'}}></div>
-												<div className="legend-value">&gt; -3</div>
+												<div className="legend-color" style={{backgroundColor: '#c2e699'}}></div>
+												<div className="legend-value">&gt; -5</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#cccccc'}}></div>
