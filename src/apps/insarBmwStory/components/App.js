@@ -38,13 +38,13 @@ const view = {
 };
 
 function getColor(d) {
-	if (d <= -12) {
+	if (d <= -30) {
 		return '#bd0026';
-	} else if (d <= -9) {
+	} else if (d <= -20) {
 		return '#f03b20';
-	} else if (d <= -6) {
+	} else if (d <= -10) {
 		return '#fd8d3c';
-	} else if (d <= -3) {
+	} else if (d <= -5) {
 		return '#fecc5c';
 	} else if (d) {
 		return '#ffffb2';
@@ -141,23 +141,23 @@ class App extends React.PureComponent {
 										<div className="legend-content">
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#bd0026'}}></div>
-												<div className="legend-value">&lt; -12</div>
+												<div className="legend-value">&lt; -30</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#f03b20'}}></div>
-												<div className="legend-value">-12 to -9 </div>
+												<div className="legend-value">-30 to -20 </div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#fd8d3c'}}></div>
-												<div className="legend-value">-9 to -6</div>
+												<div className="legend-value">-20 to -10</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#fecc5c'}}></div>
-												<div className="legend-value">-6 to -3</div>
+												<div className="legend-value">-10 to -5</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#ffffb2'}}></div>
-												<div className="legend-value">&gt; -3</div>
+												<div className="legend-value">&gt; -5</div>
 											</div>
 											<div className="legend-field">
 												<div className="legend-color" style={{backgroundColor: '#cccccc'}}></div>
