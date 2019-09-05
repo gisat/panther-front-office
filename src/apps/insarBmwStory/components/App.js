@@ -1,4 +1,5 @@
 import React from 'react';
+import Fade from 'react-reveal/Fade';
 
 // import vuhu from '../data/vuhu';
 // import vuhu0 from '../data/vuhu0';
@@ -103,8 +104,8 @@ class App extends React.PureComponent {
 
 		this.state = {
 			features: [],
-			vuhu: [],
-			vuhu0: []
+			vuhu: null,
+			vuhu0: null
 		};
 	}
 
@@ -164,78 +165,88 @@ class App extends React.PureComponent {
 
 						<div className="insarBmwStory-charts">
 							<div className="insarBmwStory-chart-container">
-								<div className="insarBmwStory-chart-title">Restrospective subsidence projection / Subsidence prognosis</div>
-								<ChartWrapper
-									data={this.state.vuhu}
-								>
-									<LineChart
-										key="vuhu"
+								{this.state.vuhu ? (
+									<Fade right distance="30px">
+										<div className="insarBmwStory-chart-title">Restrospective subsidence projection / Subsidence prognosis</div>
+										<ChartWrapper
+											data={this.state.vuhu}
+										>
+											<LineChart
+												key="vuhu"
 
-										keySourcePath="id"
-										nameSourcePath="id"
-										serieDataSourcePath="data"
-										xSourcePath="period"
-										ySourcePath="value"
+												data={this.state.vuhu}
+												keySourcePath="id"
+												nameSourcePath="id"
+												serieDataSourcePath="data"
+												xSourcePath="period"
+												ySourcePath="value"
 
-										aggregationThreshold={200}
-										height={18}
+												aggregationThreshold={200}
+												height={18}
 
-										diverging
+												diverging
 
-										yLabel
-										yOptions={{
-											min: -100,
-											name: "Subsidence",
-											unit: "cm"
-										}}
+												yLabel
+												yOptions={{
+													min: -100,
+													name: "Subsidence",
+													unit: "cm"
+												}}
 
-										xValuesSize={2.5}
-										xOptions={{
-											startingTick: 2,
-											tickStep: 5
-										}}
-										xScale="yearBased"
+												xValuesSize={2.5}
+												xOptions={{
+													startingTick: 2,
+													tickStep: 5
+												}}
+												xScale="yearBased"
 
-										sorting={[["period", "asc"]]}
-									/>
-								</ChartWrapper>
+												sorting={[["period", "asc"]]}
+											/>
+										</ChartWrapper>
+									</Fade>
+								) : null}
 							</div>
 
 							<div className="insarBmwStory-chart-container">
-								<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
-								<ChartWrapper
-									data={this.state.vuhu0}
-								>
-									<LineChart
-										key="vuhu0"
+								{this.state.vuhu0 ? (
+									<Fade right distance="30px">
+										<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
+										<ChartWrapper
+											data={this.state.vuhu0}
+										>
+											<LineChart
+												key="vuhu0"
 
-										keySourcePath="id"
-										nameSourcePath="id"
-										serieDataSourcePath="data"
-										xSourcePath="period"
-										ySourcePath="value"
+												data={this.state.vuhu0}
+												keySourcePath="id"
+												nameSourcePath="id"
+												serieDataSourcePath="data"
+												xSourcePath="period"
+												ySourcePath="value"
 
-										aggregationThreshold={200}
-										height={18}
+												aggregationThreshold={200}
+												height={18}
 
-										diverging
+												diverging
 
-										sorting={[["period", "asc"]]}
+												sorting={[["period", "asc"]]}
 
-										yLabel
-										yOptions={{
-											name: "Subsidence",
-											unit: "cm"
-										}}
+												yLabel
+												yOptions={{
+													name: "Subsidence",
+													unit: "cm"
+												}}
 
-										xValuesSize={2.5}
-										xOptions={{
-											startingTick: 2,
-											tickStep: 5
-										}}
-										xScale="yearBased"
-									/>
-								</ChartWrapper>
+												xValuesSize={2.5}
+												xOptions={{
+													startingTick: 2,
+													tickStep: 5
+												}}
+												xScale="yearBased"
+											/>
+										</ChartWrapper>
+									</Fade>
+								) : null}
 							</div>
 						</div>
 					</div>
