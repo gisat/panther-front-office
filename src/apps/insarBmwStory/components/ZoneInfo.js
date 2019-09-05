@@ -17,13 +17,14 @@ class ZoneInfo extends React.PureComponent {
 
 	render() {
 		let selectedZone = this.context.selectedItems[0];
+		let content = null;
 		let zoneData = _.find(this.props.data, (zone) => {
 			return _.get(zone, 'properties.group_key') === selectedZone;
 		});
 
 		if (zoneData) {
 			let props = zoneData.properties;
-			return (
+			content = (
 				<div className="insarBmwStory-zone-info">
 					<table>
 						<tbody>
@@ -59,9 +60,11 @@ class ZoneInfo extends React.PureComponent {
 					</table>
 				</div>
 			);
-		} else {
-			return null;
 		}
+
+		return (
+			<div className="insarBmwStory-zone-info">{content}</div>
+		);
 	}
 }
 

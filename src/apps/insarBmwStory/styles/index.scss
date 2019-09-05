@@ -54,6 +54,7 @@
 	padding: .3rem .6rem;
 	width: 100%;
 	color: var(--base30);
+	height: 14rem;
 }
 
 .insarBmwStory-zone-info table tr {
@@ -82,6 +83,17 @@
 	left: .5rem;
 	z-index: 3;
 	max-width: calc(100% - 3.5rem);
+}
+
+.insarBmwStory-layer-switch {
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	margin-bottom: .2rem;
+}
+
+.insarBmwStory-layer-switch input {
+	margin-right: .25rem;
 }
 
 .insarBmwStory-map-legend {

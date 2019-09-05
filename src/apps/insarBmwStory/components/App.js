@@ -31,51 +31,10 @@ const backgroundLayer = {
 
 const view = {
 	center: {
-		lat: 50.225,
+		lat: 50.224,
 		lon: 12.635
 	},
 	boxRange: 10000
-};
-
-const MapInfo = () => {
-	return (
-		<div className="insarBmwStory-map-tools">
-			<div className="insarBmwStory-map-attribution">
-				Background: © <a href="https://geoportal.cuzk.cz/Dokumenty/Podminky.html" target="_blank">ČÚZK</a>
-			</div>
-			<div className="insarBmwStory-map-legend">
-				<div className="legend-title">
-					Weighted mean subsidence (mm/year)
-				</div>
-				<div className="legend-content">
-					<div className="legend-field">
-						<div className="legend-color" style={{backgroundColor: '#bd0026'}}></div>
-						<div className="legend-value">&lt; -12</div>
-					</div>
-					<div className="legend-field">
-						<div className="legend-color" style={{backgroundColor: '#f03b20'}}></div>
-						<div className="legend-value">-12 to -9 </div>
-					</div>
-					<div className="legend-field">
-						<div className="legend-color" style={{backgroundColor: '#fd8d3c'}}></div>
-						<div className="legend-value">-9 to -6</div>
-					</div>
-					<div className="legend-field">
-						<div className="legend-color" style={{backgroundColor: '#fecc5c'}}></div>
-						<div className="legend-value">-6 to -3</div>
-					</div>
-					<div className="legend-field">
-						<div className="legend-color" style={{backgroundColor: '#ffffb2'}}></div>
-						<div className="legend-value">&gt; -3</div>
-					</div>
-					<div className="legend-field">
-						<div className="legend-color" style={{backgroundColor: '#cccccc'}}></div>
-						<div className="legend-value">No data</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
 };
 
 function getColor(d) {
@@ -105,8 +64,11 @@ class App extends React.PureComponent {
 		this.state = {
 			features: [],
 			vuhu: null,
-			vuhu0: null
+			vuhu0: null,
+			zones: true
 		};
+
+		this.changeZones = this.changeZones.bind(this);
 	}
 
 	componentDidMount() {
@@ -119,6 +81,12 @@ class App extends React.PureComponent {
 				vuhu0: data[2]
 			});
 		});
+	}
+
+	changeZones() {
+		this.setState({
+			zones: !this.state.zones
+		})
 	}
 
 	render() {
@@ -134,7 +102,7 @@ class App extends React.PureComponent {
 									<LeafletMap
 										mapKey="insarBmwStory-map1"
 										backgroundLayer={backgroundLayer}
-										layers={[{
+										layers={this.state.zones ? [{
 											key: 'zones',
 											name: 'BMW Zones',
 											type: 'vector',
@@ -150,7 +118,7 @@ class App extends React.PureComponent {
 												nameProperty: 'group_key',
 												valueProperty: 'wmean_vel_'
 											}
-										}]}
+										}] : null}
 										view={view}
 									/>
 								}
@@ -158,7 +126,46 @@ class App extends React.PureComponent {
 									<MapControls zoomOnly levelsBased/>
 								}
 							>
-								<MapInfo/>
+								<div className="insarBmwStory-map-tools">
+									<div className="insarBmwStory-map-attribution">
+										Background: © <a href="https://geoportal.cuzk.cz/Dokumenty/Podminky.html" target="_blank">ČÚZK</a>
+									</div>
+									<div className="insarBmwStory-map-legend">
+										<div className="insarBmwStory-layer-switch" onClick={this.changeZones}>
+											<input type="checkbox" checked={this.state.zones}/>
+											<div>Zones</div>
+										</div>
+										<div className="legend-title">
+											Weighted mean subsidence (mm/year)
+										</div>
+										<div className="legend-content">
+											<div className="legend-field">
+												<div className="legend-color" style={{backgroundColor: '#bd0026'}}></div>
+												<div className="legend-value">&lt; -12</div>
+											</div>
+											<div className="legend-field">
+												<div className="legend-color" style={{backgroundColor: '#f03b20'}}></div>
+												<div className="legend-value">-12 to -9 </div>
+											</div>
+											<div className="legend-field">
+												<div className="legend-color" style={{backgroundColor: '#fd8d3c'}}></div>
+												<div className="legend-value">-9 to -6</div>
+											</div>
+											<div className="legend-field">
+												<div className="legend-color" style={{backgroundColor: '#fecc5c'}}></div>
+												<div className="legend-value">-6 to -3</div>
+											</div>
+											<div className="legend-field">
+												<div className="legend-color" style={{backgroundColor: '#ffffb2'}}></div>
+												<div className="legend-value">&gt; -3</div>
+											</div>
+											<div className="legend-field">
+												<div className="legend-color" style={{backgroundColor: '#cccccc'}}></div>
+												<div className="legend-value">No data</div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<ZoneInfo data={this.state.features}/>
 							</PresentationMapWithControls>
 						</div>
