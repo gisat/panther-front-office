@@ -5,33 +5,39 @@ import Action from '../../../state/Action';
 import presentation from "./presentation";
 
 import viewCfg from "../../../data/districtsSecond/view.js";
-import spatialRelationsCfg from "../../../data/districtsSecond/spatialRelations.js";
-import spatialDataSourcesCfg from "../../../data/districtsSecond/spatialDataSources.js";
-import boundariesSpatialData from "../../../data/districtsSecond/boundaries.js";
+// import spatialRelationsCfg from "../../../data/districtsSecond/spatialRelations.js";
+// import spatialDataSourcesCfg from "../../../data/districtsSecond/spatialDataSources.js";
+// import boundariesSpatialData from "../../../data/districtsSecond/boundaries.js";
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onMount: () => {
-		dispatch(Action.views.add(viewCfg));
-		dispatch(Action.views.setActiveKey(ownProps.activeView));
-		dispatch(Action.views.apply(ownProps.activeView, Action));
-		
-		//set layers relations
-		dispatch(Action.spatialRelations.add(spatialRelationsCfg));
-		dispatch(Action.spatialDataSources.add(spatialDataSourcesCfg));
-		dispatch(Action.spatialDataSources.vector.addBatch(boundariesSpatialData, 'spatialDataSourceKey'));
-		
-		//set charts
-		dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
+		const spatialRelationsLoader = import(/* webpackChunkName: "unseea_districtsSecond_spatialRelationsCfg" */ "../../../data/districtsSecond/spatialRelations.js").then(({default: spatialRelationsCfg}) => {
+			dispatch(Action.spatialRelations.add(spatialRelationsCfg));
+		});
+		const spatialDataSourcesLoader = import(/* webpackChunkName: "unseea_districtsSecond_spatialDataSourcesCfg" */ "../../../data/districtsSecond/spatialDataSources.js").then(({default: spatialDataSourcesCfg}) => {
+			dispatch(Action.spatialDataSources.add(spatialDataSourcesCfg));
+		});
+		const boundariesLoader = import(/* webpackChunkName: "unseea_districtsSecond_boundariesSpatialData" */ "../../../data/districtsSecond/boundaries.js").then(({default: boundariesSpatialData}) => {
+			dispatch(Action.spatialDataSources.vector.addBatch(boundariesSpatialData, 'spatialDataSourceKey'));
+			//set charts
+			dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
+		});
 
-		//set selected area
-		dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
+		Promise.all([spatialRelationsLoader, spatialDataSourcesLoader, boundariesLoader]).then(datasets => {
+			dispatch(Action.views.add(viewCfg));
+			dispatch(Action.views.setActiveKey(ownProps.activeView));
+			dispatch(Action.views.apply(ownProps.activeView, Action));
 
-		const spatialdataindexFilter = {
-			spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
-		};
+			//set selected area
+			dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
 
-		dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [spatialdataindexFilter], 'spatialDataSourceKey'));
+			const spatialdataindexFilter = {
+				spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
+			};
+
+			dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [spatialdataindexFilter], 'spatialDataSourceKey'));
+		})
 	}
 })
 
