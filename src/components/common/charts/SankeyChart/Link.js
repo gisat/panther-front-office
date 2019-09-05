@@ -126,7 +126,7 @@ class Link extends React.PureComponent {
         });
 
         if (this.state.color) {
-            style.fill = this.state.color
+            style.fill = 'none';
 			style.stroke = this.state.color
         }
         

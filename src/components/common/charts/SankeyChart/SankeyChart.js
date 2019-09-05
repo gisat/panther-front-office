@@ -45,10 +45,10 @@ class SankeyChart extends React.PureComponent {
 		]),
 		linkColorSourcePath: PropTypes.string,
 		linkNameSourcePath: PropTypes.string,
-		linkValueSourcePath: PropTypes.string.isRequired,
+		linkValueSourcePath: PropTypes.string,
 		linkHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
-		gradientLinks: PropTypes.bool,
+		// gradientLinks: PropTypes.bool,
 		yOptions: PropTypes.object,
 		data: PropTypes.object.isRequired,
 		forceMinimum: PropTypes.number,
@@ -59,9 +59,9 @@ class SankeyChart extends React.PureComponent {
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string.isRequired,
 
-		nodeNameSourcePath: PropTypes.string.isRequired,
+		nodeNameSourcePath: PropTypes.string,
 		nodeHoverNameSourcePath: PropTypes.string,
-		nodeValueSourcePath: PropTypes.string.isRequired,
+		nodeValueSourcePath: PropTypes.string,
 		nodeHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		width: PropTypes.number,
@@ -149,7 +149,7 @@ class SankeyChart extends React.PureComponent {
 				content = (
 					<>
 						<svg className="ptr-chart ptr-sankey-chart" height={height} width={width}>
-							{props.data && props.gradientLinks ? this.renderGradients(graph.links) : null}
+							{/* {props.data && props.gradientLinks ? this.renderGradients(graph.links) : null} */}
 							{props.data ? this.renderLinks(graph.links) : null}
 							{props.data ? this.renderNodes(graph.nodes) : null}
 						</svg>
@@ -208,7 +208,7 @@ class SankeyChart extends React.PureComponent {
 					strokeWidth={l.width}
 					fill={'none'}
 					strokeWidth={l.width}
-					gradientLinks
+					// gradientLinks
 
 					defaultColor={defaultColor}
 					highlightedColor={highlightedColor}
