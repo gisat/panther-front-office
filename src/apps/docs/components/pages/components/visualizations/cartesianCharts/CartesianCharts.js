@@ -227,6 +227,16 @@ class CartesianCharts extends React.PureComponent {
 								name: "diversionValue",
 								type: "number",
 								description: "Use together with 'diverging' prop to move axis Y baseline to this value. Scale of axis X has to be linear (currently useful for scatter charts only). By default 0."
+							},{
+								name: "startingTick",
+								type: "number",
+								default: 0,
+								description: "Show ticks (and value labels, gridlines) starting from this position. For ordinal scales only."
+							},{
+								name: "tickStep",
+								type: "number",
+								default: 1,
+								description: "Show every nth tick (and value label, gridline). For ordinal scales only."
 							}]
 						}, {
 							name: "xTicks",

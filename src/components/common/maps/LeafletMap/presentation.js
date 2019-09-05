@@ -27,6 +27,7 @@ class LeafletMap extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			backgroundLayer: null,
 			layers: null
 		};
 
@@ -46,7 +47,8 @@ class LeafletMap extends React.PureComponent {
 			.map(this.props.mapKey,{zoomAnimationThreshold: 2, zoomControl: false, attributionControl: false})
 			.setView([initialView.center.lat, initialView.center.lon], utils.getZoomLevelFromView(initialView));
 
-		this.layers = L.layerGroup().addTo(this.map);
+		this.backgroundLayer = L.layerGroup().addTo(this.map).setZIndex(0);
+		this.layers = L.layerGroup().addTo(this.map).setZIndex(1);
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
@@ -56,6 +58,7 @@ class LeafletMap extends React.PureComponent {
 		}
 
 		this.handleScrollWheelZoom();
+		this.updateBackgroundLayer();
 		this.updateLayers();
 	}
 
@@ -64,7 +67,18 @@ class LeafletMap extends React.PureComponent {
 			this.updateView();
 		}
 
-		if (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer) {
+		if (prevProps.backgroundLayer !== this.props.backgroundLayer) {
+
+			// TODO handle update properly
+			this.clearBackgroundLayer();
+
+			let self = this;
+			setTimeout(() => {
+				self.updateBackgroundLayer();
+			}, 200);
+		}
+
+		if (prevProps.layers !== this.props.layers) {
 
 			// TODO handle update properly
 			this.clearLayers();
@@ -76,6 +90,13 @@ class LeafletMap extends React.PureComponent {
 		}
 	}
 
+	clearBackgroundLayer() {
+		this.backgroundLayer.clearLayers();
+		this.setState({
+			backgroundLayer: null
+		});
+	}
+
 	clearLayers() {
 		this.layers.clearLayers();
 		this.setState({
@@ -83,11 +104,19 @@ class LeafletMap extends React.PureComponent {
 		});
 	}
 
+	updateBackgroundLayer() {
+		let backgroundLayer = null;
+		if (this.props.backgroundLayer) {
+			backgroundLayer = layersHelpers.getLayerByType(this.props.backgroundLayer, this.backgroundLayer);
+		}
+
+		this.setState({
+			backgroundLayer
+		});
+	}
+
 	updateLayers() {
 		let layers = [];
-		if (this.props.backgroundLayer) {
-			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer, this.layers));
-		}
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
@@ -171,6 +200,7 @@ class LeafletMap extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-map ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey} onClick={this.onClick}>
+				{this.state.backgroundLayer}
 				{this.state.layers}
 			</div>
 		);

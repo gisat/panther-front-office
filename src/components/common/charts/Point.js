@@ -46,9 +46,16 @@ class Point extends React.PureComponent {
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onMouseOver = this.onMouseOver.bind(this);
+		this.onClick = this.onClick.bind(this);
 
 		this.state = {
 			radius: props.r
+		}
+	}
+
+	onClick() {
+		if (this.context && this.context.onClick) {
+			this.context.onClick([this.props.itemKey]);
 		}
 	}
 
@@ -142,6 +149,7 @@ class Point extends React.PureComponent {
 				onMouseOver={this.onMouseOver}
 				onMouseMove={this.onMouseMove}
 				onMouseOut={this.onMouseOut}
+				onClick={this.onClick}
 				className={classes}
 				key={props.itemKey}
 				cx={props.x}

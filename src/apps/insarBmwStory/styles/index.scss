@@ -1,0 +1,175 @@
+@import '../../../styles/variables';
+
+.insarBmwStory {
+	height: 100%;
+}
+
+.insarBmwStory.ptr-dark {
+	background: var(--base0);
+}
+
+.insarBmwStory-visualizations {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.insarBmwStory-map {
+	flex-basis: 45%;
+	height: 100%;
+}
+
+.insarBmwStory-charts {
+	flex: 1;
+	padding: m(2/3) m(4/3);
+	margin-bottom: m(1);
+}
+
+.insarBmwStory-chart-container {
+	margin-bottom: m(2);
+}
+
+.insarBmwStory-chart-container:last-child {
+	margin-bottom: 0;
+}
+
+
+
+.insarBmwStory-chart-title {
+	color: var(--base90);
+	text-align: center;
+	font-weight: normal;
+	font-size: $b2;
+	margin: m(2/3) 0 m(1/3);
+}
+
+/* Map content */
+.insarBmwStory-zone-info {
+	background: rgba(var(--base100rgb), .6);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 3;
+	font-size: $a1;
+	padding: .3rem .6rem;
+	width: 100%;
+	color: var(--base30);
+	height: 14rem;
+}
+
+.insarBmwStory-zone-info table tr {
+	border-bottom: 1px solid var(--base70);
+}
+
+.insarBmwStory-zone-info table tr:last-child {
+	border-bottom: 0;
+}
+
+.insarBmwStory-zone-info table tr td {
+	padding: .2rem .1rem;
+	width: 100%;
+}
+
+.insarBmwStory-zone-info table tr td:last-child {
+	text-align: right;
+}
+
+/* Map tools */
+.insarBmwStory-map-tools {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	bottom: 14.75rem;
+	left: .5rem;
+	z-index: 3;
+	max-width: calc(100% - 3.5rem);
+}
+
+.insarBmwStory-layer-switch {
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	margin-bottom: .2rem;
+}
+
+.insarBmwStory-layer-switch input {
+	margin-right: .25rem;
+}
+
+.insarBmwStory-map-legend {
+	background: rgba(var(--base0rgb), .5);
+	padding: .5rem .75rem;
+	border-radius: .2rem;
+}
+
+.insarBmwStory-map-legend .legend-title {
+	font-weight: bold;
+	font-size: $b1;
+	margin-bottom: .2rem;
+}
+
+.insarBmwStory-map-legend .legend-content {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.insarBmwStory-map-legend .legend-field {
+	display: flex;
+	align-items: center;
+	margin-right: 1rem
+}
+
+.insarBmwStory-map-legend .legend-color {
+	width: .8rem;
+	height: .8rem;
+	margin-right: .5rem;
+}
+
+.insarBmwStory-map-legend .legend-value {
+	font-size: $b1;
+	//color: var(--base70);
+	//font-weight: bold;
+}
+
+.insarBmwStory-map-attribution {
+	font-size: $a0;
+	max-width: calc(100% - 10rem);
+	color: var(--base20);
+	margin: 0 0 .25rem .15rem;
+}
+
+.insarBmwStory-map-attribution a {
+	color: var(--base20);
+}
+
+.insarBmwStory .ptr-map-controls {
+	bottom: 14.75rem;
+}
+
+/* Chart */
+.insarBmwStory .ptr-line-chart-line {
+	stroke: var(--base40);
+	animation: pathDraw 0s ease-in-out 1;
+	animation-fill-mode: forwards;
+	animation-delay: 0s;
+}
+
+.insarBmwStory .ptr-chart-point {
+	animation: none;
+	fill-opacity: 1;
+	stroke-opacity: 1;
+}
+
+@media screen and (max-width: 70rem) {
+	.insarBmwStory-visualizations {
+		flex-direction: column;
+	}
+
+	.insarBmwStory-map {
+		min-height: 35rem;
+	}
+
+	.insarBmwStory-charts {
+		padding: m(2/3);
+	}
+}
