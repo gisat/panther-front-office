@@ -43,7 +43,7 @@ function getColor(d) {
 	} else if (d <= -5) {
 		return '#fecc5c';
 	} else if (d) {
-		return '#ffffb2';
+		return '#c2e699';
 	} else {
 		return '#cccccc';
 	}
@@ -152,7 +152,7 @@ class App extends React.PureComponent {
 												<div className="legend-value">-10 to -5</div>
 											</div>
 											<div className="legend-field">
-												<div className="legend-color" style={{backgroundColor: '#ffffb2'}}></div>
+												<div className="legend-color" style={{backgroundColor: '#c2e699'}}></div>
 												<div className="legend-value">&gt; -5</div>
 											</div>
 											<div className="legend-field">
