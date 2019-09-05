@@ -5,7 +5,8 @@ import L from 'leaflet';
 class WmsLayer extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
-		group: PropTypes.object
+		group: PropTypes.object,
+		zIndex: PropTypes.number
 	};
 
 	constructor(props) {
@@ -16,6 +17,7 @@ class WmsLayer extends React.PureComponent {
 			format: props.data.options.params.imageFormat || 'image/png',
 			transparent: true,
 			opacity: props.data.opacity || 1,
+			zIndex: this.props.zIndex
 		};
 
 		if (props.data.options.params.styles) {
