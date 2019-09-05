@@ -12,6 +12,9 @@
   display: flex;
   flex-direction: column;
 }
+.tacrGeoinvaze-case-select-content:not(.showIntro) {
+	overflow-y: auto;
+}
 
 .tacrGeoinvaze-case-select-content > div {
   //flex-basis: 50%;
