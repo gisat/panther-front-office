@@ -30,25 +30,29 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
-	Store.dispatch(Action.app.loadConfiguration())
+	Store.dispatch(Action.app.loadConfiguration());
 
-	Store.dispatch(Action.maps.addMap({key: 'tacrGeoinvaze'}));
-	Store.dispatch(Action.maps.addSet({key: 'tacrGeoinvaze'}));
+	Store.dispatch(Action.maps.addMap({
+		key: 'tacrGeoinvaze',
+		data: {
+			backgroundLayer: {
+				layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
+			}
+		}
+	}));
+	Store.dispatch(Action.maps.addSet({
+		key: 'tacrGeoinvaze',
+		data: {
+			view: {
+				center: {
+					lat: 50,
+					lon: 15
+				},
+				boxRange: 1000000
+			}
+		}
+	}));
 	Store.dispatch(Action.maps.addMapToSet('tacrGeoinvaze', 'tacrGeoinvaze'));
-
-	const navigator = {
-		lookAtLocation: {
-			latitude: 49.8,
-			longitude: 15.4
-		},
-		range: 500000,
-		roll: 0,
-		tilt: 0,
-		heading: 0
-	}
-
-	Store.dispatch(Action.maps.setMapWorldWindNavigator('tacrGeoinvaze', navigator));
-
 
 	// Set language
 	i18n.changeLanguage("cz");
