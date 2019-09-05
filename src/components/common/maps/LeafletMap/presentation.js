@@ -47,8 +47,8 @@ class LeafletMap extends React.PureComponent {
 			.map(this.props.mapKey,{zoomAnimationThreshold: 2, zoomControl: false, attributionControl: false})
 			.setView([initialView.center.lat, initialView.center.lon], utils.getZoomLevelFromView(initialView));
 
-		this.backgroundLayer = L.layerGroup().addTo(this.map);
-		this.layers = L.layerGroup().addTo(this.map);
+		this.backgroundLayer = L.layerGroup().addTo(this.map).setZIndex(0);
+		this.layers = L.layerGroup().addTo(this.map).setZIndex(1);
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
