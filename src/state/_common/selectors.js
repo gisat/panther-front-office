@@ -525,6 +525,7 @@ const getAllActiveKeys = createSelector(
 		state => state.periods.activeKey,
 		state => state.periods.activeKeys,
 		state => state.attributes.activeKey,
+		state => state.layerTemplates.activeKey,
 		state => state.specific && state.specific.apps,
 		state => state.app && state.app.key
 	],

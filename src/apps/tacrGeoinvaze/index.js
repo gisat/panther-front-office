@@ -37,7 +37,22 @@ export default (path, baseUrl) => {
 		data: {
 			backgroundLayer: {
 				layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
-			}
+			},
+
+			layers: [
+				{
+					key: 'thematicLayer',
+					// layerTemplateKey: '8612225f-cf93-437b-b301-d30f1e1d1284',
+					// metadataModifiers: {
+					// 	periodKey: '5f853535-13c5-488c-af75-b167ce2262bb'
+					// },
+					filterByActive: {
+						layerTemplate: true,
+						period: true,
+						case: true
+					}
+				}
+			]
 		}
 	}));
 	Store.dispatch(Action.maps.addSet({

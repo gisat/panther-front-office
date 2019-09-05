@@ -137,6 +137,13 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				return null;
 			}
 		}
+		if (filterByActive.layerTemplate){
+			if (activeKeys.layerTemplateKey){
+				fullFilter.layerTemplateKey = activeKeys.activeLayerTemplateKey;
+			} else {
+				return null;
+			}
+		}
 		return fullFilter;
 	} else {
 		return filter;
