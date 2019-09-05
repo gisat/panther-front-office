@@ -45,9 +45,10 @@ class SankeyChart extends React.PureComponent {
 		]),
 		linkColorSourcePath: PropTypes.string,
 		linkNameSourcePath: PropTypes.string,
-		linkValueSourcePath: PropTypes.string.isRequired,
+		linkValueSourcePath: PropTypes.string,
 		linkHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
+		// gradientLinks: PropTypes.bool,
 		yOptions: PropTypes.object,
 		data: PropTypes.object.isRequired,
 		forceMinimum: PropTypes.number,
@@ -58,9 +59,9 @@ class SankeyChart extends React.PureComponent {
 		colorSourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string.isRequired,
 
-		nodeNameSourcePath: PropTypes.string.isRequired,
+		nodeNameSourcePath: PropTypes.string,
 		nodeHoverNameSourcePath: PropTypes.string,
-		nodeValueSourcePath: PropTypes.string.isRequired,
+		nodeValueSourcePath: PropTypes.string,
 		nodeHoverValueSourcePath: PropTypes.string, //path for value to tooltip - by default same like value. Used in relative.
 
 		width: PropTypes.number,
@@ -136,16 +137,19 @@ class SankeyChart extends React.PureComponent {
 				//TODO -> to props
 				const sankey = d3Sankey.sankey()
 					.size([width, height])
+					.extent([[5,5], [width-5, height-5]])
 					.nodeId(d => d.id)
 					.nodeWidth(20)
 					.nodePadding(10)
-					.nodeAlign(d3Sankey.sankeyCenter);
+					.nodeAlign(d3Sankey.sankeyCenter)
+					//.iterations(1);  //https://bl.ocks.org/micahstubbs/3c0cb0c0de021e0d9653032784c035e9
 		
 				let graph = sankey(props.data);
 
 				content = (
 					<>
 						<svg className="ptr-chart ptr-sankey-chart" height={height} width={width}>
+							{/* {props.data && props.gradientLinks ? this.renderGradients(graph.links) : null} */}
 							{props.data ? this.renderLinks(graph.links) : null}
 							{props.data ? this.renderNodes(graph.nodes) : null}
 						</svg>
@@ -168,6 +172,24 @@ class SankeyChart extends React.PureComponent {
 		}
 	}
 
+	renderGradients(links) {
+		const getGradient = (link) => {
+			const startColor = link.source.color;
+			const stopColor = link.target.color;
+			return (<linearGradient key={`${link.index}_${link.value}`} id={`gradient_link_${link.index}_${link.value}`} gradientUnits="userSpaceOnUse">
+			{/* // return (<linearGradient key={`${link.index}_${link.value}`} id={`gradient_link_${link.index}_${link.value}`} > */}
+				<stop offset={"10%"} stopColor={startColor}></stop>
+				<stop offset={"90%"} stopColor={stopColor}></stop>
+			</linearGradient>)
+		}
+
+		const gradients = links.map(getGradient);
+		return (
+			<defs>
+				{gradients}
+			</defs>
+		)
+	}
 	renderLinks(links) {
 		const linksElms = links.map((l) => {
 			let color = _.get(l, `${this.props.linkColorSourcePath}`);
@@ -186,6 +208,7 @@ class SankeyChart extends React.PureComponent {
 					strokeWidth={l.width}
 					fill={'none'}
 					strokeWidth={l.width}
+					// gradientLinks
 
 					defaultColor={defaultColor}
 					highlightedColor={highlightedColor}
