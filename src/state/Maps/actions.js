@@ -804,7 +804,11 @@ function use(mapKey) {
 		if (layers) {
 			const componentId = `map_${mapKey}`;
 			layers.forEach(layer => {
-				let filter = {...layer.metadataModifiers, layerTemplateKey: layer.layerTemplateKey};
+				let filter = {...layer.metadataModifiers};
+				if (layer.layerTemplateKey) {
+					filter.layerTemplateKey = layer.layerTemplateKey;
+				}
+
 				let filterByActive = layer.filterByActive || null;
 				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
 

@@ -520,6 +520,7 @@ const getIndexedDataUses = (getSubstate) => {
 const getAllActiveKeys = createSelector(
 	[
 		state => state.scopes.activeKey,
+		state => state.cases.activeKey,
 		state => state.places.activeKey,
 		state => state.places.activeKeys,
 		state => state.periods.activeKey,
@@ -529,8 +530,8 @@ const getAllActiveKeys = createSelector(
 		state => state.specific && state.specific.apps,
 		state => state.app && state.app.key
 	],
-	(activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, apps, appKey) => {
-		let activeKeys = {activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey};
+	(activeScopeKey,activeCaseKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey, apps, appKey) => {
+		let activeKeys = {activeScopeKey,activeCaseKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey};
 
 		// for BO usage
 		if (apps){

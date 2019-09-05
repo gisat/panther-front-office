@@ -20,12 +20,14 @@ const Visualization = props => {
 				render={({width, height}) => {
 					return (
 						<>
-							<MapSet
-								mapSetKey="tacrGeoinvaze"
-								mapComponent={WorldWindMap}
-							>
-								<MapControls zoomOnly/>
-							</MapSet>
+							{props.activeCase && props.activePeriodKey && props.activeLayerTemplateKey ? (
+								<MapSet
+									mapSetKey="tacrGeoinvaze"
+									mapComponent={WorldWindMap}
+								>
+									<MapControls zoomOnly/>
+								</MapSet>
+							) : null}
 						</>
 					);
 				}}

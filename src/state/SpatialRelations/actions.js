@@ -8,6 +8,7 @@ const useIndexedRegister = (componentId, filterByActive, filter, order, start, l
 const ensureIndexed = (filter, order, start, length) => common.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filter, order, start, length, ActionTypes.SPATIAL_RELATIONS, 'relations');
 const add = common.add(ActionTypes.SPATIAL_RELATIONS);
 const useIndexedClearAll = common.useIndexedClearAll(ActionTypes.SPATIAL_RELATIONS);
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.spatialRelations.getSubstate, 'spatial', ActionTypes.SPATIAL_RELATIONS, 'relations');
 
 
 // ============ actions ===========
@@ -19,5 +20,7 @@ export default {
     add,
     useIndexedRegister,
     useIndexedClearAll,
-    ensureIndexed
+    ensureIndexed,
+
+    ensureIndexesWithFilterByActive
 }

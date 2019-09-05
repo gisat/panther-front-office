@@ -32,6 +32,11 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
 	Store.dispatch(Action.app.loadConfiguration());
 
+	// TODO just for testing
+	Store.dispatch(Action.layerTemplates.setActiveKey('8612225f-cf93-437b-b301-d30f1e1d1284'));
+	Store.dispatch(Action.periods.setActiveKey('5f853535-13c5-488c-af75-b167ce2262bb'));
+	// Store.dispatch(Action.cases.setActiveKey('fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf'));
+
 	Store.dispatch(Action.maps.addMap({
 		key: 'tacrGeoinvaze',
 		data: {
@@ -42,10 +47,6 @@ export default (path, baseUrl) => {
 			layers: [
 				{
 					key: 'thematicLayer',
-					// layerTemplateKey: '8612225f-cf93-437b-b301-d30f1e1d1284',
-					// metadataModifiers: {
-					// 	periodKey: '5f853535-13c5-488c-af75-b167ce2262bb'
-					// },
 					filterByActive: {
 						layerTemplate: true,
 						period: true,
