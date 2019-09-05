@@ -43,6 +43,7 @@ export const Header = (props) => {
 					<div className="scudeoStories19-header-content">
 						<div className="scudeoStories19-title">{props.title}</div>
 						<div className="scudeoStories19-intro">{props.intro}</div>
+						<div className="scudeoStories19-abstract">{props.abstract}</div>
 					</div>
 				</Fade>
 			</div>

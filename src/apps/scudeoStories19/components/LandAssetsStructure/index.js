@@ -407,6 +407,7 @@ class LandAssetsStructure extends React.PureComponent {
 						</section>
 						<section key="section-2">
 							<Select
+														className={"scudeoStories19-city-select"}
 														onChange={this.onCityChange.bind(this, 'cityOne')}
 														options={this.state.dataset}
 														optionLabel="name"

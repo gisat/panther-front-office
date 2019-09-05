@@ -270,6 +270,33 @@
 	color: var(--accent20);
 }
 
+.scudeoStories19-city-select {
+	margin-bottom: 1.5rem;
+
+	&.ptr-select-container .ptr-select__control{
+		background: none;
+		border: none;
+		border-radius: 0px;
+		border-bottom: solid 1px rgb(0, 0, 0);
+		min-width: 20rem;
+		height: 3rem;
+		justify-content: center;
+
+		.label{
+			font-size: 3rem;
+		}
+
+		.ptr-select__indicators{
+			height: 3rem;
+		}
+
+		.ptr-select__value-container{
+			line-height: 3rem;
+			justify-content: center;
+		}
+	}
+}
+
 
 @media screen and (max-width: 50rem), screen and (max-height: 35rem) {
 	.scudeoStories19-header-content {

@@ -151,6 +151,7 @@ class GreenAreas extends React.PureComponent {
 					navigation={this.props.navigation}
 					title="Mapping and monitoring of urban green areas"
 					intro="How green, open and public spaces are defined – opportunities and limitations." 
+					abstract="EO4SD-Urban provides a range of tailored products derived by advanced analysis of recent very high resolution satellite imagery to describe distribution of urban green areas in the city, their structure and typology and evolution over the time. This presentation brings simple but powerful examples of mapping and statistical outputs derived directly from EO4SD-Urban’s Urban Green baseline products, which provide means for high level comparative analysis between different cities."
 					/>
 
 				
@@ -158,15 +159,6 @@ class GreenAreas extends React.PureComponent {
 						this.state.city ? 
 						<div className="scudeoStories19-content">
 							<section key="section-1">
-								<h2>
-									Abstract
-								</h2>
-								<div>
-									<p>
-										EO4SD-Urban provides a range of tailored products derived by advanced analysis of recent very high resolution satellite imagery to describe distribution of urban green areas in the city, their structure and typology and evolution over the time. This presentation brings simple but powerful examples of mapping and statistical outputs derived directly from EO4SD-Urban’s Urban Green baseline products, which provide means for high level comparative analysis between different cities.
-									</p>
-								</div>
-
 								<div>
 									<p>
 										When dealing with “Public open spaces”, urban planner will most likely come out from definition provided by UN-HABITAT (2015), defining it as sum of streets and boulevards and the areas devoted to public parks, squares, recreational green areas, public playgrounds and open areas of public facilities. This definition does not include areas devoted to public facilities that are not open to the general public —e.g. schools, stadiums, hospitals, airports, waterworks, or military bases – or open spaces that are in private ownership or vacant lands in private ownership.
@@ -336,6 +328,15 @@ class GreenAreas extends React.PureComponent {
 
 
 							<section key="section-2">
+								<Select
+									className={"scudeoStories19-city-select"}
+									onChange={this.onCityChange.bind(this)}
+									options={this.state.dataset}
+									optionLabel="name"
+									optionValue="key"
+									value={this.state.city}
+									menuPortalTarget={this.props.pageKey}
+								/>
 								<h2>Green Areas Distribution</h2>
 								<p>Distribution of artificial green areas (consisting of two classes) in the current year  is presented in the map format. Pick the city from pull-down menu in the top-left corner to display the map for respective city. Status in former time horizon (as mapped using archived imagery) and changes between the two horizons can be presented in the same manner to show spatially explicit patterns of areas subject to transition: either uptake (formation) of former green areas by other classes or their consumption e.g. by urban sprawl or infilling.</p>
 
@@ -359,16 +360,6 @@ class GreenAreas extends React.PureComponent {
 														<MapControls zoomOnly levelsBased/>
 													}
 												>
-													<div className="scudeoStories19-map-label">
-														<Select
-															onChange={this.onCityChange.bind(this)}
-															options={this.state.dataset}
-															optionLabel="name"
-															optionValue="key"
-															value={this.state.city}
-															menuPortalTarget={this.props.pageKey}
-														/>
-													</div>
 													<div className="scudeoStories19-map-attribution">
 														Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
 													</div>
