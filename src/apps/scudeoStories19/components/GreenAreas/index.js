@@ -11,7 +11,7 @@ import MapControls from "../../../../components/common/maps/MapControls/presenta
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
-import {getMergedDataset, clearEmptyNodes, urbanFabricL3classes, getVectorLayer} from '../../data/data';
+import {getMergedDataset, clearEmptyNodes, urbanFabricL3classes, getVectorLayer, getL4CoverageValueKey} from '../../data/data';
 import './styles/style.scss';
 
 const backgroundLayer = {
@@ -52,6 +52,14 @@ const filterGreenAreaFlows = (dataset) => {
 		nodes: nonEmptyNodes ,
 		links,
 	};
+}
+
+const getUrbanGreenAreasData = (properties, firstYear, lastYear) => {
+	const years = [firstYear, lastYear];
+	return years.map((year) => ({
+		value: conversions.toSquareKm(conversions.sum([properties], L4_GREEN_AREAS_CLASSES.map((c) => getL4CoverageValueKey(c, year)))),
+		name: year
+	}));
 }
 
 const transformDataset = (dataset) => {
@@ -95,7 +103,7 @@ class GreenAreas extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			slumAreasVsCityTotalAreas: null,
+			greenAreasData: null,
 			city: null,
 			loading: null,
 			dataset: null,
@@ -105,9 +113,9 @@ class GreenAreas extends React.PureComponent {
 	componentDidMount() {
 		getMergedDataset().then((dataset) => {
 			const vectorLayer = getVectorLayer(dataset);
-			const slumAreasVsCityTotalAreas = transformDataset(dataset);
+			const greenAreasData = transformDataset(dataset);
 			this.setState({
-				slumAreasVsCityTotalAreas,
+				greenAreasData,
 				dataset,
 				loading: false,
 				city: dataset[0],
@@ -127,11 +135,14 @@ class GreenAreas extends React.PureComponent {
 		let layers = null;
 		let sankeyGreenData = null;
 		let sankeyGreenDataEmpty = null;
+		let urbanGreenAres = null;
 
 		if(this.state.city) {
 			layers = [greenLayer, this.state.vectorLayer];
 			sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlowsCoverage);
 			sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
+
+			urbanGreenAres = getUrbanGreenAreasData(this.state.city.data.features[0].properties, this.state.city.firstYear, this.state.city.lastYear);
 		}
 
 		return (
@@ -182,7 +193,7 @@ class GreenAreas extends React.PureComponent {
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
-														data={this.state.slumAreasVsCityTotalAreas}
+														data={this.state.greenAreasData}
 														keySourcePath="key"
 														nameSourcePath="name"
 														xSourcePath="name"
@@ -215,7 +226,7 @@ class GreenAreas extends React.PureComponent {
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
-														data={this.state.slumAreasVsCityTotalAreas}
+														data={this.state.greenAreasData}
 														keySourcePath="key"
 														nameSourcePath="name"
 														xSourcePath="name"
@@ -261,7 +272,7 @@ class GreenAreas extends React.PureComponent {
 													<ScatterChart
 														key="scatter-chart-1"
 
-														data={this.state.slumAreasVsCityTotalAreas}
+														data={this.state.greenAreasData}
 														keySourcePath="key"
 														nameSourcePath="name"
 														xSourcePath="urban_coverage"
@@ -296,7 +307,7 @@ class GreenAreas extends React.PureComponent {
 													<ScatterChart
 														key="scatter-chart-1"
 
-														data={this.state.slumAreasVsCityTotalAreas}
+														data={this.state.greenAreasData}
 														keySourcePath="key"
 														nameSourcePath="name"
 														xSourcePath="green_share"
@@ -366,11 +377,49 @@ class GreenAreas extends React.PureComponent {
 										</div>
 									</Visualization>
 								</Fade>
+
+								
+								<Fade left distance="50px">
+									<Visualization
+										title="Urban Green Area (km2)"
+										subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
+										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of artificial urban areas (urban fabric)."
+									>
+										<Fade cascade>
+											<div className="scudeoStories19-chart-container">
+												<HoverHandler>
+													<ColumnChart
+														key="green-areas-stacked-chart"
+
+														data={urbanGreenAres}
+														keySourcePath="name"
+														nameSourcePath="name"
+														xSourcePath="name"
+														ySourcePath={'value'}
+														defaultColor="#42982e"
+														highlightColor="#39782b"
+
+														xValuesSize={3}
+
+														yLabel
+														yOptions={{
+															name: "Area",
+															unit: "km2"
+														}}
+
+													/>
+												</HoverHandler>
+											</div>
+										</Fade>
+									</Visualization>
+								</Fade>
+
 								{ !sankeyGreenDataEmpty ?
 									<Fade left distance="50px">
 										<Visualization
 											title="Green Area Flows"
 											description="Sankey diagram helps to understand quantity and proportion changes (their structure, respectively)  as identified by mapping from very high resolution satellite imagery between two time horizonts. Left side of the diagram represents status in former horizont, while right part represent status in current (later horizont). Width of ribbon represents quantity of transition. Diagram shows clearly which classes contributed to formation of new green areas and which other classes consumed green areas that disappeared over the course of reference time period. Diagram quantifies amount of changes at aggregated level. Structure of changes can be further quantified at more detail level of nomenclature - for individual urban green classes."
+											subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
 										>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">

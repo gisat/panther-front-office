@@ -400,6 +400,11 @@ const transformLinksValues = (links, transformFunction) => {
 	}))
 }
 
+export const getL3CoverageValueKey = (key, year) => `lulc_l3_${year}_${key}_coverage`;
+export const getL4CoverageValueKey = (key, year) => `lulc_l4_${year}_${key}_coverage`;
+export const getL3ChangeCoverageValueKey = (sourceKey, targetKey, firstYear, lastYear) => `lulc_l3_${firstYear}_${sourceKey}_lulc_l3_${lastYear}_${targetKey}_coverage`;
+export const getL4ChangeCoverageValueKey = (sourceKey, targetKey, firstYear, lastYear) =>   `lulc_l4_${firstYear}_${sourceKey}_lulc_l4_${lastYear}_${targetKey}_coverage`;
+
 /**
  * 
  * @param {Array.<string>} names - Array of wanted datasources names. Default is all.
@@ -410,13 +415,11 @@ export const getMergedDataset = (names = mergedDatasetNames) => {
 			const data = [...mergedDataset.filter(d => names.includes(d.name))];
 			
 			data.forEach(dataset => {
-				const getL3CoverageValueKey = (sourceKey, targetKey) => `lulc_l3_${dataset.firstYear}_${sourceKey}_lulc_l3_${dataset.lastYear}_${targetKey}_coverage`;
-				const getL4CoverageValueKey = (sourceKey, targetKey) =>   `lulc_l4_${dataset.firstYear}_${sourceKey}_lulc_l4_${dataset.lastYear}_${targetKey}_coverage`;
 		
-				dataset['l3OverallFlowsCoverage'] = getOverallFlows(dataset, classesL3, getL3CoverageValueKey);
+				dataset['l3OverallFlowsCoverage'] = getOverallFlows(dataset, classesL3, (sourceKey, targetKey) => getL3ChangeCoverageValueKey(sourceKey, targetKey, dataset.firstYear, dataset.lastYear));
 				dataset['l3OverallFlowsCoverage'].links = transformLinksValues(dataset['l3OverallFlowsCoverage'].links, conversions.toSquareKm);
 		
-				dataset['l4OverallFlowsCoverage'] = getOverallFlows(dataset, classesL4, getL4CoverageValueKey);
+				dataset['l4OverallFlowsCoverage'] = getOverallFlows(dataset, classesL4, (sourceKey, targetKey) => getL4ChangeCoverageValueKey(sourceKey, targetKey, dataset.firstYear, dataset.lastYear));
 				dataset['l4OverallFlowsCoverage'].links = transformLinksValues(dataset['l4OverallFlowsCoverage'].links, conversions.toSquareKm);
 			})
 			const ordered =  data.sort((a,b) => {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
