@@ -4,6 +4,7 @@ import './style.scss';
 import classnames from "classnames";
 import CaseList from "../CaseList";
 import Button from "../../../../../../components/common/atoms/Button";
+import Models from "../Models";
 
 class CaseSelectContent extends React.PureComponent {
 
@@ -33,7 +34,7 @@ class CaseSelectContent extends React.PureComponent {
 						<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
 					</div>
 					<div className="tacrGeoinvaze-case-select-content-content">
-						{props.content}
+						{this.renderContent(props.content)}
 					</div>
 				</div>
 				<div className="tacrGeoinvaze-case-select-content-cases">
@@ -73,6 +74,15 @@ class CaseSelectContent extends React.PureComponent {
 			</div>
 
 		);
+	}
+	
+	renderContent(key) {
+		switch(key) {
+			case "models":
+				return React.createElement(Models);
+			default:
+				return null;
+		}
 	}
 }
 
