@@ -9,6 +9,9 @@ export const Visualization = (props) => {
 		<div className="scudeoStories19-visualization">
 			<div className="scudeoStories19-visualization-title">
 				{props.title}
+				{props.subtitle ? (
+					<div className="scudeoStories19-visualization-subtitle" title={props.subtitle}>{props.subtitle}</div>
+				) : null}
 			</div>
 			{props.children}
 			<div className="scudeoStories19-visualization-description">

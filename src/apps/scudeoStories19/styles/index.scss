@@ -150,6 +150,14 @@
 	color: var(--base75);
 }
 
+.scudeoStories19-visualization-subtitle {
+	color: var(--base50);
+	font-size: $b1;
+	margin-top: .1rem;
+	display: flex;
+    justify-content: center;
+}
+
 .scudeoStories19-visualization-description {
 	font-size: $b1;
 	font-style: italic;
