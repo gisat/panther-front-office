@@ -372,7 +372,7 @@ class LandAssetsStructure extends React.PureComponent {
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
 
-									<HoverHandler>
+									<HoverHandler selectedItems={[this.state.cityOne.key]} >
 										<ColumnChart
 												key="lulc-structure"
 
@@ -407,7 +407,7 @@ class LandAssetsStructure extends React.PureComponent {
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
-										<HoverHandler>
+										<HoverHandler selectedItems={[this.state.cityOne.key]} >
 											<ColumnChart 
 												key="diverging-bars"
 												
