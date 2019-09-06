@@ -374,7 +374,7 @@ class GreenAreas extends React.PureComponent {
 									<Visualization
 										title="Urban Green Area (km2)"
 										subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
-										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of artificial urban areas (urban fabric)."
+										description="Graph shows overall area of urban green in two time horizonts."
 									>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">
