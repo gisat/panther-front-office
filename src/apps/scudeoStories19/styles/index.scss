@@ -270,6 +270,7 @@
 	color: var(--accent20);
 }
 
+/** Select city */ 
 .scudeoStories19-city-select {
 	margin-bottom: 1.5rem;
 
@@ -295,6 +296,11 @@
 			justify-content: center;
 		}
 	}
+}
+
+
+.scudeoStories19-content .image-showcase{
+	margin-bottom: 3rem;
 }
 
 
