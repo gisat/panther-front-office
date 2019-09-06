@@ -27,6 +27,7 @@
     "rc-slider": "8.6.4",
     "re-reselect": "2.3.0",
     "react": "16.7.0",
+    "react-ga": "2.6.0",
     "react-dom": "16.7.0",
     "react-favicon": "0.0.16",
     "react-helmet": "5.2.1",
