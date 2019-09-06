@@ -9,6 +9,9 @@ import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
 import ChartWrapper from "./ChartWrapper";
 
+import gisatLogo from '../assets/logo.png';
+import vuhuLogo from '../assets/logo-vuhu.png';
+
 const bmwZonesLoader = import(/* webpackChunkName: "insarBmwStory_bmwZones" */ '../data/bmw_zones.json');
 const vuhuLoader = import(/* webpackChunkName: "insarBmwStory_vuhu" */ '../data/vuhu.json');
 const vuhu0Loader = import(/* webpackChunkName: "insarBmwStory_vuhu0" */ '../data/vuhu0.json');
@@ -166,91 +169,99 @@ class App extends React.PureComponent {
 							</PresentationMapWithControls>
 						</div>
 
-						<div className="insarBmwStory-charts">
-							<div className="insarBmwStory-chart-container">
-								{this.state.vuhu ? (
-									<Fade right distance="30px">
-										<div className="insarBmwStory-chart-title">Restrospective subsidence projection / Subsidence prognosis</div>
-										<ChartWrapper
-											data={this.state.vuhu}
-										>
-											<LineChart
-												key="vuhu"
-
+						<div className="insarBmwStory-right-panel">
+							<div className="insarBmwStory-charts">
+								<div className="insarBmwStory-chart-container">
+									{this.state.vuhu ? (
+										<Fade right distance="30px">
+											<div className="insarBmwStory-chart-title">Restrospective subsidence projection / Subsidence prognosis</div>
+											<ChartWrapper
 												data={this.state.vuhu}
-												keySourcePath="id"
-												nameSourcePath="id"
-												serieDataSourcePath="data"
-												xSourcePath="period"
-												ySourcePath="value"
+											>
+												<LineChart
+													key="vuhu"
 
-												aggregationThreshold={200}
-												height={18}
+													data={this.state.vuhu}
+													keySourcePath="id"
+													nameSourcePath="id"
+													serieDataSourcePath="data"
+													xSourcePath="period"
+													ySourcePath="value"
 
-												diverging
+													aggregationThreshold={200}
+													height={18}
 
-												yLabel
-												yOptions={{
-													min: -100,
-													name: "Subsidence",
-													unit: "cm"
-												}}
+													diverging
 
-												xValuesSize={2.5}
-												xOptions={{
-													startingTick: 2,
-													tickStep: 5
-												}}
-												xScale="yearBased"
+													yLabel
+													yOptions={{
+														min: -100,
+														name: "Subsidence",
+														unit: "cm"
+													}}
 
-												sorting={[["period", "asc"]]}
-											/>
-										</ChartWrapper>
-									</Fade>
-								) : null}
-							</div>
+													xValuesSize={2.5}
+													xOptions={{
+														startingTick: 2,
+														tickStep: 5
+													}}
+													xScale="yearBased"
 
-							<div className="insarBmwStory-chart-container">
-								{this.state.vuhu0 ? (
-									<Fade right distance="30px">
-										<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
-										<ChartWrapper
-											data={this.state.vuhu0}
-										>
-											<LineChart
-												key="vuhu0"
+													sorting={[["period", "asc"]]}
+												/>
+											</ChartWrapper>
+										</Fade>
+									) : null}
+								</div>
 
+								<div className="insarBmwStory-chart-container">
+									{this.state.vuhu0 ? (
+										<Fade right distance="30px">
+											<div className="insarBmwStory-chart-title">Overall subsidence projection</div>
+											<ChartWrapper
 												data={this.state.vuhu0}
-												keySourcePath="id"
-												nameSourcePath="id"
-												serieDataSourcePath="data"
-												xSourcePath="period"
-												ySourcePath="value"
+											>
+												<LineChart
+													key="vuhu0"
 
-												aggregationThreshold={200}
-												height={18}
+													data={this.state.vuhu0}
+													keySourcePath="id"
+													nameSourcePath="id"
+													serieDataSourcePath="data"
+													xSourcePath="period"
+													ySourcePath="value"
 
-												diverging
+													aggregationThreshold={200}
+													height={18}
 
-												sorting={[["period", "asc"]]}
+													diverging
 
-												yLabel
-												yOptions={{
-													name: "Subsidence",
-													unit: "cm"
-												}}
+													sorting={[["period", "asc"]]}
 
-												xValuesSize={2.5}
-												xOptions={{
-													startingTick: 2,
-													tickStep: 5
-												}}
-												xScale="yearBased"
-											/>
-										</ChartWrapper>
-									</Fade>
-								) : null}
+													yLabel
+													yOptions={{
+														name: "Subsidence",
+														unit: "cm"
+													}}
+
+													xValuesSize={2.5}
+													xOptions={{
+														startingTick: 2,
+														tickStep: 5
+													}}
+													xScale="yearBased"
+												/>
+											</ChartWrapper>
+										</Fade>
+									) : null}
+								</div>
 							</div>
+							{this.state.vuhu && this.state.vuhu0 ? (
+								<div className="insarBmwStory-logos">
+									<a title="Gisat s.r.o. | www.gisat.cz" target="_blank" href="http://gisat.cz/content/cz"><img alt="gisat" src={gisatLogo}/></a>
+									<a title="VÚHU a.s. | www.vuhu.cz" target="_blank" href="https://www.vuhu.cz/"><img alt="vuhu" src={vuhuLogo}/></a>
+								</div>
+							) : null}
 						</div>
 					</div>
 				</SelectHandler>
