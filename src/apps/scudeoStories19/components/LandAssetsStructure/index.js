@@ -29,6 +29,10 @@ const URBAN_FABRIC_KEYS = ["11100", "11200"];
 const URBAN_FABRIC_DISCONTINUOUS_KEYS = ["11210", "11220", "11221", "11222", "11240", "11300"]
 const URBAN_FABRIC_CONTINUOUS_KEYS = ["11100"]
 
+//urban densifications
+const URBAN_DENSIFICATION_SOURCE_KEYS = ["11210", "11220", "11230"]
+const URBAN_DENSIFICATION_TARGET_KEYS = ["11100", "11210", "11220"]
+
 const filterUrbanExpansion = (dataset) => {
 	const links = dataset.links.filter(l => {
 		const targetId = l.source.id || l.target;
@@ -46,8 +50,8 @@ const filterUrbanDensifications = (dataset) => {
 	const links = dataset.links.filter(l => {
 		const sourceId = l.source.id || l.source;
 		const targetId = l.source.id || l.target;
-		const sourceFromDISCONTINUOUS = URBAN_FABRIC_DISCONTINUOUS_KEYS.includes(sourceId.split("_")[0]);
-		const targetToCONTINUOUS = URBAN_FABRIC_CONTINUOUS_KEYS.includes(targetId.split("_")[0]);
+		const sourceFromDISCONTINUOUS = URBAN_DENSIFICATION_SOURCE_KEYS.includes(sourceId.split("_")[0]);
+		const targetToCONTINUOUS = URBAN_DENSIFICATION_TARGET_KEYS.includes(targetId.split("_")[0]);
 		return sourceFromDISCONTINUOUS && targetToCONTINUOUS;
 	})
 	const nodes = [...dataset.nodes];
