@@ -394,12 +394,7 @@ const addPopulationData = (dataset, populationsData) => {
 		}
 	})
 }
-
 addPopulationData(mergedDataset, populationsData);
-mergedDataset.forEach(d => {
-	console.log("population",d.name,d.population);
-	
-})
 
 //add data to prepared datasets
 const dataLoader = Promise.all(dataLoaders).then(datasets => {
