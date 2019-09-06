@@ -33,7 +33,7 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.loadConfiguration());
 
 	// TODO just for testing
-	Store.dispatch(Action.layerTemplates.setActiveKey('8612225f-cf93-437b-b301-d30f1e1d1284'));
+	Store.dispatch(Action.layerTemplates.setActiveKey('ce159e81-1b39-4d6b-8ac3-4290aae783a3'));
 	Store.dispatch(Action.periods.setActiveKey('5f853535-13c5-488c-af75-b167ce2262bb'));
 	// Store.dispatch(Action.cases.setActiveKey('fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf'));
 
