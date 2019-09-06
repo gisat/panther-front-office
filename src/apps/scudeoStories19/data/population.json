@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Abidjan",
+        "population":4921
+    },
+    {
+        "name": "Bhopal",
+        "population":2278
+    },
+    {
+        "name": "Campeche",
+        "population":220
+    },
+    {
+        "name": "Dakar",
+        "population":2978
+    },
+    {
+        "name": "Dhaka",
+        "population":19578
+    },
+    {
+        "name": "Lima",
+        "population":10391
+    },
+    {
+        "name": "Mandalay",
+        "population":1374
+    },
+    {
+        "name": "Louis",
+        "population":176
+    },
+    {
+        "name": "Vyjiawada",
+        "population":1911
+    },
+    {
+        "name": "Mwanza",
+        "population":436
+    },
+    {
+        "name": "Arusha",
+        "population":341
+    },
+    {
+        "name": "Mbeya",
+        "population":291
+    },
+    {
+        "name": "Tanga",
+        "population":224
+    },
+    {
+        "name": "Dodoma",
+        "population":180
+    },
+    {
+        "name": "Kigoma",
+        "population":164
+    }
+]

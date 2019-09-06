@@ -1,4 +1,5 @@
 import conversions from './conversions';
+import populationsData from './population.json';
 
 const data = [
 	{
@@ -17,10 +18,10 @@ const data = [
 		loader: import(/* webpackChunkName: "mbeyaDataset" */ './mbeya_combined_output_p7.json'),
 		name: 'Mbeya'
 	},
-	{
-		loader: import(/* webpackChunkName: "mtwaraDataset" */ './mtwara_combined_output_p7.json'),
-		name: 'Mtwara'
-	},
+	// {
+	// 	loader: import(/* webpackChunkName: "mtwaraDataset" */ './mtwara_combined_output_p7.json'),
+	// 	name: 'Mtwara'
+	// },
 	{
 		loader: import(/* webpackChunkName: "mwanzaDataset" */ './mwanza_combined_output_p7.json'),
 		name: 'Mwanza'
@@ -329,14 +330,14 @@ export const mergedDataset = [
 		name: 'Mbeya',
 		key: 5,
 	},
-	{
-        data: null,
-        informalYear: 2017,
-		lastYear: 2016,
-		firstYear: 2008,
-		name: 'Mtwara',
-		key: 6,
-	},
+	// {
+    //     data: null,
+    //     informalYear: 2017,
+	// 	lastYear: 2016,
+	// 	firstYear: 2008,
+	// 	name: 'Mtwara',
+	// 	key: 6,
+	// },
 	{
         data: null,
         informalYear: 2015,
@@ -383,6 +384,22 @@ export const mergedDataset = [
 ];
 
 const mergedDatasetNames = mergedDataset.map(d => d.name);
+
+const addPopulationData = (dataset, populationsData) => {
+	dataset.forEach((d) => {
+		const popupation = populationsData.find(p => p.name === d.name);
+		//original data are in thousants
+		if(popupation) {
+			d.population = popupation.population * 1000
+		}
+	})
+}
+
+addPopulationData(mergedDataset, populationsData);
+mergedDataset.forEach(d => {
+	console.log("population",d.name,d.population);
+	
+})
 
 //add data to prepared datasets
 const dataLoader = Promise.all(dataLoaders).then(datasets => {

@@ -91,6 +91,7 @@ const transformDataset = (dataset) => {
 			green_fabricarea_share,
 			key: dataSet.key,
 			name: dataSet.name,
+			population: dataSet.population
 		}
 	});
 }
@@ -282,6 +283,7 @@ class GreenAreas extends React.PureComponent {
 															name: "Green area",
 															unit: "km2"
 														}}
+														pointSizePath={"population"}
 													/>
 												</HoverHandler>
 											</div>
@@ -374,7 +376,7 @@ class GreenAreas extends React.PureComponent {
 									<Visualization
 										title="Urban Green Area (km2)"
 										subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
-										description="Graph shows overall area of urban green in two time horizonts."
+										description="Graph shows overall area of urban green in two time horizons."
 									>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">
