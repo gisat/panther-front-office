@@ -80,6 +80,30 @@ const data = [
 		loader: import(/* webpackChunkName: "Xalapa" */ './Xalapa_statistics_p7.json'),
 		name: 'Xalapa'
 	},
+	{
+		loader: import(/* webpackChunkName: "Campeche" */ './Campeche_statistics_p7.json'),
+		name: 'Campeche'
+	},
+	{
+		loader: import(/* webpackChunkName: "HaGiang" */ './HaGiang_statistics_p7.json'),
+		name: 'Ha Giang'
+	},
+	{
+		loader: import(/* webpackChunkName: "LaPaz" */ './LaPaz_statistics_p7.json'),
+		name: 'La Paz'
+	},
+	{
+		loader: import(/* webpackChunkName: "Melaka" */ './Melaka_statistics_p7.json'),
+		name: 'Melaka'
+	},
+	{
+		loader: import(/* webpackChunkName: "SaintLouis" */ './SaintLouis_statistics_p7.json'),
+		name: 'Saint Louis'
+	},
+	{
+		loader: import(/* webpackChunkName: "VinhYen" */ './VinhYen_statistics_p7.json'),
+		name: 'Vinh Yen'
+	},
 ];
 
 const dataLoaders = data.map((d) => {
