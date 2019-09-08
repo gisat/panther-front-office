@@ -1,4 +1,6 @@
 import React from 'react';
+import models01 from '../../../assets/models01.png';
+import models02 from '../../../assets/models02.png';
 
 export default props => (
 	<>
@@ -10,8 +12,9 @@ export default props => (
 		<h4>Mapové výstupy z predikčních modelů a konstrukce modelů</h4>
 		<h5>Konstrukce predikčních modelů IAS</h5>
 		<p>Myšlenka geoportálu (a následného modelování) vychází z propojení aplikačního serveru s ND OP, která je spravovaná AOPK. Aplikační server si v dané periodě (3 měsíce) automaticky stáhne prostřednictvím API aktuální stav nálezové databáze a následně na pozadí provede modelování. Výsledky modelu jsou následně vizualizovány na mapovém portálu, který má základní funkcionalitu pro prohlížení dat (zoom, dotazování, výběr zájmového území). Nepředpokládá se tedy online modelování uživatelských scénářů (co se stane, pokud zlikviduji vybraný výskyt… apod). Základní princip fungování celého systému je schematicky zobrazený na následujícím obrázku (Obr. 1).</p>
-		
-		<p>Obr. 1: Základní schéma funkcionality geoportálu modelování biologických invazí</p>
+
+
+		<i className="tacrGeoinvaze-image-decsription">Obr. 1: Základní schéma funkcionality geoportálu modelování biologických invazí</i>
 		
 		<p>V rámci predikcí výskytu byly vytvořeny dva typy modelů, a to modely maximálního možného rozšíření druhů na základě modelování pomocí nástroje BIOMOD a modely zohledňující současný výskyt s následnou predikcí šíření v určitých časových horizontech, tzv. mechanistické modely.</p>
 		
@@ -31,13 +34,17 @@ export default props => (
 		<h5>2c. Modelování pro terestrické rostliny a dřeviny</h5>
 		<p>Hlavní vrstvou pro modelování rostlinných druhů je (kromě vrstvy výskytů převzaté z nálezové databáze AOPK) databáze KVES, kde jsou jednotlivým ekosystémům přiřazené váhy zohledňující jejich vhodnost pro šíření daného druhu. Jako pomocné vrstvy slouží vrstva vodních toků a komunikací, reprezentující vektory šíření.</p>
 		<p>Základní myšlenka modelu vychází z toho, že pokud místo nálezu sousedí s biotopem, vhodným pro šíření daného druhu (biotop má přiřazenou nenulovou váhu), daný druh se do něj může rozšířit. Rychlost šíření (tj. počet sousedících pixelů v rastrové vrstvě, které budou „obsazené") byla stanovená na 30m/rok – tj. obsazené budou všechny vhodné pixely, bezprostředně sousedící s místem nálezu (Obr. 2).</p>
+
+		<img src={models01} style={{maxWidth:"50rem"}} />
 		
-		<p>Obr. 2: Princip modelování šíření v rastrovém modelu</p>
+		<i className="tacrGeoinvaze-image-decsription">Obr. 2: Princip modelování šíření v rastrovém modelu</i>
 		
 		
 		<p>Pokud místo nálezu leží v těsném sousedství vodního toku nebo komunikace, tak tyto liniové prvky slouží jako vektory šíření a obsazené budou všechny vhodné pixely ležící ve vzdálenosti 90m podél liniového prvku. V případě komunikací se tato vzdálenost bere v obou směrech, v případě vodních toků pouze ve směru toku (Obr. 3).</p>
+
+		<img src={models02} style={{maxWidth:"50rem"}} />
 		
-		<p>Obr. 3: Princip modelování šíření v rastrovém modelu při zohlednění liniových vektorů šíření</p>
+		<i className="tacrGeoinvaze-image-decsription">Obr. 3: Princip modelování šíření v rastrovém modelu při zohlednění liniových vektorů šíření</i>
 		
 		<p>Výsledek modelu pro 1. rok šíření se stává vstupem pro modelování šíření v dalším časovém intervalu (modelování situace po 3 letech). Výsledek tohoto modelu je následně vstupem pro model situace po 10 letech. Jinými slovy – výsledek modelu pro první časové období na vstupu nahrazuje tzv. „stav 0“- tj. vrstvu odvozenou z nálezové databáze, proběhne výpočet nad takto modifikovanými vstupy a výsledek je opět převzat jako iniciální stav do třetího kola výpočtu. Po dokončení všech kroků jsou výsledkem 4 rastrové vrstvy, které jsou následně vizualizované na mapovém portálu:</p>
 		<p>Situace v „čase 0“ – tj. vizualizace nálezové databáze<br/>
