@@ -10,6 +10,7 @@ import AttributeDataSelectors from '../AttributeData/selectors';
 import commonSelectors from "../_common/selectors";
 
 import config from "../../config/index";
+import * as path from "path";
 
 const getSubstate = state => state.maps;
 
@@ -295,7 +296,7 @@ const getLayers = (state, mapKey) => {
 								key: layerState.key + '_' + layer.key,
 								type: "wms",
 								options: {
-									url: config.apiGeoserverWMSProtocol + config.apiGeoserverWMSHost + config.apiGeoserverWMSPath,
+									url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
 									params: {
 										layers: layer.data.layerName
 									}
