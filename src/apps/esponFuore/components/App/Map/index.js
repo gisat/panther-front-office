@@ -28,7 +28,7 @@ const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
 			})
-			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
 
@@ -62,7 +62,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
 			})
-			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
 
@@ -141,7 +141,7 @@ const mapStateToProps = (state, props) => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
 		}) : null;
-		let layers = Select.maps.getLayers(state, layersData);
+		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
 		let activeFilter = Select.selections.getActive(state);
 

@@ -284,7 +284,7 @@ const getFilterByActiveByMapKey = createSelector(
  * @param state {Object}
  * @param layers {Array} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
-const getLayers = createSelector(
+const getLayers_deprecated = createSelector(
 	[
 		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
 		AttributeDataSelectors.getFilteredGroupedByLayerKey,
@@ -712,7 +712,7 @@ export default {
 	getFilterByActiveByMapKey,
 	getFiltersForUse, // TODO deprecated?
 
-	getLayers,
+	getLayers_deprecated,
 	getLayersStateByMapKey,
 	getLayersStateByMapKey_deprecated,
 	getLayersStateByMapSetKey,

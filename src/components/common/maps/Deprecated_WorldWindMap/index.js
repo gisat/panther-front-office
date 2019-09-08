@@ -12,7 +12,7 @@ const mapStateToProps = (state, props) => {
 
 	let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey);
 	let layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : null;
-	let layers = Select.maps.getLayers(state, layersData);
+	let layers = Select.maps.getLayers_deprecated(state, layersData);
 
 	let layersVectorData = layers ? layers.reduce((acc, layerData) => {
 		if(layerData.type === 'vector' && layerData.spatialRelationsData) {
@@ -26,7 +26,7 @@ const mapStateToProps = (state, props) => {
 	}, {}) : null;
 
 	return {
-		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+		backgroundLayer: Select.maps.getLayers_deprecated(state, backgroundLayerData),
 		layers,
 		layersVectorData,
 		navigator: Select.maps.getNavigator(state, props.mapKey)

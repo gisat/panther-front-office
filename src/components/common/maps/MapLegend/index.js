@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
 			})
-			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
 
