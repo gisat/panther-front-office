@@ -519,14 +519,14 @@ const getIndexedDataUses = (getSubstate) => {
 // TODO case, scenario, ...
 const getAllActiveKeys = createSelector(
 	[
-		state => state.scopes.activeKey,
-		state => state.cases.activeKey,
-		state => state.places.activeKey,
-		state => state.places.activeKeys,
-		state => state.periods.activeKey,
-		state => state.periods.activeKeys,
-		state => state.attributes.activeKey,
-		state => state.layerTemplates.activeKey,
+		state => state.scopes && state.scopes.activeKey,
+		state => state.cases && state.cases.activeKey,
+		state => state.places && state.places.activeKey,
+		state => state.places && state.places.activeKeys,
+		state => state.periods && state.periods.activeKey,
+		state => state.periods && state.periods.activeKeys,
+		state => state.attributes && state.attributes.activeKey,
+		state => state.layerTemplates && state.layerTemplates.activeKey,
 		state => state.specific && state.specific.apps,
 		state => state.app && state.app.key
 	],
