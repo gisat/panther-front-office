@@ -259,6 +259,63 @@ const getBackgroundLayer = (state, mapKey) => {
 	}
 };
 
+// TODO re-reselct
+const getLayers = (state, mapKey) => {
+	let layersState = getLayersStateByMapKey(state, mapKey);
+	let activeKeys = commonSelectors.getAllActiveKeys(state);
+
+	if (layersState) {
+		let layers = layersState.map((layersState) => {
+			return {
+				data: {
+					key: layersState.key
+				},
+				// TODO quick solution for geoinv - get filter properly!
+				filter: {
+					layerTemplateKey: activeKeys && activeKeys.activeLayerTemplateKey,
+					periodKey: activeKeys && activeKeys.activePeriodKey,
+					caseKey: activeKeys && activeKeys.activeCaseKey,
+				}
+			}
+		});
+
+		let data = SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey(state, layers);
+
+		if (data && !_.isEmpty(data)) {
+			let mapLayers = [];
+
+			layersState.forEach((layerState) => {
+				let layerData = data[layerState.key];
+				if (layerData) {
+					layerData.forEach(layer => {
+
+						// TODO quick solution for geoinv
+						if (layer && layer.data && (layer.data.type === "vector" || layer.data.type === "raster")) {
+							mapLayers.push({
+								key: layerState.key + '_' + layer.key,
+								type: "wms",
+								options: {
+									url: config.apiGeoserverWMSProtocol + config.apiGeoserverWMSHost + config.apiGeoserverWMSPath,
+									params: {
+										layers: layer.data.layerName
+									}
+								}
+							});
+						}
+					});
+				}
+			});
+
+			console.log("#### Map Layer name", mapLayers && mapLayers[0] && mapLayers[0].options.params.layers);
+			return mapLayers;
+		} else {
+			return null;
+		}
+	} else {
+		return null;
+	}
+};
+
 
 
 // TODO re-reselect?
@@ -376,6 +433,7 @@ const getBackgroundLayerStateByMapKey_deprecated = createSelector(
 );
 
 // TODO re-reselect
+// TODO refactor?
 /**
  * @param state {Object}
  * @param mapKey {string}
@@ -712,6 +770,7 @@ export default {
 	getFilterByActiveByMapKey,
 	getFiltersForUse, // TODO deprecated?
 
+	getLayers,
 	getLayers_deprecated,
 	getLayersStateByMapKey,
 	getLayersStateByMapKey_deprecated,

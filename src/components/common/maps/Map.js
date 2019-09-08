@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
 			// TODO provisional
 			// backgroundLayer: backgroundLayer,
 			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.stateMapKey),
-			// layers: Select.maps.getLayers(state, ownProps.stateMapKey),
+			layers: Select.maps.getLayers(state, ownProps.stateMapKey),
 			view: Select.maps.getView(state, ownProps.stateMapKey),
 			mapKey: ownProps.stateMapKey
 		}
