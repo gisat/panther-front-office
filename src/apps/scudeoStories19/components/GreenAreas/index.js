@@ -317,7 +317,6 @@ class GreenAreas extends React.PureComponent {
 														nameSourcePath="name"
 														xSourcePath="green_share"
 														ySourcePath="urban_fabric_share"
-														zSourcePath="population"
 
 														yLabel
 														yValuesSize={3.5}
@@ -330,11 +329,6 @@ class GreenAreas extends React.PureComponent {
 														xOptions={{
 															name: "Green area",
 															unit: "%"
-														}}
-
-														zOptions={{
-															name: "Population",
-															units: "inhabitants"
 														}}
 
 														innerPaddingRight={0}
