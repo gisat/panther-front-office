@@ -467,16 +467,12 @@ class GreenAreas extends React.PureComponent {
 							</section>
 							<section>
 								<h2>Text about LULC Green Areas methodology</h2>
-								<div>
-									<p>
-										Urban green areas refer to land within and on the edges of a city that is partly or completely covered with grass, trees, shrubs, or other vegetation. This includes public parks, private gardens, cemeteries, forested areas as well as trees, river alignments, hedges etc. The product delivered within EO4SD-Urban project thus provides accurate information (1 m resolution) on the spatial location and extent of the green areas located within the Urban Extent derived from the baseline LULC information product.
-									</p>
-								</div>
-								<div>
-									<p>
-										Detecting and monitoring urban green coverage needs VHR EO data, which explains the product generation over the Core Urban Area of AOI only. The same images have been logically used as for generating the LULC information product. Consequently, the usual preliminary quality check and pre-processing tasks were already implemented. Urban Green Areas have been detected using a combination of semi-automated object-based image analysis and expert visual interpretation of satellite imagery. This processing method is applied for each reference date for which the product is required. Then, change information layer is basically derived from the geometric intersection of the historic and current Urban Green Areas layers by means of GIS operation. This resulting product finally provides information about permanent vegetation, loss of urban green areas and new ones. Quality control and accuracy assessment tasks are performed by means of visual interpretation and considering the LULC dataset.
-									</p>
-								</div>
+								<p>
+									Urban green areas refer to land within and on the edges of a city that is partly or completely covered with grass, trees, shrubs, or other vegetation. This includes public parks, private gardens, cemeteries, forested areas as well as trees, river alignments, hedges etc. The product delivered within EO4SD-Urban project thus provides accurate information (1 m resolution) on the spatial location and extent of the green areas located within the Urban Extent derived from the baseline LULC information product.
+								</p>
+								<p>
+									Detecting and monitoring urban green coverage needs VHR EO data, which explains the product generation over the Core Urban Area of AOI only. The same images have been logically used as for generating the LULC information product. Consequently, the usual preliminary quality check and pre-processing tasks were already implemented. Urban Green Areas have been detected using a combination of semi-automated object-based image analysis and expert visual interpretation of satellite imagery. This processing method is applied for each reference date for which the product is required. Then, change information layer is basically derived from the geometric intersection of the historic and current Urban Green Areas layers by means of GIS operation. This resulting product finally provides information about permanent vegetation, loss of urban green areas and new ones. Quality control and accuracy assessment tasks are performed by means of visual interpretation and considering the LULC dataset.
+								</p>
 								<h3>More resources</h3>
 								<ul>
 									<li><a href="#" target="_blank">Dhaka Use Case – EO green areas to city liveability improvement</a></li>
