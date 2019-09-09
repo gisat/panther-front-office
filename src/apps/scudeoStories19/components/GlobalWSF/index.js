@@ -263,6 +263,8 @@ console.log(this.state.wsfData);
 														unit: "km2"
 													}}
 
+													height={22}
+
 													legend
 												/>
 											</HoverHandler>
@@ -299,6 +301,7 @@ console.log(this.state.wsfData);
 														unit: "%"
 													}}
 
+													height={22}
 													legend
 												/>
 											</HoverHandler>
@@ -335,6 +338,7 @@ console.log(this.state.wsfData);
 														unit: "k%"
 													}}
 
+													height={22}
 													legend
 												/>
 											</HoverHandler>
