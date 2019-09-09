@@ -14,6 +14,7 @@ export const Visualization = (props) => {
 				) : null}
 			</div>
 			{props.children}
+			{props.legend}
 			<div className="scudeoStories19-visualization-description">
 				{props.description}
 			</div>

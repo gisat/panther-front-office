@@ -367,6 +367,22 @@ class GreenAreas extends React.PureComponent {
 									<Visualization
 										title="Green Areas Distribution"
 										description="Distribution of the two Artificial urban green classes in the cities (or its parts) as mapped from current very high resolution imagery is shown in the map."
+										legend={
+											<div className="scudeoStories19-visualization-legend">
+												<div className="legend-field">
+													<div className="legend-color" style={{background: "#00E800"}}></div>
+													<div className="legend-value">14100 - Green Urban Areas</div>
+												</div>
+												<div className="legend-field">
+													<div className="legend-color" style={{background: "#00FFC5"}}></div>
+													<div className="legend-value">14200 - Recreation Facilities (Sport Facilities, Stadiums, Golf Courses, etc.)</div>
+												</div>
+												<div className="legend-field">
+													<div className="legend-color" style={{background: "#A34963"}}></div>
+													<div className="legend-value">14300 - Cemeteries</div>
+												</div>
+											</div>
+										}
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
