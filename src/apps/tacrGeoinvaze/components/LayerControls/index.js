@@ -13,7 +13,9 @@ const mapStateToProps = state => {
 	return {
 		templateKeys: Select.app.getConfiguration(state, 'templates'),
 		periods: Select.periods.getIndexed(state, filterByActive, null, periodsOrder, 1, 200),
-		layerTemplates: Select.layerTemplates.getIndexed(state, filterByActive, null, null, 1, 20)
+		layerTemplates: Select.layerTemplates.getIndexed(state, filterByActive, null, null, 1, 20),
+		activeLayerTemplateKey: Select.layerTemplates.getActiveKey(state),
+		activePeriodKey: Select.periods.getActiveKey(state)
 	}
 };
 

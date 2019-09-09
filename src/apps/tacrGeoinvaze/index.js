@@ -85,7 +85,7 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | Geoinvaze"
 					defaultTitle="Geoinvaze"
 				/>
-				<AppContainer>
+				<AppContainer appKey="tacrGeoinvaze">
 					<ConnectedRouter history={history}>
 						<>
 							<Route path={path + "/:caseKey?/:layerTemplateKey?/:periodKey?"} component={App} />

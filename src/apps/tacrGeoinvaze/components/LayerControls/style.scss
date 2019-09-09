@@ -23,3 +23,9 @@
 .tacrGeoinvaze-actual-expansion .ptr-select-container {
 	display: inline-block;
 }
+
+// active button
+.tacrGeoinvaze .ptr-button.ghost.active {
+	background: var(--accent50);
+	color: var(--base10);
+}

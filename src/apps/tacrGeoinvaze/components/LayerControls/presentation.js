@@ -78,6 +78,7 @@ class LayerControls extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		const templateKeys = props.templateKeys;
 		
 		let actualExpansionInsert = null;
 		
@@ -99,7 +100,7 @@ class LayerControls extends React.PureComponent {
 						<div>
 							<ButtonSwitch onClick={this.switchToActual} ghost>
 								{latestPeriods.map(period => (
-									<Option value={period.key}>{period.data.nameDisplay}</Option>
+									<Option active={props.templateKeys && props.templateKeys.actualExpansion === props.activeLayerTemplateKey && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
 								))}
 							</ButtonSwitch>
 							{/*<Select/>*/}
@@ -125,9 +126,9 @@ class LayerControls extends React.PureComponent {
 					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option value={"gis1"}>+ 1 rok</Option>
-							<Option value={"gis3"}>+ 3 roky</Option>
-							<Option value={"gis10"}>+ 10 let</Option>
+							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year1)} value={"gis1"}>+ 1 rok</Option>
+							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year3)} value={"gis3"}>+ 3 roky</Option>
+							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year10)} value={"gis10"}>+ 10 let</Option>
 						</ButtonSwitch>
 					</div>
 				</div>
@@ -135,9 +136,9 @@ class LayerControls extends React.PureComponent {
 					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option value={"gam"}>gen. lineární</Option>
-							<Option value={"gbm"}>gradient boosting</Option>
-							<Option value={"maxent"}>maximum entropy</Option>
+							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.generalisedLinear)} value={"gam"}>gen. lineární</Option>
+							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.gradientBoosting)} value={"gbm"}>gradient boosting</Option>
+							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.maximumEntropy)} value={"maxent"}>maximum entropy</Option>
 						</ButtonSwitch>
 					</div>
 				</div>
