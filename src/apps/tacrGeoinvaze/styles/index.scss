@@ -89,3 +89,14 @@
 .tacrGeoinvaze-column-visualization > .ptr-adjustable-columns-content {
 	overflow: hidden;
 }
+
+.tacrGeoinvaze-header-space { /* todo hacky hacky hack */
+	position: absolute;
+	top: .6rem;
+	left: 32rem;
+	z-index: 50;
+	font-size: $b1;
+}
+.tacrGeoinvaze-header-space > div {
+	font-size: $b2;
+}
