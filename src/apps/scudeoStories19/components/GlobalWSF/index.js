@@ -213,7 +213,24 @@ class GlobalWSF extends React.PureComponent {
 				response.json().then(data => {
 					let mapLegendData = _.get(data, 'Legend[0].rules[0].symbolizers[0].Raster.colormap.entries');
 					if (mapLegendData) {
-						this.setState({mapLegendData: _.reverse(mapLegendData)});
+						let finalData = [];
+						let noData = null;
+						mapLegendData.forEach(item => {
+							if (item.label !== 'NoData') {
+								finalData.push(item);
+							} else {
+								noData = {
+									label: 'No data',
+									color: item.color
+								};
+							}
+						});
+
+						if (noData) {
+							finalData.push(noData);
+						}
+
+						this.setState({mapLegendData: finalData});
 					}
 				});
 			} else {
