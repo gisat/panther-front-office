@@ -30,8 +30,8 @@ const URBAN_FABRIC_DISCONTINUOUS_KEYS = ["11210", "11220", "11221", "11222", "11
 const URBAN_FABRIC_CONTINUOUS_KEYS = ["11100"]
 
 //urban densifications
-const URBAN_DENSIFICATION_SOURCE_KEYS = ["11210", "11220", "11230"]
-const URBAN_DENSIFICATION_TARGET_KEYS = ["11100", "11210", "11220"]
+const URBAN_DENSIFICATION_SOURCE_KEYS = ["11210", "11220", "11230", "11240"];
+const URBAN_DENSIFICATION_TARGET_KEYS = ["11100", "11210", "11220"];
 
 const filterUrbanExpansion = (dataset) => {
 	const links = dataset.links.filter(l => {
