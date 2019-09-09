@@ -565,7 +565,7 @@ class LandAssetsStructure extends React.PureComponent {
 												// valueSourcePath="value"
 												maxWidth = {50}
 												width={50}
-												height={100}
+												height={66}
 												yOptions={{
 													// name: 'Node title',
 													unit: 'km2'
@@ -601,7 +601,7 @@ class LandAssetsStructure extends React.PureComponent {
 												// valueSourcePath="value"
 												maxWidth = {50}
 												width={50}
-												height={50}
+												height={40}
 												yOptions={{
 													// name: 'Node title',
 													unit: 'km2'
@@ -639,7 +639,7 @@ class LandAssetsStructure extends React.PureComponent {
 												// valueSourcePath="value"
 												maxWidth = {50}
 												width={50}
-												height={50}
+												height={40}
 												yOptions={{
 													// name: 'Node title',
 													unit: 'km2'

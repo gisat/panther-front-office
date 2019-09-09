@@ -474,7 +474,7 @@ class GreenAreas extends React.PureComponent {
 
 														maxWidth = {50}
 														width={50}
-														height={50}
+														height={40}
 														yOptions={{
 															unit: 'km2'
 														}}
