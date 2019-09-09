@@ -42,7 +42,7 @@ class CaseSelectContent extends React.PureComponent {
 						<div className="tacrGeoinvaze-case-select-content-link-home">
 							<Button invisible primary onClick={props.changeContent.bind(null, null)} >Úvod</Button>
 						</div>
-						<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu</Button>
+						<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu / About</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'inputs')}>Vstupní data</Button>
 						<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
 					</div>
