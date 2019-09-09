@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 
 import createStore, {createHistory} from './state/Store';
 import Action from "../../state/Action";
@@ -60,23 +60,27 @@ export default (path, baseUrl) => {
 				/>
 				<AppContainer appKey="scudeoStories19">
 					<ConnectedRouter history={history}>
-						<>
-						{pages.map(page =>
-							<Route
-								key={page.key}
-								path={"/" + page.key}
-								render={(props) => (
-									<Page
-										component={page.component}
-										pageTitle={page.navigationName}
-										pageKey={page.key}
-										allPages={pages}
-										{...props}
-									/>
-								)}
-							/>
-						)}
-						</>
+						<Switch>
+							{pages.map(page =>
+								<Route
+									key={page.key}
+									path={"/" + page.key}
+									render={(props) => (
+										<Page
+											component={page.component}
+											pageTitle={page.navigationName}
+											pageKey={page.key}
+											allPages={pages}
+											{...props}
+										/>
+									)}
+								/>
+							)}
+							{/* default path */}
+							<Route exact path="/" render={() => (
+								<Redirect to="/globalWsf"/>
+							)}/>
+						</Switch>
 					</ConnectedRouter>
 				</AppContainer>
 			</Provider>
