@@ -34,3 +34,19 @@
 .tacrGeoinvaze-case-select:not(.currentDisabled) .tacrGeoinvaze-case-select-current:hover {
 	background-color: var(--accent45);
 }
+
+
+.tacrGeoinvaze-case-select-overlay-header {
+	position: relative;
+}
+
+.tacrGeoinvaze-header-space { /* todo hacky hacky hack */
+	position: absolute;
+	top: 1.3rem;
+	left: 32rem;
+	z-index: 50;
+	font-size: $b1;
+}
+.tacrGeoinvaze-header-space > div {
+	font-size: $b2;
+}
