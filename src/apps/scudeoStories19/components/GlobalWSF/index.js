@@ -1,5 +1,7 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import fetch from "isomorphic-fetch";
+import _ from 'lodash';
 import {Visualization, Header} from '../Page';
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
@@ -14,6 +16,8 @@ import conversions from '../../data/conversions';
 import {getVectorLayer} from '../../data/data';
 import "./styles/style.scss";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
+
+import request from '../../../../state/_common/request';
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -113,6 +117,7 @@ class GlobalWSF extends React.PureComponent {
 			loading: null,
 			cityOne: null,
 			cityTwo: null,
+			mapLegendData: null
 		};
 	}
 
@@ -129,12 +134,40 @@ class GlobalWSF extends React.PureComponent {
 				cityTwo: wsfData[1],
 				vectorLayer,
 			});
-		})
+		});
+
+		// Get legend for map
+		fetch(wsfLayer.options.url + 'service=WMS&request=GetLegendGraphic&layer=' + wsfLayer.options.params.layers + '&FORMAT=application/json', {
+			method: 'GET'
+		}).then(response => {
+			let contentType = response.headers.get('Content-type');
+			if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+				response.json().then(data => {
+					let mapLegendData = _.get(data, 'Legend[0].rules[0].symbolizers[0].Raster.colormap.entries');
+					if (mapLegendData) {
+						this.setState({mapLegendData: _.reverse(mapLegendData)});
+					}
+				});
+			} else {
+				console.warn('Legend request error');
+			}
+		});
 	}
 
 	onCityChange(city, data) {
 		this.setState({
 			[city]: data
+		});
+	}
+
+	renderMapLegend() {
+		return this.state.mapLegendData.map((item) => {
+			return (
+				<div className="legend-field">
+					<div className="legend-color" style={{background: item.color}}></div>
+					<div className="legend-value">{item.label}</div>
+				</div>
+			);
 		});
 	}
 
@@ -173,6 +206,11 @@ class GlobalWSF extends React.PureComponent {
 								<Visualization
 									title="Settlement Area Expansion (1985-2015)"
 									description="The WSF Evolution data outlines the growth of settlement extent globally at 30m spatial resolution and high temporal frequency (yearly) from 1985 to 2015. Spatial temporal patterns can be easily observed and compared for different cities to understand urban growth dynamics in time as seen above."
+									legend={
+										<div className="scudeoStories19-visualization-legend">
+											{this.state.mapLegendData ? this.renderMapLegend() : null}
+										</div>
+									}
 								>
 									<div className="scudeoStories19-map-container">
 										<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
