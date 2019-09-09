@@ -400,6 +400,9 @@ class GreenAreas extends React.PureComponent {
 														<MapControls zoomOnly levelsBased/>
 													}
 												>
+													<div className="scudeoStories19-map-label">
+														{this.state.city.lastYear}
+													</div>
 													<div className="scudeoStories19-map-attribution ptr-dark">
 														© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 													</div>
