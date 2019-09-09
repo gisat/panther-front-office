@@ -3,6 +3,7 @@ import Fade from 'react-reveal/Fade';
 import fetch from "isomorphic-fetch";
 import _ from 'lodash';
 import {Visualization, Header} from '../Page';
+import {cloneDeep} from 'lodash';
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
@@ -40,19 +41,85 @@ const wsfLayer = {
 	}
 };
 
+const getRelativeAnnualPercentageGrowth = (properties, year, years) => {
+	const yearCoverageKey = `${year}_coverage`;
+	
+	if(properties.hasOwnProperty(yearCoverageKey)) {
+		const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
+		
+		let n = 1;
+		let prevYearCoverageKey = `${years[years.indexOf(year) - n]}_coverage`;
+		let prevCoverage = null;
+		while (!properties.hasOwnProperty(prevYearCoverageKey)) {
+			n++
+			const prevYearIndex = years.indexOf(year) - n;
+			prevYearCoverageKey = `${years[prevYearIndex]}_coverage`;
+
+			if(prevYearIndex < 0) {
+				break;
+			}
+		}
+
+		if(properties.hasOwnProperty(prevYearCoverageKey)) {
+			prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
+		}
+
+		if(prevCoverage) {
+			const coverageGrowth = coverage - prevCoverage;
+			return (coverageGrowth / (prevCoverage/100)) / n;
+		} else {
+			return null;
+		}
+	} else {
+		return null
+	}
+}
+
+const getAnnualCoverageGrowth = (properties, year, years) => {
+	const yearCoverageKey = `${year}_coverage`;
+	
+	if(properties.hasOwnProperty(yearCoverageKey)) {
+		const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
+		
+		let n = 1;
+		let prevYearCoverageKey = `${years[years.indexOf(year) - n]}_coverage`;
+		let prevCoverage = null;
+		while (!properties.hasOwnProperty(prevYearCoverageKey)) {
+			n++
+			const prevYearIndex = years.indexOf(year) - n;
+			prevYearCoverageKey = `${years[prevYearIndex]}_coverage`;
+
+			if(prevYearIndex < 0) {
+				break;
+			}
+		}
+
+		if(properties.hasOwnProperty(prevYearCoverageKey)) {
+			prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
+		}
+
+		if(prevCoverage) {
+			const coverageGrowth = coverage - prevCoverage;
+			return coverageGrowth;
+		} else {
+			return null;
+		}
+	} else {
+		return null
+	}
+}
+
 const years = [1985, 1990, 1995, 2000, 2005, 2010, 2015];
 const allYears = [1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015];
 const getSerialData = (properties) => {
 	const serialData = [];
 	for (const [index, year] of allYears.entries()) {
 		const yearCoverageKey = `${year}_coverage`;
-		const firstYearCoverageKey = `${1985}_coverage`;
 		
 		if(properties.hasOwnProperty(yearCoverageKey)) {
-			console.log(properties.hasOwnProperty(yearCoverageKey), yearCoverageKey);
 			const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
-			const relativeCoverageGrowth = coverage - conversions.toSquareKm(properties[firstYearCoverageKey]);
-			let annualPercentageGrowth = 0;
+			const relativeAnnualPercentageGrowth = getRelativeAnnualPercentageGrowth(properties, year, allYears);
+			let annualCoverageGrowth = getAnnualCoverageGrowth(properties, year, allYears);;
 			let annualPercentagePopulationGrowth = null;
 			let urbanExpansionCoefficient = null;
 			//omit first year
@@ -67,18 +134,19 @@ const getSerialData = (properties) => {
 					const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
 					const coverageGrowth = coverage - prevCoverage;
 					const populationGrowth = population && prevPopulation && population - prevPopulation;
-					annualPercentageGrowth = coverageGrowth / (prevCoverage/100);
+					
 					if(populationGrowth) {
 						annualPercentagePopulationGrowth = populationGrowth / (prevPopulation/100);
-						urbanExpansionCoefficient = annualPercentageGrowth / annualPercentagePopulationGrowth
+						const lastFiveYearsRelativeAnnualPercentageGrowth = getRelativeAnnualPercentageGrowth(properties, year, years);
+						urbanExpansionCoefficient = lastFiveYearsRelativeAnnualPercentageGrowth / annualPercentagePopulationGrowth
 					}
 				}
 			}
 
 			serialData.push({
 				coverage,
-				relativeCoverageGrowth,
-				annualPercentageGrowth,
+				relativeAnnualPercentageGrowth,
+				annualCoverageGrowth,
 				annualPercentagePopulationGrowth,
 				urbanExpansionCoefficient,
 				year,
@@ -175,6 +243,9 @@ class GlobalWSF extends React.PureComponent {
 
 		const layers = [wsfLayer, this.state.vectorLayer];
 
+		const settlementAreaExpansionCoverageData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		const settlementAreaExpansionData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		const urbanExpansionCoefficientData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
 		return (
 			<>
 				<Header
@@ -290,12 +361,12 @@ class GlobalWSF extends React.PureComponent {
 												<LineChart
 													key="line-chart-1"
 
-													data={this.state.wsfData}
+													data={settlementAreaExpansionCoverageData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
-													ySourcePath="relativeCoverageGrowth"
+													ySourcePath="coverage"
 
 													xValuesSize={2.5}
 
@@ -305,7 +376,7 @@ class GlobalWSF extends React.PureComponent {
 														unit: "km2"
 													}}
 
-													height={22}
+													height={30}
 
 													legend
 												/>
@@ -317,7 +388,7 @@ class GlobalWSF extends React.PureComponent {
 							
 							<Fade left distance="50px">
 								<Visualization
-									title="Settlement Area Expansion (annual growth rate in %, base = 1985)"
+									title="Settlement Area Expansion (annual growth rate in %)"
 									description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above."
 								>
 									<Fade cascade>
@@ -328,12 +399,12 @@ class GlobalWSF extends React.PureComponent {
 												<LineChart
 													key="line-chart-2"
 
-													data={this.state.wsfData}
+													data={settlementAreaExpansionData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
-													ySourcePath="annualPercentageGrowth"
+													ySourcePath="relativeAnnualPercentageGrowth"
 
 													xValuesSize={2.5}
 
@@ -354,8 +425,8 @@ class GlobalWSF extends React.PureComponent {
 
 							<Fade left distance="50px">
 								<Visualization
-									title="Urban Expansion Coefficient"
-									description="To better understand the kind of urban growth in each city at different times, the urban expansion coefficient (UEC), which serves as a measure to document the level of efficiency or urban growth - densification or expansion over time. Composed of the ratio between the settlement area growth  and urban population growth, UEC values above one indicate the strength of expansion and below one that of densification. Figure presents the evolution of the UEC in each city by half-decade between 1985-2015."
+									title="Urban Expansion Coefficient (2000-2005, 2005-2010, 2010-2015)"
+									description="To better understand the pattern of urban growth end its efficiency the urban expansion coefficient (UEC) is presented. Level of urban growth efficiency is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification. Densification is  is supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000 - 2015 following the availability of population estimates within WorldPop global dataset. Source data: WSF © DLR 2019, © WorldPop 2019"
 								>
 									<Fade cascade>
 										<div className="scudeoStories19-chart-container">
@@ -365,7 +436,7 @@ class GlobalWSF extends React.PureComponent {
 												<LineChart
 													key="line-chart-3"
 
-													data={this.state.wsfData}
+													data={urbanExpansionCoefficientData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
