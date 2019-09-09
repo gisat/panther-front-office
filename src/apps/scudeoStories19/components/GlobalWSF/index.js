@@ -386,8 +386,8 @@ class GlobalWSF extends React.PureComponent {
 
 							<Fade left distance="50px">
 								<Visualization
-									title="Urban Expansion Coefficient"
-									description="To better understand the kind of urban growth in each city at different times, the urban expansion coefficient (UEC), which serves as a measure to document the level of efficiency or urban growth - densification or expansion over time. Composed of the ratio between the settlement area growth  and urban population growth, UEC values above one indicate the strength of expansion and below one that of densification. Figure presents the evolution of the UEC in each city by half-decade between 1985-2015."
+									title="Urban Expansion Coefficient (2000-2005, 2005-2010, 2010-2015)"
+									description="To better understand the pattern of urban growth end its efficiency the urban expansion coefficient (UEC) is presented. Level of urban growth efficiency is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification. Densification is  is supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000 - 2015 following the availability of population estimates within WorldPop global dataset. Source data: WSF © DLR 2019, © WorldPop 2019"
 								>
 									<Fade cascade>
 										<div className="scudeoStories19-chart-container">
@@ -395,9 +395,9 @@ class GlobalWSF extends React.PureComponent {
 												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
 											>
 												<LineChart
-															key="line-chart-3"
+													key="line-chart-3"
 
-															data={urbanExpansionCoefficientData}
+													data={urbanExpansionCoefficientData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
