@@ -234,15 +234,27 @@
 
 /* Map attribution */
 .scudeoStories19-map-attribution {
-	background: rgba(var(--base0rgb), .6);
+	//background: rgba(var(--base0rgb), .7);
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	z-index: 3;
 	font-size: $a0;
 	padding: .3rem .5rem;
-	max-width: calc(100% - 10rem);
+	max-width: calc(100% - 12rem);
+	color: var(--base80);
 }
+
+/* scale */
+.scudeoStories19 .ptr-map .leaflet-bottom {
+	bottom: 1.5rem;
+}
+
+.scudeoStories19 .ptr-map .leaflet-control-scale-line {
+	background: none;
+	color: var(--base50);
+}
+
 
 /* Charts */
 .scudeoStories19-chart-container {

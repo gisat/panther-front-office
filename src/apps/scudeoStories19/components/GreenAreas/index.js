@@ -19,7 +19,7 @@ const backgroundLayer = {
 	key: 'background-osm',
 	type: 'wmts',
 	options: {
-		url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
+		url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
 	}
 };
 
@@ -377,14 +377,15 @@ class GreenAreas extends React.PureComponent {
 															scrollWheelZoom="afterClick"
 															backgroundLayer={backgroundLayer}
 															layers={layers}
+															scale
 														/>
 													}
 													controls={
 														<MapControls zoomOnly levelsBased/>
 													}
 												>
-													<div className="scudeoStories19-map-attribution">
-														Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
+													<div className="scudeoStories19-map-attribution ptr-dark">
+														© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 													</div>
 												</PresentationMapWithControls>
 											</AdjustViewOnResizeLeafletWrapper>
