@@ -104,6 +104,10 @@ const data = [
 		loader: import(/* webpackChunkName: "VinhYen" */ './VinhYen_statistics_p7.json'),
 		name: 'Vinh Yen'
 	},
+	{
+		loader: import(/* webpackChunkName: "GuangzhouGuangdongShenzhenDongguanFoshanZhongshanJiangmenHeshan" */ './GuangzhouGuangdongShenzhenDongguanFoshanZhongshanJiangmenHeshan_statistics_p7.json'),
+		name: 'Guangzhou Guangdong Shenzhen Dongguan Foshan Zhongshan Jiangmen Heshan'
+	},
 ];
 
 const dataLoaders = data.map((d) => {
