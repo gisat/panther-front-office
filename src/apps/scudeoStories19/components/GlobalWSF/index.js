@@ -1,6 +1,7 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 import {Visualization, Header} from '../Page';
+import {cloneDeep} from 'lodash';
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
@@ -36,19 +37,85 @@ const wsfLayer = {
 	}
 };
 
+const getRelativeAnnualPercentageGrowth = (properties, year, years) => {
+	const yearCoverageKey = `${year}_coverage`;
+	
+	if(properties.hasOwnProperty(yearCoverageKey)) {
+		const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
+		
+		let n = 1;
+		let prevYearCoverageKey = `${years[years.indexOf(year) - n]}_coverage`;
+		let prevCoverage = null;
+		while (!properties.hasOwnProperty(prevYearCoverageKey)) {
+			n++
+			const prevYearIndex = years.indexOf(year) - n;
+			prevYearCoverageKey = `${years[prevYearIndex]}_coverage`;
+
+			if(prevYearIndex < 0) {
+				break;
+			}
+		}
+
+		if(properties.hasOwnProperty(prevYearCoverageKey)) {
+			prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
+		}
+
+		if(prevCoverage) {
+			const coverageGrowth = coverage - prevCoverage;
+			return (coverageGrowth / (prevCoverage/100)) / n;
+		} else {
+			return null;
+		}
+	} else {
+		return null
+	}
+}
+
+const getAnnualPercentageGrowth = (properties, year, years) => {
+	const yearCoverageKey = `${year}_coverage`;
+	
+	if(properties.hasOwnProperty(yearCoverageKey)) {
+		const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
+		
+		let n = 1;
+		let prevYearCoverageKey = `${years[years.indexOf(year) - n]}_coverage`;
+		let prevCoverage = null;
+		while (!properties.hasOwnProperty(prevYearCoverageKey)) {
+			n++
+			const prevYearIndex = years.indexOf(year) - n;
+			prevYearCoverageKey = `${years[prevYearIndex]}_coverage`;
+
+			if(prevYearIndex < 0) {
+				break;
+			}
+		}
+
+		if(properties.hasOwnProperty(prevYearCoverageKey)) {
+			prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
+		}
+
+		if(prevCoverage) {
+			const coverageGrowth = coverage - prevCoverage;
+			return coverageGrowth;
+		} else {
+			return null;
+		}
+	} else {
+		return null
+	}
+}
+
 const years = [1985, 1990, 1995, 2000, 2005, 2010, 2015];
 const allYears = [1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015];
 const getSerialData = (properties) => {
 	const serialData = [];
 	for (const [index, year] of allYears.entries()) {
 		const yearCoverageKey = `${year}_coverage`;
-		const firstYearCoverageKey = `${1985}_coverage`;
 		
 		if(properties.hasOwnProperty(yearCoverageKey)) {
-			console.log(properties.hasOwnProperty(yearCoverageKey), yearCoverageKey);
 			const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
-			const relativeCoverageGrowth = coverage - conversions.toSquareKm(properties[firstYearCoverageKey]);
-			let annualPercentageGrowth = 0;
+			const relativeCoverageGrowth = getRelativeAnnualPercentageGrowth(properties, year, allYears);
+			let annualPercentageGrowth = getAnnualPercentageGrowth(properties, year, allYears);;
 			let annualPercentagePopulationGrowth = null;
 			let urbanExpansionCoefficient = null;
 			//omit first year
@@ -63,7 +130,7 @@ const getSerialData = (properties) => {
 					const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
 					const coverageGrowth = coverage - prevCoverage;
 					const populationGrowth = population && prevPopulation && population - prevPopulation;
-					annualPercentageGrowth = coverageGrowth / (prevCoverage/100);
+					
 					if(populationGrowth) {
 						annualPercentagePopulationGrowth = populationGrowth / (prevPopulation/100);
 						urbanExpansionCoefficient = annualPercentageGrowth / annualPercentagePopulationGrowth
@@ -142,6 +209,9 @@ class GlobalWSF extends React.PureComponent {
 
 		const layers = [wsfLayer, this.state.vectorLayer];
 
+		const settlementAreaExpansionCoverageData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		const settlementAreaExpansionData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		const urbanExpansionCoefficientData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
 		return (
 			<>
 				<Header
@@ -252,12 +322,12 @@ class GlobalWSF extends React.PureComponent {
 												<LineChart
 													key="line-chart-1"
 
-													data={this.state.wsfData}
+													data={settlementAreaExpansionCoverageData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
-													ySourcePath="relativeCoverageGrowth"
+													ySourcePath="coverage"
 
 													xValuesSize={2.5}
 
@@ -279,7 +349,7 @@ class GlobalWSF extends React.PureComponent {
 							
 							<Fade left distance="50px">
 								<Visualization
-									title="Settlement Area Expansion (annual growth rate in %, base = 1985)"
+									title="Settlement Area Expansion (annual growth rate in %)"
 									description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above."
 								>
 									<Fade cascade>
@@ -290,7 +360,7 @@ class GlobalWSF extends React.PureComponent {
 												<LineChart
 													key="line-chart-2"
 
-													data={this.state.wsfData}
+													data={settlementAreaExpansionData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
@@ -325,9 +395,9 @@ class GlobalWSF extends React.PureComponent {
 												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
 											>
 												<LineChart
-													key="line-chart-3"
+															key="line-chart-3"
 
-													data={this.state.wsfData}
+															data={urbanExpansionCoefficientData}
 													keySourcePath="key"
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
