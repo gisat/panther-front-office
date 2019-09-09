@@ -21,6 +21,8 @@ import {Header} from "../Page";
 import {getMergedDataset, clearEmptyNodes, classesL3, classesL4, colors, classesLCF1, classesLCFG, getVectorLayer} from '../../data/data';
 
 import './styles/style.scss';
+import fetch from "isomorphic-fetch";
+import _ from "lodash";
 
 // LULC Level III
 const URBAN_FABRIC_KEYS = ["11100", "11200"];
@@ -241,6 +243,7 @@ class LandAssetsStructure extends React.PureComponent {
 			cityOne: null,
 			loading: true,
 			vectorLayer: null,
+			landUseMapLegendData: null
 		};
 	}
 
@@ -254,13 +257,46 @@ class LandAssetsStructure extends React.PureComponent {
 				cityOne: dataset[0],
 				vectorLayer,
 			});
-		})
+		});
+
+		// Get legend for map
+		fetch(lulcFirstYearStructureLayer.options.url + 'service=WMS&request=GetLegendGraphic&layer=' + lulcFirstYearStructureLayer.options.params.layers + '&FORMAT=application/json', {
+			method: 'GET'
+		}).then(response => {
+			let contentType = response.headers.get('Content-type');
+			if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+				response.json().then(data => {
+					let rules = _.get(data, 'Legend[0].rules');
+					if (rules) {
+						this.setState({landUseMapLegendData: rules.map(rule => {
+							return {
+								label: rule.name,
+								color: _.get(rule, 'symbolizers[0].Polygon.fill')
+							}
+						})});
+					}
+				});
+			} else {
+				console.warn('Legend request error');
+			}
+		});
 	}
 
 
 	onCityChange(city, data) {
 		this.setState({
 			[city]: data
+		});
+	}
+
+	renderMapLegend(data) {
+		return data.map((item) => {
+			return (
+				<div className="legend-field">
+					<div className="legend-color" style={{background: item.color}}></div>
+					<div className="legend-value">{item.label}</div>
+				</div>
+			);
 		});
 	}
 
@@ -315,6 +351,11 @@ class LandAssetsStructure extends React.PureComponent {
 									title="Land Cover Land Use Structure"
 									description="Footer maps description. Lorem ipsum dolor sit amet, causae incorrupte ut nec, eu vix iuvaret tacimates lobortis. In tollit
 									suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
+									legend={
+										<div className="scudeoStories19-visualization-legend" style={{maxWidth: '100%', alignItems: 'center'}}>
+											{this.state.landUseMapLegendData ? this.renderMapLegend(this.state.landUseMapLegendData) : null}
+										</div>
+									}
 								>
 									<div className="scudeoStories19-map-container">
 										<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
