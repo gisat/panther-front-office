@@ -82,8 +82,8 @@ export default [
 	 */
 	{
 		key: 'scudeoStories19',
-		hostname: 'null',
-		path: null,
+		hostname: 'urban-tep.eu',
+		path: '/visat/scudeoStories19',
 		devPath: '/scudeoStories19',
 		app: (path, baseUrl) => import(/* webpackChunkName: "scudeoStories19" */'./apps/scudeoStories19').then(module => {
 			module.default(path, baseUrl);
