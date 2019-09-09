@@ -46,18 +46,31 @@ const getSerialData = (properties) => {
 			const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
 			const relativeCoverageGrowth = coverage - conversions.toSquareKm(properties[firstYearCoverageKey]);
 			let annualPercentageGrowth = 0;
+			let annualPercentagePopulationGrowth = null;
+			let urbanExpansionCoefficient = null;
 			//omit first year
 			if(index > 0) {
+				const yearPopulationKey = `${year}_population`;
+				const prevYearPopulationKey = `${years[index-1]}_population`;
+				const population = properties[yearPopulationKey];
+				const prevPopulation = properties[prevYearPopulationKey];
 				const prevYearCoverageKey = `${years[index-1]}_coverage`;
 				const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
 				const coverageGrowth = coverage - prevCoverage;
+				const populationGrowth = population && prevPopulation && population - prevPopulation;
 				annualPercentageGrowth = coverageGrowth / (prevCoverage/100);
+				if(populationGrowth) {
+					annualPercentagePopulationGrowth = populationGrowth / (prevPopulation/100);
+					urbanExpansionCoefficient = annualPercentageGrowth / annualPercentagePopulationGrowth
+				}
 			}
 
 			serialData.push({
 				coverage,
 				relativeCoverageGrowth,
 				annualPercentageGrowth,
+				annualPercentagePopulationGrowth,
+				urbanExpansionCoefficient,
 				year,
 			})
 		}
@@ -281,47 +294,41 @@ class GlobalWSF extends React.PureComponent {
 
 							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
-							{/* <Fade left distance="50px">
+							<Fade left distance="50px">
 								<Visualization
-									title="Settlement Area (km2) vs. Population (100k inhabitants) (2015)"
-									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+									title="Urban Expansion Coefficient"
+									description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation."
 								>
 									<Fade cascade>
 										<div className="scudeoStories19-chart-container">
 											<HoverHandler
 												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
 											>
-												<ScatterChart
-													key="scatter-chart-1"
+												<LineChart
+													key="line-chart-1"
 
 													data={this.state.wsfData}
-													keySourcePath="properties.key"
-													nameSourcePath="properties.name"
-													xSourcePath="properties.sampleSerialData[0].coverage"
-													ySourcePath="properties.population"
+													keySourcePath="key"
+													nameSourcePath="name"
+													serieDataSourcePath="properties.sampleSerialData"
+													xSourcePath="year"
+													ySourcePath="urbanExpansionCoefficient"
+
+													xValuesSize={2.5}
 
 													yLabel
-													yValuesSize={3.5}
 													yOptions={{
-														name: "Settlement Area",
+														name: "Settlement area",
 														unit: "km2"
-													}}
-													xLabel
-													xValuesSize={2}
-													xOptions={{
-														name: "Population",
-														unit: "100k"
 													}}
 
 													legend
-													defaultSchemePointColors
 												/>
 											</HoverHandler>
 										</div>
 									</Fade>
 								</Visualization>
-							</Fade> */}
-
+							</Fade>
 
 							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 
