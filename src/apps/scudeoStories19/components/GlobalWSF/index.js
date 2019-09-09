@@ -140,7 +140,7 @@ class GlobalWSF extends React.PureComponent {
 			<>
 				<Header
 					navigation={this.props.navigation}
-					title="Global urban growth dynamic monitoring"
+					title="EO data can provide insight into long term trends of urban growth dynamics"
 					intro="Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl."
 				/>
 
@@ -150,7 +150,17 @@ class GlobalWSF extends React.PureComponent {
 
 					<div className="scudeoStories19-content">
 						<section key="section-1">
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+							<div>
+								<p>
+									Booming cities accommodate already more than half the world’s population and concentrate our current challenges and opportunities, problems, threads, but also potential solutions. Cities or better urbanized areas are now on the front line of the management of rapid changes and play a leading role in the global sustainable development agenda. It is only through cities that global missions in poverty reduction, social cohesion, sustainable economic growth, environmental responsiveness and climate change adaptation may be addressed together. Beside retrofitting, redevelopment or greening of existing mature cities, we need to prepare emerging cities in Asia, Africa and South America for their inevitable expansion while it happens. Through good governance and effective partnerships, cities can help eliminate poverty and reduce inequality. Their challenge is to function not only as engines of economic growth but also as agents of change for greater social justice and environmental sustainability. Our today’s decisions will be harvested as our future successes or failures.
+								</p>
+							</div>
+							<div>
+								<p>
+									Reliably monitoring global urbanization is of key importance to accurately estimate the distribution of the continually expanding population, along with its effects on the use of resources (e.g. soil, energy, water), infrastructure and transport needs, socioeconomic development, human health, food security, etc. In this context, while in the last few years several global layers mapping the actual settlement extent have been presented in the literature, so far only few datasets outline the settlement growth over time, which is fundamental for modelling ongoing trends and implementing dedicated suitable planning strategies. Furthermore, the existing products are mostly available for a limited number of time steps in the past and their quality – yet by simple qualitative assessment against e.g. Google Earth historical HR and VHR imagery – appears rather poor. To overcome this limitation, the German Aerospace Center (DLR) in collaboration with the Google Earth Engine (GEE) team has designed and implemented a novel dataset WSF (World Settlement Footprint) Evolution aimed at outlining the settlement extent globally and on a yearly basis from 1985 to 2015. It is a revolutionary global product in support to a variety of end users in the framework of several thematic applications.
+								</p>
+							</div>
+
 
 
 							<Fade left distance="50px">
@@ -218,8 +228,6 @@ class GlobalWSF extends React.PureComponent {
 								</Visualization>
 							</Fade>
 
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
-
 							<Fade left distance="50px">
 								<Visualization
 									title="Settlement Area Expansion (area growth in km2)"
@@ -267,7 +275,7 @@ class GlobalWSF extends React.PureComponent {
 												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
 											>
 												<LineChart
-													key="line-chart-1"
+													key="line-chart-2"
 
 													data={this.state.wsfData}
 													keySourcePath="key"
@@ -292,12 +300,10 @@ class GlobalWSF extends React.PureComponent {
 								</Visualization>
 							</Fade>
 
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
-
 							<Fade left distance="50px">
 								<Visualization
 									title="Urban Expansion Coefficient"
-									description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation."
+									description="To better understand the kind of urban growth in each city at different times, the urban expansion coefficient (UEC), which serves as a measure to document the level of efficiency or urban growth - densification or expansion over time. Composed of the ratio between the settlement area growth  and urban population growth, UEC values above one indicate the strength of expansion and below one that of densification. Figure presents the evolution of the UEC in each city by half-decade between 1985-2015."
 								>
 									<Fade cascade>
 										<div className="scudeoStories19-chart-container">
@@ -305,7 +311,7 @@ class GlobalWSF extends React.PureComponent {
 												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
 											>
 												<LineChart
-													key="line-chart-1"
+													key="line-chart-3"
 
 													data={this.state.wsfData}
 													keySourcePath="key"
@@ -318,8 +324,8 @@ class GlobalWSF extends React.PureComponent {
 
 													yLabel
 													yOptions={{
-														name: "Settlement area",
-														unit: "km2"
+														name: "Urban Expansion Coefficient",
+														unit: "k%"
 													}}
 
 													legend
@@ -329,8 +335,13 @@ class GlobalWSF extends React.PureComponent {
 									</Fade>
 								</Visualization>
 							</Fade>
-
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+							
+							<div>
+								<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+							</div>
+							<div>
+								<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+							</div>
 
 							<h3>More resources</h3>
 							<ul>
