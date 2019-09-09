@@ -37,12 +37,15 @@ const wsfLayer = {
 };
 
 const years = [1985, 1990, 1995, 2000, 2005, 2010, 2015];
+const allYears = [1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015];
 const getSerialData = (properties) => {
 	const serialData = [];
-	for (const [index, year] of years.entries()) {
+	for (const [index, year] of allYears.entries()) {
 		const yearCoverageKey = `${year}_coverage`;
 		const firstYearCoverageKey = `${1985}_coverage`;
+		
 		if(properties.hasOwnProperty(yearCoverageKey)) {
+			console.log(properties.hasOwnProperty(yearCoverageKey), yearCoverageKey);
 			const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
 			const relativeCoverageGrowth = coverage - conversions.toSquareKm(properties[firstYearCoverageKey]);
 			let annualPercentageGrowth = 0;
@@ -50,18 +53,21 @@ const getSerialData = (properties) => {
 			let urbanExpansionCoefficient = null;
 			//omit first year
 			if(index > 0) {
-				const yearPopulationKey = `${year}_population`;
-				const prevYearPopulationKey = `${years[index-1]}_population`;
-				const population = properties[yearPopulationKey];
-				const prevPopulation = properties[prevYearPopulationKey];
-				const prevYearCoverageKey = `${years[index-1]}_coverage`;
-				const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
-				const coverageGrowth = coverage - prevCoverage;
-				const populationGrowth = population && prevPopulation && population - prevPopulation;
-				annualPercentageGrowth = coverageGrowth / (prevCoverage/100);
-				if(populationGrowth) {
-					annualPercentagePopulationGrowth = populationGrowth / (prevPopulation/100);
-					urbanExpansionCoefficient = annualPercentageGrowth / annualPercentagePopulationGrowth
+				// population for Urban Expansion Coefficient
+				if(years.includes(year)) {
+					const yearPopulationKey = `${year}_population`;
+					const prevYearPopulationKey = `${years[years.indexOf(year)-1]}_population`;
+					const population = properties[yearPopulationKey];
+					const prevPopulation = properties[prevYearPopulationKey];
+					const prevYearCoverageKey = `${years[years.indexOf(year)-1]}_coverage`;
+					const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
+					const coverageGrowth = coverage - prevCoverage;
+					const populationGrowth = population && prevPopulation && population - prevPopulation;
+					annualPercentageGrowth = coverageGrowth / (prevCoverage/100);
+					if(populationGrowth) {
+						annualPercentagePopulationGrowth = populationGrowth / (prevPopulation/100);
+						urbanExpansionCoefficient = annualPercentageGrowth / annualPercentagePopulationGrowth
+					}
 				}
 			}
 
@@ -135,6 +141,7 @@ class GlobalWSF extends React.PureComponent {
 	render() {
 
 		const layers = [wsfLayer, this.state.vectorLayer];
+console.log(this.state.wsfData);
 
 		return (
 			<>
