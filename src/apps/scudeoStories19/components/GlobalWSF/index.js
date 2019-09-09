@@ -71,7 +71,7 @@ const getRelativeAnnualPercentageGrowth = (properties, year, years) => {
 	}
 }
 
-const getAnnualPercentageGrowth = (properties, year, years) => {
+const getAnnualCoverageGrowth = (properties, year, years) => {
 	const yearCoverageKey = `${year}_coverage`;
 	
 	if(properties.hasOwnProperty(yearCoverageKey)) {
@@ -114,8 +114,8 @@ const getSerialData = (properties) => {
 		
 		if(properties.hasOwnProperty(yearCoverageKey)) {
 			const coverage = conversions.toSquareKm(properties[yearCoverageKey]);
-			const relativeCoverageGrowth = getRelativeAnnualPercentageGrowth(properties, year, allYears);
-			let annualPercentageGrowth = getAnnualPercentageGrowth(properties, year, allYears);;
+			const relativeAnnualPercentageGrowth = getRelativeAnnualPercentageGrowth(properties, year, allYears);
+			let annualCoverageGrowth = getAnnualCoverageGrowth(properties, year, allYears);;
 			let annualPercentagePopulationGrowth = null;
 			let urbanExpansionCoefficient = null;
 			//omit first year
@@ -133,15 +133,16 @@ const getSerialData = (properties) => {
 					
 					if(populationGrowth) {
 						annualPercentagePopulationGrowth = populationGrowth / (prevPopulation/100);
-						urbanExpansionCoefficient = annualPercentageGrowth / annualPercentagePopulationGrowth
+						const lastFiveYearsRelativeAnnualPercentageGrowth = getRelativeAnnualPercentageGrowth(properties, year, years);
+						urbanExpansionCoefficient = lastFiveYearsRelativeAnnualPercentageGrowth / annualPercentagePopulationGrowth
 					}
 				}
 			}
 
 			serialData.push({
 				coverage,
-				relativeCoverageGrowth,
-				annualPercentageGrowth,
+				relativeAnnualPercentageGrowth,
+				annualCoverageGrowth,
 				annualPercentagePopulationGrowth,
 				urbanExpansionCoefficient,
 				year,
@@ -337,7 +338,7 @@ class GlobalWSF extends React.PureComponent {
 														unit: "km2"
 													}}
 
-													height={22}
+													height={30}
 
 													legend
 												/>
@@ -365,7 +366,7 @@ class GlobalWSF extends React.PureComponent {
 													nameSourcePath="name"
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
-													ySourcePath="annualPercentageGrowth"
+													ySourcePath="relativeAnnualPercentageGrowth"
 
 													xValuesSize={2.5}
 
