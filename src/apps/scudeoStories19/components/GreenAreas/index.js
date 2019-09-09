@@ -272,6 +272,7 @@ class GreenAreas extends React.PureComponent {
 														nameSourcePath="name"
 														xSourcePath="urban_coverage"
 														ySourcePath="area"
+														zSourcePath="population"
 
 														yLabel
 														yValuesSize={3.5}
@@ -285,7 +286,15 @@ class GreenAreas extends React.PureComponent {
 															name: "Green area",
 															unit: "km2"
 														}}
-														pointSizePath={"population"}
+
+														zOptions={{
+															name: "Population",
+															unit: "inh."
+														}}
+
+														innerPaddingRight={0}
+														innerPaddingTop={0}
+														innerPaddingLeft={0}
 													/>
 												</HoverHandler>
 											</div>
@@ -308,6 +317,7 @@ class GreenAreas extends React.PureComponent {
 														nameSourcePath="name"
 														xSourcePath="green_share"
 														ySourcePath="urban_fabric_share"
+														zSourcePath="population"
 
 														yLabel
 														yValuesSize={3.5}
@@ -321,6 +331,15 @@ class GreenAreas extends React.PureComponent {
 															name: "Green area",
 															unit: "%"
 														}}
+
+														zOptions={{
+															name: "Population",
+															units: "inhabitants"
+														}}
+
+														innerPaddingRight={0}
+														innerPaddingTop={0}
+														innerPaddingLeft={0}
 													/>
 												</HoverHandler>
 											</div>
