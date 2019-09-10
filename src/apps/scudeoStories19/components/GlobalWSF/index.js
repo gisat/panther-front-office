@@ -430,17 +430,17 @@ class GlobalWSF extends React.PureComponent {
 													</div>
 													<div className="radio">
 														<label>
-															<input type={'radio'} value={5000} checked={this.state.selectedOption.id === '5000'} onChange={this.handleOptionChange}/>
+															<input type={'radio'} value={2000} checked={this.state.selectedOption.id === '2000'} onChange={this.handleOptionChange}/>
 															<span>
-																5000 km2
+																2000 km2
 															</span>
 														</label>
 													</div>
 													<div className="radio">
 														<label>
-															<input type={'radio'} value={2000} checked={this.state.selectedOption.id === '2000'} onChange={this.handleOptionChange}/>
+															<input type={'radio'} value={500} checked={this.state.selectedOption.id === '500'} onChange={this.handleOptionChange}/>
 															<span>
-																2000 km2
+																500 km2
 															</span>
 														</label>
 													</div>
