@@ -213,7 +213,7 @@ class GreenAreas extends React.PureComponent {
 								<Fade left distance="50px">
 									<Visualization
 										title="Green Areas Share (%)"
-										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of artificial urban areas (urban fabric)."
+										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of the city; and on total area of artificial urban areas (urban fabric)."
 									>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">
