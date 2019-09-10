@@ -632,8 +632,9 @@ class LandAssetsStructure extends React.PureComponent {
 						</Fade>
 							<Fade left distance="50px">
 								<Visualization
-									title={`Land Cover Land Use Changes Structure - Urban Expansion ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
+									title={`Land Cover Land Use Changes Structure - Urban Expansion`}
 									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period related to Urban Expansion process. Individual consumption and formation flows and their magnitude can be highlighted for an immediate perception of their composition, importance, severity and contribution into the final net area figures of urban land cover land use classes."
+									subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -670,8 +671,9 @@ class LandAssetsStructure extends React.PureComponent {
 						{ !densificationsDataEmpty ?
 							<Fade left distance="50px">
 								<Visualization
-									title={`Land Cover Land Use Changes Structure - Urban Densification ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
+									title={`Land Cover Land Use Changes Structure - Urban Densification`}
 									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period related to Urban Densification process. Individual consumption and formation flows and their magnitude can be highlighted for an immediate perception of their composition, importance and contribution into the final net area figures of urban land cover land use classes."
+									subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
