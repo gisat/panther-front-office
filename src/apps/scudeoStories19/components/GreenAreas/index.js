@@ -331,10 +331,6 @@ class GreenAreas extends React.PureComponent {
 															name: "Green area",
 															unit: "%"
 														}}
-
-														innerPaddingRight={0}
-														innerPaddingTop={0}
-														innerPaddingLeft={0}
 													/>
 												</div>
 											</Fade>
