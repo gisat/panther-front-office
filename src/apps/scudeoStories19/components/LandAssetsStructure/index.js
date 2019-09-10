@@ -327,14 +327,17 @@ class LandAssetsStructure extends React.PureComponent {
 				<Header
 					navigation={this.props.navigation}
 					title="City Land Assets Structure and Evolution"
-					intro="Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl."
+					intro="EO data can provide insight into LULC assets structure and evaluate quantity and quality of LULC changes"
+					abstract="Land as non-renewable resource and land structure influence city livability and resilience. The quantity and quality of land resources plays a vital role in the development of a city and its structure and spatial-temporal patterns to a large extent influence city livability and resilience as well as determine its physical constraints and opportunities and potential for further development."
 				/>
 
 				{
 					this.state.cityOne ? 
 						<div className="scudeoStories19-content">
 						<section>
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+							<p>As cities strive to become centers of global production, trade and development, they are increasingly concerned with improving their attractiveness for foreign direct investment and employment generation. For example, cities must have efficient spatial structures, adequate infrastructure and urban services, affordable housing and healthy environments. Effective urban land assets management is required to promote urban regeneration and development of new industrial and commercial districts, investments to upgrade and expand critical infrastructure systems, programs to enhance and protect the environment, and initiatives to upgrade social overhead capital (housing, education, healthcare). </p>
+							<p>An important characteristic of land is that it is fixed in supply. Land is a free gift from nature and its quantity is fixed by nature. Therefore, more land cannot be produced in response to greater demand for it, still land quality can be changed as well as its actual use and cover.</p>
+							<p> Satellite imagery can be used to provide an up-to-date picture of the state of land use and land cover on a large scale. Land cover indicates the physical land type such as forest or open water whereas land use documents how people are using the land. Repeated satellite acquisition allows for a changing picture of the urban environment to be created which is essential for land assets monitoring, management and planning purposes.  The ability of remote sensing to contribute to the mandate of planners and managers has changed significantly over the last decade. Satellite data are now available that can be used to map and monitor change from continental to local scales and over daily to weekly temporal scales. Similarly, advances in image processing, database management and spatial analysis tools have enhanced our ability to analyse these data for depicting land cover and land use change. </p>
 							<Select
 														className={"scudeoStories19-city-select"}
 														onChange={this.onCityChange.bind(this, 'cityOne')}
@@ -349,8 +352,7 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title="Land Cover Land Use Structure"
-									description="Footer maps description. Lorem ipsum dolor sit amet, causae incorrupte ut nec, eu vix iuvaret tacimates lobortis. In tollit
-									suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
+									description="Interactive maps above provide overview of land cover land use classes spatial distribution for a selected city for two reference years. Thus, spatial distribution of land cover land use changes for in-between period can be observed."
 									legend={
 										<div className="scudeoStories19-visualization-legend" style={{maxWidth: '100%', alignItems: 'center'}}>
 											{this.state.landUseMapLegendData ? this.renderMapLegend(this.state.landUseMapLegendData) : null}
@@ -408,12 +410,10 @@ class LandAssetsStructure extends React.PureComponent {
 								</Visualization>
 							</Fade>
 
-
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
 							<Fade left distance="50px">
 								<Visualization
 									title="Land Cover Land Use Structure"
-									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+									description="Graph above provides overview of land cover land use structure of selected cities for a given reference year."
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -429,7 +429,7 @@ class LandAssetsStructure extends React.PureComponent {
 												ySourcePath={pathLULCStructureYSourcePath}
 
 												height={20}
-												xValuesSize={6}
+												xValuesSize={4}
 
 												yLabel
 												yOptions={{
@@ -448,8 +448,8 @@ class LandAssetsStructure extends React.PureComponent {
 
 						<Fade left distance="50px">
 								<Visualization
-									title="Land Cover Land Use Changes Structure"
-									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+									title="Land Cover Land Use Changes Intensity and Structure"
+									description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -464,7 +464,7 @@ class LandAssetsStructure extends React.PureComponent {
 												ySourcePath={pathLULCChangesStructureYSourcePath}
 												
 												height={20}
-												xValuesSize={6}
+												xValuesSize={4}
 												diverging
 												yLabel
 												yOptions={{
@@ -519,13 +519,11 @@ class LandAssetsStructure extends React.PureComponent {
 							</Fade>
 						</Visualization>
 						</Fade> */}
-						</section>
-						<section key="section-2">
+
 							<Fade left distance="50px">
 								<Visualization
 									title="Land Cover Land Use Change Structure"
-									description="Footer maps description. Lorem ipsum dolor sit amet, causae incorrupte ut nec, eu vix iuvaret tacimates lobortis. In tollit
-									suscipit pertinacia eum, delenit perpetua splendide ei eum. Ut menandri intellegam eam, augue repudiare ei pro."
+									description="Interactive maps above provide overview of land cover land use spatial composition in a selected city for a selected year (left) and land cover flows spatial composition for the same city for selected change observation period. Individual consumption and formation flows are specified to ease individual land cover land use changes interpretation. "
 								>
 									<div className="scudeoStories19-map-container">
 										<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
@@ -584,7 +582,7 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title={`Land Cover Land Use Changes Structure - Overall flows ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
-									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the final net area figures of any land cover land use class. "
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -620,7 +618,7 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title={`Land Cover Land Use Changes Structure - Urban Expansion ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
-									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period related to Urban Expansion process. Individual consumption and formation flows and their magnitude can be highlighted for an immediate perception of their composition, importance, severity and contribution into the final net area figures of urban land cover land use classes."
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -658,7 +656,7 @@ class LandAssetsStructure extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title={`Land Cover Land Use Changes Structure - Urban Densification ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
-									description="Chart description: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis."
+									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period related to Urban Densification process. Individual consumption and formation flows and their magnitude can be highlighted for an immediate perception of their composition, importance and contribution into the final net area figures of urban land cover land use classes."
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
@@ -691,12 +689,18 @@ class LandAssetsStructure extends React.PureComponent {
 								</Fade> 
 							</Visualization>
 						</Fade>: null}
-							<h3>More resources</h3>
-							<ul>
-								<li><a href="#" target="_blank">Link A ullamcorper urna</a></li>
-								<li><a href="#" target="_blank">Link B libero ac leo</a></li>
-								<li><a href="#" target="_blank">Link C Curabitur volutpat lacus at eros luctus</a></li>
-							</ul>
+						<p>Information about land cover and land use is a very important component of the planning process as it can contribute to the debate on the current arrangements and patterns and the need to modify land use as part of a regional plan, a resource development or management project, an environmental planning exercise, nature based solution for risk prevention etc. Planners may seek to suggest modifications to land-use patterns to achieve some social or economic outcomes, or as part of an environmental conservation or sustainability activities, or to avoid some predicted future unwanted consequences. Access to accurate land cover land use information can assist city planners and the enterprise of planning. In this context remote sensing is able to contribute in operational land cover land use status monitoring. Examples above show how such a spatial data can be interpreted and visualized in a meaningful way to allow better insight into land cover land use related processes, changes and flows in the city.</p>
+
+							<h2>About LULC data and accounting methodology</h2>
+							<p>The key focus of land cover accounts is the understanding of city land assets - stocks of different land covers - change over time. Land accounts used in the EO4SD Urban framework consist of physical asset accounts for land use and land cover status and changes. These accounts describe the land over an accounting period for particular area by available land use and land cover categories. Land accounting indicators are calculated from LCLU Baseline product from EO4SD Urban service portfolio mapped from satellite images with different resolution. Changes from agriculture, forest and semi-natural/natural land, wetlands or water to urban are grouped according to the land cover accounts (LEAC) methodology into land cover flows (LCF) providing a meaningful flow categories e.g. urban expansion, urban densification etc . Methodology framework is inspired by UN SEEA and the European Environmental Agency LEAC analytical framework.  Land accounting indicators provides base information about land cover land use assets in the observed areas, consumption and formation flows during observed period and net changes resulting from these flows, thus offering to decision maker detailed, structured and standardized quantitative and qualitative information on land changes for assessment in central or peri-urban areas.  This product is quite helpful again in the Diagnosis Phase of projects. It provides information about the profile of a City or districts within the City and highlights strengths and weaknesses of various areas. </p>
+
+
+							{/*<h3>More resources</h3>*/}
+							{/*<ul>*/}
+								{/*<li><a href="#" target="_blank">Link A ullamcorper urna</a></li>*/}
+								{/*<li><a href="#" target="_blank">Link B libero ac leo</a></li>*/}
+								{/*<li><a href="#" target="_blank">Link C Curabitur volutpat lacus at eros luctus</a></li>*/}
+							{/*</ul>*/}
 
 						</section>
 					</div>
