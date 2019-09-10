@@ -367,16 +367,16 @@ class GlobalWSF extends React.PureComponent {
 								</Visualization>
 							</Fade>
 
-							<Fade left distance="50px">
-								<Visualization
-									title="Settlement Area Expansion (area growth in km2)"
-									description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation. Information about expansion phase and its dynamics are important to cluster cities with similar evolution path and lesson-learned exchange between individual cities. "
-								>
-									<Fade cascade>
-										<div className="scudeoStories19-chart-container">
-											<HoverHandler
-												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
-											>
+							<HoverHandler
+								selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
+							>
+								<Fade left distance="50px">
+									<Visualization
+										title="Settlement Area Expansion (area growth in km2)"
+										description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation. Information about expansion phase and its dynamics are important to cluster cities with similar evolution path and lesson-learned exchange between individual cities. "
+									>
+										<Fade cascade>
+											<div className="scudeoStories19-chart-container">
 												<LineChart
 													key="line-chart-1"
 
@@ -400,22 +400,22 @@ class GlobalWSF extends React.PureComponent {
 
 													legend
 												/>
-											</HoverHandler>
-										</div>
-									</Fade>
-								</Visualization>
-							</Fade>
-							
-							<Fade left distance="50px">
-								<Visualization
-									title="Settlement Area Expansion (annual growth rate in %)"
-									description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above to explore development trajectories in the context of urban policy framework in particular city and time."
-								>
-									<Fade cascade>
-										<div className="scudeoStories19-chart-container">
-											<HoverHandler
-												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
-											>
+											</div>
+										</Fade>
+									</Visualization>
+								</Fade>
+							</HoverHandler>
+
+							<HoverHandler
+								selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
+							>
+								<Fade left distance="50px">
+									<Visualization
+										title="Settlement Area Expansion (annual growth rate in %)"
+										description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above to explore development trajectories in the context of urban policy framework in particular city and time."
+									>
+										<Fade cascade>
+											<div className="scudeoStories19-chart-container">
 												<LineChart
 													key="line-chart-2"
 
@@ -438,22 +438,22 @@ class GlobalWSF extends React.PureComponent {
 													height={22}
 													legend
 												/>
-											</HoverHandler>
-										</div>
-									</Fade>
-								</Visualization>
-							</Fade>
+											</div>
+										</Fade>
+									</Visualization>
+								</Fade>
+							</HoverHandler>
 
-							<Fade left distance="50px">
-								<Visualization
-									title="Urban Expansion Coefficient (2000-2005, 2005-2010, 2010-2015)"
-									description="To better understand the pattern of urban growth end its efficiency the urban expansion coefficient (UEC) is presented. Level of urban growth efficiency is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification. Densification is  is supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000 - 2015 following the availability of population estimates within WorldPop global dataset. Source data: WSF © DLR 2019, © WorldPop 2019"
-								>
-									<Fade cascade>
-										<div className="scudeoStories19-chart-container">
-											<HoverHandler
-												selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
-											>
+							<HoverHandler
+								selectedItems={[this.state.cityOne.key, this.state.cityTwo.key]}
+							>
+								<Fade left distance="50px">
+									<Visualization
+										title="Urban Expansion Coefficient (2000-2005, 2005-2010, 2010-2015)"
+										description="To better understand the pattern of urban growth end its efficiency the urban expansion coefficient (UEC) is presented. Level of urban growth efficiency is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification. Densification is  is supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000 - 2015 following the availability of population estimates within WorldPop global dataset. Source data: WSF © DLR 2019, © WorldPop 2019"
+									>
+										<Fade cascade>
+											<div className="scudeoStories19-chart-container">
 												<LineChart
 													key="line-chart-3"
 
@@ -476,11 +476,11 @@ class GlobalWSF extends React.PureComponent {
 													height={22}
 													legend
 												/>
-											</HoverHandler>
-										</div>
-									</Fade>
-								</Visualization>
-							</Fade>
+											</div>
+										</Fade>
+									</Visualization>
+								</Fade>
+							</HoverHandler>
 
 							<p>Data are a key enabler for city innovation - fuel on which cities run – and spatial aspect plays a major role in understanding complex spatial-temporal relations in cities, supporting daily management of city assets as well as strategic planning for cities sustainable future. Current Earth Observation (EO) capacity represents a major contribution here as a large (and rapidly growing) number of satellite constellations, acquiring in different spatial, spectral and temporal resolution, are currently available for integration with other types of data (e.g. open data, sensors, citizen science data) for the benefit of various urban domains. The WSF Evolution dataset satisfy a growing need for global harmonised data urban expansion allowing holistic view on global planetary urbanisation issue and identification of future development potential in different world regions. </p>
 

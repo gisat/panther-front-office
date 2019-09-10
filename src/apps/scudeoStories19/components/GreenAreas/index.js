@@ -178,13 +178,13 @@ class GreenAreas extends React.PureComponent {
 									</p>
 								</div>
 
-								<Fade left distance="50px">
-									<Visualization
-										title="Total Green Areas per city (km2)"
-										description="Graph shows overall area of urban green in the 7 GPSC cities. Please note: as opposed to other cities, area of interest of mapping in Lima covered only part of the city agglomeration.">
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Total Green Areas per city (km2)"
+											description="Graph shows overall area of urban green in the 7 GPSC cities. Please note: as opposed to other cities, area of interest of mapping in Lima covered only part of the city agglomeration.">
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
@@ -203,21 +203,21 @@ class GreenAreas extends React.PureComponent {
 															unit: "km2"
 														}}
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
 
 
-								<Fade left distance="50px">
-									<Visualization
-										title="Green Areas Share (%)"
-										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of the city; and on total area of artificial urban areas (urban fabric)."
-									>
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Green Areas Share (%)"
+											description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of the city; and on total area of artificial urban areas (urban fabric)."
+										>
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
@@ -250,20 +250,20 @@ class GreenAreas extends React.PureComponent {
 
 														stacked
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
 
-								<Fade left distance="50px">
-									<Visualization
-										title="Green Areas vs. City Total Area"
-										description="Scatter plot facilitates identification of clusters depending on relationship between total size of the cities and total area of their green areas. The bubble size represents population as of 2018 / 2019 (source: United Nations, 2018; World Population review, 2019)."
-									>
-										<Fade cascade className="aaaa">
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Green Areas vs. City Total Area"
+											description="Scatter plot facilitates identification of clusters depending on relationship between total size of the cities and total area of their green areas. The bubble size represents population as of 2018 / 2019 (source: United Nations, 2018; World Population review, 2019)."
+										>
+											<Fade cascade className="aaaa">
+												<div className="scudeoStories19-chart-container">
 													<ScatterChart
 														key="scatter-chart-1"
 
@@ -296,19 +296,20 @@ class GreenAreas extends React.PureComponent {
 														innerPaddingTop={0}
 														innerPaddingLeft={0}
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
-								<Fade left distance="50px">
-									<Visualization
-										title="Green Areas vs. Urban fabric area"
-										description="Scatter plot facilitates identification of clusters depending on the relationship between shares of green areas and urban fabric areas on overall city area."
-									>
-										<Fade cascade className="aaaa">
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
+
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Green Areas vs. Urban fabric area"
+											description="Scatter plot facilitates identification of clusters depending on the relationship between shares of green areas and urban fabric areas on overall city area."
+										>
+											<Fade cascade className="aaaa">
+												<div className="scudeoStories19-chart-container">
 													<ScatterChart
 														key="scatter-chart-1"
 
@@ -335,11 +336,11 @@ class GreenAreas extends React.PureComponent {
 														innerPaddingTop={0}
 														innerPaddingLeft={0}
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
 							</section>
 
 
@@ -405,16 +406,16 @@ class GreenAreas extends React.PureComponent {
 									</Visualization>
 								</Fade>
 
-								
-								<Fade left distance="50px">
-									<Visualization
-										title="Urban Green Area (km2)"
-										subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
-										description="Graph shows overall area of urban green in two time horizons."
-									>
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Urban Green Area (km2)"
+											subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
+											description="Graph shows overall area of urban green in two time horizons."
+										>
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
@@ -435,48 +436,45 @@ class GreenAreas extends React.PureComponent {
 														}}
 
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
+								{!sankeyGreenDataEmpty ?
+									<HoverHandler>
+										<Fade left distance="50px">
+											<Visualization
+												title="Green Area Flows"
+												description="Sankey diagram helps to understand quantity and proportion changes (their structure, respectively)  as identified by mapping from very high resolution satellite imagery between two time horizonts. Left side of the diagram represents status in former horizont, while right part represent status in current (later horizont). Width of ribbon represents quantity of transition. Diagram shows clearly which classes contributed to formation of new green areas and which other classes consumed green areas that disappeared over the course of reference time period. Diagram quantifies amount of changes at aggregated level. Structure of changes can be further quantified at more detail level of nomenclature - for individual urban green classes."
+												subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
+											>
+												<Fade cascade>
+													<div className="scudeoStories19-chart-container">
+														<SankeyChart
+															hoverValueSourcePath="valueSize"
+															key="sankey-green-area-flows"
+															data={sankeyGreenData}
+															keySourcePath="key"
 
-								{ !sankeyGreenDataEmpty ?
-									<Fade left distance="50px">
-										<Visualization
-											title="Green Area Flows"
-											description="Sankey diagram helps to understand quantity and proportion changes (their structure, respectively)  as identified by mapping from very high resolution satellite imagery between two time horizonts. Left side of the diagram represents status in former horizont, while right part represent status in current (later horizont). Width of ribbon represents quantity of transition. Diagram shows clearly which classes contributed to formation of new green areas and which other classes consumed green areas that disappeared over the course of reference time period. Diagram quantifies amount of changes at aggregated level. Structure of changes can be further quantified at more detail level of nomenclature - for individual urban green classes."
-											subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
-										>
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
+															nodeNameSourcePath="name"
+															nodeValueSourcePath="value"
+															nodeColorSourcePath="color"
 
-												<HoverHandler>
-													<SankeyChart
-														hoverValueSourcePath="valueSize"
-														key="sankey-green-area-flows"
-														data={sankeyGreenData}
-														keySourcePath="key"
+															linkNameSourcePath="name"
+															hoverValueSourcePath="value"
 
-														nodeNameSourcePath="name"
-														nodeValueSourcePath="value"
-														nodeColorSourcePath="color"
-														
-														linkNameSourcePath="name"
-														hoverValueSourcePath="value"
-
-														maxWidth = {50}
-														width={50}
-														height={40}
-														yOptions={{
-															unit: 'km2'
-														}}
-													/>
-												</HoverHandler>
-											</div>
-										</Fade> 
-									</Visualization>
-								</Fade> : null }
+															maxWidth={50}
+															width={50}
+															height={40}
+															yOptions={{
+																unit: 'km2'
+															}}
+														/>
+													</div>
+												</Fade>
+											</Visualization>
+										</Fade></HoverHandler> : null}
 							</section>
 							<section>
 								<h2>Green Areas methodology</h2>
