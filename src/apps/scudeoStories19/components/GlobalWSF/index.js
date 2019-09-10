@@ -199,7 +199,7 @@ class GlobalWSF extends React.PureComponent {
 				wsfData,
 				dataset,
 				loading: false,
-				cityOne: wsfData[0],
+				cityOne: wsfData[23],
 				cityTwo: wsfData[1],
 				vectorLayer,
 			});
