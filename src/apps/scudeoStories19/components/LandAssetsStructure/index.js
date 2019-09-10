@@ -141,32 +141,32 @@ const prepareData = (dataset) => {
 		const avarageData = {
 			data:{}
 		};
-	
+
 		const changes = {
 			data:{},
 			sum: 0,
 		};
-	
+
 		const difference = {
 			data:{},
 			sum: 0,
 		};
-	
+
 		for (const [classId, className] of Object.entries(classesL3)) {
 			const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
 			avarageData.data[classId] = dataSet.data.features[0].properties[percentageKey];
-			
+
 			//change
 			const coverageKeyFirst = getClassCoveragePropertyKey(classId, dataSet.firstYear);
 			const coverageFirst = dataSet.data.features[0].properties[coverageKeyFirst];
 			const coverageKeyLast = getClassCoveragePropertyKey(classId, dataSet.lastYear);
 			const coverageLast = dataSet.data.features[0].properties[coverageKeyLast];
 			// const changeCoverageKey = getClassCoveragePropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
-	
+
 			const change = (coverageLast - coverageFirst) / (dataSet.data.features[0].properties.area / 100)
 			difference.data[classId] = isNaN(change) ? 0 : change;
 		}
-	
+
 		for (const [classId, className] of Object.entries(classesLCF1)) {
 			// const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
 			const changeKey = getLCF1ClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
@@ -177,25 +177,25 @@ const prepareData = (dataset) => {
 			const changeKey = getLCFGClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
 			changes.data[classId] = dataSet.data.features[0].properties[changeKey];
 		}
-	
-	
-	
+
+
+
 		avarageData.AL3_NAME = dataSet.name;
 		avarageData.AL3_ID = dataSet.key;
 		LULCStructureDataset.push(avarageData);
-		
+
 		changes.AL3_NAME = dataSet.name;
 		changes.AL3_ID = dataSet.key;
-	
+
 		// for(const [key, value] of Object.entries(changes.data)){
 		// 	changes.sum += Math.abs(value);
 		// }
-	
-	
+
+
 		difference.AL3_NAME = dataSet.name;
 		difference.AL3_ID = dataSet.key;
 		differenceStructure.push(difference);
-	
+
 		changesStructure.push(changes);
 	});
 }
@@ -317,10 +317,10 @@ class LandAssetsStructure extends React.PureComponent {
 		let densificationsData = null;
 		let densificationsDataEmpty = null;
 
-		if(this.state.cityOne) {	
+		if(this.state.cityOne) {
 			firstYearStructureLayers = [lulcFirstYearStructureLayer, this.state.vectorLayer];
 			lastYearStructureLayers = [lulcLastYearStructureLayer, this.state.vectorLayer];
-	
+
 			firstYearChangeStructureLayers = [lulcFirstYearChangeStructureLayer, this.state.vectorLayer];
 			lastYearChangeStructureLayers = [lulcLastYearChangeStructureLayer, this.state.vectorLayer];
 
@@ -339,7 +339,7 @@ class LandAssetsStructure extends React.PureComponent {
 				/>
 
 				{
-					this.state.cityOne ? 
+					this.state.cityOne ?
 						<div className="scudeoStories19-content">
 						<section>
 							<p>As cities strive to become centers of global production, trade and development, they are increasingly concerned with improving their attractiveness for foreign direct investment and employment generation. For example, cities must have efficient spatial structures, adequate infrastructure and urban services, affordable housing and healthy environments. Effective urban land assets management is required to promote urban regeneration and development of new industrial and commercial districts, investments to upgrade and expand critical infrastructure systems, programs to enhance and protect the environment, and initiatives to upgrade social overhead capital (housing, education, healthcare). </p>
@@ -417,78 +417,77 @@ class LandAssetsStructure extends React.PureComponent {
 								</Visualization>
 							</Fade>
 
+						<HoverHandler selectedItems={[this.state.cityOne.key]} >
 							<Fade left distance="50px">
 								<Visualization
 									title="Land Cover Land Use Structure"
 									description="Graph above provides overview of land cover land use structure of selected cities for a given reference year."
 								>
-								<Fade cascade>
-									<div className="scudeoStories19-chart-container">
+									<Fade cascade>
+										<div className="scudeoStories19-chart-container">
+											<ColumnChart
+													key="lulc-structure"
 
-									<HoverHandler selectedItems={[this.state.cityOne.key]} >
-										<ColumnChart
-												key="lulc-structure"
+													data={LULCStructureDataset}
+													keySourcePath="AL3_ID"
+													nameSourcePath="AL3_NAME"
+													xSourcePath="AL3_NAME"
+													ySourcePath={pathLULCStructureYSourcePath}
 
-												data={LULCStructureDataset}
-												keySourcePath="AL3_ID"
-												nameSourcePath="AL3_NAME"
-												xSourcePath="AL3_NAME"
-												ySourcePath={pathLULCStructureYSourcePath}
+													height={20}
+													xValuesSize={4}
 
-												height={20}
-												xValuesSize={4}
+													yLabel
+													yOptions={{
+														name: "Structure",
+														unit: "sqm"
+													}}
+													yValuesSize={3}
 
-												yLabel
-												yOptions={{
-													name: "Structure",
-													unit: "sqm"
-												}}
-												yValuesSize={3}
-
-												stacked="relative"
-											/>
-										</HoverHandler>
-									</div>
-								</Fade>
-							</Visualization>
-						</Fade>
-
-						<Fade left distance="50px">
-								<Visualization
-									title="Land Cover Land Use Changes Intensity and Structure"
-									description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
-								>
-								<Fade cascade>
-									<div className="scudeoStories19-chart-container">
-										<HoverHandler selectedItems={[this.state.cityOne.key]} >
-											<ColumnChart 
-												key="diverging-bars"
-												
-												data={changesStructure}
-												keySourcePath="AL3_ID"
-												nameSourcePath="AL3_NAME"
-												xSourcePath="AL3_NAME"
-												ySourcePath={pathLULCChangesStructureYSourcePath}
-												
-												height={20}
-												xValuesSize={4}
-												diverging
-												yLabel
-												yOptions={{
-													name: "Change structure",
-													unit: "%",
-													max: 50,
-													min: 0
-												}}
-												yValuesSize={3}
-
-												// stacked="relative"
+													stacked="relative"
 												/>
-											</HoverHandler>
 										</div>
-								</Fade>
-							</Visualization>
-						</Fade>
+									</Fade>
+								</Visualization>
+							</Fade>
+						</HoverHandler>
+
+						<HoverHandler selectedItems={[this.state.cityOne.key]} >
+							<Fade left distance="50px">
+									<Visualization
+										title="Land Cover Land Use Changes Intensity and Structure"
+										description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
+									>
+									<Fade cascade>
+										<div className="scudeoStories19-chart-container">
+												<ColumnChart
+													key="diverging-bars"
+
+													data={changesStructure}
+													keySourcePath="AL3_ID"
+													nameSourcePath="AL3_NAME"
+													xSourcePath="AL3_NAME"
+													ySourcePath={pathLULCChangesStructureYSourcePath}
+
+													height={20}
+													xValuesSize={4}
+													diverging
+													yLabel
+													yOptions={{
+														name: "Change structure",
+														unit: "%",
+														max: 50,
+														min: 0
+													}}
+													yValuesSize={3}
+
+													// stacked="relative"
+													/>
+											</div>
+									</Fade>
+								</Visualization>
+							</Fade>
+						</HoverHandler>
 						{/* <Fade left distance="50px">
 							<Visualization
 								title="Land Cover Land Use Changes Rozdíly???"
@@ -604,82 +603,81 @@ class LandAssetsStructure extends React.PureComponent {
 							</Fade>
 
 
-							<Fade left distance="50px">
-								<Visualization
-									title={`Land Cover Land Use Changes Structure - Overall flows`}
-									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the final net area figures of any land cover land use class. "
-									subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
-								>
-								<Fade cascade>
-									<div className="scudeoStories19-chart-container">
+							<HoverHandler>
+								<Fade left distance="50px">
+									<Visualization
+										title={`Land Cover Land Use Changes Structure - Overall flows`}
+										description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the final net area figures of any land cover land use class. "
+										subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
+									>
+										<Fade cascade>
+											<div className="scudeoStories19-chart-container">
+													<SankeyChart
+														hoverValueSourcePath="valueSize"
+														key="sankey-overall-flows"
+														data={this.state.cityOne.l3OverallFlowsCoverage}
+														keySourcePath="key"
 
-										<HoverHandler>
-											<SankeyChart
-												hoverValueSourcePath="valueSize"
-												key="sankey-overall-flows"
-												data={this.state.cityOne.l3OverallFlowsCoverage}
-												keySourcePath="key"
+														nodeNameSourcePath="name"
+														nodeValueSourcePath="value"
+														nodeColorSourcePath="color"
 
-												nodeNameSourcePath="name"
-												nodeValueSourcePath="value"
-												nodeColorSourcePath="color"
-												
-												linkNameSourcePath="name"
-												hoverValueSourcePath="value"
+														linkNameSourcePath="name"
+														hoverValueSourcePath="value"
 
-												// valueSourcePath="value"
-												maxWidth = {50}
-												width={50}
-												height={66}
-												yOptions={{
-													// name: 'Node title',
-													unit: 'km2'
-												}}
-											/>
-										</HoverHandler>
-									</div>
+														// valueSourcePath="value"
+														maxWidth = {50}
+														width={50}
+														height={66}
+														yOptions={{
+															// name: 'Node title',
+															unit: 'km2'
+														}}
+													/>
+											</div>
+										</Fade>
+									</Visualization>
 								</Fade>
-							</Visualization>
-						</Fade>
-							<Fade left distance="50px">
-								<Visualization
-									title={`Land Cover Land Use Changes Structure - Urban Expansion`}
-									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period related to Urban Expansion process. Individual consumption and formation flows and their magnitude can be highlighted for an immediate perception of their composition, importance, severity and contribution into the final net area figures of urban land cover land use classes."
-									subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
-								>
-								<Fade cascade>
-									<div className="scudeoStories19-chart-container">
+							</HoverHandler>
+							<HoverHandler>
+								<Fade left distance="50px">
+									<Visualization
+										title={`Land Cover Land Use Changes Structure - Urban Expansion`}
+										description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period related to Urban Expansion process. Individual consumption and formation flows and their magnitude can be highlighted for an immediate perception of their composition, importance, severity and contribution into the final net area figures of urban land cover land use classes."
+										subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
+									>
+									<Fade cascade>
+										<div className="scudeoStories19-chart-container">
+												<SankeyChart
+													hoverValueSourcePath="valueSize"
+													key="sankey-expansions-flows"
+													data={filterUrbanExpansion(this.state.cityOne.l3OverallFlowsCoverage)}
+													keySourcePath="key"
 
-										<HoverHandler>
-											<SankeyChart
-												hoverValueSourcePath="valueSize"
-												key="sankey-expansions-flows"
-												data={filterUrbanExpansion(this.state.cityOne.l3OverallFlowsCoverage)}
-												keySourcePath="key"
+													nodeNameSourcePath="name"
+													nodeValueSourcePath="value"
+													nodeColorSourcePath="color"
 
-												nodeNameSourcePath="name"
-												nodeValueSourcePath="value"
-												nodeColorSourcePath="color"
-												
-												linkNameSourcePath="name"
-												hoverValueSourcePath="value"
+													linkNameSourcePath="name"
+													hoverValueSourcePath="value"
 
-												// valueSourcePath="value"
-												maxWidth = {50}
-												width={50}
-												height={40}
-												yOptions={{
-													// name: 'Node title',
-													unit: 'km2'
-												}}
-											/>
-										</HoverHandler>
-									</div>
-								</Fade>
-							</Visualization>
-						</Fade>
+													// valueSourcePath="value"
+													maxWidth = {50}
+													width={50}
+													height={40}
+													yOptions={{
+														// name: 'Node title',
+														unit: 'km2'
+													}}
+												/>
+										</div>
+									</Fade>
+								</Visualization>
+							</Fade>
+							</HoverHandler>
 
 						{ !densificationsDataEmpty ?
+							<HoverHandler>
 							<Fade left distance="50px">
 								<Visualization
 									title={`Land Cover Land Use Changes Structure - Urban Densification`}
@@ -688,8 +686,6 @@ class LandAssetsStructure extends React.PureComponent {
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
-
-										<HoverHandler>
 											<SankeyChart
 												hoverValueSourcePath="valueSize"
 												key="sankey-densifacation-flows"
@@ -699,7 +695,7 @@ class LandAssetsStructure extends React.PureComponent {
 												nodeNameSourcePath="name"
 												nodeValueSourcePath="value"
 												nodeColorSourcePath="color"
-												
+
 												linkNameSourcePath="name"
 												hoverValueSourcePath="value"
 
@@ -712,11 +708,10 @@ class LandAssetsStructure extends React.PureComponent {
 													unit: 'km2'
 												}}
 											/>
-										</HoverHandler>
 									</div>
-								</Fade> 
+								</Fade>
 							</Visualization>
-						</Fade>: null}
+						</Fade></HoverHandler>: null}
 						<p>Information about land cover and land use is a very important component of the planning process as it can contribute to the debate on the current arrangements and patterns and the need to modify land use as part of a regional plan, a resource development or management project, an environmental planning exercise, nature based solution for risk prevention etc. Planners may seek to suggest modifications to land-use patterns to achieve some social or economic outcomes, or as part of an environmental conservation or sustainability activities, or to avoid some predicted future unwanted consequences. Access to accurate land cover land use information can assist city planners and the enterprise of planning. In this context remote sensing is able to contribute in operational land cover land use status monitoring. Examples above show how such a spatial data can be interpreted and visualized in a meaningful way to allow better insight into land cover land use related processes, changes and flows in the city.</p>
 
 							<h2>About LULC data and accounting methodology</h2>
@@ -733,7 +728,7 @@ class LandAssetsStructure extends React.PureComponent {
 						</section>
 					</div>
 					: null
-				}	
+				}
 			</>
 		);
 	}
