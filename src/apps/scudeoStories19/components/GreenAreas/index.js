@@ -259,7 +259,7 @@ class GreenAreas extends React.PureComponent {
 								<Fade left distance="50px">
 									<Visualization
 										title="Green Areas vs. City Total Area"
-										description="Scatter plot facilitates identification of clusters depending on relationship between total size of the cities and total area of their green areas. The bubble size represents population as of 2015 (source: WorldBank 2015)."
+										description="Scatter plot facilitates identification of clusters depending on relationship between total size of the cities and total area of their green areas. The bubble size represents population as of 2018 / 2019 (source: United Nations, 2018; World Population review, 2019)."
 									>
 										<Fade cascade className="aaaa">
 											<div className="scudeoStories19-chart-container">
