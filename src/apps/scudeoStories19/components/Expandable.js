@@ -20,7 +20,7 @@ class Expandable extends React.PureComponent {
 	}
 
 	onControlClick() {
-		let maxHeight = this.ref.current && this.ref.current.scrollHeight;
+		let maxHeight = this.ref.current && (this.ref.current.scrollHeight + 30);
 
 		this.setState({
 			collapsed: !this.state.collapsed,
