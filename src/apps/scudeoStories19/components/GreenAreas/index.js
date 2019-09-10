@@ -195,7 +195,7 @@ class GreenAreas extends React.PureComponent {
 														ySourcePath="green_coverage"
 														defaultColor="#42982e"
 														highlightColor="#39782b"
-														xValuesSize={5.5}
+														xValuesSize={4}
 
 														yLabel
 														yOptions={{
@@ -240,7 +240,7 @@ class GreenAreas extends React.PureComponent {
 														]}
 														// defaultColor="#42982e"
 														// highlightColor="#39782b"
-														xValuesSize={5.5}
+														xValuesSize={4}
 
 														yLabel
 														yOptions={{
@@ -480,7 +480,7 @@ class GreenAreas extends React.PureComponent {
 								</Fade> : null }
 							</section>
 							<section>
-								<h2>Text about LULC Green Areas methodology</h2>
+								<h2>Green Areas methodology</h2>
 								<p>
 									Urban green areas refer to land within and on the edges of a city that is partly or completely covered with grass, trees, shrubs, or other vegetation. This includes public parks, private gardens, cemeteries, forested areas as well as trees, river alignments, hedges etc. The product delivered within EO4SD-Urban project thus provides accurate information (1 m resolution) on the spatial location and extent of the green areas located within the Urban Extent derived from the baseline LULC information product.
 								</p>

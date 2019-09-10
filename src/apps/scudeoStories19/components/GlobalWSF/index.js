@@ -267,8 +267,9 @@ class GlobalWSF extends React.PureComponent {
 			<>
 				<Header
 					navigation={this.props.navigation}
-					title="EO data can provide insight into long term trends of urban growth dynamics"
-					intro="Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl."
+					title="Global Urban Growth Dynamics Monitoring"
+					intro="EO data can now provide unprecedent insight into long term trends of urban growth dynamics"
+					abstract="The urbanized World is our playground. Facing a global massive urbanization trends in climate change context, urban expansion needs to be monitored to ensure it proceeds on a sustainable basis, does not impair or overexploit environmental resources, nor worsen the quality and life and safety of urban population. Nowadays, superb EO based global products are available for urban studies in rich spatial-temporal context, quickly and accurately."
 				/>
 
 
@@ -368,7 +369,7 @@ class GlobalWSF extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title="Settlement Area Expansion (area growth in km2)"
-									description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation."
+									description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation. Information about expansion phase and its dynamics are important to cluster cities with similar evolution path and lesson-learned exchange between individual cities. "
 								>
 									<Fade cascade>
 										<div className="scudeoStories19-chart-container">
@@ -406,7 +407,7 @@ class GlobalWSF extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title="Settlement Area Expansion (annual growth rate in %)"
-									description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above."
+									description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above to explore development trajectories in the context of urban policy framework in particular city and time."
 								>
 									<Fade cascade>
 										<div className="scudeoStories19-chart-container">
@@ -477,15 +478,19 @@ class GlobalWSF extends React.PureComponent {
 								</Visualization>
 							</Fade>
 
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
-							<p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus, ut pellentesque dolor augue a nisl. Donec posuere augue condimentum, fermentum justo placerat, vulputate diam. Vestibulum placerat, tortor ut molestie suscipit, dui felis feugiat ex, ut vehicula enim libero ac leo. Ut at aliquet quam. Mauris eros nulla, vehicula nec quam ac, luctus placerat tortor. Nunc et eros in lectus ornare tincidunt vitae id felis. Pellentesque elementum ligula non pellentesque euismod. Praesent at arcu tempor, aliquam quam ut, luctus odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit nulla, dictum sed arcu id, porta interdum est. Vestibulum eget mattis dui. Curabitur volutpat lacus at eros luctus, a tempus neque iaculis.</p>
+							<p>Data are a key enabler for city innovation - fuel on which cities run – and spatial aspect plays a major role in understanding complex spatial-temporal relations in cities, supporting daily management of city assets as well as strategic planning for cities sustainable future. Current Earth Observation (EO) capacity represents a major contribution here as a large (and rapidly growing) number of satellite constellations, acquiring in different spatial, spectral and temporal resolution, are currently available for integration with other types of data (e.g. open data, sensors, citizen science data) for the benefit of various urban domains. The WSF Evolution dataset satisfy a growing need for global harmonised data urban expansion allowing holistic view on global planetary urbanisation issue and identification of future development potential in different world regions. </p>
 
-							<h3>More resources</h3>
-							<ul>
-								<li><a href="#" target="_blank">Link A ullamcorper urna</a></li>
-								<li><a href="#" target="_blank">Link B libero ac leo</a></li>
-								<li><a href="#" target="_blank">Link C Curabitur volutpat lacus at eros luctus</a></li>
-							</ul>
+							<h2>About WSF Evolution</h2>
+							<p>WSF Evolution is a revolutionary global product leveraging previous DLR experiences with GUF and WSF2015 products. First, under the assumption that pixels categorized as non-settlement at a later time cannot be marked as settlement at an earlier time, all areas excluded from the World Settlement Footprint (WSF2015) (i.e., the currently existing most updated and accurate mask outlining the 2015 global settlement extent) are discarded a priori from the analysis. Next, for each target year in the past all available Landsat scenes acquired with cloud cover lower than 60% over the investigated area of interest are gathered and cloud masking is performed. Key temporal statistics (i.e., temporal mean, minimum, maximum, etc.) are then extracted for different spectral indices including the normalized difference built-up index (NDBI), the normalized difference vegetation index (NDVI) and the modified normalized difference water index (MNDWI). Going backwards in time, training samples for the given target year are iteratively extracted by applying morphological filtering to the settlement mask derived for the previous time step as well as excluding potentially mis-labelled samples by adaptive thresholding on the temporal mean NDBI, MNDWI and NDVI. Finally, random forest classification in performed.</p>
+							<p>Extensive experimental analyses over several challenging test sites distributed over the five continents assessed the high effectiveness of the methodology. Accordingly, in the light of it great robustness, the technique has been employed within the GEE environment for generating the WSF Evolution, i.e. a novel dataset aimed at outlining the settlement extent globally and on a yearly basis from 1985 to 2015. The WSF Evolution was completed by the end of 2018 and is envisaged to be made available open and free (after accurate post-processing and accuracy assessment) during 2019. In particular, the dataset is expected to become a global urban product of unprecedent in support to a variety of end users in the framework of several thematic applications, helping to understand as never before how urbanization took place over three decades while capturing specific temporal trends.</p>
+
+							{/*TODO tady Tomáš nedodal linky*/}
+							{/*<h3>More resources</h3>*/}
+							{/*<ul>*/}
+								{/*<li><a href="#" target="_blank">WSF Evolution description</a></li>*/}
+								{/*<li><a href="#" target="_blank">Quality Assessment document</a></li>*/}
+								{/*<li><a href="#" target="_blank">Link to UTEP with WSF Evolution data?</a></li>*/}
+							{/*</ul>*/}
 						</section>
 					</div> : null }
 			</>
