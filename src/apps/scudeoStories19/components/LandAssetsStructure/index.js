@@ -244,7 +244,8 @@ class LandAssetsStructure extends React.PureComponent {
 			cityOne: null,
 			loading: true,
 			vectorLayer: null,
-			landUseMapLegendData: null
+			landUseMapLegendData: null,
+			changeMapLegendData: null,
 		};
 	}
 
@@ -260,8 +261,20 @@ class LandAssetsStructure extends React.PureComponent {
 			});
 		});
 
-		// Get legend for map
-		fetch(lulcFirstYearStructureLayer.options.url + 'service=WMS&request=GetLegendGraphic&layer=' + lulcFirstYearStructureLayer.options.params.layers + '&FORMAT=application/json', {
+		this.loadLegendData(lulcFirstYearStructureLayer, 'landUseMapLegendData');
+		this.loadLegendData(lulcLastYearChangeStructureLayer, 'changeMapLegendData');
+	}
+
+
+	onCityChange(city, data) {
+		this.setState({
+			[city]: data
+		});
+	}
+
+	loadLegendData(source, stateProp) {
+		// Get legend for change map
+		fetch(source.options.url + 'service=WMS&request=GetLegendGraphic&layer=' + source.options.params.layers + '&FORMAT=application/json', {
 			method: 'GET'
 		}).then(response => {
 			let contentType = response.headers.get('Content-type');
@@ -269,24 +282,17 @@ class LandAssetsStructure extends React.PureComponent {
 				response.json().then(data => {
 					let rules = _.get(data, 'Legend[0].rules');
 					if (rules) {
-						this.setState({landUseMapLegendData: rules.map(rule => {
-							return {
-								label: rule.name,
-								color: _.get(rule, 'symbolizers[0].Polygon.fill')
-							}
-						})});
+						this.setState({[stateProp]: rules.map(rule => {
+								return {
+									label: rule.name,
+									color: _.get(rule, 'symbolizers[0].Polygon.fill')
+								}
+							})});
 					}
 				});
 			} else {
 				console.warn('Legend request error');
 			}
-		});
-	}
-
-
-	onCityChange(city, data) {
-		this.setState({
-			[city]: data
 		});
 	}
 
@@ -527,14 +533,19 @@ class LandAssetsStructure extends React.PureComponent {
 									description="Interactive maps above provide overview of land cover land use spatial composition in a selected city for a selected year (left) and land cover flows spatial composition for the same city for selected change observation period. Individual consumption and formation flows are specified to ease individual land cover land use changes interpretation. "
 									legend={
 										<div style={{display: 'flex', width: '100%', padding: '0 1rem'}}>
-											<div style={{width: '50%'}}>
+											<div style={{flexGrow: 1}}>
 												<Expandable>
 													<div className="scudeoStories19-visualization-legend">
 														{this.state.landUseMapLegendData ? this.renderMapLegend(this.state.landUseMapLegendData) : null}
 													</div>
 												</Expandable>
 											</div>
-											<div style={{width: '50%'}}>
+											<div style={{flexGrow: 1}}>
+												<Expandable>
+													<div className="scudeoStories19-visualization-legend">
+														{this.state.changeMapLegendData ? this.renderMapLegend(this.state.changeMapLegendData) : null}
+													</div>
+												</Expandable>
 											</div>
 										</div>
 									}
