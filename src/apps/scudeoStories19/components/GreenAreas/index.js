@@ -354,7 +354,6 @@ class GreenAreas extends React.PureComponent {
 									value={this.state.city}
 									menuPortalTarget={this.props.pageKey}
 								/>
-								<h2>Green Areas Distribution</h2>
 								<p>Distribution of artificial green areas (consisting of two classes) in the current year  is presented in the map format. Pick the city from pull-down menu in the top-left corner to display the map for respective city. Status in former time horizon (as mapped using archived imagery) and changes between the two horizons can be presented in the same manner to show spatially explicit patterns of areas subject to transition: either uptake (formation) of former green areas by other classes or their consumption e.g. by urban sprawl or infilling.</p>
 
 								<Fade left distance="50px">
