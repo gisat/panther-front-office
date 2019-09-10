@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
@@ -26,6 +27,8 @@ class Popup extends React.PureComponent {
 	render() {
 		let maxX = window.innerWidth;
 		let maxY = window.innerHeight + window.pageYOffset;
+		let minY = window.pageYOffset;
+
 		let x = this.props.x + 15;
 		let y = this.props.y + 20;
 
@@ -41,9 +44,12 @@ class Popup extends React.PureComponent {
 			x = 0;
 		}
 
-		// positioning
 		if ((y + height) > (maxY - 20)) {
 			y = this.props.y - height - 10;
+		}
+
+		if (y < minY && minY < maxY - height) {
+			y = maxY - height;
 		}
 
 		if (y < 0) {
@@ -56,8 +62,11 @@ class Popup extends React.PureComponent {
 			width
 		};
 
+		let classes = classnames("ptr-popup", {
+		});
+
 		return (
-			<div style={style} className={"ptr-popup"} ref={this.ref}>
+			<div style={style} className={classes} ref={this.ref}>
 				{this.props.content ? React.cloneElement(this.props.content) : this.props.children}
 			</div>
 		);
