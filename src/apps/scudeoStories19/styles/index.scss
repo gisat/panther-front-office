@@ -401,6 +401,61 @@
 	margin: 0;
 }
 
+/** Radio */
+.scudeoStories19-inline-radio {
+	display: flex;
+	justify-content: center;
+	margin: m(1) 0 0 0;
+	font-size: 90%;
+
+	.label{
+		margin-right: m(1);
+	}
+		   
+	input[type="radio"] {
+		display: none;
+	}
+
+	/* HTML5 Boilerplate radio-one hidden styles */
+	[type="radio"] {
+		border: 0;
+		height: 1px; margin: -1px;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+   
+  	/* One radio button per line */
+	label {
+		margin-right: m(1);
+		display: block;
+		cursor: pointer;  /*hand view when on hover*/
+	}
+   
+	/* the basic, unchecked style */
+	[type="radio"] + span:before {
+		content: '';
+		display: inline-block;
+		width: m(.5);
+		height: m(.5);
+		border-radius: m(.5);           /*hard border*/
+		border: m(1/8) solid #fff;
+		box-shadow: 0 0 0 0.15em #000;   /*light shadow*/
+		margin-right: m(.5);
+		transition: 0.5s ease all;    /*animation here*/
+	}
+   
+	label:hover [type="radio"] + span:before {
+	  background: var(--accent30);
+	}
+
+	/* the checked style using the :checked pseudo class */
+	label [type="radio"]:checked + span:before {
+		background: var(--accent60);
+	}
+
+}
+
 
 @media screen and (max-width: 50rem), screen and (max-height: 35rem) {
 	.scudeoStories19-header-content {

@@ -186,8 +186,14 @@ class GlobalWSF extends React.PureComponent {
 			loading: null,
 			cityOne: null,
 			cityTwo: null,
-			mapLegendData: null
+			mapLegendData: null,
+			selectedOption: {
+				value: null,
+				id: 'unlimited',
+			},
 		};
+
+		this.handleOptionChange = this.handleOptionChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -254,6 +260,15 @@ class GlobalWSF extends React.PureComponent {
 					<div className="legend-value">{item.label}</div>
 				</div>
 			);
+		});
+	}
+
+	handleOptionChange(changeEvent) {
+		this.setState({
+		  selectedOption: {
+			  value: changeEvent.target.value === 'unlimited' ? null : parseInt(changeEvent.target.value),
+			  id: changeEvent.target.value,
+			}
 		});
 	}
 
@@ -392,6 +407,7 @@ class GlobalWSF extends React.PureComponent {
 
 													yLabel
 													yOptions={{
+														max: this.state.selectedOption.value,
 														name: "Settlement area",
 														unit: "km2"
 													}}
@@ -400,6 +416,35 @@ class GlobalWSF extends React.PureComponent {
 
 													legend
 												/>
+												<div className="scudeoStories19-inline-radio">
+													<span className={"label"}>
+														Maximum visible Y axis size:
+													</span>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={'unlimited'} checked={this.state.selectedOption.id === 'unlimited'} onChange={this.handleOptionChange}/>
+															<span>
+																Unlimited
+															</span>
+														</label>
+													</div>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={5000} checked={this.state.selectedOption.id === '5000'} onChange={this.handleOptionChange}/>
+															<span>
+																5000 km2
+															</span>
+														</label>
+													</div>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={2000} checked={this.state.selectedOption.id === '2000'} onChange={this.handleOptionChange}/>
+															<span>
+																2000 km2
+															</span>
+														</label>
+													</div>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
