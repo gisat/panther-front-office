@@ -1,4 +1,5 @@
 import React from 'react';
+import models00 from '../../../assets/models00.png';
 import models01 from '../../../assets/models01.png';
 import models02 from '../../../assets/models02.png';
 
@@ -13,6 +14,7 @@ export default props => (
 		<h5>Konstrukce predikčních modelů IAS</h5>
 		<p>Myšlenka geoportálu (a následného modelování) vychází z propojení aplikačního serveru s ND OP, která je spravovaná AOPK. Aplikační server si v dané periodě (3 měsíce) automaticky stáhne prostřednictvím API aktuální stav nálezové databáze a následně na pozadí provede modelování. Výsledky modelu jsou následně vizualizovány na mapovém portálu, který má základní funkcionalitu pro prohlížení dat (zoom, dotazování, výběr zájmového území). Nepředpokládá se tedy online modelování uživatelských scénářů (co se stane, pokud zlikviduji vybraný výskyt… apod). Základní princip fungování celého systému je schematicky zobrazený na následujícím obrázku (Obr. 1).</p>
 
+		<img src={models00} style={{maxWidth:"50rem"}} />
 
 		<i className="tacrGeoinvaze-image-decsription">Obr. 1: Základní schéma funkcionality geoportálu modelování biologických invazí</i>
 		
