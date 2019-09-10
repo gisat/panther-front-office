@@ -581,7 +581,7 @@ class LandAssetsStructure extends React.PureComponent {
 												}
 											>
 												<div className="scudeoStories19-map-label">
-													{this.state.cityOne.lastYear}
+													{`Change flows: ${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
 												</div>
 												<div className="scudeoStories19-map-attribution ptr-dark">
 													© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
