@@ -595,8 +595,9 @@ class LandAssetsStructure extends React.PureComponent {
 
 							<Fade left distance="50px">
 								<Visualization
-									title={`Land Cover Land Use Changes Structure - Overall flows ${this.state.cityOne.firstYear} / ${this.state.cityOne.lastYear}`}
+									title={`Land Cover Land Use Changes Structure - Overall flows`}
 									description="Sankey graph above provides overview of all land cover flows in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the final net area figures of any land cover land use class. "
+									subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
 								>
 								<Fade cascade>
 									<div className="scudeoStories19-chart-container">
