@@ -23,6 +23,7 @@ import {getMergedDataset, clearEmptyNodes, classesL3, classesL4, colors, classes
 import './styles/style.scss';
 import fetch from "isomorphic-fetch";
 import _ from "lodash";
+import Expandable from "../Expandable";
 
 // LULC Level III
 const URBAN_FABRIC_KEYS = ["11100", "11200"];
@@ -524,6 +525,19 @@ class LandAssetsStructure extends React.PureComponent {
 								<Visualization
 									title="Land Cover Land Use Change Structure"
 									description="Interactive maps above provide overview of land cover land use spatial composition in a selected city for a selected year (left) and land cover flows spatial composition for the same city for selected change observation period. Individual consumption and formation flows are specified to ease individual land cover land use changes interpretation. "
+									legend={
+										<div style={{display: 'flex', width: '100%', padding: '0 1rem'}}>
+											<div style={{width: '50%'}}>
+												<Expandable>
+													<div className="scudeoStories19-visualization-legend">
+														{this.state.landUseMapLegendData ? this.renderMapLegend(this.state.landUseMapLegendData) : null}
+													</div>
+												</Expandable>
+											</div>
+											<div style={{width: '50%'}}>
+											</div>
+										</div>
+									}
 								>
 									<div className="scudeoStories19-map-container">
 										<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>

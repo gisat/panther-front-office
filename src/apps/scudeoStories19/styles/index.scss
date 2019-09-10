@@ -207,7 +207,7 @@
 
 .scudeoStories19-map-container > div {
 	flex: 1;
-	min-width: 25rem
+	min-width: 15rem
 }
 
 .scudeoStories19-map-container > div:first-child {
@@ -340,9 +340,66 @@
 	}
 }
 
+/* Expandable */
+.scudeoStories19-expandable {
+	position: relative;
+	padding-bottom: 2rem;
+	transition: height .7s ease-in-out;
+	overflow-y: hidden;
+	margin: 1rem;
+}
 
-.scudeoStories19-content .image-showcase{
-	margin-bottom: 3rem;
+.scudeoStories19-expandable.collapsed:after {
+	height: 4rem;
+}
+
+.scudeoStories19-expandable:after {
+	content: '';
+	height: 2rem;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.7), rgba(255,255,255,1));
+	transition: height .7s ease-in-out;
+}
+
+.scudeoStories19-expandable-control {
+	position: absolute;
+	cursor: pointer;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 2rem;
+	width: 100%;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.scudeoStories19-expandable-control .ptr-icon {
+	transform: rotate(90deg);
+	transition: transform .7s ease-in-out;
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.scudeoStories19-expandable.collapsed .scudeoStories19-expandable-control .ptr-icon {
+	transform: rotate(270deg);
+}
+
+.scudeoStories19-expandable-control .ptr-icon .line {
+	fill: var(--base60);
+	transition: fill .2s ease-in-out;
+}
+
+.scudeoStories19-expandable-control:hover .ptr-icon .line {
+	fill: var(--base100);
+}
+
+.scudeoStories19-expandable .scudeoStories19-visualization-legend {
+	margin: 0;
 }
 
 
