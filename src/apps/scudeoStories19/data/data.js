@@ -70,7 +70,7 @@ export const classesL3 = {
     "11200":"Discontinuous Urban Fabric (Sealing level: 10% - 80%)",
     "12100":"Industrial, Commercial, Public, Military and Private Units",
 	"12200":"Roads and rail network and associated land",
-    "12300":"Roads and rail network and associated land",
+    "12300":"Port",
     "12400":"Airport",
     "13100":"Mineral Extraction and Dump Sites",
     "13300":"Construction Sites",
