@@ -164,6 +164,7 @@ const transformDataset = (dataset) => {
 			...feature,
 			key: d.key,
 			name: d.name,
+			color: d.color,
 			properties: {
 				...feature.properties,
 				sampleSerialData:  getSerialData(feature.properties)
@@ -385,6 +386,7 @@ class GlobalWSF extends React.PureComponent {
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
 													ySourcePath="coverage"
+													colorSourcePath="color"
 
 													xValuesSize={2.5}
 
@@ -423,6 +425,7 @@ class GlobalWSF extends React.PureComponent {
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
 													ySourcePath="relativeAnnualPercentageGrowth"
+													colorSourcePath="color"
 
 													xValuesSize={2.5}
 
@@ -460,6 +463,7 @@ class GlobalWSF extends React.PureComponent {
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
 													ySourcePath="urbanExpansionCoefficient"
+													colorSourcePath="color"
 
 													xValuesSize={2.5}
 
