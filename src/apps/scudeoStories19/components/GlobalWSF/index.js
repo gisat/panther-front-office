@@ -509,6 +509,7 @@ class GlobalWSF extends React.PureComponent {
 													serieDataSourcePath="properties.sampleSerialData"
 													xSourcePath="year"
 													ySourcePath="urbanExpansionCoefficient"
+													pointNameSourcePath="name"
 													colorSourcePath="color"
 
 													xValuesSize={2.5}
