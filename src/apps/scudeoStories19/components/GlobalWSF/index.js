@@ -253,9 +253,9 @@ class GlobalWSF extends React.PureComponent {
 	}
 
 	renderMapLegend() {
-		return this.state.mapLegendData.map((item) => {
+		return this.state.mapLegendData.map((item, index) => {
 			return (
-				<div className="legend-field">
+				<div className="legend-field" key={index}>
 					<div className="legend-color" style={{background: item.color}}></div>
 					<div className="legend-value">{item.label}</div>
 				</div>

@@ -305,9 +305,9 @@ class LandAssetsStructure extends React.PureComponent {
 	}
 
 	renderMapLegend(data) {
-		return data.map((item) => {
+		return data.map((item, index) => {
 			return (
-				<div className="legend-field">
+				<div className="legend-field" key={index}>
 					<div className="legend-color" style={{background: item.color}}></div>
 					<div className="legend-value">{item.label}</div>
 				</div>

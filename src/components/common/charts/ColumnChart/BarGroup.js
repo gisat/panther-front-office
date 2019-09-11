@@ -261,18 +261,18 @@ class BarGroup extends React.PureComponent {
 			return (
 				<>
 					<div className="ptr-popup-header">{columnName}</div>
-					{data.positive.data.map(record => {
-						return this.getPopupRecordGroup(record, attributeName, units, color)
+					{data.positive.data.map((record, index) => {
+						return this.getPopupRecordGroup(record, attributeName, units, color, index)
 					})}
-					{data.negative.data.map(record => {
-						return this.getPopupRecordGroup(record, attributeName, units, color)
+					{data.negative.data.map((record, index) => {
+						return this.getPopupRecordGroup(record, attributeName, units, color, index)
 					})}
 				</>
 			);
 		}
 	}
 
-	getPopupRecordGroup(record, attributeName, attributeUnits, color) {
+	getPopupRecordGroup(record, attributeName, attributeUnits, color, index) {
 		let style = {};
 		let attribute = record.name || attributeName;
 
@@ -291,7 +291,7 @@ class BarGroup extends React.PureComponent {
 
 
 		return (
-			<>
+			<React.Fragment key={index}>
 				{valueString ? <div className="ptr-popup-record-group">
 					<div className="ptr-popup-record-color" style={style}></div>
 					<div className="ptr-popup-record">
@@ -302,7 +302,7 @@ class BarGroup extends React.PureComponent {
 						</div>
 					</div>
 				</div> : null}
-			</>
+			</React.Fragment>
 		);
 	}
 }
