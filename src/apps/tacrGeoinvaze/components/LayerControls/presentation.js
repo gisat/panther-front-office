@@ -110,6 +110,7 @@ class LayerControls extends React.PureComponent {
 							</ButtonSwitch>
 							{/*<Select/>*/}
 						</div>
+						<div className="tacrGeoinvaze-layer-legend"></div>
 					</div>
 				);
 			} else {
@@ -145,6 +146,7 @@ class LayerControls extends React.PureComponent {
 							<Option active={gis10active} value={"gis10"}>+ 10 let</Option>
 						</ButtonSwitch>
 					</div>
+					<div className="tacrGeoinvaze-layer-legend"></div>
 				</div>
 				<div className={classNames("tacrGeoinvaze-model-biomod", {
 					active: gamActive || gbmActive || maxentActive
@@ -157,6 +159,7 @@ class LayerControls extends React.PureComponent {
 							<Option active={maxentActive} value={"maxent"}>maximum entropy</Option>
 						</ButtonSwitch>
 					</div>
+					<div className="tacrGeoinvaze-layer-legend"></div>
 				</div>
 			</div>
 		);

@@ -8,7 +8,16 @@
 }
 
 .tacrGeoinvaze-layer-controls > div:hover {
-	background: var(--accent20);
+	//background: var(--accent20);
+}
+
+.tacrGeoinvaze-layer-controls > div .tacrGeoinvaze-layer-legend {
+	height: 0;
+	overflow: hidden;
+	transition: height .3s ease-in-out;
+}
+.tacrGeoinvaze-layer-controls > div.active .tacrGeoinvaze-layer-legend {
+	height: 4rem;
 }
 
 .tacrGeoinvaze-layer-title {
