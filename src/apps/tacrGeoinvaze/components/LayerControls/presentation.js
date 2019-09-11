@@ -154,8 +154,8 @@ class LayerControls extends React.PureComponent {
 							<span>Pravděpodobnost rozšíření:</span>
 							<div className="tacrGeoinvaze-layer-legend-group">
 								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#f00'}}/>Vysoká</div>
-								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#f90'}}/>Nízká</div>
-								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#4a0'}}/>Velmi nízká</div>
+								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#FF7F00'}}/>Nízká</div>
+								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#7FBF00'}}/>Velmi nízká</div>
 							</div>
 						</div>
 					</div>
