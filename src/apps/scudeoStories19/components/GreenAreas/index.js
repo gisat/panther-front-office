@@ -7,6 +7,7 @@ import SankeyChart from "../../../../components/common/charts/SankeyChart/Sankey
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
+import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
@@ -23,14 +24,27 @@ const backgroundLayer = {
 	}
 };
 
-const greenLayer = {
+const greenLayerSecondYear = {
 	name: 'Data layer',
 	key: 'slums',
 	type: 'wms',
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
 		params:{
-			layers: 'scudeo_lulc_green',
+			layers: 'scudeo_lulc_green_second_year',
+			styles: '',
+		},
+	}
+};
+
+const greenLayerFirstYear = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_green_first_year',
 			styles: '',
 		},
 	}
@@ -133,14 +147,15 @@ class GreenAreas extends React.PureComponent {
 	}
 
 	render() {
-
-		let layers = null;
+		let firstYearGreenAreasDistributionLayers = null;
+		let lastYearGreenAreasDistributionLayers = null;
 		let sankeyGreenData = null;
 		let sankeyGreenDataEmpty = null;
 		let urbanGreenAres = null;
 
 		if(this.state.city) {
-			layers = [greenLayer, this.state.vectorLayer];
+			firstYearGreenAreasDistributionLayers = [greenLayerFirstYear, this.state.vectorLayer];
+			lastYearGreenAreasDistributionLayers = [greenLayerSecondYear, this.state.vectorLayer];
 			sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlowsCoverage);
 			sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
 
@@ -376,27 +391,39 @@ class GreenAreas extends React.PureComponent {
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-greenAreas-map-1"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={layers}
-															scale
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
+											<MapSet
+													activeMapKey="scudeoStories19-green-areas-distribution-map-1"
+													backgroundLayer={backgroundLayer}
+													mapComponent={LeafletMap}
+													sync={{
+														boxRange: true,
+														center: true
+													}}
 												>
-													<div className="scudeoStories19-map-label">
-														{this.state.city.lastYear}
-													</div>
+													<PresentationMap
+														mapKey="scudeoStories19-green-areas-distribution-map-1"
+														scrollWheelZoom="afterClick"
+														layers={firstYearGreenAreasDistributionLayers}
+														scale
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.city.firstYear}
+														</div>
+													</PresentationMap>
+													<PresentationMap
+														mapKey="scudeoStories19-green-areas-distribution-map-2"
+														scrollWheelZoom="afterClick"
+														layers={lastYearGreenAreasDistributionLayers}
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.city.lastYear}
+														</div>
+													</PresentationMap>
+													<MapControls zoomOnly levelsBased/>
 													<div className="scudeoStories19-map-attribution ptr-dark">
 														© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 													</div>
-												</PresentationMapWithControls>
+												</MapSet>
 											</AdjustViewOnResizeLeafletWrapper>
 										</div>
 									</Visualization>
