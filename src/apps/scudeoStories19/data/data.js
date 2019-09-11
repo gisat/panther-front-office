@@ -3,27 +3,27 @@ import populationsData from './population.json';
 
 const data = [
 	{
-		loader: import(/* webpackChunkName: "dhakaDataset" */ './dhaka_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "dhakaDataset" */ './output_dhaka_stories_data_p7.json'),
 		name: 'Dhaka'
 	},
 	{
-		loader: import(/* webpackChunkName: "dodomaDataset" */ './dodoma_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "dodomaDataset" */ './output_dodoma_stories_data_p7.json'),
 		name: 'Dodoma'
 	},
 	{
-		loader: import(/* webpackChunkName: "kigomaDataset" */ './kigoma_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "kigomaDataset" */ './output_kigoma_stories_data_p7.json'),
 		name: 'Kigoma'
 	},
 	{
-		loader: import(/* webpackChunkName: "mbeyaDataset" */ './mbeya_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "mbeyaDataset" */ './output_mbeya_stories_data_p7.json'),
 		name: 'Mbeya'
 	},
 	{
-		loader: import(/* webpackChunkName: "mtwaraDataset" */ './mtwara_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "mtwaraDataset" */ './output_mtwara_stories_data_p7.json'),
 		name: 'Mtwara'
 	},
 	{
-		loader: import(/* webpackChunkName: "mwanzaDataset" */ './mwanza_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "mwanzaDataset" */ './output_mwanza_stories_data_p7.json'),
 		name: 'Mwanza'
 	},
 	{
@@ -43,12 +43,24 @@ const data = [
 		name: 'Mandalay'
 	},
 	{
-		loader: import(/* webpackChunkName: "arushaDataset" */ './arusha_combined_output_p7.json'),
+		loader: import(/* webpackChunkName: "arushaDataset" */ './output_arusha_stories_data_p7.json'),
 		name: 'Arusha'
 	},
 	{
 		loader: import(/* webpackChunkName: "abidjanDataset" */ './output_abidjan_stories_data_p7.json'),
 		name: 'Abidjan'
+	},
+	{
+		loader: import(/* webpackChunkName: "saintlouisDataset" */ './output_saintlouis_stories_data_p7.json'),
+		name: 'Saint Louis'
+	},
+	{
+		loader: import(/* webpackChunkName: "vijayawadaDataset" */ './output_vijayawada_stories_data_p7.json'),
+		name: 'Vijayawada'
+	},
+	{
+		loader: import(/* webpackChunkName: "dakarDataset" */ './output_dakar_stories_data_p7.json'),
+		name: 'Dakar'
 	},
 ];
 
@@ -380,6 +392,27 @@ export const mergedDataset = [
 		firstYear: 2005,
 		name: 'Abidjan',
 		key: 12,
+	},
+	{
+        data: null,
+		lastYear: 2018,
+		firstYear: 2003,
+		name: 'Saint Louis',
+		key: 13,
+	},
+	{
+        data: null,
+		lastYear: 2018,
+		firstYear: 2003,
+		name: 'Vijayawada',
+		key: 14,
+	},
+	{
+        data: null,
+		lastYear: 2018,
+		firstYear: 2006,
+		name: 'Dakar',
+		key: 15,
 	},
 ];
 
