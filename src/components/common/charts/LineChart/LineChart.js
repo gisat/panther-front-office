@@ -28,7 +28,8 @@ class LineChart extends React.PureComponent {
 		grayingThreshold: PropTypes.number,
 		withPoints: PropTypes.bool,
 
-		serieDataSourcePath: PropTypes.string.isRequired
+		serieDataSourcePath: PropTypes.string.isRequired,
+		pointNameSourcePath: PropTypes.string //in context of serie (for custom point name in popup) // TODO coplex solution for chart popups
 	};
 
 	constructor(props) {
@@ -169,6 +170,7 @@ class LineChart extends React.PureComponent {
 				color = _.get(item, props.colorSourcePath);
 			}
 
+			console.log(props.pointNameSourcePath, this.props.pointNameSourcePath);
 			return (
 				<Line
 					key={`${key}_${JSON.stringify(coordinates)}`}
@@ -180,7 +182,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					siblings={siblings}
 					gray={mode === 'gray'}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 				/>
@@ -282,7 +284,7 @@ class LineChart extends React.PureComponent {
 					defaultColor={"#777777"}
 					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 					gray
@@ -295,7 +297,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					defaultColor={this.props.defaultColor ? this.props.defaultColor : "#0088ff"}
 					highlightColor={this.props.highlightColor ? this.props.highlightColor : "#0077ff"}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 				/>
@@ -307,7 +309,7 @@ class LineChart extends React.PureComponent {
 					defaultColor={"#777777"}
 					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 					gray

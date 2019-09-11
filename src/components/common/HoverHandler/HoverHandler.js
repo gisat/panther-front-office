@@ -8,7 +8,8 @@ import Popup from "./Popup/Popup";
 class HoverHandler extends React.PureComponent {
 
 	static propTypes = {
-		selectedItems: PropTypes.array
+		selectedItems: PropTypes.array,
+		compressedPopups: PropTypes.bool
 	};
 
 	constructor(props){
@@ -64,6 +65,7 @@ class HoverHandler extends React.PureComponent {
 			x={this.state.popup.x}
 			y={this.state.popup.y}
 			content={this.state.popup.content}
+			compressed={this.props.compressedPopups}
 		/>
 	}
 }

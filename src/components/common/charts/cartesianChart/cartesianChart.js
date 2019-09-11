@@ -101,6 +101,7 @@ export default (WrappedChartComponent) => {
 			let content = null;
 			let remSize = utils.getRemSize();
 			let width = null;
+			let paddingAdjustment = 0;
 
 			if (this.props.width || this.state.width) {
 				const props = this.props;
@@ -115,9 +116,13 @@ export default (WrappedChartComponent) => {
 				let xValuesSize = props.xValues ? props.xValuesSize*remSize : .5*remSize;
 				let yValuesSize = props.yValues ? props.yValuesSize*remSize : .5*remSize;
 
-				let innerPaddingLeft = props.innerPaddingLeft*remSize;
-				let innerPaddingRight = props.innerPaddingRight*remSize;
-				let innerPaddingTop = props.innerPaddingTop*remSize;
+				if (WrappedChartComponent.defaultProps && WrappedChartComponent.defaultProps.maxPointRadius && this.props.zSourcePath) {
+					paddingAdjustment = WrappedChartComponent.defaultProps.maxPointRadius;
+				}
+
+				let innerPaddingLeft = props.innerPaddingLeft*remSize + paddingAdjustment;
+				let innerPaddingRight = props.innerPaddingRight*remSize + paddingAdjustment;
+				let innerPaddingTop = props.innerPaddingTop*remSize + paddingAdjustment;
 
 				let xLabelSize = 0;
 				let yLabelSize = 0;

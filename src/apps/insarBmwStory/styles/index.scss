@@ -19,10 +19,16 @@
 	height: 100%;
 }
 
-.insarBmwStory-charts {
+.insarBmwStory-right-panel {
 	flex: 1;
 	padding: m(2/3) m(4/3);
-	margin-bottom: m(1);
+	height: 100%;
+	overflow-y: auto;
+}
+
+.insarBmwStory-charts {
+	min-height: 30rem;
+	margin-bottom: m(2);
 }
 
 .insarBmwStory-chart-container {
@@ -33,7 +39,20 @@
 	margin-bottom: 0;
 }
 
+.insarBmwStory-logos {
+	display: flex;
+	justify-content: flex-end;
+	margin: 0 m(2/3) m(2/3) 0;
+}
 
+.insarBmwStory-logos a {
+	margin-left: m(1);
+	max-height: 2rem;
+ }
+
+.insarBmwStory-logos a img {
+	max-height: 2rem;
+}
 
 .insarBmwStory-chart-title {
 	color: var(--base90);
@@ -161,15 +180,23 @@
 }
 
 @media screen and (max-width: 70rem) {
+	.insarBmwStory {
+		height: 100%;
+	}
+
 	.insarBmwStory-visualizations {
-		flex-direction: column;
+		display: block;
 	}
 
 	.insarBmwStory-map {
-		min-height: 35rem;
+		min-height: 30rem;
+	}
+
+	.insarBmwStory-right-panel {
+		height: auto;
 	}
 
 	.insarBmwStory-charts {
-		padding: m(2/3);
+		padding: 0;
 	}
 }

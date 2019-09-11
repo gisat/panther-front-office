@@ -54,7 +54,8 @@ class MapSet extends React.PureComponent {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (prevProps.view !== this.props.view) {
 			this.setState({
-				view: {...this.state.view, ...this.props.view}
+				view: {...this.state.view, ...this.props.view},
+				activeMapView: {...this.state.activeMapView, ...this.props.view}
 			});
 		}
 	}
@@ -134,6 +135,7 @@ class MapSet extends React.PureComponent {
 			React.Children.map(this.props.children, (child,index) => {
 				let {view, layers, backgroundLayer, mapKey, ...restProps} = child.props;
 				let props = {
+					...restProps,
 					key: index,
 					view: mapUtils.mergeViews(this.state.view, view),
 					backgroundLayer: backgroundLayer || this.props.backgroundLayer,
@@ -152,7 +154,7 @@ class MapSet extends React.PureComponent {
 					maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
 				} else if (typeof child === "object" && child.type === PresentationMap) {
 					// all presentational
-					maps.push(React.createElement(this.props.mapComponent, props));
+					maps.push([React.createElement(this.props.mapComponent, props), child.props.children]);
 				}
 			});
 		}

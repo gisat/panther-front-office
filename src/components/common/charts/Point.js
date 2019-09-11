@@ -33,8 +33,10 @@ class Point extends React.PureComponent {
 
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string,
+		zSourcePath: PropTypes.string,
 		xOptions: PropTypes.object,
 		yOptions: PropTypes.object,
+		zOptions: PropTypes.object,
 
 		standalone: PropTypes.bool,
 		siblings: PropTypes.array
@@ -74,9 +76,11 @@ class Point extends React.PureComponent {
 			});
 		}
 
-		this.setState({
-			radius: this.props.r + 3
-		});
+		if (!this.props.zSourcePath) {
+			this.setState({
+				radius: this.props.r + 3
+			});
+		}
 	}
 
 	onMouseOver(e) {
@@ -94,9 +98,11 @@ class Point extends React.PureComponent {
 			});
 		}
 
-		this.setState({
-			radius: this.props.r + 3
-		});
+		if (!this.props.zSourcePath) {
+			this.setState({
+				radius: this.props.r + 3
+			});
+		}
 	}
 
 	onMouseOut(e) {
@@ -167,14 +173,17 @@ class Point extends React.PureComponent {
 		let pointName = props.name;
 		let xUnits = props.xOptions && props.xOptions.unit;
 		let yUnits = props.yOptions && props.yOptions.unit;
+		let zUnits = props.zOptions && props.zOptions.unit;
 
 		let xName = props.xOptions && props.xOptions.name || 'X value';
 		let yName = props.yOptions && props.yOptions.name || 'Y value';
+		let zName = props.zOptions && props.zOptions.name || 'Z value';
 
 		let color = this.props.color;
 
 		let xValue = _.get(props.data, props.xSourcePath);
 		let yValue = _.get(props.data, props.ySourcePath);
+		let zValue = _.get(props.data, props.zSourcePath);
 
 		let xValueString = xValue;
 		if (xValue && (xValue % 1) !== 0) {
@@ -184,6 +193,11 @@ class Point extends React.PureComponent {
 		let yValueString = yValue;
 		if (yValue && (yValue % 1) !== 0) {
 			yValueString = yValueString.toFixed(2);
+		}
+
+		let zValueString = zValue;
+		if (zValue && (zValue % 1) !== 0) {
+			zValueString = zValueString.toFixed(2);
 		}
 
 		if (color) {
@@ -214,6 +228,17 @@ class Point extends React.PureComponent {
 						</div>
 					</div>
 				</div>
+				{this.props.zSourcePath ? (
+					<div className="ptr-popup-record-group">
+						<div className="ptr-popup-record">
+							{<div className="ptr-popup-record-attribute">{zName}</div> }
+							<div className="ptr-popup-record-value-group">
+								{zValueString ? <span className="value">{zValueString.toLocaleString()}</span> : null}
+								{zUnits ? <span className="unit">{zUnits}</span> : null}
+							</div>
+						</div>
+					</div>
+				) : null}
 			</>
 		);
 	}

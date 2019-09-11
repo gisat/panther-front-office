@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 import Helmet from "react-helmet";
 import { Provider } from 'react-redux';
 
@@ -19,7 +20,11 @@ import App from "./components/App";
 // import vuhu0 from './data/vuhu_krivky_0.json';
 // import conversion from './data/conversions';
 
+ReactGA.initialize('UA-59584085-9');
+ReactGA.pageview(window.location.pathname + window.location.search);
+
 export default (path, baseUrl) => {
+
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
@@ -41,5 +46,4 @@ export default (path, baseUrl) => {
 			</Provider>
 		</>, document.getElementById('ptr')
 	);
-
 }

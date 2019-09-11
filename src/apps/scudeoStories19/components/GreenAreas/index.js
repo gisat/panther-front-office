@@ -7,29 +7,44 @@ import SankeyChart from "../../../../components/common/charts/SankeyChart/Sankey
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
+import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
 import {getMergedDataset, clearEmptyNodes, urbanFabricL3classes, getVectorLayer, getL4CoverageValueKey} from '../../data/data';
 import './styles/style.scss';
+import greenSatelliteImage from './assets/Image.png';
 
 const backgroundLayer = {
 	key: 'background-osm',
 	type: 'wmts',
 	options: {
-		url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
+		url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
 	}
 };
 
-const greenLayer = {
+const greenLayerSecondYear = {
 	name: 'Data layer',
 	key: 'slums',
 	type: 'wms',
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
 		params:{
-			layers: 'scudeo_lulc_green',
+			layers: 'scudeo_lulc_green_second_year',
+			styles: '',
+		},
+	}
+};
+
+const greenLayerFirstYear = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_green_first_year',
 			styles: '',
 		},
 	}
@@ -91,6 +106,7 @@ const transformDataset = (dataset) => {
 			green_fabricarea_share,
 			key: dataSet.key,
 			name: dataSet.name,
+			population: dataSet.population
 		}
 	});
 }
@@ -131,14 +147,15 @@ class GreenAreas extends React.PureComponent {
 	}
 
 	render() {
-
-		let layers = null;
+		let firstYearGreenAreasDistributionLayers = null;
+		let lastYearGreenAreasDistributionLayers = null;
 		let sankeyGreenData = null;
 		let sankeyGreenDataEmpty = null;
 		let urbanGreenAres = null;
 
 		if(this.state.city) {
-			layers = [greenLayer, this.state.vectorLayer];
+			firstYearGreenAreasDistributionLayers = [greenLayerFirstYear, this.state.vectorLayer];
+			lastYearGreenAreasDistributionLayers = [greenLayerSecondYear, this.state.vectorLayer];
 			sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlowsCoverage);
 			sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
 
@@ -151,6 +168,7 @@ class GreenAreas extends React.PureComponent {
 					navigation={this.props.navigation}
 					title="Mapping and monitoring of urban green areas"
 					intro="How green, open and public spaces are defined – opportunities and limitations." 
+					abstract="EO4SD-Urban provides a range of tailored products derived by advanced analysis of recent very high resolution satellite imagery to describe distribution of urban green areas in the city, their structure and typology and evolution over the time. This presentation brings simple but powerful examples of mapping and statistical outputs derived directly from EO4SD-Urban’s Urban Green baseline products, which provide means for high level comparative analysis between different cities."
 					/>
 
 				
@@ -158,20 +176,12 @@ class GreenAreas extends React.PureComponent {
 						this.state.city ? 
 						<div className="scudeoStories19-content">
 							<section key="section-1">
-								<h2>
-									Abstract
-								</h2>
-								<div>
-									<p>
-										EO4SD-Urban provides a range of tailored products derived by advanced analysis of recent very high resolution satellite imagery to describe distribution of urban green areas in the city, their structure and typology and evolution over the time. This presentation brings simple but powerful examples of mapping and statistical outputs derived directly from EO4SD-Urban’s Urban Green baseline products, which provide means for high level comparative analysis between different cities.
-									</p>
-								</div>
-
 								<div>
 									<p>
 										When dealing with “Public open spaces”, urban planner will most likely come out from definition provided by UN-HABITAT (2015), defining it as sum of streets and boulevards and the areas devoted to public parks, squares, recreational green areas, public playgrounds and open areas of public facilities. This definition does not include areas devoted to public facilities that are not open to the general public —e.g. schools, stadiums, hospitals, airports, waterworks, or military bases – or open spaces that are in private ownership or vacant lands in private ownership.
 									</p>
 								</div>
+								{/* <img src={greenSatelliteImage} className={'image-showcase'}/> */}
 								<div>
 									<p>
 										In contrary, Urban Atlas (2012) definition of “Artificial non-agricultural vegetated areas“ is widely used in Remote Sensing community, because it puts an emphasis on definition from land use point of view in a way as it can be interpreted from satellite (or aerial) imagery, mostly related to presence of urban green. Artificial non-agriculture vegetated areas are divided into two classes: 1) Urban green areas - consisting from public green areas for predominantly recreational use such as gardens, zoos, parks, castle parks and cemeteries, predominantly covered by vegetation planted and regularly influenced by humans; and 2) Sport and leisure facilities - public or commercial functional units including associated land, independent whether being sealed, non-sealed or built-up. Private gardens within housing areas, buildings within parks (such as museums, governmental areas), patches of natural or agricultural vegetation enclosed by built-ups without being managed as green urban areas are not included. 
@@ -183,13 +193,13 @@ class GreenAreas extends React.PureComponent {
 									</p>
 								</div>
 
-								<Fade left distance="50px">
-									<Visualization
-										title="Total Green Areas per city (km2)"
-										description="Graph shows overall area of urban green in the 7 GPSC cities. Please note: as opposed to other cities, area of interest of mapping in Lima covered only part of the city agglomeration.">
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Total Green Areas per city (km2)"
+											description="Graph shows overall area of urban green in the 7 GPSC cities. Please note: as opposed to other cities, area of interest of mapping in Lima covered only part of the city agglomeration.">
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
@@ -200,7 +210,7 @@ class GreenAreas extends React.PureComponent {
 														ySourcePath="green_coverage"
 														defaultColor="#42982e"
 														highlightColor="#39782b"
-														xValuesSize={5.5}
+														xValuesSize={4}
 
 														yLabel
 														yOptions={{
@@ -208,21 +218,21 @@ class GreenAreas extends React.PureComponent {
 															unit: "km2"
 														}}
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
 
 
-								<Fade left distance="50px">
-									<Visualization
-										title="Green Areas Share (%)"
-										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of artificial urban areas (urban fabric)."
-									>
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Green Areas Share (%)"
+											description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of the city; and on total area of artificial urban areas (urban fabric)."
+										>
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
@@ -245,7 +255,7 @@ class GreenAreas extends React.PureComponent {
 														]}
 														// defaultColor="#42982e"
 														// highlightColor="#39782b"
-														xValuesSize={5.5}
+														xValuesSize={4}
 
 														yLabel
 														yOptions={{
@@ -255,20 +265,20 @@ class GreenAreas extends React.PureComponent {
 
 														stacked
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
 
-								<Fade left distance="50px">
-									<Visualization
-										title="Green Areas vs. City Total Area"
-										description="Scatter plot facilitates identification of clusters depending on relationship between total size of the cities and total area of their green areas. The bubble size represents population as of 2015 (source: WorldBank 2015)."
-									>
-										<Fade cascade className="aaaa">
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Green Areas vs. City Total Area"
+											description="Scatter plot facilitates identification of clusters depending on relationship between total size of the cities and total area of their green areas. The bubble size represents population as of 2018 / 2019 (source: United Nations, 2018; World Population review, 2019)."
+										>
+											<Fade cascade className="aaaa">
+												<div className="scudeoStories19-chart-container">
 													<ScatterChart
 														key="scatter-chart-1"
 
@@ -277,6 +287,7 @@ class GreenAreas extends React.PureComponent {
 														nameSourcePath="name"
 														xSourcePath="urban_coverage"
 														ySourcePath="area"
+														zSourcePath="population"
 
 														yLabel
 														yValuesSize={3.5}
@@ -290,20 +301,30 @@ class GreenAreas extends React.PureComponent {
 															name: "Green area",
 															unit: "km2"
 														}}
+
+														zOptions={{
+															name: "Population",
+															unit: "inh."
+														}}
+
+														innerPaddingRight={0}
+														innerPaddingTop={0}
+														innerPaddingLeft={0}
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
-								<Fade left distance="50px">
-									<Visualization
-										title="Green Areas vs. Urban fabric area"
-										description="Scatter plot facilitates identification of clusters depending on the relationship between shares of green areas and urban fabric areas on overall city area."
-									>
-										<Fade cascade className="aaaa">
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
+
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Green Areas vs. Urban fabric area"
+											description="Scatter plot facilitates identification of clusters depending on the relationship between shares of green areas and urban fabric areas on overall city area."
+										>
+											<Fade cascade className="aaaa">
+												<div className="scudeoStories19-chart-container">
 													<ScatterChart
 														key="scatter-chart-1"
 
@@ -326,68 +347,98 @@ class GreenAreas extends React.PureComponent {
 															unit: "%"
 														}}
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
 							</section>
 
 
 
 							<section key="section-2">
-								<h2>Green Areas Distribution</h2>
+								<Select
+									className={"scudeoStories19-city-select"}
+									onChange={this.onCityChange.bind(this)}
+									options={this.state.dataset}
+									optionLabel="name"
+									optionValue="key"
+									value={this.state.city}
+									menuPortalTarget={this.props.pageKey}
+								/>
 								<p>Distribution of artificial green areas (consisting of two classes) in the current year  is presented in the map format. Pick the city from pull-down menu in the top-left corner to display the map for respective city. Status in former time horizon (as mapped using archived imagery) and changes between the two horizons can be presented in the same manner to show spatially explicit patterns of areas subject to transition: either uptake (formation) of former green areas by other classes or their consumption e.g. by urban sprawl or infilling.</p>
 
 								<Fade left distance="50px">
 									<Visualization
 										title="Green Areas Distribution"
 										description="Distribution of the two Artificial urban green classes in the cities (or its parts) as mapped from current very high resolution imagery is shown in the map."
+										legend={
+											<div className="scudeoStories19-visualization-legend">
+												<div className="legend-field">
+													<div className="legend-color" style={{background: "#00E800"}}></div>
+													<div className="legend-value">14100 - Green Urban Areas</div>
+												</div>
+												<div className="legend-field">
+													<div className="legend-color" style={{background: "#00FFC5"}}></div>
+													<div className="legend-value">14200 - Recreation Facilities (Sport Facilities, Stadiums, Golf Courses, etc.)</div>
+												</div>
+												<div className="legend-field">
+													<div className="legend-color" style={{background: "#A34963"}}></div>
+													<div className="legend-value">14300 - Cemeteries</div>
+												</div>
+											</div>
+										}
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-greenAreas-map-1"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={layers}
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
+											<MapSet
+													activeMapKey="scudeoStories19-green-areas-distribution-map-1"
+													backgroundLayer={backgroundLayer}
+													mapComponent={LeafletMap}
+													sync={{
+														boxRange: true,
+														center: true
+													}}
 												>
-													<div className="scudeoStories19-map-label">
-														<Select
-															onChange={this.onCityChange.bind(this)}
-															options={this.state.dataset}
-															optionLabel="name"
-															optionValue="key"
-															value={this.state.city}
-															menuPortalTarget={this.props.pageKey}
-														/>
+													<PresentationMap
+														mapKey="scudeoStories19-green-areas-distribution-map-1"
+														scrollWheelZoom="afterClick"
+														layers={firstYearGreenAreasDistributionLayers}
+														scale
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.city.firstYear}
+														</div>
+													</PresentationMap>
+													<PresentationMap
+														mapKey="scudeoStories19-green-areas-distribution-map-2"
+														scrollWheelZoom="afterClick"
+														layers={lastYearGreenAreasDistributionLayers}
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.city.lastYear}
+														</div>
+													</PresentationMap>
+													<MapControls zoomOnly levelsBased/>
+													<div className="scudeoStories19-map-attribution ptr-dark">
+														© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 													</div>
-													<div className="scudeoStories19-map-attribution">
-														Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
-													</div>
-												</PresentationMapWithControls>
+												</MapSet>
 											</AdjustViewOnResizeLeafletWrapper>
 										</div>
 									</Visualization>
 								</Fade>
 
-								
-								<Fade left distance="50px">
-									<Visualization
-										title="Urban Green Area (km2)"
-										subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
-										description="Graph shows comparison of relative metric: share of artificial urban green areas on total area of artificial urban areas (urban fabric)."
-									>
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
-												<HoverHandler>
+
+								<HoverHandler>
+									<Fade left distance="50px">
+										<Visualization
+											title="Urban Green Area (km2)"
+											subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
+											description="Graph shows overall area of urban green in two time horizons."
+										>
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
 													<ColumnChart
 														key="green-areas-stacked-chart"
 
@@ -408,61 +459,54 @@ class GreenAreas extends React.PureComponent {
 														}}
 
 													/>
-												</HoverHandler>
-											</div>
-										</Fade>
-									</Visualization>
-								</Fade>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
+								{!sankeyGreenDataEmpty ?
+									<HoverHandler>
+										<Fade left distance="50px">
+											<Visualization
+												title="Green Area Flows"
+												description="Sankey diagram helps to understand quantity and proportion changes (their structure, respectively)  as identified by mapping from very high resolution satellite imagery between two time horizonts. Left side of the diagram represents status in former horizont, while right part represent status in current (later horizont). Width of ribbon represents quantity of transition. Diagram shows clearly which classes contributed to formation of new green areas and which other classes consumed green areas that disappeared over the course of reference time period. Diagram quantifies amount of changes at aggregated level. Structure of changes can be further quantified at more detail level of nomenclature - for individual urban green classes."
+												subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
+											>
+												<Fade cascade>
+													<div className="scudeoStories19-chart-container">
+														<SankeyChart
+															hoverValueSourcePath="valueSize"
+															key="sankey-green-area-flows"
+															data={sankeyGreenData}
+															keySourcePath="key"
 
-								{ !sankeyGreenDataEmpty ?
-									<Fade left distance="50px">
-										<Visualization
-											title="Green Area Flows"
-											description="Sankey diagram helps to understand quantity and proportion changes (their structure, respectively)  as identified by mapping from very high resolution satellite imagery between two time horizonts. Left side of the diagram represents status in former horizont, while right part represent status in current (later horizont). Width of ribbon represents quantity of transition. Diagram shows clearly which classes contributed to formation of new green areas and which other classes consumed green areas that disappeared over the course of reference time period. Diagram quantifies amount of changes at aggregated level. Structure of changes can be further quantified at more detail level of nomenclature - for individual urban green classes."
-											subtitle={`${this.state.city.name} ${this.state.city.firstYear}/${this.state.city.lastYear}`}
-										>
-										<Fade cascade>
-											<div className="scudeoStories19-chart-container">
+															nodeNameSourcePath="name"
+															nodeValueSourcePath="value"
+															nodeColorSourcePath="color"
 
-												<HoverHandler>
-													<SankeyChart
-														hoverValueSourcePath="valueSize"
-														key="sankey-green-area-flows"
-														data={sankeyGreenData}
-														keySourcePath="key"
+															linkNameSourcePath="name"
+															hoverValueSourcePath="value"
 
-														nodeNameSourcePath="name"
-														nodeValueSourcePath="value"
-														nodeColorSourcePath="color"
-														
-														linkNameSourcePath="name"
-														hoverValueSourcePath="value"
-
-														maxWidth = {50}
-														width={50}
-														height={50}
-														yOptions={{
-															unit: 'km2'
-														}}
-													/>
-												</HoverHandler>
-											</div>
-										</Fade> 
-									</Visualization>
-								</Fade> : null }
+															maxWidth={50}
+															width={50}
+															height={40}
+															yOptions={{
+																unit: 'km2'
+															}}
+														/>
+													</div>
+												</Fade>
+											</Visualization>
+										</Fade></HoverHandler> : null}
 							</section>
 							<section>
-								<h2>Text about LULC Green Areas methodology</h2>
-								<div>
-									<p>
-										Urban green areas refer to land within and on the edges of a city that is partly or completely covered with grass, trees, shrubs, or other vegetation. This includes public parks, private gardens, cemeteries, forested areas as well as trees, river alignments, hedges etc. The product delivered within EO4SD-Urban project thus provides accurate information (1 m resolution) on the spatial location and extent of the green areas located within the Urban Extent derived from the baseline LULC information product.
-									</p>
-								</div>
-								<div>
-									<p>
-										Detecting and monitoring urban green coverage needs VHR EO data, which explains the product generation over the Core Urban Area of AOI only. The same images have been logically used as for generating the LULC information product. Consequently, the usual preliminary quality check and pre-processing tasks were already implemented. Urban Green Areas have been detected using a combination of semi-automated object-based image analysis and expert visual interpretation of satellite imagery. This processing method is applied for each reference date for which the product is required. Then, change information layer is basically derived from the geometric intersection of the historic and current Urban Green Areas layers by means of GIS operation. This resulting product finally provides information about permanent vegetation, loss of urban green areas and new ones. Quality control and accuracy assessment tasks are performed by means of visual interpretation and considering the LULC dataset.
-									</p>
-								</div>
+								<h2>Green Areas methodology</h2>
+								<p>
+									Urban green areas refer to land within and on the edges of a city that is partly or completely covered with grass, trees, shrubs, or other vegetation. This includes public parks, private gardens, cemeteries, forested areas as well as trees, river alignments, hedges etc. The product delivered within EO4SD-Urban project thus provides accurate information (1 m resolution) on the spatial location and extent of the green areas located within the Urban Extent derived from the baseline LULC information product.
+								</p>
+								<p>
+									Detecting and monitoring urban green coverage needs VHR EO data, which explains the product generation over the Core Urban Area of AOI only. The same images have been logically used as for generating the LULC information product. Consequently, the usual preliminary quality check and pre-processing tasks were already implemented. Urban Green Areas have been detected using a combination of semi-automated object-based image analysis and expert visual interpretation of satellite imagery. This processing method is applied for each reference date for which the product is required. Then, change information layer is basically derived from the geometric intersection of the historic and current Urban Green Areas layers by means of GIS operation. This resulting product finally provides information about permanent vegetation, loss of urban green areas and new ones. Quality control and accuracy assessment tasks are performed by means of visual interpretation and considering the LULC dataset.
+								</p>
 								<h3>More resources</h3>
 								<ul>
 									<li><a href="#" target="_blank">Dhaka Use Case – EO green areas to city liveability improvement</a></li>

@@ -14,6 +14,7 @@ export const Visualization = (props) => {
 				) : null}
 			</div>
 			{props.children}
+			{props.legend}
 			<div className="scudeoStories19-visualization-description">
 				{props.description}
 			</div>
@@ -26,7 +27,6 @@ export const Footer = (props) => {
 
 	return (
 		<div className="scudeoStories19-footer">
-			<div><p>Morbi id ullamcorper urna, eget accumsan ligula. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus. Fusce convallis, sem sed tincidunt pellentesque, magna lorem consectetur lacus.</p></div>
 			<div>&copy; <a href="http://gisat.cz/content/en" target="_blank">{"Gisat " + currentYear}</a></div>
 		</div>
 	);
@@ -43,6 +43,7 @@ export const Header = (props) => {
 					<div className="scudeoStories19-header-content">
 						<div className="scudeoStories19-title">{props.title}</div>
 						<div className="scudeoStories19-intro">{props.intro}</div>
+						<div className="scudeoStories19-abstract">{props.abstract}</div>
 					</div>
 				</Fade>
 			</div>

@@ -92,81 +92,81 @@ class MapSetDoc extends React.PureComponent {
 					</MapSet>
 				</div>
 
-				{/*<h2>Presentation</h2>*/}
-				{/*<div style={{height: 500}}>*/}
-					{/*<MapSetPresentation*/}
-						{/*activeMapKey='map-2'*/}
-						{/*mapComponent={WorldWindMap}*/}
-						{/*view={{*/}
-							{/*boxRange: 100000*/}
-						{/*}}*/}
-						{/*sync={{*/}
-							{/*boxRange: true,*/}
-							{/*center: true*/}
-						{/*}}*/}
-						{/*backgroundLayer={{*/}
-							{/*type: 'worldwind',*/}
-							{/*options: {*/}
-								{/*layer: 'wikimedia'*/}
-							{/*}*/}
-						{/*}}*/}
-					{/*>*/}
-						{/*<PresentationMap*/}
-							{/*mapKey='map-1'*/}
-						{/*/>*/}
-						{/*<PresentationMap*/}
-							{/*mapKey='map-2'*/}
-						{/*/>*/}
-						{/*<PresentationMap*/}
-							{/*mapKey='map-3'*/}
-						{/*/>*/}
-						{/*<MapControlsPresentation/>*/}
-					{/*</MapSetPresentation>*/}
-				{/*</div>*/}
-				{/*<br/>*/}
-				{/*<div style={{height: 500}}>*/}
-					{/*<MapSetPresentation*/}
-						{/*activeMapKey='map-2'*/}
-						{/*mapComponent={LeafletMap}*/}
-						{/*view={{*/}
-							{/*center: {*/}
-								{/*lat: -6.15,*/}
-								{/*lon: 35.75*/}
-							{/*},*/}
-							{/*boxRange: 50000*/}
-						{/*}}*/}
-						{/*sync={{*/}
-							{/*boxRange: true,*/}
-							{/*center: true*/}
-						{/*}}*/}
-						{/*backgroundLayer={{*/}
-							{/*key: 'osm',*/}
-							{/*type: 'wmts',*/}
-							{/*options: {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'}*/}
-						{/*}}*/}
-						{/*layers={[*/}
-							{/*{key: 'dodomaAuLevel3',*/}
-								{/*name: 'Analytical units 3',*/}
-								{/*type: 'vector',*/}
-								{/*options: {*/}
-									{/*features: au_3_data,*/}
-									{/*keyProperty: 'AL3_ID',*/}
-									{/*nameProperty: 'AL3_NAME'*/}
-								{/*}}*/}
-						{/*]}*/}
-					{/*>*/}
-						{/*<PresentationMap*/}
-							{/*mapKey='map-1'*/}
-						{/*/>*/}
-						{/*<PresentationMap*/}
-							{/*mapKey='map-2'*/}
-						{/*/>*/}
-						{/*<PresentationMap*/}
-							{/*mapKey='map-3'*/}
-						{/*/>*/}
-						{/*<MapControlsPresentation zoomOnly levelsBased/>*/}
-					{/*</MapSetPresentation>*/}
-				{/*</div>*/}
+				<h2>Presentation</h2>
+				<div style={{height: 500}}>
+					<MapSetPresentation
+						activeMapKey='map-2'
+						mapComponent={WorldWindMap}
+						view={{
+							boxRange: 100000
+						}}
+						sync={{
+							boxRange: true,
+							center: true
+						}}
+						backgroundLayer={{
+							type: 'worldwind',
+							options: {
+								layer: 'wikimedia'
+							}
+						}}
+					>
+						<PresentationMap
+							mapKey='map-1'
+						/>
+						<PresentationMap
+							mapKey='map-2'
+						/>
+						<PresentationMap
+							mapKey='map-3'
+						/>
+						<MapControlsPresentation/>
+					</MapSetPresentation>
+				</div>
+				<br/>
+				<div style={{height: 500}}>
+					<MapSetPresentation
+						activeMapKey='map-2'
+						mapComponent={LeafletMap}
+						view={{
+							center: {
+								lat: -6.15,
+								lon: 35.75
+							},
+							boxRange: 50000
+						}}
+						sync={{
+							boxRange: true,
+							center: true
+						}}
+						backgroundLayer={{
+							key: 'osm',
+							type: 'wmts',
+							options: {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'}
+						}}
+						layers={[
+							{key: 'dodomaAuLevel3',
+								name: 'Analytical units 3',
+								type: 'vector',
+								options: {
+									features: au_3_data,
+									keyProperty: 'AL3_ID',
+									nameProperty: 'AL3_NAME'
+								}}
+						]}
+					>
+						<PresentationMap
+							mapKey='map-1'
+						/>
+						<PresentationMap
+							mapKey='map-2'
+						/>
+						<PresentationMap
+							mapKey='map-3'
+						/>
+						<MapControlsPresentation zoomOnly levelsBased/>
+					</MapSetPresentation>
+				</div>
 			</Page>
 		);
 	}

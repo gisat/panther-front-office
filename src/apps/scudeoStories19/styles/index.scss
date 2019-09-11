@@ -123,7 +123,7 @@
 	background: var(--accent05);
 }
 
-.scudeoStories19-content section > * {
+.scudeoStories19-content section > *:not(.ptr-popup) {
 	padding: 0 m(1);
 }
 
@@ -167,7 +167,37 @@
 	padding: 0 m(1);
 }
 
+/* Legend */
+.scudeoStories19-visualization-legend {
+	margin: m(2/3) 0 m(1/3) m(4/3);
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 70rem;
+}
+
+.scudeoStories19-visualization-legend .legend-field {
+	margin-right: 1rem;
+	display: flex;
+	align-items: center;
+}
+
+.scudeoStories19-visualization-legend .legend-color {
+	width: .75rem;
+	min-width: .75rem;
+	height: .75rem;
+	margin-right: .35rem;
+}
+
+.scudeoStories19-visualization-legend .legend-value {
+	flex-grow: 1;
+	font-size: $b1;
+}
+
 /* Maps */
+.scudeoStories19 .ptr-map {
+	background: var(--base100);
+}
+
 .scudeoStories19-map-container {
 	width: 100%;
 	height: 40rem;
@@ -177,7 +207,7 @@
 
 .scudeoStories19-map-container > div {
 	flex: 1;
-	min-width: 25rem
+	min-width: 15rem
 }
 
 .scudeoStories19-map-container > div:first-child {
@@ -192,7 +222,7 @@
 	max-width: 15rem;
 	z-index: 5;
 	top: 1rem;
-	font-size: $b2;
+	// font-size: $b2;
 	background-color: var(--base0);
 	box-shadow: 0 0 .3125rem 0 rgba(0,0,0,0.2);
 	border-right: .25rem solid var(--accent50);
@@ -234,15 +264,27 @@
 
 /* Map attribution */
 .scudeoStories19-map-attribution {
-	background: rgba(var(--base0rgb), .6);
+	//background: rgba(var(--base0rgb), .7);
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	z-index: 3;
 	font-size: $a0;
 	padding: .3rem .5rem;
-	max-width: calc(100% - 10rem);
+	max-width: calc(100% - 12rem);
+	color: var(--base80);
 }
+
+/* scale */
+.scudeoStories19 .ptr-map .leaflet-bottom {
+	bottom: 1.5rem;
+}
+
+.scudeoStories19 .ptr-map .leaflet-control-scale-line {
+	background: none;
+	color: var(--base50);
+}
+
 
 /* Charts */
 .scudeoStories19-chart-container {
@@ -268,6 +310,150 @@
 .scudeoStories19-footer p,
 .scudeoStories19-footer a {
 	color: var(--accent20);
+}
+
+/** Select city */ 
+.scudeoStories19-city-select {
+	margin: 3rem 0 2rem;
+
+	&.ptr-select-container .ptr-select__control{
+		background: none;
+		border: none;
+		border-radius: 0px;
+		border-bottom: solid 1px rgb(0, 0, 0);
+		min-width: 20rem;
+		height: 3rem;
+		justify-content: center;
+
+		.label{
+			font-size: 3rem;
+		}
+
+		.ptr-select__indicators{
+			height: 3rem;
+		}
+
+		.ptr-select__value-container{
+			line-height: 3rem;
+			justify-content: center;
+		}
+	}
+}
+
+/* Expandable */
+.scudeoStories19-expandable {
+	position: relative;
+	transition: height .7s ease-in-out;
+	overflow-y: hidden;
+	margin: 1rem;
+}
+
+.scudeoStories19-expandable.collapsed:after {
+	height: 4rem;
+}
+
+.scudeoStories19-expandable:after {
+	content: '';
+	height: 2rem;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.7), rgba(255,255,255,1));
+	transition: height .7s ease-in-out;
+}
+
+.scudeoStories19-expandable-control {
+	position: absolute;
+	cursor: pointer;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 2rem;
+	width: 100%;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.scudeoStories19-expandable-control .ptr-icon {
+	transform: rotate(90deg);
+	transition: transform .7s ease-in-out;
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.scudeoStories19-expandable.collapsed .scudeoStories19-expandable-control .ptr-icon {
+	transform: rotate(270deg);
+}
+
+.scudeoStories19-expandable-control .ptr-icon .line {
+	fill: var(--base60);
+	transition: fill .2s ease-in-out;
+}
+
+.scudeoStories19-expandable-control:hover .ptr-icon .line {
+	fill: var(--base100);
+}
+
+.scudeoStories19-expandable .scudeoStories19-visualization-legend {
+	margin: 0;
+}
+
+/** Radio */
+.scudeoStories19-inline-radio {
+	display: flex;
+	justify-content: center;
+	margin: m(1) 0 0 0;
+	font-size: 90%;
+
+	.label{
+		margin-right: m(1);
+	}
+		   
+	input[type="radio"] {
+		display: none;
+	}
+
+	/* HTML5 Boilerplate radio-one hidden styles */
+	[type="radio"] {
+		border: 0;
+		height: 1px; margin: -1px;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+   
+  	/* One radio button per line */
+	label {
+		margin-right: m(1);
+		display: block;
+		cursor: pointer;  /*hand view when on hover*/
+	}
+   
+	/* the basic, unchecked style */
+	[type="radio"] + span:before {
+		content: '';
+		display: inline-block;
+		width: m(.5);
+		height: m(.5);
+		border-radius: m(.5);           /*hard border*/
+		border: m(1/8) solid #fff;
+		box-shadow: 0 0 0 0.15em #000;   /*light shadow*/
+		margin-right: m(.5);
+		transition: 0.5s ease all;    /*animation here*/
+	}
+   
+	label:hover [type="radio"] + span:before {
+	  background: var(--accent30);
+	}
+
+	/* the checked style using the :checked pseudo class */
+	label [type="radio"]:checked + span:before {
+		background: var(--accent60);
+	}
+
 }
 
 
