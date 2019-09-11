@@ -453,7 +453,7 @@ class LandAssetsStructure extends React.PureComponent {
 									</Visualization>
 								</Fade>
 
-								<HoverHandler selectedItems={[this.state.cityOne.key]}>
+								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
 									<Fade left distance="50px">
 										<Visualization
 											title="Land Cover Land Use Structure"
@@ -488,7 +488,7 @@ class LandAssetsStructure extends React.PureComponent {
 									</Fade>
 								</HoverHandler>
 
-								<HoverHandler selectedItems={[this.state.cityOne.key]}>
+								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
 									<Fade left distance="50px">
 										<Visualization
 											title="Land Cover Land Use Changes Intensity and Structure"

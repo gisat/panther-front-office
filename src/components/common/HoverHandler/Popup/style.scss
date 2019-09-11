@@ -68,3 +68,21 @@
 .ptr-popup-record-value-group .unit {
 	margin-left: .15rem;
 }
+
+/* compressed */
+.ptr-popup.compressed .ptr-popup-record {
+	display: flex;
+	max-width: calc(100% - 1rem);
+}
+
+.ptr-popup.compressed .ptr-popup-record-attribute {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	flex-grow: 1;
+	padding-right: .5rem;
+}
+
+.ptr-popup.compressed  .ptr-popup-record-value-group .value {
+	font-size: $b1;
+}
