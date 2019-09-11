@@ -150,6 +150,7 @@ const getSerialData = (properties) => {
 				annualPercentagePopulationGrowth,
 				urbanExpansionCoefficient,
 				year,
+				name: `${year - 5} - ${year}`
 			})
 		}
 	}
