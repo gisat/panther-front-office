@@ -14,7 +14,7 @@ import Presentation from './presentation';
 const mapStateToProps = (state, ownProps) => {
 	//TODO merge to one selector
 	const activeMapKey = Select.maps.getActiveMapKey(state);
-	const mapLayers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey); //active layers in map
+	const mapLayers = Select.maps.getAllLayersStateByMapKey_deprecated(state, activeMapKey); //active layers in map
 	const layersTemplates = Select.layerTemplates.getAllAsObject(state); //loaded layerTemplates
 	const layersTrees = Select.components.getDataByComponentKey(state, ownProps.componentKey) || {}; //loaded layerTrees
 

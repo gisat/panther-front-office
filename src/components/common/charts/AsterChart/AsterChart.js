@@ -220,7 +220,7 @@ class AsterChart extends React.PureComponent {
 					maxRadius={maxRadius}
 
 					defaultColor={color}
-					highlightedColor={color}
+					highlightColor={color}
 					strokeWidth={strokeWidth}
 
 					nameSourcePath={this.props.nameSourcePath}

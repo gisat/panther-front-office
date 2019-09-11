@@ -79,7 +79,7 @@ class ChartLegend extends React.PureComponent {
 							onMouseOut={this.onMouseOut.bind(this, key)}
 						>
 							<div className={iconClasses} style={iconStyle}>{numericLink}</div>
-							<div className="ptr-chart-legend-item-name">{name}</div>
+							<div className="ptr-chart-legend-item-name" title={name}>{name}</div>
 						</div>
 					);
 				})}

@@ -4,22 +4,23 @@ import Action from "../../../../state/Action";
 
 import presentation from './presentation';
 
-const mapStateToProps = (state, props) => {
-	const activeMapKey = Select.maps.getActiveMapKey(state);
+const mapStateToProps = (state, ownProps) => {
+	let mapKey = Select.maps.getActiveMapKey(state);
+
 	return {
-		navigator: Select.maps.getNavigator(state, activeMapKey),
-		activeMapKey: activeMapKey,
+		view: Select.maps.getView(state, mapKey),
+		mapKey
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setNavigator: (mapKey, navigator) => {
-			dispatch(Action.maps.updateWorldWindNavigator(mapKey, navigator))
+		updateView: (update, mapKey) => {
+			dispatch(Action.maps.updateMapAndSetView(mapKey, update))
 		},
 		resetHeading: (mapKey) => {
 			//todo disable button while reseting
-			dispatch(Action.maps.resetWorldWindNavigatorHeading(mapKey))
+			dispatch(Action.maps.resetViewHeading(mapKey))
 		}
 	}
 };

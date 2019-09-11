@@ -4,7 +4,7 @@ import Action from "../../../../../state/Action";
 
 import {cloneDeep, isEqual} from 'lodash';
 
-import wrapper from '../../../../../components/common/maps/MapWrapper';
+import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
 import utils from '../../../../../utils/utils';
 import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
@@ -34,11 +34,13 @@ const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 
 	const layersByLayerTemplateKey = {};
 	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
-		for (const layer of layers) {
-			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
-			if(layerTemplateKey) {
-				if(!layersByLayerTemplateKey[layerTemplateKey]) {
-					layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+		if(layers) {
+			for (const layer of layers) {
+				const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+				if(layerTemplateKey) {
+					if(!layersByLayerTemplateKey[layerTemplateKey]) {
+						layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+					}
 				}
 			}
 		}
@@ -65,21 +67,24 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 	};
 
 	const layersByLayerTemplateKey = {};
+	
 	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
-		for (const layer of layers) {
-			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
-			if(layerTemplateKey) {
-				if(!layersByLayerTemplateKey[layerTemplateKey]) {
-					layersByLayerTemplateKey[layerTemplateKey] = {};
-					layersByLayerTemplateKey[layerTemplateKey] = {
-						key: layerTemplateKey,
-						type: layer.type,
-						statistics: {},
-						mergedStatistics: null,
-						layers: {}
-					};
+		if(layers) {
+			for (const layer of layers) {
+				const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+				if(layerTemplateKey) {
+					if(!layersByLayerTemplateKey[layerTemplateKey]) {
+						layersByLayerTemplateKey[layerTemplateKey] = {};
+						layersByLayerTemplateKey[layerTemplateKey] = {
+							key: layerTemplateKey,
+							type: layer.type,
+							statistics: {},
+							mergedStatistics: null,
+							layers: {}
+						};
+					}
+					layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
 				}
-				layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
 			}
 		}
 	}
@@ -122,7 +127,7 @@ const mapStateToProps = (state, props) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
-		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
+		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
 		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);
 
@@ -131,7 +136,7 @@ const mapStateToProps = (state, props) => {
 			namesFilter = cloneDeep(currentNamesFilter);
 		}
 
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
@@ -252,7 +257,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onMount: (layersTreeLoaded) => {
 			// if(!layersTreeLoaded) {
 			if(true) {
-				dispatch(Action.maps.use(props.mapKey, useActiveMetadataKeys));
+				dispatch(Action.maps.deprecated_use(props.mapKey, useActiveMetadataKeys));
 				const layerTreesFilter = props.layerTreesFilter;
 				//action to load LT data and add visible layers to map store
 				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
@@ -263,7 +268,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 
 		onUnmount: () => {
-			dispatch(Action.maps.useClear(props.mapKey));
+			dispatch(Action.maps.deprecated_useClear(props.mapKey));
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
 			dispatch(Action.attributeData.useIndexedClear(componentId));
 			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));

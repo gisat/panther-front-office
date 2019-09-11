@@ -28,6 +28,7 @@ class Elections extends React.PureComponent {
 							key="ep_elections_2019"
 							keySourcePath="$.ESTRANA"
 							colorSourcePath="$.COLOR"
+							nameSourcePath="$.NAZ_STR"
 							xSourcePath="$.NAZ_STR"
 							ySourcePath="HLASY_STRANA[0].$.PROC_HLASU"
 							xValues

@@ -4,7 +4,7 @@ import Action from "../../../../../state/Action";
 
 import {cloneDeep} from 'lodash';
 
-import wrapper from '../../../../../components/common/maps/MapWrapper';
+import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
 import utils from '../../../../../utils/utils';
 
@@ -19,7 +19,7 @@ const mapStateToProps = (state, props) => {
 	return (state) => {
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}

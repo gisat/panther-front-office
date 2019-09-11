@@ -23,7 +23,7 @@ class Segment extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.object
 		]),
-		highlightedColor: PropTypes.oneOfType([
+		highlightColor: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object
 		]),
@@ -96,7 +96,7 @@ class Segment extends React.PureComponent {
 
 	setColor(forceHover) {
 		if (forceHover) {
-			this.setState({color: this.props.highlightedColor ? this.props.highlightedColor : null});
+			this.setState({color: this.props.highlightColor ? this.props.highlightColor : null});
 		} else {
 			this.setState({color: this.props.defaultColor ? this.props.defaultColor : null});
 		}
@@ -106,23 +106,28 @@ class Segment extends React.PureComponent {
 		const props = this.props;
 		let color = this.state.color;
 		let suppressed = false;
-		let highlightedFromContext = false;
+		let highlighted = false;
 
 		/* Handle context */
-		if (this.context && this.context.hoveredItems) {
-			highlightedFromContext = _.includes(this.context.hoveredItems, this.props.itemKey);
+		if (this.context && (this.context.hoveredItems || this.context.selectedItems)) {
+			let isHovered = _.includes(this.context.hoveredItems, this.props.itemKey);
+			let isSelected = _.includes(this.context.selectedItems, this.props.itemKey);
+			highlighted = isHovered || isSelected;
 
-			if (this.props.siblings && !!_.intersection(this.context.hoveredItems, this.props.siblings).length) {
-				suppressed = !highlightedFromContext;
+			if (this.props.siblings && (
+				!!_.intersection(this.context.hoveredItems, this.props.siblings).length ||
+				!!_.intersection(this.context.selectedItems, this.props.siblings).length
+			)) {
+				suppressed = !highlighted;
 			}
 
-			if (highlightedFromContext) {
-				color = this.props.highlightedColor ? this.props.highlightedColor : null;
+			if (isHovered || isSelected) {
+				color = this.props.highlightColor ? this.props.highlightColor : null;
 			}
 		}
 
 		let placeholderClasses = classnames("ptr-aster-chart-segment-placeholder", {
-			highlighted: highlightedFromContext
+			highlighted: highlighted
 		});
 
 		return (
@@ -146,7 +151,7 @@ class Segment extends React.PureComponent {
 					style={{
 						fill: color,
 						strokeWidth: this.props.strokeWidth ? this.props.strokeWidth : 1,
-						opacity: suppressed ? .4 : 1
+						opacity: suppressed ? .15 : 1
 					}}
 					d={`
 						M${props.origin[0]} ${props.origin[1]}
@@ -160,16 +165,47 @@ class Segment extends React.PureComponent {
 	}
 
 	getPopupContent() {
-		let content = <div>No data</div>;
-		let symbol = this.props.relative ? '%' : null;
-
-		if (this.props.data) {
-			content = (
-				<div><i>{`${_.get(this.props.data, this.props.nameSourcePath)}:`}</i> {`${_.get(this.props.data, this.props.hoverValueSourcePath).toLocaleString()}`} {symbol}</div>
-			);
+		const props = this.props;
+		let style = {};
+		
+		let segmentName = _.get(props.data, props.nameSourcePath);
+		let color = this.state.color || props.highlightColor;
+		let value = _.get(props.data, props.valueSourcePath);
+		let customValue = _.get(props.data, props.hoverValueSourcePath);
+		
+		// TODO pass custom units
+		let units = props.relative ? "%" : null;
+		
+		let valueString = value;
+		if (value && (value % 1) !== 0) {
+			valueString = valueString.toFixed(2);
 		}
 
-		return content
+		if (color) {
+			style.background = color;
+		}
+
+		return (
+			<>
+				<div className="ptr-popup-header">
+					<div className="ptr-popup-record-color" style={style}></div>
+					{segmentName}
+				</div>
+				<div className="ptr-popup-record-group">
+					<div className="ptr-popup-record">
+						<div className="ptr-popup-record-value-group">
+							{customValue ? <>
+								<span className="value">{customValue}</span>
+								{units && customValue === value ? <span className="unit">{units}</span> : null}
+							</> : <>
+								{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
+								{units ? <span className="unit">{units}</span> : null}
+							</>}
+						</div>
+					</div>
+				</div>
+			</>
+		);
 	}
 }
 

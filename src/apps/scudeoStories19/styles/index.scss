@@ -1,0 +1,528 @@
+@import '../../../styles/variables';
+
+.scudeoStories19-page {
+	@include positionFill;
+}
+
+.scudeoStories19-page h2,.scudeoStories19-page  h3,.scudeoStories19-page  h4 {
+	width: 100%;
+}
+
+.scudeoStories19-page ul {
+	width: calc(100% - 2rem);
+	max-width: 50rem;
+	margin-left: m(4/3);
+}
+
+/* Header */
+.scudeoStories19-header-wrapper {
+	height: 100%;
+	width: 100%;
+	background: var(--accent80);
+	position: relative;
+	overflow: hidden;
+}
+
+.scudeoStories19-header-wrapper:after {
+	content: "";
+	@include positionFill;
+	background-color: var(--accent90);
+	opacity: .5;
+	z-index: 2;
+}
+
+.scudeoStories19-header-background {
+	background-size: cover;
+	background-attachment: fixed;
+	transform: scaleX(1.05);
+	height: 100%;
+	width: 100%;
+	position: absolute;
+
+	filter: blur(5px);
+	-ms-filter: blur(5px);
+	-webkit-filter: blur(5px);
+}
+
+.scudeoStories19-header {
+	height: 100%;
+	position: relative;
+	color: var(--base0);
+	display: flex;
+	flex-direction: column;
+	z-index: 3;
+}
+
+.scudeoStories19-navigation {
+	display: flex;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	padding: m(1);
+}
+
+.scudeoStories19-navigation > a {
+	display: inline-block;
+	color: var(--accent10);
+	margin: 0 .7rem;
+	padding: .3rem;
+	text-transform: uppercase;
+	text-decoration: none;
+	border-bottom: 3px solid transparent;
+	transition: border .3s ease-in-out, color .3s ease-in-out;
+}
+
+.scudeoStories19-navigation > a.active,
+.scudeoStories19-navigation > a:hover {
+	color: var(--accent0);
+	border-bottom-color: var(--accent40);
+}
+
+.scudeoStories19-header-content {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0 m(3);
+	max-width: 60rem;
+}
+
+.scudeoStories19-title {
+	margin-bottom: m(4/3);
+	font-size: $a4;
+	font-weight: bold;
+	line-height: 1.15;
+}
+
+.scudeoStories19-intro {
+	font-size: $b2;
+	padding-bottom: m(1);
+}
+
+/* Content */
+.scudeoStories19-content {
+	width: 100%;
+}
+
+.scudeoStories19-content section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: m(2) 0;
+	width: 100%;
+}
+
+.scudeoStories19-content section:first-child {
+	padding-top: m(3);
+}
+
+.scudeoStories19-content section:last-child {
+	padding-bottom: m(4);
+}
+
+.scudeoStories19-content section:nth-child(even) {
+	background: var(--accent05);
+}
+
+.scudeoStories19-content section > *:not(.ptr-popup) {
+	padding: 0 m(1);
+}
+
+.scudeoStories19-content section > .react-reveal {
+	width: 100%;
+	padding: 0;
+}
+
+/* Visualization container */
+.scudeoStories19-visualization {
+	margin: m(2) 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.scudeoStories19-visualization-title {
+	font-size: $a1;
+	font-weight: bold;
+	margin-bottom: m(2/3);
+	padding: 0 m(1);
+	color: var(--base75);
+}
+
+.scudeoStories19-visualization-subtitle {
+	color: var(--base50);
+	font-size: $b1;
+	margin-top: .1rem;
+	display: flex;
+    justify-content: center;
+}
+
+.scudeoStories19-visualization-description {
+	font-size: $b1;
+	font-style: italic;
+	color: var(--base75);
+	max-width: 50rem;
+	margin-top: m(2/3);
+	padding: 0 m(1);
+}
+
+/* Legend */
+.scudeoStories19-visualization-legend {
+	margin: m(2/3) 0 m(1/3) m(4/3);
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 70rem;
+}
+
+.scudeoStories19-visualization-legend .legend-field {
+	margin-right: 1rem;
+	display: flex;
+	align-items: center;
+}
+
+.scudeoStories19-visualization-legend .legend-color {
+	width: .75rem;
+	min-width: .75rem;
+	height: .75rem;
+	margin-right: .35rem;
+}
+
+.scudeoStories19-visualization-legend .legend-value {
+	flex-grow: 1;
+	font-size: $b1;
+}
+
+/* Maps */
+.scudeoStories19 .ptr-map {
+	background: var(--base100);
+}
+
+.scudeoStories19-map-container {
+	width: 100%;
+	height: 40rem;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.scudeoStories19-map-container > div {
+	flex: 1;
+	min-width: 15rem
+}
+
+.scudeoStories19-map-container > div:first-child {
+	margin-right: 2px;
+}
+
+/* Map labels */
+
+.scudeoStories19-map-label {
+	position: absolute;
+	width: 90%;
+	max-width: 15rem;
+	z-index: 5;
+	top: 1rem;
+	// font-size: $b2;
+	background-color: var(--base0);
+	box-shadow: 0 0 .3125rem 0 rgba(0,0,0,0.2);
+	border-right: .25rem solid var(--accent50);
+	padding-top: .25rem;
+	padding-bottom: .15rem;
+    padding: .1875rem .375rem;
+}
+
+.scudeoStories19-map-label .ptr-select-container .ptr-select__control {
+	border: 0;
+	margin-right: .1rem;
+	cursor: pointer;
+	min-width: 0;
+}
+
+.scudeoStories19-map-label .ptr-select-container .ptr-select__control--is-focused {
+	box-shadow: none;
+}
+
+.scudeoStories19-map-label .ptr-select-container .ptr-select__value-container {
+	padding: 0 .65rem;
+}
+
+.scudeoStories19-map-label .ptr-select-container .ptr-select__single-value {
+	color: var(--accent50);
+}
+
+.scudeoStories19-map-label .ptr-select__indicator-separator {
+	display: none;
+}
+
+.scudeoStories19 .ptr-select__menu {
+	margin-top: 3px;
+}
+
+.scudeoStories19-map-layers {
+	right: 0px;
+}
+
+/* Map attribution */
+.scudeoStories19-map-attribution {
+	//background: rgba(var(--base0rgb), .7);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 3;
+	font-size: $a0;
+	padding: .3rem .5rem;
+	max-width: calc(100% - 12rem);
+	color: var(--base80);
+}
+
+/* scale */
+.scudeoStories19 .ptr-map .leaflet-bottom {
+	bottom: 1.5rem;
+}
+
+.scudeoStories19 .ptr-map .leaflet-control-scale-line {
+	background: none;
+	color: var(--base50);
+}
+
+
+/* Charts */
+.scudeoStories19-chart-container {
+	width: 90%;
+	max-width: 50rem;
+}
+
+/* Footer */
+.scudeoStories19-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: m(1) 0;
+	background: var(--accent80);
+}
+
+.scudeoStories19-footer p {
+	padding: 0 m(1);
+	font-size: $b1;
+}
+
+.scudeoStories19-footer,
+.scudeoStories19-footer p,
+.scudeoStories19-footer a {
+	color: var(--accent20);
+}
+
+/** Select city */ 
+.scudeoStories19-city-select {
+	margin: 3rem 0 2rem;
+
+	&.ptr-select-container .ptr-select__control{
+		background: none;
+		border: none;
+		border-radius: 0px;
+		border-bottom: solid 1px rgb(0, 0, 0);
+		min-width: 20rem;
+		height: 3rem;
+		justify-content: center;
+
+		.label{
+			font-size: 3rem;
+		}
+
+		.ptr-select__indicators{
+			height: 3rem;
+		}
+
+		.ptr-select__value-container{
+			line-height: 3rem;
+			justify-content: center;
+		}
+	}
+}
+
+/* Expandable */
+.scudeoStories19-expandable {
+	position: relative;
+	transition: height .7s ease-in-out;
+	overflow-y: hidden;
+	margin: 1rem;
+}
+
+.scudeoStories19-expandable.collapsed:after {
+	height: 4rem;
+}
+
+.scudeoStories19-expandable:after {
+	content: '';
+	height: 2rem;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.7), rgba(255,255,255,1));
+	transition: height .7s ease-in-out;
+}
+
+.scudeoStories19-expandable-control {
+	position: absolute;
+	cursor: pointer;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 2rem;
+	width: 100%;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.scudeoStories19-expandable-control .ptr-icon {
+	transform: rotate(90deg);
+	transition: transform .7s ease-in-out;
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.scudeoStories19-expandable.collapsed .scudeoStories19-expandable-control .ptr-icon {
+	transform: rotate(270deg);
+}
+
+.scudeoStories19-expandable-control .ptr-icon .line {
+	fill: var(--base60);
+	transition: fill .2s ease-in-out;
+}
+
+.scudeoStories19-expandable-control:hover .ptr-icon .line {
+	fill: var(--base100);
+}
+
+.scudeoStories19-expandable .scudeoStories19-visualization-legend {
+	margin: 0;
+}
+
+/** Radio */
+.scudeoStories19-inline-radio {
+	display: flex;
+	justify-content: center;
+	margin: m(1) 0 0 0;
+	font-size: 90%;
+
+	.label{
+		margin-right: m(1);
+	}
+		   
+	input[type="radio"] {
+		display: none;
+	}
+
+	/* HTML5 Boilerplate radio-one hidden styles */
+	[type="radio"] {
+		border: 0;
+		height: 1px; margin: -1px;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+   
+  	/* One radio button per line */
+	label {
+		margin-right: m(1);
+		display: block;
+		cursor: pointer;  /*hand view when on hover*/
+	}
+   
+	/* the basic, unchecked style */
+	[type="radio"] + span:before {
+		content: '';
+		display: inline-block;
+		width: m(.5);
+		height: m(.5);
+		border-radius: m(.5);           /*hard border*/
+		border: m(1/8) solid #fff;
+		box-shadow: 0 0 0 0.15em #000;   /*light shadow*/
+		margin-right: m(.5);
+		transition: 0.5s ease all;    /*animation here*/
+	}
+   
+	label:hover [type="radio"] + span:before {
+	  background: var(--accent30);
+	}
+
+	/* the checked style using the :checked pseudo class */
+	label [type="radio"]:checked + span:before {
+		background: var(--accent60);
+	}
+
+}
+
+
+@media screen and (max-width: 50rem), screen and (max-height: 35rem) {
+	.scudeoStories19-header-content {
+		padding: 0 m(2);
+		max-width: 60rem;
+	}
+
+	.scudeoStories19-title {
+		margin-bottom: m(1);
+		font-size: $a3;
+	}
+
+	.scudeoStories19-intro {
+		font-size: $a1;
+	}
+
+	.scudeoStories19-visualization {
+		margin: m(4/3) 0;
+	}
+
+	.scudeoStories19-map-container > div:first-child {
+		margin-right: 0;
+		margin-bottom: 2px;
+	}
+
+	.scudeoStories19-map-container > div {
+		min-width: 100%;
+	}
+}
+
+@media screen and (max-width: 30rem), screen and (max-height: 25rem)  {
+	.scudeoStories19-header-wrapper {
+		height: auto;
+	}
+	.scudeoStories19-header-wrapper:before {
+		height: 100%;
+	}
+
+	.scudeoStories19-navigation {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		padding: m(1);
+	}
+
+	.scudeoStories19-navigation > a {
+		margin: 0;
+		padding: .3rem 0;
+		text-decoration: underline;
+	}
+
+	.scudeoStories19-navigation > a.active,
+	.scudeoStories19-navigation > a:hover {
+		color: var(--accent40);
+		border-bottom-color: transparent;
+	}
+
+	.scudeoStories19-header-content {
+		padding: m(1) m(1) m(2);
+	}
+
+	.scudeoStories19-title {
+		margin-bottom: m(2/3);
+		font-size: $b3;
+	}
+
+	.scudeoStories19-intro {
+		font-size: $a1;
+	}
+}

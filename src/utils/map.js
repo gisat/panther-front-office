@@ -1,5 +1,57 @@
 import _ from 'lodash';
 import fetch from "isomorphic-fetch";
+import * as turf from '@turf/turf';
+import createCachedSelector from "re-reselect";
+
+const checkViewIntegrity = (view) => {
+	if (view) {
+		if (view.heading && view.heading > 360) {
+			view.heading = view.heading % 360;
+		}
+
+		if (view.heading && view.heading < 0) {
+			view.heading = 360 - (view.heading % 360);
+		}
+
+		if (view.tilt && view.tilt < 0) {
+			view.tilt = 0;
+		}
+
+		if (view.tilt && view.tilt > 90) {
+			view.tilt = 90;
+		}
+
+		if (view.range && view.range < 0.01) {
+			view.range = 0.01;
+		}
+
+		if (view.center) {
+			if (view.center.lat) {
+				if (view.center.lat > 90) {
+					view.center.lat = 90;
+				} else if (view.center.lat < -90) {
+					view.center.lat = -90;
+				}
+			}
+
+			if (view.center.lon) {
+				if (view.center.lon > 360 || view.center.lon < -360) {
+					view.center.lon %= 360;
+				}
+
+				if (view.center.lon > 180) {
+					view.center.lon = -180 + (view.center.lon - 180);
+				} else if (view.center.lon < -180) {
+					view.center.lon = 180 + (view.center.lon + 180);
+				} else if (view.center.lon === -180) {
+					view.center.lon = 180;
+				}
+			}
+		}
+	}
+
+	return view;
+};
 
 /**
  * @param placeString {string} Text (e.g. Praha, France, ...) or coordinates (e.g. 10,50 or 10;50 or 10 50 as latitude,longitude) as input
@@ -75,24 +127,106 @@ function getLocationFromPlaceString(placeString) {
 /**
  *
  * @param bbox {{minLat: number, minLon: number, maxLat: number, maxLon: number}}
+ * @param latitude {boolean}
  * @return {number}
  */
-function getBoxRangeFromBoundingBox(bbox) {
+function getBoxRangeFromBoundingBox(bbox, latitude) {
 	const MIN_BOX_RANGE = 1000;
 	const RANGE_COEFF = 125000; //approximately one degree of longitude on equator in meters
 
 	// TODO naive for now
 	let latDiff = Math.abs(bbox.maxLat - bbox.minLat);
 	let lonDiff = Math.abs(bbox.maxLon - bbox.minLon);
+
 	let diff = Math.max(latDiff, lonDiff);
 	let boxRange = RANGE_COEFF*diff;
+	if (latitude) {
+		boxRange /= Math.cos(latitude * Math.PI/180)
+	}
 
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
 }
 
+/**
+ * @param geometry {Object} geojson geometry
+ * @param reflectLatitude {boolean}
+ * @return {Object} view
+ */
+function getViewFromGeometry(geometry, reflectLatitude) {
+	let bbox = turf.bbox(geometry);
+	let center = turf.center(geometry);
+	let boxRange = getBoxRangeFromBoundingBox({
+		minLat: bbox[1],
+		minLon: bbox[0],
+		maxLat: bbox[3],
+		maxLon: bbox[2]
+	}, reflectLatitude ? center.geometry.coordinates[1] : null);
+
+	return {
+		center: {
+			lat: center.geometry.coordinates[1],
+			lon: center.geometry.coordinates[0]
+		},
+		boxRange
+	}
+}
+
+function mergeLayers(one, two) {
+	// TODO remove duplicate keys
+	if (one && two) {
+		return [...one, ...two];
+	} else {
+		return one || two || null;
+	}
+}
+
+const mergeViews = createCachedSelector(
+	[
+		(one) => one,
+		(one, two) => two
+	],
+	(one, two) => {
+		return {...one, ...two};
+	}
+)(
+	(one, two) => `${one}_${two}`
+);
+
+
+function resetHeading(heading, callback, increment) {
+	if (!increment) {
+		increment = 1.0;
+		if (Math.abs(heading) > 60) {
+			increment = 2.0;
+		} else if (Math.abs(heading) > 120) {
+			increment = 3.0;
+		}
+		//set shortest direction based on angle
+		if (heading > 0 && heading < 180 || heading < 0 && heading < -180) {
+			increment = -increment;
+		}
+	}
+
+	setTimeout(() => {
+		if (Math.abs(heading) > Math.abs(increment)) {
+			heading = heading + increment;
+			callback(heading);
+			resetHeading(heading, callback, increment);
+		} else {
+			heading = 0;
+			callback(heading);
+		}
+	}, 20)
+}
+
 
 export default {
+	checkViewIntegrity,
 	getLocationFromPlaceString,
+	getViewFromGeometry,
+	mergeLayers,
+	mergeViews,
+	resetHeading,
 }
 
 

@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import Helmet from "react-helmet";
-
-import Store, {history} from './store';
+import createStore, {createHistory} from './state/Store';
 import Action from "../../state/Action";
 import i18n from '../../i18n';
 
@@ -19,7 +18,6 @@ import Docs, {Directory, Page, Anchor} from "./components/Docs";
 import Index from "./components/pages/index";
 import Design from "./components/pages/design";
 import Typography from "./components/pages/design/Typography";
-import WorldWindMapDoc from "./components/pages/components/maps/WorldWindMapDoc";
 import Buttons from "./components/pages/components/atoms/ButtonsDoc";
 import CartesianCharts from "./components/pages/components/visualizations/cartesianCharts/CartesianCharts";
 import ColumnChartDoc from "./components/pages/components/visualizations/cartesianCharts/ColumnChartDoc";
@@ -27,11 +25,19 @@ import LineChartDoc from "./components/pages/components/visualizations/cartesian
 import ScatterChartDoc from "./components/pages/components/visualizations/cartesianCharts/ScatterChartDoc";
 import AsterChartDoc from "./components/pages/components/visualizations/AsterChartDoc";
 import Timeline from "./components/pages/components/controls/timeline/Timeline";
+import SankesChartDoc from "./components/pages/components/visualizations/SankeyChartDoc";
 import FormsDoc from "./components/pages/components/atoms/FormsDoc";
 import ItemSelectDoc from "./components/pages/components/atoms/ItemSelectDoc";
+import MapDoc from "./components/pages/components/maps/MapDoc";
+import MapSetDoc from "./components/pages/components/maps/MapSetDoc";
+import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
+import HoverHandlerDoc from "./components/pages/components/commonFeatures/HoverHandlerDoc";
 
 
 export default (path, baseUrl) => {
+
+	const history = createHistory({ basename: path });
+	const Store = createStore(history);
 
 	Store.dispatch(Action.app.setKey('docs'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
@@ -47,7 +53,7 @@ export default (path, baseUrl) => {
 				defaultTitle="Panther docs"
 			/>
 			<ConnectedRouter history={history}>
-				<Docs path={path} component={Index}>
+				<Docs component={Index}>
 					<Directory label="Architecture" path="architecture">
 						<Page label="Applications" path="applications"/>
 						<Page label="Common data types" path="commonDataTypes"/>
@@ -59,7 +65,13 @@ export default (path, baseUrl) => {
 					</Directory>
 					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps">
-							<Page label="WebWorldWind" path="webWorldWind" component={WorldWindMapDoc}/>
+							<Directory label="Map" path="map" component={MapDoc}>
+								<Page label="WebWorldWind" path="webWorldWind"/>
+								<Page label="Leaflet" path="leaflet" component={LeafletDoc}/>
+							</Directory>
+							<Page label="Map controls" path="mapControls"/>
+							<Page label="Map set" path="mapSet" component={MapSetDoc}/>
+							<Page label="GoToPlace" path="goToPlace"/>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
@@ -77,6 +89,8 @@ export default (path, baseUrl) => {
 									<Anchor label="Serial data handling" path="serialData"/>
 									<Anchor label="Custom bar colors" path="barColors"/>
 									<Anchor label="Aggregation" path="aggregation"/>
+									<Anchor label="Diverging" path="diverging"/>
+									<Anchor label="Stacked" path="stacked"/>
 								</Page>
 								<Page label="Scatter chart" path="scatterChart" component={ScatterChartDoc}>
 									<Anchor label="Props" path="props"/>
@@ -96,6 +110,17 @@ export default (path, baseUrl) => {
 								<Anchor label="Grid" path="grid"/>
 								<Anchor label="Radials & legend" path="radials"/>
 								<Anchor label="Custom hover value" path="customHover"/>
+							</Page>
+							<Page label="Sankey chart" path="sankesChart" component={SankesChartDoc}>
+								{/* <Anchor label="Props" path="props"/>
+								<Anchor label="Data structure" path="dataStructure"/>
+								<Anchor label="Basic settings" path="basicSettings"/>
+								<Anchor label="Relative values" path="relativeValues"/>
+								<Anchor label="Dimensions" path="dimensions"/>
+								<Anchor label="Forced min & max" path="forceMinMax"/>
+								<Anchor label="Grid" path="grid"/>
+								<Anchor label="Radials & legend" path="radials"/>
+								<Anchor label="Custom hover value" path="customHover"/> */}
 							</Page>
 						</Directory>
 						<Directory label="Atoms" path="atoms">
@@ -128,9 +153,9 @@ export default (path, baseUrl) => {
 							<Page label="User & login overlay" path="user"/>
 							<Page label="Share ???" path="share"/>
 						</Directory>
-						<Directory label="Logical ??? / common features ??? / ???" path="iHaveNoIdea">
+						<Directory label="Common features" path="commonFeatures">
 							<Page label="AppContainer" path="appContainer"/>
-							<Page label="HoverHandler" path="hoverHandler"/>
+							<Page label="HoverHandler" path="hoverHandler" component={HoverHandlerDoc}/>
 							<Page label="WindowsContainer" path="windowsContainer"/>
 						</Directory>
 					</Directory>

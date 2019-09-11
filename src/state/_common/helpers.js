@@ -111,7 +111,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				return null;
 			}
 		}
-		// TODO add case, scenario, ...
+		// TODO add scenario, ...
 		if (filterByActive.place){
 			if (activeKeys.activePlaceKey){
 				fullFilter.placeKey = activeKeys.activePlaceKey;

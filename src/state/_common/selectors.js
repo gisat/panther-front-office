@@ -13,7 +13,9 @@ const activeThemeKey = state => state.themes.activeKey;
  * @returns {Object}
  */
 const getAllByKey = (getSubstate) => {
-	return (state) => getSubstate(state).byKey;
+	return (state) => {
+		return getSubstate(state).byKey;
+	}
 };
 
 /**
@@ -514,6 +516,7 @@ const getIndexedDataUses = (getSubstate) => {
 	return (state) => getSubstate(state).inUse.indexes;
 };
 
+// TODO case, scenario, ...
 const getAllActiveKeys = createSelector(
 	[
 		state => state.scopes.activeKey,

@@ -4,10 +4,10 @@ import classnames from 'classnames';
 
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapSet from "../../../../components/common/maps/MapSet";
+import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import UtepSdgMap from "./Map";
 import UtepSdgMapPresentation from "./Map/presentation";
-import MapControls from "../../../../components/common/maps/MapControls";
+import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
 import MapTools from "../../../../components/common/maps/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';

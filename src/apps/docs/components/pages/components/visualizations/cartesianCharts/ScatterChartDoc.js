@@ -28,13 +28,55 @@ class ScatterChartDoc extends React.PureComponent {
 
 							xSourcePath="data.some_value_1"
 							ySourcePath="data.some_value_2"
+							zSourcePath="data.some_value_1"
 							nameSourcePath="data.name"
 							keySourcePath="key"
+
+							innerPaddingRight={0}
+							innerPaddingTop={0}
+							innerPaddingLeft={0}
 
 							maxWidth={30}
 						/>
 					</HoverHandler>
 				</div>
+
+				<HoverHandler>
+					<ResizableContainer>
+						<ScatterChart
+							key="colors"
+							data={sample_serie_10}
+
+							isSerie
+							serieDataSourcePath="data.data"
+							itemNameSourcePath="period" // in context of serie
+
+							nameSourcePath="data.name"
+							keySourcePath="key"
+
+							xSourcePath="someStrangeValue" // in context of serie
+							xOptions={{
+								name: "Population total",
+								unit: "inhabitants"
+							}}
+							ySourcePath="otherValue" // in context of serie
+							yOptions={{
+								name: "Population change",
+								unit: "%"
+							}}
+
+							zSourcePath="otherValue"
+							zOptions={{
+								name: "Blabla",
+								unit: "wtf"
+							}}
+
+							legend
+
+							defaultSchemePointColors
+						/>
+					</ResizableContainer>
+				</HoverHandler>
 
 				<p>A scatter chart is a type of chart using Cartesian coordinates to display values for two attributes. One attribute value is the position on the horizontal axis x and second attribute value is the position on the vertical axis y. Use this type of chart to <b>show relation between two attributes</b> for one or multiple cases in one or multiple points in time.</p>
 
@@ -63,6 +105,22 @@ class ScatterChartDoc extends React.PureComponent {
 							name: "itemNameSourcePath",
 							type: "string",
 							description: "Required if isSerie is true."
+						}, {}, {
+							name: "zSourcePath",
+							type: "string",
+							description: "Path to value for point size. If data are serial, the path is in the context of the serie."
+						}, {
+							name: "zOptions",
+							type: "object",
+							objectPropsDescription: [{
+								name: "name",
+								type: "string",
+								description: "Z attrribute title."
+							},{
+								name: "unit",
+								type: "string",
+								description: "Z attribute units"
+							}]
 						}
 					]}
 				/>

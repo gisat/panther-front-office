@@ -5,6 +5,19 @@ import {isNumber} from 'lodash';
 
 //pridat praci s layers i na set
 
+const INITIAL_VIEW = {
+	center: {
+		lat: 50.1,
+		lon: 14.5
+	},
+	boxRange: 100000,
+	roll: 0,
+	tilt: 0,
+	heading: 0,
+	elevationExaggeration: 0
+};
+
+// TODO deprecated
 const INITIAL_WORLDWINDNAVIGATOR = {
 	lookAtLocation: {
 		latitude: 50.1,
@@ -31,7 +44,9 @@ const INITIAL_MAP_STATE = {
 		backgroundLayer: null,
 		layers: null,
 		metadataModifiers: null,
-		worldWindNavigator: null
+		worldWindNavigator: null, // TODO deprecated
+		view: null,
+		filterByActive: null
 	}
 };
 
@@ -39,7 +54,8 @@ const INITIAL_SET_STATE = {
 	key: null,
 	maps: [],
 	sync: {
-		location: false,
+		location: false, // TODO deprecated
+		center: false,
 		roll: false,
 		range: false,
 		tilt: false,
@@ -51,7 +67,9 @@ const INITIAL_SET_STATE = {
 		backgroundLayer: null,
 		layers: null,
 		metadataModifiers: null,
-		worldWindNavigator: null
+		worldWindNavigator: null, // TODO deprecated
+		view: null,
+		filterByActive: null
 	}
 };
 
@@ -115,12 +133,20 @@ const removeMapKeyFromSet = (state, setKey, mapKey) => {
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
 };
 
+// TODO deprecated
 const setSetWorldWindNavigator = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const setToUpdate = getSetByKey(state, setKey);
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, worldWindNavigator: mergedWorldWindNavigator}}}};
 };
 
+const setSetView = (state, setKey, view = INITIAL_VIEW) => {
+	const mergedView = {...INITIAL_VIEW, ...view};
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, view: mergedView}}}};
+};
+
+// TODO deprecated
 const updateSetWorldWindNavigator = (state, setKey, updates) => {
 	return {
 		...state,
@@ -132,6 +158,24 @@ const updateSetWorldWindNavigator = (state, setKey, updates) => {
 					...state.sets[setKey].data,
 					worldWindNavigator: state.sets[setKey].data.worldWindNavigator ?
 						{...state.sets[setKey].data.worldWindNavigator, ...updates} : updates
+				}
+			}
+		}
+	};
+};
+
+
+const updateSetView = (state, setKey, updates) => {
+	return {
+		...state,
+		sets: {
+			...state.sets,
+			[setKey]: {
+				...state.sets[setKey],
+				data: {
+					...state.sets[setKey].data,
+					view: state.sets[setKey].data.view ?
+						{...state.sets[setKey].data.view, ...updates} : updates
 				}
 			}
 		}
@@ -172,12 +216,22 @@ const setMapData = (state, mapKey, mapData = {}) => {
 	return {...state, maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: mapData}}};
 };
 
+// TODO deprecated
 const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const mapState = getMapByKey(state, mapKey);
 	return setMap(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
 };
 
+const setMapView = (state, mapKey, view = INITIAL_VIEW) => {
+	const mergedView = {...INITIAL_VIEW, ...view};
+	return {
+		...state,
+		maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: {...state.maps[mapKey].data, view: mergedView}}}
+	};
+};
+
+// TODO deprecated
 const updateMapWorldWindNavigator = (state, mapKey, updates) => {
 	const mapState = getMapByKey(state, mapKey);
 	return setMap(state, {
@@ -188,6 +242,14 @@ const updateMapWorldWindNavigator = (state, mapKey, updates) => {
 				{...mapState.data.worldWindNavigator, ...updates} : updates
 		}
 	});
+};
+
+const updateMapView = (state, mapKey, updates) => {
+	const mergedView = {...state.maps[mapKey].data.view, ...updates};
+	return {
+		...state,
+		maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: {...state.maps[mapKey].data, view: mergedView}}}
+	};
 };
 
 
@@ -338,10 +400,14 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return removeMapKeyFromSet(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.SET_BACKGROUND_LAYER:
 			return setSetBackgroundLayer(state, action.setKey, action.backgroundLayer);
-		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET:
+		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET: // TODO deprecated
 			return setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE:
+		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE: // TODO deprecated
 			return updateSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.SET.VIEW.SET:
+			return setSetView(state, action.setKey, action.view);
+		case ActionTypes.MAPS.SET.VIEW.UPDATE:
+			return updateSetView(state, action.setKey, action.update);
 		case ActionTypes.MAPS.SET.SET_MAPS:
 			return setSetMaps(state, action.setKey, action.maps);
 		case ActionTypes.MAPS.SET.SET_SYNC:
@@ -354,10 +420,14 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setMapName(state, action.mapKey, action.name);
 		case ActionTypes.MAPS.MAP.SET_DATA:
 			return setMapData(state, action.mapKey, action.data);
-		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET:
+		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET: // TODO deprecated
 			return setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE:
+		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE: // TODO deprecated
 			return updateMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.MAP.VIEW.SET:
+			return setMapView(state, action.mapKey, action.view);
+		case ActionTypes.MAPS.MAP.VIEW.UPDATE:
+			return updateMapView(state, action.mapKey, action.update);
 		case ActionTypes.MAPS.LAYERS.LAYER.ADD:
 			return addLayer(state, action.mapKey, action.layer, action.index);
 		case ActionTypes.MAPS.LAYERS.LAYER.REMOVE:

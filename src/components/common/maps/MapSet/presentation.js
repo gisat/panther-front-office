@@ -2,151 +2,162 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import ReactResizeDetector from 'react-resize-detector';
-import WorldWindMap from "../Deprecated_WorldWindMap";
 
-import './style.css';
+import mapUtils from '../../../../utils/map';
+
+import ContainerMap from '../Map';
+import {defaultMapView} from '../constants';
+
+import './style.scss';
+import MapGrid from "../MapGrid";
+
+export class Map extends React.PureComponent {
+	render() {
+		return null;
+	}
+}
+
+export class PresentationMap extends React.PureComponent {
+	render() {
+		return null;
+	}
+}
 
 class MapSet extends React.PureComponent {
 
 	static propTypes = {
+		activeMapKey: PropTypes.string,
 		mapSetKey: PropTypes.string,
 		maps: PropTypes.array,
-		layerTreesFilter: PropTypes.object
+		mapComponent: PropTypes.func,
+		view: PropTypes.object,
+		sync: PropTypes.object
 	};
 
 	constructor(props) {
 		super(props);
-		this.ref = React.createRef();
+
+		this.state = {
+			view: props.view,
+			activeMapKey: props.activeMapKey
+		};
+
+		_.forEach(this.props.children, child => {
+			if (child && typeof child === "object"
+				&& (child.type === Map || child.type === ContainerMap || child.type === PresentationMap)
+				&& child.props.mapKey === props.activeMapKey) {
+				this.state.activeMapView = {...defaultMapView, ...props.view, ...child.props.view}
+			}
+		});
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (prevProps.view !== this.props.view) {
+			this.setState({
+				view: {...this.state.view, ...this.props.view}
+			});
+		}
+	}
+
+	onViewChange(mapKey, update) {
+		let syncUpdate;
+		let activeUpdate;
+
+		if (this.props.sync) {
+			syncUpdate = _.pickBy(update, (updateVal, updateKey) => {
+				return this.props.sync[updateKey];
+			});
+			syncUpdate = mapUtils.checkViewIntegrity(syncUpdate);
+		}
+
+		if ((mapKey && this.state.activeMapKey === mapKey) || (this.state.activeMapKey && !mapKey)) {
+			activeUpdate = mapUtils.mergeViews(this.state.activeMapView, update);
+		}
+
+		if (syncUpdate && !_.isEmpty(syncUpdate)) {
+			this.setState({
+				view: mapUtils.mergeViews(this.state.view, syncUpdate),
+				activeMapView: activeUpdate || mapUtils.mergeViews(this.state.activeMapView, syncUpdate)
+			});
+		} else if (activeUpdate) {
+			this.setState({
+				activeMapView: activeUpdate
+			});
+		}
+	}
+
+	onMapClick(key, view) {
+		this.setState({activeMapView: view, activeMapKey: key});
 	}
 
 	render() {
 		return (
-			<div className="ptr-map-set" ref={this.ref}>
-				{this.renderMaps()}
+			<div className="ptr-map-set">
+				<div className="ptr-map-set-maps">
+					{this.renderMaps()}
+				</div>
+				<div className="ptr-map-set-controls">
+					{this.renderControls()}
+				</div>
 			</div>
 		);
 	}
 
-	renderMaps() {
-		let availableWidth = this.props.width;
-		let availableHeight = this.props.height;
-		if (!availableWidth) availableWidth = this.ref.current && this.ref.current.clientWidth;
-		if (!availableHeight) availableHeight = this.ref.current && this.ref.current.clientHeight;
-
-		if (this.props.maps && this.props.maps.length && availableWidth && availableHeight) {
-			let sizeRatio = availableWidth/availableHeight;
-			let numOfMaps = this.props.maps.length;
-			let rows = 1, columns = 1;
-
-			switch (numOfMaps) {
-				case 1:
-					break;
-				case 2:
-					if (sizeRatio > 1) {
-						columns = 2;
-					} else {
-						rows = 2;
-					}
-					break;
-				case 3:
-					if (sizeRatio > 2) {
-						columns = 3;
-					} else if (sizeRatio < 0.6666) {
-						rows = 3;
-					} else {
-						columns = 2;
-						rows = 2;
-					}
-					break;
-				case 4:
-					if (sizeRatio > 3) {
-						columns = 4;
-					} else if (sizeRatio < 0.5) {
-						rows = 4;
-					} else {
-						columns = 2;
-						rows = 2;
-					}
-					break;
-				case 5:
-				case 6:
-					if (sizeRatio > 1) {
-						columns = 3;
-						rows = 2;
-					} else {
-						columns = 2;
-						rows = 3;
-					}
-					break;
-				case 7:
-				case 8:
-					if (sizeRatio > 2) {
-						columns = 4;
-						rows = 2;
-					} else if (sizeRatio < 0.6666) {
-						columns = 2;
-						rows = 4;
-					} else {
-						columns = 3;
-						rows = 3;
-					}
-					break;
-				case 9:
-					if (sizeRatio > 2.5) {
-						columns = 5;
-						rows = 2;
-					} else if (sizeRatio < 0.5) {
-						columns = 2;
-						rows = 5;
-					} else {
-						columns = 3;
-						rows = 3;
-					}
-					break;
-				default:
-					if (sizeRatio > 1) {
-						columns = 4;
-						rows = 3;
-					} else {
-						columns = 3;
-						rows = 4;
-					}
+	renderControls() {
+		return React.Children.map(this.props.children, (child) => {
+			if (!(typeof child === "object" && child.type === Map)) {
+				return React.cloneElement(child, {
+					...child.props,
+					view: this.state.activeMapView,
+					updateView: this.onViewChange.bind(this, null),
+					resetHeading: () => {} //TODO
+				});
 			}
+		});
+	}
 
-			let width = +(100 / columns).toFixed(4) + '%';
-			let height = +(100 / rows).toFixed(4) + '%';
+	renderMaps() {
+		let maps = [];
 
-			let style = {width, height};
+		// For now, render either maps from state, OR from children
 
-			return this.props.maps.map((mapKey, index) => {
-				let content = null;
-				const mapProps = {
+		if (this.props.maps && this.props.maps.length) {
+			// all from state
+			this.props.maps.map(mapKey => {
+				let props = {
 					key: mapKey,
-					mapKey: mapKey,
-					elevationModel: null,
-					delayedWorldWindNavigatorSync: null, // miliseconds to wait until synchronize navigator change with store
-					layerTreesFilter: this.props.layerTreesFilter
+					stateMapKey: mapKey
 				};
-
-				if(this.props.children) {
-					const {children, ...propsWithoutChildren} = this.props;
-					content = React.cloneElement(this.props.children, {...mapProps, ...propsWithoutChildren});
-				} else {
-					content = <WorldWindMap {...mapProps}/>
-				}
-
-				index++;
-				let rowNo = Math.ceil(index / columns);
-				let colNo = index % columns || columns;
-
-				let wrapperClasses = classNames("ptr-map-wrapper", "row"+rowNo, "col"+colNo);
-
-				return <div key={mapKey} className={wrapperClasses} style={style}>{content}</div>
+				maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
 			});
 		} else {
-			return null;
+			React.Children.map(this.props.children, (child,index) => {
+				let {view, layers, backgroundLayer, mapKey, ...restProps} = child.props;
+				let props = {
+					key: index,
+					view: mapUtils.mergeViews(this.state.view, view),
+					backgroundLayer: backgroundLayer || this.props.backgroundLayer,
+					layers: mapUtils.mergeLayers(this.props.layers, layers),
+					onViewChange: this.onViewChange.bind(this, mapKey),
+					onClick: this.onMapClick.bind(this, mapKey),
+					mapKey
+				};
+
+				if (mapKey === this.state.activeMapKey) {
+					props.view = this.state.activeMapView;
+				}
+
+				if (typeof child === "object" && (child.type === Map || child.type === ContainerMap)) {
+					// layers from state
+					maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
+				} else if (typeof child === "object" && child.type === PresentationMap) {
+					// all presentational
+					maps.push(React.createElement(this.props.mapComponent, props));
+				}
+			});
 		}
+
+		return (<MapGrid>{maps}</MapGrid>);
 	}
 }
 

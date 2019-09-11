@@ -2,6 +2,8 @@ import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
 import commonActions from '../_common/actions';
+import commonHelpers from '../_common/helpers';
+import commonSelectors from '../_common/selectors';
 import utils from '../../utils/utils';
 import mapUtils from '../../utils/map';
 import * as layerTreeUtils from '../../utils/layerTreeUtils';
@@ -12,7 +14,7 @@ const {actionGeneralError} = commonActions;
 const setInitial = commonActions.setInitial(ActionTypes.MAPS);
 
 // ============ creators ===========
-const useClear = (mapKey) => {
+const deprecated_useClear = (mapKey) => {
 	return (dispatch) => {
 		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
 	};
@@ -115,7 +117,7 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys, useActiveMetadat
 			mapKeys.forEach((mapKey) => {
 
 				// check if layer in map
-				const layersState = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
+				const layersState = Select.maps.getLayersStateByMapKey_deprecated(state, mapKey, useActiveMetadataKeys);
 
 				// clean templateKeys found in map
 				const uniqVisibleLayersKeys = layersState ? visibleLayersKeys.filter((lk) => !layersState.some(ls => ls.layer && ls.layer.layerTemplate === lk)) : visibleLayersKeys;
@@ -189,6 +191,7 @@ const removeMapKeyFromSet = (setKey, mapKey) => {
 	}
 };
 
+// TODO deprecated
 const setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -197,6 +200,18 @@ const setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
 		} else {
 			return dispatch(actionSetSetWorldWindNavigator(setKey, worldWindNavigator));
+		}
+	}
+};
+
+const setSetView = (setKey, view) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			return dispatch(actionSetSetView(setKey, view));
 		}
 	}
 };
@@ -326,6 +341,7 @@ const setMapData = (mapKey, data) => {
 	};
 };
 
+// TODO deprecated
 const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -334,6 +350,18 @@ const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			return dispatch(actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
+		}
+	};
+};
+
+const setMapView = (mapKey, view) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return dispatch(actionSetMapView(mapKey, view));
 		}
 	};
 };
@@ -362,7 +390,7 @@ const addLayer = (mapKey, layer, index, useActiveMetadataKeys) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			dispatch(actionAddLayer(mapKey, layer, index));
-			dispatch(Action.maps.use(mapKey, useActiveMetadataKeys));
+			dispatch(Action.maps.deprecated_use(mapKey, useActiveMetadataKeys));
 		}
 	};
 };
@@ -473,6 +501,7 @@ const updateMapLayer = (mapKey, layerKey, layer) => {
 	}
 };
 
+// TODO deprecated
 const updateWorldWindNavigator = (mapKey, updates) => {
 	return (dispatch, getState) => {
 		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
@@ -513,6 +542,40 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 	}
 };
 
+const updateMapAndSetView = (mapKey, update) => {
+	return (dispatch, getState) => {
+		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
+		let forSet = null;
+		let forMap = null;
+
+		if (set && set.sync) {
+			// pick key-value pairs that are synced for set
+			forSet = _.pickBy(update, (updateVal, updateKey) => {
+				return set.sync[updateKey];
+			});
+
+			forMap = _.omitBy(update, (updateVal, updateKey) => {
+				return set.sync[updateKey];
+			});
+		} else {
+			forMap = update;
+		}
+
+		if (forSet) {
+			//check data integrity
+			forSet = mapUtils.checkViewIntegrity(forSet); //TODO test
+			dispatch(actionUpdateSetView(set.key, forSet));
+		}
+
+		if (forMap) {
+			//check data integrity
+			forMap = mapUtils.checkViewIntegrity(forMap); //TODO test
+			dispatch(actionUpdateMapView(mapKey, forMap));
+		}
+	}
+};
+
+// TODO deprecated
 const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 	if (WorldWindNavigator.heading && WorldWindNavigator.heading > 360) {
 		WorldWindNavigator.heading = WorldWindNavigator.heading - 360;
@@ -532,6 +595,7 @@ const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 	return WorldWindNavigator;
 };
 
+// TODO deprecated
 const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 	return (dispatch, getState) => {
 		const mapNavigator = Select.maps.getNavigator(getState(), mapKey);
@@ -561,7 +625,14 @@ const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 		}, 20)
 
 	}
-}
+};
+
+const resetViewHeading = (mapKey) => {
+	return (dispatch, getState) => {
+		const view = Select.maps.getView(getState(), mapKey);
+		mapUtils.resetHeading(view.heading, heading => dispatch(updateMapAndSetView(mapKey, {heading})));
+	}
+};
 
 const setMapScope = (mapKey, scope) => {
 	return (dispatch, getState) => {
@@ -634,7 +705,7 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			dispatch(actionSetMapBackgroundLayer(mapKey, backgroundLayer));
-			dispatch(Action.maps.use(mapKey));
+			dispatch(Action.maps.deprecated_use(mapKey));
 		}
 	};
 };
@@ -651,11 +722,11 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
-const use = (mapKey, useActiveMetadataKeys) => {
+const deprecated_use = (mapKey, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
 		let state = getState();
-		let layers = Select.maps.getLayersStateByMapKey(state, mapKey, useActiveMetadataKeys);
-		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey(state, mapKey);
+		let layers = Select.maps.getLayersStateByMapKey_deprecated(state, mapKey, useActiveMetadataKeys);
+		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, mapKey);
 		let finalLayers = [];
 
 		if (backgroundLayer) {
@@ -722,6 +793,48 @@ const use = (mapKey, useActiveMetadataKeys) => {
 	};
 };
 
+function use(mapKey) {
+	return (dispatch, getState) => {
+		let state = getState();
+
+		// let filterByActive = Select.maps.getFilterByActiveByMapKey(state, mapKey);
+		let layers = Select.maps.getAllLayersStateByMapKey(state, mapKey);
+		let activeKeys = commonSelectors.getAllActiveKeys(state);
+
+		if (layers) {
+			const componentId = `map_${mapKey}`;
+			layers.forEach(layer => {
+				let filter = {...layer.metadataModifiers, layerTemplateKey: layer.layerTemplateKey};
+				let filterByActive = layer.filterByActive || null;
+				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
+
+				/* Ensure spatial relations */
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filterByActive, filter, null, 1, 1000));
+				dispatch(Action.spatialRelations.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
+
+					/* Ensure spatial data sources */
+					let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), mergedFilter);
+					if (spatialDataSourcesKeys) {
+
+						dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
+
+							// TODO load data for vector data sources
+						});
+					}
+				});
+
+				// TODO use layer template keys
+			});
+		}
+	}
+}
+
+function useClear() {
+	return dispatch => {
+
+	}
+}
+
 function updateStateFromView(data) {
 	return dispatch => {
 		if (data) {
@@ -736,6 +849,7 @@ function goToPlace(placeString) {
 			mapUtils.getLocationFromPlaceString(placeString).then(location => {
 				if (location) {
 					let mapKey = Select.maps.getActiveMapKey(getState());
+					dispatch(updateMapAndSetView(mapKey, location));
 
 					// TODO temporary solution for old map state
 					let navigatorUpdate = {
@@ -745,7 +859,7 @@ function goToPlace(placeString) {
 							longitude: location.center.lon
 						}
 					};
-					dispatch(updateWorldWindNavigator(mapKey,navigatorUpdate))
+					dispatch(updateWorldWindNavigator(mapKey,navigatorUpdate)); // TODO deprecated
 				}
 			});
 		}
@@ -798,6 +912,7 @@ const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 	}
 };
 
+// TODO deprecated
 const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
@@ -806,11 +921,28 @@ const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	}
 };
 
+const actionSetSetView = (setKey, view) => {
+	return {
+		type: ActionTypes.MAPS.SET.VIEW.SET,
+		setKey,
+		view
+	}
+};
+
+// TODO deprecated
 const actionUpdateSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE,
 		setKey,
 		worldWindNavigator,
+	}
+};
+
+const actionUpdateSetView = (setKey, update) => {
+	return {
+		type: ActionTypes.MAPS.SET.VIEW.UPDATE,
+		setKey,
+		update
 	}
 };
 
@@ -860,6 +992,7 @@ const actionSetMapData = (mapKey, data) => {
 	}
 };
 
+// TODO deprecated
 const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
@@ -867,11 +1000,29 @@ const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 		worldWindNavigator,
 	}
 };
+
+const actionSetMapView = (mapKey, view) => {
+	return {
+		type: ActionTypes.MAPS.MAP.VIEW.SET,
+		mapKey,
+		view
+	}
+};
+
+// TODO deprecated
 const actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return {
 		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE,
 		mapKey,
 		worldWindNavigator,
+	}
+};
+
+const actionUpdateMapView = (mapKey, update) => {
+	return {
+		type: ActionTypes.MAPS.MAP.VIEW.UPDATE,
+		mapKey,
+		update
 	}
 };
 
@@ -1005,6 +1156,7 @@ export default {
 	removeMapKeyFromSet,
 	removeSet,
 
+	resetViewHeading,
 	resetWorldWindNavigatorHeading,
 
 	setActiveMapKey,
@@ -1020,10 +1172,12 @@ export default {
 	setMapPlace,
 	setMapScenario,
 	setMapScope,
+	setMapView,
 	setMapWorldWindNavigator,
 
 	setSetBackgroundLayer,
 	setSetSync,
+	setSetView,
 	setSetWorldWindNavigator,
 
 	setInitial,
@@ -1031,6 +1185,11 @@ export default {
 	updateMapLayer,
 	updateStateFromView,
 	updateWorldWindNavigator,
+	updateMapAndSetView,
+
 	use,
-	useClear
+	useClear,
+
+	deprecated_use,
+	deprecated_useClear
 }

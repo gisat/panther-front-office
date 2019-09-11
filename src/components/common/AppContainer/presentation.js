@@ -17,7 +17,7 @@ class AppContainer extends React.PureComponent {
 
 	render() {
 
-		let classes = classNames({
+		let classes = classNames(this.props.appKey, {
 			'ptr-light': this.props.light || !this.props.dark,
 			'ptr-dark': this.props.dark
 		});

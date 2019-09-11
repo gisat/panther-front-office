@@ -63,6 +63,7 @@ class LineChart extends React.PureComponent {
 
 			let uniqueXvalues = _.uniqBy(_.flatten(xValues));
 			sortedUniqueXvalues = _.sortBy(uniqueXvalues);
+
 			let yValuesPrepared = _.flatten(yValues);
 
 			let yMaximum = _.max(yValuesPrepared);
@@ -76,10 +77,19 @@ class LineChart extends React.PureComponent {
 				yMaximum = props.yOptions.max;
 			}
 
-			xDomain = sortedUniqueXvalues;
 			yDomain = [yMinimum, yMaximum];
 
 			/* scales */
+			if (this.props.xScale === 'yearBased') {
+				let xMaximum = _.max(sortedUniqueXvalues);
+				let xMinimum = _.min(sortedUniqueXvalues);
+				sortedUniqueXvalues = [];
+				for (let i = xMinimum; i <= xMaximum; i++) {
+					sortedUniqueXvalues.push(i);
+				}
+			}
+
+			xDomain = sortedUniqueXvalues;
 			xScale = d3
 				.scaleBand()
 				.padding(0)
@@ -115,7 +125,7 @@ class LineChart extends React.PureComponent {
 					{(data) ?
 						<CartesianChartContent
 							{...props}
-							{...{xScale, yScale, contentData: sortedUniqueXvalues}}
+							{...{xScale, yScale, contentData: xDomain}}
 						>
 							{mode === 'aggregated' ?
 								this.renderAggregated(data, props, xScale, yScale) :
@@ -166,7 +176,7 @@ class LineChart extends React.PureComponent {
 					name={name}
 					coordinates={coordinates}
 					defaultColor={color}
-					highlightedColor={color}
+					highlightColor={color}
 					withPoints={this.props.withPoints}
 					siblings={siblings}
 					gray={mode === 'gray'}
@@ -270,7 +280,7 @@ class LineChart extends React.PureComponent {
 					name={'Minimum'}
 					coordinates={minCoordinates}
 					defaultColor={"#777777"}
-					highlightedColor={"#555555"}
+					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
@@ -284,7 +294,7 @@ class LineChart extends React.PureComponent {
 					coordinates={averageCoordinates}
 					withPoints={this.props.withPoints}
 					defaultColor={this.props.defaultColor ? this.props.defaultColor : "#0088ff"}
-					highlightedColor={this.props.highlightedColor ? this.props.highlightedColor : "#0077ff"}
+					highlightColor={this.props.highlightColor ? this.props.highlightColor : "#0077ff"}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
@@ -295,7 +305,7 @@ class LineChart extends React.PureComponent {
 					name={'Maximum'}
 					coordinates={maxCoordinates}
 					defaultColor={"#777777"}
-					highlightedColor={"#555555"}
+					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
 					pointNameSourcePath={props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}

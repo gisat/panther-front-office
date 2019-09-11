@@ -34,7 +34,7 @@ describe('#getBackgroundLayerStateByMapKey', () => {
 				key: 'background1'
 			}
 		};
-		Selector(Select.maps.getBackgroundLayerStateByMapKey).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getBackgroundLayerStateByMapKey_deprecated).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should select layer template from set', () => {
@@ -67,10 +67,10 @@ describe('#getBackgroundLayerStateByMapKey', () => {
 				key: 'background2'
 			}
 		};
-		Selector(Select.maps.getBackgroundLayerStateByMapKey).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getBackgroundLayerStateByMapKey_deprecated).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should select null, if no map key was passed', () => {
-		expect(Selector(Select.maps.getBackgroundLayerStateByMapKey).execute(BASIC_STATE)).toBeNull();
+		expect(Selector(Select.maps.getBackgroundLayerStateByMapKey_deprecated).execute(BASIC_STATE)).toBeNull();
 	});
 });

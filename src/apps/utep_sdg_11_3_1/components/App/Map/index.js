@@ -4,7 +4,7 @@ import Action from "../../../../../state/Action";
 
 import {cloneDeep, isEqual} from 'lodash';
 
-import wrapper from '../../../../../components/common/maps/MapWrapper';
+import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
 import utils from '../../../../../utils/utils';
 import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
@@ -21,7 +21,7 @@ const mapStateToProps = (state, props) => {
 	let chartCfg = {};
 
 	return (state) => {
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
