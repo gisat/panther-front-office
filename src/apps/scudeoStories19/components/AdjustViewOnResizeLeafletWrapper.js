@@ -1,6 +1,7 @@
 import React from 'react';
 import mapUtils from "../../../utils/map";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
+import MapSet from "../../../components/common/maps/MapSet/presentation";
 
 const BASE_MAP_SIZE = 1400; // size of map container in px, for which the view is calibrated
 
@@ -45,6 +46,8 @@ class AdjustViewOnResizeLeafletWrapper extends React.PureComponent {
 					React.Children.map(this.props.children, child => {
 						if (child.props && child.props.map && child.props.map.type === LeafletMap) {
 							return React.cloneElement(child, {map: React.cloneElement(child.props.map, {view: this.getView(this.props.geometry, true)})});
+						} else if (child.type === MapSet) {
+							return React.cloneElement(child, {view: this.getView(this.props.geometry, true)});
 						} else {
 							return child;
 						}

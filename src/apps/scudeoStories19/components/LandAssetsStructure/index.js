@@ -3,18 +3,13 @@ import Fade from "react-reveal/Fade";
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
-import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
-import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import Select from "../../../../components/common/atoms/Select/Select";
-import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
-import conversions from "../../data/conversions";
 
-import Helmet from "react-helmet";
 import {Footer, Visualization} from '../Page';
 import {Header} from "../Page";
 
@@ -33,6 +28,7 @@ import './styles/style.scss';
 import fetch from "isomorphic-fetch";
 import _ from "lodash";
 import Expandable from "../Expandable";
+import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 
 // LULC Level III
 const URBAN_FABRIC_KEYS = ["11100", "11200"];
@@ -398,56 +394,42 @@ class LandAssetsStructure extends React.PureComponent {
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-urbanExtent-map-1"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={firstYearStructureLayers}
-															scale
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
+												<MapSet
+													activeMapKey="scudeoStories19-urbanExtent-map-3"
+													backgroundLayer={backgroundLayer}
+													mapComponent={LeafletMap}
+													sync={{
+														boxRange: true,
+														center: true
+													}}
 												>
-													<div className="scudeoStories19-map-label">
-														{this.state.cityOne.firstYear}
-													</div>
+													<PresentationMap
+														mapKey="scudeoStories19-urbanExtent-map-3"
+														scrollWheelZoom="afterClick"
+														layers={firstYearStructureLayers}
+														scale
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.cityOne.firstYear}
+														</div>
+													</PresentationMap>
+													<PresentationMap
+														mapKey="scudeoStories19-urbanExtent-map-4"
+														scrollWheelZoom="afterClick"
+														layers={lastYearStructureLayers}
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.cityOne.lastYear}
+														</div>
+													</PresentationMap>
+													<MapControls zoomOnly levelsBased/>
 													<div className="scudeoStories19-map-attribution ptr-dark">
 														© <a href="https://www.openstreetmap.org/copyright"
 															 target="_blank">OpenStreetMap</a> contributors © <a
 														href="https://carto.com/attribution/#basemaps"
 														target="_blank">CARTO</a>
 													</div>
-												</PresentationMapWithControls>
-											</AdjustViewOnResizeLeafletWrapper>
-											<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-urbanExtent-map-2"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={lastYearStructureLayers}
-															scale
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
-												>
-													<div className="scudeoStories19-map-label">
-														{this.state.cityOne.lastYear}
-													</div>
-													<div className="scudeoStories19-map-attribution ptr-dark">
-														© <a href="https://www.openstreetmap.org/copyright"
-															 target="_blank">OpenStreetMap</a> contributors © <a
-														href="https://carto.com/attribution/#basemaps"
-														target="_blank">CARTO</a>
-													</div>
-												</PresentationMapWithControls>
+												</MapSet>
 											</AdjustViewOnResizeLeafletWrapper>
 										</div>
 									</Visualization>
@@ -587,58 +569,42 @@ class LandAssetsStructure extends React.PureComponent {
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
-												{/* //year 2016 */}
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-urbanExtent-map-3"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={firstYearChangeStructureLayers}
-															scale
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
+												<MapSet
+													activeMapKey="scudeoStories19-urbanExtent-map-1"
+													backgroundLayer={backgroundLayer}
+													mapComponent={LeafletMap}
+													sync={{
+														boxRange: true,
+														center: true
+													}}
 												>
-													<div className="scudeoStories19-map-label">
-														{this.state.cityOne.firstYear}
-													</div>
+													<PresentationMap
+														mapKey="scudeoStories19-urbanExtent-map-1"
+														scrollWheelZoom="afterClick"
+														layers={firstYearChangeStructureLayers}
+														scale
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.cityOne.firstYear}
+														</div>
+													</PresentationMap>
+													<PresentationMap
+														mapKey="scudeoStories19-urbanExtent-map-2"
+														scrollWheelZoom="afterClick"
+														layers={lastYearChangeStructureLayers}
+													>
+														<div className="scudeoStories19-map-label">
+															{`Change flows: ${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
+														</div>
+													</PresentationMap>
+													<MapControls zoomOnly levelsBased/>
 													<div className="scudeoStories19-map-attribution ptr-dark">
 														© <a href="https://www.openstreetmap.org/copyright"
 															 target="_blank">OpenStreetMap</a> contributors © <a
 														href="https://carto.com/attribution/#basemaps"
 														target="_blank">CARTO</a>
 													</div>
-												</PresentationMapWithControls>
-											</AdjustViewOnResizeLeafletWrapper>
-											<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.data}>
-												{/* //year 2006 */}
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-urbanExtent-map-4"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={lastYearChangeStructureLayers}
-															scale
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
-												>
-													<div className="scudeoStories19-map-label">
-														{`Change flows: ${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
-													</div>
-													<div className="scudeoStories19-map-attribution ptr-dark">
-														© <a href="https://www.openstreetmap.org/copyright"
-															 target="_blank">OpenStreetMap</a> contributors © <a
-														href="https://carto.com/attribution/#basemaps"
-														target="_blank">CARTO</a>
-													</div>
-												</PresentationMapWithControls>
+												</MapSet>
 											</AdjustViewOnResizeLeafletWrapper>
 										</div>
 									</Visualization>
