@@ -38,3 +38,46 @@
 	background: var(--accent50);
 	color: var(--base10);
 }
+
+
+.tacrGeoinvaze-layer-legend > div {
+	padding: 1rem 0;
+	font-size: $b1;
+}
+.tacrGeoinvaze-layer-legend.point > div > div > span {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: .5rem;
+	width: .375rem;
+	height: .375rem;
+	border-radius: 999%;
+}
+.tacrGeoinvaze-layer-legend.discrete .tacrGeoinvaze-layer-legend-record > span {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: .5rem;
+	width: .5rem;
+	height: .5rem;
+}
+
+.tacrGeoinvaze-layer-legend-group {
+	display: flex;
+	flex-wrap: wrap;
+	//justify-content: space-between;
+	align-content: flex-start;
+}
+.tacrGeoinvaze-layer-legend-group .tacrGeoinvaze-layer-legend-record:not(:first-child) {
+	margin-left: 1rem;
+}
+
+.tacrGeoinvaze-layer-legend.continuous > div > span {
+	display: block;
+	height: .75rem;
+	background: linear-gradient(90deg, rgba(43,106,0,1) 0%, rgba(238,238,0,1) 50%, rgba(255,0,0,1) 100%);
+	width: 100%;
+	margin-top: .25rem;
+}
+.tacrGeoinvaze-layer-legend.continuous > div > div {
+	display: flex;
+	justify-content: space-between;
+}

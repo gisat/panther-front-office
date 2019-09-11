@@ -110,7 +110,9 @@ class LayerControls extends React.PureComponent {
 							</ButtonSwitch>
 							{/*<Select/>*/}
 						</div>
-						<div className="tacrGeoinvaze-layer-legend"></div>
+						<div className="tacrGeoinvaze-layer-legend point"><div>
+							<div><span style={{backgroundColor: '#00f'}}/>Zaznamenaný výskyt</div>
+						</div></div>
 					</div>
 				);
 			} else {
@@ -146,7 +148,17 @@ class LayerControls extends React.PureComponent {
 							<Option active={gis10active} value={"gis10"}>+ 10 let</Option>
 						</ButtonSwitch>
 					</div>
-					<div className="tacrGeoinvaze-layer-legend"></div>
+					
+					<div className="tacrGeoinvaze-layer-legend discrete">
+						<div>
+							<span>Pravděpodobnost rozšíření:</span>
+							<div className="tacrGeoinvaze-layer-legend-group">
+								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#f00'}}/>Vysoká</div>
+								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#f90'}}/>Nízká</div>
+								<div className="tacrGeoinvaze-layer-legend-record"><span style={{backgroundColor: '#4a0'}}/>Velmi nízká</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div className={classNames("tacrGeoinvaze-model-biomod", {
 					active: gamActive || gbmActive || maxentActive
@@ -159,7 +171,15 @@ class LayerControls extends React.PureComponent {
 							<Option active={maxentActive} value={"maxent"}>maximum entropy</Option>
 						</ButtonSwitch>
 					</div>
-					<div className="tacrGeoinvaze-layer-legend"></div>
+					<div className="tacrGeoinvaze-layer-legend continuous">
+						<div>
+							<span/>
+							<div>
+								<div className="tacrGeoinvaze-layer-legend-point start">0 %</div>
+								<div className="tacrGeoinvaze-layer-legend-point end">100 %</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
