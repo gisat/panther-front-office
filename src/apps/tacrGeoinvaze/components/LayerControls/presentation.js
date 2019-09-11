@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from 'classnames';
 
 import './style.scss';
 import Button, {ButtonGroup} from "../../../../components/common/atoms/Button";
@@ -81,10 +82,14 @@ class LayerControls extends React.PureComponent {
 		const templateKeys = props.templateKeys;
 		
 		let actualExpansionInsert = null;
+		let actualExpansionActive = props.templateKeys && props.templateKeys.actualExpansion === props.activeLayerTemplateKey;
+		let actualExpansionClassNames = classNames("tacrGeoinvaze-actual-expansion", {
+			active: actualExpansionActive
+		});
 		
 		if (props.isCrayfish) {
 			actualExpansionInsert = (
-				<div className="tacrGeoinvaze-actual-expansion">
+				<div className={actualExpansionClassNames}>
 					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
 					<div className="tacrGeoinvaze-layer-description">Mapa VÚV TGM</div>
 				</div>
@@ -95,12 +100,12 @@ class LayerControls extends React.PureComponent {
 				let latestPeriods = this.props.periods.slice(0, 3); //todo all periods to select
 				
 				actualExpansionInsert = (
-					<div className="tacrGeoinvaze-actual-expansion">
+					<div className={actualExpansionClassNames}>
 						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
 						<div>
 							<ButtonSwitch onClick={this.switchToActual} ghost>
 								{latestPeriods.map(period => (
-									<Option active={props.templateKeys && props.templateKeys.actualExpansion === props.activeLayerTemplateKey && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
+									<Option active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
 								))}
 							</ButtonSwitch>
 							{/*<Select/>*/}
@@ -109,7 +114,7 @@ class LayerControls extends React.PureComponent {
 				);
 			} else {
 				actualExpansionInsert = (
-					<div className="tacrGeoinvaze-actual-expansion">
+					<div className={actualExpansionClassNames}>
 						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
 						<div>
 							(žádná data)
@@ -118,27 +123,38 @@ class LayerControls extends React.PureComponent {
 				);
 			}
 		}
+		
+		let gis1active = this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year1);
+		let gis3active = this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year3);
+		let gis10active = this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year10);
+		let gamActive = this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.generalisedLinear);
+		let gbmActive = this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.gradientBoosting);
+		let maxentActive = this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.maximumEntropy);
 
 		return (
 			<div className="tacrGeoinvaze-layer-controls">
 				{actualExpansionInsert}
-				<div className="tacrGeoinvaze-model-gis">
+				<div className={classNames("tacrGeoinvaze-model-gis", {
+					active: gis1active || gis3active || gis10active
+				})}>
 					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření / Future expansion model</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year1)} value={"gis1"}>+ 1 rok</Option>
-							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year3)} value={"gis3"}>+ 3 roky</Option>
-							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelGis && templateKeys.modelGis.year10)} value={"gis10"}>+ 10 let</Option>
+							<Option active={gis1active} value={"gis1"}>+ 1 rok</Option>
+							<Option active={gis3active} value={"gis3"}>+ 3 roky</Option>
+							<Option active={gis10active} value={"gis10"}>+ 10 let</Option>
 						</ButtonSwitch>
 					</div>
 				</div>
-				<div className="tacrGeoinvaze-model-biomod">
+				<div className={classNames("tacrGeoinvaze-model-biomod", {
+					active: gamActive || gbmActive || maxentActive
+				})}>
 					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření / Expansion probability model</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.generalisedLinear)} value={"gam"}>gen. lineární</Option>
-							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.gradientBoosting)} value={"gbm"}>gradient boosting</Option>
-							<Option active={this.props.activeLayerTemplateKey === (templateKeys && templateKeys.modelBiomod && templateKeys.modelBiomod.maximumEntropy)} value={"maxent"}>maximum entropy</Option>
+							<Option active={gamActive} value={"gam"}>gen. lineární</Option>
+							<Option active={gbmActive} value={"gbm"}>gradient boosting</Option>
+							<Option active={maxentActive} value={"maxent"}>maximum entropy</Option>
 						</ButtonSwitch>
 					</div>
 				</div>
