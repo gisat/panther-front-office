@@ -258,10 +258,13 @@ class BarGroup extends React.PureComponent {
 			let columnName = props.data.name;
 			let color = props.highlightColor;
 
+			// change order
+			let positiveData = _.reverse(_.cloneDeep(data.positive.data));
+
 			return (
 				<>
 					<div className="ptr-popup-header">{columnName}</div>
-					{data.positive.data.map((record, index) => {
+					{positiveData.map((record, index) => {
 						return this.getPopupRecordGroup(record, attributeName, units, color, index)
 					})}
 					{data.negative.data.map((record, index) => {
