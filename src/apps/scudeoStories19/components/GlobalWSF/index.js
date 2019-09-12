@@ -192,9 +192,14 @@ class GlobalWSF extends React.PureComponent {
 				value: null,
 				id: 'unlimited',
 			},
+			growRateOption: {
+				value: null,
+				id: 'unlimited',
+			},
 		};
 
 		this.handleOptionChange = this.handleOptionChange.bind(this);
+		this.handleGrowRateOptionChange = this.handleGrowRateOptionChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -267,6 +272,15 @@ class GlobalWSF extends React.PureComponent {
 	handleOptionChange(changeEvent) {
 		this.setState({
 		  selectedOption: {
+			  value: changeEvent.target.value === 'unlimited' ? null : parseInt(changeEvent.target.value),
+			  id: changeEvent.target.value,
+			}
+		});
+	}
+
+	handleGrowRateOptionChange(changeEvent) {
+		this.setState({
+			growRateOption: {
 			  value: changeEvent.target.value === 'unlimited' ? null : parseInt(changeEvent.target.value),
 			  id: changeEvent.target.value,
 			}
@@ -477,6 +491,7 @@ class GlobalWSF extends React.PureComponent {
 
 													yLabel
 													yOptions={{
+														max: this.state.growRateOption.value,
 														name: "Settlement growth",
 														unit: "%"
 													}}
@@ -484,6 +499,35 @@ class GlobalWSF extends React.PureComponent {
 													height={22}
 													legend
 												/>
+											<div className="scudeoStories19-inline-radio">
+													<span className={"label"}>
+													Maximum settlement area growth rate (%):
+													</span>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={'unlimited'} checked={this.state.growRateOption.id === 'unlimited'} onChange={this.handleGrowRateOptionChange}/>
+															<span>
+																Full range
+															</span>
+														</label>
+													</div>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={15} checked={this.state.growRateOption.id === '15'} onChange={this.handleGrowRateOptionChange}/>
+															<span>
+																15%
+															</span>
+														</label>
+													</div>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={5} checked={this.state.growRateOption.id === '5'} onChange={this.handleGrowRateOptionChange}/>
+															<span>
+																5%
+															</span>
+														</label>
+													</div>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
