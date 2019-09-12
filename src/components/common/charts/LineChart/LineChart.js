@@ -170,7 +170,6 @@ class LineChart extends React.PureComponent {
 				color = _.get(item, props.colorSourcePath);
 			}
 
-			console.log(props.pointNameSourcePath, this.props.pointNameSourcePath);
 			return (
 				<Line
 					key={`${key}_${JSON.stringify(coordinates)}`}
