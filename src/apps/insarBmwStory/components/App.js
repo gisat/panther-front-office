@@ -2,7 +2,7 @@ import React from 'react';
 import Fade from 'react-reveal/Fade';
 
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
-import PresentationMapWithControls from "../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../components/common/maps/MapControls/presentation";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
 import SelectHandler from "./SelectHandler";
@@ -96,7 +96,7 @@ class App extends React.PureComponent {
 				>
 					<div className="insarBmwStory-visualizations">
 						<div className="insarBmwStory-map">
-							<PresentationMapWithControls
+							<Deprecated_PresentationMapWithControls
 								map={
 									<LeafletMap
 										mapKey="insarBmwStory-map1"
@@ -166,7 +166,7 @@ class App extends React.PureComponent {
 									</div>
 								</div>
 								<ZoneInfo data={this.state.features}/>
-							</PresentationMapWithControls>
+							</Deprecated_PresentationMapWithControls>
 						</div>
 
 						<div className="insarBmwStory-right-panel">

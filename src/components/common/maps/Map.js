@@ -2,6 +2,9 @@ import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import React from "react";
+import _ from "lodash";
+import {defaultMapView} from "./constants";
+import mapUtils from "../../../utils/map";
 
 const backgroundLayer = {
 	key: 'osm',
@@ -69,11 +72,41 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	}
 };
 
-class MapWrapper extends React.PureComponent {
+class ConnectedMap extends React.PureComponent {
 
+	constructor(props) {
+		super(props);
+		
+		if (!props.stateMapKey) {
+			this.state = {
+				view: {...defaultMapView, ...props.view}
+			};
+		}
+		
+		this.onViewChange = this.onViewChange.bind(this);
+		this.resetHeading = this.resetHeading.bind(this);
+	}
+	
 	componentDidMount() {
 		if (this.props.onMount) {
 			this.props.onMount();
+		}
+	}
+	
+	componentDidUpdate(prevProps) {
+		const props = this.props;
+		if (props.view) {
+			if (prevProps && prevProps.view) { //todo simplify
+				if (!_.isEqual(props.view, prevProps.view)) {
+					this.setState({
+						view: {...defaultMapView, ...props.view}
+					});
+				}
+			} else {
+				this.setState({
+					view: {...defaultMapView, ...props.view}
+				});
+			}
 		}
 	}
 
@@ -82,12 +115,47 @@ class MapWrapper extends React.PureComponent {
 			this.props.onUnmount();
 		}
 	}
+	
+	onViewChange(update) {
+		const view = {...this.state.view, ...update};
+		
+		if (!_.isEqual(view, this.state.view)) {
+			this.setState({view});
+		}
+	}
+	
+	resetHeading() {
+		mapUtils.resetHeading(this.state.view.heading, (heading) => this.setState({
+			view: {...this.state.view, heading}
+		}));
+	}
 
 	render() {
 		const {children, mapComponent, ...props} = this.props;
-		return React.createElement(mapComponent, props, children);
+		if (!props.stateMapKey) {
+			props.view = this.state.view || props.view;
+			props.onViewChange = this.onViewChange;
+		}
+		let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
+		if (!children) {
+			return map;
+		} else {
+			return (
+				<div className="ptr-map-controls-wrapper">
+					{map}
+					{React.Children.map(children, child => {
+						return React.cloneElement(child, {
+							...child.props,
+							view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
+							updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
+							resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
+						});
+					})}
+				</div>
+			);
+		}
 	}
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMap);

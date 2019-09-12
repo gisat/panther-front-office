@@ -2,7 +2,7 @@ import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
 import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import PresentationMapWithControls from "../../../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
 
 class MapDoc extends React.PureComponent {
@@ -10,7 +10,7 @@ class MapDoc extends React.PureComponent {
 		return (
 			<Page title="Map">
 				<div style={{height: 500}}>
-					<PresentationMapWithControls
+					<Deprecated_PresentationMapWithControls
 						map={(<WorldWindMap
 							backgroundLayer={{
 								type: 'worldwind',

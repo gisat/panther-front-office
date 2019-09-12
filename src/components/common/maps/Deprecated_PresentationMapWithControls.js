@@ -4,7 +4,7 @@ import _ from 'lodash';
 import mapUtils from "../../../utils/map";
 import {defaultMapView} from './constants';
 
-class PresentationMapWithControls extends React.PureComponent {
+class Deprecated_PresentationMapWithControls extends React.PureComponent {
 	static propTypes = {
 		map: PropTypes.element,
 		controls: PropTypes.element
@@ -80,4 +80,4 @@ class PresentationMapWithControls extends React.PureComponent {
 	}
 }
 
-export default PresentationMapWithControls;
+export default Deprecated_PresentationMapWithControls;

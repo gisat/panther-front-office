@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import PresentationMapWithControls from "../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../components/common/maps/Deprecated_PresentationMapWithControls";
 import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation";
 import LeafletMap from "../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../components/common/maps/MapControls/presentation";
@@ -155,7 +155,7 @@ class Demo extends React.PureComponent {
 		return (
 			<div className="demo-app ptr-light">
 				<div className="demo-maps">
-					<PresentationMapWithControls
+					<Deprecated_PresentationMapWithControls
 						map={React.createElement(mapFramework.component, state)}
 						controls={mapFramework.name === 'World Wind' ? <MapControls zoomOnly/> :<MapControls levelsBased zoomOnly/>}
 					/>
