@@ -386,10 +386,12 @@ class LandAssetsStructure extends React.PureComponent {
 										title="Land Cover Land Use Structure"
 										description="Interactive maps above provide overview of land cover land use classes spatial distribution for a selected city for two reference years. Thus, spatial distribution of land cover land use changes for in-between period can be observed."
 										legend={
-											<div className="scudeoStories19-visualization-legend"
-												 style={{maxWidth: '100%', alignItems: 'center'}}>
-												{this.state.landUseMapLegendData ? this.renderMapLegend(this.state.landUseMapLegendData) : null}
-											</div>
+											<Expandable>
+												<div className="scudeoStories19-visualization-legend"
+													 style={{width: '100%', maxWidth: '50rem', alignItems: 'center'}}>
+													{this.state.landUseMapLegendData ? this.renderMapLegend(this.state.landUseMapLegendData) : null}
+												</div>
+											</Expandable>
 										}
 									>
 										<div className="scudeoStories19-map-container">
