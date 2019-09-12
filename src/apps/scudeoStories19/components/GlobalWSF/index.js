@@ -192,9 +192,14 @@ class GlobalWSF extends React.PureComponent {
 				value: null,
 				id: 'unlimited',
 			},
+			growRateOption: {
+				value: null,
+				id: 'unlimited',
+			},
 		};
 
 		this.handleOptionChange = this.handleOptionChange.bind(this);
+		this.handleGrowRateOptionChange = this.handleGrowRateOptionChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -267,6 +272,15 @@ class GlobalWSF extends React.PureComponent {
 	handleOptionChange(changeEvent) {
 		this.setState({
 		  selectedOption: {
+			  value: changeEvent.target.value === 'unlimited' ? null : parseInt(changeEvent.target.value),
+			  id: changeEvent.target.value,
+			}
+		});
+	}
+
+	handleGrowRateOptionChange(changeEvent) {
+		this.setState({
+			growRateOption: {
 			  value: changeEvent.target.value === 'unlimited' ? null : parseInt(changeEvent.target.value),
 			  id: changeEvent.target.value,
 			}
@@ -419,13 +433,13 @@ class GlobalWSF extends React.PureComponent {
 												/>
 												<div className="scudeoStories19-inline-radio">
 													<span className={"label"}>
-														Maximum visible Y axis size:
+														Maximum settlement are (km2):
 													</span>
 													<div className="radio">
 														<label>
 															<input type={'radio'} value={'unlimited'} checked={this.state.selectedOption.id === 'unlimited'} onChange={this.handleOptionChange}/>
 															<span>
-																Unlimited
+																Full range
 															</span>
 														</label>
 													</div>
@@ -477,6 +491,7 @@ class GlobalWSF extends React.PureComponent {
 
 													yLabel
 													yOptions={{
+														max: this.state.growRateOption.value,
 														name: "Settlement growth",
 														unit: "%"
 													}}
@@ -484,6 +499,35 @@ class GlobalWSF extends React.PureComponent {
 													height={22}
 													legend
 												/>
+											<div className="scudeoStories19-inline-radio">
+													<span className={"label"}>
+													Maximum settlement area growth rate (%):
+													</span>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={'unlimited'} checked={this.state.growRateOption.id === 'unlimited'} onChange={this.handleGrowRateOptionChange}/>
+															<span>
+																Full range
+															</span>
+														</label>
+													</div>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={15} checked={this.state.growRateOption.id === '15'} onChange={this.handleGrowRateOptionChange}/>
+															<span>
+																15%
+															</span>
+														</label>
+													</div>
+													<div className="radio">
+														<label>
+															<input type={'radio'} value={5} checked={this.state.growRateOption.id === '5'} onChange={this.handleGrowRateOptionChange}/>
+															<span>
+																5%
+															</span>
+														</label>
+													</div>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
@@ -495,7 +539,7 @@ class GlobalWSF extends React.PureComponent {
 							>
 								<Fade left distance="50px">
 									<Visualization
-										title="Urban Expansion Coefficient (2000-2005, 2005-2010, 2010-2015)"
+										title="Urban Expansion Coefficient"
 										description="To better understand the pattern of urban growth end its efficiency the urban expansion coefficient (UEC) is presented. Level of urban growth efficiency is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification. Densification is  is supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000 - 2015 following the availability of population estimates within WorldPop global dataset. Source data: WSF © DLR 2019, © WorldPop 2019"
 									>
 										<Fade cascade>
@@ -516,8 +560,7 @@ class GlobalWSF extends React.PureComponent {
 
 													yLabel
 													yOptions={{
-														name: "Urban Expansion Coefficient",
-														unit: "k%"
+														name: "Urban Expansion Coefficient"
 													}}
 
 													height={22}
