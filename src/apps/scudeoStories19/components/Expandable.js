@@ -4,7 +4,7 @@ import Icon from '../../../components/common/atoms/Icon'
 
 class Expandable extends React.PureComponent {
 	static defaultProps = {
-		height: 100
+		height: 70
 	};
 
 	constructor(props) {
