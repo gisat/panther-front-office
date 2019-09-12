@@ -419,13 +419,13 @@ class GlobalWSF extends React.PureComponent {
 												/>
 												<div className="scudeoStories19-inline-radio">
 													<span className={"label"}>
-														Maximum visible Y axis size:
+														Maximum settlement are (km2):
 													</span>
 													<div className="radio">
 														<label>
 															<input type={'radio'} value={'unlimited'} checked={this.state.selectedOption.id === 'unlimited'} onChange={this.handleOptionChange}/>
 															<span>
-																Unlimited
+																Full range
 															</span>
 														</label>
 													</div>
