@@ -248,6 +248,8 @@ class LandAssetsStructure extends React.PureComponent {
 			vectorLayer: null,
 			landUseMapLegendData: null,
 			changeMapLegendData: null,
+			cityYear: null,
+			cityYears: [],
 		};
 	}
 
@@ -260,6 +262,21 @@ class LandAssetsStructure extends React.PureComponent {
 				loading: false,
 				cityOne: dataset[0],
 				vectorLayer,
+				cityYear: {
+					key: dataset[0].firstYear,
+					name: dataset[0].firstYear,
+				},
+				cityYears: [
+					{
+						key: dataset[0].firstYear,
+						name: dataset[0].firstYear,
+					},
+					{
+						key: dataset[0].lastYear,
+						name: dataset[0].lastYear,
+					}
+				]
+
 			});
 		});
 
@@ -270,7 +287,27 @@ class LandAssetsStructure extends React.PureComponent {
 
 	onCityChange(city, data) {
 		this.setState({
-			[city]: data
+			[city]: data,
+			cityYear: {
+				key: data.firstYear,
+				name: data.firstYear,
+			},
+			cityYears: [
+				{
+					key: data.firstYear,
+					name: data.firstYear,
+				},
+				{
+					key: data.lastYear,
+					name: data.lastYear,
+				}
+			]
+		});
+	}
+
+	onSelectedYearChanged(cityYear) {
+		this.setState({
+			cityYear
 		});
 	}
 
@@ -585,7 +622,15 @@ class LandAssetsStructure extends React.PureComponent {
 														scale
 													>
 														<div className="scudeoStories19-map-label">
-															{this.state.cityOne.firstYear}
+															{/* {this.state.cityOne.firstYear} */}
+															<Select
+																onChange={this.onSelectedYearChanged.bind(this)}
+																options={this.state.cityYears}
+																optionLabel="name"
+																optionValue="key"
+																value={this.state.cityYear}
+																menuPortalTarget={this.props.pageKey}
+															/>	
 														</div>
 													</PresentationMap>
 													<PresentationMap

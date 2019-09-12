@@ -236,6 +236,7 @@
 	margin-right: .1rem;
 	cursor: pointer;
 	min-width: 0;
+	height: 1.5rem;
 }
 
 .scudeoStories19-map-label .ptr-select-container .ptr-select__control--is-focused {
@@ -247,7 +248,15 @@
 }
 
 .scudeoStories19-map-label .ptr-select-container .ptr-select__single-value {
-	color: var(--accent50);
+	// color: var(--accent50);
+}
+
+.scudeoStories19-map-label .ptr-select-container .ptr-select__indicators{
+	height: unset;
+}
+
+.scudeoStories19-map-label .ptr-select-container .ptr-select__indicators .ptr-select__dropdown-indicator{
+	padding: 0px;
 }
 
 .scudeoStories19-map-label .ptr-select__indicator-separator {
