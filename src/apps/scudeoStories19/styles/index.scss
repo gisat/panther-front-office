@@ -306,6 +306,13 @@
 	max-width: 50rem;
 }
 
+.scudeoStories19-chart-container .no-data{
+	display: flex;
+	justify-content: center;
+    margin: 2rem 0px;
+    color: var(--base60);
+}
+
 /* Footer */
 .scudeoStories19-footer {
 	display: flex;

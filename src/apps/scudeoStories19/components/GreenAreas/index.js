@@ -80,11 +80,11 @@ const getUrbanGreenAreasData = (properties, firstYear, lastYear) => {
 const transformDataset = (dataset) => {
 	return dataset.map((dataSet) => {
 		const area = conversions.toSquareKm(dataSet.data.features[0].properties.area);
-		const urban_fabric_coverage = conversions.toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`)));
+		const urban_fabric_coverage = conversions.toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`))) || 0;
 		const urban_fabric_share = urban_fabric_coverage / (area / 100);
 		const urban_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]);
 		const urban_share = dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_percentage`];
-		const green_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]);
+		const green_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]) || 0;
 		const green_share = dataSet.data.features[0].properties[`green_${dataSet.lastYear}_percentage`];
 		const sport_leisure_facilities_share = dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_percentage`];
 		const sport_leisure_facilities_area = conversions.toSquareKm(dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_coverage`]);
@@ -152,6 +152,7 @@ class GreenAreas extends React.PureComponent {
 		let sankeyGreenData = null;
 		let sankeyGreenDataEmpty = null;
 		let urbanGreenAres = null;
+		let urbanGreenAresDataEmpty = true;
 
 		if(this.state.city) {
 			firstYearGreenAreasDistributionLayers = [greenLayerFirstYear, this.state.vectorLayer];
@@ -160,6 +161,7 @@ class GreenAreas extends React.PureComponent {
 			sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
 
 			urbanGreenAres = getUrbanGreenAreasData(this.state.city.data.features[0].properties, this.state.city.firstYear, this.state.city.lastYear);
+			urbanGreenAresDataEmpty = urbanGreenAres.every((u) => u.value === null)
 		}
 
 		return (
@@ -429,7 +431,7 @@ class GreenAreas extends React.PureComponent {
 									</Visualization>
 								</Fade>
 
-
+									
 								<HoverHandler>
 									<Fade left distance="50px">
 										<Visualization
@@ -439,32 +441,32 @@ class GreenAreas extends React.PureComponent {
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
-													<ColumnChart
-														key="green-areas-stacked-chart"
+													{!urbanGreenAresDataEmpty ? 
+														<ColumnChart
+															key="green-areas-stacked-chart"
 
-														data={urbanGreenAres}
-														keySourcePath="name"
-														nameSourcePath="name"
-														xSourcePath="name"
-														ySourcePath={'value'}
-														defaultColor="#42982e"
-														highlightColor="#39782b"
+															data={urbanGreenAres}
+															keySourcePath="name"
+															nameSourcePath="name"
+															xSourcePath="name"
+															ySourcePath={'value'}
+															defaultColor="#42982e"
+															highlightColor="#39782b"
 
-														xValuesSize={3}
+															xValuesSize={3}
 
-														yLabel
-														yOptions={{
-															name: "Area",
-															unit: "km2"
-														}}
+															yLabel
+															yOptions={{
+																name: "Area",
+																unit: "km2"
+															}}
 
-													/>
+													/> : <div className={'no-data'}>no data</div>}
 												</div>
 											</Fade>
 										</Visualization>
 									</Fade>
 								</HoverHandler>
-								{!sankeyGreenDataEmpty ?
 									<HoverHandler>
 										<Fade left distance="50px">
 											<Visualization
@@ -474,30 +476,32 @@ class GreenAreas extends React.PureComponent {
 											>
 												<Fade cascade>
 													<div className="scudeoStories19-chart-container">
-														<SankeyChart
-															hoverValueSourcePath="valueSize"
-															key="sankey-green-area-flows"
-															data={sankeyGreenData}
-															keySourcePath="key"
+														{!sankeyGreenDataEmpty ?
+															<SankeyChart
+																hoverValueSourcePath="valueSize"
+																key="sankey-green-area-flows"
+																data={sankeyGreenData}
+																keySourcePath="key"
 
-															nodeNameSourcePath="name"
-															nodeValueSourcePath="value"
-															nodeColorSourcePath="color"
+																nodeNameSourcePath="name"
+																nodeValueSourcePath="value"
+																nodeColorSourcePath="color"
 
-															linkNameSourcePath="name"
-															hoverValueSourcePath="value"
+																linkNameSourcePath="name"
+																hoverValueSourcePath="value"
 
-															maxWidth={50}
-															width={50}
-															height={40}
-															yOptions={{
-																unit: 'km2'
-															}}
-														/>
+																maxWidth={50}
+																width={50}
+																height={40}
+																yOptions={{
+																	unit: 'km2'
+																}}
+															/>
+														: <div className={'no-data'}>no data</div>}
 													</div>
 												</Fade>
 											</Visualization>
-										</Fade></HoverHandler> : null}
+										</Fade></HoverHandler>
 							</section>
 							<section>
 								<h2>Green Areas methodology</h2>
