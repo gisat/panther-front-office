@@ -19,6 +19,7 @@ import "./styles/style.scss";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
 import request from '../../../../state/_common/request';
+import AxisLabel from "../../../../components/common/charts/AxisLabel";
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -556,11 +557,25 @@ class GlobalWSF extends React.PureComponent {
 													pointNameSourcePath="name"
 													colorSourcePath="color"
 
-													xValuesSize={2.5}
+													xValuesSize={2}
 
 													yLabel
 													yOptions={{
 														name: "Urban Expansion Coefficient"
+													}}
+													xOptions={{
+														valueLabelRenderer: (x, y, maxWidth, maxHeight, value) =>
+															<g
+																transform={`translate(${x} ${y + 5})`}
+															>
+																<AxisLabel
+																	classes="ptr-tick-caption"
+																	maxWidth={maxWidth}
+																	maxHeight={maxHeight}
+																	text={`${value - 5} - ${value}`}
+																	textAnchor="middle"
+																/>
+															</g>
 													}}
 
 													height={22}
