@@ -7,7 +7,7 @@ import SankeyChart from "../../../../components/common/charts/SankeyChart/Sankey
 import Select from "../../../../components/common/atoms/Select/Select";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
-
+import conversions from "../../data/conversions";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 
 import {Footer, Visualization} from '../Page';
@@ -134,6 +134,8 @@ const lulcLastYearChangeStructureLayer = {
 const getClassPercentagePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_percentage`
 const getLCFGClassPropertyKey = (classId, yearFirst, yearLast) => `lcfg_${yearFirst}_${yearLast}_${classId}_percentage`
 const getLCF1ClassPropertyKey = (classId, yearFirst, yearLast) => `lcf1_${yearFirst}_${yearLast}_${classId}_percentage`
+const getCoverageLCFGClassPropertyKey = (classId, yearFirst, yearLast) => `lcfg_${yearFirst}_${yearLast}_${classId}_coverage`
+const getCoverageLCF1ClassPropertyKey = (classId, yearFirst, yearLast) => `lcf1_${yearFirst}_${yearLast}_${classId}_coverage`
 const getClassCoveragePropertyKey = (classId, year) => `lulc_l3_${year}_${classId}_coverage`
 
 const LULCStructureDataset = [];
@@ -175,12 +177,16 @@ const prepareData = (dataset) => {
 		for (const [classId, className] of Object.entries(classesLCF1)) {
 			// const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
 			const changeKey = getLCF1ClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
+			const coverageChangeKey = getCoverageLCF1ClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
 			changes.data[classId] = dataSet.data.features[0].properties[changeKey];
+			changes.data[`${classId}_coverage`] = conversions.toSquareKm(dataSet.data.features[0].properties[coverageChangeKey]);
 		}
 		for (const [classId, className] of Object.entries(classesLCFG)) {
 			// const percentageKey = getClassPercentagePropertyKey(classId, dataSet.lastYear);
 			const changeKey = getLCFGClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
+			const coverageChangeKey = getCoverageLCFGClassPropertyKey(classId, dataSet.firstYear, dataSet.lastYear);
 			changes.data[classId] = dataSet.data.features[0].properties[changeKey];
+			changes.data[`${classId}_coverage`] = conversions.toSquareKm(dataSet.data.features[0].properties[coverageChangeKey]);
 		}
 
 
@@ -209,6 +215,16 @@ const pathLULCStructureYSourcePath = [];
 for (const [classId, className] of Object.entries(classesL3)) {
 	const valuePath = `data.${classId}`;
 	pathLULCStructureYSourcePath.push({
+		path: valuePath,
+		name: className,
+		color: colors[classId],
+	})
+}
+
+const pathLULCStructureAreasYSourcePath = [];
+for (const [classId, className] of Object.entries({...classesLCF1, ...classesLCFG})) {
+	const valuePath = `data.${classId}_coverage`;
+	pathLULCStructureAreasYSourcePath.push({
 		path: valuePath,
 		name: className,
 		color: colors[classId],
@@ -486,6 +502,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<Visualization
 											title="Land Cover Land Use Structure"
 											description="Graph above provides overview of land cover land use structure of selected cities for a given reference year."
+											subtitle={`period 2`}
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
@@ -519,8 +536,9 @@ class LandAssetsStructure extends React.PureComponent {
 								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
 									<Fade left distance="50px">
 										<Visualization
-											title="Land Cover Land Use Changes Intensity and Structure"
-											description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
+											title="Structure of Land Cover Land Use Changes (% of total change)"
+											subtitle={`period 1 / period 2`}
+											// description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
@@ -545,13 +563,51 @@ class LandAssetsStructure extends React.PureComponent {
 														}}
 														yValuesSize={3}
 
-														// stacked="relative"
+														stacked="relative"
 													/>
 												</div>
 											</Fade>
 										</Visualization>
 									</Fade>
 								</HoverHandler>
+
+
+								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
+									<Fade left distance="50px">
+										<Visualization
+											title="Structure of total Land Cover change (km2)"
+											subtitle={`period 1 / period 2`}
+											// description="Graph above provides overview of land cover land use changes of selected cities for a given reference year."
+										>
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
+													<ColumnChart
+														key="lulc-structure"
+
+														data={changesStructure}
+														keySourcePath="AL3_ID"
+														nameSourcePath="AL3_NAME"
+														xSourcePath="AL3_NAME"
+														ySourcePath={pathLULCStructureAreasYSourcePath}
+
+														height={20}
+														xValuesSize={4}
+
+														yLabel
+														yOptions={{
+															name: "Area",
+															unit: "km2"
+														}}
+														yValuesSize={3}
+
+														stacked
+													/>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
+
 								{/* <Fade left distance="50px">
 							<Visualization
 								title="Land Cover Land Use Changes Rozdíly???"
