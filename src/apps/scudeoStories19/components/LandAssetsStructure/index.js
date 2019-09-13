@@ -502,7 +502,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<Visualization
 											title="Land Cover Land Use Structure"
 											description="Graph above provides overview of land cover land use structure of selected cities for a given reference year."
-											subtitle={`period 2`}
+											subtitle={this.state.cityOne.lastYear}
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
@@ -537,7 +537,7 @@ class LandAssetsStructure extends React.PureComponent {
 									<Fade left distance="50px">
 										<Visualization
 											title="Structure of Land Cover Land Use Changes (% of total change)"
-											subtitle={`period 1 / period 2`}
+											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
 											// description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
 										>
 											<Fade cascade>
@@ -576,7 +576,7 @@ class LandAssetsStructure extends React.PureComponent {
 									<Fade left distance="50px">
 										<Visualization
 											title="Structure of total Land Cover change (km2)"
-											subtitle={`period 1 / period 2`}
+											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
 											// description="Graph above provides overview of land cover land use changes of selected cities for a given reference year."
 										>
 											<Fade cascade>
