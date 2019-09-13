@@ -181,11 +181,16 @@
 	align-items: center;
 }
 
-.scudeoStories19-visualization-legend .legend-color {
+.scudeoStories19-visualization-legend .legend-color,
+.scudeoStories19-visualization-legend .legend-image {
 	width: .75rem;
 	min-width: .75rem;
 	height: .75rem;
 	margin-right: .35rem;
+}
+
+.scudeoStories19-visualization-legend .legend-image {
+	background-size: contain;
 }
 
 .scudeoStories19-visualization-legend .legend-value {

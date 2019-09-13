@@ -325,7 +325,8 @@ class LandAssetsStructure extends React.PureComponent {
 							[stateProp]: rules.map(rule => {
 								return {
 									label: rule.name,
-									color: _.get(rule, 'symbolizers[0].Polygon.fill')
+									color: _.get(rule, 'symbolizers[0].Polygon.fill'),
+									graphicFill: _.get(rule, 'symbolizers[0].Polygon.graphic-fill')
 								}
 							})
 						});
@@ -341,13 +342,19 @@ class LandAssetsStructure extends React.PureComponent {
 		return data.map((item, index) => {
 			return (
 				<div className="legend-field" key={index}>
-					<div className="legend-color" style={{background: item.color}}></div>
+					{item.color ?
+						(<div className="legend-color" style={{background: item.color}}></div>) :
+						(item.graphicFill ?
+							<div className="legend-image"
+								 style={{backgroundImage: `url(${item.graphicFill.url})`, backgroundColor: '#333'}}></div>
+
+							: null)
+					}
 					<div className="legend-value">{item.label}</div>
 				</div>
 			);
 		});
 	}
-
 
 	render() {
 
