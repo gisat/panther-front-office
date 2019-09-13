@@ -425,6 +425,10 @@
 	.label{
 		margin-right: m(1);
 	}
+
+	.radio {
+		padding-left: .15rem;
+	}
 		   
 	input[type="radio"] {
 		display: none;
@@ -497,6 +501,9 @@
 
 	.scudeoStories19-map-container > div {
 		min-width: 100%;
+	}
+	.scudeoStories19-inline-radio {
+		flex-direction: column;
 	}
 }
 
