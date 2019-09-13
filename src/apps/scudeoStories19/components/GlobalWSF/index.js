@@ -433,7 +433,7 @@ class GlobalWSF extends React.PureComponent {
 												/>
 												<div className="scudeoStories19-inline-radio">
 													<span className={"label"}>
-														Maximum settlement are (km2):
+														Maximum settlement area (km2) displayed:
 													</span>
 													<div className="radio">
 														<label>
@@ -501,7 +501,7 @@ class GlobalWSF extends React.PureComponent {
 												/>
 											<div className="scudeoStories19-inline-radio">
 													<span className={"label"}>
-													Maximum settlement area growth rate (%):
+													Maximum settlement area growth rate (%) displayed:
 													</span>
 													<div className="radio">
 														<label>
