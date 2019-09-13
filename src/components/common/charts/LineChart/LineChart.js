@@ -142,6 +142,7 @@ class LineChart extends React.PureComponent {
 						nameSourcePath={this.props.nameSourcePath}
 						colorSourcePath={this.props.colorSourcePath}
 						colorScale={colors}
+						showSelectedOnly={mode === 'gray'}
 					/>
 				) : null}
 			</>
