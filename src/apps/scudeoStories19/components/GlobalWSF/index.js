@@ -560,8 +560,13 @@ class GlobalWSF extends React.PureComponent {
 													xValuesSize={2}
 
 													yLabel
+													yScale="log"
 													yOptions={{
-														name: "Urban Expansion Coefficient"
+														name: "Urban Expansion Coefficient",
+														tickCount: 4,
+														min: 0.01,
+														max: 100,
+														diversionValue: 1
 													}}
 													xOptions={{
 														valueLabelRenderer: (x, y, maxWidth, maxHeight, value) =>
@@ -579,7 +584,9 @@ class GlobalWSF extends React.PureComponent {
 													}}
 
 													height={22}
+
 													legend
+													diverging
 												/>
 											</div>
 										</Fade>

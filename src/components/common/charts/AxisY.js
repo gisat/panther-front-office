@@ -7,7 +7,7 @@ import './style.scss';
 import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
-const TICK_COUNT = 5; // TODO optional?
+const TICK_COUNT = 5;
 const TICK_CAPTION_OFFSET_VERTICAL = 7;
 const TICK_CAPTION_OFFSET_HORIZONTAL = 4;
 
@@ -83,9 +83,10 @@ class AxisY extends React.PureComponent {
 
 	renderGrid() {
 		const props = this.props;
+		const tickCount = this.props.options && this.props.options.tickCount ? this.props.options.tickCount : TICK_COUNT;
 
 		let shift = props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
-		let ticks = props.scale.ticks(TICK_COUNT);
+		let ticks = props.scale.ticks(tickCount);
 
 		if (props.diverging) {
 			let diversionValue = props.options && props.options.diversionValue || 0;

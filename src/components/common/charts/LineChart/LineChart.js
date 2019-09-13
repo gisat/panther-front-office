@@ -101,10 +101,13 @@ class LineChart extends React.PureComponent {
 			let extension = xScale.bandwidth()/2;
 			xScale.range([0-extension, props.innerPlotWidth + extension]);
 
-			yScale = d3
-				.scaleLinear()
-				.domain(yDomain)
-				.range([props.innerPlotHeight, 0]);
+			yScale = d3.scaleLinear();
+
+			if (this.props.yScale === 'log') {
+				yScale = d3.scaleLog();
+			}
+
+			yScale.domain(yDomain).range([props.innerPlotHeight, 0]);
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
