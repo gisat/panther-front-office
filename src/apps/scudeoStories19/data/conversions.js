@@ -135,14 +135,29 @@ function avarage(features, valuePath) {
  */
 function sum(features, valuePaths) {
 	return features.reduce((acc, feature) => {
-		return acc + valuePaths.reduce((acc, valuePath) => {
-			const val = _.get(feature, valuePath) || 0;
-			return acc + val;
-		}, 0)
-	}, 0)
+		const valuesSum = valuePaths.reduce((acc, valuePath) => {
+			const valuesSum = _.get(feature, valuePath);
+
+			if(valuesSum || valuesSum === 0) {
+				if(!acc) {
+					acc = 0
+				} ;
+				acc = acc + valuesSum;
+			}
+			return acc;
+		}, null)
+
+		if(valuesSum || valuesSum === 0) {
+			if(!acc) {
+				acc = 0
+			} ;
+			acc = acc + valuesSum;
+		}
+		return acc;
+	}, null)
 }
 
-const toSquareKm = (squareMeters) => squareMeters / 1000000;
+const toSquareKm = (squareMeters) => squareMeters ? squareMeters / 1000000 : null;
 
 export default {
 	avarage,
