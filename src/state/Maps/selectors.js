@@ -230,7 +230,16 @@ const getBackgroundLayer = (state, mapKey) => {
 			}
 		}];
 
+		// TODO don't create new array every time, use re-reselect
+		// let layers = [{
+		// 	key: layerKey,
+		// 	filter: layerState
+		// }];
+
 		let data = SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey(state, layers);
+		// let data = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layers);
+		// debugger;
+
 		if (data && data[layerKey] && data[layerKey][0]) {
 			let layerData = data[layerKey][0].data;
 			let {attribution, nameInternal, type, ...options} = layerData;
@@ -307,7 +316,6 @@ const getLayers = (state, mapKey) => {
 				}
 			});
 
-			console.log("#### Map Layer name", mapLayers && mapLayers[0] && mapLayers[0].options.params.layers);
 			return mapLayers;
 		} else {
 			return null;
