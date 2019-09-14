@@ -865,12 +865,12 @@ class LandAssetsStructure extends React.PureComponent {
 									the City and highlights strengths and weaknesses of various areas. </p>
 
 
-								{/*<h3>More resources</h3>*/}
-								{/*<ul>*/}
-								{/*<li><a href="#" target="_blank">Link A ullamcorper urna</a></li>*/}
-								{/*<li><a href="#" target="_blank">Link B libero ac leo</a></li>*/}
-								{/*<li><a href="#" target="_blank">Link C Curabitur volutpat lacus at eros luctus</a></li>*/}
-								{/*</ul>*/}
+								<h3>More resources</h3>
+								<ul>
+									<li><a href="http://urban-eo4sd.wixsite.com/trial/post/supporting-the-local-urban-planning-process-in-kolkata-india" target="_blank">Use Case - Supporting the local urban planning process in Kolkata (India)</a></li>
+									<li><a href="http://urban-eo4sd.wixsite.com/trial/post/integration-of-phase-1-eo4sd-urban-geo-spatial-products-in-world-bank-studies" target="_blank">Use Case - Integration of EO4SD-Urban geo-spatial products in World Bank studies</a></li>
+									<li><a href="https://urban-tep.eu/puma/tool/?id=82971&lang=en#" target="_blank">Explore the EO4SD Urban LULC data in more depth</a></li>
+								</ul>
 
 							</section>
 						</div>
