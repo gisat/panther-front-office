@@ -397,7 +397,7 @@ class LandAssetsStructure extends React.PureComponent {
 				<Header
 					navigation={this.props.navigation}
 					title="City Land Assets Structure and Evolution"
-					intro="EO data can provide insight into Land Use and Land Cover (LULC) assets structure and evaluate quantity and quality of LULC changes"
+					intro="Earth Observation data can provide insight into Land Use and Land Cover (LULC) assets structure and evaluate quantity and quality of LULC changes"
 					abstract="Land is a non-renewable resource and its quantity and quality play a vital role in the development of a city. Land structure and spatial-temporal patterns to a large extent influence city livability and resilience as well as determine physical constraints, opportunities and potential for further development."
 				/>
 
@@ -481,7 +481,7 @@ class LandAssetsStructure extends React.PureComponent {
 									<Fade left distance="50px">
 										<Visualization
 											title="Land Cover Land Use Structure"
-											description="The graph above provides an overview of LULC structure (class % of the total area) in observed cities for a given reference year."
+											description="The graph above provides an overview of LULC structure (class % of the total area) in observed cities for a given reference year. Note: Lima – Only partial data are available, not complete city coverage."
 											subtitle={this.state.cityOne.lastYear}
 										>
 											<Fade cascade>
@@ -518,7 +518,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<Visualization
 											title="Total Area Changed"
 											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
-											description="The graph above provides an overview of the amount of LULC changes (in km sq.) in observed cities for a given period."
+											description="The graph above provides an overview of the amount of LULC changes (in km sq.) in observed cities for a given period. Note: Lima – Only partial data are available, not complete city coverage."
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
@@ -554,7 +554,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<Visualization
 											title="Structure of Land Cover Land Use Changes (% of total change)"
 											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
-											description="The graph above provides an overview of the structure of LULC changes classified into Land Flows. For each Land Flow type, it shows its share (% of the total changed area) in observed cities for a given period."
+											description="The graph above provides an overview of the structure of LULC changes classified into Land Flows. For each Land Flow type, it shows its share (% of the total changed area) in observed cities for a given period. Note: Lima – Only partial data are available, not complete city coverage."
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
@@ -629,7 +629,7 @@ class LandAssetsStructure extends React.PureComponent {
 								<Fade left distance="50px">
 									<Visualization
 										title="Land Cover and Land Use Changes"
-										description="Interactive maps above provide an overview of spatial composition LULC classes in a selected city for a selected year (left) and an overview of spatial composition of Land Flow types (right) for the same city for the selected observation period. Land Flow types classification is used to ease individual land cover and land use changes interpretation."
+										description="Interactive maps above provide an overview of spatial composition LULC classes in a selected city for a selected year (left) and an overview of spatial composition of Land Flow types (right) for the same city for the selected observation period. Land Flow types classification is used to ease individual land cover and land use changes interpretation. Note: Lima – Only partial data are available, not complete city coverage."
 										legend={
 											<div style={{display: 'flex', width: '100%', padding: '0 1rem'}}>
 												<div style={{flexGrow: 1}}>
@@ -705,7 +705,7 @@ class LandAssetsStructure extends React.PureComponent {
 									<Fade left distance="50px">
 										<Visualization
 											title={`Land Cover Land Use Changes Structure - Overall flows`}
-											description="Sankey graph above provides an overview of all land flows types in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the overall changes."
+											description="Sankey graph above provides an overview of all land flows types in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the overall changes. Note: Lima – Only partial data are available, not complete city coverage."
 											subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
 										>
 											<Fade cascade>
@@ -741,7 +741,7 @@ class LandAssetsStructure extends React.PureComponent {
 									<Fade left distance="50px">
 										<Visualization
 											title={`Land Cover Land Use Changes Structure - Urban Expansion flows`}
-											description="Sankey graph above provides an overview of all land flows related to Urban Expansion in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the overall changes."
+											description="Sankey graph above provides an overview of all land flows related to Urban Expansion in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the overall changes. Note: Lima – Only partial data are available, not complete city coverage."
 											subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
 										>
 											<Fade cascade>
@@ -779,7 +779,7 @@ class LandAssetsStructure extends React.PureComponent {
 										<Fade left distance="50px">
 											<Visualization
 												title={`Land Cover Land Use Changes Structure - Urban Densification Flows`}
-												description="Sankey graph above provides an overview of all land flows related to Urban Densification in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the overall changes."
+												description="Sankey graph above provides an overview of all land flows related to Urban Densification in a selected city for a given observation period. Individual consumption and formation flows and their magnitude can be highlighted providing users with an immediate perception of their composition, importance and contribution into the overall changes. Note: Lima – Only partial data are available, not complete city coverage."
 												subtitle={`${this.state.cityOne.name} ${this.state.cityOne.firstYear}/${this.state.cityOne.lastYear}`}
 											>
 												<Fade cascade>
