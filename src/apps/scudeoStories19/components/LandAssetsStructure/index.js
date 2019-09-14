@@ -373,7 +373,6 @@ class LandAssetsStructure extends React.PureComponent {
 	}
 
 	render() {
-
 		let firstYearStructureLayers = null;
 		let lastYearStructureLayers = null;
 		let firstYearChangeStructureLayers = null;
@@ -536,46 +535,7 @@ class LandAssetsStructure extends React.PureComponent {
 								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
 									<Fade left distance="50px">
 										<Visualization
-											title="Structure of Land Cover Land Use Changes (% of total change)"
-											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
-											// description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
-										>
-											<Fade cascade>
-												<div className="scudeoStories19-chart-container">
-													<ColumnChart
-														key="diverging-bars"
-
-														data={changesStructure}
-														keySourcePath="AL3_ID"
-														nameSourcePath="AL3_NAME"
-														xSourcePath="AL3_NAME"
-														ySourcePath={pathLULCChangesStructureYSourcePath}
-
-														height={20}
-														xValuesSize={4}
-														diverging
-														yLabel
-														yOptions={{
-															name: "Change structure",
-															unit: "%",
-															max: 50,
-															min: 0
-														}}
-														yValuesSize={3}
-
-														stacked="relative"
-													/>
-												</div>
-											</Fade>
-										</Visualization>
-									</Fade>
-								</HoverHandler>
-
-
-								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
-									<Fade left distance="50px">
-										<Visualization
-											title="Structure of total Land Cover change (km2)"
+											title="Total Area Changed"
 											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
 											// description="Graph above provides overview of land cover land use changes of selected cities for a given reference year."
 										>
@@ -607,6 +567,45 @@ class LandAssetsStructure extends React.PureComponent {
 										</Visualization>
 									</Fade>
 								</HoverHandler>
+
+								<HoverHandler selectedItems={[this.state.cityOne.key]} compressedPopups>
+									<Fade left distance="50px">
+										<Visualization
+											title="Structure of Land Cover Land Use Changes (% of total change)"
+											subtitle={`${this.state.cityOne.firstYear} - ${this.state.cityOne.lastYear}`}
+											// description="Graph above provides overview of land cover land use change intensity and land cover flows structure for selected cities for a selected observation period."
+										>
+											<Fade cascade>
+												<div className="scudeoStories19-chart-container">
+													<ColumnChart
+														key="diverging-bars"
+
+														data={changesStructure}
+														keySourcePath="AL3_ID"
+														nameSourcePath="AL3_NAME"
+														xSourcePath="AL3_NAME"
+														ySourcePath={pathLULCChangesStructureYSourcePath}
+
+														height={20}
+														xValuesSize={4}
+														diverging
+														yLabel
+														yOptions={{
+															name: "Land Flow Type",
+															unit: "%",
+															max: 100,
+															min: 0
+														}}
+														yValuesSize={3}
+
+														stacked="relative"
+													/>
+												</div>
+											</Fade>
+										</Visualization>
+									</Fade>
+								</HoverHandler>
+
 
 								{/* <Fade left distance="50px">
 							<Visualization
@@ -648,7 +647,7 @@ class LandAssetsStructure extends React.PureComponent {
 
 								<Fade left distance="50px">
 									<Visualization
-										title="Land Cover Land Use Change Structure"
+										title="Land Cover and Land Use Changes"
 										description="Interactive maps above provide overview of land cover land use spatial composition in a selected city for a selected year (left) and land cover flows spatial composition for the same city for selected change observation period. Individual consumption and formation flows are specified to ease individual land cover land use changes interpretation. "
 										legend={
 											<div style={{display: 'flex', width: '100%', padding: '0 1rem'}}>
