@@ -600,13 +600,10 @@ class GlobalWSF extends React.PureComponent {
 							<p>WSF Evolution is a revolutionary global product leveraging previous DLR experiences with GUF and WSF2015 products. First, under the assumption that pixels categorized as non-settlement at a later time cannot be marked as settlement at an earlier time, all areas excluded from the World Settlement Footprint (WSF2015) (i.e., the currently existing most updated and accurate mask outlining the 2015 global settlement extent) are discarded a priori from the analysis. Next, for each target year in the past all available Landsat scenes acquired with cloud cover lower than 60% over the investigated area of interest are gathered and cloud masking is performed. Key temporal statistics (i.e., temporal mean, minimum, maximum, etc.) are then extracted for different spectral indices including the normalized difference built-up index (NDBI), the normalized difference vegetation index (NDVI) and the modified normalized difference water index (MNDWI). Going backwards in time, training samples for the given target year are iteratively extracted by applying morphological filtering to the settlement mask derived for the previous time step as well as excluding potentially mis-labelled samples by adaptive thresholding on the temporal mean NDBI, MNDWI and NDVI. Finally, random forest classification in performed.</p>
 							<p>Extensive experimental analyses over several challenging test sites distributed over the five continents assessed the high effectiveness of the methodology. Accordingly, in the light of it great robustness, the technique has been employed within the GEE environment for generating the WSF Evolution, i.e. a novel dataset aimed at outlining the settlement extent globally and on a yearly basis from 1985 to 2015. The WSF Evolution was completed by the end of 2018 and is envisaged to be made available open and free (after accurate post-processing and accuracy assessment) during 2019. In particular, the dataset is expected to become a global urban product of unprecedent in support to a variety of end users in the framework of several thematic applications, helping to understand as never before how urbanization took place over three decades while capturing specific temporal trends.</p>
 
-							{/*TODO tady Tomáš nedodal linky*/}
-							{/*<h3>More resources</h3>*/}
-							{/*<ul>*/}
-								{/*<li><a href="#" target="_blank">WSF Evolution description</a></li>*/}
-								{/*<li><a href="#" target="_blank">Quality Assessment document</a></li>*/}
-								{/*<li><a href="#" target="_blank">Link to UTEP with WSF Evolution data?</a></li>*/}
-							{/*</ul>*/}
+							<h3>More resources</h3>
+							<ul>
+								<li>Taubenböck H., Weiganda M., Esch T., Staab J., Wurm M., Mast J., Dech S.: <a href="https://www.sciencedirect.com/science/article/pii/S0034425719303724?via%3Dihub" target="_blank">A new ranking of the world's largest cities—Do administrative units obscure morphological realities?</a> Remote Sensing of Environment, Volume 232, October 2019</li>
+							</ul>
 						</section>
 					</div> : null }
 			</>
