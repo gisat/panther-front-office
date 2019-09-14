@@ -515,7 +515,7 @@ class GreenAreas extends React.PureComponent {
 								<ul>
 									<li><a href="https://blogs.worldbank.org/sustainablecities/quantifying-public-spaces-better-quality-urban-assets" target="_blank">Dhaka Use Case – EO green areas to city liveability improvement</a></li>
 									<li><a href="http://unhabitat.org/wp-content/uploads/2015/10/Global%20Public%20Space%20Toolkit.pdf" target="_blank">UN-Habitat (United Nations Human Settlement Programme). 2015. Global Public Space Toolkit: From Global Principles to Local Policies and Practice. Nairobi, Kenya: UN-Habitat.</a></li>
-									<li><a href="https://land.copernicus.eu/local/urban-atlas" target="_blank">Urban Atlas website</a></li>
+									<li><a href="https://land.copernicus.eu/local/urban-atlas" target="_blank">EU Copernicus Land - Urban Atlas website</a></li>
 									<li><a href="https://unstats.un.org/sdgs/metadata/?Text=&Goal=&Target=11.7" target="_blank">UN SDG 11.7 Indicators - Public Spaces</a></li>
 								</ul>
 							</section>
