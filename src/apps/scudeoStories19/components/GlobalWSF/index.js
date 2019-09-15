@@ -206,7 +206,7 @@ class GlobalWSF extends React.PureComponent {
 	componentDidMount() {
 		getMergedDataset().then((dataset) => {
 			const wsfData = transformDataset(dataset);
-			const vectorLayer = getVectorLayer(dataset.map(d => ({data:d})));
+			const vectorLayer = getVectorLayer(dataset.map(d => ({data:d})), 'data.features[0].properties.aoiGeometry');
 			
 			this.setState({
 				wsfData,

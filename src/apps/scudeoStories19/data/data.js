@@ -1,5 +1,6 @@
 import conversions from './conversions';
 import populationsData from './population.json';
+import {get} from 'lodash';
 
 const data = [
 	{
@@ -477,7 +478,7 @@ export const getMergedDataset = (names = mergedDatasetNames) => {
 	return loader;
 }
 
-export const getVectorLayer = (dataset) => {
+export const getVectorLayer = (dataset, path = 'data.features') => {
 	return {
 		key: 'aoi-vector',
 		name: 'AOI',
@@ -489,7 +490,13 @@ export const getVectorLayer = (dataset) => {
 				"type":"FeatureCollection",
 				"name":"areas_boundaries",
 				"crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},
-				"features": dataset.reduce((acc, d) => [...acc, ...d.data.features], [])
+				"features": dataset.reduce((acc, d) => {
+					let features = get(d, path);
+					if(features.hasOwnProperty('type')) {
+						features = [features];
+					}
+					return [...acc, ...features];
+				}, [])
 			},
 			style: {
 				strokeColor: "#fff",
