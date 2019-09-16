@@ -623,6 +623,8 @@ class GlobalWSF extends React.PureComponent {
 
 							<h3>More resources</h3>
 							<ul>
+								<li><a href="https://cog-gisat.s3.eu-central-1.amazonaws.com/Marconcini+_Urban_Mapping_and_Monitoring.mp4" target="_blank">Introducing WSF Evolution (methodology, validation)</a></li>
+								<li><a href="https://cog-gisat.s3.eu-central-1.amazonaws.com/WSF-IDC+Score.pdf" target="_blank">WSF Evolution – IDC Score</a></li>
 								<li><a href="https://doi.org/10.1016/j.rse.2019.111353" target="_blank">Morphological Urban Areas (MUA)</a></li>
 								<li><a href="https://urban-tep.eu/puma/tool/?id=574795484&lang=en" target="_blank">Explore WSF2015 on Urban Thematic Exploitation Platform (UTEP)</a></li>
 								<li><a href="https://unstats.un.org/sdgs/metadata/?Text=&Goal=&Target=11.3" target="_blank">UN SDG Indicator 11.3.1: Ratio of land consumption rate to population growth rate</a></li>
