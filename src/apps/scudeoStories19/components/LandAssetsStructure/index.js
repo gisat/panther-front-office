@@ -390,8 +390,12 @@ class LandAssetsStructure extends React.PureComponent {
 		let lastYearStructureLayers = null;
 		let firstYearChangeStructureLayers = null;
 		let lastYearChangeStructureLayers = null;
+
 		let densificationsData = null;
 		let densificationsDataEmpty = null;
+
+		let expansionData = null;
+		let expansionDataEmpty = null;
 
 		if (this.state.cityOne) {
 			firstYearStructureLayers = [lulcFirstYearStructureLayer, this.state.vectorLayer];
@@ -401,7 +405,12 @@ class LandAssetsStructure extends React.PureComponent {
 			lastYearChangeStructureLayers = [lulcLastYearChangeStructureLayer, this.state.vectorLayer];
 
 			densificationsData = filterUrbanDensifications(this.state.cityOne.l4OverallFlowsCoverage);
-			densificationsDataEmpty = densificationsData.nodes.length === 0 && densificationsData.links.length === 0
+			densificationsDataEmpty = densificationsData.nodes.length === 0 && densificationsData.links.length === 0;
+
+			expansionData = filterUrbanExpansion(this.state.cityOne.l3OverallFlowsCoverage);
+			expansionDataEmpty = expansionData.nodes.length === 0 && expansionData.links.length === 0;
+
+
 		}
 
 
@@ -750,7 +759,8 @@ class LandAssetsStructure extends React.PureComponent {
 										</Visualization>
 									</Fade>
 								</HoverHandler>
-								<HoverHandler>
+
+								{!expansionDataEmpty ? (<HoverHandler>
 									<Fade left distance="50px">
 										<Visualization
 											title={`Land Cover Land Use Changes Structure - Urban Expansion flows`}
@@ -762,7 +772,7 @@ class LandAssetsStructure extends React.PureComponent {
 													<SankeyChart
 														hoverValueSourcePath="valueSize"
 														key="sankey-expansions-flows"
-														data={filterUrbanExpansion(this.state.cityOne.l3OverallFlowsCoverage)}
+														data={expansionData}
 														keySourcePath="key"
 
 														nodeNameSourcePath="name"
@@ -785,7 +795,8 @@ class LandAssetsStructure extends React.PureComponent {
 											</Fade>
 										</Visualization>
 									</Fade>
-								</HoverHandler>
+								</HoverHandler>) : null}
+
 
 								{!densificationsDataEmpty ?
 									<HoverHandler>
