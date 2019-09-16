@@ -38,18 +38,20 @@ const URBAN_FABRIC_DISCONTINUOUS_KEYS = ["11210", "11220", "11221", "11222", "11
 const URBAN_FABRIC_CONTINUOUS_KEYS = ["11100"]
 
 //urban densifications
-const URBAN_DENSIFICATION_SOURCE_KEYS = ["11210", "11220", "11230", "11240", "13100", "13300", "13400", "14100", "14200", "14300"];
-//what means missing classes 1213-9 ?
-//1400 -> urban greenery -> "14100", "14200", "14300" ?
+//l4
+const URBAN_DENSIFICATION_SOURCE_KEYS = ["11210", "11220", "11221","11222", "11240", "11300", "13100", "13300", "13310","13400", "14100", "14200", "14210","14220", "14230", "14300"];
+const URBAN_DENSIFICATION_TARGET_KEYS = ["11100", "11210", "11220","11221", "11222", "11240", "11300", "12110", "12111","12112","12120","12121","12122","12123","12124","12125","12126","12127","12128","12130","12131","12132","12133", "12210","12211","12212","12220", "12300", "12400"];
+//l3
+const URBAN_DENSIFICATION_SOURCE_KEYS_l3 = ["11200","13100","13300","13400","14100","14200","14300"];
+const URBAN_DENSIFICATION_TARGET_KEYS_l3 = ["11100","11200","12100","12200","12300","12400"];
 
-const URBAN_DENSIFICATION_TARGET_KEYS = ["11100", "11210", "11220", "11240", "12110", "12120", "12130", "12200", "12300", "1240"];
-
-
-const URBAN_EXPANSIONS_SOURCE_KEYS = ["11210", "11220", "11230", "11240", "1310", "1330", "1340", "14100", "14200", "14300"];
-const URBAN_EXPANSIONS_TARGET_KEYS = ["11100", "11210", "11220", "11230", "11240", "12110", "12120", "12200", "12300", "12400"];
-//what means missing classes 1213-9?
-//1400 -> urban greenery -> "14100", "14200", "14300" ?
-
+//urban expansions
+//l4
+const URBAN_EXPANSIONS_SOURCE_KEYS = ["20000", "21000", "31000", "32000", "33000", "40000", "51000", "52000"];
+const URBAN_EXPANSIONS_TARGET_KEYS = ["11100", "11210", "11220","11221", "11222", "11240", "11300", "12110", "12111","12112","12120","12121","12122","12123","12124","12125","12126","12127","12128","12130","12131","12132","12133", "12210","12211","12212","12220", "12300", "12400", "13100", "13300", "13310", "13400", "14100", "14110", "14200", "14210", "14220", "14230", "14300"];
+//l3
+const URBAN_EXPANSIONS_SOURCE_KEYS_l3 = ["20000","31000","32000","33000","40000","51000","52000"];
+const URBAN_EXPANSIONS_TARGET_KEYS_l3 = ["11100","11200","12100","12200","12300","12400","13100","13300","13400","14100","14200","14300",];
 
 const filterUrbanExpansion = (dataset) => {
 	const links = dataset.links.filter(l => {
@@ -407,7 +409,7 @@ class LandAssetsStructure extends React.PureComponent {
 			densificationsData = filterUrbanDensifications(this.state.cityOne.l4OverallFlowsCoverage);
 			densificationsDataEmpty = densificationsData.nodes.length === 0 && densificationsData.links.length === 0;
 
-			expansionData = filterUrbanExpansion(this.state.cityOne.l3OverallFlowsCoverage);
+			expansionData = filterUrbanExpansion(this.state.cityOne.l4OverallFlowsCoverage);
 			expansionDataEmpty = expansionData.nodes.length === 0 && expansionData.links.length === 0;
 
 
