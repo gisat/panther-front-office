@@ -93,10 +93,9 @@ const backgroundLayer = {
 		url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
 	}
 };
-
 const lulcFirstYearStructureLayer = {
 	name: 'Data layer',
-	key: 'slums',
+	key: 'lulcFirstYearStructureLayer',
 	type: 'wms',
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
@@ -109,7 +108,7 @@ const lulcFirstYearStructureLayer = {
 
 const lulcLastYearStructureLayer = {
 	name: 'Data layer',
-	key: 'slums',
+	key: 'lulcLastYearStructureLayer',
 	type: 'wms',
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
@@ -120,22 +119,9 @@ const lulcLastYearStructureLayer = {
 	}
 };
 
-const lulcFirstYearChangeStructureLayer = {
-	name: 'Data layer',
-	key: 'slums',
-	type: 'wms',
-	options: {
-		url: 'https://urban-tep.eu/puma/geoserver/wms?',
-		params: {
-			layers: 'scudeo_lulc_first_year',
-			styles: '',
-		},
-	}
-};
-
 const lulcLastYearChangeStructureLayer = {
 	name: 'Data layer',
-	key: 'slums',
+	key: 'lulcLastYearChangeStructureLayer',
 	type: 'wms',
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
@@ -403,7 +389,12 @@ class LandAssetsStructure extends React.PureComponent {
 			firstYearStructureLayers = [lulcFirstYearStructureLayer, this.state.vectorLayer];
 			lastYearStructureLayers = [lulcLastYearStructureLayer, this.state.vectorLayer];
 
-			firstYearChangeStructureLayers = [lulcFirstYearChangeStructureLayer, this.state.vectorLayer];
+			const selectedCityIndex = this.state.cityYears.findIndex((c) => c.key === this.state.cityYear.key);
+			if(selectedCityIndex === 0) {
+				firstYearChangeStructureLayers = [lulcFirstYearStructureLayer, this.state.vectorLayer];
+			} else if(selectedCityIndex === 1) {
+				firstYearChangeStructureLayers = [lulcLastYearStructureLayer, this.state.vectorLayer];
+			}
 			lastYearChangeStructureLayers = [lulcLastYearChangeStructureLayer, this.state.vectorLayer];
 
 			densificationsData = filterUrbanDensifications(this.state.cityOne.l4OverallFlowsCoverage);
