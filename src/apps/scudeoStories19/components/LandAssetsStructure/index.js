@@ -39,14 +39,25 @@ const URBAN_FABRIC_CONTINUOUS_KEYS = ["11100"]
 
 //urban densifications
 const URBAN_DENSIFICATION_SOURCE_KEYS = ["11210", "11220", "11230", "11240", "13100", "13300", "13400", "14100", "14200", "14300"];
-//1400 -> urban greenery -> "14100", "14200", "14300"
-//co to je 1213-9
+//what means missing classes 1213-9 ?
+//1400 -> urban greenery -> "14100", "14200", "14300" ?
+
 const URBAN_DENSIFICATION_TARGET_KEYS = ["11100", "11210", "11220", "11240", "12110", "12120", "12130", "12200", "12300", "1240"];
+
+
+const URBAN_EXPANSIONS_SOURCE_KEYS = ["11210", "11220", "11230", "11240", "1310", "1330", "1340", "14100", "14200", "14300"];
+const URBAN_EXPANSIONS_TARGET_KEYS = ["11100", "11210", "11220", "11230", "11240", "12110", "12120", "12200", "12300", "12400"];
+//what means missing classes 1213-9?
+//1400 -> urban greenery -> "14100", "14200", "14300" ?
+
 
 const filterUrbanExpansion = (dataset) => {
 	const links = dataset.links.filter(l => {
+		const sourceId = l.source.id || l.source;
 		const targetId = l.source.id || l.target;
-		return URBAN_FABRIC_KEYS.includes(targetId.split("_")[0]);
+		const sourceFromCONSUMPTION = URBAN_EXPANSIONS_SOURCE_KEYS.includes(sourceId.split("_")[0]);
+		const targetToFORMATION = URBAN_EXPANSIONS_TARGET_KEYS.includes(targetId.split("_")[0]);
+		return sourceFromCONSUMPTION && targetToFORMATION;
 	})
 	const nodes = [...dataset.nodes];
 	const nonEmptyNodes = clearEmptyNodes(nodes, links);
