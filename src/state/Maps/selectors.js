@@ -256,6 +256,7 @@ const getBackgroundLayer = (state, mapKey) => {
 	}
 };
 
+// TODO cache?
 const getLayers = (state, mapKey) => {
 	let layersState = getLayersStateByMapKey(state, mapKey);
 	let layers = mapHelpers.getLayersWithFilter(state, layersState);

@@ -6,15 +6,7 @@ import _ from "lodash";
 import {defaultMapView} from "./constants";
 import mapUtils from "../../../utils/map";
 
-const backgroundLayer = {
-	key: 'osm',
-	type: 'wmts',
-	options: {url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'}
-};
-
 const mapStateToProps = (state, ownProps) => {
-
-
 	if (ownProps.stateMapKey) {
 		return {
 			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.stateMapKey),
@@ -24,9 +16,8 @@ const mapStateToProps = (state, ownProps) => {
 		}
 	} else {
 		return {
-			// TODO implement selectors
-			// backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
-			// layers: Select.maps.getLayers(state, ownProps.layers)
+			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
+			layers: Select.maps.getLayers(state, ownProps.layers)
 		}
 	}
 };
