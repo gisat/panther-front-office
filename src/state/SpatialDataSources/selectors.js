@@ -15,9 +15,16 @@ const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
 		getAllAsObject,
 		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey
 	],
-	(dataSources, dataSourceKeys) => {
-		if (dataSourceKeys && Object.keys(dataSources).length) {
-			debugger;
+	(dataSources, dataSourceKeysGroupedByLayerKey) => {
+		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
+			let dataSourcesGroupedByLayerKey = {};
+			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
+				dataSourcesGroupedByLayerKey[layerKey] = _.map(dataSourceKeys, (dataSourceKey) => {
+					return dataSources[dataSourceKey];
+				});
+			});
+
+			return dataSourcesGroupedByLayerKey;
 		} else {
 			return null;
 		}

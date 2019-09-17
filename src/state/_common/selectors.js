@@ -521,6 +521,7 @@ const getAllActiveKeys = createSelector(
 	[
 		state => state.scopes && state.scopes.activeKey,
 		state => state.cases && state.cases.activeKey,
+		state => state.scenarios && state.scenarios.activeKey,
 		state => state.places && state.places.activeKey,
 		state => state.places && state.places.activeKeys,
 		state => state.periods && state.periods.activeKey,
@@ -530,8 +531,8 @@ const getAllActiveKeys = createSelector(
 		state => state.specific && state.specific.apps,
 		state => state.app && state.app.key
 	],
-	(activeScopeKey,activeCaseKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey, apps, appKey) => {
-		let activeKeys = {activeScopeKey,activeCaseKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey};
+	(activeScopeKey,activeCaseKey,activeScenarioKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey, apps, appKey) => {
+		let activeKeys = {activeScopeKey,activeCaseKey,activeScenarioKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey};
 
 		// for BO usage
 		if (apps){

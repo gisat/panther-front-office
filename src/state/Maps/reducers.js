@@ -166,20 +166,24 @@ const updateSetWorldWindNavigator = (state, setKey, updates) => {
 
 
 const updateSetView = (state, setKey, updates) => {
-	return {
-		...state,
-		sets: {
-			...state.sets,
-			[setKey]: {
-				...state.sets[setKey],
-				data: {
-					...state.sets[setKey].data,
-					view: state.sets[setKey].data.view ?
-						{...state.sets[setKey].data.view, ...updates} : updates
+	if (updates && !_.isEmpty(updates)) {
+		return {
+			...state,
+			sets: {
+				...state.sets,
+				[setKey]: {
+					...state.sets[setKey],
+					data: {
+						...state.sets[setKey].data,
+						view: state.sets[setKey].data.view ?
+							{...state.sets[setKey].data.view, ...updates} : updates
+					}
 				}
 			}
-		}
-	};
+		};
+	} else {
+		return state;
+	}
 };
 
 /**

@@ -6,6 +6,9 @@ import common from "../_common/selectors";
 const getSubstate = (state) => state.spatialRelations;
 const getAll = common.getAll(getSubstate);
 
+/**
+ * @returns {Object}
+ */
 const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
 	[
 		getAll,
@@ -13,16 +16,15 @@ const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
 	],
 	(relations, layers) => {
 		if (relations && relations.length) {
-			let filteredGroupedByLayerKey = [];
+			let filteredGroupedByLayerKey = {};
 
 			_.forEach(layers, (layer) => {
 				let filteredRelations = _.filter(relations, {'data': layer.filter});
 				if (filteredRelations.length) {
-					filteredGroupedByLayerKey.push({[layer.key]: filteredRelations.map(relation => relation.data.spatialDataSourceKey)});
+					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => relation.data.spatialDataSourceKey);
 				}
 			});
-
-			return filteredGroupedByLayerKey.length ? filteredGroupedByLayerKey : null;
+			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
 
 		} else {
 			return null;
