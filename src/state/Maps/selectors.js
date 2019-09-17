@@ -273,7 +273,7 @@ const getLayers = (state, mapKey) => {
 					layerData.forEach(layer => {
 
 						// TODO quick solution for geoinv
-						if (layer && layer.data && (layer.data.type === "vector" || layer.data.type === "raster")) {
+						if (layer && layer.data && layer.data.layerName && (layer.data.type === "vector" || layer.data.type === "raster")) {
 							mapLayers.push({
 								key: layerState.key + '_' + layer.key,
 								type: "wms",
