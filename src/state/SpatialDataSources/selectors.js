@@ -19,8 +19,11 @@ const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
 		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
 			let dataSourcesGroupedByLayerKey = {};
 			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
-				dataSourcesGroupedByLayerKey[layerKey] = _.map(dataSourceKeys, (dataSourceKey) => {
-					return dataSources[dataSourceKey];
+				dataSourcesGroupedByLayerKey[layerKey] = [];
+				_.forEach(dataSourceKeys, (dataSourceKey) => {
+					if (dataSources[dataSourceKey]) {
+						dataSourcesGroupedByLayerKey[layerKey].push(dataSources[dataSourceKey]);
+					}
 				});
 			});
 
