@@ -129,8 +129,8 @@ const getSerialData = (properties) => {
 				if(years.includes(year)) {
 					const yearPopulationKey = `${year}_population`;
 					const prevYearPopulationKey = `${years[years.indexOf(year)-1]}_population`;
-					const population = properties[yearPopulationKey];
-					const prevPopulation = properties[prevYearPopulationKey];
+					const population = typeof properties[yearPopulationKey] === 'string' ? parseInt(properties[yearPopulationKey]) : properties[yearPopulationKey];
+					const prevPopulation = typeof properties[prevYearPopulationKey] === 'string' ? parseInt(properties[prevYearPopulationKey]) : properties[prevYearPopulationKey];;
 					const prevYearCoverageKey = `${years[years.indexOf(year)-1]}_coverage`;
 					const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
 					const coverageGrowth = coverage - prevCoverage;
