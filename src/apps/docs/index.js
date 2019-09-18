@@ -72,13 +72,15 @@ export default (path, baseUrl) => {
 					</Directory>
 					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps">
-							<Directory label="Map" path="map" component={MapDoc}>
+							<Page label="Map" path="map" component={MapDoc}/>
+							<Page label="Map set" path="mapSet" component={MapSetDoc}/>
+							<Directory label="Presentational" path="presentational">
 								<Page label="WebWorldWind" path="webWorldWind"/>
 								<Page label="Leaflet" path="leaflet" component={LeafletDoc}/>
 							</Directory>
-							<Page label="Map controls" path="mapControls"/>
-							<Page label="Map set" path="mapSet" component={MapSetDoc}/>
-							<Page label="GoToPlace" path="goToPlace"/>
+							<Directory label="Controls" path="controls">
+								<Page label="GoToPlace" path="goToPlace"/>
+							</Directory>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>
