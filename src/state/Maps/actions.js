@@ -273,7 +273,7 @@ const addMap = (map) => {
 const addMapForPeriod = (periodKey, setKey) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		let map = Select.maps.getMapByMetadata(state, {period: periodKey});
+		let map = Select.maps.getMapByMetadata_deprecated(state, {period: periodKey});
 
 		if (!map) {
 			let mapKey = utils.uuid();
@@ -308,7 +308,7 @@ const removeMap = (mapKey) => {
 const removeMapForPeriod = (periodKey, setKey) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		const map = Select.maps.getMapByMetadata(state, {period: periodKey});
+		const map = Select.maps.getMapByMetadata_deprecated(state, {period: periodKey});
 		if(!map) {
 			dispatch(actionGeneralError(`No map found for period ${periodKey}.`));
 		} else {
@@ -598,7 +598,7 @@ const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 // TODO deprecated
 const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 	return (dispatch, getState) => {
-		const mapNavigator = Select.maps.getNavigator(getState(), mapKey);
+		const mapNavigator = Select.maps.getNavigator_deprecated(getState(), mapKey);
 
 		let headingIncrement = 1.0;
 		if (Math.abs(mapNavigator.heading) > 60) {

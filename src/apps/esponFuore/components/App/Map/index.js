@@ -18,7 +18,7 @@ const useActiveMetadataKeys = {
 const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
 
-	const layersState = Select.maps.getLayersStateByMapSetKey(state, mapSet.key);
+	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, mapSet.key);
 
 
 	const mapSetsLayers = {};
@@ -53,7 +53,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 	//get mapSetByMapKey
 	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
 
-	const layersState = Select.maps.getLayersStateByMapSetKey(state, mapSet.key);
+	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, mapSet.key);
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
@@ -242,7 +242,7 @@ const mapStateToProps = (state, props) => {
 			layersAttributeData,
 			layersAttributeStatistics,
 			layersMetadata,
-			navigator: Select.maps.getNavigator(state, props.mapKey),
+			navigator: Select.maps.getNavigator_deprecated(state, props.mapKey),
 			activeAttributeKey: Select.attributes.getActiveKey(state),
 			label: label || null,
 			nameData: vectorLayersNames,

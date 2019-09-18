@@ -7,7 +7,7 @@ import presentation from './presentation';
 const mapStateToProps = (state, props) => {
 	const activeMapKey = Select.maps.getActiveMapKey(state);
 	return {
-		navigator: Select.maps.getNavigator(state, activeMapKey),
+		navigator: Select.maps.getNavigator_deprecated(state, activeMapKey),
 		activeMapKey: activeMapKey,
 	}
 };
