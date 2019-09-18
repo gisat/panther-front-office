@@ -8,35 +8,40 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 		(layer, activeMetadataKeys) => activeMetadataKeys
 	],
 	(layer, activeMetadataKeys) => {
-		let filter = {};
+		let filter = {...layer.metadataModifiers};
+		if (layer.layerTemplateKey) {
+			filter.layerTemplateKey = layer.layerTemplateKey;
+		}
+
+		let activeFilter = {};
 		if (layer.filterByActive) {
 			let active = layer.filterByActive;
 			if (active.attribute && activeMetadataKeys.activeAttributeKey) {
-				filter.attributeKey = activeMetadataKeys.activeAttributeKey;
+				activeFilter.attributeKey = activeMetadataKeys.activeAttributeKey;
 			}
 			if (active.case && activeMetadataKeys.activeCaseKey) {
-				filter.caseKey = activeMetadataKeys.activeCaseKey;
+				activeFilter.caseKey = activeMetadataKeys.activeCaseKey;
 			}
 			if (active.layerTemplate && activeMetadataKeys.activeLayerTemplateKey) {
-				filter.layerTemplateKey = activeMetadataKeys.activeLayerTemplateKey;
+				activeFilter.layerTemplateKey = activeMetadataKeys.activeLayerTemplateKey;
 			}
 			// TODO what if multiple periods
 			if (active.period && activeMetadataKeys.activePeriodKey) {
-				filter.periodKey = activeMetadataKeys.activePeriodKey;
+				activeFilter.periodKey = activeMetadataKeys.activePeriodKey;
 			}
 			// TODO what if multiple places
 			if (active.place && activeMetadataKeys.activePlaceKey) {
-				filter.placeKey = activeMetadataKeys.activePlaceKey;
+				activeFilter.placeKey = activeMetadataKeys.activePlaceKey;
 			}
 			if (active.scenario && activeMetadataKeys.activeScenarioKey) {
-				filter.scenarioKey = activeMetadataKeys.activeScenarioKey;
+				activeFilter.scenarioKey = activeMetadataKeys.activeScenarioKey;
 			}
 			if (active.scope && activeMetadataKeys.activeScopeKey) {
-				filter.scopeKey = activeMetadataKeys.activeScopeKey;
+				activeFilter.scopeKey = activeMetadataKeys.activeScopeKey;
 			}
 		}
 
-		return {...layer.metadataModifiers, ...filter}
+		return {...filter, ...activeFilter}
 	}
 )((layer, activeMetadataKeys) => `${layer}_${activeMetadataKeys}`);
 

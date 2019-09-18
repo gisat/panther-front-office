@@ -221,32 +221,11 @@ const getBackgroundLayer = (state, mapKey) => {
 	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
 	if (layerState) {
 		let layerKey = 'pantherBackgroundLayer';
-		let layers = mapHelpers.getBackgroundLayersWithFilter(layerState, layerKey);
-		let data = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layers);
+		let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(layerState, layerKey);
+		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 
-		if (data && data[layerKey]) {
-			return _.map(data[layerKey], (layer, index) => {
-				let layerData = layer.data;
-				let {attribution, nameInternal, type, ...options} = layerData;
-
-				// TODO data source strucutre
-				if (type === 'wmts') {
-					options.url = options.urls[0];
-				}
-				if (type === 'wms') {
-					let {url, ...params} = options;
-					options = {
-						params,
-						url
-					}
-				}
-
-				return {
-					key: layerKey + '_' + index,
-					type,
-					options
-				};
-			});
+		if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
+			return _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => prepareLayerByDataSourceType(layerKey, dataSource, index));
 		}
 		else {
 			return null;
@@ -259,31 +238,34 @@ const getBackgroundLayer = (state, mapKey) => {
 // TODO cache?
 const getLayers = (state, mapKey) => {
 	let layersState = getLayersStateByMapKey(state, mapKey);
-	let layers = mapHelpers.getLayersWithFilter(state, layersState);
+	let layersWithFilter = mapHelpers.getLayersWithFilter(state, layersState);
 
-	if (layers) {
-		let data = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layers);
+	if (layersWithFilter && layersWithFilter.length) {
+		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 
-		if (data && !_.isEmpty(data)) {
+		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
 			let mapLayers = [];
 
 			layersState.forEach((layerState) => {
-				let layerData = data[layerState.key];
-				if (layerData) {
-					layerData.forEach(layer => {
+				let layerKey = layerState.key;
+				let dataSources = dataSourcesByLayerKey[layerKey];
+				if (dataSources && dataSources.length) {
+					dataSources.forEach((dataSource, index) => {
 
 						// TODO quick solution for geoinv
-						if (layer && layer.data && layer.data.layerName && (layer.data.type === "vector" || layer.data.type === "raster")) {
+						if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
 							mapLayers.push({
-								key: layerState.key + '_' + layer.key,
+								key: layerKey + '_' + dataSource.key,
 								type: "wms",
 								options: {
 									url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
 									params: {
-										layers: layer.data.layerName
+										layers: dataSource.data.layerName
 									}
 								}
 							});
+						} else {
+							mapLayers.push(prepareLayerByDataSourceType(layerKey, dataSource, index));
 						}
 					});
 				}
@@ -297,6 +279,29 @@ const getLayers = (state, mapKey) => {
 		return null;
 	}
 };
+
+function prepareLayerByDataSourceType(layerKey, dataSource, index) {
+	let dataSourceData = dataSource.data;
+	let {attribution, nameInternal, type, ...options} = dataSourceData;
+
+	// TODO data source strucutre
+	if (type === 'wmts') {
+		options.url = options.urls[0];
+	}
+	if (type === 'wms') {
+		let {url, ...params} = options;
+		options = {
+			params,
+			url
+		}
+	}
+
+	return {
+		key: layerKey + '_' + index,
+		type,
+		options
+	};
+}
 
 
 
@@ -372,6 +377,19 @@ const getMapSetBackgroundLayerStateByMapKey = createSelector(
 const getMapSetLayersStateByMapKey = createSelector(
 	[
 		getMapSetByMapKey
+	],
+	(set) => {
+		if (set && set.data && set.data.layers) {
+			return set.data.layers;
+		} else {
+			return null;
+		}
+	}
+);
+
+const getMapSetLayersStateBySetKey = createSelector(
+	[
+		getMapSetByKey
 	],
 	(set) => {
 		if (set && set.data && set.data.layers) {
@@ -841,6 +859,7 @@ export default {
 
 	getMapLayersByMapKey, //TODO - test
 	getMapLayerByMapKeyAndLayerKey,
+	getMapSetLayersStateBySetKey,
 
 	getMapsAsObject,
 	getMapSetsAsObject,
