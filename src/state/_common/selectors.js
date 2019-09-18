@@ -513,10 +513,15 @@ const getUsedKeys = (getSubstate) => {
 };
 
 const getIndexedDataUses = (getSubstate) => {
-	return (state) => getSubstate(state).inUse.indexes;
+	return (state) => {
+		if (getSubstate(state) && getSubstate(state).inUse) {
+			return getSubstate(state).inUse.indexes;
+		} else {
+			return null;
+		}
+	};
 };
 
-// TODO case, scenario, ...
 const getAllActiveKeys = createSelector(
 	[
 		state => state.scopes && state.scopes.activeKey,
