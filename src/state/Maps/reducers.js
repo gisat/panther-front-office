@@ -3,8 +3,6 @@ import _ from 'lodash';
 import {removeItemByIndex, addItemToIndex, replaceItemOnIndex, removeItemByKey} from '../../utils/stateManagement';
 import {isNumber} from 'lodash';
 
-//pridat praci s layers i na set
-
 const INITIAL_VIEW = {
 	center: {
 		lat: 50.1,
@@ -15,19 +13,6 @@ const INITIAL_VIEW = {
 	tilt: 0,
 	heading: 0,
 	elevationExaggeration: 0
-};
-
-// TODO deprecated
-const INITIAL_WORLDWINDNAVIGATOR = {
-	lookAtLocation: {
-		latitude: 50.1,
-		longitude: 14.5
-	},
-	range: 100000,
-	roll: 0,
-	tilt: 0,
-	heading: 0,
-	elevation: 0
 };
 
 const INITIAL_LAYER_STATE = {
@@ -80,6 +65,11 @@ const INITIAL_STATE = {
 	sets: {}
 };
 
+// helpers
+const getSetByKey = (state, setKey) => state.sets[setKey];
+const getMapByKey = (state, mapKey) => state.maps[mapKey];
+
+// reducers
 const setInitial = () => {
 	return {...INITIAL_STATE}
 };
@@ -116,11 +106,6 @@ const setSetMaps = (state, setKey, maps) => {
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, maps}}};
 };
 
-//helpers
-const getSetByKey = (state, setKey) => state.sets[setKey];
-const getMapByKey = (state, mapKey) => state.maps[mapKey];
-
-
 const addMapKeyToSet = (state, setKey, mapKey) => {
 	const setToUpdate = getSetByKey(state, setKey);
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, maps: [...setToUpdate.maps, mapKey]}}};
@@ -133,37 +118,11 @@ const removeMapKeyFromSet = (state, setKey, mapKey) => {
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
 };
 
-// TODO deprecated
-const setSetWorldWindNavigator = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
-	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
-	const setToUpdate = getSetByKey(state, setKey);
-	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, worldWindNavigator: mergedWorldWindNavigator}}}};
-};
-
 const setSetView = (state, setKey, view = INITIAL_VIEW) => {
 	const mergedView = {...INITIAL_VIEW, ...view};
 	const setToUpdate = getSetByKey(state, setKey);
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, view: mergedView}}}};
 };
-
-// TODO deprecated
-const updateSetWorldWindNavigator = (state, setKey, updates) => {
-	return {
-		...state,
-		sets: {
-			...state.sets,
-			[setKey]: {
-				...state.sets[setKey],
-				data: {
-					...state.sets[setKey].data,
-					worldWindNavigator: state.sets[setKey].data.worldWindNavigator ?
-						{...state.sets[setKey].data.worldWindNavigator, ...updates} : updates
-				}
-			}
-		}
-	};
-};
-
 
 const updateSetView = (state, setKey, updates) => {
 	if (updates && !_.isEmpty(updates)) {
@@ -190,7 +149,7 @@ const updateSetView = (state, setKey, updates) => {
  * Add new map state. Rewrite map state if exist.
  * */
 const addMap = (state, mapState = INITIAL_MAP_STATE) => {
-	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState);
 	return {...state, maps: {...state.maps, [mergedMapState.key]: mergedMapState}};
 };
 
@@ -212,19 +171,12 @@ const setMapName = (state, mapKey, name) => {
 };
 
 const setMap = (state, mapState = INITIAL_MAP_STATE) => {
-	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState);
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
 };
 
 const setMapData = (state, mapKey, mapData = {}) => {
 	return {...state, maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: mapData}}};
-};
-
-// TODO deprecated
-const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
-	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
-	const mapState = getMapByKey(state, mapKey);
-	return setMap(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
 };
 
 const setMapView = (state, mapKey, view = INITIAL_VIEW) => {
@@ -233,19 +185,6 @@ const setMapView = (state, mapKey, view = INITIAL_VIEW) => {
 		...state,
 		maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: {...state.maps[mapKey].data, view: mergedView}}}
 	};
-};
-
-// TODO deprecated
-const updateMapWorldWindNavigator = (state, mapKey, updates) => {
-	const mapState = getMapByKey(state, mapKey);
-	return setMap(state, {
-		...mapState,
-		data: {
-			...mapState.data,
-			worldWindNavigator: mapState.data.worldWindNavigator ?
-				{...mapState.data.worldWindNavigator, ...updates} : updates
-		}
-	});
 };
 
 const updateMapView = (state, mapKey, updates) => {
@@ -313,7 +252,7 @@ const setMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE, layerKey) 
 	const mapState = getMapByKey(state, mapKey);
 	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
 	if(layerIndex > -1) {
-		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerStateWithoutKey)
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerStateWithoutKey);
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		//error - layer not found
@@ -328,7 +267,7 @@ const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE, layerKe
 	if(layerIndex > -1) {
 		layerState['key'] = layerKey;
 		const mergedLayerState = _.merge(_.cloneDeep({...mapState.data.layers[layerIndex]}), layerState);
-		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState)
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState);
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		//error - layer not found
@@ -386,6 +325,66 @@ const update = (state, data) => {
 	return {...state, ...data};
 };
 
+
+
+/* =======================================================
+   DEPRECATED
+========================================================== */
+
+const INITIAL_WORLDWINDNAVIGATOR = {
+	lookAtLocation: {
+		latitude: 50.1,
+		longitude: 14.5
+	},
+	range: 100000,
+	roll: 0,
+	tilt: 0,
+	heading: 0,
+	elevation: 0
+};
+
+const deprecated_setSetWorldWindNavigator = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
+	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator);
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, worldWindNavigator: mergedWorldWindNavigator}}}};
+};
+
+const deprecated_setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
+	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator);
+	const mapState = getMapByKey(state, mapKey);
+	return setMap(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
+};
+
+const deprecated_updateMapWorldWindNavigator = (state, mapKey, updates) => {
+	const mapState = getMapByKey(state, mapKey);
+	return setMap(state, {
+		...mapState,
+		data: {
+			...mapState.data,
+			worldWindNavigator: mapState.data.worldWindNavigator ?
+				{...mapState.data.worldWindNavigator, ...updates} : updates
+		}
+	});
+};
+
+const deprecated_updateSetWorldWindNavigator = (state, setKey, updates) => {
+	return {
+		...state,
+		sets: {
+			...state.sets,
+			[setKey]: {
+				...state.sets[setKey],
+				data: {
+					...state.sets[setKey].data,
+					worldWindNavigator: state.sets[setKey].data.worldWindNavigator ?
+						{...state.sets[setKey].data.worldWindNavigator, ...updates} : updates
+				}
+			}
+		}
+	};
+};
+
+
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.MAPS.SET_INITIAL:
@@ -404,10 +403,6 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return removeMapKeyFromSet(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.SET_BACKGROUND_LAYER:
 			return setSetBackgroundLayer(state, action.setKey, action.backgroundLayer);
-		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET: // TODO deprecated
-			return setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE: // TODO deprecated
-			return updateSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.SET.VIEW.SET:
 			return setSetView(state, action.setKey, action.view);
 		case ActionTypes.MAPS.SET.VIEW.UPDATE:
@@ -424,10 +419,6 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setMapName(state, action.mapKey, action.name);
 		case ActionTypes.MAPS.MAP.SET_DATA:
 			return setMapData(state, action.mapKey, action.data);
-		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET: // TODO deprecated
-			return setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE: // TODO deprecated
-			return updateMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.MAP.VIEW.SET:
 			return setMapView(state, action.mapKey, action.view);
 		case ActionTypes.MAPS.MAP.VIEW.UPDATE:
@@ -458,6 +449,16 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setMapBackgroundLayer(state, action.mapKey, action.backgroundLayer);
 		case ActionTypes.MAPS.UPDATE:
 			return update(state, action.data);
+
+		// deprecated
+		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET:
+			return deprecated_setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE:
+			return deprecated_updateSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET:
+			return deprecated_setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE:
+			return deprecated_updateMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
 		default:
 			return state;
 	}
