@@ -83,7 +83,7 @@ class ScatterChartDoc extends React.PureComponent {
 
 
 				<h2 id="props">Props</h2>
-				<p>Bellow are listed specific props for scatter chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
+				<p>Bellow are listed specific props for scatter chart. Other props are common to all cartesian charts (<Link to="/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
 					content={[
 						{

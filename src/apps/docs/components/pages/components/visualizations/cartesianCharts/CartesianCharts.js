@@ -102,9 +102,9 @@ class CartesianCharts extends React.PureComponent {
 				</div>
 				<p>Each type of chart is suitable for different use case. For detailed information about proper chart type usage, please go to the particular chart documentation. Based on input data and, mainly, based on the message you want to deliver to your audience, you can choose from following charts:</p>
 				<ul className="ptr-docs-basic-list">
-					<li><Link to="/docs/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
-					<li><Link to="/docs/components/visualizations/cartesianCharts/lineChart"><b>Line chart</b></Link> - progress of one attribute/indicator (e.g. Population progress between 1985 and 2015 by country) or progress of multiple comparable attributes/indicators for one area</li>
-					<li><Link to="/docs/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
+					<li><Link to="/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
+					<li><Link to="/components/visualizations/cartesianCharts/lineChart"><b>Line chart</b></Link> - progress of one attribute/indicator (e.g. Population progress between 1985 and 2015 by country) or progress of multiple comparable attributes/indicators for one area</li>
+					<li><Link to="/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
 				</ul>
 
 				<h2 id="props">Common props</h2>
@@ -142,7 +142,7 @@ class CartesianCharts extends React.PureComponent {
 							name: "ySourcePath",
 							type: "string|array",
 							required: true,
-							description: <>Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie. It could be a collection as well (See <Link to="/docs/components/visualizations/cartesianCharts/columnChart#stacked">stacked column charts</Link>).</>
+							description: <>Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie. It could be a collection as well (See <Link to="/components/visualizations/cartesianCharts/columnChart#stacked">stacked column charts</Link>).</>
 						}, {}, {
 							name: "sorting",
 							type: "array",
@@ -305,7 +305,7 @@ class CartesianCharts extends React.PureComponent {
 						}, {}, {
 							name: "diverging",
 							type: "string|boolean",
-							description: (<>Use if the values are diverging from some point (defined in xOptions or yOptions). See <Link to="/docs/components/visualizations/cartesianCharts/columnChart#diverging">Diverging column chart</Link> to find out more. Possible values: 'single', 'double'. If double, ySourcePath must be an array containing paths to both values. If value is not defined, 'single' is used by default.</>)
+							description: (<>Use if the values are diverging from some point (defined in xOptions or yOptions). See <Link to="/components/visualizations/cartesianCharts/columnChart#diverging">Diverging column chart</Link> to find out more. Possible values: 'single', 'double'. If double, ySourcePath must be an array containing paths to both values. If value is not defined, 'single' is used by default.</>)
 						}]
 					}
 				/>

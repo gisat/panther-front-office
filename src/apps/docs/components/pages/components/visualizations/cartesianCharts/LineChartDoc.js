@@ -43,7 +43,7 @@ class LineChartDoc extends React.PureComponent {
 				<p>A line chart is a type of chart which displays information as a series of data points connected by straight line segments. Use this type of chart to <b>show progress</b> of one attribute/indicator in the time, or to show progress of multiple comparable attributes/indicators for one area.</p>
 
 				<h2 id="props">Props</h2>
-				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
+				<p>Bellow are listed specific props for line chart. Other props are common to all cartesian charts (<Link to="/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
 					content={[
 						{
