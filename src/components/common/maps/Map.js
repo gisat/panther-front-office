@@ -38,6 +38,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				// dispatch(Action.maps.setActiveMapKey(ownProps.mapKey));
 			},
 
+			resetHeading: () => {
+				// todo
+			},
+
 			onClick: (view) => {
 				dispatch(Action.maps.setActiveMapKey(ownProps.stateMapKey));
 			}
