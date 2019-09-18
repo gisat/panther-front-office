@@ -30,6 +30,7 @@ class LayersDoc extends React.PureComponent {
 				</SyntaxHighlighter>
 				
 				<h2>Full format</h2>
+				<p>End format supplied to presentational (map framework) map components. (Can also be supplied to connected.) Contains everything needed to display final layer on the map.</p>
 				
 				<h3>WMS</h3>
 				<SyntaxHighlighter language="javascript">
@@ -92,7 +93,7 @@ class LayersDoc extends React.PureComponent {
 				<h3>Framework specific</h3>
 				<SyntaxHighlighter language="javascript">
 					{
-						`{
+`{
 	key: "snezka_example_layer",
 	type: "worldwind",
 	opacity: 0.7,
@@ -108,20 +109,19 @@ class LayersDoc extends React.PureComponent {
 				
 				
 				<h2>State-dependent format</h2>
+				<p>Supplied to connected component, or stored in map store. References layer template and modifiers (fixed or active). Gets transformed into end format.</p>
 				
 				<SyntaxHighlighter language="javascript">
 					{
-						`{
+`{
 	key: "example_layer",
-	type: "wms",
 	opacity: 0.7,
-	
-	options: {
-		url: "http://panther.gisat.cz/geoserver/geonode/wms?"
-		params: {
-			layers: "",
-			styles: ""
-		}
+	layerTemplate: "366f98d0-10e1-4e6c-8be5-7754c45ef599",
+	metadataModifiers: {
+		caseKey: "c9f1f8cd-fdff-43ca-9440-80d3dc6667d6"
+	},
+	filterByActive: {
+		period: true
 	}
 }`
 					}
