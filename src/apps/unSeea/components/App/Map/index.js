@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onUnmount: () => {},
 
 		onWorldWindNavigatorChange: (updates) => {
-			dispatch(Action.maps.updateWorldWindNavigator(props.mapKey, updates));
+			dispatch(Action.maps.deprecated_updateWorldWindNavigator(props.mapKey, updates));
 		},
 
 		setActiveMapKey: () => {

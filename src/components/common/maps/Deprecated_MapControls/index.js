@@ -15,11 +15,11 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setNavigator: (mapKey, navigator) => {
-			dispatch(Action.maps.updateWorldWindNavigator(mapKey, navigator))
+			dispatch(Action.maps.deprecated_updateWorldWindNavigator(mapKey, navigator))
 		},
 		resetHeading: (mapKey) => {
 			//todo disable button while reseting
-			dispatch(Action.maps.resetWorldWindNavigatorHeading(mapKey))
+			dispatch(Action.maps.deprecated_resetWorldWindNavigatorHeading(mapKey))
 		}
 	}
 };

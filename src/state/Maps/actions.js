@@ -13,12 +13,19 @@ const {actionGeneralError} = commonActions;
 
 const setInitial = commonActions.setInitial(ActionTypes.MAPS);
 
-// ============ creators ===========
-const deprecated_useClear = (mapKey) => {
-	return (dispatch) => {
-		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
-	};
-};
+/*
+Table of contents
+	- creators
+	- deprecated creators
+	- actions
+	- deprecated actions
+	- exports
+*/
+
+
+/* ==================================================
+ * CREATORS
+ * ================================================== */
 
 const setActiveMapKey = (mapKey) => {
 	return (dispatch, getState) => {
@@ -100,7 +107,7 @@ const addLayersToMaps = (layerTreesFilter, mapKeys, useActiveMetadataKeys) => {
 			}
 		}
 	}
-}
+};
 
 const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
@@ -187,19 +194,6 @@ const removeMapKeyFromSet = (setKey, mapKey) => {
 			} else {
 				return dispatch(actionGeneralError(`Set ${setKey} do not contains map ${mapKey}.`));
 			}
-		}
-	}
-};
-
-// TODO deprecated
-const setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const setByKey = Select.maps.getMapSetByKey(state, setKey);
-		if(!setByKey) {
-			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
-		} else {
-			return dispatch(actionSetSetWorldWindNavigator(setKey, worldWindNavigator));
 		}
 	}
 };
@@ -341,19 +335,6 @@ const setMapData = (mapKey, data) => {
 	};
 };
 
-// TODO deprecated
-const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const mapByKey = Select.maps.getMapByKey(state, mapKey);
-		if(!mapByKey) {
-			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
-		} else {
-			return dispatch(actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
-		}
-	};
-};
-
 const setMapView = (mapKey, view) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -365,19 +346,6 @@ const setMapView = (mapKey, view) => {
 		}
 	};
 };
-
-const addLayerToEachMapInSet = (layer, zIndex) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const activeSetKey = Select.maps.getActiveSetKey(state);
-		const activeMapKeys = Select.maps.getMapSetMapKeys(state, activeSetKey);
-		if(activeMapKeys) {
-			activeMapKeys.forEach((mapKey) => {
-				dispatch(Action.maps.addLayer(mapKey, layer, zIndex));
-			})
-		}
-	}
-}
 
 const addLayer = (mapKey, layer, index, useActiveMetadataKeys) => {
 	return (dispatch, getState) => {
@@ -501,47 +469,6 @@ const updateMapLayer = (mapKey, layerKey, layer) => {
 	}
 };
 
-// TODO deprecated
-const updateWorldWindNavigator = (mapKey, updates) => {
-	return (dispatch, getState) => {
-		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
-		let forSet = {};
-		let forMap = {};
-
-		if (set && set.sync) {
-			forSet = _.pickBy(updates, (updateVal, updateKey) => {
-				if (updateKey === 'lookAtLocation') {
-					return set.sync['location'];
-				} else {
-					return set.sync[updateKey];
-				}
-			});
-
-			forMap = _.omitBy(updates, (updateVal, updateKey) => {
-				if (updateKey === 'lookAtLocation') {
-					return set.sync['location'];
-				} else {
-					return set.sync[updateKey];
-				}
-			});
-		} else {
-			forMap = updates;
-		}
-
-		if (forSet && !_.isEmpty(forSet)) {
-			//check data integrity
-			forSet = checkWorldWindNavigatorIntegrity(forSet); //TODO test
-			dispatch(actionUpdateSetWorldWindNavigator(set.key, forSet));
-		}
-
-		if (forMap && !_.isEmpty(forMap)) {
-			//check data integrity
-			forMap = checkWorldWindNavigatorIntegrity(forMap); //TODO test
-			dispatch(actionUpdateMapWorldWindNavigator(mapKey, forMap));
-		}
-	}
-};
-
 const updateMapAndSetView = (mapKey, update) => {
 	return (dispatch, getState) => {
 		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
@@ -572,58 +499,6 @@ const updateMapAndSetView = (mapKey, update) => {
 			forMap = mapUtils.checkViewIntegrity(forMap); //TODO test
 			dispatch(actionUpdateMapView(mapKey, forMap));
 		}
-	}
-};
-
-// TODO deprecated
-const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
-	if (WorldWindNavigator.heading && WorldWindNavigator.heading > 360) {
-		WorldWindNavigator.heading = WorldWindNavigator.heading - 360;
-	}
-
-	if (WorldWindNavigator.heading && WorldWindNavigator.heading < -360) {
-		WorldWindNavigator.heading = WorldWindNavigator.heading + 360;
-	}
-
-	if (WorldWindNavigator.tilt && WorldWindNavigator.tilt < 0) {
-		WorldWindNavigator.tilt = 0;
-	}
-
-	if (WorldWindNavigator.tilt && WorldWindNavigator.tilt > 90) {
-		WorldWindNavigator.tilt = 90;
-	}
-	return WorldWindNavigator;
-};
-
-// TODO deprecated
-const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
-	return (dispatch, getState) => {
-		const mapNavigator = Select.maps.getNavigator_deprecated(getState(), mapKey);
-
-		let headingIncrement = 1.0;
-		if (Math.abs(mapNavigator.heading) > 60) {
-			headingIncrement = 2.0;
-		} else if (Math.abs(mapNavigator.heading) > 120) {
-			headingIncrement = 3.0;
-		}
-		//set shortest direction based on angle
-		if (mapNavigator.heading > 0 && mapNavigator.heading < 180 || mapNavigator.heading < 0 && mapNavigator.heading < -180) {
-			headingIncrement = -headingIncrement;
-		}
-		headingIncrement = defaultIncrement || headingIncrement;
-
-		setTimeout(() => {
-			let finalHeading;
-			if (Math.abs(mapNavigator.heading) > Math.abs(headingIncrement)) {
-				finalHeading = mapNavigator.heading + headingIncrement;
-				dispatch(updateWorldWindNavigator(mapKey, {heading: finalHeading}))
-				dispatch(resetWorldWindNavigatorHeading(mapKey, headingIncrement));
-			} else {
-				finalHeading = 0;
-				dispatch(updateWorldWindNavigator(mapKey, {heading: finalHeading}))
-			}
-		}, 20)
-
 	}
 };
 
@@ -722,77 +597,6 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
-const deprecated_use = (mapKey, useActiveMetadataKeys) => {
-	return (dispatch, getState) => {
-		let state = getState();
-		let layers = Select.maps.getLayersStateByMapKey_deprecated(state, mapKey, useActiveMetadataKeys);
-		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, mapKey);
-		let finalLayers = [];
-
-		if (backgroundLayer) {
-			finalLayers.push(backgroundLayer);
-		}
-
-		if (layers) {
-			finalLayers = finalLayers.concat(layers);
-		}
-
-		if (finalLayers.length) {
-			const componentId = `map_${mapKey}`;
-
-			finalLayers.forEach(filters => {
-
-				//assume, that spatial data dont need period
-				const spatialRelationsFilter = _.cloneDeep(filters.mergedFilter);
-				if(spatialRelationsFilter.periodKey) {
-					delete spatialRelationsFilter.periodKey;
-				}
-				if(spatialRelationsFilter.attributeKey) {
-					delete spatialRelationsFilter.attributeKey;
-				}
-
-				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 1000));
-				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 1000))
-					.then(() => {
-						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), spatialRelationsFilter);
-						if (spatialDataSourcesKeys && spatialDataSourcesKeys.length) {
-
-							dispatch(Action.spatialDataSources.useKeys([spatialDataSourcesKeys[0]], componentId)).then(() => {
-								let dataSource = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
-								//datasource is only one
-								//if vector dataSource, then load attribute data
-								if(dataSource && dataSource[0] && dataSource[0].data.type === 'vector') {
-									let spatialDataSources = Select.spatialRelations.getFilteredData(getState(), spatialRelationsFilter);
-
-									const spatialFilter = {
-										spatialDataSourceKey: dataSource[0].key,
-										fidColumnName: spatialDataSources[0].fidColumnName
-									};
-
-									const spatialData = Select.spatialDataSources.vector.getBatchByFilterOrder(getState(), spatialFilter, null);
-									//if data already loaded, skip loading
-									if(!spatialData) {
-										dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
-									}
-									const attributeFilter = _.cloneDeep(filters.mergedFilter);
-
-									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 1000));
-									dispatch(Action.attributeRelations.ensureIndexedSpecific(attributeFilter, null, 1, 1000, componentId));
-								}
-								
-							});
-						}
-					})
-					.catch((err) => {
-						dispatch(commonActions.actionGeneralError(err));
-					});
-
-				// TODO register and ensure layer templates
-			});
-		}
-	};
-};
-
 function use(mapKey) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -863,14 +667,214 @@ function goToPlace(placeString) {
 							longitude: location.center.lon
 						}
 					};
-					dispatch(updateWorldWindNavigator(mapKey,navigatorUpdate)); // TODO deprecated
+					dispatch(deprecated_updateWorldWindNavigator(mapKey,navigatorUpdate)); // TODO deprecated
 				}
 			});
 		}
 	};
 }
 
-// ============ actions ===========
+/* ==================================================
+ * DEPRECATED CREATORS
+ * ================================================== */
+
+const deprecated_use = (mapKey, useActiveMetadataKeys) => {
+	return (dispatch, getState) => {
+		let state = getState();
+		let layers = Select.maps.getLayersStateByMapKey_deprecated(state, mapKey, useActiveMetadataKeys);
+		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, mapKey);
+		let finalLayers = [];
+
+		if (backgroundLayer) {
+			finalLayers.push(backgroundLayer);
+		}
+
+		if (layers) {
+			finalLayers = finalLayers.concat(layers);
+		}
+
+		if (finalLayers.length) {
+			const componentId = `map_${mapKey}`;
+
+			finalLayers.forEach(filters => {
+
+				//assume, that spatial data dont need period
+				const spatialRelationsFilter = _.cloneDeep(filters.mergedFilter);
+				if(spatialRelationsFilter.periodKey) {
+					delete spatialRelationsFilter.periodKey;
+				}
+				if(spatialRelationsFilter.attributeKey) {
+					delete spatialRelationsFilter.attributeKey;
+				}
+
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 1000));
+				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 1000))
+					.then(() => {
+						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), spatialRelationsFilter);
+						if (spatialDataSourcesKeys && spatialDataSourcesKeys.length) {
+
+							dispatch(Action.spatialDataSources.useKeys([spatialDataSourcesKeys[0]], componentId)).then(() => {
+								let dataSource = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
+								//datasource is only one
+								//if vector dataSource, then load attribute data
+								if(dataSource && dataSource[0] && dataSource[0].data.type === 'vector') {
+									let spatialDataSources = Select.spatialRelations.getFilteredData(getState(), spatialRelationsFilter);
+
+									const spatialFilter = {
+										spatialDataSourceKey: dataSource[0].key,
+										fidColumnName: spatialDataSources[0].fidColumnName
+									};
+
+									const spatialData = Select.spatialDataSources.vector.getBatchByFilterOrder(getState(), spatialFilter, null);
+									//if data already loaded, skip loading
+									if(!spatialData) {
+										dispatch(Action.spatialDataSources.vector.loadLayerData(spatialFilter, componentId));
+									}
+									const attributeFilter = _.cloneDeep(filters.mergedFilter);
+
+									dispatch(Action.attributeRelations.useIndexedRegister( componentId, filters.filterByActive, attributeFilter, null, 1, 1000));
+									dispatch(Action.attributeRelations.ensureIndexedSpecific(attributeFilter, null, 1, 1000, componentId));
+								}
+
+							});
+						}
+					})
+					.catch((err) => {
+						dispatch(commonActions.actionGeneralError(err));
+					});
+
+				// TODO register and ensure layer templates
+			});
+		}
+	};
+};
+
+const deprecated_useClear = (mapKey) => {
+	return (dispatch) => {
+		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
+	};
+};
+
+const deprecated_checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
+	if (WorldWindNavigator.heading && WorldWindNavigator.heading > 360) {
+		WorldWindNavigator.heading = WorldWindNavigator.heading - 360;
+	}
+
+	if (WorldWindNavigator.heading && WorldWindNavigator.heading < -360) {
+		WorldWindNavigator.heading = WorldWindNavigator.heading + 360;
+	}
+
+	if (WorldWindNavigator.tilt && WorldWindNavigator.tilt < 0) {
+		WorldWindNavigator.tilt = 0;
+	}
+
+	if (WorldWindNavigator.tilt && WorldWindNavigator.tilt > 90) {
+		WorldWindNavigator.tilt = 90;
+	}
+	return WorldWindNavigator;
+};
+
+const deprecated_setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return dispatch(deprecated_actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
+		}
+	};
+};
+
+const deprecated_setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			return dispatch(deprecated_actionSetSetWorldWindNavigator(setKey, worldWindNavigator));
+		}
+	}
+};
+
+const deprecated_updateWorldWindNavigator = (mapKey, updates) => {
+	return (dispatch, getState) => {
+		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
+		let forSet = {};
+		let forMap = {};
+
+		if (set && set.sync) {
+			forSet = _.pickBy(updates, (updateVal, updateKey) => {
+				if (updateKey === 'lookAtLocation') {
+					return set.sync['location'];
+				} else {
+					return set.sync[updateKey];
+				}
+			});
+
+			forMap = _.omitBy(updates, (updateVal, updateKey) => {
+				if (updateKey === 'lookAtLocation') {
+					return set.sync['location'];
+				} else {
+					return set.sync[updateKey];
+				}
+			});
+		} else {
+			forMap = updates;
+		}
+
+		if (forSet && !_.isEmpty(forSet)) {
+			//check data integrity
+			forSet = deprecated_checkWorldWindNavigatorIntegrity(forSet); //TODO test
+			dispatch(deprecated_actionUpdateSetWorldWindNavigator(set.key, forSet));
+		}
+
+		if (forMap && !_.isEmpty(forMap)) {
+			//check data integrity
+			forMap = deprecated_checkWorldWindNavigatorIntegrity(forMap); //TODO test
+			dispatch(deprecated_actionUpdateMapWorldWindNavigator(mapKey, forMap));
+		}
+	}
+};
+
+const deprecated_resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
+	return (dispatch, getState) => {
+		const mapNavigator = Select.maps.getNavigator_deprecated(getState(), mapKey);
+
+		let headingIncrement = 1.0;
+		if (Math.abs(mapNavigator.heading) > 60) {
+			headingIncrement = 2.0;
+		} else if (Math.abs(mapNavigator.heading) > 120) {
+			headingIncrement = 3.0;
+		}
+		//set shortest direction based on angle
+		if (mapNavigator.heading > 0 && mapNavigator.heading < 180 || mapNavigator.heading < 0 && mapNavigator.heading < -180) {
+			headingIncrement = -headingIncrement;
+		}
+		headingIncrement = defaultIncrement || headingIncrement;
+
+		setTimeout(() => {
+			let finalHeading;
+			if (Math.abs(mapNavigator.heading) > Math.abs(headingIncrement)) {
+				finalHeading = mapNavigator.heading + headingIncrement;
+				dispatch(deprecated_updateWorldWindNavigator(mapKey, {heading: finalHeading}))
+				dispatch(deprecated_resetWorldWindNavigatorHeading(mapKey, headingIncrement));
+			} else {
+				finalHeading = 0;
+				dispatch(deprecated_updateWorldWindNavigator(mapKey, {heading: finalHeading}))
+			}
+		}, 20)
+
+	}
+};
+
+
+
+
+/* ==================================================
+ * ACTIONS
+ * ================================================== */
 
 const actionSetActiveMapKey = (mapKey) => {
 	return {
@@ -916,29 +920,11 @@ const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 	}
 };
 
-// TODO deprecated
-const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
-	return {
-		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
-		setKey,
-		worldWindNavigator,
-	}
-};
-
 const actionSetSetView = (setKey, view) => {
 	return {
 		type: ActionTypes.MAPS.SET.VIEW.SET,
 		setKey,
 		view
-	}
-};
-
-// TODO deprecated
-const actionUpdateSetWorldWindNavigator = (setKey, worldWindNavigator) => {
-	return {
-		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE,
-		setKey,
-		worldWindNavigator,
 	}
 };
 
@@ -996,29 +982,11 @@ const actionSetMapData = (mapKey, data) => {
 	}
 };
 
-// TODO deprecated
-const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
-	return {
-		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
-		mapKey,
-		worldWindNavigator,
-	}
-};
-
 const actionSetMapView = (mapKey, view) => {
 	return {
 		type: ActionTypes.MAPS.MAP.VIEW.SET,
 		mapKey,
 		view
-	}
-};
-
-// TODO deprecated
-const actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
-	return {
-		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE,
-		mapKey,
-		worldWindNavigator,
 	}
 };
 
@@ -1138,18 +1106,53 @@ const actionUpdate = (data) => {
 	}
 };
 
+/* ==================================================
+ * DEPRECATED ACTIONS
+ * ================================================== */
+
+const deprecated_actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
+		setKey,
+		worldWindNavigator,
+	}
+};
+
+const deprecated_actionUpdateSetWorldWindNavigator = (setKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE,
+		setKey,
+		worldWindNavigator,
+	}
+};
+
+const deprecated_actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
+		mapKey,
+		worldWindNavigator,
+	}
+};
+
+const deprecated_actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE,
+		mapKey,
+		worldWindNavigator,
+	}
+};
+
 // ============ export ===========
 
+// TODO better naming
 export default {
 	addLayer,
 	addLayers,
-	addLayerToEachMapInSet,
+	addLayersToMaps, // TODO ???
 	addMap,
 	addMapForPeriod,
 	addMapToSet,
 	addSet,
-
-	addLayersToMaps,
 
 	goToPlace,
 
@@ -1161,10 +1164,9 @@ export default {
 	removeSet,
 
 	resetViewHeading,
-	resetWorldWindNavigatorHeading,
 
 	setActiveMapKey,
-	setActiveSetKey, //test
+	setActiveSetKey,
 	setLayerIndex,
 
 	setMapBackgroundLayer,
@@ -1177,23 +1179,26 @@ export default {
 	setMapScenario,
 	setMapScope,
 	setMapView,
-	setMapWorldWindNavigator,
 
 	setSetBackgroundLayer,
 	setSetSync,
 	setSetView,
-	setSetWorldWindNavigator,
 
 	setInitial,
 
 	updateMapLayer,
 	updateStateFromView,
-	updateWorldWindNavigator,
 	updateMapAndSetView,
 
 	use,
 	useClear,
 
+
+	// Deprecated
+	deprecated_resetWorldWindNavigatorHeading,
+	deprecated_setMapWorldWindNavigator,
+	deprecated_setSetWorldWindNavigator,
+	deprecated_updateWorldWindNavigator,
 	deprecated_use,
 	deprecated_useClear
 }
