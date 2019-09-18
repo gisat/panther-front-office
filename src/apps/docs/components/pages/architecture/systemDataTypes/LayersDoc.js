@@ -10,7 +10,7 @@ class LayersDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Layers">
-				<p>Layers are for layering. Full format for presentational map components, state-dependent for connected.</p>{/* todo */}
+				<p>Layers are for layering. Full format (End? Absolute? Complete? Explicit? Pink?) for presentational map components, state-dependent (Relative? Implicit? Magic? Fuchsia?) for connected.</p>{/* todo */}
 				<SyntaxHighlighter language="javascript">
 					{
 `{
