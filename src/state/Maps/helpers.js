@@ -77,7 +77,31 @@ const getLayersWithFilter = createCachedSelector(
 	}
 )((state, layersState) => JSON.stringify(layersState));
 
+const prepareLayerByDataSourceType = (layerKey, dataSource, index) => {
+	let dataSourceData = dataSource.data;
+	let {attribution, nameInternal, type, ...options} = dataSourceData;
+
+	// TODO data source strucutre
+	if (type === 'wmts') {
+		options.url = options.urls[0];
+	}
+	if (type === 'wms') {
+		let {url, ...params} = options;
+		options = {
+			params,
+			url
+		}
+	}
+
+	return {
+		key: layerKey + '_' + index,
+		type,
+		options
+	};
+};
+
 export default {
 	getBackgroundLayersWithFilter,
-	getLayersWithFilter
+	getLayersWithFilter,
+	prepareLayerByDataSourceType
 }

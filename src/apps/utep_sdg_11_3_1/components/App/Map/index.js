@@ -130,7 +130,7 @@ const mapStateToProps = (state, props) => {
 			layersAttributeData: null,
 			layersAttributeStatistics: {},
 			layersMetadata: {},
-			navigator: Select.maps.getNavigator(state, props.mapKey),
+			navigator: Select.maps.getNavigator_deprecated(state, props.mapKey),
 			// activeAttributeKey: Select.attributes.getActiveKey(state),
 			label: label || null,
 			// nameData: vectorLayersNames,

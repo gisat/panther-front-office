@@ -29,7 +29,7 @@ const mapStateToProps = (state, props) => {
 		backgroundLayer: Select.maps.getLayers_deprecated(state, backgroundLayerData),
 		layers,
 		layersVectorData,
-		navigator: Select.maps.getNavigator(state, props.mapKey)
+		navigator: Select.maps.getNavigator_deprecated(state, props.mapKey)
 	}
 };
 
