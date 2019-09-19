@@ -443,7 +443,7 @@
 	display: flex;
 	justify-content: center;
 	margin: m(1) 0 0 0;
-	font-size: 90%;
+	//font-size: 90%;
 
 	.label{
 		margin-right: m(1);
@@ -495,6 +495,26 @@
 		background: var(--accent60);
 	}
 
+}
+
+.scudeoStories19-inline-checkbox {
+	margin-top: m(1/3);
+	display: flex;
+	justify-content: center;
+}
+
+.scudeoStories19-inline-checkbox label {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.scudeoStories19-inline-checkbox span {
+	margin-left: .5rem;
+}
+
+.scudeoStories19-inline-checkbox input[type="checkbox"] {
+	cursor: pointer;
 }
 
 

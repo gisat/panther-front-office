@@ -197,10 +197,17 @@ class GlobalWSF extends React.PureComponent {
 				value: null,
 				id: 'unlimited',
 			},
+			areaGrowthShowSelectedOnly: false,
+			annualGrowthShowSelectedOnly: false,
+			urbanExpansionShowSelectedOnly: false
 		};
 
 		this.handleOptionChange = this.handleOptionChange.bind(this);
 		this.handleGrowRateOptionChange = this.handleGrowRateOptionChange.bind(this);
+
+		this.handleAreaGrowthCheckbox = this.handleAreaGrowthCheckbox.bind(this);
+		this.handleAnnualGrowthCheckbox = this.handleAnnualGrowthCheckbox.bind(this);
+		this.handleUrbanExpansionCheckbox = this.handleUrbanExpansionCheckbox.bind(this);
 	}
 
 	componentDidMount() {
@@ -288,13 +295,69 @@ class GlobalWSF extends React.PureComponent {
 		});
 	}
 
+	handleAreaGrowthCheckbox(changeEvent) {
+		this.setState({
+			areaGrowthShowSelectedOnly: changeEvent.target.checked
+		});
+	}
+
+	handleAnnualGrowthCheckbox(changeEvent) {
+		this.setState({
+			annualGrowthShowSelectedOnly: changeEvent.target.checked
+		});
+	}
+
+	handleUrbanExpansionCheckbox(changeEvent) {
+		this.setState({
+			urbanExpansionShowSelectedOnly: changeEvent.target.checked
+		});
+	}
+
+	filterSelected(data) {
+		return _.filter(data, (item => {
+			return item.key === this.state.cityOne.key || item.key === this.state.cityTwo.key;
+		}));
+	}
+
+	rejectSelected(data) {
+		return _.reject(data, (item => {
+			return item.key === this.state.cityOne.key || item.key === this.state.cityTwo.key;
+		}));
+	}
+
+	moveSelectedToTheEnd(data) {
+		let withoutFiltered = this.rejectSelected(data);
+		let filtered = this.filterSelected(data);
+		return [...withoutFiltered, ...filtered];
+	}
+
 	render() {
 
 		const layers = [wsfLayer, this.state.vectorLayer];
 
-		const settlementAreaExpansionCoverageData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
-		const settlementAreaExpansionData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
-		const urbanExpansionCoefficientData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		let settlementAreaExpansionCoverageData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		let settlementAreaExpansionData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		let urbanExpansionCoefficientData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+
+		// Filter selected only if needed, otherwise show selected on the top allways
+		if (settlementAreaExpansionCoverageData && this.state.areaGrowthShowSelectedOnly) {
+			settlementAreaExpansionCoverageData = this.filterSelected(settlementAreaExpansionCoverageData);
+		} else if (settlementAreaExpansionCoverageData) {
+			settlementAreaExpansionCoverageData = this.moveSelectedToTheEnd(settlementAreaExpansionCoverageData);
+		}
+
+		if (settlementAreaExpansionData && this.state.annualGrowthShowSelectedOnly) {
+			settlementAreaExpansionData = this.filterSelected(settlementAreaExpansionData);
+		} else if (settlementAreaExpansionData) {
+			settlementAreaExpansionData = this.moveSelectedToTheEnd(settlementAreaExpansionData);
+		}
+
+		if (urbanExpansionCoefficientData && this.state.urbanExpansionShowSelectedOnly) {
+			urbanExpansionCoefficientData = this.filterSelected(urbanExpansionCoefficientData);
+		} else if (urbanExpansionCoefficientData) {
+			urbanExpansionCoefficientData = this.moveSelectedToTheEnd(urbanExpansionCoefficientData);
+		}
+
 		return (
 			<>
 				<Header
@@ -437,6 +500,7 @@ class GlobalWSF extends React.PureComponent {
 													yLabel
 													yOptions={{
 														max: this.state.selectedOption.value,
+														min: 0,
 														name: "Settlement area",
 														unit: "km2"
 													}}
@@ -474,6 +538,17 @@ class GlobalWSF extends React.PureComponent {
 														</label>
 													</div>
 												</div>
+
+												<div className="scudeoStories19-inline-checkbox">
+													<div className="checkbox">
+														<label>
+															<input type={'checkbox'} checked={this.state.areaGrowthShowSelectedOnly} onChange={this.handleAreaGrowthCheckbox}/>
+															<span>
+																Show selected cities only
+															</span>
+														</label>
+													</div>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
@@ -507,7 +582,8 @@ class GlobalWSF extends React.PureComponent {
 													yOptions={{
 														max: this.state.growRateOption.value,
 														name: "Settlement growth",
-														unit: "%"
+														unit: "%",
+														min: 0
 													}}
 
 													height={22}
@@ -541,6 +617,16 @@ class GlobalWSF extends React.PureComponent {
 															</span>
 														</label>
 													</div>
+												</div>
+											</div>
+											<div className="scudeoStories19-inline-checkbox">
+												<div className="checkbox">
+													<label>
+														<input type={'checkbox'} checked={this.state.annualGrowthShowSelectedOnly} onChange={this.handleAnnualGrowthCheckbox}/>
+														<span>
+																Show selected cities only
+															</span>
+													</label>
 												</div>
 											</div>
 										</Fade>
@@ -610,6 +696,16 @@ class GlobalWSF extends React.PureComponent {
 													legend
 													diverging
 												/>
+											</div>
+											<div className="scudeoStories19-inline-checkbox">
+												<div className="checkbox">
+													<label>
+														<input type={'checkbox'} checked={this.state.urbanExpansionShowSelectedOnly} onChange={this.handleUrbanExpansionCheckbox}/>
+														<span>
+																Show selected cities only
+															</span>
+													</label>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
