@@ -80,9 +80,9 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 
 		/* Filter */
-		if (data && data.length && filter && filter.areas) {
+		if (data && data.length && filter && filter.filteredKeys) {
 			data = _.filter(data, (item) => {
-				return _.indexOf(filter.areas, item.key) !== -1;
+				return _.indexOf(filter.filteredKeys, item.key) !== -1;
 			});
 		}
 

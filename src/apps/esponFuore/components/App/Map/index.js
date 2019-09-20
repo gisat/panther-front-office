@@ -138,12 +138,13 @@ const mapStateToProps = (state, props) => {
 
 		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
-			const filter = cloneDeep(layer.mergedFilter)
+			const filter = cloneDeep(layer.mergedFilter);
 			return {filter, data: layer.layer}
 		}) : null;
 		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
-		let activeFilter = Select.selections.getActive(state);
+
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state);
 
 		//TODO -> select
 		//active indicator type absolute/relative

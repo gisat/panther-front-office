@@ -19,7 +19,8 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 	return (state) => {
 		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey, useActiveMetadataKeys);
-		let activeFilter = Select.selections.getActive(state);
+
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state);
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};

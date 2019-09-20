@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					width: 400,
 					maxWidth: 600,
 					minHeight: 100,
-					height: 250
+					height: 350
 				},
 				(
 					<AreasFilter/>
