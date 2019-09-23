@@ -23,16 +23,21 @@ const getUniqueCountries = (features) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-
+	let countryCodes = null;
 	let activeScope = Select.scopes.getActive(state);
 	let countryFilterAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.countryCodeAttributeKey;
 	let countryFilter = {attributeKey: countryFilterAttributeKey, scopeKey: activeScope.key};
 
 	const relations = Select.attributeRelations.getFiltered(state, countryFilter);
-	const attributeDataSourceKey = relations[0].attributeDataSourceKey;
-	let attributes = Select.attributeData.getByKey(state, attributeDataSourceKey);
 
-	const countryCodes = getUniqueCountries(attributes.attributeData);
+	if (relations && relations.length) {
+		let attributeDataSourceKey = relations[0].attributeDataSourceKey;
+		let attributes = Select.attributeData.getByKey(state, attributeDataSourceKey);
+		if (attributes) {
+			countryCodes = getUniqueCountries(attributes.attributeData);
+		}
+	}
+
 
 	return {
 		activeAttribute: Select.attributes.getActive(state),
