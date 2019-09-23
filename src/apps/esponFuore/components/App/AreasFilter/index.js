@@ -46,7 +46,8 @@ const mapStateToProps = (state, ownProps) => {
 		activeScopeKey: Select.scopes.getActiveKey(state),
 		activeAttributeKey: Select.attributes.getActiveKey(state),
 		activePeriodKeys: Select.periods.getActiveKeys(state),
-		activeFilters: Select.specific.esponFuoreSelections.getActiveAttributeFilterAnd(state),
+		activeSelection: Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state),
+		activeSubfilters: Select.specific.esponFuoreSelections.getActiveAttributeFilterAnd(state),
 		countryAttributeKey: countryFilterAttributeKey,
 		countryOptions: countryCodes
 	}

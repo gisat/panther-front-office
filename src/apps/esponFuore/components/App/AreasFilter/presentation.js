@@ -13,7 +13,8 @@ class AreasFilter extends React.PureComponent {
 		activeAttribute: PropTypes.object,
 		activeAttributeData: PropTypes.object,
 		activeAttributeStatistics: PropTypes.object,
-		activeFilters: PropTypes.array,
+		activeSelection: PropTypes.object,
+		activeSubfilters: PropTypes.array,
 		activeAttributeKey: PropTypes.string,
 		activePeriodKeys: PropTypes.array,
 		activeScopeKey: PropTypes.string,
@@ -93,50 +94,62 @@ class AreasFilter extends React.PureComponent {
 	}
 
 	render() {
+		const props = this.props;
 		let selectedCountries = null;
 		let activeAttributeFilter = null;
-		let statistic = this.props.activeAttributeStatistics;
+		let statistic = props.activeAttributeStatistics;
 
-		if (this.props.activeFilters) {
-			let countriesFilter = _.find(this.props.activeFilters, {attributeKey: this.props.countryAttributeKey});
+		if (props.activeSubfilters) {
+			let countriesFilter = _.find(props.activeSubfilters, {attributeKey: props.countryAttributeKey});
 			if (countriesFilter) {
 				selectedCountries = countriesFilter.uniqueValues;
 			}
-			if (this.props.activeAttribute) {
-				activeAttributeFilter = _.find(this.props.activeFilters, {attributeKey: this.props.activeAttribute.key});
+			if (props.activeAttribute) {
+				activeAttributeFilter = _.find(props.activeSubfilters, {attributeKey: props.activeAttribute.key});
 			}
+		}
+
+		let areasInfoContent = null;
+		if (props.activeSelection) {
+			let selectedItemsLength = props.activeSelection && props.activeSelection.data && props.activeSelection.data.filteredKeys && props.activeSelection.data.filteredKeys.length;
+			let text = selectedItemsLength === 1 ? "area" : "areas";
+			areasInfoContent = `${selectedItemsLength} ${text} filtered`;
 		}
 
 		return (
 			<div className="esponFuore-areas-filter">
-				<div className="esponFuore-areas-filter-attribute">
-					<span>Select country</span>
-					<Select
-						clearable
-						multi
-						onChange={this.onCountrySelect}
-						options={_.orderBy(this.props.countryOptions, ["code"], ["asc"])}
-						optionLabel="code"
-						optionValue="code"
-						value={selectedCountries}
-					/>
-				</div>
-				<div className="esponFuore-areas-filter-attribute">
-					<span>{this.props.activeAttribute ? this.props.activeAttribute.data.nameDisplay : null}</span>
-					{statistic ? (
-						<AttributeFilter
-							activeFilter={activeAttributeFilter}
-							onChange={this.onAttributeFilterChange}
-							min={statistic && statistic.min}
-							max={statistic && statistic.max}
+				<div className="esponFuore-areas-filter-content">
+					<div className="esponFuore-areas-filter-attribute">
+						<span>Select country</span>
+						<Select
+							clearable
+							multi
+							onChange={this.onCountrySelect}
+							options={_.orderBy(props.countryOptions, ["code"], ["asc"])}
+							optionLabel="code"
+							optionValue="code"
+							value={selectedCountries}
 						/>
-					) : null}
+					</div>
+					<div className="esponFuore-areas-filter-attribute slider">
+						<span>{props.activeAttribute ? props.activeAttribute.data.nameDisplay : null}</span>
+						{statistic ? (
+							<AttributeFilter
+								activeFilter={activeAttributeFilter}
+								onChange={this.onAttributeFilterChange}
+								min={statistic && statistic.min}
+								max={statistic && statistic.max}
+							/>
+						) : null}
+					</div>
 				</div>
 
 				<div className="esponFuore-areas-filter-buttons">
+					<div className="esponFuore-areas-filter-areas-info">{areasInfoContent}</div>
 					<Button
 						icon="times"
-						disabled={!this.props.activeFilters}
+						invisible
+						disabled={!props.activeSelection}
 						onClick={this.onSelectionClear}
 					>
 						Clear filter
