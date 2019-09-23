@@ -18,7 +18,10 @@ class ChartWrapper extends React.PureComponent {
 	static propTypes = {
 		title: PropTypes.string,
 		subtitle: PropTypes.string,
-		statusBar: PropTypes.element,
+		statusBar: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.array
+		]),
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
 		loading: PropTypes.bool

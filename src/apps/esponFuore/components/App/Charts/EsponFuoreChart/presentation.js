@@ -216,7 +216,7 @@ class EsponFuoreChart extends React.PureComponent {
 	renderLabel(filter) {
 		let attributeFiltersAnd = filter && filter.attributeFilter && filter.attributeFilter.and;
 		if (attributeFiltersAnd) {
-			return attributeFiltersAnd.map((item) => {
+			return attributeFiltersAnd.map((item, index) => {
 				let text = null;
 				if (item.type === "uniqueValues") {
 					text = item.uniqueValues.join(", ");
@@ -225,7 +225,7 @@ class EsponFuoreChart extends React.PureComponent {
 				}
 
 				return (
-					<div className="ptr-colored-label">
+					<div key={index} className="ptr-colored-label">
 						<div className="ptr-colored-label-content">
 							<Icon icon="filter"/>
 							<div>{text}</div>
