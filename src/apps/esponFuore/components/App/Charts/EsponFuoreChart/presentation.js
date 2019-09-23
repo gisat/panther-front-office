@@ -20,8 +20,6 @@ class EsponFuoreChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-
-		this.onSelectionClear = this.onSelectionClear.bind(this);
 	}
 
 	componentDidMount() {
@@ -36,9 +34,9 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 	}
 
-	onSelectionClear() {
+	onSelectionClear(attributeKey) {
 		if (this.props.onSelectionClear) {
-			this.props.onSelectionClear();
+			this.props.onSelectionClear(attributeKey);
 		}
 	}
 
@@ -139,7 +137,7 @@ class EsponFuoreChart extends React.PureComponent {
 				key={this.props.chartKey + "-wrapper"}
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
-				statusBar={filter && filter.name ? (this.renderLabel(filter.name)) : null}
+				statusBar={filter ? (this.renderLabel(filter)) : null}
 				loading={loading}
 			>
 				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data, availablePeriods)}
@@ -215,18 +213,32 @@ class EsponFuoreChart extends React.PureComponent {
 	// TODO create component
 	// TODO make clearable
 	// TODO multiple labels
-	renderLabel(content) {
-		return (
-			<div className="ptr-colored-label">
-				<div className="ptr-colored-label-content">
-					<Icon icon="filter"/>
-					<div>{content}</div>
-				</div>
-				<div className="ptr-colored-label-clear" onClick={this.onSelectionClear}>
-					<Icon icon="times"/>
-				</div>
-			</div>
-		);
+	renderLabel(filter) {
+		let attributeFiltersAnd = filter && filter.attributeFilter && filter.attributeFilter.and;
+		if (attributeFiltersAnd) {
+			return attributeFiltersAnd.map((item) => {
+				let text = null;
+				if (item.type === "uniqueValues") {
+					text = item.uniqueValues.join(", ");
+				} else if (item.type === "interval") {
+					text = "From " + item.min.toLocaleString() + " to " + item.max.toLocaleString() ;
+				}
+
+				return (
+					<div className="ptr-colored-label">
+						<div className="ptr-colored-label-content">
+							<Icon icon="filter"/>
+							<div>{text}</div>
+						</div>
+						<div className="ptr-colored-label-clear" onClick={this.onSelectionClear.bind(this, item.attributeKey)}>
+							<Icon icon="times"/>
+						</div>
+					</div>
+				);
+			});
+		} else {
+			return null;
+		}
 	}
 }
 

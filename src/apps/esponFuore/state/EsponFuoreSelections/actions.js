@@ -18,6 +18,12 @@ function clearActiveSelection() {
 	};
 }
 
+function clearActiveAttributeFilterAndByAttributeKey(attributeKey) {
+	return (dispatch) => {
+		dispatch(updateActiveSelectionAttributeFilterAndByAttributeKey(attributeKey));
+	}
+}
+
 function updateActiveSelectionAttributeFilterAndByAttributeKey(attributeKey, filter){
 	return ((dispatch, getState) => {
 		let activeSelection = Select.specific.esponFuoreSelections.getActive(getState());
@@ -82,5 +88,6 @@ function actionRemove(keys){
 
 export default {
 	clearActiveSelection,
+	clearActiveAttributeFilterAndByAttributeKey,
 	updateActiveSelectionAttributeFilterAndByAttributeKey
 }

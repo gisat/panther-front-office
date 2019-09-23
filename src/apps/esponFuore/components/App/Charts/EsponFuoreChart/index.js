@@ -60,9 +60,9 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onSelectionClear: () => {
+		onSelectionClear: (attributeKey) => {
 			// TODO clear specific selection
-			dispatch(Action.selections.clearActiveSelection());
+			dispatch(Action.specific.esponFuoreSelections.clearActiveAttributeFilterAndByAttributeKey(attributeKey));
 		},
 		onMount: () => {
 			dispatch(Action.charts.use(ownProps.chartKey, useActiveMetadataKeys));
