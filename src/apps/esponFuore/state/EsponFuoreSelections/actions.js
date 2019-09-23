@@ -29,19 +29,26 @@ function updateActiveSelectionAttributeFilterAndByAttributeKey(attributeKey, fil
 				updatedAttributeFilterAnd.push(filter);
 			}
 
-			let updatedSelection = {
-				...activeSelection,
-				data: {
-					...activeSelection.data,
-					attributeFilter: {
-						...activeSelection.data.attributeFilter,
-						and: updatedAttributeFilterAnd
+			if (updatedAttributeFilterAnd.length) {
+				let updatedSelection = {
+					...activeSelection,
+					data: {
+						...activeSelection.data,
+						attributeFilter: {
+							...activeSelection.data.attributeFilter,
+							and: updatedAttributeFilterAnd
+						}
 					}
-				}
-			};
+				};
 
-			// TODO update instead of add?
-			dispatch(add([updatedSelection]))
+				// TODO update instead of add?
+				dispatch(add([updatedSelection]));
+			} else {
+
+				// TODO currently omitting other filters
+				dispatch(setActiveKey(null));
+				dispatch(actionRemove([activeSelection.key]));
+			}
 		} else {
 			let data = {
 				attributeFilter: {

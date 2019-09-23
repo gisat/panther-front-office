@@ -130,6 +130,10 @@ class EsponFuoreChart extends React.PureComponent {
 			}
 		}
 
+		if (filter && !filter.filteredKeys.length) {
+			loading = false;
+		}
+
 		return (
 			<ChartWrapper
 				key={this.props.chartKey + "-wrapper"}
@@ -144,8 +148,12 @@ class EsponFuoreChart extends React.PureComponent {
 	}
 
 	renderColumnChart(data) {
+		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
+
 		return (
-			<ColumnChart
+			noItemFitsFilter ? (
+				<div className="ptr-chart-wrapper-info">No area was filtered.</div>
+			) : (<ColumnChart
 				key={this.props.chartKey}
 				keySourcePath="key"
 				nameSourcePath="data.name"
@@ -163,15 +171,20 @@ class EsponFuoreChart extends React.PureComponent {
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
-			/>
+			/>)
 		);
 	}
 
 	renderLineChart(data, availablePeriods) {
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
+		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
 
-		return (
-			enoughPeriods ? (<LineChart
+		if (noItemFitsFilter) {
+			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
+		} else if (!enoughPeriods) {
+			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+		} else {
+			return <LineChart
 				key={this.props.chartKey}
 				keySourcePath="key"
 				nameSourcePath="data.name"
@@ -195,10 +208,8 @@ class EsponFuoreChart extends React.PureComponent {
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
-			/>) : (
-				<div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
-			)
-		);
+			/>
+		}
 	}
 
 	// TODO create component
