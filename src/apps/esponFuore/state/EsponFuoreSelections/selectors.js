@@ -27,7 +27,8 @@ const getActiveSelectionFilteredKeys = createSelector(
 		if (selection) {
 			let attributeFilter = selection.data && selection.data.attributeFilter;
 			// TODO merge with other filters
-			return getMergedFilteredKeys(attributeFilter);
+			let filteredKeys = getMergedFilteredKeys(attributeFilter);
+			return filteredKeys.length ? filteredKeys : null;
 		} else {
 			return null;
 		}
