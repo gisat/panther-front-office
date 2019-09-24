@@ -78,6 +78,10 @@
 	font-size: $b1;
 }
 
+.ptr-tick-caption.highlighted {
+	font-weight: bold;
+}
+
 .ptr-tick-caption.small {
 	font-size: $a0;
 }

@@ -104,7 +104,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withValues ? this.renderCaption(xCoord, shift, availableHeight, value.toLocaleString()) : null}
+								{this.props.withValues ? this.renderCaption(null, xCoord, shift, availableHeight, value.toLocaleString()) : null}
 							</g>
 						);
 					} else {
@@ -170,7 +170,7 @@ class AxisX extends React.PureComponent {
 									y1={props.plotHeight + shift}
 									y2={props.gridlines ? 0 : props.plotHeight}
 								/>
-								{props.withValues ? this.renderCaption(xCoord, shift, barWidth + gap, name) : null}
+								{props.withValues ? this.renderCaption(key, xCoord, shift, barWidth + gap, name) : null}
 							</g>
 						);
 					} else {
@@ -181,7 +181,7 @@ class AxisX extends React.PureComponent {
 		);
 	}
 
-	renderCaption(x, yShift, availableHeight, text) {
+	renderCaption(key, x, yShift, availableHeight, text) {
 		if (availableHeight > 18) {
 			return (
 				<g
@@ -191,6 +191,7 @@ class AxisX extends React.PureComponent {
 					`}
 				>
 					<AxisLabel
+						originalDataKey={key}
 						classes="ptr-tick-caption"
 						maxWidth={((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2))}
 						maxHeight={availableHeight}

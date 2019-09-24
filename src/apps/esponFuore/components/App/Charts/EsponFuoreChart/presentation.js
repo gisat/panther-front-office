@@ -169,6 +169,8 @@ class EsponFuoreChart extends React.PureComponent {
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				barGapRatio={0.25}
+				minBarWidth={5}
 			/>)
 		);
 	}
