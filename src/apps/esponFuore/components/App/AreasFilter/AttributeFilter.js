@@ -51,6 +51,9 @@ class AttributeFilter extends React.PureComponent {
 		}
 
 		let range = [min, this.state.range[1]];
+		if (min > this.state.range[1]) {
+			range = [this.state.range[1], this.state.range[1]]
+		}
 
 		this.setState({range});
 		this.props.onChange(range);
@@ -64,6 +67,10 @@ class AttributeFilter extends React.PureComponent {
 		}
 
 		let range = [this.state.range[0], max];
+		if (max < this.state.range[0]) {
+			range = [this.state.range[0], this.state.range[0]]
+		}
+
 		this.setState({range});
 		this.props.onChange(range);
 	}
