@@ -44,35 +44,39 @@ class AttributeFilter extends React.PureComponent {
 	}
 
 	onInputMinChange(min) {
-		if (min < this.props.min) {
-			min = this.props.min;
-		} else if (min > this.props.max) {
-			min = this.props.max;
-		}
+		if (Math.abs(min - this.state.range[0]) > 0.001) {
+			if (min < this.props.min) {
+				min = this.props.min;
+			} else if (min > this.props.max) {
+				min = this.props.max;
+			}
 
-		let range = [min, this.state.range[1]];
-		if (min > this.state.range[1]) {
-			range = [this.state.range[1], this.state.range[1]]
-		}
+			let range = [min, this.state.range[1]];
+			if (min > this.state.range[1]) {
+				range = [this.state.range[1], this.state.range[1]]
+			}
 
-		this.setState({range});
-		this.props.onChange(range);
+			this.setState({range});
+			this.props.onChange(range);
+		}
 	}
 
 	onInputMaxChange(max) {
-		if (max < this.props.min) {
-			max = this.props.min;
-		} else if (max > this.props.max) {
-			max = this.props.max;
-		}
+		if (Math.abs(max - this.state.range[1]) > 0.001) {
+			if (max < this.props.min) {
+				max = this.props.min;
+			} else if (max > this.props.max) {
+				max = this.props.max;
+			}
 
-		let range = [this.state.range[0], max];
-		if (max < this.state.range[0]) {
-			range = [this.state.range[0], this.state.range[0]]
-		}
+			let range = [this.state.range[0], max];
+			if (max < this.state.range[0]) {
+				range = [this.state.range[0], this.state.range[0]]
+			}
 
-		this.setState({range});
-		this.props.onChange(range);
+			this.setState({range});
+			this.props.onChange(range);
+		}
 	}
 
 	render() {
