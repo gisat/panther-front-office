@@ -212,11 +212,6 @@ class Line extends React.PureComponent {
 		let pointName = data && _.get(data, props.pointNameSourcePath);
 		let pointValue = data && _.get(data, props.pointValueSourcePath);
 
-		let valueString = pointValue;
-		if (pointValue && (pointValue % 1) !== 0) {
-			valueString = _.isNumber(valueString) ? valueString.toFixed(2) : valueString;
-		}
-
 		if (pointName) {
 			lineName += ` (${pointName})`;
 		}
@@ -232,9 +227,9 @@ class Line extends React.PureComponent {
 					{lineName}
 				</div>
 				<div className="ptr-popup-record-group">
-					{valueString ? <div className="ptr-popup-record">
+					{pointValue ? <div className="ptr-popup-record">
 						<div className="ptr-popup-record-value-group">
-							{<span className="value">{valueString.toLocaleString()}</span>}
+							{<span className="value">{pointValue.toLocaleString()}</span>}
 							{units ? <span className="unit">{units}</span> : null}
 						</div>
 					</div> : null}
