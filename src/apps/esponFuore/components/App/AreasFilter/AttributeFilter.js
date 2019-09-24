@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import 'rc-input-number/assets/index.css';
+import InputNumber from 'rc-input-number';
 import {createSliderWithTooltip, Range} from 'rc-slider';
 
 import 'rc-slider/assets/index.css';
-import 'rc-tooltip/assets/bootstrap.css';
 
 const SliderRange = createSliderWithTooltip(Range);
 
@@ -20,7 +21,10 @@ class AttributeFilter extends React.PureComponent {
 		super(props);
 		this.state = {
 			range: [this.props.min, this.props.max]
-		}
+		};
+
+		this.onInputMinChange = this.onInputMinChange.bind(this);
+		this.onInputMaxChange = this.onInputMaxChange.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -35,37 +39,81 @@ class AttributeFilter extends React.PureComponent {
 		this.setState({range});
 	}
 
-	render() {
-		return (
-			<SliderRange
-				className="esponFuore-attribute-slider"
-				onChange={this.onChange.bind(this)}
-				onAfterChange={this.props.onChange}
-				min={this.props.min}
-				max={this.props.max}
-				value={this.state.range}
-				marks={{
-					[this.props.min]: {
-						label: this.props.min.toLocaleString(),
-						style: {
-							left: 0,
-							width: 'auto',
-							marginLeft: -5
-						}
+	onInputMinChange(min) {
+		if (min < this.props.min) {
+			min = this.props.min;
+		} else if (min > this.props.max) {
+			min = this.props.max;
+		}
 
-					},
-					[this.props.max]: {
-						label: this.props.max.toLocaleString(),
-						style: {
-							right: 0,
-							left: 'auto',
-							width: 'auto',
-							marginLeft: 0,
-							marginRight: -5
-						}
-					}}}
-				tipFormatter={(value) => value.toLocaleString()}
-			/>
+		let range = [min, this.state.range[1]];
+
+		this.setState({range});
+		this.props.onChange(range);
+	}
+
+	onInputMaxChange(max) {
+		if (max < this.props.min) {
+			max = this.props.min;
+		} else if (max > this.props.max) {
+			max = this.props.max;
+		}
+
+		let range = [this.state.range[0], max];
+		this.setState({range});
+		this.props.onChange(range);
+	}
+
+	render() {
+		let isDecimal = (this.props.max % 1 !== 0) || (this.props.min % 1 !== 0);
+
+		return (
+			<div className="esponFuore-attribute-filter">
+				<SliderRange
+					className="esponFuore-attribute-slider"
+					onChange={this.onChange.bind(this)}
+					onAfterChange={this.props.onChange}
+					min={this.props.min}
+					max={this.props.max}
+					value={this.state.range}
+					marks={{
+						[this.props.min]: {
+							label: this.props.min.toLocaleString(),
+							style: {
+								left: 0,
+								width: 'auto',
+								marginLeft: -7
+							}
+
+						},
+						[this.props.max]: {
+							label: this.props.max.toLocaleString(),
+							style: {
+								right: 0,
+								left: 'auto',
+								width: 'auto',
+								marginLeft: 0,
+								marginRight: -7
+							}
+						}}}
+					tipFormatter={(value) => value.toLocaleString()}
+				/>
+				<div className="esponFuore-attribute-filter-inputs">
+					<InputNumber
+						defaultValue={this.props.min}
+						value={this.state.range[0]}
+						precision={isDecimal ? 3:0}
+						onChange={this.onInputMinChange}
+					/>
+					<div className="esponFuore-attribute-filter-input-separator">-</div>
+					<InputNumber
+						defaultValue={this.props.max}
+						value={this.state.range[1]}
+						precision={isDecimal ? 3:0}
+						onChange={this.onInputMaxChange}
+					/>
+				</div>
+			</div>
 		);
 	}
 }

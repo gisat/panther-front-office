@@ -147,7 +147,6 @@ class AreasFilter extends React.PureComponent {
 				<div className="esponFuore-areas-filter-buttons">
 					<div className="esponFuore-areas-filter-areas-info">{areasInfoContent}</div>
 					<Button
-						icon="times"
 						invisible
 						disabled={!props.activeSelection}
 						onClick={this.onSelectionClear}

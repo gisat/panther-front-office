@@ -29,11 +29,12 @@
 }
 
 .esponFuore-areas-filter-buttons {
-  margin-top: m(4/3);
-  margin-bottom: m(1);
+  margin-top: m(1);
+  margin-bottom: m(2/3);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  margin-right: -.5rem;
 }
 
 .esponFuore-areas-filter-areas-info {
@@ -42,8 +43,13 @@
   white-space: nowrap;
 }
 
+/* Slider */
 .esponFuore-attribute-slider {
-  margin: 0 .35rem 0;
+  margin: .15rem .35rem 0;
+}
+
+.esponFuore-attribute-slider .rc-slider-mark {
+  margin-top: .15rem;
 }
 
 .esponFuore-attribute-slider .rc-slider-mark-text {
@@ -55,6 +61,17 @@
   background-color: var(--accent40);
 }
 
+.esponFuore-attribute-slider .rc-slider-handle {
+  width: 18px;
+  height: 18px;
+  margin-top: -8px;
+  margin-left: -8px;
+}
+
+.esponFuore-attribute-slider .rc-slider-handle-2 {
+  margin-left: -10px;
+}
+
 .esponFuore-attribute-slider .rc-slider-handle,
 .esponFuore-attribute-slider .rc-slider-handle-click-focused,
 .esponFuore-attribute-slider .rc-slider-handle-click-focused:focus {
@@ -63,6 +80,57 @@
 
 .esponFuore-attribute-slider .rc-slider-handle:hover {
   border-color: var(--accent50);
+}
+
+/* slider inputs */
+.esponFuore-attribute-filter-inputs {
+  display: flex;
+  justify-content: center;
+  margin-top: .15rem;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number {
+  width: 5rem;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px dotted var(--accent30);
+  transition: border .3s ease-in-out;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number:hover {
+  border-bottom-color: var(--accent50);
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number-focused {
+  border-bottom: 2px solid var(--accent50);
+  box-shadow: none;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number-input {
+  color: var(--accent50);
+  font-size: $b1;
+  border-radius: 0;
+  padding: 0 .35rem;
+  text-align: left;
+  width: 100%;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number:first-child .rc-input-number-input {
+  text-align: right;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number-focused  .rc-input-number-input {
+  color: var(--accent60);
+  background: var(--accent15);
+}
+
+.esponFuore-attribute-filter-inputs > div .rc-input-number-handler-wrap {
+  display: none;
+}
+
+.esponFuore-attribute-filter-input-separator {
+  padding: 0 .15rem;
+  color: var(--accent50);
 }
 
 // TODO find out how to add custom class
