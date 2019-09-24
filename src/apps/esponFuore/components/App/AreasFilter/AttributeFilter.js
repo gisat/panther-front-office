@@ -32,6 +32,10 @@ class AttributeFilter extends React.PureComponent {
 			this.setState({
 				range: [this.props.min, this.props.max]
 			});
+		} else if (prevProps.min !== this.props.min || prevProps.max !== this.props.max) {
+			this.setState({
+				range: [this.props.min, this.props.max]
+			});
 		}
 	}
 
