@@ -167,6 +167,13 @@ $headerHeight: m(2);
 	background-position: 0 100%;
 }
 
+/* charts */
+.esponFuore-app .ptr-chart-legend {
+	justify-content: center;
+	margin-top: m(1/3);
+}
+
+
 /* map controls */
 .esponFuore-app .map-controls {
 	bottom: m(5/3)

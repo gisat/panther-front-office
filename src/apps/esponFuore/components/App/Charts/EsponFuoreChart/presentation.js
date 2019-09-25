@@ -180,6 +180,7 @@ class EsponFuoreChart extends React.PureComponent {
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
 		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
+		let legend = data.length < 11;
 
 		if (filters && this.props.attribute) {
 			let activeAttributeFilter = _.find(filters, {attributeKey: this.props.attribute.key});
@@ -225,6 +226,8 @@ class EsponFuoreChart extends React.PureComponent {
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+
+				legend={legend}
 			/>
 		}
 	}
