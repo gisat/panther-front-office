@@ -135,10 +135,12 @@ class EsponFuoreChart extends React.PureComponent {
 		return (
 			<ChartWrapper
 				key={this.props.chartKey + "-wrapper"}
+				wrapperKey={this.props.chartKey + "-wrapper"}
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
 				statusBar={filter ? (this.renderLabel(filter)) : null}
 				loading={loading}
+				enableExport
 			>
 				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data, availablePeriods)}
 			</ChartWrapper>
