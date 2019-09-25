@@ -73,7 +73,7 @@
 }
 
 .ptr-colored-label-content > div {
-  padding-top: .1rem;
+  white-space: nowrap;
 }
 
 .ptr-colored-label-content > .ptr-icon {
@@ -88,7 +88,7 @@
 
 .ptr-colored-label-clear {
   cursor: pointer;
-  margin-left: .5rem;
+  padding-left: .5rem;
   display: flex;
   align-items: center;
 }
