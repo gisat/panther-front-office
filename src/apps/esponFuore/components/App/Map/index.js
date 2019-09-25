@@ -144,8 +144,6 @@ const mapStateToProps = (state, props) => {
 		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
 
-		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state);
-
 		//TODO -> select
 		//active indicator type absolute/relative
 		let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
@@ -157,11 +155,14 @@ const mapStateToProps = (state, props) => {
 		
 		const map = Select.maps.getMapByKey(state, props.mapKey);
 		let label = null;
+		let periodKey = null;
 		if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
-			const periodKey = map.data.metadataModifiers.period;
+			periodKey = map.data.metadataModifiers.period;
 			const period = Select.periods.getDataByKey(state, periodKey);
-			label = period ? period.nameDisplay : null
+			label = period ? period.nameDisplay : null;
 		}
+
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state, periodKey);
 
 		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.spatialRelationsData) {

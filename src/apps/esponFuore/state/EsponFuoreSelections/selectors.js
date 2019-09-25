@@ -21,13 +21,14 @@ const getActiveAttributeFilterAnd = createSelector(
 
 const getActiveSelectionFilteredKeys = createSelector(
 	[
-		getActive
+		getActive,
+		(state, periodKey) => periodKey
 	],
-	(selection) => {
+	(selection, periodKey) => {
 		if (selection) {
 			let attributeFilter = selection.data && selection.data.attributeFilter;
 			// TODO merge with other filters
-			return getMergedFilteredKeys(attributeFilter);
+			return getMergedFilteredKeys(attributeFilter, periodKey);
 		} else {
 			return null;
 		}
@@ -55,18 +56,32 @@ const getActiveWithFilteredKeys = createSelector(
 );
 
 // helpers
-function getMergedFilteredKeys(filter) {
+function getMergedFilteredKeys(filter, periodKey) {
 	if (filter.filteredKeys) {
 		return filter.filteredKeys;
 	} else {
 		if (filter.and) {
-			let keysToMerge = filter.and.map(subfilter => {
-				return getMergedFilteredKeys(subfilter);
+			let keysToMerge = [];
+			filter.and.forEach(subfilter => {
+				if (periodKey && subfilter.periodKey) {
+					if (periodKey === subfilter.periodKey) {
+						keysToMerge.push(getMergedFilteredKeys(subfilter, periodKey));
+					}
+				} else {
+					keysToMerge.push(getMergedFilteredKeys(subfilter, periodKey));
+				}
 			});
 			return _.intersection(...keysToMerge);
 		} else if (filter.or) {
-			let keysToUnion = filter.or.map(subfilter => {
-				return getMergedFilteredKeys(subfilter);
+			let keysToUnion = [];
+			filter.or.forEach(subfilter => {
+				if (periodKey && subfilter.periodKey) {
+					if (periodKey === subfilter.periodKey) {
+						keysToUnion.push(getMergedFilteredKeys(subfilter, periodKey));
+					}
+				} else {
+					keysToUnion.push(getMergedFilteredKeys(subfilter, periodKey));
+				}
 			});
 			return _.union(...keysToUnion);
 		} else {
