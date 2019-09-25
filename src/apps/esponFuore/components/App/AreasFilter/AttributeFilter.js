@@ -14,13 +14,14 @@ class AttributeFilter extends React.PureComponent {
 		activeFilter: PropTypes.object,
 		onChange: PropTypes.func,
 		min: PropTypes.number,
-		max: PropTypes.number
+		max: PropTypes.number,
+		range: PropTypes.array
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			range: [this.props.min, this.props.max]
+			range: this.props.range ? this.props.range :  [this.props.min, this.props.max]
 		};
 
 		this.onInputMinChange = this.onInputMinChange.bind(this);

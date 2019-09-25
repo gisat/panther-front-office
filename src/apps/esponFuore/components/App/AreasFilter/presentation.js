@@ -110,6 +110,9 @@ class AreasFilter extends React.PureComponent {
 		let selectedCountries = null;
 		let activeAttributeFilter = null;
 		let statistic = props.activeAttributeStatistics;
+		let min = statistic && statistic.min;
+		let max = statistic && statistic.max;
+		let range = null;
 
 		if (props.activeSubfilters) {
 			let countriesFilter = _.find(props.activeSubfilters, {attributeKey: props.countryAttributeKey});
@@ -118,6 +121,10 @@ class AreasFilter extends React.PureComponent {
 			}
 			if (props.activeAttribute) {
 				activeAttributeFilter = _.find(props.activeSubfilters, {attributeKey: props.activeAttribute.key});
+
+				if (activeAttributeFilter) {
+					range = [activeAttributeFilter.min, activeAttributeFilter.max];
+				}
 			}
 		}
 
@@ -149,8 +156,9 @@ class AreasFilter extends React.PureComponent {
 							<AttributeFilter
 								activeFilter={activeAttributeFilter}
 								onChange={this.onAttributeFilterChange}
-								min={statistic && statistic.min}
-								max={statistic && statistic.max}
+								min={min}
+								max={max}
+								range={range}
 							/>
 						) : null}
 					</div>
