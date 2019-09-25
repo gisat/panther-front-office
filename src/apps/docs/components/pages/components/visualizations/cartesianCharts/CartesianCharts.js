@@ -281,6 +281,10 @@ class CartesianCharts extends React.PureComponent {
 								name: "diversionValue",
 								type: "number",
 								description: "Use together with 'diverging' prop to move axis X baseline to this value. By default 0."
+							}, {
+								name: "highlightedArea",
+								type: "object",
+								description: "Using 'from' and 'to' define the area in the chart which will be highlighted."
 							}]
 						}, {
 							name: "yTicks",
@@ -489,6 +493,7 @@ class CartesianCharts extends React.PureComponent {
 				<p>To increase readability you can switch on or off gridlines (<InlineCodeHighlighter>xGridlines</InlineCodeHighlighter> - auxiliary horizontal lines, <InlineCodeHighlighter>yGridlines</InlineCodeHighlighter> - auxiliary vertical lines) and ticks (<InlineCodeHighlighter>xTicks</InlineCodeHighlighter>, <InlineCodeHighlighter>yTicks</InlineCodeHighlighter>) for both axis.</p>
 				<p>Use <InlineCodeHighlighter>xLabel</InlineCodeHighlighter>/<InlineCodeHighlighter>yLabel</InlineCodeHighlighter> to add label (title) for axis x/axis y. Source data for the label must be defined in <InlineCodeHighlighter>xOptions</InlineCodeHighlighter>/<InlineCodeHighlighter>yOptions</InlineCodeHighlighter> object as you can see in the example below.</p>
 				<p>Furthermore, you can extend minimum and maximum for axis y (or even for axis x, if its scale is linear - e.g. scatter chart) in the options object.</p>
+				<p>If you want to highlight certain area in the chart (e.g. emphasize filter range), you can define the <InlineCodeHighlighter>highlightedArea</InlineCodeHighlighter> object in <InlineCodeHighlighter>yOptions</InlineCodeHighlighter>. Specify <InlineCodeHighlighter>from</InlineCodeHighlighter> and <InlineCodeHighlighter>to</InlineCodeHighlighter> property to set the range on axis y which should be highlighted.</p>
 				<p>For axis y, there is an additional prop <InlineCodeHighlighter>withoutYbaseline</InlineCodeHighlighter>nset to false. It means show the baseline of axis Y, because the baseline is hidden by default for column chart.</p>
 
 				<SyntaxHighlighter language="jsx">
@@ -519,6 +524,10 @@ class CartesianCharts extends React.PureComponent {
 					'\t\t\tunit: "sqkm"\n' +
 					'\t\t\tmin: 0\n' +
 					'\t\t\tmax: 104000\n' +
+					'\t\t\thighlightedArea: {\n' +
+					'\t\t\t\tfrom: 30000\n' +
+					'\t\t\t\tto: 60000\n' +
+					'\t\t\t}\n' +
 					'\t\t}}\n' +
 					'\t\tyLabel\n' +
 					'\t\tyTicks\n' +
@@ -558,7 +567,11 @@ class CartesianCharts extends React.PureComponent {
 									name: "Urban Area",
 									unit: "sqkm",
 									min: 0,
-									max: 104000
+									max: 104000,
+									highlightedArea: {
+										from: 30000,
+										to: 60000
+									}
 								}}
 								yLabel
 								yTicks

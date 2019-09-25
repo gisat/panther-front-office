@@ -86,6 +86,16 @@
 	font-size: $a0;
 }
 
+.ptr-axis-highlighted-area-edge {
+	stroke-width: 1px;
+	stroke: var(--accent30);
+}
+
+.ptr-axis-highlighted-area {
+	stroke-width: 0;
+	fill: var(--accent15);
+}
+
 /* Line chart */
 .ptr-line-chart {
 	//background: red;

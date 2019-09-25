@@ -57,6 +57,7 @@ class AxisY extends React.PureComponent {
 
 		return (
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
+				{props.options && props.options.highlightedArea ? this.renderHighlightedArea() : null}
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
@@ -177,6 +178,49 @@ class AxisY extends React.PureComponent {
 					text={content}
 					textAnchor="middle"
 				/>
+			</g>
+		);
+	}
+
+	renderHighlightedArea() {
+		const props = this.props;
+		let shift = props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
+		let options = props.options.highlightedArea;
+
+		let domain = props.scale.domain();
+		let min = domain[0] > options.from ? domain[0] : options.from;
+		let max = domain[1] < options.to ? domain[1] : options.to;
+
+
+		let x1 = TICK_CAPTION_OFFSET_VERTICAL;
+		let x2 = props.gridlines ? (props.plotWidth + shift) : props.plotWidth;
+		let yMin = props.scale(min);
+		let yMax = props.scale(max);
+
+		return (
+			<g className="ptr-axis-grid" transform={`translate(${props.width + props.labelSize - shift},${props.topPadding })`}>
+				<path
+					className="ptr-axis-highlighted-area"
+					d={`M${x1},${yMin} L${x1},${yMax} L${x2},${yMax} L${x2},${yMin}`}
+				/>
+				{min === options.from ? (
+					<line
+						className="ptr-axis-highlighted-area-edge"
+						x1={x1}
+						x2={x2}
+						y1={yMin}
+						y2={yMin}
+					/>
+				) : null}
+				{max === options.to ? (
+					<line
+						className="ptr-axis-highlighted-area-edge"
+						x1={x1}
+						x2={x2}
+						y1={yMax}
+						y2={yMax}
+					/>
+				) : null}
 			</g>
 		);
 	}
