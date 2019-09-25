@@ -176,8 +176,22 @@ class EsponFuoreChart extends React.PureComponent {
 	}
 
 	renderLineChart(data, availablePeriods) {
+		let yOptions = null;
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
+		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
+
+		if (filters && this.props.attribute) {
+			let activeAttributeFilter = _.find(filters, {attributeKey: this.props.attribute.key});
+			if (activeAttributeFilter) {
+				yOptions = {
+					highlightedArea: {
+						from: activeAttributeFilter.min,
+						to: activeAttributeFilter.max
+					}
+				}
+			}
+		}
 
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
@@ -204,6 +218,9 @@ class EsponFuoreChart extends React.PureComponent {
 
 				xValuesSize={3}
 				yValuesSize={4.5}
+
+				yOptions={yOptions}
+
 				withPoints
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
