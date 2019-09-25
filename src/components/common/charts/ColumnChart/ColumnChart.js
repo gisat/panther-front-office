@@ -17,7 +17,7 @@ class ColumnChart extends React.PureComponent {
 		animateChangeData: true,
 
 		minBarWidth: 3,
-		barGapRatio: 0.4,
+		barGapRatio: 0.35,
 
 		withoutYbaseline: true
 	};
@@ -267,10 +267,10 @@ class ColumnChart extends React.PureComponent {
 			/* Aggregation needed? */
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
-			if (barWidth < 15) {
+			if (barWidth < 17) {
 				xScale = xScale.padding(0.25);
 			}
-			if (barWidth < 12) {
+			if (barWidth < 14) {
 				xScale = xScale.padding(0.1);
 			}
 

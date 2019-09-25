@@ -70,7 +70,7 @@ class ColumnChartDoc extends React.PureComponent {
 						}, {
 							name: "barGapRatio",
 							type: "number",
-							default: "0.4",
+							default: "0.35",
 							description: "Bar width to gap between bars width ratio."
 						}, {}, {
 							name: "animateChangeData",

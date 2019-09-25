@@ -88,7 +88,7 @@ class AxisX extends React.PureComponent {
 
 	renderLinearGrid(shift) {
 		let ticks = this.props.scale.ticks(this.props.width > 300 ? MAX_TICK_COUNT : MIN_TICK_COUNT);
-		let availableHeight = this.props.width/ticks.length;
+		let availableHeight = (this.props.width/ticks.length)/Math.sqrt(2);
 
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding}, 0)`}>
@@ -146,7 +146,7 @@ class AxisX extends React.PureComponent {
 		}
 
 		let barWidth = scale.bandwidth();
-		let gap = scale.padding();
+		let gap = scale.padding()*barWidth;
 
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${props.leftPadding + barWidth/2}, 0)`}>
@@ -182,7 +182,7 @@ class AxisX extends React.PureComponent {
 	}
 
 	renderCaption(key, x, yShift, availableHeight, text) {
-		if (availableHeight > 18) {
+		if (availableHeight > 15) {
 			return (
 				<g
 					transform={`
