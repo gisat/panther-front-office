@@ -92,6 +92,7 @@ class AttributeFilter extends React.PureComponent {
 					min={this.props.min}
 					max={this.props.max}
 					value={this.state.range}
+					step={isDecimal ? 0.001:1}
 					marks={{
 						[this.props.min]: {
 							label: this.props.min.toLocaleString(),
