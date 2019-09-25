@@ -65,7 +65,7 @@ function getMergedFilteredKeys(filter) {
 			});
 			return _.intersection(...keysToMerge);
 		} else if (filter.or) {
-			let keysToUnion = filter.and.map(subfilter => {
+			let keysToUnion = filter.or.map(subfilter => {
 				return getMergedFilteredKeys(subfilter);
 			});
 			return _.union(...keysToUnion);

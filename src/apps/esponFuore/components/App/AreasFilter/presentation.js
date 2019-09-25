@@ -76,19 +76,31 @@ class AreasFilter extends React.PureComponent {
 	}
 
 	updateActiveAttributeFilter(min, max) {
+		let periods = this.props.activePeriodKeys;
+		let or = periods.map(periodKey => {
+			return {
+				periodKey,
+				filteredKeys: this.getUnitsFromRangeByPeriod(min, max, periodKey),
+			}
+		});
+
 		let filter = {
-			filteredKeys: this.getUnitsByRange(min, max),
 			attributeKey: this.props.activeAttribute.key,
 			type: 'interval',
 			min,
 			max
 		};
 
+		if (or.length === 1) {
+			filter = {...filter, ...or[0]};
+		} else {
+			filter.or = or;
+		}
+
 		this.props.onSelect( this.props.activeAttribute.key, filter);
 	}
 
-	getUnitsByRange(min, max) {
-		let periodKey = this.props.activePeriodKeys[0];
+	getUnitsFromRangeByPeriod(min, max, periodKey) {
 		let data = this.props.activeAttributeData[periodKey];
 		return _.map(_.filter(data, (item) => {return item.value >= min && item.value <= max}), item => item.key);
 	}
