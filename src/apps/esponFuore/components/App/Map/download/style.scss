@@ -1,0 +1,12 @@
+@import '../../../../styles/variables';
+
+#esponFuore-map-download {
+	position: absolute;
+	background: var(--accent50);
+	width: 2100mm;
+	height: 2970mm;
+}
+
+#esponFuore-map-download .map {
+	width: 100%;
+}

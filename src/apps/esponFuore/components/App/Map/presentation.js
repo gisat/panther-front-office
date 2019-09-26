@@ -16,6 +16,8 @@ import WorldWindMap from "../../../../../components/common/maps/Deprecated_World
 import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
 
+import helpers from './download/helpers';
+
 class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
 
@@ -440,8 +442,17 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer} onHover={this.onHover} onHoverOut={this.onHoverOut} />);
-
+		return (
+			<WorldWindMap
+				{...this.props}
+				layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
+				label={this.props.label}
+				rerendererSetter={this.setRerenderer}
+				onHover={this.onHover}
+				onHoverOut={this.onHoverOut}
+				onDownloadAsPng={helpers.downloadAsPng.bind(this)}
+			/>
+		);
 	}
 }
 

@@ -185,6 +185,17 @@ $headerHeight: m(2);
 	color: var(--accent50);
 	box-shadow: 0 0 .3125rem 0 rgba(0,0,0,0.2);
 	border-right: .25rem solid var(--accent50);
+	display: flex;
+	padding: 0;
+	align-items: center;
+}
+
+.esponFuore-app .ptr-world-wind-map .map-label-title {
+	padding: 0 .5rem;
+}
+
+.esponFuore-app .ptr-world-wind-map .map-label-menu .ptr-button {
+	padding: 0 .1rem;
 }
 
 @media screen and (max-width: 75rem)  {

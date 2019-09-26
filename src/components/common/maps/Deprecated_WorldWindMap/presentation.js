@@ -13,6 +13,9 @@ import CyclicPickController from '../../../../utils/worldwind/CyclicPickControll
 import ClickPickController from '../../../../utils/worldwind/ClickPickController';
 
 import './style.scss'
+import download from "downloadjs";
+import Button from "../../atoms/Button";
+import Menu, {MenuItem} from "../../atoms/Menu";
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
@@ -29,6 +32,7 @@ class WorldWindMap extends React.PureComponent {
 		onHover: PropTypes.func,
 		onHoverOut: PropTypes.func,
 		onClick: PropTypes.func,
+		onDownloadAsPng: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number,
 		loadLayerData: PropTypes.func,
@@ -38,7 +42,7 @@ class WorldWindMap extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-		this.canvasId = utils.uuid();
+		this.canvasId = props.mapKey + '-canvas';
 		this.changedNavigatorTimeout = false;
 		this.setMapKeyTimeout = false;
 	}
@@ -163,15 +167,28 @@ class WorldWindMap extends React.PureComponent {
 		this.props.onClick(renderables, e.clientX, e.clientY, this.props.mapKey);
 	}
 
+	renderMenu() {
+		return (
+			<div className={"map-label-menu"}>
+				<Button icon="dots" invisible onClick={()=>{}}>
+					<Menu bottom right>
+						{this.props.onDownloadAsPng ? <MenuItem onClick={this.props.onDownloadAsPng.bind(this, this.wwd, this.canvasId)}>Download as PNG</MenuItem> : null}
+					</Menu>
+				</Button>
+			</div>
+		);
+	}
+
 	render() {
 		let attributions = this.getAttributions();
 
 		return (
-			<div className="ptr-world-wind-map" onClick={this.props.setActiveMapKey}>
+			<div className="ptr-world-wind-map" onClick={this.props.setActiveMapKey} id={this.props.mapKey}>
 				{
 					this.props.label ? 
 						(<div className={"map-label"}>
-							{this.props.label}
+							<div className={"map-label-title"}>{this.props.label}</div>
+							{this.props.onDownloadAsPng ? this.renderMenu() : null}
 						</div>) : null
 				}
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
