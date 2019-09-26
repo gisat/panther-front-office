@@ -165,7 +165,7 @@ class EsponFuoreChart extends React.PureComponent {
 				yValues
 				xValues
 				xValuesSize={5}
-				yValuesSize={4}
+				yValuesSize={4.3}
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
@@ -220,7 +220,7 @@ class EsponFuoreChart extends React.PureComponent {
 				sorting={[["key", "asc"]]}
 
 				xValuesSize={3}
-				yValuesSize={4.5}
+				yValuesSize={4.3}
 
 				yOptions={yOptions}
 
