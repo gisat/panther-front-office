@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 
 import common from "../_common/selectors";
@@ -23,7 +24,7 @@ const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
 const getIndexed = common.getIndexed(getSubstate);
 const getUpdatePermissionByKey = common.getUpdatePermissionByKey(getSubstate);
 
-const getKeysByAttributeRelations = createSelector(
+const getKeysByAttributeRelations = createCachedSelector(
 	[attributeRelationsSelectors.getFilteredRelations],
 	(filteredRelations) => {
 		if (filteredRelations) {
@@ -32,7 +33,9 @@ const getKeysByAttributeRelations = createSelector(
 			return null;
 		}
 	}
-);
+)((state, filter, cacheKey) => {
+	return JSON.stringify(filter) + ':' + JSON.stringify(cacheKey)
+});
 
 export default {
 	getActiveKey,

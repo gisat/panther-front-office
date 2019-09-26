@@ -54,10 +54,9 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		return {
 			attribute: Select.attributes.getActive(state),
 			data: completeData,
-			// nameData: namesForChart,
 			filter: activeFilterData,
 			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),
-			availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter)
+			availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter, chartCfg.key)
 		}
 	};
 };

@@ -120,15 +120,15 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 
 const mapStateToProps = (state, props) => {
 	let namesFilter = {};
-	let filter = {};
+	// let filter = {};
 	let chartCfg = {};
 
 	return (state) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
-		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
-		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
+		// let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
+		// let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);
 
 		// don't mutate selector input if it is not needed
@@ -225,7 +225,7 @@ const mapStateToProps = (state, props) => {
 			return acc
 		}, {});
 
-		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter, chartCfg)		
+		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter);
 		let vectorLayersNames = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.attributeRelationsData) {
 				const layer = namesForVectorLayers[layerData.attributeRelationsData.layerTemplateKey];
