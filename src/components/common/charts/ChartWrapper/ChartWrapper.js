@@ -129,7 +129,7 @@ class ChartWrapper extends React.PureComponent {
 	renderMenu() {
 		return (
 			<div className="ptr-chart-wrapper-tool">
-				<Button icon="dots" invisible>
+				<Button icon="dots" invisible onClick={()=>{}}>
 					<Menu bottom left>
 						{this.props.enableExport ? <MenuItem onClick={this.export}>Download as PNG</MenuItem> : null}
 					</Menu>

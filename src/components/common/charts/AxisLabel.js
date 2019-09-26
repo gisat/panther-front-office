@@ -20,7 +20,10 @@ class AxisLabel extends React.PureComponent {
 			PropTypes.number
 		]),
 		textAnchor: PropTypes.string,
-		originalDataKey: PropTypes.string
+		originalDataKey: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		])
 	};
 
 

@@ -11,7 +11,10 @@ class Line extends React.PureComponent {
 	static contextType = HoverContext;
 
 	static propTypes = {
-		itemKey: PropTypes.string,
+		itemKey: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 		name: PropTypes.string,
 		coordinates: PropTypes.array,
 		defaultColor: PropTypes.string,
