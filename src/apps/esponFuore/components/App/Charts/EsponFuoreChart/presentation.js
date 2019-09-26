@@ -77,32 +77,6 @@ class EsponFuoreChart extends React.PureComponent {
 			}
 		}
 
-		/* Filter */
-		if (data && data.length && filter && filter.filteredKeys) {
-			data = _.filter(data, (item) => {
-				return _.indexOf(filter.filteredKeys, item.key) !== -1;
-			});
-		}
-
-		/* Merge with names */
-		if (data && data.length && props.nameData && props.nameData.length) {
-			let names = props.nameData;
-			let mergedData = {};
-
-			_.forEach(data, (record) => {
-				mergedData[record.key] = {...record};
-			});
-
-			_.forEach(names, (nameRecord) => {
-				let existingRecord = mergedData[nameRecord.key];
-				if (existingRecord) {
-					existingRecord.data.name = nameRecord.data.name;
-				}
-			});
-
-			data = _.values(mergedData);
-		}
-
 		/* All data prepared? */
 		if (props.periods && props.periods.length && props.availablePeriodKeys && props.availablePeriodKeys.length) {
 			availablePeriods = _.filter(props.periods, (period) => {
@@ -182,7 +156,7 @@ class EsponFuoreChart extends React.PureComponent {
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
 		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
-		let legend = data.length < 11;
+		let legend = data && data.length < 11;
 
 		if (filters && this.props.attribute) {
 			let activeAttributeFilter = _.find(filters, {attributeKey: this.props.attribute.key});

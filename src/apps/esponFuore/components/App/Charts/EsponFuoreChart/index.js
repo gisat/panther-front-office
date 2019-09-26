@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
-import utils from "../../../../../../utils/utils";
 import wrapper from './presentation';
+import helpers from './helpers';
 import _ from "lodash";
 
 const useActiveMetadataKeys = {
@@ -45,13 +45,17 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg.key);
 		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg.key);
+		let activeFilterData = activeFilter && activeFilter.data;
+
+		// cached helper
+		let completeData = helpers.getCompleteData(dataForChart, namesForChart, activeFilterData);
 
 		// TODO ensure periods
 		return {
 			attribute: Select.attributes.getActive(state),
-			data: dataForChart,
-			nameData: namesForChart,
-			filter: activeFilter && activeFilter.data,
+			data: completeData,
+			// nameData: namesForChart,
+			filter: activeFilterData,
 			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),
 			availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter)
 		}
