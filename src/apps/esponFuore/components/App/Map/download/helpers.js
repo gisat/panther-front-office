@@ -7,7 +7,7 @@ function downloadAsPng(wwd, canvasId) {
 	let container = document.getElementById("ptr-app");
 	let node = document.createElement("div");
 
-	prepareDocument(this.props, wwd, canvasId, container, node).then((elements) => {
+	prepareDocument(this.props, wwd, canvasId, container, node).then(() => {
 		domToImage.toPng(node).then((dataUrl) => {
 			download(dataUrl, `map_${this.props.label}.png`);
 			resetElements(container, node);

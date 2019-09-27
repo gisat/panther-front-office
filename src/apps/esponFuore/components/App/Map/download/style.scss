@@ -31,17 +31,20 @@
 /* Content */
 #esponFuore-map-download .content {
 	width: 100%;
+	overflow: hidden;
 	flex-grow: 1;
 }
 
 #esponFuore-map-download .map {
 	width: 100%;
+	overflow: hidden;
 }
 
 /* Footer */
 #esponFuore-map-download .footer {
 	display: flex;
 	justify-content: flex-end;
+	margin-top: 3mm;
 }
 
 #esponFuore-map-download .footer-logo {
