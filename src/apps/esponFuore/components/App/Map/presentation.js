@@ -24,6 +24,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 	static propTypes = {
 		nameData: PropTypes.object,
 		layersTreeLoaded: PropTypes.bool,
+		activeAttribute: PropTypes.object,
 		activeFilter: PropTypes.object,
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,

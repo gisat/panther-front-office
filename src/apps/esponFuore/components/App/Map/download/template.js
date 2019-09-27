@@ -1,8 +1,15 @@
 import './style.scss';
+import espon_logo from '../../../../assets/img/espon-logo-full.png';
 
 export default (d) => {
 	return `
-<!--		<h1>Map ${d.period}</h1>-->
-		<img class="map" alt="map" src="${d.mapCanvasData}"/>
+		<span class="scope">${d.scope.split(". ")[1]}</span>
+		<h1 class="title">${d.attribute} (${d.period})</h1>
+		<div class="content">
+			<img class="map" alt="map" src="${d.mapCanvasData}"/>
+		</div>
+		<div class="footer">
+			<img class="footer-logo" alt="espon" src="${espon_logo}"/>
+		</div>
 	`;
 }

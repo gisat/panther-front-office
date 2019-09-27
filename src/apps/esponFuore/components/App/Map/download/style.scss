@@ -2,11 +2,48 @@
 
 #esponFuore-map-download {
 	position: absolute;
-	background: var(--accent50);
-	width: 2100mm;
-	height: 2970mm;
+	width: 210mm;
+	height: 297mm;
+	padding: 8mm 8mm 10mm;
+	background: #ffffff;
+	border: 1px solid;
+	display: flex;
+	flex-direction: column;
+	top: 0;
+	left: 0;
+
+	// for testing
+	//z-index: 99999999;
+}
+
+/* Header */
+#esponFuore-map-download .scope {
+	display: inline-block;
+	color: var(--base60);
+	margin-bottom: 1mm;
+	text-transform: uppercase;
+}
+
+#esponFuore-map-download .title {
+	font-size: 20pt;
+}
+
+/* Content */
+#esponFuore-map-download .content {
+	width: 100%;
+	flex-grow: 1;
 }
 
 #esponFuore-map-download .map {
 	width: 100%;
+}
+
+/* Footer */
+#esponFuore-map-download .footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#esponFuore-map-download .footer-logo {
+	max-width: 40mm;
 }

@@ -3,24 +3,39 @@ import domToImage from "dom-to-image";
 import template from "./template";
 
 function downloadAsPng(wwd, canvasId) {
-	getMapCanvasData(wwd, canvasId).then(mapCanvasData => {
-		// TODO loader
-		// TODO hide parent overflow
+	// TODO to pdf
+	let container = document.getElementById("ptr-app");
+	let node = document.createElement("div");
 
-		let node = document.createElement("div");
+	prepareDocument(this.props, wwd, canvasId, container, node).then((elements) => {
+		domToImage.toPng(node).then((dataUrl) => {
+			download(dataUrl, `map_${this.props.label}.png`);
+			resetElements(container, node);
+		});
+	}).catch(err => {
+		resetElements(container, node);
+		alert("Export failed!")
+	});
+}
+
+
+function prepareDocument(props, wwd, canvasId, container, node) {
+	return getMapCanvasData(wwd, canvasId).then(mapCanvasData => {
+		container.style.overflow = "hidden";
 		node.id = "esponFuore-map-download";
 
-		document.getElementById("ptr-app").appendChild(node);
+		container.appendChild(node);
 		node.innerHTML = template({
-			period: this.props.label,
+			period: props.label,
+			attribute: props.activeAttribute && props.activeAttribute.data && props.activeAttribute.data.nameDisplay,
+			scope: props.activeScope && props.activeScope.data && props.activeScope.data.nameDisplay,
 			mapCanvasData
 		});
 
-
-		domToImage.toPng(node).then((dataUrl) => {
-			download(dataUrl, `map_${this.props.label}.png`);
-			node.remove();
-		});
+		return node;
+	}).catch(err => {
+		resetElements(container, node);
+		alert("Export failed!")
 	});
 }
 
@@ -38,6 +53,11 @@ function getMapCanvasData(wwd, canvasId) {
 		wwd.redrawCallbacks.push(snapshot);
 		wwd.redraw();
 	});
+}
+
+function resetElements(container, node) {
+	node.remove();
+	container.style.overflow = "auto";
 }
 
 export default {
