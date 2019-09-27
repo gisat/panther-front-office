@@ -36,8 +36,32 @@
 }
 
 #esponFuore-map-download .map {
-	width: 100%;
+	max-width: 100%;
 	overflow: hidden;
+}
+
+#esponFuore-map-legend .legend {
+	margin: 2mm 0 0;
+}
+
+#esponFuore-map-legend .legend .legend-title,
+#esponFuore-map-legend .legend .legend-subtitle {
+	display: none;
+}
+
+#esponFuore-map-legend .legend .legend-item .images .image {
+	align-items: flex-start;
+}
+
+#esponFuore-map-legend .legend .legend-item .images .image svg,
+#esponFuore-map-legend .legend .legend-item .images .image svg rect {
+	width: 10mm;
+	height: 5mm;
+}
+
+#esponFuore-map-legend .title {
+	font-size: 10pt;
+	width: 100%;
 }
 
 /* Footer */
