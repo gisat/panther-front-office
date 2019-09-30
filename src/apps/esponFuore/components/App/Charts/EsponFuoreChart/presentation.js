@@ -116,18 +116,21 @@ class EsponFuoreChart extends React.PureComponent {
 				loading={loading}
 				enableExport
 			>
-				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data, availablePeriods)}
+				{singleValue ? this.renderColumnChart(data, availablePeriods) : this.renderLineChart(data, availablePeriods)}
 			</ChartWrapper>
 		);
 	}
 
-	renderColumnChart(data) {
+	renderColumnChart(data, availablePeriods) {
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
+		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
 
-		return (
-			noItemFitsFilter ? (
-				<div className="ptr-chart-wrapper-info">No area was filtered.</div>
-			) : (<ColumnChart
+		if (noItemFitsFilter) {
+			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
+		} else if (!enoughPeriods) {
+			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+		} else {
+			return <ColumnChart
 				key={this.props.chartKey}
 				keySourcePath="key"
 				nameSourcePath="data.name"
@@ -147,8 +150,8 @@ class EsponFuoreChart extends React.PureComponent {
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
 				barGapRatio={0.25}
 				minBarWidth={5}
-			/>)
-		);
+			/>
+		}
 	}
 
 	renderLineChart(data, availablePeriods) {
