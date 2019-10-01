@@ -55,9 +55,18 @@ export default [
 	 * tw: GEOINV
 	 */
 	{
+		key: 'tacrGeoinvazeBackOffice',
+		hostname: 'panther.gisat.cz',
+		path: '/ptr3-beta/geoinvaze/backoffice',
+		devPath: '/tacrGeoinvazeBackOffice',
+		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
+			module.default(path, baseUrl, 'tacrGeoinvaze');
+		})
+	},
+	{
 		key: 'tacrGeoinvaze',
-		hostname: 'geoinvaze.gisat.cz',
-		path: null,
+		hostname: 'panther.gisat.cz',
+		path: '/ptr3-beta/geoinvaze',
 		devPath: '/tacrGeoinvaze',
 		app: (path, baseUrl) => import(/* webpackChunkName: "tacrGeoinvaze" */'./apps/tacrGeoinvaze').then(module => {
 			module.default(path, baseUrl);
