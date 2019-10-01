@@ -56,6 +56,7 @@ export default [
 	 */
 	{
 		key: 'tacrGeoinvazeBackOffice',
+		backOffice: true,
 		hostname: 'panther.gisat.cz',
 		path: '/ptr3-beta/geoinvaze/backoffice',
 		devPath: '/tacrGeoinvazeBackOffice',
