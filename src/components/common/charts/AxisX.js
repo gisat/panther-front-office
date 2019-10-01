@@ -188,7 +188,7 @@ class AxisX extends React.PureComponent {
 
 		if (this.props.options && this.props.options.valueLabelRenderer) {
 			// TODO fix available width
-			return this.props.options.valueLabelRenderer(x, finalY, availableWidth, maxHeight, text, originalData);
+			return this.props.options.valueLabelRenderer(x, finalY, availableHeight, maxHeight, text, originalData);
 		} else if (availableHeight > 15) {
 			return (
 				<g
