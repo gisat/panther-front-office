@@ -197,7 +197,8 @@
 }
 
 /* Invisible */
-.ptr-button.invisible {
+.ptr-button.invisible,
+.ptr-button.invisible.disabled {
   background: transparent;
   border-color: transparent;
   box-shadow: none;

@@ -82,9 +82,6 @@ function ensureIndexesWithFilterByActive(filterByActive) {
         let state = getState();
         let usedIndexes = commonSelectors.getUsesWithActiveDependency(Select.attributeRelations.getSubstate)(state, filterByActive);
 
-        console.log("**** FilterByActive", filterByActive);
-		console.log("**** Used indexes", usedIndexes);
-
         // TODO pass componentId
         _.each(usedIndexes, (usedIndex) => {
             _.each(usedIndex.uses, (use) => {

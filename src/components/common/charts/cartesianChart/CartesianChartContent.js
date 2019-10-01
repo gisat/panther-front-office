@@ -63,7 +63,7 @@ class CartesianChartContent extends React.PureComponent {
 
 					ticks={props.xTicks && !props.aggregated}
 					gridlines={props.xGridlines && !props.aggregated}
-					withValues={props.xValues}
+					withValues={props.xValues && !props.aggregated}
 					label={props.xLabel}
 					labelSize={props.xLabelSize}
 					options={props.xOptions}

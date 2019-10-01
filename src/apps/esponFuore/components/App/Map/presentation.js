@@ -16,12 +16,15 @@ import WorldWindMap from "../../../../../components/common/maps/Deprecated_World
 import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
 
+import helpers from './download/helpers';
+
 class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
 
 	static propTypes = {
 		nameData: PropTypes.object,
 		layersTreeLoaded: PropTypes.bool,
+		activeAttribute: PropTypes.object,
 		activeFilter: PropTypes.object,
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
@@ -382,7 +385,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 					let valueSource = existingLayer.metadata && existingLayer.metadata.attributeDataKey;
 					
 					if(this.props.activeFilter) {
-						features = features.filter((feature) => this.props.activeFilter.data.areas.includes(feature[keySource]))
+						features = features.filter((feature) => this.props.activeFilter.data.filteredKeys.includes(feature[keySource]))
 					}
 
 					let keys = features.map(feature => feature[keySource]);
@@ -412,9 +415,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 				let value = _.get(feature, valueSource);
 				let spatialId = _.get(feature, spatialIdSource);
 				if(value || value === 0) {
-					content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+					content.push(<div className="ptr-popup-header" key={spatialId}>{name || unit}</div>);
+					content.push(<div key={spatialId + '-group'} className="ptr-popup-record-value-group">
+						{value || value === 0 ? <span className="value">{value.toLocaleString()}</span> : null}
+					</div>)
 				} else {
-					content.push(<div key={spatialId}>No data</div>);
+					content.push(<div className="ptr-popup-header" key={spatialId}>No data</div>);
 				}
 			});
 
@@ -437,8 +443,17 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer} onHover={this.onHover} onHoverOut={this.onHoverOut} />);
-
+		return (
+			<WorldWindMap
+				{...this.props}
+				layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
+				label={this.props.label}
+				rerendererSetter={this.setRerenderer}
+				onHover={this.onHover}
+				onHoverOut={this.onHoverOut}
+				onDownloadAsPng={helpers.downloadAsPng.bind(this)}
+			/>
+		);
 	}
 }
 

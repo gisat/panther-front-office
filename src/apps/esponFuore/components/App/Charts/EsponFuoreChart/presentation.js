@@ -20,8 +20,6 @@ class EsponFuoreChart extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-
-		this.onSelectionClear = this.onSelectionClear.bind(this);
 	}
 
 	componentDidMount() {
@@ -36,9 +34,9 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 	}
 
-	onSelectionClear() {
+	onSelectionClear(attributeKey) {
 		if (this.props.onSelectionClear) {
-			this.props.onSelectionClear();
+			this.props.onSelectionClear(attributeKey);
 		}
 	}
 
@@ -79,32 +77,6 @@ class EsponFuoreChart extends React.PureComponent {
 			}
 		}
 
-		/* Filter */
-		if (data && data.length && filter && filter.areas) {
-			data = _.filter(data, (item) => {
-				return _.indexOf(filter.areas, item.key) !== -1;
-			});
-		}
-
-		/* Merge with names */
-		if (data && data.length && props.nameData && props.nameData.length) {
-			let names = props.nameData;
-			let mergedData = {};
-
-			_.forEach(data, (record) => {
-				mergedData[record.key] = {...record};
-			});
-
-			_.forEach(names, (nameRecord) => {
-				let existingRecord = mergedData[nameRecord.key];
-				if (existingRecord) {
-					existingRecord.data.name = nameRecord.data.name;
-				}
-			});
-
-			data = _.values(mergedData);
-		}
-
 		/* All data prepared? */
 		if (props.periods && props.periods.length && props.availablePeriodKeys && props.availablePeriodKeys.length) {
 			availablePeriods = _.filter(props.periods, (period) => {
@@ -130,22 +102,35 @@ class EsponFuoreChart extends React.PureComponent {
 			}
 		}
 
+		if (filter && !filter.filteredKeys.length) {
+			loading = false;
+		}
+
 		return (
 			<ChartWrapper
 				key={this.props.chartKey + "-wrapper"}
+				wrapperKey={this.props.chartKey + "-wrapper"}
 				title={title}
 				subtitle={subtitle.length ? subtitle.join(", ") : null}
-				statusBar={filter && filter.name ? (this.renderLabel(filter.name)) : null}
+				statusBar={filter ? (this.renderLabel(filter)) : null}
 				loading={loading}
+				enableExport
 			>
-				{singleValue ? this.renderColumnChart(data) : this.renderLineChart(data, availablePeriods)}
+				{singleValue ? this.renderColumnChart(data, availablePeriods) : this.renderLineChart(data, availablePeriods)}
 			</ChartWrapper>
 		);
 	}
 
-	renderColumnChart(data) {
-		return (
-			<ColumnChart
+	renderColumnChart(data, availablePeriods) {
+		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
+		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
+
+		if (noItemFitsFilter) {
+			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
+		} else if (!enoughPeriods) {
+			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+		} else {
+			return <ColumnChart
 				key={this.props.chartKey}
 				keySourcePath="key"
 				nameSourcePath="data.name"
@@ -157,21 +142,43 @@ class EsponFuoreChart extends React.PureComponent {
 				yValues
 				xValues
 				xValuesSize={5}
-				yValuesSize={4}
+				yValuesSize={4.3}
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				barGapRatio={0.25}
+				minBarWidth={5}
 			/>
-		);
+		}
 	}
 
 	renderLineChart(data, availablePeriods) {
+		let yOptions = null;
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
+		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
+		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
+		let legend = data && data.length < 11;
 
-		return (
-			enoughPeriods ? (<LineChart
+		if (filters && this.props.attribute) {
+			let activeAttributeFilter = _.find(filters, {attributeKey: this.props.attribute.key});
+			if (activeAttributeFilter) {
+				yOptions = {
+					highlightedArea: {
+						from: activeAttributeFilter.min,
+						to: activeAttributeFilter.max
+					}
+				}
+			}
+		}
+
+		if (noItemFitsFilter) {
+			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
+		} else if (!enoughPeriods) {
+			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+		} else {
+			return <LineChart
 				key={this.props.chartKey}
 				keySourcePath="key"
 				nameSourcePath="data.name"
@@ -190,32 +197,49 @@ class EsponFuoreChart extends React.PureComponent {
 				sorting={[["key", "asc"]]}
 
 				xValuesSize={3}
-				yValuesSize={4.5}
+				yValuesSize={4.3}
+
+				yOptions={yOptions}
+
 				withPoints
 				data={data}
 				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
-			/>) : (
-				<div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
-			)
-		);
+
+				legend={legend}
+			/>
+		}
 	}
 
 	// TODO create component
 	// TODO make clearable
 	// TODO multiple labels
-	renderLabel(content) {
-		return (
-			<div className="ptr-colored-label">
-				<div className="ptr-colored-label-content">
-					<Icon icon="filter"/>
-					<div>{content}</div>
-				</div>
-				<div className="ptr-colored-label-clear" onClick={this.onSelectionClear}>
-					<Icon icon="times"/>
-				</div>
-			</div>
-		);
+	renderLabel(filter) {
+		let attributeFiltersAnd = filter && filter.attributeFilter && filter.attributeFilter.and;
+		if (attributeFiltersAnd) {
+			return attributeFiltersAnd.map((item, index) => {
+				let text = null;
+				if (item.type === "uniqueValues") {
+					text = item.uniqueValues.join(", ");
+				} else if (item.type === "interval") {
+					text = "From " + item.min.toLocaleString() + " to " + item.max.toLocaleString() ;
+				}
+
+				return (
+					<div key={index} className="ptr-colored-label">
+						<div className="ptr-colored-label-content">
+							<Icon icon="filter"/>
+							<div>{text}</div>
+						</div>
+						<div className="ptr-colored-label-clear" onClick={this.onSelectionClear.bind(this, item.attributeKey)}>
+							<Icon icon="times"/>
+						</div>
+					</div>
+				);
+			});
+		} else {
+			return null;
+		}
 	}
 }
 

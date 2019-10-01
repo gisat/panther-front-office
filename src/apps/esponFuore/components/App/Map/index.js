@@ -120,15 +120,15 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 
 const mapStateToProps = (state, props) => {
 	let namesFilter = {};
-	let filter = {};
+	// let filter = {};
 	let chartCfg = {};
 
 	return (state) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
-		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
-		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
+		// let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
+		// let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);
 
 		// don't mutate selector input if it is not needed
@@ -138,12 +138,11 @@ const mapStateToProps = (state, props) => {
 
 		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
-			const filter = cloneDeep(layer.mergedFilter)
+			const filter = cloneDeep(layer.mergedFilter);
 			return {filter, data: layer.layer}
 		}) : null;
 		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
-		let activeFilter = Select.selections.getActive(state);
 
 		//TODO -> select
 		//active indicator type absolute/relative
@@ -156,11 +155,14 @@ const mapStateToProps = (state, props) => {
 		
 		const map = Select.maps.getMapByKey(state, props.mapKey);
 		let label = null;
+		let periodKey = null;
 		if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
-			const periodKey = map.data.metadataModifiers.period;
+			periodKey = map.data.metadataModifiers.period;
 			const period = Select.periods.getDataByKey(state, periodKey);
-			label = period ? period.nameDisplay : null
+			label = period ? period.nameDisplay : null;
 		}
+
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state, periodKey);
 
 		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.spatialRelationsData) {
@@ -223,7 +225,7 @@ const mapStateToProps = (state, props) => {
 			return acc
 		}, {});
 
-		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter, chartCfg)		
+		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter);
 		let vectorLayersNames = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.attributeRelationsData) {
 				const layer = namesForVectorLayers[layerData.attributeRelationsData.layerTemplateKey];
@@ -243,7 +245,9 @@ const mapStateToProps = (state, props) => {
 			layersAttributeStatistics,
 			layersMetadata,
 			navigator: Select.maps.getNavigator_deprecated(state, props.mapKey),
-			activeAttributeKey: Select.attributes.getActiveKey(state),
+			activeAttribute: Select.attributes.getActive(state),
+			activeScope: Select.scopes.getActive(state),
+			activeMapSetKey: Select.maps.getActiveSetKey(state),
 			label: label || null,
 			nameData: vectorLayersNames,
 		}

@@ -26,10 +26,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				{
 					title: ownProps.name,
 					icon: ownProps.icon,
-					width: 400,
+					width: 370,
 					maxWidth: 600,
-					minHeight: 100,
-					height: 250
+					minWidth: 300,
+					minHeight: 150,
+					height: 350
 				},
 				(
 					<AreasFilter/>

@@ -253,7 +253,7 @@ class LineChart extends React.PureComponent {
 		_.forIn(values, (values, key) => {
 			averageValuesForChart.push({
 				[props.xSourcePath]: key,
-				[props.ySourcePath]: (_.sum(values)/values.length).toFixed(2)
+				[props.ySourcePath]: _.sum(values)/values.length
 			});
 		});
 
