@@ -35,7 +35,7 @@ const renderColumn = (column, index) => {
 	
 	let className = classNames("ptr-adjustable-column", column.className);
 
-	return (<>{handle}<div className={className} style={style}><div className="ptr-adjustable-columns-content">{content}</div></div></>);
+	return (<React.Fragment key={index}>{handle}<div className={className} style={style}><div className="ptr-adjustable-columns-content">{content}</div></div></React.Fragment>);
 };
 
 export default props => (

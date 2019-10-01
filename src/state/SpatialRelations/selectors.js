@@ -1,9 +1,42 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _, {isEmpty, cloneDeep} from 'lodash';
 import common from "../_common/selectors";
 
 const getSubstate = (state) => state.spatialRelations;
 const getAll = common.getAll(getSubstate);
+
+/**
+ * @returns {Object}
+ */
+const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
+	[
+		getAll,
+		(state, layers) => layers
+	],
+	(relations, layers) => {
+		if (relations && relations.length) {
+			let filteredGroupedByLayerKey = {};
+
+			_.forEach(layers, (layer) => {
+				let filteredRelations = _.filter(relations, {'data': layer.filter});
+				if (filteredRelations.length) {
+					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => relation.data.spatialDataSourceKey);
+				}
+			});
+			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
+
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layers) => JSON.stringify(layers)
+);
+
+/********************************
+ DEPRECATED
+ ********************************/
 
 /**
  * @return {Array|null}
@@ -178,12 +211,17 @@ const getDataSourceRelationsForLayerKey = createSelector(
 );
 
 export default {
+	getSubstate,
+
 	getAllData,
+	getFilteredDataSourceKeysGroupedByLayerKey,
+
+
+	// Deprecated
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
 	getDataSourceRelationsGroupedByLayerKey: getFilteredDataGroupedByLayerKey,
 	getDataSourceRelationsForLayerKey,
 	getFilteredData,
-	getFilteredDataGroupedByLayerKey,
-	getSubstate
+	getFilteredDataGroupedByLayerKey
 };

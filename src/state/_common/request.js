@@ -17,7 +17,7 @@ const TTL = 5;
  */
 export default function request (apiPath, method, query, payload, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
-	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, apiPath);
+	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, apiPath);
 	if (query) {
 		url += '?' + queryString.stringify(query);
 	}

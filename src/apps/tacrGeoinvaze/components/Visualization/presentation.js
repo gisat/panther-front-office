@@ -1,11 +1,11 @@
 import React from "react";
 import ReactResizeDetector from "react-resize-detector";
 
-import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
-import MapTools from "../../../../components/common/maps/MapTools";
-import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
+import MapSet from "../../../../components/common/maps/MapSet";
+import MapControls from "../../../../components/common/maps/MapControls";
 
 import './style.scss';
+import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 
 const Visualization = props => {
 	if (props.isCrayfish) {
@@ -20,17 +20,16 @@ const Visualization = props => {
 				render={({width, height}) => {
 					return (
 						<>
-							<MapSet
-								mapSetKey="tacrGeoinvaze"
-								width={width}
-								height={height}
-							>
-							</MapSet>
-							<MapTools>
-								<MapControls zoomOnly/>
-							</MapTools>
+							{props.activeCase && props.activePeriodKey && props.activeLayerTemplateKey ? (
+								<MapSet
+									mapSetKey="tacrGeoinvaze"
+									mapComponent={WorldWindMap}
+								>
+									<MapControls zoomOnly/>
+								</MapSet>
+							) : null}
 						</>
-					)
+					);
 				}}
 			/>
 		);

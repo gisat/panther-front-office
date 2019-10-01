@@ -41,8 +41,9 @@
 	color: var(--accent25);
 	height: m(2);
 	width: 30rem;
-	padding: .51825rem 1rem;
-	background-color: var(--accent65);
+	padding: .51825rem 1rem .51825rem 3.6rem;
+	background: var(--accent65) url("../assets/logo_invaznidruhy_v05_white.png") no-repeat .2rem 0;
+	background-size: contain;
 }
 .tacrGeoinvaze-case-select {
 	height: m(2);

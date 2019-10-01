@@ -5,7 +5,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
-import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";

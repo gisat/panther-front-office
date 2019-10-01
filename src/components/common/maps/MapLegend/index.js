@@ -13,7 +13,7 @@ import {cloneDeep} from 'lodash';
 import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
-	const layersState = Select.maps.getLayersStateByMapSetKey(state, ownProps.mapSetKey);
+	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, ownProps.mapSetKey);
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
 			})
-			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
 

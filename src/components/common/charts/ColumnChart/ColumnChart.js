@@ -17,7 +17,7 @@ class ColumnChart extends React.PureComponent {
 		animateChangeData: true,
 
 		minBarWidth: 3,
-		barGapRatio: 0.4,
+		barGapRatio: 0.35,
 
 		withoutYbaseline: true
 	};
@@ -267,10 +267,10 @@ class ColumnChart extends React.PureComponent {
 			/* Aggregation needed? */
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
-			if (barWidth < 15) {
+			if (barWidth < 17) {
 				xScale = xScale.padding(0.25);
 			}
-			if (barWidth < 12) {
+			if (barWidth < 14) {
 				xScale = xScale.padding(0.1);
 			}
 
@@ -296,12 +296,17 @@ class ColumnChart extends React.PureComponent {
 			}
 		}
 
+		let svgHeight = props.height;
+		if (aggregatedData.length) {
+			svgHeight = props.plotHeight + 20;
+		}
+
 		const chartClassNames = classnames('ptr-chart ptr-cartesian-chart ptr-column-chart', {
 			'ptr-chart-no-animation': !props.animateChangeData,
 		});
 
 		return (
-			<svg className={chartClassNames} height={props.height}>
+			<svg className={chartClassNames} height={svgHeight}>
 				{data ?
 					<CartesianChartContent
 						{...props}

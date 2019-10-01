@@ -60,7 +60,10 @@ class CaseSelect extends React.PureComponent {
 			>
 				<div className="tacrGeoinvaze-case-select-overlay">
 					<div className="tacrGeoinvaze-case-select-overlay-header">
-						Hic sunt pantherae.
+						<div className="tacrGeoinvaze-header-space">
+							<div>Geoinformation portal for invasive species</div>
+							Development preview
+						</div>
 					</div>
 					<CaseSelectContent />
 				</div>

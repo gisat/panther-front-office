@@ -102,9 +102,9 @@ class CartesianCharts extends React.PureComponent {
 				</div>
 				<p>Each type of chart is suitable for different use case. For detailed information about proper chart type usage, please go to the particular chart documentation. Based on input data and, mainly, based on the message you want to deliver to your audience, you can choose from following charts:</p>
 				<ul className="ptr-docs-basic-list">
-					<li><Link to="/docs/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
-					<li><Link to="/docs/components/visualizations/cartesianCharts/lineChart"><b>Line chart</b></Link> - progress of one attribute/indicator (e.g. Population progress between 1985 and 2015 by country) or progress of multiple comparable attributes/indicators for one area</li>
-					<li><Link to="/docs/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
+					<li><Link to="/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
+					<li><Link to="/components/visualizations/cartesianCharts/lineChart"><b>Line chart</b></Link> - progress of one attribute/indicator (e.g. Population progress between 1985 and 2015 by country) or progress of multiple comparable attributes/indicators for one area</li>
+					<li><Link to="/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
 				</ul>
 
 				<h2 id="props">Common props</h2>
@@ -142,7 +142,7 @@ class CartesianCharts extends React.PureComponent {
 							name: "ySourcePath",
 							type: "string|array",
 							required: true,
-							description: <>Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie. It could be a collection as well (See <Link to="/docs/components/visualizations/cartesianCharts/columnChart#stacked">stacked column charts</Link>).</>
+							description: <>Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie. It could be a collection as well (See <Link to="/components/visualizations/cartesianCharts/columnChart#stacked">stacked column charts</Link>).</>
 						}, {}, {
 							name: "sorting",
 							type: "array",
@@ -281,6 +281,10 @@ class CartesianCharts extends React.PureComponent {
 								name: "diversionValue",
 								type: "number",
 								description: "Use together with 'diverging' prop to move axis X baseline to this value. By default 0."
+							}, {
+								name: "highlightedArea",
+								type: "object",
+								description: "Using 'from' and 'to' define the area in the chart which will be highlighted."
 							}]
 						}, {
 							name: "yTicks",
@@ -305,7 +309,7 @@ class CartesianCharts extends React.PureComponent {
 						}, {}, {
 							name: "diverging",
 							type: "string|boolean",
-							description: (<>Use if the values are diverging from some point (defined in xOptions or yOptions). See <Link to="/docs/components/visualizations/cartesianCharts/columnChart#diverging">Diverging column chart</Link> to find out more. Possible values: 'single', 'double'. If double, ySourcePath must be an array containing paths to both values. If value is not defined, 'single' is used by default.</>)
+							description: (<>Use if the values are diverging from some point (defined in xOptions or yOptions). See <Link to="/components/visualizations/cartesianCharts/columnChart#diverging">Diverging column chart</Link> to find out more. Possible values: 'single', 'double'. If double, ySourcePath must be an array containing paths to both values. If value is not defined, 'single' is used by default.</>)
 						}]
 					}
 				/>
@@ -489,6 +493,7 @@ class CartesianCharts extends React.PureComponent {
 				<p>To increase readability you can switch on or off gridlines (<InlineCodeHighlighter>xGridlines</InlineCodeHighlighter> - auxiliary horizontal lines, <InlineCodeHighlighter>yGridlines</InlineCodeHighlighter> - auxiliary vertical lines) and ticks (<InlineCodeHighlighter>xTicks</InlineCodeHighlighter>, <InlineCodeHighlighter>yTicks</InlineCodeHighlighter>) for both axis.</p>
 				<p>Use <InlineCodeHighlighter>xLabel</InlineCodeHighlighter>/<InlineCodeHighlighter>yLabel</InlineCodeHighlighter> to add label (title) for axis x/axis y. Source data for the label must be defined in <InlineCodeHighlighter>xOptions</InlineCodeHighlighter>/<InlineCodeHighlighter>yOptions</InlineCodeHighlighter> object as you can see in the example below.</p>
 				<p>Furthermore, you can extend minimum and maximum for axis y (or even for axis x, if its scale is linear - e.g. scatter chart) in the options object.</p>
+				<p>If you want to highlight certain area in the chart (e.g. emphasize filter range), you can define the <InlineCodeHighlighter>highlightedArea</InlineCodeHighlighter> object in <InlineCodeHighlighter>yOptions</InlineCodeHighlighter>. Specify <InlineCodeHighlighter>from</InlineCodeHighlighter> and <InlineCodeHighlighter>to</InlineCodeHighlighter> property to set the range on axis y which should be highlighted.</p>
 				<p>For axis y, there is an additional prop <InlineCodeHighlighter>withoutYbaseline</InlineCodeHighlighter>nset to false. It means show the baseline of axis Y, because the baseline is hidden by default for column chart.</p>
 
 				<SyntaxHighlighter language="jsx">
@@ -519,6 +524,10 @@ class CartesianCharts extends React.PureComponent {
 					'\t\t\tunit: "sqkm"\n' +
 					'\t\t\tmin: 0\n' +
 					'\t\t\tmax: 104000\n' +
+					'\t\t\thighlightedArea: {\n' +
+					'\t\t\t\tfrom: 30000\n' +
+					'\t\t\t\tto: 60000\n' +
+					'\t\t\t}\n' +
 					'\t\t}}\n' +
 					'\t\tyLabel\n' +
 					'\t\tyTicks\n' +
@@ -558,7 +567,11 @@ class CartesianCharts extends React.PureComponent {
 									name: "Urban Area",
 									unit: "sqkm",
 									min: 0,
-									max: 104000
+									max: 104000,
+									highlightedArea: {
+										from: 30000,
+										to: 60000
+									}
 								}}
 								yLabel
 								yTicks

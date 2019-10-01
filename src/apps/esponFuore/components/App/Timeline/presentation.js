@@ -130,7 +130,7 @@ class EsponFuoreTimeline extends React.PureComponent {
 				}
 
 				let available = this.props.availablePeriodKeys && _.includes(this.props.availablePeriodKeys, key);
-				let disabled = (numOfActive <= MIN_ACTIVE && active) || (numOfActive >= MAX_ACTIVE && !active) || !available;
+				let disabled = (numOfActive <= MIN_ACTIVE && active) || (numOfActive >= MAX_ACTIVE && !active) || (!available && !active);
 	
 				let classes = classnames("esponFuore-timeline-period", {
 					active,

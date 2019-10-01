@@ -10,7 +10,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import Select from "../../../../components/common/atoms/Select/Select";
-import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import {getMergedDataset} from '../../data/wsf/data';
 import conversions from '../../data/conversions';
@@ -411,7 +411,7 @@ class GlobalWSF extends React.PureComponent {
 								>
 									<div className="scudeoStories19-map-container">
 										<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityOne.geometry}>
-											<PresentationMapWithControls
+											<Deprecated_PresentationMapWithControls
 												map={
 													<LeafletMap
 														mapKey="scudeoStories19-urbanExtent-map-1"
@@ -438,10 +438,10 @@ class GlobalWSF extends React.PureComponent {
 												<div className="scudeoStories19-map-attribution ptr-dark">
 													© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 												</div>
-											</PresentationMapWithControls>
+											</Deprecated_PresentationMapWithControls>
 										</AdjustViewOnResizeLeafletWrapper>
 										<AdjustViewOnResizeLeafletWrapper geometry={this.state.cityTwo.geometry}>
-											<PresentationMapWithControls
+											<Deprecated_PresentationMapWithControls
 												map={
 													<LeafletMap
 														mapKey="scudeoStories19-urbanExtent-map-2"
@@ -468,7 +468,7 @@ class GlobalWSF extends React.PureComponent {
 												<div className="scudeoStories19-map-attribution ptr-dark">
 													© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 												</div>
-											</PresentationMapWithControls>
+											</Deprecated_PresentationMapWithControls>
 										</AdjustViewOnResizeLeafletWrapper>
 									</div>
 								</Visualization>

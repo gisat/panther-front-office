@@ -197,7 +197,8 @@
 }
 
 /* Invisible */
-.ptr-button.invisible {
+.ptr-button.invisible,
+.ptr-button.invisible.disabled {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -543,6 +544,9 @@
 .ptr-button-group .ptr-button:not(:first-child):after {
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;
+}
+.ptr-button-group .ptr-button:not(:first-child) {
+	border-left: 0;
 }
 
 .ptr-button-group .ptr-button:focus {

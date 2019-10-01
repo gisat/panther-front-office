@@ -23,7 +23,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			const filter = _.cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
 		}) : null;
-		let layers = Select.maps.getLayers(state, layersData);
+		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		layers.forEach((l) => {
 			if(l.type === 'vector') {
 				l.spatialIdKey = ownProps.spatialIdKey

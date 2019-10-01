@@ -19,7 +19,10 @@ class WorldWindMap extends React.PureComponent {
 	};
 
 	static propTypes = {
-		backgroundLayer: PropTypes.object,
+		backgroundLayer: PropTypes.oneOfType([
+			PropTypes.object,
+			PropTypes.array
+		]),
 		layers: PropTypes.array,
 		view: PropTypes.object,
 
@@ -65,7 +68,12 @@ class WorldWindMap extends React.PureComponent {
 	updateLayers() {
 		let layers = [];
 		if (this.props.backgroundLayer) {
-			layers.push(layersHelpers.getLayerByType(this.props.backgroundLayer));
+			// TODO fix for compatibility
+			let backgroundLayers = _.isArray(this.props.backgroundLayer) ? this.props.backgroundLayer : [this.props.backgroundLayer];
+
+			backgroundLayers.forEach((layer) => {
+				layers.push(layersHelpers.getLayerByType(layer));
+			});
 		}
 
 		if (this.props.layers) {

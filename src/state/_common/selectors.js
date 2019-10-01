@@ -513,23 +513,31 @@ const getUsedKeys = (getSubstate) => {
 };
 
 const getIndexedDataUses = (getSubstate) => {
-	return (state) => getSubstate(state).inUse.indexes;
+	return (state) => {
+		if (getSubstate(state) && getSubstate(state).inUse) {
+			return getSubstate(state).inUse.indexes;
+		} else {
+			return null;
+		}
+	};
 };
 
-// TODO case, scenario, ...
 const getAllActiveKeys = createSelector(
 	[
-		state => state.scopes.activeKey,
-		state => state.places.activeKey,
-		state => state.places.activeKeys,
-		state => state.periods.activeKey,
-		state => state.periods.activeKeys,
-		state => state.attributes.activeKey,
+		state => state.scopes && state.scopes.activeKey,
+		state => state.cases && state.cases.activeKey,
+		state => state.scenarios && state.scenarios.activeKey,
+		state => state.places && state.places.activeKey,
+		state => state.places && state.places.activeKeys,
+		state => state.periods && state.periods.activeKey,
+		state => state.periods && state.periods.activeKeys,
+		state => state.attributes && state.attributes.activeKey,
+		state => state.layerTemplates && state.layerTemplates.activeKey,
 		state => state.specific && state.specific.apps,
 		state => state.app && state.app.key
 	],
-	(activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, apps, appKey) => {
-		let activeKeys = {activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey};
+	(activeScopeKey,activeCaseKey,activeScenarioKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey, apps, appKey) => {
+		let activeKeys = {activeScopeKey,activeCaseKey,activeScenarioKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey};
 
 		// for BO usage
 		if (apps){

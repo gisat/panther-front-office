@@ -6,7 +6,7 @@ import Select from "../../../../../../components/common/atoms/Select/Select";
 
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
-import PresentationMapWithControls from "../../../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
 import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";

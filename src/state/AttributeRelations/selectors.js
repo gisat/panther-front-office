@@ -63,7 +63,11 @@ const getFilteredRelations = createCachedSelector(
 		}
 	}
 )((state, filter, cacheKey) => {
-	return `${JSON.stringify(filter)}:${JSON.stringify(cacheKey)}`
+	if (cacheKey) {
+		return JSON.stringify(filter) + ':' + JSON.stringify(cacheKey)
+	} else {
+		return JSON.stringify(filter);
+	}
 });
 
 const getDataSourcesFromFilteredRelations = createCachedSelector(

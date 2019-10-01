@@ -88,7 +88,7 @@ class EsponFuoreApp extends React.PureComponent {
 										{
 											width: "40%",
 											minWidth: "20rem",
-											maxWidth: "35rem",
+											maxWidth: "45rem",
 											render: props => (
 												<ChartSet
 													setKey="esponFuoreCharts"

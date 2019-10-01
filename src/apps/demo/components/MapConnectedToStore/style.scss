@@ -1,0 +1,21 @@
+@import '../../../../styles/variables';
+
+.demo-map-store-app {
+	background: var(--base20);
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.demo-map-store-map {
+	flex: 1;
+}
+
+.demo-map-store-control-panel {
+	min-width: 30rem;
+	padding: m(1);
+}
+
+.demo-map-store-control-panel form label {
+	margin-right: 1rem;
+}

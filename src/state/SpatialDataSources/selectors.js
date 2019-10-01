@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _ from 'lodash';
 
 import vectorSelectors from './vector/selectors';
@@ -8,6 +9,37 @@ import SpatialRelations from "../SpatialRelations/selectors";
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
+
+const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
+	[
+		getAllAsObject,
+		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey
+	],
+	(dataSources, dataSourceKeysGroupedByLayerKey) => {
+		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
+			let dataSourcesGroupedByLayerKey = {};
+			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
+				dataSourcesGroupedByLayerKey[layerKey] = [];
+				_.forEach(dataSourceKeys, (dataSourceKey) => {
+					if (dataSources[dataSourceKey]) {
+						dataSourcesGroupedByLayerKey[layerKey].push(dataSources[dataSourceKey]);
+					}
+				});
+			});
+
+			return dataSourcesGroupedByLayerKey;
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layers) => JSON.stringify(layers)
+);
+
+
+/**************************************************
+ DEPRECATED
+ **************************************************/
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -70,8 +102,11 @@ const getFilteredData = createSelector(
 export default {
 	getSubstate,
 
+	getByKeys,
+	getFilteredSourcesGroupedByLayerKey,
+
+	// Deprecated
 	getFilteredGroupedByLayerKey,
 	getFilteredData,
-	getByKeys,
 	vector: vectorSelectors
 };

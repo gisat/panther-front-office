@@ -45,7 +45,7 @@ class ColumnChartDoc extends React.PureComponent {
 				<p>A column chart presents categorical data with rectangular bars with heights proportional to the values that they represent. Currently, the column charts can show vertical bars only. Use this type of chart to <b>show attribute value for multiple cases</b> ( e.g. areas), or to show multiple comparable attribute values for one case.</p>
 
 				<h2 id="props">Props</h2>
-				<p>Bellow are listed specific props for column chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
+				<p>Bellow are listed specific props for column chart. Other props are common to all cartesian charts (<Link to="/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 
 				<ComponentPropsTable
 					content={[
@@ -70,7 +70,7 @@ class ColumnChartDoc extends React.PureComponent {
 						}, {
 							name: "barGapRatio",
 							type: "number",
-							default: "0.4",
+							default: "0.35",
 							description: "Bar width to gap between bars width ratio."
 						}, {}, {
 							name: "animateChangeData",
@@ -80,7 +80,7 @@ class ColumnChartDoc extends React.PureComponent {
 						}, {
 							name: "hoverValueSourcePath",
 							type: "string",
-							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. See <Link to="/docs/components/visualizations/asterChart#customHover">example in Aster chart</Link></>
+							description: <>Path to value show in hover. If 'hoverValueSourcePath' is undefined, then 'valueSourcePath' use as value. See <Link to="/components/visualizations/asterChart#customHover">example in Aster chart</Link></>
 						}, {}, {
 							name: "stacked",
 							type: "boolean|string",
@@ -91,7 +91,7 @@ class ColumnChartDoc extends React.PureComponent {
 
 				<h2 id="dataStructure">Input data structure</h2>
 				<p>Input data for line chart has to be a collection, where each object (or its children) must contain at least three key-value pairs, one as a source for key, second as a source for axis x and third as a source for axis y.</p>
-				<p>As the data source it is possible to use <Link to="/docs/components/visualizations/cartesianCharts/lineChart#dataStructure">the same data structure as for line chart</Link> as well. See how such data source is handled in the section <Link to="#serialData">Serial data input handling.</Link></p>
+				<p>As the data source it is possible to use <Link to="/components/visualizations/cartesianCharts/lineChart#dataStructure">the same data structure as for line chart</Link> as well. See how such data source is handled in the section <Link to="#serialData">Serial data input handling.</Link></p>
 
 				<SyntaxHighlighter language="javascript">
 					{'const data = [\n' +
@@ -153,7 +153,7 @@ class ColumnChartDoc extends React.PureComponent {
 
 
 				<h2 id="serialData">Serial data input handling</h2>
-				<p>It is possible to use data in serial structure as input data for column chart. Examine <Link to="/docs/components/visualizations/cartesianCharts/lineChart#dataStructure">the Line chart documentation</Link> to get an overview of the data structure, as well as the example below to see how such data is handled.</p>
+				<p>It is possible to use data in serial structure as input data for column chart. Examine <Link to="/components/visualizations/cartesianCharts/lineChart#dataStructure">the Line chart documentation</Link> to get an overview of the data structure, as well as the example below to see how such data is handled.</p>
 
 				<SyntaxHighlighter language="jsx">
 					{'<HoverHandler>\n' +

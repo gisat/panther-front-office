@@ -41,49 +41,12 @@ class ScatterChartDoc extends React.PureComponent {
 					</HoverHandler>
 				</div>
 
-				<HoverHandler>
-					<ResizableContainer>
-						<ScatterChart
-							key="colors"
-							data={sample_serie_10}
-
-							isSerie
-							serieDataSourcePath="data.data"
-							itemNameSourcePath="period" // in context of serie
-
-							nameSourcePath="data.name"
-							keySourcePath="key"
-
-							xSourcePath="someStrangeValue" // in context of serie
-							xOptions={{
-								name: "Population total",
-								unit: "inhabitants"
-							}}
-							ySourcePath="otherValue" // in context of serie
-							yOptions={{
-								name: "Population change",
-								unit: "%"
-							}}
-
-							zSourcePath="otherValue"
-							zOptions={{
-								name: "Blabla",
-								unit: "wtf"
-							}}
-
-							legend
-
-							defaultSchemePointColors
-						/>
-					</ResizableContainer>
-				</HoverHandler>
-
 				<p>A scatter chart is a type of chart using Cartesian coordinates to display values for two attributes. One attribute value is the position on the horizontal axis x and second attribute value is the position on the vertical axis y. Use this type of chart to <b>show relation between two attributes</b> for one or multiple cases in one or multiple points in time.</p>
 
 
 
 				<h2 id="props">Props</h2>
-				<p>Bellow are listed specific props for scatter chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
+				<p>Bellow are listed specific props for scatter chart. Other props are common to all cartesian charts (<Link to="/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
 					content={[
 						{

@@ -9,7 +9,7 @@ import conversions from "../../data/conversions";
 import LayerSelect from "../LayerSelect/index";
 
 import './styles/style.scss';
-import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../components/common/maps/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
@@ -273,7 +273,7 @@ class SlumsMonitoring extends React.PureComponent {
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
-												<PresentationMapWithControls
+												<Deprecated_PresentationMapWithControls
 													map={
 														<LeafletMap
 															mapKey="scudeoStories19-greenAreas-map-1"
@@ -309,7 +309,7 @@ class SlumsMonitoring extends React.PureComponent {
 													<div className="scudeoStories19-map-attribution">
 														Add <a href="#" target="_blank">attribution</a> according to used background map. Cras neque lectus, bibendum non turpis eget, pulvinar eleifend ligula. Sed ornare scelerisque odio sit amet cursus.
 													</div>
-												</PresentationMapWithControls>
+												</Deprecated_PresentationMapWithControls>
 											</AdjustViewOnResizeLeafletWrapper>
 										</div>
 									</Visualization>

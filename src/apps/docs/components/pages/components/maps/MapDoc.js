@@ -2,15 +2,17 @@ import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
 import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import PresentationMapWithControls from "../../../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
+import {Link} from "react-router-dom";
+import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
 
 class MapDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Map">
-				<div style={{height: 500}}>
-					<PresentationMapWithControls
+				<div style={{height: 300}}>
+					<Deprecated_PresentationMapWithControls
 						map={(<WorldWindMap
 							backgroundLayer={{
 								type: 'worldwind',
@@ -44,37 +46,56 @@ class MapDoc extends React.PureComponent {
 				</div>
 
 				<h2>Props</h2>
-				<h2>View</h2>
-				<h2>Layers</h2>
-				<SyntaxHighlighter language="javascript">
-					{'{\n' +
-					'\tkey: "layerKey",\n' +
-					'\ttype: "wms|wmts|worldwind|vector",\n' +
-					'\topacity: 0.7,\n' +
-					'\toptions: {\n' +
-					'\t\t// type: wms\n' +
-					'\t\turl: "http://192.168.2.206/geoserver/geonode/wms?",\n' +
-					'\t\tparams: {} // wms query params\n' +
-					'\n' +
-					'\t\t// type: wmts\n' +
-					'\t\turl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",\n' +
-					'\n' +
-					'\t\t// type: worldwind\n' +
-					'\t\tlayer: "wikimedia|bluemarble|bingAerial",\n' +
-					'\n' +
-					'\t\t// type: vector\n' +
-					'\t\tfeature: {}, // geojson with or without properties\n' +
-					'\t\tstyle: {}|"",\n' +
-					'\t\tselected: {selectionKey: [], selectionKey2: []} //keys\n' +
-					'\t\tfiltered: []\n' +
-					'\t\thovered: []\n' +
-					'\t}\n' +
-					'\n}'}
-				</SyntaxHighlighter>
+				<ComponentPropsTable
+					// content={
+					// 	[{
+					// 		name: "view",
+					// 		type: "map view",
+					// 		description: <Link to="/architecture/systemDataTypes/mapView">Map view</Link>
+					// 	},{
+					// 		name: "layers",
+					// 		type: "layers",
+					// 		description: <Link to="/architecture/systemDataTypes/layers">Layers</Link>
+					// 	},{
+					// 		name: "backgroundLayer",
+					// 		type: "background layer",
+					// 		description: <Link to="/architecture/systemDataTypes/layers#backgroundLayer">Background layer</Link>
+					// 	},{
+					//
+					// 	},{
+					// 		name: "stateMapKey",
+					// 		type: "string",
+					// 		description: "Valid key of a map in map store"
+					// 	},{
+					//
+					// 	},{
+					// 		name: "onViewChange",
+					// 		type: "function",
+					// 		description: "Function called when a view change is initiated inside the Map component"
+					// 	},{
+					// 		name: "onClick",
+					// 		type: "function",
+					// 		description: "Function called on click"
+					// 	}]
+					// }
+				>
+					<Prop name="mapComponent" required>Presentational component to render the final map</Prop>
+					<Section name="Controlled">
+						<Prop name="stateMapKey" required type="string">Valid key of a map in map store</Prop>
+					</Section>
+					<Section name="Uncontrolled">
+						<Prop name="view" required type="map view"><Link to="/architecture/systemDataTypes/mapView">Map view</Link></Prop>
+						<Prop name="layers" type="layers"><Link to="/architecture/systemDataTypes/layers">Layers</Link></Prop>
+						<Prop name="backgroundLayer" type="background layer">
+							<Link to="/architecture/systemDataTypes/layers#backgroundLayer">Background layer</Link>
+						</Prop>
+						<Prop name="onViewChange" type="function">Function called when a view change is initiated inside the Map component</Prop>
+						<Prop name="onClick" type="function">Function called on click</Prop>
+					</Section>
+				</ComponentPropsTable>
 
-				<DocsToDo>Structure description, ...</DocsToDo>
-
-				<h2>Container component</h2>
+				<DocsToDo>Usage</DocsToDo>
+				
 			</Page>
 		);
 	}

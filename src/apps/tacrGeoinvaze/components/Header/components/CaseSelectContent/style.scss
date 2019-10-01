@@ -12,13 +12,16 @@
   display: flex;
   flex-direction: column;
 }
+.tacrGeoinvaze-case-select-content:not(.showIntro) {
+	overflow-y: auto;
+}
 
 .tacrGeoinvaze-case-select-content > div {
   //flex-basis: 50%;
 }
 .tacrGeoinvaze-case-select-content-info {
   padding: 2rem;
-  flex: 0 16rem;
+  flex: 0 19rem;
 }
 .tacrGeoinvaze-case-select-content-cases {
   flex: 1;
@@ -28,9 +31,37 @@
 .tacrGeoinvaze-case-select-content-intro {
   height: 0;
   overflow: hidden;
+	transition: height .3s ease-in-out;
 }
 .tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro {
-  height: 14rem;
+  height: 17rem;
+	position: relative;
+}
+.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro > div {
+	height: 100%;
+	padding-bottom: 1rem;
+	overflow-y: auto;
+}
+.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro::after {
+  content: " ";
+	display: block;
+	position: absolute;
+	right: 20px;
+	bottom: 0;
+	left: 0;
+	height: 3rem;
+	background: linear-gradient(0deg, var(--accent10) 20%, transparent 100%);;
+}
+
+.tacrGeoinvaze-case-select-content-link-home {
+	display: inline-block;
+	width: 0;
+	overflow: hidden;
+	transition: width .3s ease-in-out;
+}
+.tacrGeoinvaze-case-select-content:not(.showIntro) .tacrGeoinvaze-case-select-content-link-home{
+	//width: 3.6rem;
+	width: 7.5rem;
 }
 
 .tacrGeoinvaze-case-select-content-cases > div:nth-child(2n) {
@@ -57,15 +88,39 @@
 	background-color: #fff3;
 }
 
+//.tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
+//	background: url("../../../../assets/temp_terrestrialAnimals.jpg") 50% 45%;
+//}
+//.tacrGeoinvaze-case-select-terrestrialPlants > div:first-child {
+//	background: url("../../../../assets/temp_terrestrialPlants.jpg") 0 45%;
+//}
+//.tacrGeoinvaze-case-select-aquaticAnimals > div:first-child {
+//	background: url("../../../../assets/temp_aquaticAnimals.jpg") 15% 55%;
+//}
+//.tacrGeoinvaze-case-select-aquaticPlants > div:first-child {
+//	background: url("../../../../assets/temp_aquaticPlants.jpg") 40% 45%;
+//}
+
 .tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
-	background: url("../../../../assets/temp_terrestrialAnimals.jpg") 50% 45%;
+	background: url("../../../../assets/suchozver.jpg") 50% 40%;
+	background-size: cover;
 }
 .tacrGeoinvaze-case-select-terrestrialPlants > div:first-child {
-	background: url("../../../../assets/temp_terrestrialPlants.jpg") 0 45%;
+	background: url("../../../../assets/suchokytky.jpg") 25% 40%;
+	background-size: cover;
 }
 .tacrGeoinvaze-case-select-aquaticAnimals > div:first-child {
-	background: url("../../../../assets/temp_aquaticAnimals.jpg") 15% 55%;
+	background: url("../../../../assets/mokrozver.jpg") 50% 55%;
+	background-size: cover;
 }
 .tacrGeoinvaze-case-select-aquaticPlants > div:first-child {
-	background: url("../../../../assets/temp_aquaticPlants.jpg") 40% 45%;
+	background: url("../../../../assets/mokrokytky.jpg") 20% 40%;
+	background-size: cover;
+}
+
+
+.tacrGeoinvaze-image-decsription {
+	display: block;
+	font-style: italic;
+	margin-bottom: 1rem;
 }

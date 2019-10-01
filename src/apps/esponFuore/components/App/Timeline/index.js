@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
 		activeAttributeKey: attributeKey,
 		activeScopeKey: scopeKey,
 		activePeriodKeys: Select.periods.getActiveKeys(state),
-		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, filter),
+		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, filter, 'timeline'),
 		periods: Select.periods.getIndexed(state, periodsFilterByActive, null, periodsOrder, 1, 100)
 	}
 };
