@@ -104,7 +104,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withValues ? this.renderCaption(null, xCoord, shift, availableHeight, value.toLocaleString()) : null}
+								{this.props.withValues ? this.renderValueLabel(null, xCoord, shift, availableHeight, value.toLocaleString()) : null}
 							</g>
 						);
 					} else {
@@ -170,7 +170,7 @@ class AxisX extends React.PureComponent {
 									y1={props.plotHeight + shift}
 									y2={props.gridlines ? 0 : props.plotHeight}
 								/>
-								{props.withValues ? this.renderCaption(key, xCoord, shift, barWidth + gap, name) : null}
+								{props.withValues ? this.renderValueLabel(key, xCoord, shift, barWidth + gap, name, item) : null}
 							</g>
 						);
 					} else {
@@ -181,19 +181,26 @@ class AxisX extends React.PureComponent {
 		);
 	}
 
-	renderCaption(key, x, yShift, availableHeight, text) {
-		if (availableHeight > 15) {
+	renderValueLabel(key, x, yShift, availableHeight, text, originalData) {
+		let finalY = this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP;
+		let maxHeight = ((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2));
+
+
+		if (this.props.options && this.props.options.valueLabelRenderer) {
+			// TODO fix available width
+			return this.props.options.valueLabelRenderer(x, finalY, availableHeight, maxHeight, text, originalData);
+		} else if (availableHeight > 15) {
 			return (
 				<g
 					transform={`
-						rotate(-45 ${x + TICK_CAPTION_OFFSET_LEFT} ${this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP})
-						translate(${x + TICK_CAPTION_OFFSET_LEFT} ${this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP})
+						rotate(-45 ${x + TICK_CAPTION_OFFSET_LEFT} ${finalY})
+						translate(${x + TICK_CAPTION_OFFSET_LEFT} ${finalY})
 					`}
 				>
 					<AxisLabel
 						originalDataKey={key}
 						classes="ptr-tick-caption"
-						maxWidth={((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2))}
+						maxWidth={maxHeight}
 						maxHeight={availableHeight}
 						text={text}
 						textAnchor="end"

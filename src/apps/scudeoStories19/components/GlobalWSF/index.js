@@ -19,6 +19,7 @@ import "./styles/style.scss";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 
 import request from '../../../../state/_common/request';
+import AxisLabel from "../../../../components/common/charts/AxisLabel";
 
 const backgroundLayer = {
 	key: 'background-osm',
@@ -128,8 +129,8 @@ const getSerialData = (properties) => {
 				if(years.includes(year)) {
 					const yearPopulationKey = `${year}_population`;
 					const prevYearPopulationKey = `${years[years.indexOf(year)-1]}_population`;
-					const population = properties[yearPopulationKey];
-					const prevPopulation = properties[prevYearPopulationKey];
+					const population = typeof properties[yearPopulationKey] === 'string' ? parseInt(properties[yearPopulationKey]) : properties[yearPopulationKey];
+					const prevPopulation = typeof properties[prevYearPopulationKey] === 'string' ? parseInt(properties[prevYearPopulationKey]) : properties[prevYearPopulationKey];;
 					const prevYearCoverageKey = `${years[years.indexOf(year)-1]}_coverage`;
 					const prevCoverage = conversions.toSquareKm(properties[prevYearCoverageKey]);
 					const coverageGrowth = coverage - prevCoverage;
@@ -196,16 +197,23 @@ class GlobalWSF extends React.PureComponent {
 				value: null,
 				id: 'unlimited',
 			},
+			areaGrowthShowSelectedOnly: false,
+			annualGrowthShowSelectedOnly: false,
+			urbanExpansionShowSelectedOnly: false
 		};
 
 		this.handleOptionChange = this.handleOptionChange.bind(this);
 		this.handleGrowRateOptionChange = this.handleGrowRateOptionChange.bind(this);
+
+		this.handleAreaGrowthCheckbox = this.handleAreaGrowthCheckbox.bind(this);
+		this.handleAnnualGrowthCheckbox = this.handleAnnualGrowthCheckbox.bind(this);
+		this.handleUrbanExpansionCheckbox = this.handleUrbanExpansionCheckbox.bind(this);
 	}
 
 	componentDidMount() {
 		getMergedDataset().then((dataset) => {
 			const wsfData = transformDataset(dataset);
-			const vectorLayer = getVectorLayer(dataset.map(d => ({data:d})));
+			const vectorLayer = getVectorLayer(dataset.map(d => ({data:d})), 'data.features[0].properties.aoiGeometry');
 			
 			this.setState({
 				wsfData,
@@ -287,20 +295,76 @@ class GlobalWSF extends React.PureComponent {
 		});
 	}
 
+	handleAreaGrowthCheckbox(changeEvent) {
+		this.setState({
+			areaGrowthShowSelectedOnly: changeEvent.target.checked
+		});
+	}
+
+	handleAnnualGrowthCheckbox(changeEvent) {
+		this.setState({
+			annualGrowthShowSelectedOnly: changeEvent.target.checked
+		});
+	}
+
+	handleUrbanExpansionCheckbox(changeEvent) {
+		this.setState({
+			urbanExpansionShowSelectedOnly: changeEvent.target.checked
+		});
+	}
+
+	filterSelected(data) {
+		return _.filter(data, (item => {
+			return item.key === this.state.cityOne.key || item.key === this.state.cityTwo.key;
+		}));
+	}
+
+	rejectSelected(data) {
+		return _.reject(data, (item => {
+			return item.key === this.state.cityOne.key || item.key === this.state.cityTwo.key;
+		}));
+	}
+
+	moveSelectedToTheEnd(data) {
+		let withoutFiltered = this.rejectSelected(data);
+		let filtered = this.filterSelected(data);
+		return [...withoutFiltered, ...filtered];
+	}
+
 	render() {
 
 		const layers = [wsfLayer, this.state.vectorLayer];
 
-		const settlementAreaExpansionCoverageData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
-		const settlementAreaExpansionData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
-		const urbanExpansionCoefficientData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		let settlementAreaExpansionCoverageData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		let settlementAreaExpansionData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+		let urbanExpansionCoefficientData = this.state.wsfData ? cloneDeep(this.state.wsfData) : null;
+
+		// Filter selected only if needed, otherwise show selected on the top allways
+		if (settlementAreaExpansionCoverageData && this.state.areaGrowthShowSelectedOnly) {
+			settlementAreaExpansionCoverageData = this.filterSelected(settlementAreaExpansionCoverageData);
+		} else if (settlementAreaExpansionCoverageData) {
+			settlementAreaExpansionCoverageData = this.moveSelectedToTheEnd(settlementAreaExpansionCoverageData);
+		}
+
+		if (settlementAreaExpansionData && this.state.annualGrowthShowSelectedOnly) {
+			settlementAreaExpansionData = this.filterSelected(settlementAreaExpansionData);
+		} else if (settlementAreaExpansionData) {
+			settlementAreaExpansionData = this.moveSelectedToTheEnd(settlementAreaExpansionData);
+		}
+
+		if (urbanExpansionCoefficientData && this.state.urbanExpansionShowSelectedOnly) {
+			urbanExpansionCoefficientData = this.filterSelected(urbanExpansionCoefficientData);
+		} else if (urbanExpansionCoefficientData) {
+			urbanExpansionCoefficientData = this.moveSelectedToTheEnd(urbanExpansionCoefficientData);
+		}
+
 		return (
 			<>
 				<Header
 					navigation={this.props.navigation}
 					title="Global Urban Growth Dynamics Monitoring"
-					intro="EO data can now provide unprecedent insight into long term trends of urban growth dynamics"
-					abstract="The urbanized World is our playground. Facing a global massive urbanization trends in climate change context, urban expansion needs to be monitored to ensure it proceeds on a sustainable basis, does not impair or overexploit environmental resources, nor worsen the quality and life and safety of urban population. Nowadays, superb EO based global products are available for urban studies in rich spatial-temporal context, quickly and accurately."
+					intro="Earth Observation data can provide unprecedented insight into long term trends in urban growth dynamics globally"
+					abstract="The urbanized World is our playground. Facing global massive urbanization trends in climate change context, urban expansion needs to be monitored to ensure it proceeds on a sustainable basis, does not impair or overexploit environmental resources, nor worsen the quality and life and safety of the urban population. Nowadays, EO based global products are available for urban studies to be done in rich spatial-temporal context, quickly and accurately."
 				/>
 
 
@@ -316,7 +380,10 @@ class GlobalWSF extends React.PureComponent {
 							</div>
 							<div>
 								<p>
-									Reliably monitoring global urbanization is of key importance to accurately estimate the distribution of the continually expanding population, along with its effects on the use of resources (e.g. soil, energy, water), infrastructure and transport needs, socioeconomic development, human health, food security, etc. In this context, while in the last few years several global layers mapping the actual settlement extent have been presented in the literature, so far only few datasets outline the settlement growth over time, which is fundamental for modelling ongoing trends and implementing dedicated suitable planning strategies. Furthermore, the existing products are mostly available for a limited number of time steps in the past and their quality – yet by simple qualitative assessment against e.g. Google Earth historical HR and VHR imagery – appears rather poor. To overcome this limitation, the German Aerospace Center (DLR) in collaboration with the Google Earth Engine (GEE) team has designed and implemented a novel dataset WSF (World Settlement Footprint) Evolution aimed at outlining the settlement extent globally and on a yearly basis from 1985 to 2015. It is a revolutionary global product in support to a variety of end users in the framework of several thematic applications.
+									Reliably monitoring global urbanization is of key importance to accurately estimate the distribution of the continually expanding population, along with its effects on the use of resources (e.g. soil, energy, water), infrastructure and transport needs, socioeconomic development, human health, food security, etc. In this context, while in the last few years several global layers mapping the actual settlement extent have been presented in the literature, so far only few datasets outline the settlement growth over time, which is fundamental for modelling ongoing trends and implementing dedicated suitable planning strategies. Furthermore, the existing products are mostly available for a limited number of time steps in the past and their quality appears rather poor. To overcome this limitation, the German Aerospace Center (DLR) in collaboration with the Google Earth Engine (GEE) team has designed and implemented a novel dataset WSF (World Settlement Footprint) Evolution product aimed at outlining the settlement extent globally and on a yearly basis from 1985 to 2015. WSF Evolution is a revolutionary global dataset in support to a variety of end users in the framework of urban-related thematic applications.
+								</p>
+								<p>
+									Evolution of the settlement area for selected cities is presented on maps below for period 1985–2015 using WSF Evolution dataset. Pick the city from the pull-down menu for the left and right maps and analyze and compare base characteristics of their development.
 								</p>
 							</div>
 
@@ -325,7 +392,17 @@ class GlobalWSF extends React.PureComponent {
 							<Fade left distance="50px">
 								<Visualization
 									title="Settlement Area Expansion (1985-2015)"
-									description="The WSF Evolution data outlines the growth of settlement extent globally at 30m spatial resolution and high temporal frequency (yearly) from 1985 to 2015. Spatial temporal patterns can be easily observed and compared for different cities to understand urban growth dynamics in time as seen above."
+									description={
+										<>
+											<p>The WSF Evolution data highlight the growth of settlement extent globally at 30m spatial resolution and high temporal frequency (yearly) from 1985 to 2015. Spatial-temporal patterns can be easily observed on maps above and compared for different cities to understand urban growth dynamics in time. Please see also the Input Data Consistency (IDC) Score below for more information on temporal robustness. WSF Evolution statistics presented below can be generated on any user-defined units. For the purpose of comparability between selected cities, in our case cities are outlined using the Morphological Urban Areas (MUAs) methodology as defined by Taubenböck H., et.al (see below). Comparison is prepared for cities from Global Platform for Sustainable Cities (GPSC) comprising 28 cities across 11 countries.</p>
+											<p>
+												Credits:<br/>
+												WSF data: Marconcini et al. (2018). Outlining Urbanization from 1985 to 2015 – the WSF Evolution. In preparation. Contact: mattia.marconcini@dlr.de<br/>
+
+												MUA data: Taubenböck H., Weiganda M., Esch T., Staab J., Wurm M., Mast J., Dech S.(2019): A new ranking of the world's largest cities—Do administrative units obscure morphological realities? Remote Sensing of Environment, Volume 232.
+											</p>
+										</>
+									}
 									legend={
 										<div className="scudeoStories19-visualization-legend">
 											{this.state.mapLegendData ? this.renderMapLegend() : null}
@@ -403,7 +480,7 @@ class GlobalWSF extends React.PureComponent {
 								<Fade left distance="50px">
 									<Visualization
 										title="Settlement Area Expansion (area growth in km2)"
-										description="The documentation of urban expansion over time can reveal different phases of urbanisation over time as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation. Information about expansion phase and its dynamics are important to cluster cities with similar evolution path and lesson-learned exchange between individual cities. "
+										description="The documentation of urban expansion over time can reveal different phases of urbanisation as illustrated above - early growth period, slow or rapid expansion, acceleration or saturation. Information about the expansion phase and its dynamics are important to cluster cities with similar evolution path and support lesson-learned exchange between individual cities."
 									>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">
@@ -423,6 +500,7 @@ class GlobalWSF extends React.PureComponent {
 													yLabel
 													yOptions={{
 														max: this.state.selectedOption.value,
+														min: 0,
 														name: "Settlement area",
 														unit: "km2"
 													}}
@@ -433,7 +511,7 @@ class GlobalWSF extends React.PureComponent {
 												/>
 												<div className="scudeoStories19-inline-radio">
 													<span className={"label"}>
-														Maximum settlement are (km2):
+														Maximum settlement area (km2) displayed:
 													</span>
 													<div className="radio">
 														<label>
@@ -460,6 +538,17 @@ class GlobalWSF extends React.PureComponent {
 														</label>
 													</div>
 												</div>
+
+												<div className="scudeoStories19-inline-checkbox">
+													<div className="checkbox">
+														<label>
+															<input type={'checkbox'} checked={this.state.areaGrowthShowSelectedOnly} onChange={this.handleAreaGrowthCheckbox}/>
+															<span>
+																Show selected cities only
+															</span>
+														</label>
+													</div>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
@@ -472,7 +561,7 @@ class GlobalWSF extends React.PureComponent {
 								<Fade left distance="50px">
 									<Visualization
 										title="Settlement Area Expansion (annual growth rate in %)"
-										description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above to explore development trajectories in the context of urban policy framework in particular city and time."
+										description="Similarly, urban expansion rate over time can be also compared between different cities as illustrated above to explore development trajectories in the context of existing urban policy framework in particular city and time."
 									>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">
@@ -493,7 +582,8 @@ class GlobalWSF extends React.PureComponent {
 													yOptions={{
 														max: this.state.growRateOption.value,
 														name: "Settlement growth",
-														unit: "%"
+														unit: "%",
+														min: 0
 													}}
 
 													height={22}
@@ -501,7 +591,7 @@ class GlobalWSF extends React.PureComponent {
 												/>
 											<div className="scudeoStories19-inline-radio">
 													<span className={"label"}>
-													Maximum settlement area growth rate (%):
+													Maximum settlement area growth rate (%) displayed:
 													</span>
 													<div className="radio">
 														<label>
@@ -529,6 +619,16 @@ class GlobalWSF extends React.PureComponent {
 													</div>
 												</div>
 											</div>
+											<div className="scudeoStories19-inline-checkbox">
+												<div className="checkbox">
+													<label>
+														<input type={'checkbox'} checked={this.state.annualGrowthShowSelectedOnly} onChange={this.handleAnnualGrowthCheckbox}/>
+														<span>
+																Show selected cities only
+															</span>
+													</label>
+												</div>
+											</div>
 										</Fade>
 									</Visualization>
 								</Fade>
@@ -540,7 +640,16 @@ class GlobalWSF extends React.PureComponent {
 								<Fade left distance="50px">
 									<Visualization
 										title="Urban Expansion Coefficient"
-										description="To better understand the pattern of urban growth end its efficiency the urban expansion coefficient (UEC) is presented. Level of urban growth efficiency is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification. Densification is  is supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000 - 2015 following the availability of population estimates within WorldPop global dataset. Source data: WSF © DLR 2019, © WorldPop 2019"
+										description={
+											<>
+												<p>To better understand the pattern of urban growth in relation to population growth, the Urban Expansion Coefficient (UEC) is presented. Level of urban growth 'efficiency' is given by the ratio between the settlement area growth and urban population growth. UEC values above 1 indicate the prevailing expansion while values below 1 indicate prevailing densification of the city. Densification is in general supposed to be more effective growth pattern as less non-urban area is consumed per capita. Figure presents the evolution of the UEC in each city in 5 year intervals between 2000-2015 following the availability of population estimates for all cities using the WorldPop global dataset. Again, for the purpose of comparability between selected cities, Morphological Urban Areas (MUAs) were used for cities delineation and as reference areas for population figures calculation. This graph is in particular relevant also to UN SDG Indicator 11.3.1: Ratio of land consumption rate to population growth rate.</p>
+												<p>Credits:<br/>
+													WSF data: Marconcini et al. (2018). Outlining Urbanization from 1985 to 2015 – the WSF Evolution. In preparation. Contact: mattia.marconcini@dlr.de<br/>
+													MUA data: Taubenböck H., Weiganda M., Esch T., Staab J., Wurm M., Mast J., Dech S.(2019): A new ranking of the world's largest cities—Do administrative units obscure morphological realities? Remote Sensing of Environment, Volume 232.<br/>
+													WorldPop data: © 2019 <a href="https://www.worldpop.org/" target="_blank">WorldPop datasets</a> under CC Attribution 4.0.
+												</p>
+											</>
+										}
 									>
 										<Fade cascade>
 											<div className="scudeoStories19-chart-container">
@@ -556,35 +665,66 @@ class GlobalWSF extends React.PureComponent {
 													pointNameSourcePath="name"
 													colorSourcePath="color"
 
-													xValuesSize={2.5}
+													xValuesSize={2}
 
 													yLabel
+													yScale="log"
 													yOptions={{
-														name: "Urban Expansion Coefficient"
+														name: "Urban Expansion Coefficient",
+														tickCount: 4,
+														min: 0.01,
+														max: 100,
+														diversionValue: 1
+													}}
+													xOptions={{
+														valueLabelRenderer: (x, y, maxWidth, maxHeight, value) =>
+															<g
+																transform={`translate(${x} ${y + 5})`}
+															>
+																<AxisLabel
+																	classes="ptr-tick-caption"
+																	maxWidth={maxWidth}
+																	maxHeight={maxHeight}
+																	text={`${value - 5} - ${value}`}
+																	textAnchor="middle"
+																/>
+															</g>
 													}}
 
 													height={22}
+
 													legend
+													diverging
 												/>
+											</div>
+											<div className="scudeoStories19-inline-checkbox">
+												<div className="checkbox">
+													<label>
+														<input type={'checkbox'} checked={this.state.urbanExpansionShowSelectedOnly} onChange={this.handleUrbanExpansionCheckbox}/>
+														<span>
+																Show selected cities only
+															</span>
+													</label>
+												</div>
 											</div>
 										</Fade>
 									</Visualization>
 								</Fade>
 							</HoverHandler>
 
-							<p>Data are a key enabler for city innovation - fuel on which cities run – and spatial aspect plays a major role in understanding complex spatial-temporal relations in cities, supporting daily management of city assets as well as strategic planning for cities sustainable future. Current Earth Observation (EO) capacity represents a major contribution here as a large (and rapidly growing) number of satellite constellations, acquiring in different spatial, spectral and temporal resolution, are currently available for integration with other types of data (e.g. open data, sensors, citizen science data) for the benefit of various urban domains. The WSF Evolution dataset satisfy a growing need for global harmonised data urban expansion allowing holistic view on global planetary urbanisation issue and identification of future development potential in different world regions. </p>
+							<p>Spatial aspect plays a major role in understanding complex spatial-temporal relations in cities, supporting the daily management of city assets as well as strategic planning for cities sustainable future. Current Earth Observation (EO) capacity represents a major contribution here as a large (and rapidly growing) number of satellite constellations, acquiring in different spatial, spectral and temporal resolution, are currently available for integration with other types of data (e.g. open data, sensors, citizen science data) for the benefit of various urban domains. The WSF Evolution dataset satisfies a growing need for global harmonized data on urban expansion allowing a holistic view on global planetary urbanisation issue and identification of future development potential in different world regions. </p>
 
 							<h2>About WSF Evolution</h2>
-							<p>WSF Evolution is a revolutionary global product leveraging previous DLR experiences with GUF and WSF2015 products. First, under the assumption that pixels categorized as non-settlement at a later time cannot be marked as settlement at an earlier time, all areas excluded from the World Settlement Footprint (WSF2015) (i.e., the currently existing most updated and accurate mask outlining the 2015 global settlement extent) are discarded a priori from the analysis. Next, for each target year in the past all available Landsat scenes acquired with cloud cover lower than 60% over the investigated area of interest are gathered and cloud masking is performed. Key temporal statistics (i.e., temporal mean, minimum, maximum, etc.) are then extracted for different spectral indices including the normalized difference built-up index (NDBI), the normalized difference vegetation index (NDVI) and the modified normalized difference water index (MNDWI). Going backwards in time, training samples for the given target year are iteratively extracted by applying morphological filtering to the settlement mask derived for the previous time step as well as excluding potentially mis-labelled samples by adaptive thresholding on the temporal mean NDBI, MNDWI and NDVI. Finally, random forest classification in performed.</p>
-							<p>Extensive experimental analyses over several challenging test sites distributed over the five continents assessed the high effectiveness of the methodology. Accordingly, in the light of it great robustness, the technique has been employed within the GEE environment for generating the WSF Evolution, i.e. a novel dataset aimed at outlining the settlement extent globally and on a yearly basis from 1985 to 2015. The WSF Evolution was completed by the end of 2018 and is envisaged to be made available open and free (after accurate post-processing and accuracy assessment) during 2019. In particular, the dataset is expected to become a global urban product of unprecedent in support to a variety of end users in the framework of several thematic applications, helping to understand as never before how urbanization took place over three decades while capturing specific temporal trends.</p>
+							<p>WSF Evolution is a revolutionary global product leveraging previous DLR experiences with GUF and WSF2015 products. Starting from the World Settlement Footprint (WSF2015) (i.e., the currently existing most updated and accurate mask outlining the 2015 global settlement extent), the pixels categorized as non-settlement were discarded a priori from the analysis. Next, for each target year in the past, all available Landsat scenes acquired with cloud cover lower than 60% over the investigated area of interest were gathered and cloud masking was performed. Key temporal statistics (i.e., temporal mean, minimum, maximum, etc.) were then extracted for different spectral indices including the normalized difference built-up index (NDBI), the normalized difference vegetation index (NDVI) and the modified normalized difference water index (MNDWI). Going backwards in time, training samples for the given target year were iteratively extracted by applying morphological filtering to the settlement mask derived for the previous time step as well as excluding potentially mis-labelled samples by adaptive thresholding on the temporal mean NDBI, MNDWI and NDVI. Finally, random forest classification was performed. Extensive experimental analyses over several challenging test sites distributed over the five continents assessed the high effectiveness of the methodology. Accordingly, in the light of it great robustness, the technique has been employed within the Google Earth Engine environment for generating the WSF Evolution. The WSF Evolution was completed by the end of 2018 and is envisaged to be made available open and free (after accurate post-processing and rigorous accuracy assessment) during Q1/2020. In particular, the dataset is expected to become a global urban product of unprecedent in support to a variety of end users in the framework of several thematic applications, helping to understand as never before how urbanization took place over three decades while capturing specific temporal trends.</p>
 
-							{/*TODO tady Tomáš nedodal linky*/}
-							{/*<h3>More resources</h3>*/}
-							{/*<ul>*/}
-								{/*<li><a href="#" target="_blank">WSF Evolution description</a></li>*/}
-								{/*<li><a href="#" target="_blank">Quality Assessment document</a></li>*/}
-								{/*<li><a href="#" target="_blank">Link to UTEP with WSF Evolution data?</a></li>*/}
-							{/*</ul>*/}
+							<h3>More resources</h3>
+							<ul>
+								<li><a href="https://cog-gisat.s3.eu-central-1.amazonaws.com/Marconcini+_Urban_Mapping_and_Monitoring.mp4" target="_blank">Introducing WSF Evolution (methodology, validation)</a></li>
+								<li><a href="https://cog-gisat.s3.eu-central-1.amazonaws.com/WSF-IDC+Score.pdf" target="_blank">WSF Evolution – IDC Score</a></li>
+								<li><a href="https://doi.org/10.1016/j.rse.2019.111353" target="_blank">Morphological Urban Areas (MUA)</a></li>
+								<li><a href="https://urban-tep.eu/puma/tool/?id=574795484&lang=en" target="_blank">Explore WSF2015 on Urban Thematic Exploitation Platform (UTEP)</a></li>
+								<li><a href="https://unstats.un.org/sdgs/metadata/?Text=&Goal=&Target=11.3" target="_blank">UN SDG Indicator 11.3.1: Ratio of land consumption rate to population growth rate</a></li>
+							</ul>
 						</section>
 					</div> : null }
 			</>
