@@ -6,9 +6,16 @@ export default (d) => {
 		<span class="scope">${d.scope.split(". ")[1]}</span>
 		<h1 class="title">${d.attribute} (${d.period}, ${d.description})</h1>
 		<div class="content">
-			<img class="map" alt="map" src="${d.mapCanvasData}"/>
-		</div>
-		<div id="${d.legendComponentId}">
+			<img id="${d.mapComponentId}" class="map" alt="map" src="${d.mapCanvasData}"/>
+			<div class="legend-scale-container">
+				<div id="${d.legendComponentId}"></div>
+				<div id="esponFuore-map-scale">
+					<div class="scale-wrapper">
+						<div id="${d.scaleLineId}"></div>
+						<div id="${d.scaleLabelId}"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="footer">
 			<img class="footer-logo" alt="espon" src="${espon_logo}"/>

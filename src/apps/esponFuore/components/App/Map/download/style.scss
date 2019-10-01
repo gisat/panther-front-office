@@ -40,8 +40,18 @@
 	overflow: hidden;
 }
 
+#esponFuore-map-download .legend-scale-container {
+	display: flex;
+	margin: 1mm 0 0;
+}
+
+/* Legend */
+#esponFuore-map-legend {
+	flex: 1;
+}
+
 #esponFuore-map-legend .legend {
-	margin: 2mm 0 0;
+	margin: 0;
 }
 
 #esponFuore-map-legend .legend .legend-title,
@@ -62,6 +72,29 @@
 #esponFuore-map-legend .title {
 	font-size: 10pt;
 	width: 100%;
+}
+
+/* Scale */
+#esponFuore-map-scale {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#esponFuore-map-scale .scale-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#esponFuore-map-scale-line {
+	height: .8mm;
+	background: var(--base50);
+	margin-bottom: .5mm;
+}
+
+#esponFuore-map-scale-label {
+	color: var(--base60);
+	font-size: 10pt;
 }
 
 /* Footer */

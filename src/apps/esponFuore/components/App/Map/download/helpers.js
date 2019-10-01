@@ -28,7 +28,10 @@ function prepareDocument(props, wwd, canvasId, container, node) {
 	return getMapCanvasData(wwd, canvasId).then(mapCanvasData => {
 		container.style.overflow = "hidden";
 		node.id = "esponFuore-map-download";
+		const mapComponentId = 'esponFuore-map-snapshot';
 		const legendComponentId = 'esponFuore-map-legend';
+		const scaleLineId = 'esponFuore-map-scale-line';
+		const scaleLabelId = 'esponFuore-map-scale-label';
 
 		container.appendChild(node);
 		node.innerHTML = template({
@@ -37,12 +40,14 @@ function prepareDocument(props, wwd, canvasId, container, node) {
 			description: props.activeAttribute && props.activeAttribute.data && props.activeAttribute.data.description,
 			scope: props.activeScope && props.activeScope.data && props.activeScope.data.nameDisplay,
 			mapCanvasData,
-			legendComponentId
+			mapComponentId,
+			legendComponentId,
+			scaleLabelId,
+			scaleLineId
 		});
 
 		addLegend(props, legendComponentId);
-
-		return node;
+		return updateScale(props, mapComponentId, scaleLabelId, scaleLineId, node);
 	}).catch(err => {
 		resetElements(container, node);
 		alert("Export failed!")
@@ -72,6 +77,36 @@ function addLegend(props, componentId) {
 		</Provider>, document.getElementById(componentId)
 	);
 }
+
+function updateScale(props, mapComponentId, labelComponentId, lineComponentId, node) {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			let mapComponent = document.getElementById(mapComponentId);
+			let label = document.getElementById(labelComponentId);
+			let line = document.getElementById(lineComponentId);
+
+			let oneKmInPx = mapComponent.clientWidth/props.navigator.range*1000;
+			let scaleData = calculateScaleData(oneKmInPx, 1);
+
+			label.innerText = scaleData.label;
+			line.style.width = scaleData.width + "px";
+			resolve(node);
+		}, 50);
+	});
+}
+
+function calculateScaleData(width, coeff) {
+	const maxScaleWidth = 200;
+	const minScaleWidth = 100;
+	if (width < minScaleWidth) {
+		return calculateScaleData(width*10, coeff*10);
+	} else if (width > maxScaleWidth){
+		return calculateScaleData(width/2, coeff/2);
+	} else {
+		return {width, label: coeff + " km"}
+	}
+}
+
 
 function resetElements(container, node) {
 	node.remove();
