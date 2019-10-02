@@ -41,3 +41,47 @@
 
 }
 
+
+.esponFuore-diagram-legend {
+    position: relative;
+    display: flex;
+    margin: m(1);
+}
+
+.esponFuore-diagram-legend .diagrams {
+    position: relative;
+    margin-left: 1.5rem;
+}
+
+.esponFuore-diagram-legend .diagram {
+    position: absolute;
+    border: 1px solid rgba(0,0,0,.6);
+    bottom: 0;
+    left: 50%
+}
+
+.esponFuore-diagram-legend .labels {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.esponFuore-diagram-legend .label {
+    line-height: 1;
+    flex: 1;
+    display: flex;
+}
+
+.esponFuore-diagram-legend .label:not(:first-child):not(:last-child) {
+    display: flex;
+    align-items: center;
+}
+
+.esponFuore-diagram-legend .label:first-child {
+    align-items: flex-start;
+}
+
+.esponFuore-diagram-legend .label:last-child {
+    align-items: flex-end;
+}
+

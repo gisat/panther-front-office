@@ -7,12 +7,14 @@ import { getIntervalTitle } from '../../../../../../utils/legend';
 import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
-import {getCartodiagramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram';
 import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
+import helpers from './helpers';
 
 const mapStateToProps = (state, ownProps) => {
+	let legendType = null;
+	let navigatorRange = Select.maps.getMapSetNavigatorRange_deprecated(state, ownProps.mapSetKey);
 	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, ownProps.mapSetKey);
 
 	const mapSetsLayers = {};
@@ -48,7 +50,8 @@ const mapStateToProps = (state, ownProps) => {
 		}
 	}
 
-	const choroplethLegend = [];
+	let choroplethLegendData = [];
+	let diagramLegendData = [];
 
 	for (const [layerTemplateKey, layerByLayerTemplateKey] of Object.entries(layersByLayerTemplateKey)) {
 		if(layerByLayerTemplateKey.type === 'vector') {
@@ -81,6 +84,7 @@ const mapStateToProps = (state, ownProps) => {
 
 			if(layerByLayerTemplateKey.attributeKey) {
 				layerByLayerTemplateKey.attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
+				legendType = layerByLayerTemplateKey.attribute && layerByLayerTemplateKey.attribute.data && layerByLayerTemplateKey.attribute.data.valueType;
 
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
@@ -102,7 +106,7 @@ const mapStateToProps = (state, ownProps) => {
 							image: getPolygonImageByAttribution(attribution)
 						};
 					});
-					choroplethLegend.push(choroplethLegendItem);
+					choroplethLegendData.push(choroplethLegendItem);
 
 					if (ownProps.showNoData) {
 						const noDataValue = null;
@@ -115,19 +119,20 @@ const mapStateToProps = (state, ownProps) => {
 						)
 					}
 
-				}else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
-					styleFunction = getCartodiagramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
+				} else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
+					let minValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.min;
+					let maxValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.max;
+					diagramLegendData = helpers.prepareDiagramLegendData(minValue, maxValue, navigatorRange, layerByLayerTemplateKey.attribute.data.color)
+
 				}
 			}
 		}
 	}
 
-	let activeAttribute = Select.attributes.getActive(state);
-	let legendType = activeAttribute && activeAttribute.data && activeAttribute.data.valueType;
-
 	return {
 		type: legendType,
-		choroplethLegend: choroplethLegend
+		choroplethLegendData,
+		diagramLegendData
 	}
 };
 

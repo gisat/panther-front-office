@@ -552,6 +552,21 @@ const getNavigator_deprecated = createSelector(
 	}
 );
 
+const getMapSetNavigatorRange_deprecated = createSelector(
+	[
+		getMapSetByKey
+	],
+	(set) => {
+		if (set) {
+			return set.data && set.data.worldWindNavigator && set.data.worldWindNavigator.range;
+		} else {
+			return null;
+		}
+	}
+);
+
+
+
 /**
  * Collect and prepare data for map component
  *
@@ -693,33 +708,35 @@ const getLayersStateByMapSetKey_deprecated = createSelector(
 		const mapsLayersState = {};
 		let setLayers = (mapSet && mapSet.data && mapSet.data.layers) || null;
 
-		maps.forEach((map) => {
-			let mapLayers = (map && map.data && map.data.layers) || null;
-			if (map && (mapLayers || setLayers)) {
-				let layers = [...(setLayers || []), ...(mapLayers || [])];
-				let modifiers = {};
-				if (mapSet) {
-					let a = mapSet.data.metadataModifiers;
-					modifiers = {...modifiers, ...mapSet.data.metadataModifiers};
+		if (maps) {
+			maps.forEach((map) => {
+				let mapLayers = (map && map.data && map.data.layers) || null;
+				if (map && (mapLayers || setLayers)) {
+					let layers = [...(setLayers || []), ...(mapLayers || [])];
+					let modifiers = {};
+					if (mapSet) {
+						let a = mapSet.data.metadataModifiers;
+						modifiers = {...modifiers, ...mapSet.data.metadataModifiers};
+					}
+					modifiers = {...modifiers, ...map.data.metadataModifiers};
+
+					//TODO
+					//specific for FUORE
+					const useMetadata = {
+						scope: true,
+						attribute: true,
+						period: true,
+					}
+
+					layers = layers.map(layer => {
+						return getFiltersForUse_deprecated({...modifiers, ...layer}, activeKeys, useMetadata);
+					});
+
+					mapsLayersState[map.key] = layers;
 				}
-				modifiers = {...modifiers, ...map.data.metadataModifiers};
 
-				//TODO
-				//specific for FUORE
-				const useMetadata = {
-					scope: true,
-					attribute: true,
-					period: true,
-				}
-
-				layers = layers.map(layer => {
-					return getFiltersForUse_deprecated({...modifiers, ...layer}, activeKeys, useMetadata);
-				});
-
-				mapsLayersState[map.key] = layers;
-			}
-
-		});
+			});
+		}
 
 		return mapsLayersState;
 	}
@@ -887,5 +904,6 @@ export default {
 	getLayersStateByMapKey_deprecated,
 	getLayersStateByMapSetKey_deprecated,
 	getMapByMetadata_deprecated,
+	getMapSetNavigatorRange_deprecated,
 	getNavigator_deprecated
 };
