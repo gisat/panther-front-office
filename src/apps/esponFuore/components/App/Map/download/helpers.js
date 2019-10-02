@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 import Store from "../../../../state/Store";
 import template from "./template";
-import MapLegend from "../../../../../../components/common/maps/MapLegend";
+import MapLegend from "../MapLegend";
 
 function downloadAsPng(wwd, canvasId) {
 	let container = document.getElementById("ptr-app");

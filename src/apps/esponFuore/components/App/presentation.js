@@ -11,7 +11,7 @@ import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
+import MapControlLegend from "./Map/MapControlLegend";
 import MapTools from "../../../../components/common/maps/MapTools";
 import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";

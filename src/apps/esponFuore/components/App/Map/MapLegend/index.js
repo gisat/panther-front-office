@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import Select from '../../../../../../state/Select';
+import Action from "../../../../../../state/Action";
 import React from "react";
-import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../utils/statistics';
-import { getIntervalTitle } from '../../../../utils/legend';
-import { getPolygonImageByAttribution } from '../Deprecated_WorldWindMap/legend/legend'
-import { DEFAULTFILLTRANSPARENCY } from '../Deprecated_WorldWindMap/styles/colors'
-import {getCartogramStyleFunction} from '../Deprecated_WorldWindMap/styles/cartogram';
-import {getCartodiagramStyleFunction} from '../Deprecated_WorldWindMap/styles/cartodiagram';
+import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../../../utils/statistics';
+import { getIntervalTitle } from '../../../../../../utils/legend';
+import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
+import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
+import {getCartodiagramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram';
 import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
