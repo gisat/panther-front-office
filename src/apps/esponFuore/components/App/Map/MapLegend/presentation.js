@@ -11,7 +11,7 @@ class MapLegend extends React.PureComponent {
             </div>
         )
     }
-    renderItem(item) {
+    renderChoroplethItem(item) {
         const images = item.items.map((i) => this.renderItemImage(i));
         return (<div className={'legend-item'} key={item.name}>
                    <div className={'legend-title'}>
@@ -28,18 +28,31 @@ class MapLegend extends React.PureComponent {
     }
 
     render () {
-        const legendItems = this.props.legendItems.map((v) => this.renderItem(v))
-        return (
+        let content = null;
+        const legendItems = this.props.choroplethLegend.map((v) => this.renderChoroplethItem(v));
+
+        if (this.props.type === "relative") {
+            content = (
                 <div className={'legend'}>
-                   {legendItems} 
+                    {legendItems}
                 </div>
-        )
+            );
+        } else if (this.props.type === "absolute") {
+            content = (
+                <div className={'legend'}>
+                    Kartodiagram
+                </div>
+            );
+        }
+
+        return content;
     }
 }
 
 
 MapLegend.defaultProps = {
     legendItems: [],
+    type: PropTypes.string
   };
   
 MapLegend.propTypes = {

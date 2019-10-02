@@ -17,11 +17,11 @@ const mapStateToProps = (state, ownProps) => {
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
-		if(value && value.length & value.length > 0) {
+		if(value && value.length && value.length > 0) {
 			const layersData = value.map((l) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
-			})
+			});
 			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
@@ -48,7 +48,7 @@ const mapStateToProps = (state, ownProps) => {
 		}
 	}
 
-	const legend = [];
+	const choroplethLegend = [];
 
 	for (const [layerTemplateKey, layerByLayerTemplateKey] of Object.entries(layersByLayerTemplateKey)) {
 		if(layerByLayerTemplateKey.type === 'vector') {
@@ -67,14 +67,14 @@ const mapStateToProps = (state, ownProps) => {
 
 					if(layerByLayerTemplateKey.attributeKey !== layer.attributeRelationsData.attributeKey) {
 						layerByLayerTemplateKey.attributeKey = layer.attributeRelationsData.attributeKey;
-					};
+					}
 				}
 			}
 
 			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
 			
 
-			const legendItem = {
+			const choroplethLegendItem = {
 				name: null,
 				items: []
 			};
@@ -87,12 +87,12 @@ const mapStateToProps = (state, ownProps) => {
 					styleFunction = getCartogramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 					const classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
 					const intervals = getClassesIntervals(classes);
-					
-					legendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
-					legendItem.description = layerByLayerTemplateKey.attribute.data.description;
+
+					choroplethLegendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
+					choroplethLegendItem.description = layerByLayerTemplateKey.attribute.data.description;
 
 					//avoid clear values
-					legendItem.items = intervals.map((interval, index) => {
+					choroplethLegendItem.items = intervals.map((interval, index) => {
 						const value = getMiddleClassValues(interval)[0];
 						const attribution = styleFunction({userProperties:{tmpAttribute: value}})
 						const first = index === 0;
@@ -102,12 +102,12 @@ const mapStateToProps = (state, ownProps) => {
 							image: getPolygonImageByAttribution(attribution)
 						};
 					});
-					legend.push(legendItem);
+					choroplethLegend.push(choroplethLegendItem);
 
 					if (ownProps.showNoData) {
 						const noDataValue = null;
 						const noDataAttribution = styleFunction({userProperties:{tmpAttribute: noDataValue}});
-						legendItem.items.push(
+						choroplethLegendItem.items.push(
 								{
 									title: 'No data',
 									image: getPolygonImageByAttribution(noDataAttribution)
@@ -121,8 +121,13 @@ const mapStateToProps = (state, ownProps) => {
 			}
 		}
 	}
+
+	let activeAttribute = Select.attributes.getActive(state);
+	let legendType = activeAttribute && activeAttribute.data && activeAttribute.data.valueType;
+
 	return {
-		legendItems: legend,
+		type: legendType,
+		choroplethLegend: choroplethLegend
 	}
 };
 

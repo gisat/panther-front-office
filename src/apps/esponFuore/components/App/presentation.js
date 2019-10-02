@@ -34,7 +34,7 @@ class EsponFuoreApp extends React.PureComponent {
 	render() {
 		const props = this.props;
 
-		const allowLegend = props.attribute && props.attribute.data.valueType === 'relative';
+		const allowLegend = props.attribute && props.attribute.data;
 
 		if (!props.activeScopeKey) {
 
@@ -76,7 +76,8 @@ class EsponFuoreApp extends React.PureComponent {
 																	setKey={this.context.windowSetKey}
 																	windowSetKey={this.context.windowSetKey}
 																	itemKey={"legend"}
-																	mapSetKey={this.context.mapSetKey} />
+																	mapSetKey={this.context.mapSetKey}
+																/>
 																<MapControls zoomOnly/>
 															</MapTools>
 														</>

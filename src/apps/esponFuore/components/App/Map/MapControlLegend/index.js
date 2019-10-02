@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					<MapLegend 
 						mapSetKey = {ownProps.mapSetKey}
 						showNoData = {true}
-						/>
+					/>
 				))
 			);
 		}
