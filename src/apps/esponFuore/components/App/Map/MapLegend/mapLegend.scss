@@ -50,38 +50,51 @@
 
 .esponFuore-diagram-legend .diagrams {
     position: relative;
-    margin-left: 1.5rem;
+    margin-left: 7px;
+}
+
+.esponFuore-diagram-legend .diagram-container {
+	position: absolute;
+	background: transparent;
+	border-top: 1px solid;
+	border-image: linear-gradient(90deg, rgba(0,0,0,.35) 60%, transparent 50%) 1;
+	bottom: 0;
+	width: 100%;
 }
 
 .esponFuore-diagram-legend .diagram {
     position: absolute;
     border: 1px solid rgba(0,0,0,.6);
     bottom: 0;
-    left: 50%
+    left: calc(60%)
 }
 
 .esponFuore-diagram-legend .labels {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+	width: 4rem;
 }
 
 .esponFuore-diagram-legend .label {
-    line-height: 1;
-    flex: 1;
+    line-height: 1.15;
     display: flex;
+	font-size: $b1;
+	position: absolute;
+	margin-bottom: -10px;
 }
 
-.esponFuore-diagram-legend .label:not(:first-child):not(:last-child) {
-    display: flex;
-    align-items: center;
-}
-
-.esponFuore-diagram-legend .label:first-child {
-    align-items: flex-start;
-}
-
-.esponFuore-diagram-legend .label:last-child {
-    align-items: flex-end;
-}
+//.esponFuore-diagram-legend .label:not(:first-child) {
+//    display: flex;
+//    align-items: flex-end;
+//}
+//
+//.esponFuore-diagram-legend .label:first-child {
+//    align-items: flex-start;
+//	flex: 1;
+//}
+//
+//.esponFuore-diagram-legend .label:last-child {
+//    align-items: flex-end;
+//}
 

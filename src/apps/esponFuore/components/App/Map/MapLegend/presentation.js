@@ -30,6 +30,10 @@ class MapLegend extends React.PureComponent {
     }
 
     renderDiagram(item) {
+    	let containerStyle = {
+			height: (2*item.radius)
+		};
+
         let style = {
             background: item.color,
             width: (2*item.radius),
@@ -39,17 +43,19 @@ class MapLegend extends React.PureComponent {
         };
 
         return (
-            <div className='diagram' style={style}>
-            </div>
+        	<div className='diagram-container' style={containerStyle}>
+				<div className='diagram' style={style}>
+				</div>
+			</div>
         );
     }
 
-    renderDiagramLabel(item) {
+    renderDiagramLabel(item, index) {
+    	let bottom = 2*item.radius;
+
         return (
-            <div className='label'>
-                <div>
-                    {item.value.toLocaleString()}
-                </div>
+            <div className='label' style={{bottom}}>
+				{item.value.toLocaleString()}
             </div>
         );
     }
@@ -66,14 +72,14 @@ class MapLegend extends React.PureComponent {
             );
         } else if (this.props.type === "absolute") {
             let items = _.filter(this.props.diagramLegendData, (item) => {
-                return item.radius < 100 && item.radius > 1.5;
+                return item.radius < 80 && item.radius > 5;
             });
             let size = items.length ? (2 * items[0].radius) : 0;
 
             content = (
                 <div className='legend esponFuore-diagram-legend'>
                     <div className='labels'>
-                        {items.map((item) => this.renderDiagramLabel(item))}
+                        {items.map((item, index) => this.renderDiagramLabel(item, (items.length - 1) - index))}
                     </div>
                     <div className='diagrams' style={{width: size, height: size}}>
                         {items.map((item) => this.renderDiagram(item))}

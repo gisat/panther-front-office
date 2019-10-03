@@ -44,7 +44,11 @@ function getNiceValues (min, max) {
 			center /= 2;
 		}
 
-		return [roundedMax, center, roundedMin];
+		if (digitsDiff === 2) {
+			return [roundedMax, center, roundedMin];
+		} else {
+			return [roundedMax, center, Math.pow(10, centerDigits - 1), roundedMin];
+		}
 	}
 }
 
