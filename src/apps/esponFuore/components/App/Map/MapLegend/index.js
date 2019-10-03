@@ -122,7 +122,7 @@ const mapStateToProps = (state, ownProps) => {
 				} else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
 					let minValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.min;
 					let maxValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.max;
-					diagramLegendData = helpers.prepareDiagramLegendData(minValue, maxValue, navigatorRange, layerByLayerTemplateKey.attribute.data.color)
+					diagramLegendData = helpers.prepareDiagramLegendData(minValue, maxValue, navigatorRange, layerByLayerTemplateKey.attribute.data.color, ownProps.mapComponentId)
 
 				}
 			}

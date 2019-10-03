@@ -54,7 +54,7 @@ class MapLegend extends React.PureComponent {
     	let bottom = 2*item.radius;
 
         return (
-            <div className='label' style={{bottom}}>
+            <div key={index} className='label' style={{bottom}}>
 				{item.value.toLocaleString()}
             </div>
         );

@@ -5,11 +5,11 @@ import {
 	MIN_DIAGRAM_RADIUS
 } from "../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram";
 
-function prepareDiagramLegendData(min, max, currentRange, color) {
+function prepareDiagramLegendData(min, max, currentRange, color, mapComponentId) {
 	let mapComponents = document.getElementsByClassName("ptr-world-wind-map");
-	if (mapComponents) {
+	if (mapComponents || mapComponentId) {
 		const diagramType = 'volume';
-		let mapComponent = document.getElementById(mapComponents[0].id);
+		let mapComponent = mapComponentId ? document.getElementById(mapComponentId) : document.getElementById(mapComponents[0].id);
 		let mapWidthPx = mapComponent.clientWidth;
 		let mapFunction = rangeMap([getRadius(min, diagramType), getRadius(max, diagramType)], [MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS]);
 
