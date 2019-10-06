@@ -1,5 +1,6 @@
 import React from "react";
 import Helmet from "react-helmet";
+import _ from 'lodash';
 
 import AppContext from '../../context';
 
@@ -19,6 +20,31 @@ import EsponFuoreChart from "./Charts/EsponFuoreChart";
 
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import SimpleLayersControl from "../../../../components/common/maps/SimpleLayersControl/presentation";
+
+const backgroundLayers = [
+	{
+		key: 'wikimedia',
+		type: 'wikimedia',
+		name: 'Wikimedia'
+	}, {
+		key: 'bingAerial',
+		type: 'bingAerial',
+		name: 'Aerial'
+	}, {
+		key: 'bingAerial',
+		type: 'bingAerial',
+		name: 'Aerial'
+	}, {
+		key: 'bingAerial',
+		type: 'bingAerial',
+		name: 'Aerial'
+	}, {
+		key: 'bingAerial',
+		type: 'bingAerial',
+		name: 'Aerial'
+	}
+];
 
 class EsponFuoreApp extends React.PureComponent {
 	static contextType = AppContext;
@@ -27,7 +53,17 @@ class EsponFuoreApp extends React.PureComponent {
 		super();
 		this.state = {
 			chartsHeight: 300,
-			chartsWidth: 500
+			chartsWidth: 500,
+			backgroundLayers: [backgroundLayers[0]]
+		};
+
+		this.onBackgroundLayerChange = this.onBackgroundLayerChange.bind(this);
+	}
+
+	onBackgroundLayerChange(key) {
+		let selectedLayers = _.filter(backgroundLayers, {key});
+		if (selectedLayers) {
+			this.setState({backgroundLayers: selectedLayers});
 		}
 	}
 
@@ -66,11 +102,18 @@ class EsponFuoreApp extends React.PureComponent {
 																width={width}
 																height={height}
 															>
-																<FuoreMap>
+																<FuoreMap
+																	backgroundLayer={this.state.backgroundLayers}
+																>
 																	<FuoreMapPresentation />
 																</FuoreMap>
 															</MapSet>
 															<MapTools>
+																<SimpleLayersControl
+																	layers={backgroundLayers}
+																	activeLayer={this.state.backgroundLayers[0]}
+																	onSelect={this.onBackgroundLayerChange}
+																/>
 																<MapControlLegend
 																	disabled = {!allowLegend}
 																	setKey={this.context.windowSetKey}

@@ -1,0 +1,112 @@
+@import '../../../../styles/variables';
+
+.ptr-simple-layers-control {
+	position: relative;
+}
+
+.ptr-simple-layers-control .hold-button {
+	border-radius: .3rem;
+}
+
+.ptr-simple-layers-control-menu {
+	position: absolute;
+	bottom: 0;
+	border-radius: 0;
+	width: 0;
+	height: 30px;
+	background: rgba(var(--base100rgb),.75);
+	transition: width .3s ease-in-out .3s, height .3s ease-in-out, border-radius 0s;
+}
+
+.ptr-simple-layers-control-menu-content {
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.ptr-simple-layers-control-menu.open {
+	border-radius: .25rem;
+	transition: width .3s ease-in-out, height .3s ease-in-out .3s, border-radius 0s ease-in-out .6s;
+}
+
+.ptr-simple-layers-control-menu:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	border-bottom-color: transparent;
+	border-bottom-style: solid;
+	border-bottom-width: 0;
+	border-top-color: transparent;
+	border-top-style: solid;
+	border-top-width: 0;
+}
+
+.ptr-simple-layers-control-menu.open:after {
+	border-bottom-width: 15px;
+	border-top-width: 15px;
+}
+
+/* Menu on left */
+.ptr-simple-layers-control-menu.left {
+	right: calc(100% + 1.5rem);
+	border-bottom-right-radius: 0;
+}
+
+.ptr-simple-layers-control-menu.left:after {
+	border-left-color: rgba(var(--base100rgb),.75);
+	border-left-style: solid;
+	border-left-width: 0;
+	right: -15px;
+	transition: border-bottom-width 0s ease-in-out .6s, border-top-width 0s ease-in-out .6s, border-left-width 0s ease-in-out .6s;
+}
+
+.ptr-simple-layers-control-menu.left.open:after {
+	border-left-width: 15px;
+	transition: border-bottom-width 0s, border-top-width 0s, border-left-width 0s;
+}
+
+/* Menu on right */
+.ptr-simple-layers-control-menu.right {
+	left: calc(100% + 1.5rem);
+	border-bottom-left-radius: 0;
+}
+
+.ptr-simple-layers-control-menu.right:after {
+	border-right-color: rgba(var(--base100rgb),.75);
+	border-right-style: solid;
+	border-right-width: 0;
+	left: -15px;
+	transition: border-bottom-width 0s ease-in-out .6s, border-top-width 0s ease-in-out .6s, border-right-width 0s ease-in-out .6s;
+}
+
+.ptr-simple-layers-control-menu.right.open:after {
+	border-right-width: 15px;
+	transition: border-bottom-width 0s, border-top-width 0s, border-right-width 0s;
+}
+
+/* Layer tile */
+.ptr-simple-layers-control-tile {
+	background: silver;
+	border: 2px solid transparent;
+	border-radius: .15rem;
+	display: flex;
+	align-items: flex-end;
+}
+
+.ptr-simple-layers-control-tile.active {
+	border: 2px solid var(--accent50);
+}
+
+.ptr-simple-layers-control-tile-name {
+	color: var(--base90);
+	background: var(--base0);
+	font-size: $b1;
+	width: 100%;
+	text-align: center;
+	padding: .15rem 0;
+}
+
+.ptr-simple-layers-control-tile.active .ptr-simple-layers-control-tile-name {
+	color: var(--base10);
+	background: var(--accent50);
+}
