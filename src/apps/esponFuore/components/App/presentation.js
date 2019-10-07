@@ -24,10 +24,20 @@ import SimpleLayersControl from "../../../../components/common/maps/SimpleLayers
 
 const backgroundLayers = [
 	{
+		key: 'cartoDbVoyagerNoLabels',
+		type: 'wmts-new',
+		name: 'Light',
+		attribution: <>Background map data © <a target="_blank" href="https://www.openstreetmap.org/copyright">CARTO</a> © <a target="_blank" href="https://carto.com/attribution/">OpenStreetMap contributors</a></>,
+		options: {
+			url: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager_nolabels/{z}/{x}/{y}.png"
+		},
+		thumbnail: 'cartoDbVoyagerNoLabels'
+	}, {
 		key: 'wikimedia',
 		type: 'wikimedia',
 		name: 'Wikimedia',
-		thumbnail: 'wikimedia' // TODO get this information from layer template?
+		thumbnail: 'wikimedia', // TODO get this information from layer template?
+		attribution: <>Background map data © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></>
 	}, {
 		key: 'bingAerial',
 		type: 'bingAerial',
@@ -113,6 +123,7 @@ class EsponFuoreApp extends React.PureComponent {
 																/>
 																<MapControls zoomOnly/>
 															</MapTools>
+															<div className="esponFuore-map-attribution">{this.state.backgroundLayers[0].attribution}</div>
 														</>
 														)
 													}}

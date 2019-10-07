@@ -198,6 +198,15 @@ $headerHeight: m(2);
 	padding: 0 .1rem;
 }
 
+.esponFuore-map-attribution {
+	position: absolute;
+	bottom: 2.25rem;
+	left: 0;
+	padding: .5rem;
+	font-size: $a0;
+	color: var(--base70);
+}
+
 @media screen and (max-width: 75rem)  {
 	.esponFuore-header-region-select {
 		flex: 0 0 12rem;

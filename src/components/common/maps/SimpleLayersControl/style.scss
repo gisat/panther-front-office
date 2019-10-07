@@ -88,8 +88,7 @@
 .ptr-simple-layers-control-tile {
 	background-image: linear-gradient(0deg, rgba(178,178,178,1) 0%, rgba(233,233,233,1) 100%);
 	background-size: cover;
-	border: 2px solid var(--base30);
-	border-bottom: 0;
+	border: 1px solid var(--base10);
 	border-radius: .15rem;
 	display: flex;
 	align-items: flex-end;
@@ -103,14 +102,20 @@
 
 .ptr-simple-layers-control-tile-name {
 	color: var(--base90);
-	background: var(--base30);
+	background: var(--base10);
+	border-top: 1px solid var(--base25);
 	font-size: $b1;
 	width: 100%;
 	text-align: center;
 	padding: .15rem 0;
 }
 
+.ptr-simple-layers-control-tile:hover .ptr-simple-layers-control-tile-name {
+	background: var(--accent20);
+}
+
 .ptr-simple-layers-control-tile.active .ptr-simple-layers-control-tile-name {
 	color: var(--base0);
 	background: var(--accent50);
+	border-top: 1px solid var(--accent50);
 }
