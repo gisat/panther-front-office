@@ -86,20 +86,24 @@
 
 /* Layer tile */
 .ptr-simple-layers-control-tile {
-	background: silver;
-	border: 2px solid transparent;
+	background-image: linear-gradient(0deg, rgba(178,178,178,1) 0%, rgba(233,233,233,1) 100%);
+	background-size: cover;
+	border: 2px solid var(--base30);
+	border-bottom: 0;
 	border-radius: .15rem;
 	display: flex;
 	align-items: flex-end;
+	cursor: pointer;
 }
 
 .ptr-simple-layers-control-tile.active {
 	border: 2px solid var(--accent50);
+	border-bottom: 0;
 }
 
 .ptr-simple-layers-control-tile-name {
 	color: var(--base90);
-	background: var(--base0);
+	background: var(--base30);
 	font-size: $b1;
 	width: 100%;
 	text-align: center;
@@ -107,6 +111,6 @@
 }
 
 .ptr-simple-layers-control-tile.active .ptr-simple-layers-control-tile-name {
-	color: var(--base10);
+	color: var(--base0);
 	background: var(--accent50);
 }

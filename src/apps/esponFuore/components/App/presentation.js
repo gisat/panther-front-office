@@ -26,23 +26,13 @@ const backgroundLayers = [
 	{
 		key: 'wikimedia',
 		type: 'wikimedia',
-		name: 'Wikimedia'
+		name: 'Wikimedia',
+		thumbnail: 'wikimedia' // TODO get this information from layer template?
 	}, {
 		key: 'bingAerial',
 		type: 'bingAerial',
-		name: 'Aerial'
-	}, {
-		key: 'bingAerial',
-		type: 'bingAerial',
-		name: 'Aerial'
-	}, {
-		key: 'bingAerial',
-		type: 'bingAerial',
-		name: 'Aerial'
-	}, {
-		key: 'bingAerial',
-		type: 'bingAerial',
-		name: 'Aerial'
+		name: 'Aerial',
+		thumbnail: 'bingAerial'
 	}
 ];
 

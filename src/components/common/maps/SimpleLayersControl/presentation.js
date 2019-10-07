@@ -90,16 +90,10 @@ class SimpleLayersControl extends React.PureComponent {
 				height: `calc(100% - ${2*contentMargin}rem)`
 			};
 
-			let tileStyle = {
-				width: `${tileWidth}rem`,
-				height: `${tileHeight}rem`,
-				margin: `${tileMargin}rem`
-			};
-
 			return (
 				<div className={menuClasses} style={menuStyle}>
 					<div className="ptr-simple-layers-control-menu-content" style={contentStyle}>
-						{layers.map(layer => this.renderTile(layer, tileStyle))}
+						{layers.map(layer => this.renderTile(layer, tileWidth, tileHeight, tileMargin))}
 					</div>
 				</div>
 			);
@@ -108,12 +102,23 @@ class SimpleLayersControl extends React.PureComponent {
 		}
 	}
 
-	renderTile(layer, style) {
+	renderTile(layer, width, height, margin) {
 		let active = layer.key === this.props.activeLayer.key;
 
 		let classes = classnames("ptr-simple-layers-control-tile", {
 			active,
 		});
+
+		let style = {
+			width: `${width}rem`,
+			height: `${height}rem`,
+			margin: `${margin}rem`
+		};
+
+		if (layer.thumbnail) {
+			// TODO check type of thumbnail
+			style.backgroundImage = `url(${require('./img/' + layer.thumbnail + '.png')})`;
+		}
 
 		return (
 			<div style={style} className={classes} onClick={this.onLayerTileClick.bind(this, layer.key)}>
