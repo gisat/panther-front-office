@@ -22,6 +22,7 @@ class SimpleLayersControl extends React.PureComponent {
 		};
 
 		this.onControlButtonClick = this.onControlButtonClick.bind(this);
+		this.closingTimeout = null;
 	}
 
 	onControlButtonClick() {
@@ -37,12 +38,16 @@ class SimpleLayersControl extends React.PureComponent {
 			this.props.onSelect(key);
 		}
 
+		if (this.closingTimeout) {
+			clearTimeout(this.closingTimeout);
+		}
+
 		let self = this;
-		setTimeout(() => {
+		this.closingTimeout = setTimeout(() => {
 			self.setState({
 				open: false
 			})
-		}, 500)
+		}, 2000)
 	}
 
 	render() {
@@ -81,7 +86,7 @@ class SimpleLayersControl extends React.PureComponent {
 
 			let menuStyle = {
 				width: this.state.open ? `${(tileWidth+2*tileMargin)*grid.width + 2*contentMargin}rem` : 0,
-				height: this.state.open ? `${(tileHeight+2*tileMargin)*grid.height + 2*contentMargin}rem` : '30px'
+				height: this.state.open ? `${(tileHeight+2*tileMargin)*grid.height + 2*contentMargin}rem` : '2rem'
 			};
 
 			let contentStyle = {
