@@ -22,6 +22,8 @@ import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import SimpleLayersControl from "../../../../components/common/maps/SimpleLayersControl/presentation";
 
+import bing from "../../assets/img/powered-by-bing.png";
+
 const backgroundLayers = [
 	{
 		key: 'cartoDbVoyagerNoLabels',
@@ -42,7 +44,8 @@ const backgroundLayers = [
 		key: 'bingAerial',
 		type: 'bingAerial',
 		name: 'Aerial',
-		thumbnail: 'bingAerial'
+		thumbnail: 'bingAerial',
+		attribution: <a target="_blank" href="https://www.bing.com/maps"><img alt="bing" src={bing}/></a>
 	}
 ];
 
