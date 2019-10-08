@@ -44,6 +44,18 @@ function select(key) {
 	}
 }
 
+function useIndexedIndicatorsWithAttributes(filterByActive, filter, order, start, length, componentId) {
+	return (dispatch, getState) => {
+		dispatch(useIndexed(filterByActive, filter, order, start, length, componentId)).then(() => {
+			let indicators = Select.specific.esponFuoreIndicators.getIndexed(getState(), filterByActive, filter, order, start, length);
+			if (indicators) {
+				let attributeKeys = indicators.map(indicator => indicator.data.attributeKey);
+				dispatch(attributeActions.useKeys(attributeKeys, componentId));
+			}
+		});
+	}
+}
+
 // ============ actions ===========
 
 // ============ export ===========
@@ -58,6 +70,7 @@ export default {
 	useKeysClear,
 	refreshUses,
 	useIndexed,
+	useIndexedIndicatorsWithAttributes,
 	useIndexedClear,
 	select
 }

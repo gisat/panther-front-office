@@ -1,3 +1,4 @@
+import React from "react";
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -5,7 +6,7 @@ import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 import utils from '../../../../../../../utils/utils';
 import {PantherSelectItem} from "../../../../../../../components/common/atoms/PantherSelect";
-import React from "react";
+import IndicatorCard from "./IndicatorCard";
 
 let categoryKey = null;
 let filter = null;
@@ -21,6 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 100),
+		attributes: Select.attributes.getAttributes(state)
 	}
 };
 
@@ -30,10 +32,11 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
-				dispatch(Action.specific.esponFuoreIndicators.useIndexed({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
+				dispatch(Action.specific.esponFuoreIndicators.useIndexedIndicatorsWithAttributes({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
+				dispatch(Action.attributes.useKeysClear(componentId));
 			}
 		}
 	}
@@ -56,34 +59,38 @@ class IndicatorList extends React.PureComponent {
 	}
 
 	render() {
-		return this.props.indicators && this.props.indicators.map((indicator, index) => {
-			let className = '';
+		const props = this.props;
 
-			if(!indicator) {
-				return null;
-			}
+		if (props.indicators) {
+			return props.indicators.map((indicator, index) => {
+				if (indicator) {
+					let className = '';
+					if (indicator.key === this.props.activeIndicator) {
+						className = 'selected';
+					}
 
-			if (indicator.key === this.props.activeIndicator) {
-				className = 'selected';
-			}
+					let attribute = _.find(props.attributes, {key: indicator.data.attributeKey});
 
-			// TODO generate previews
-			if (index > 4) index = 1;
-			let thumbnailSource = `url(${require('../../../../../assets/img/thumbnail_' + index + '.jpg')})`;
-
-			return (
-				<PantherSelectItem
-					key={indicator.key}
-					itemKey={indicator.key}
-					className={className}
-					style={{backgroundImage: thumbnailSource}}
-				>
-					<span>{indicator.data.nameDisplay}</span>
-				</PantherSelectItem>
-			);
-		}) || null;
+					return (
+						<PantherSelectItem
+							key={indicator.key}
+							itemKey={indicator.key}
+							className={className}
+						>
+							<IndicatorCard
+								indicator={indicator}
+								attribute={attribute}
+							/>
+						</PantherSelectItem>
+					);
+				} else {
+					return null;
+				}
+			});
+		} else {
+			return null;
+		}
 	}
-
 }
 
 export default connect(mapStateToProps, mapDispatchToPropsFactory)(IndicatorList);
