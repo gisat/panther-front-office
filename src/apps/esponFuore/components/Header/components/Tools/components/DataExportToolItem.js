@@ -6,6 +6,7 @@ import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 
 import presentation from "./ToolItem";
+import DataExport from "../../../../App/DataExport";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -25,14 +26,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				{
 					title: ownProps.name,
 					icon: ownProps.icon,
-					width: 400,
-					maxWidth: 600,
-					minWidth: 300,
+					width: 300,
+					maxWidth: 400,
+					minWidth: 200,
 					minHeight: 200,
-					height: 400
+					height: 300
 				},
 				(
-					<div>Data exports</div>
+					<DataExport/>
 				))
 			);
 		}
