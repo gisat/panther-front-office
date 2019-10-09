@@ -80,6 +80,7 @@ class IndicatorList extends React.PureComponent {
 							<IndicatorCard
 								indicator={indicator}
 								attribute={attribute}
+								index={index}
 							/>
 						</PantherSelectItem>
 					);
