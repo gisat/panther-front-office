@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
+import React from 'react';
 import _ from 'lodash';
 
 import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 
 import presentation from "./ToolItem";
-import LayersTree from "../../../../../../../components/common/maps/LayersTree";
-import LayersTool from './LayersTool/presentation';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -24,12 +23,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				ownProps.windowSetKey,
 				ownProps.itemKey,
 				{
-					title: "Layers",
-					icon: "layers"
+					title: ownProps.name,
+					icon: ownProps.icon,
+					width: 400,
+					maxWidth: 600,
+					minWidth: 300,
+					minHeight: 200,
+					height: 400
 				},
-				LayersTool,
-				null
-				)
+				(
+					<div>Data exports</div>
+				))
 			);
 		}
 	}
