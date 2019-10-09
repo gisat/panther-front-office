@@ -126,7 +126,7 @@ class SimpleLayersControl extends React.PureComponent {
 		}
 
 		return (
-			<div style={style} className={classes} onClick={this.onLayerTileClick.bind(this, layer.key)}>
+			<div key={layer.key} style={style} className={classes} onClick={this.onLayerTileClick.bind(this, layer.key)}>
 				<div className="ptr-simple-layers-control-tile-name">{layer.name}</div>
 			</div>
 		);
