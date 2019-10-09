@@ -25,7 +25,7 @@ class Tools extends React.PureComponent {
 				<DataExportToolItem
 					itemKey="export"
 					name="Data export"
-					icon="export"
+					icon="file-export"
 					windowSetKey={this.context.windowSetKey}
 				/>
 			</div>
