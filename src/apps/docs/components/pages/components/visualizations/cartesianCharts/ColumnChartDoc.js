@@ -368,7 +368,7 @@ class ColumnChartDoc extends React.PureComponent {
 					'\t\tdiverging\n' +
 					'\t\txGridlines\n' +
 					'\t\tyOptions={{\n' +
-					'\t\t\tdiversionValue: 0\n' +
+					'\t\t\tdiversionValue: 3\n' +
 					'\t\t}}\n' +
 					'\t/>\n' +
 					'</HoverHandler>'}

@@ -137,7 +137,7 @@ class EsponFuoreChart extends React.PureComponent {
 				xSourcePath="data.name"
 				ySourcePath="data.values[0].value"
 				sorting={[["data.values[0].value", "desc"]]}
-				// xGridlines
+				xGridlines
 				yGridlines
 				yValues
 				xValues
@@ -150,6 +150,7 @@ class EsponFuoreChart extends React.PureComponent {
 				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
 				barGapRatio={0.25}
 				minBarWidth={5}
+				diverging
 			/>
 		}
 	}
