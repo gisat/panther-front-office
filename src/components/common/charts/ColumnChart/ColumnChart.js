@@ -203,12 +203,14 @@ class ColumnChart extends React.PureComponent {
 		min = _.min(yValues);
 
 		/* The min should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the min by 5 % of the values range to ensure some height for the smallest bar. */
-		if (!props.diverging) {
-			if (min >= 0) {
-				min = 0;
-			} else {
-				min = min - Math.abs(max - min)*0.05;
-			}
+		if (min >= 0) {
+			min = 0;
+		} else {
+			min = min - Math.abs(max - min)*0.05;
+		}
+
+		if (this.props.diverging && max < 0) {
+			max = 0;
 		}
 
 		if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
@@ -347,7 +349,7 @@ class ColumnChart extends React.PureComponent {
 
 	renderAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return (
-			!this.props.diverging && !this.props.stacked ? (
+			this.props.diverging !== "double" && !this.props.stacked ? (
 			<>
 				{this.renderPath(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
 				{this.renderBarsFromAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
