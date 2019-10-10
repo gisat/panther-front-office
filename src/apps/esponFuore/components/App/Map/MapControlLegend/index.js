@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import Select from '../../../../../../state/Select';
+import Action from "../../../../../../state/Action";
 import React from "react";
 
 import presentation from './presentation';
@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					<MapLegend 
 						mapSetKey = {ownProps.mapSetKey}
 						showNoData = {true}
-						/>
+					/>
 				))
 			);
 		}

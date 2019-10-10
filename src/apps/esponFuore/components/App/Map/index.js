@@ -238,7 +238,6 @@ const mapStateToProps = (state, props) => {
 			// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
 			layersTreeLoaded: !!layerTree,
 			activeFilter,
-			backgroundLayer: [{type:'wikimedia'}],
 			layers,
 			layersVectorData,
 			layersAttributeData,

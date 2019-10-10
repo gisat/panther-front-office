@@ -18,6 +18,10 @@ import Download from './components/Download';
 import Edit from './components/Edit';
 import Expand from './components/Expand';
 import ExpandRow from './components/ExpandRow';
+import FileCsv from './components/FileCsv';
+import FileExport from './components/FileExport';
+import FileJson from './components/FileJson';
+import FileXls from './components/FileXls';
 import Filter from './components/Filter';
 import Info from "./components/Info";
 import Opacity from './components/Opacity';
@@ -34,6 +38,7 @@ import Restore from './components/Restore';
 import RotateLeft from "./components/RotateLeft";
 import RotateRight from "./components/RotateRight";
 import Search from './components/Search';
+import Shapefile from "./components/Shapefile";
 import Share from "./components/Share";
 import getSortDown from './components/sort-down-solid';
 import getSortUp from './components/sort-up-solid';
@@ -89,6 +94,18 @@ const icon = key => {
 			return <ExpandRow />;
 		case 'filter':
 			return <Filter />;
+		case 'file-export':
+			return <FileExport />;
+		case 'file-csv':
+		case 'csv':
+			return <FileCsv />;
+		case 'file-json':
+		case 'json':
+			return <FileJson />;
+		case 'file-xls':
+		case 'xls':
+		case 'excel':
+			return <FileXls />;
 		case 'info':
 			return <Info />;
 		case 'layers':
@@ -119,6 +136,8 @@ const icon = key => {
 			return <RotateRight />;
 		case 'search':
 			return <Search />; //todo
+		case 'shapefile':
+			return <Shapefile />;
 		case 'share':
 			return <Share />;
 		case 'tilt-less':

@@ -1,0 +1,30 @@
+@import '../../../../../styles/variables';
+
+.esponFuore-export {
+	padding: m(1);
+}
+
+.esponFuore-export-settings {
+	margin-bottom: m(1);
+}
+
+/* Checkbox */
+.esponFuore-export-rule label {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.esponFuore-export-rule label input {
+	margin-right: .35rem;
+}
+
+.esponFuore-export-rule.disabled label {
+	color: var(--base30);
+	cursor: auto;
+}
+
+.esponFuore-export-buttons {
+	padding-right: 1rem;
+	max-width: 15rem;
+}

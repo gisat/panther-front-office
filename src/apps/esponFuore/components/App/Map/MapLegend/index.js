@@ -1,27 +1,29 @@
 import { connect } from 'react-redux';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import Select from '../../../../../../state/Select';
+import Action from "../../../../../../state/Action";
 import React from "react";
-import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../utils/statistics';
-import { getIntervalTitle } from '../../../../utils/legend';
-import { getPolygonImageByAttribution } from '../Deprecated_WorldWindMap/legend/legend'
-import { DEFAULTFILLTRANSPARENCY } from '../Deprecated_WorldWindMap/styles/colors'
-import {getCartogramStyleFunction} from '../Deprecated_WorldWindMap/styles/cartogram';
-import {getCartodiagramStyleFunction} from '../Deprecated_WorldWindMap/styles/cartodiagram';
+import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../../../utils/statistics';
+import { getIntervalTitle } from '../../../../../../utils/legend';
+import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
+import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
 import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
+import helpers from './helpers';
 
 const mapStateToProps = (state, ownProps) => {
+	let legendType = null;
+	let navigatorRange = Select.maps.getMapSetNavigatorRange_deprecated(state, ownProps.mapSetKey);
 	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, ownProps.mapSetKey);
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
-		if(value && value.length & value.length > 0) {
+		if(value && value.length && value.length > 0) {
 			const layersData = value.map((l) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
-			})
+			});
 			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
@@ -48,7 +50,8 @@ const mapStateToProps = (state, ownProps) => {
 		}
 	}
 
-	const legend = [];
+	let choroplethLegendData = [];
+	let diagramLegendData = [];
 
 	for (const [layerTemplateKey, layerByLayerTemplateKey] of Object.entries(layersByLayerTemplateKey)) {
 		if(layerByLayerTemplateKey.type === 'vector') {
@@ -67,32 +70,33 @@ const mapStateToProps = (state, ownProps) => {
 
 					if(layerByLayerTemplateKey.attributeKey !== layer.attributeRelationsData.attributeKey) {
 						layerByLayerTemplateKey.attributeKey = layer.attributeRelationsData.attributeKey;
-					};
+					}
 				}
 			}
 
 			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
 			
 
-			const legendItem = {
+			const choroplethLegendItem = {
 				name: null,
 				items: []
 			};
 
 			if(layerByLayerTemplateKey.attributeKey) {
 				layerByLayerTemplateKey.attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
+				legendType = layerByLayerTemplateKey.attribute && layerByLayerTemplateKey.attribute.data && layerByLayerTemplateKey.attribute.data.valueType;
 
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
 					styleFunction = getCartogramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 					const classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
 					const intervals = getClassesIntervals(classes);
-					
-					legendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
-					legendItem.description = layerByLayerTemplateKey.attribute.data.description;
+
+					choroplethLegendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
+					choroplethLegendItem.description = layerByLayerTemplateKey.attribute.data.description;
 
 					//avoid clear values
-					legendItem.items = intervals.map((interval, index) => {
+					choroplethLegendItem.items = intervals.map((interval, index) => {
 						const value = getMiddleClassValues(interval)[0];
 						const attribution = styleFunction({userProperties:{tmpAttribute: value}})
 						const first = index === 0;
@@ -102,12 +106,12 @@ const mapStateToProps = (state, ownProps) => {
 							image: getPolygonImageByAttribution(attribution)
 						};
 					});
-					legend.push(legendItem);
+					choroplethLegendData.push(choroplethLegendItem);
 
 					if (ownProps.showNoData) {
 						const noDataValue = null;
 						const noDataAttribution = styleFunction({userProperties:{tmpAttribute: noDataValue}});
-						legendItem.items.push(
+						choroplethLegendItem.items.push(
 								{
 									title: 'No data',
 									image: getPolygonImageByAttribution(noDataAttribution)
@@ -115,14 +119,20 @@ const mapStateToProps = (state, ownProps) => {
 						)
 					}
 
-				}else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
-					styleFunction = getCartodiagramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
+				} else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
+					let minValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.min;
+					let maxValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.max;
+					diagramLegendData = helpers.prepareDiagramLegendData(minValue, maxValue, navigatorRange, layerByLayerTemplateKey.attribute.data.color, ownProps.mapComponentId)
+
 				}
 			}
 		}
 	}
+
 	return {
-		legendItems: legend,
+		type: legendType,
+		choroplethLegendData,
+		diagramLegendData
 	}
 };
 

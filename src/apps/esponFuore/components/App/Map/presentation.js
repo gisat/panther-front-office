@@ -195,7 +195,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//Add section
 		if (newBackgroundLayer || changedBackgroundLayer) {
 			nextLayerData.forEach(layer => {
-				changedLayers = layersHelper.addLayer(changedLayers, layer, 0);
+				changedLayers = layersHelper.addLayer([], layer, 0);
 			});
 		} else if (noBackgroundLayer || removeBackgroundLayer){
 			//if no layers, than add colored layer

@@ -37,6 +37,7 @@
 
 #esponFuore-map-download .map {
 	max-width: 100%;
+	max-height: 200mm;
 	overflow: hidden;
 }
 
@@ -48,6 +49,7 @@
 /* Legend */
 #esponFuore-map-legend {
 	flex: 1;
+	margin-top: .5rem;
 }
 
 #esponFuore-map-legend .legend {
@@ -72,6 +74,10 @@
 #esponFuore-map-legend .title {
 	font-size: 10pt;
 	width: 100%;
+}
+
+#esponFuore-map-legend .diagram-container {
+	border: 0;
 }
 
 /* Scale */

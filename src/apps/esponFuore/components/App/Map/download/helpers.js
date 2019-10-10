@@ -6,30 +6,30 @@ import { Provider } from 'react-redux';
 
 import Store from "../../../../state/Store";
 import template from "./template";
-import MapLegend from "../../../../../../components/common/maps/MapLegend";
+import MapLegend from "../MapLegend";
 
 function downloadAsPng(wwd, canvasId) {
 	let container = document.getElementById("ptr-app");
 	let node = document.createElement("div");
+	const legendComponentId = 'esponFuore-map-legend';
 
-	prepareDocument(this.props, wwd, canvasId, container, node).then(() => {
+	prepareDocument(this.props, wwd, canvasId, container, node, legendComponentId).then(() => {
 		domToImage.toPng(node).then((dataUrl) => {
 			download(dataUrl, `map_${this.props.label}.png`);
-			resetElements(container, node);
+			resetElements(container, node, legendComponentId);
 		});
 	}).catch(err => {
-		resetElements(container, node);
+		resetElements(container, node, legendComponentId);
 		alert("Export failed!")
 	});
 }
 
 
-function prepareDocument(props, wwd, canvasId, container, node) {
+function prepareDocument(props, wwd, canvasId, container, node, legendComponentId) {
 	return getMapCanvasData(wwd, canvasId).then(mapCanvasData => {
 		container.style.overflow = "hidden";
 		node.id = "esponFuore-map-download";
 		const mapComponentId = 'esponFuore-map-snapshot';
-		const legendComponentId = 'esponFuore-map-legend';
 		const scaleLineId = 'esponFuore-map-scale-line';
 		const scaleLabelId = 'esponFuore-map-scale-label';
 
@@ -46,10 +46,9 @@ function prepareDocument(props, wwd, canvasId, container, node) {
 			scaleLineId
 		});
 
-		addLegend(props, legendComponentId);
-		return updateScale(props, mapComponentId, scaleLabelId, scaleLineId, node);
+		return updateScaleAndAddLegend(props, mapComponentId, legendComponentId, scaleLabelId, scaleLineId, node);
 	}).catch(err => {
-		resetElements(container, node);
+		resetElements(container, node, legendComponentId);
 		alert("Export failed!")
 	});
 }
@@ -70,17 +69,11 @@ function getMapCanvasData(wwd, canvasId) {
 	});
 }
 
-function addLegend(props, componentId) {
-	ReactDom.render(
-		<Provider store={Store}>
-			<MapLegend mapSetKey={props.activeMapSetKey} showNoData={true}/>
-		</Provider>, document.getElementById(componentId)
-	);
-}
-
-function updateScale(props, mapComponentId, labelComponentId, lineComponentId, node) {
+function updateScaleAndAddLegend(props, mapComponentId, legendComponentId, labelComponentId, lineComponentId, node) {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
+
+			// handle scale
 			let mapComponent = document.getElementById(mapComponentId);
 			let label = document.getElementById(labelComponentId);
 			let line = document.getElementById(lineComponentId);
@@ -90,6 +83,14 @@ function updateScale(props, mapComponentId, labelComponentId, lineComponentId, n
 
 			label.innerText = scaleData.label;
 			line.style.width = scaleData.width + "px";
+
+			// handle legend
+			ReactDom.render(
+				<Provider store={Store}>
+					<MapLegend mapSetKey={props.activeMapSetKey} showNoData={true} mapComponentId={mapComponentId}/>
+				</Provider>, document.getElementById(legendComponentId)
+			);
+
 			resolve(node);
 		}, 50);
 	});
@@ -108,9 +109,12 @@ function calculateScaleData(width, coeff) {
 }
 
 
-function resetElements(container, node) {
-	node.remove();
-	container.style.overflow = "auto";
+function resetElements(container, node, legendComponentId) {
+	ReactDom.unmountComponentAtNode(document.getElementById(legendComponentId));
+	setTimeout(() => {
+		node.remove();
+		container.style.overflow = "auto";
+	}, 50);
 }
 
 export default {

@@ -1,8 +1,8 @@
 import React from "react";
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import Icon from '../../atoms/Icon'
-import HoldButton from '../../../presentation/atoms/HoldButton/'
+import Icon from '../../../../../../components/common/atoms/Icon'
+import HoldButton from '../../../../../../components/presentation/atoms/HoldButton'
 import './mapLegend.scss';
 class MapLegend extends React.PureComponent {
 
