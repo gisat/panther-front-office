@@ -19,6 +19,11 @@
 	margin-right: .35rem;
 }
 
+.esponFuore-export-rule.disabled label {
+	color: var(--base30);
+	cursor: auto;
+}
+
 .esponFuore-export-buttons {
 	padding-right: 1rem;
 	max-width: 15rem;

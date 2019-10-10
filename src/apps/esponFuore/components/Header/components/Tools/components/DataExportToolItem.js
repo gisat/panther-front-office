@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					maxWidth: 400,
 					minWidth: 200,
 					minHeight: 200,
-					height: 300
+					height: 320
 				},
 				(
 					<DataExport/>
