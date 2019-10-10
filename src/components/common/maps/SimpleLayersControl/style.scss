@@ -96,7 +96,7 @@
 .ptr-simple-layers-control-tile {
 	background-image: linear-gradient(0deg, rgba(178,178,178,1) 0%, rgba(233,233,233,1) 100%);
 	background-size: cover;
-	border: 2px solid var(--base40);
+	border: 2px solid var(--base50);
 	border-bottom: 0;
 	border-radius: .15rem;
 	display: flex;
@@ -110,7 +110,7 @@
 
 .ptr-simple-layers-control-tile-name {
 	color: var(--base0);
-	background: var(--base40);
+	background: var(--base50);
 	font-size: $b1;
 	width: 100%;
 	text-align: center;
