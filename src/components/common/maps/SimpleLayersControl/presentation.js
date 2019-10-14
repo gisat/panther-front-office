@@ -17,12 +17,20 @@ class SimpleLayersControl extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.ref = React.createRef();
 		this.state = {
 			open: false
 		};
 
 		this.onControlButtonClick = this.onControlButtonClick.bind(this);
-		this.closingTimeout = null;
+		this.onBlur = this.onBlur.bind(this);
+	}
+
+	onBlur(e) {
+		setTimeout(() => {
+			this.setState({open: false});
+		}, 50);
 	}
 
 	onControlButtonClick() {
@@ -31,23 +39,10 @@ class SimpleLayersControl extends React.PureComponent {
 		});
 	}
 
-	onLayerTileClick(key, e) {
-		e.preventDefault();
-
+	onLayerTileClick(key) {
 		if (this.props.onSelect) {
 			this.props.onSelect(key);
 		}
-
-		if (this.closingTimeout) {
-			clearTimeout(this.closingTimeout);
-		}
-
-		let self = this;
-		this.closingTimeout = setTimeout(() => {
-			self.setState({
-				open: false
-			})
-		}, 2000)
 	}
 
 	render() {
@@ -57,7 +52,7 @@ class SimpleLayersControl extends React.PureComponent {
 
 		// TODO replace HoldButton
 		return (
-			<div className={buttonClasses}>
+			<div className={buttonClasses} onBlur={this.onBlur} ref={this.ref}>
 				<HoldButton
 					onClick={this.onControlButtonClick}
 				>
