@@ -119,7 +119,7 @@ class ChartWrapper extends React.PureComponent {
 						<div className="ptr-chart-wrapper-content">
 							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => {
 								let remWidth = width/utils.getRemSize();
-								return React.cloneElement(this.props.children, {...chartProps, width: remWidth})
+								return React.cloneElement(this.props.children, {...chartProps, width: remWidth ? remWidth : null})
 							}}>
 							</ReactResizeDetector>
 						</div>
