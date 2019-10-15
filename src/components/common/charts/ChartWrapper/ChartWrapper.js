@@ -85,7 +85,10 @@ class ChartWrapper extends React.PureComponent {
 			'with-subtitle': !!this.props.subtitle
 		});
 
-		const {children, ...propsWithoutChildren} = this.props;
+		let chartProps = {};
+		if (this.props.data) {
+			chartProps.data = this.props.data;
+		}
 
 		return (
 			<div className="ptr-chart-wrapper" id={this.props.wrapperKey}>
@@ -116,7 +119,7 @@ class ChartWrapper extends React.PureComponent {
 						<div className="ptr-chart-wrapper-content">
 							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => {
 								let remWidth = width/utils.getRemSize();
-								return React.cloneElement(this.props.children, {...propsWithoutChildren, width: remWidth})
+								return React.cloneElement(this.props.children, {...chartProps, width: remWidth})
 							}}>
 							</ReactResizeDetector>
 						</div>
