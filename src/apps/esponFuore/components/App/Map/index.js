@@ -161,7 +161,7 @@ const mapStateToProps = (state, props) => {
 			label = period ? period.nameDisplay : null;
 		}
 
-		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state, periodKey);
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeysByPeriod(state, periodKey);
 
 		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.spatialRelationsData) {
