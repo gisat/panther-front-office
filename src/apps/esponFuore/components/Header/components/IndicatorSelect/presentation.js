@@ -51,7 +51,7 @@ class IndicatorSelect extends React.PureComponent {
 				className="esponFuore-indicator-select"
 				open={props.indicatorSelectOpen || !props.activeIndicator}
 				onSelectClick={() => {
-					props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()
+					(props.indicatorSelectOpen && props.activeIndicator) ? props.closeIndicatorSelect() : props.openIndicatorSelect()
 				}}
 				onSelect={this.props.selectIndicator}
 				currentClasses="esponFuore-indicator-select-current"

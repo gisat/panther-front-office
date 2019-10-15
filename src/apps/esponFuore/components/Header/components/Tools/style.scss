@@ -23,12 +23,16 @@
 
 .esponFuore-header-tool.disabled {
 	pointer-events: none;
-	color: rgba(255,255,255,.30);
+	color: rgba(255,255,255,.20);
 }
 
 .esponFuore-header-tool.active {
 	background: var(--accent85);
 	color: var(--accent0);
+}
+
+.esponFuore-header-tool.active.disabled {
+	color: rgba(255,255,255,.20);
 }
 
 .esponFuore-header-tool .ptr-icon {

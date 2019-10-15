@@ -9,8 +9,11 @@ import presentation from "./ToolItem";
 import AreasFilter from "../../../../App/AreasFilter";
 
 const mapStateToProps = (state, ownProps) => {
+	let indicatorSelect = Select.components.getDataByComponentKey(state, "esponFuore_IndicatorSelect");
+
 	return {
-		isOpen: Select.windows.isOpen(state, ownProps.itemKey)
+		isOpen: Select.windows.isOpen(state, ownProps.itemKey),
+		disabled: !indicatorSelect || (indicatorSelect && indicatorSelect.indicatorSelectOpen)
 	}
 };
 
