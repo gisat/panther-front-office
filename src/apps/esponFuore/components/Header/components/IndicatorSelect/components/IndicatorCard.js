@@ -57,7 +57,7 @@ class IndicatorCard extends React.PureComponent {
 	render() {
 		const props = this.props;
 		const name = props.indicator && props.indicator.data.nameDisplay;
-		const type = props.indicator && props.indicator.data.type;
+		const type = props.attribute && props.attribute.data.valueType;
 		const color = props.attribute && props.attribute.data.color;
 
 		const style = {backgroundImage: 'url(' + this.state.backgroundImage + ')'};
