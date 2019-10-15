@@ -114,30 +114,32 @@ class AxisY extends React.PureComponent {
 					let yCoord = props.scale(value);
 
 					return (
-						<g key={value}>
-							<line
-								className="ptr-axis-gridline"
-								x1={TICK_CAPTION_OFFSET_VERTICAL}
-								x2={props.gridlines ? (props.plotWidth  + shift) : shift}
-								y1={yCoord}
-								y2={yCoord}
-							/>
-							{props.withValues ? (
-								<g
-									transform={`
-										translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
-									`}
-								>
-									<AxisLabel
-										classes="ptr-tick-caption"
-										maxWidth={props.width}
-										maxHeight={props.height/ticks.length}
-										text={value.toLocaleString()}
-										textAnchor="end"
-									/>
-								</g>
-							) : null}
-						</g>
+						(yCoord || yCoord === 0) ? (
+							<g key={value}>
+								<line
+									className="ptr-axis-gridline"
+									x1={TICK_CAPTION_OFFSET_VERTICAL}
+									x2={props.gridlines ? (props.plotWidth  + shift) : shift}
+									y1={yCoord}
+									y2={yCoord}
+								/>
+								{props.withValues ? (
+									<g
+										transform={`
+											translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
+										`}
+									>
+										<AxisLabel
+											classes="ptr-tick-caption"
+											maxWidth={props.width}
+											maxHeight={props.height/ticks.length}
+											text={value.toLocaleString()}
+											textAnchor="end"
+										/>
+									</g>
+								) : null}
+							</g>
+						) : null
 					)
 				})}
 			</g>
