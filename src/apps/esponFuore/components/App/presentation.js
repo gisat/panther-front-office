@@ -63,6 +63,22 @@ class EsponFuoreApp extends React.PureComponent {
 		this.onBackgroundLayerChange = this.onBackgroundLayerChange.bind(this);
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (prevProps.activeAttributeKey !== this.props.activeAttributeKey) {
+			this.onSelectionClear();
+		} else if (prevProps.activePeriodKeys !== this.props.activePeriodKeys) {
+			this.onSelectionClear();
+		} else if (prevProps.activeScopeKey !== this.props.activeScopeKey) {
+			this.onSelectionClear();
+		}
+	}
+
+	onSelectionClear() {
+		if (this.props.onSelectionClear) {
+			this.props.onSelectionClear();
+		}
+	}
+
 	onBackgroundLayerChange(key) {
 		let selectedLayers = _.filter(backgroundLayers, {key});
 		if (selectedLayers) {

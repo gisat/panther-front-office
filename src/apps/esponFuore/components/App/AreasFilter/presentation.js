@@ -33,16 +33,6 @@ class AreasFilter extends React.PureComponent {
 		this.onSelectionClear = this.onSelectionClear.bind(this);
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (prevProps.activeAttributeKey !== this.props.activeAttributeKey) {
-			this.onSelectionClear();
-		} else if (prevProps.activePeriodKeys !== this.props.activePeriodKeys) {
-			this.onSelectionClear();
-		} else if (prevProps.activeScopeKey !== this.props.activeScopeKey) {
-			this.onSelectionClear();
-		}
-	}
-
 
 	onCountrySelect(record) {
 		if (record && record.length) {
