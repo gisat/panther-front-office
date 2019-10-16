@@ -41,7 +41,9 @@ const getCompleteData = createCachedSelector(
 			return [];
 		}
 	}
-)((data, names, filter) => (JSON.stringify(data) + JSON.stringify(names) + JSON.stringify(filter)));
+)((data, names, filter) => {
+	return JSON.stringify(data[0]) + JSON.stringify(data[data.length - 1])  + JSON.stringify(names[0])  + JSON.stringify(names[names.length - 1]) + JSON.stringify(filter)
+});
 
 export default {
 	getCompleteData
