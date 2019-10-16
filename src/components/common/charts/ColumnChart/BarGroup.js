@@ -236,7 +236,7 @@ class BarGroup extends React.PureComponent {
 					{attributeName ? <div className="ptr-popup-header">{attributeName}</div> : null}
 					{props.originalData.map(record => {
 						// TODO what if more values?
-						let value = record.positive.data[0].value || record.negative.data[0].value;
+						let value = (record.positive.data[0] && record.positive.data[0].value) || (record.negative.data[0] && record.negative.data[0].value);
 						let valueString = value;
 						if ((value % 1) !== 0) {
 							valueString = valueString.toFixed(2);
