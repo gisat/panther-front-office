@@ -230,7 +230,7 @@ class Line extends React.PureComponent {
 					{lineName}
 				</div>
 				<div className="ptr-popup-record-group">
-					{pointValue ? <div className="ptr-popup-record">
+					{(pointValue || pointValue === 0) ? <div className="ptr-popup-record">
 						<div className="ptr-popup-record-value-group">
 							{<span className="value">{pointValue.toLocaleString()}</span>}
 							{units ? <span className="unit">{units}</span> : null}
