@@ -65,19 +65,21 @@ class IndicatorSelect extends React.PureComponent {
 						</div>
 						<div className="esponFuore-indicator-select-categories">
 							{props.categories && props.categories.map(category => {
-								let className = '';
-								if (category.key === activeCategoryKey) {
-									className = 'selected';
+								if(category) {
+									let className = '';
+									if (category.key === activeCategoryKey) {
+										className = 'selected';
+									}
+									return (
+										<a
+											key={category.key}
+											onClick={props.selectCategory.bind(null, category.key)}
+											className={className}
+										>
+											{category.data.nameDisplay}
+										</a>
+									);
 								}
-								return (
-									<a
-										key={category.key}
-										onClick={props.selectCategory.bind(null, category.key)}
-										className={className}
-									>
-										{category.data.nameDisplay}
-									</a>
-								);
 							})}
 						</div>
 					</div>
