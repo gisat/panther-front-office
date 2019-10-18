@@ -35,7 +35,7 @@ export default (props) => {
 						</a>
 					</div>
 					<div className="ptr-un-seea-app-title">
-						URBAN EEA
+						Oslo EEA municipal applications
 						<div className="ptr-un-seea-app-title-subscript">
 							powered by Urban Tep
 						</div>

@@ -25,7 +25,7 @@ class LandingPage extends React.PureComponent {
 						</div>
 						<div className="unseea-landing-page-text">
 							<h1>URBAN EEA</h1>
-							<p>What is the value of urban nature in the Oslo area? URBAN EEA maps and values ecosystem services in the Oslo Region, and tests methods for ecosystem accounting at the municipal level.</p>
+							<p>What is the value of urban nature in the Oslo area? Oslo EEA municipal applications maps and values ecosystem services in the Oslo Region, and tests methods for ecosystem accounting at the municipal level.</p>
 							<p>The URBAN EEA project conducts research on ecosystem services from urban ecosystems in the Oslo Region, both green spaces in the built area and peri-urban nature areas. The project contributes to research and development on the UNs Experimental Ecosystem Accounting (EEA) and its application to urban areas. URBAN EEA aims to develop ecosystem accounts for the Oslo area providing lessons for other Norwegian municipalities.</p>
 							<p>
 							Read more: <a href="https://www.nina.no/english/Fields-of-research/Projects/Urban-EEA" target="_blank">https://www.nina.no/english/Fields-of-research/Projects/Urban-EEA</a>
