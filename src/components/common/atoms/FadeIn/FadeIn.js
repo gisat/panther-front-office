@@ -41,12 +41,16 @@ class FadeIn extends React.PureComponent  {
 		return (
 			<div className={classes}>
 				{React.Children.map(this.props.children, (child, i) => {
-					let childStyle = child.props.style ? child.props.style : {};
-					let style = {...childStyle,
-						transition: `opacity ${this.props.duration}ms ease-in-out ${i*this.props.delay}ms`,
-						opacity: this.state.opacity
-					};
-					return (React.cloneElement(child, {style}));
+					if (child) {
+						let childStyle = child.props.style ? child.props.style : {};
+						let style = {...childStyle,
+							transition: `opacity ${this.props.duration}ms ease-in-out ${i*this.props.delay}ms`,
+							opacity: this.state.opacity
+						};
+						return (React.cloneElement(child, {style}));
+					} else {
+						return null;
+					}
 				})}
 			</div>
 		);

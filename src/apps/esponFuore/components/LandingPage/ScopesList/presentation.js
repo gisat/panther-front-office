@@ -61,31 +61,35 @@ class ScopesList extends React.PureComponent {
 		return this.props.scopes.map((scope, index) => {
 			let style = {};
 
-			if (scope.data.configuration.imageName) {
-				try {
-					let image = require(`../../../assets/scopePreviews/${scope.data.configuration.imageName}.png`);
-					style.backgroundImage = `url(${image})`;
-				} catch (e) {
-					console.warn("esponFuore#ScopesList: ", e)
+			if (scope) {
+				if (scope.data.configuration.imageName) {
+					try {
+						let image = require(`../../../assets/scopePreviews/${scope.data.configuration.imageName}.png`);
+						style.backgroundImage = `url(${image})`;
+					} catch (e) {
+						console.warn("esponFuore#ScopesList: ", e)
+					}
 				}
+
+				let classes = classnames("esponFuore-scope-card", {
+					disabled: scope && scope.data && scope.data.configuration && scope.data.configuration.fuoreMockScope
+				});
+
+				return (
+					<div className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
+						<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
+						{scope.data && scope.data.description ? (
+							<div className="esponFuore-scope-card-description">
+								<Truncate lines={6}>
+									{scope.data && scope.data.description}
+								</Truncate>
+							</div>
+						) : null}
+					</div>
+				);
+			} else {
+				return null;
 			}
-
-			let classes = classnames("esponFuore-scope-card", {
-				disabled: scope && scope.data && scope.data.configuration && scope.data.configuration.fuoreMockScope
-			});
-
-			return (
-				<div className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
-					<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
-					{scope.data && scope.data.description ? (
-						<div className="esponFuore-scope-card-description">
-							<Truncate lines={6}>
-								{scope.data && scope.data.description}
-							</Truncate>
-						</div>
-					) : null}
-				</div>
-			);
 		});
 	}
 

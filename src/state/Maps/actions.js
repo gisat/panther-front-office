@@ -700,14 +700,22 @@ const deprecated_use = (mapKey, useActiveMetadataKeys) => {
 
 				//assume, that spatial data dont need period
 				const spatialRelationsFilter = _.cloneDeep(filters.mergedFilter);
-				if(spatialRelationsFilter.periodKey) {
+				const spatialRelationsFilterByActive= _.cloneDeep(filters.filterByActive);
+
+				if (spatialRelationsFilter.periodKey) {
 					delete spatialRelationsFilter.periodKey;
 				}
-				if(spatialRelationsFilter.attributeKey) {
+
+				if (spatialRelationsFilter.attributeKey) {
 					delete spatialRelationsFilter.attributeKey;
 				}
 
-				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filters.filterByActive, spatialRelationsFilter, null, 1, 1000));
+				if (spatialRelationsFilterByActive.attribute) {
+					delete spatialRelationsFilterByActive.attribute;
+				}
+
+
+				dispatch(Action.spatialRelations.useIndexedRegister( componentId, spatialRelationsFilterByActive, spatialRelationsFilter, null, 1, 1000));
 				dispatch(Action.spatialRelations.ensureIndexed(spatialRelationsFilter, null, 1, 1000))
 					.then(() => {
 						let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), spatialRelationsFilter);

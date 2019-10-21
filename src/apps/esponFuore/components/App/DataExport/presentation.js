@@ -61,9 +61,9 @@ class DataExport extends React.PureComponent {
 				<div className="esponFuore-export-buttons">
 					<Buttons vertical>
 						<Button icon="json" onClick={this.onExportClick.bind(this, "geojson")}>GeoJSON</Button>
-						<Button disabled icon="shapefile" onClick={this.onExportClick.bind(this, "shp")}>Shapefile</Button>
-						<Button disabled icon="csv" onClick={this.onExportClick.bind(this, "csv")}>CSV</Button>
-						<Button disabled icon="xls" onClick={this.onExportClick.bind(this, "xls")}>XLS</Button>
+						<Button icon="shapefile" onClick={this.onExportClick.bind(this, "shp")}>Shapefile</Button>
+						<Button icon="csv" onClick={this.onExportClick.bind(this, "csv")}>CSV</Button>
+						<Button icon="xls" onClick={this.onExportClick.bind(this, "xls")}>XLS</Button>
 					</Buttons>
 				</div>
 			</div>

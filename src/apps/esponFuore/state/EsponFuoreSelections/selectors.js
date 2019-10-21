@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _ from 'lodash';
 import common from "../../../../state/_common/selectors";
 
@@ -21,6 +22,21 @@ const getActiveAttributeFilterAnd = createSelector(
 
 const getActiveSelectionFilteredKeys = createSelector(
 	[
+		getActive
+	],
+	(selection) => {
+		if (selection) {
+			let attributeFilter = selection.data && selection.data.attributeFilter;
+			// TODO merge with other filters
+			return getMergedFilteredKeys(attributeFilter);
+		} else {
+			return null;
+		}
+	}
+);
+
+const getActiveSelectionFilteredKeysByPeriod = createCachedSelector(
+	[
 		getActive,
 		(state, periodKey) => periodKey
 	],
@@ -33,12 +49,32 @@ const getActiveSelectionFilteredKeys = createSelector(
 			return null;
 		}
 	}
-);
+)((state, periodKey) => periodKey);
 
 const getActiveWithFilteredKeys = createSelector(
 	[
 		getActive,
 		getActiveSelectionFilteredKeys
+	],
+	(selection, filteredKeys) => {
+		if (selection && filteredKeys) {
+			return {
+				...selection,
+				data: {
+					...selection.data,
+					filteredKeys
+				}
+			}
+		} else {
+			return null;
+		}
+	}
+);
+
+const getActiveWithFilteredKeysByPeriod = createSelector(
+	[
+		getActive,
+		getActiveSelectionFilteredKeysByPeriod
 	],
 	(selection, filteredKeys) => {
 		if (selection && filteredKeys) {
@@ -94,5 +130,6 @@ export default {
 	getActive,
 	getActiveAttributeFilterAnd,
 	getActiveKey,
-	getActiveWithFilteredKeys
+	getActiveWithFilteredKeys,
+	getActiveWithFilteredKeysByPeriod
 }

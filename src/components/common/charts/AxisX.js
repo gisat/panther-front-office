@@ -69,10 +69,12 @@ class AxisX extends React.PureComponent {
 		}
 
 		return (
-			<path
-				className="ptr-axis-baseline"
-				d={`M0 ${yCoord} L${props.width} ${yCoord}`}
-			/>
+			yCoord || yCoord === 0 ? (
+				<path
+					className="ptr-axis-baseline"
+					d={`M0 ${yCoord} L${props.width} ${yCoord}`}
+				/>
+			) : null
 		);
 	}
 

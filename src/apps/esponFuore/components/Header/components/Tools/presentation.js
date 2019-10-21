@@ -21,12 +21,14 @@ class Tools extends React.PureComponent {
 					name="Areas filter"
 					icon="filter"
 					windowSetKey={this.context.windowSetKey}
+					disabled={this.props.disabled}
 				/>
 				<DataExportToolItem
 					itemKey="export"
 					name="Data export"
 					icon="file-export"
 					windowSetKey={this.context.windowSetKey}
+					disabled={this.props.disabled}
 				/>
 			</div>
 		);

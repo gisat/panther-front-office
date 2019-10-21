@@ -160,7 +160,7 @@ class ColumnChart extends React.PureComponent {
 				}
 			}
 
-			if (positive.total || negative.total) {
+			if (positive.total || positive.total === 0 || negative.total || negative.total === 0) {
 				data.push({key, name, positive, negative});
 			}
 		});
@@ -190,11 +190,11 @@ class ColumnChart extends React.PureComponent {
 
 		let yValues = [];
 		_.forEach(data, record => {
-			if (record.positive.total) {
+			if (record.positive.total || record.positive.total === 0) {
 				yValues.push(record.positive.total);
 			}
 
-			if (record.negative.total) {
+			if (record.negative.total || record.negative.total === 0) {
 				yValues.push(record.negative.total);
 			}
 		});
