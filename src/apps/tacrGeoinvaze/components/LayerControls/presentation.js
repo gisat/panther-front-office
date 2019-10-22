@@ -105,7 +105,7 @@ class LayerControls extends React.PureComponent {
 						<div>
 							<ButtonSwitch onClick={this.switchToActual} ghost>
 								{latestPeriods.map(period => (
-									<Option active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
+									<Option key={period.key} active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
 								))}
 							</ButtonSwitch>
 							{/*<Select/>*/}
