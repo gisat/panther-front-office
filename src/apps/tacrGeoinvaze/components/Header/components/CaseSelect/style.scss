@@ -42,11 +42,75 @@
 
 .tacrGeoinvaze-header-space { /* todo hacky hacky hack */
 	position: absolute;
-	top: 1.3rem;
-	left: 32rem;
-	z-index: 50;
-	font-size: $b1;
+	top: 0;
+	left: 30rem;
+	height: 6rem;
+	padding: 1rem 1rem 1rem 6rem;
+	display: flex;
+	align-items: center;
 }
-.tacrGeoinvaze-header-space > div {
-	font-size: $b2;
+
+.tacrGeoinvaze-consortium-logo {
+	display: block;
+	margin-right: 3rem;
+}
+
+.tacrGeoinvaze-consortium-logo svg {
+	display: block;
+}
+
+/* tacr logo */
+
+.tacrGeoinvaze-logo-tacr {
+	width: 60px;
+	height: 60px;
+	margin-right: .5rem;
+}
+
+.tacrGeoinvaze-logo-tacr path,
+.tacrGeoinvaze-logo-gisat path {
+	fill: #aaa;
+	transition: fill .3s ease-in-out;
+}
+
+.tacrGeoinvaze-consortium-logo:hover .tacrGeoinvaze-logo-tacr path {
+	fill: rgb(240,55,65);
+}
+
+/* gisat logo */
+
+.tacrGeoinvaze-logo-gisat {
+	height: 37px;
+	width: 140px;
+}
+
+.tacrGeoinvaze-consortium-logo:hover .tacrGeoinvaze-logo-gisat path {
+	fill: rgb(55,111,192);
+}
+
+/* czu logo */
+
+.tacrGeoinvaze-logo-czu {
+	width: 120px;
+	height: 80px;
+	background-image: url('../../../../assets/logo-czu-sprite.png');
+	background-size: cover;
+	background-position-x: 0;
+	opacity: 1;
+}
+
+.tacrGeoinvaze-logo-czu:after {
+	content: "";
+	position: absolute;
+	width: 120px;
+	height: 80px;
+	background-image: url('../../../../assets/logo-czu-sprite.png');
+	background-size: cover;
+	background-position-x: 120px;
+	opacity: 0;
+	transition: opacity .3s ease-in-out;
+}
+
+.tacrGeoinvaze-logo-czu:hover:after {
+	opacity: 1;
 }
