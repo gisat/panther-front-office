@@ -2,6 +2,7 @@ import _, {isEqual} from "lodash";
 import path from "path";
 import moment from 'moment';
 
+import config from '../../config';
 import request from './request';
 import commonHelpers from './helpers';
 import commonSelectors from './selectors';
@@ -11,7 +12,7 @@ import ActionTypes from "../../constants/ActionTypes";
 import Action from '../Action';
 import utils from '../../utils/utils';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = config.requestPageSize;
 const DEFAULT_CATEGORY_PATH = 'metadata';
 
 
