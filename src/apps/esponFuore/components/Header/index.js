@@ -10,7 +10,7 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-
+		categoryTagKey: Select.app.getConfiguration(state, 'categoryTagKey')
 	}
 };
 
