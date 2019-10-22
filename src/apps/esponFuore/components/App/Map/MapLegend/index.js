@@ -11,6 +11,7 @@ import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
 import helpers from './helpers';
+import fuoreUtils from "../../../../utils";
 
 const mapStateToProps = (state, ownProps) => {
 	let legendType = null;
@@ -86,9 +87,11 @@ const mapStateToProps = (state, ownProps) => {
 				layerByLayerTemplateKey.attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
 				legendType = layerByLayerTemplateKey.attribute && layerByLayerTemplateKey.attribute.data && layerByLayerTemplateKey.attribute.data.valueType;
 
+				const color = fuoreUtils.resolveColour(layerByLayerTemplateKey.attribute);
+
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
-					styleFunction = getCartogramStyleFunction(layerByLayerTemplateKey.attribute.data.color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
+					styleFunction = getCartogramStyleFunction(color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 					const classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
 					const intervals = getClassesIntervals(classes);
 
@@ -122,7 +125,7 @@ const mapStateToProps = (state, ownProps) => {
 				} else if(layerByLayerTemplateKey.attribute.data.valueType === 'absolute') {
 					let minValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.min;
 					let maxValue = layerByLayerTemplateKey.mergedStatistics && layerByLayerTemplateKey.mergedStatistics.max;
-					diagramLegendData = helpers.prepareDiagramLegendData(minValue, maxValue, navigatorRange, layerByLayerTemplateKey.attribute.data.color, ownProps.mapComponentId)
+					diagramLegendData = helpers.prepareDiagramLegendData(minValue, maxValue, navigatorRange, color, ownProps.mapComponentId)
 
 				}
 			}

@@ -6,6 +6,7 @@ import ColumnChart from "../../../../../../components/common/charts/ColumnChart/
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 import Icon from "../../../../../../components/common/atoms/Icon";
 import chroma from "chroma-js";
+import fuoreUtils from "../../../../utils";
 
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
@@ -106,6 +107,8 @@ class EsponFuoreChart extends React.PureComponent {
 			loading = false;
 		}
 
+		const color = fuoreUtils.resolveColour(props.attribute);
+
 		return (
 			<ChartWrapper
 				key={this.props.chartKey + "-wrapper"}
@@ -116,12 +119,12 @@ class EsponFuoreChart extends React.PureComponent {
 				loading={loading}
 				enableExport
 			>
-				{singleValue ? this.renderColumnChart(data, availablePeriods) : this.renderLineChart(data, availablePeriods)}
+				{singleValue ? this.renderColumnChart(data, availablePeriods, color) : this.renderLineChart(data, availablePeriods, color)}
 			</ChartWrapper>
 		);
 	}
 
-	renderColumnChart(data, availablePeriods) {
+	renderColumnChart(data, availablePeriods, color) {
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
 		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
 
@@ -146,8 +149,8 @@ class EsponFuoreChart extends React.PureComponent {
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
-				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				defaultColor={color}
+				highlightColor={chroma(color).darken(1)}
 				barGapRatio={0.25}
 				minBarWidth={5}
 				diverging
@@ -155,7 +158,7 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 	}
 
-	renderLineChart(data, availablePeriods) {
+	renderLineChart(data, availablePeriods, color) {
 		let yOptions = null;
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
 		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
@@ -204,8 +207,8 @@ class EsponFuoreChart extends React.PureComponent {
 
 				withPoints
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
-				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				defaultColor={color}
+				highlightColor={chroma(color).darken(1)}
 
 				legend={legend}
 			/>
