@@ -1,11 +1,31 @@
 import React from "react";
 
 import './style.scss';
+import Nutrie from "./cases/Nutrie";
 
-const CaseDetail = props => (
-	<div className="tacrGeoinvaze-case-detail">
-		{props.activeCase ? props.activeCase.data.description : null}
-	</div>
-);
+const CaseDetail = props => {
+	const caseKey = props.activeCase && props.activeCase.key;
+	let component;
+
+	switch (caseKey) {
+		case 'fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf':
+			component = <Nutrie/>;
+			break;
+		case '82acfc6b-5ebc-49a2-813a-76f1a85ef66c':
+			component = (<div>Zlatobýl</div>);
+			break;
+		case 'edb75be0-8f1d-46a2-b07a-af1874d88569':
+			component = (<div>Rak</div>);
+			break;
+		default:
+			component = null;
+	}
+
+	return (
+		<div className="tacrGeoinvaze-case-detail">
+			{component}
+		</div>
+	)
+};
 
 export default CaseDetail;
