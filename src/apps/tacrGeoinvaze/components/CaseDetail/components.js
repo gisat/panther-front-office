@@ -3,7 +3,7 @@ import classnames from "classnames";
 
 export const Title = props => (
 	<div className="tacrGeoinvaze-case-detail-title">
-		{props.name} <i>({props.latinName})</i>
+		{props.name} <br/><i>{props.latinName}</i>
 	</div>
 );
 
@@ -63,3 +63,21 @@ export const InvasivePotentialRating = props => {
 export const InvasivePotentialValue = props => {
 	return <div className="tacrGeoinvaze-case-detail-ip-value">{props.text}</div>;
 };
+
+export const Resources = props => (
+	<div className="tacrGeoinvaze-case-detail-resources">
+		<div className="tacrGeoinvaze-case-detail-resources-title">Zdroje</div>
+		{props.children}
+	</div>
+);
+
+export const Resource = props => (
+	<div className="tacrGeoinvaze-case-detail-resource">
+		<span>{props.authors} </span>
+		<span>({props.year}). </span>
+		<span>{props.title}. </span>
+		<span className="publication">{props.publication}, </span>
+		<span>{props.volume}, </span>
+		<span>{props.pages}.</span>
+	</div>
+);
