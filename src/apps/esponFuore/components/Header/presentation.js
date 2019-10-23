@@ -22,6 +22,7 @@ export default class Header extends React.PureComponent {
 					<IndicatorSelect 
 						windowSetKey = {this.context.windowSetKey}
 						categoryTagKey={this.props.categoryTagKey}
+						subCategoryTagKey={this.props.subCategoryTagKey}
 					/>
 				</div>
 				<div className="esponFuore-header-toolbar">

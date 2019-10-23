@@ -5,6 +5,7 @@ import PantherSelect, {PantherSelectItem} from "../../../../../../components/com
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import Icon from "../../../../../../components/common/atoms/Icon";
 import IndicatorList from "./components/IndicatorList";
+import CategoryMenu from "./components/CategoryMenu";
 
 
 class IndicatorSelect extends React.PureComponent {
@@ -64,23 +65,13 @@ class IndicatorSelect extends React.PureComponent {
 							<Input value={props.searchValue} onChange={props.onChangeSearch}><Icon icon="search"/></Input>
 						</div>
 						<div className="esponFuore-indicator-select-categories">
-							{props.categories && props.categories.map(category => {
-								if(category) {
-									let className = '';
-									if (category.key === activeCategoryKey) {
-										className = 'selected';
-									}
-									return (
-										<a
-											key={category.key}
-											onClick={props.selectCategory.bind(null, category.key)}
-											className={className}
-										>
-											{category.data.nameDisplay}
-										</a>
-									);
-								}
-							})}
+							<CategoryMenu
+								activeCategoryKey={activeCategoryKey}
+								categoryTagKey={props.categoryTagKey}
+								subCategoryTagKey={props.subCategoryTagKey}
+								selectCategory={props.selectCategory}
+								selectSubCategory={()=>{}} //todo
+							/>
 						</div>
 					</div>
 					<div className="esponFuore-indicator-select-indicators">
