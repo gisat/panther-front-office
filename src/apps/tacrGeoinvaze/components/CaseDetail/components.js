@@ -3,7 +3,7 @@ import classnames from "classnames";
 
 export const Title = props => (
 	<div className="tacrGeoinvaze-case-detail-title">
-		{props.name} <i>({props.latinName}/<span>{props.alternativeLatinName}</span>)</i>
+		{props.name} <i>({props.latinName})</i>
 	</div>
 );
 

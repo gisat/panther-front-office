@@ -3,7 +3,7 @@ import {Title, TextBlock, InvasivePotential, InvasivePotentialCategory, Summary,
 
 const Nutrie = props => (
 	<div>
-		<Title name="Nutrie říční" latinName="Myocastor coypus" alternativeLatinName="Mus coypus"/>
+		<Title name="Nutrie říční" latinName="Myocastor coypus/Mus coypus"/>
 		<Summary>
 			<SummaryItem title="Původní areál" text="Jižní Amerika"/>
 			<SummaryItem title="Sekundární areál" text="Severní Amerika, Evropa, Asie, Austrálie"/>
