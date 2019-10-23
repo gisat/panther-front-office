@@ -67,7 +67,7 @@ class IndicatorSelect extends React.PureComponent {
 						<div className="esponFuore-indicator-select-categories">
 							<CategoryMenu
 								activeCategoryKey={activeCategoryKey}
-								categoryTagKey={props.categoryTagKey}
+								categories={props.categories}
 								subCategoryTagKey={props.subCategoryTagKey}
 								selectCategory={props.selectCategory}
 								selectSubCategory={()=>{}} //todo

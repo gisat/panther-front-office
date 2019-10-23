@@ -13,25 +13,21 @@ const filterByActive = {scope: true};
 const mapStateToProps = (state, ownProps) => {
 	
 	// todo don't mutate selector input each time (dedicate selector?)
-	let categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
 	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}};
 
 	return {
-		categories: Select.tags.getIndexed(state, filterByActive, categoryFilter, null, 1, 20),
 		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 20),
 	}
 };
 
 const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 	const componentId = 'esponFuore_CategoryMenu_' + utils.randomString(6);
-	let categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
 	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}};
 
 	return (dispatch, ownProps) => {
 		return {
-			onMount: () => {
-				dispatch(Action.tags.useIndexed(filterByActive, categoryFilter, null, 1, 20, componentId));
-				dispatch(Action.tags.useIndexed(filterByActive, subCategoryFilter, null, 1, 20, componentId));
+			registerUse: () => {
+				dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.tags.useIndexedClear(componentId));
@@ -44,7 +40,13 @@ const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 class CategoryMenu extends React.PureComponent {
 
 	componentDidMount() {
-		this.props.onMount();
+		this.props.registerUse();
+	}
+	
+	componentDidUpdate(prevProps) {
+		if (this.props.activeCategoryKey && this.props.activeCategoryKey !== prevProps.activeCategoryKey) {
+			this.props.registerUse();
+		}
 	}
 
 	componentWillUnmount() {
