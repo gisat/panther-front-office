@@ -19,7 +19,7 @@ export const Section = ({name, children}) => (
 		<tr key={'section' + name} className="ptr-docs-props-table-section">
 			<td colSpan={5}>{name}</td>
 		</tr>
-		{children}
+		{children} //todo add classes
 	</>
 );
 
