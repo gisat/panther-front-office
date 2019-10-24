@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import config from '../../../../../config/index';
+import download from 'downloadjs';
 import Select from '../../../state/Select';
 
 export default (type, applyFilter) => {
@@ -21,10 +22,11 @@ export default (type, applyFilter) => {
 			}
 		};
 
-		let payload = {
-			filter,
-			type
-		};
+		/* Endpoint */
+		let url = `${config.serverUrl}rest/export/${type ? type : 'geojson'}/filtered`;
+
+		/* Payload */
+		let payload = {filter};
 
 		let filteredFeatures = null;
 		if (selection && applyFilter) {
@@ -35,16 +37,29 @@ export default (type, applyFilter) => {
 			payload.features = filteredFeatures;
 		}
 
-		// TODO add path to endpoint
-		fetch(config.serverUrl + "path", {
+		fetch(url, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
 			body: payload ? JSON.stringify(payload) : null
 		}).then(
 			response => {
-				// TODO handle response
+				if (response) {
+					response.json().then((data) => {
+						if (data) {
+							download(JSON.stringify(data), 'data.geojson', 'text/plain');
+						} else {
+							throw new Error("No data exported");
+						}
+					}).catch(error => {
+						throw new Error("Export failed: " + error);
+					});
+				}
 			},
 			error => {
-				throw new Error("Export failed: " + error)
+				throw new Error("Export failed: " + error);
 			}
 		);
 	};
