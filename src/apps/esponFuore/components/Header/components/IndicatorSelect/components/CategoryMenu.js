@@ -87,15 +87,19 @@ class CategoryMenu extends React.PureComponent {
 		
 		return (
 			<>
-				{props.subCategories && props.subCategories.map(subCategory => (
-					<a
-						key={subCategory.key}
-						onClick={props.selectSubCategory.bind(null, subCategory.key)}
-						className="esponFuore-indicator-select-menu-subCategory"
-					>
-						{subCategory.data.nameDisplay}
-					</a>
-				))}
+				{props.subCategories && props.subCategories.map(subCategory => {
+					if (subCategory) {
+						return (
+							<a
+								key={subCategory.key}
+								onClick={props.selectSubCategory.bind(null, subCategory.key)}
+								className="esponFuore-indicator-select-menu-subCategory"
+							>
+								{subCategory.data.nameDisplay}
+							</a>
+						);
+					}
+				})}
 			</>
 		);
 	}
