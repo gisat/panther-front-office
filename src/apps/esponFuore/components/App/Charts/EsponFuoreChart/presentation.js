@@ -150,7 +150,7 @@ class EsponFuoreChart extends React.PureComponent {
 				withoutYbaseline
 				data={data}
 				defaultColor={color}
-				highlightColor={chroma(color).darken(1)}
+				highlightColor={color ? chroma(color).darken(1) : null}
 				barGapRatio={0.25}
 				minBarWidth={5}
 				diverging
@@ -208,7 +208,7 @@ class EsponFuoreChart extends React.PureComponent {
 				withPoints
 				data={data}
 				defaultColor={color}
-				highlightColor={chroma(color).darken(1)}
+				highlightColor={color ? chroma(color).darken(1) : null}
 
 				legend={legend}
 			/>
