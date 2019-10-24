@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
 	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}};
 
 	return {
-		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 100),
+		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 1000),
 		attributes: Select.attributes.getAttributes(state),
 		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 20),
 	}
@@ -65,8 +65,21 @@ class IndicatorList extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		
+		const getIndicatorSubCategory = (indicator) => {
+			let keyArray = _.filter(indicator.data.tagKeys, key => {
+				return key !== props.categoryKey;
+			});
+			return keyArray[0];
+		};
 
 		if (props.indicators) {
+			
+			let groupedIndicators = _.groupBy(props.indicators, getIndicatorSubCategory);
+			console.log('####',groupedIndicators);
+			console.log('####@@@',props.subCategories);
+			console.log('####@@@&&&&',props.indicators);
+			
 			return props.indicators.map((indicator, index) => {
 				if (indicator) {
 					let className = '';
