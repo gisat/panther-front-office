@@ -36,7 +36,9 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
-				dispatch(Action.specific.esponFuoreIndicators.useIndexedIndicatorsWithAttributes({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
+				if (ownProps.categoryKey) {
+					dispatch(Action.specific.esponFuoreIndicators.useIndexedIndicatorsWithAttributes({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
+				}
 				dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
@@ -67,10 +69,15 @@ class IndicatorList extends React.PureComponent {
 		const props = this.props;
 		
 		const getIndicatorSubCategory = (indicator) => {
-			let keyArray = _.filter(indicator.data.tagKeys, key => {
-				return key !== props.categoryKey;
-			});
-			return keyArray[0];
+			if (indicator) {
+				if (indicator.data.tagKeys.length) {
+					let keyArray = _.filter(indicator.data.tagKeys, key => {
+						return key !== props.categoryKey;
+					});
+					return keyArray[0];
+				}
+			}
+			return null;
 		};
 
 		if (props.indicators) {

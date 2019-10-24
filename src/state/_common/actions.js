@@ -443,7 +443,8 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 		} else {
 			// we don't have index
 			return dispatch(loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes, categoryPath)).then((response) => {
-				if (response && response.message){
+				// check success to make sure it's our error from BE and not anything broken in render chain
+				if (response && response.message && response.success === false){
 					// do nothing
 				} else {
 					return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
@@ -517,7 +518,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 			})
 			.catch(error => {
 				dispatch(actionGeneralError(error));
-				return error;
+				return error; //todo do we need to return this
 			});
 	};
 }
