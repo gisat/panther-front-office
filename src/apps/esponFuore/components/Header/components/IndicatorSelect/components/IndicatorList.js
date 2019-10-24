@@ -57,21 +57,47 @@ class IndicatorList extends React.PureComponent {
 		
 		this.renderIndicator = this.renderIndicator.bind(this);
 		this.renderSubCategory = this.renderSubCategory.bind(this);
+		this.populateRefs = this.populateRefs.bind(this);
+		this.onSubCategoryChange = this.onSubCategoryChange.bind(this);
+		
+		this.subRefs = {};
 	}
 
 
 	componentDidMount() {
 		this.props.registerUse();
+		if (this.props.subCategories) {
+			this.populateRefs();
+		}
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.props.categoryKey && this.props.categoryKey !== prevProps.categoryKey) {
 			this.props.registerUse();
 		}
+		if (this.props.activeSubCategoryKey && this.props.activeSubCategoryKey !== prevProps.activeSubCategoryKey) {
+			this.onSubCategoryChange();
+		}
+		if (this.props.subCategories && this.props.subCategories !== prevProps.subCategories) {
+			this.populateRefs();
+		}
 	}
 
 	componentWillUnmount() {
 		this.props.onUnmount();
+	}
+	
+	populateRefs() {
+		_.each(this.props.subCategories, subCategory => {
+			this.subRefs[subCategory.key] = this.subRefs[subCategory.key] || React.createRef();
+		});
+	}
+	
+	onSubCategoryChange() {
+		this.subRefs[this.props.activeSubCategoryKey].current.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+		});
 	}
 
 	render() {
@@ -119,7 +145,11 @@ class IndicatorList extends React.PureComponent {
 	
 	renderSubCategory(subCategory, indicators) {
 		return (
-			<div className="esponFuore-indicator-list-subCategory" key={subCategory.key}>
+			<div
+				className="esponFuore-indicator-list-subCategory"
+				key={subCategory.key}
+				ref={this.subRefs[subCategory.key]}
+			>
 				<div className="esponFuore-indicator-list-subCategory-header">{subCategory.data.nameDisplay}</div>
 				<div className="esponFuore-indicator-list-indicators">
 					{indicators ? indicators.map(this.renderIndicator) : null}
