@@ -12,16 +12,36 @@ class IndicatorSelect extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+		
+		this.state = {
+			activeSubCategoryKey: null
+		};
 
 		this.renderCurrent = this.renderCurrent.bind(this);
+		this.selectSubCategory = this.selectSubCategory.bind(this);
 	}
 
 	componentDidMount() {
 		this.props.onMount();
 	}
+	
+	componentDidUpdate(prevProps) {
+		if (this.props.activeCategoryKey && this.props.activeCategoryKey !== prevProps.activeCategoryKey) {
+			this.selectSubCategory(null);
+		}
+	}
 
 	componentWillUnmount() {
 		this.props.onUnmount();
+	}
+	
+	selectSubCategory(key) {
+		if (this.state.activeSubCategoryKey !== key) {
+			this.setState({
+				activeSubCategoryKey: key
+			});
+			// this.props.onSelectSubCategory(key);
+		}
 	}
 
 	renderCurrent() {
@@ -70,12 +90,18 @@ class IndicatorSelect extends React.PureComponent {
 								categories={props.categories}
 								subCategoryTagKey={props.subCategoryTagKey}
 								selectCategory={props.selectCategory}
-								selectSubCategory={()=>{}} //todo
+								activeSubCategoryKey={this.state.activeSubCategoryKey}
+								selectSubCategory={this.selectSubCategory}
 							/>
 						</div>
 					</div>
 					<div className="esponFuore-indicator-select-indicators">
-						<IndicatorList categoryKey={activeCategoryKey}/>
+						<IndicatorList
+							categoryKey={activeCategoryKey}
+							activeSubCategoryKey={this.state.activeSubCategoryKey}
+							selectSubCategory={this.selectSubCategory}
+							subCategoryTagKey={props.subCategoryTagKey}
+						/>
 					</div>
 				</div>
 			</PantherSelect>

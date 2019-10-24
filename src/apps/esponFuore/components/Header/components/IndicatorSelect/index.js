@@ -51,7 +51,7 @@ const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 				dispatch(Action.tags.useIndexed(filterByActive, categoryFilter, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
-			
+				dispatch(Action.tags.useIndexedClear(componentId));
 			},
 			selectCategory: key => {
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'activeCategory', key))

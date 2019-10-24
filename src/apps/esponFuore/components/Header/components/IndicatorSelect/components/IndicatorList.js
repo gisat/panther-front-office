@@ -19,10 +19,14 @@ const mapStateToProps = (state, ownProps) => {
 		filter = {tagKeys: {includes: [ownProps.categoryKey]}};
 		categoryKey = ownProps.categoryKey;
 	}
+	
+	// todo don't mutate selector input each time (dedicate selector?)
+	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}};
 
 	return {
 		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 100),
-		attributes: Select.attributes.getAttributes(state)
+		attributes: Select.attributes.getAttributes(state),
+		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 20),
 	}
 };
 
@@ -33,6 +37,7 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			registerUse: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedIndicatorsWithAttributes({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
+				dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
