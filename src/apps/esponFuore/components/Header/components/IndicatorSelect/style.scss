@@ -127,11 +127,25 @@
 
 .esponFuore-indicator-select-indicators {
 	padding-left: 3rem;
+}
+
+.esponFuore-indicator-list-subCategory:not(:first-child) {
+	margin-top: m(1);
+}
+.esponFuore-indicator-list-subCategory-header {
+	height: m(2);
+	font-weight: bold;
+	color: #fff;
+	font-size: $b2;
+	letter-spacing: .025rem;
+}
+
+.esponFuore-indicator-list-indicators {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
 }
-.esponFuore-indicator-select-indicators > div {
+.esponFuore-indicator-list-indicator {
 	width: 25rem;
 	height: 12rem;
 	margin: 0 1rem 1rem 0;

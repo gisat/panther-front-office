@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
@@ -50,6 +51,14 @@ const mapDispatchToPropsFactory = () => {
 };
 
 class IndicatorList extends React.PureComponent {
+	
+	constructor(props) {
+		super(props);
+		
+		this.renderIndicator = this.renderIndicator.bind(this);
+		this.renderSubCategory = this.renderSubCategory.bind(this);
+	}
+
 
 	componentDidMount() {
 		this.props.registerUse();
@@ -82,41 +91,68 @@ class IndicatorList extends React.PureComponent {
 
 		if (props.indicators) {
 			
-			let groupedIndicators = _.groupBy(props.indicators, getIndicatorSubCategory);
-			console.log('####',groupedIndicators);
-			console.log('####@@@',props.subCategories);
-			console.log('####@@@&&&&',props.indicators);
+			if (props.subCategories) {
+				
+				let indicators = _.compact(props.indicators); //todo filter unloaded or not?
+				let groupedIndicators = _.groupBy(indicators, getIndicatorSubCategory);
+				let noSubCategory = groupedIndicators[null] || null;
+				delete groupedIndicators[null];
+				
+				return (
+					<>
+						{noSubCategory && noSubCategory.map(this.renderIndicator)}
+						{props.subCategories.map(subCategory => this.renderSubCategory(subCategory, groupedIndicators[subCategory.key]))}
+					</>
+				);
+				
+			}
 			
-			return props.indicators.map((indicator, index) => {
-				if (indicator) {
-					let className = '';
-					if (indicator.key === this.props.activeIndicator) {
-						className = 'selected';
-					}
-
-					let attribute = _.find(props.attributes, {key: indicator.data.attributeKey});
-
-					return (
-						<PantherSelectItem
-							key={indicator.key}
-							itemKey={indicator.key}
-							className={className}
-						>
-							<IndicatorCard
-								indicator={indicator}
-								attribute={attribute}
-								index={index}
-							/>
-						</PantherSelectItem>
-					);
-				} else {
-					return null;
-				}
-			});
+			return (
+				<div className="esponFuore-indicator-list-indicators">
+					{props.indicators.map(this.renderIndicator)}
+				</div>
+			);
 		} else {
 			return null;
 		}
 	}
+	
+	renderSubCategory(subCategory, indicators) {
+		return (
+			<div className="esponFuore-indicator-list-subCategory" key={subCategory.key}>
+				<div className="esponFuore-indicator-list-subCategory-header">{subCategory.data.nameDisplay}</div>
+				<div className="esponFuore-indicator-list-indicators">
+					{indicators ? indicators.map(this.renderIndicator) : null}
+				</div>
+			</div>
+		);
+	}
+	
+	renderIndicator(indicator, index) {
+		if (indicator) {
+			
+			let attribute = _.find(this.props.attributes, {key: indicator.data.attributeKey});
+			
+			return (
+				<PantherSelectItem
+					key={indicator.key}
+					itemKey={indicator.key}
+					className={classNames('esponFuore-indicator-list-indicator', {
+						selected: indicator.key === this.props.activeIndicator
+					})}
+				>
+					<IndicatorCard
+						indicator={indicator}
+						attribute={attribute}
+						index={index}
+					/>
+				</PantherSelectItem>
+			);
+		} else {
+			return null;
+		}
+	}
+	
 }
 
 export default connect(mapStateToProps, mapDispatchToPropsFactory)(IndicatorList);
