@@ -46,7 +46,7 @@ class IndicatorCard extends React.PureComponent {
 
 		this.state = {
 			diagrams: getSomeDiagramsOrdered(props.indicator.key),
-			polygons: getSampleBasedOnUuid(polygons, 40, props.indicator.key),
+			polygons: getSampleBasedOnUuid(polygons, 35, props.indicator.key),
 			backgroundImage: previews[props.index % previews.length]
 		}
 	}
