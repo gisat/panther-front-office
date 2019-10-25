@@ -316,7 +316,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
 						if(attributeFeatureData && nameData && nameData[key]) {
 							const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
-							nameProperty['_name'] = nameFeatureData.data.name;
+							if (nameFeatureData) {
+								nameProperty['_name'] = nameFeatureData.data.name;
+							}
 						} else {
 							console.warn("No attribute data found for feature", feature)
 						}
