@@ -3,6 +3,10 @@ import config from '../../../../../config/index';
 import download from 'downloadjs';
 import Select from '../../../state/Select';
 
+function error (message) {
+	throw new Error(message);
+}
+
 export default (type, applyFilter) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -26,7 +30,10 @@ export default (type, applyFilter) => {
 		let url = `${config.serverUrl}rest/export/${type ? type : 'geojson'}/filtered`;
 
 		/* Payload */
-		let payload = {filter};
+		let payload = {
+			filter,
+			snapToGrid: 0.1
+		};
 
 		let filteredFeatures = null;
 		if (selection && applyFilter) {
@@ -37,7 +44,7 @@ export default (type, applyFilter) => {
 			payload.features = filteredFeatures;
 		}
 
-		fetch(url, {
+		return fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -46,21 +53,39 @@ export default (type, applyFilter) => {
 			body: payload ? JSON.stringify(payload) : null
 		}).then(
 			response => {
-				if (response) {
-					response.json().then((data) => {
-						if (data) {
-							download(JSON.stringify(data), 'data.geojson', 'text/plain');
-						} else {
-							throw new Error("No data exported");
-						}
-					}).catch(error => {
-						throw new Error("Export failed: " + error);
-					});
+				if (response && response.ok) {
+					if (!type || type === 'geojson') {
+						return response.json().then((data) => {
+							if (data && !data.error) {
+								download(JSON.stringify(data), 'data.geojson', 'text/plain');
+							} else {
+								error("No data exported! " + data.error);
+							}
+						}).catch(err => {
+							error("Export failed: " + err);
+						});
+					} else if (type === 'shp') {
+						return response.blob().then((data) => {
+							if (data) {
+								download(data, "data.zip");
+							} else {
+								error("No data exported! " + data.error);
+							}
+						}).catch(err => {
+							error("Export failed: " + err);
+						});
+					} else {
+						error(`Format ${type} is not supported!`);
+					}
+				} else {
+					error("Export failed: " + response.statusText);
 				}
 			},
-			error => {
-				throw new Error("Export failed: " + error);
+			err => {
+				error(err);
 			}
-		);
+		).catch(err => {
+			return error(err);
+		});
 	};
 }

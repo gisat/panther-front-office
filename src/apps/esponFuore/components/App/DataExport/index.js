@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = () => (dispatch, ownProps) => {
 	return {
 		onExport: (type, applyFilter) => {
-			dispatch(exportData(type, applyFilter));
+			return dispatch(exportData(type, applyFilter));
 		}
 	}
 };
