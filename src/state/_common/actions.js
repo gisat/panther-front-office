@@ -446,7 +446,10 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 				// check success to make sure it's our error from BE and not anything broken in render chain
 				if (response && response.message && response.success === false){
 					// do nothing
-				} else {
+				}
+
+				// TODO solve this and remove hack
+				else if (length - PAGE_SIZE > 0) {
 					return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
 				}
 			}).catch((err)=>{

@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 1000),
 		attributes: Select.attributes.getAttributes(state),
-		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 20),
+		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 1000),
 	}
 };
 
@@ -42,7 +42,7 @@ const mapDispatchToPropsFactory = () => {
 				}
 
 				if (ownProps.subCategoryTagKey && ownProps.categoryKey) {
-					dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}}, null, 1, 20, componentId));
+					dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}}, null, 1, 1000, componentId));
 				}
 			},
 			onUnmount: () => {

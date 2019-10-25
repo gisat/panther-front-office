@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}};
 
 	return {
-		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 20),
+		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 100),
 	}
 };
 
@@ -27,7 +27,7 @@ const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
 				if (ownProps.subCategoryTagKey && ownProps.activeCategoryKey) {
-					dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
+					dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 100, componentId));
 				}
 			},
 			onUnmount: () => {
