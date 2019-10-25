@@ -60,21 +60,14 @@ class EsponFuoreChart extends React.PureComponent {
 			title = attr && attr.nameDisplay;
 		}
 
-		let subtitle = [];
-		if (props.name && attr && attr.nameDisplay) {
-			subtitle.push(attr.nameDisplay);
-		}
-		if (attr && attr.description) {
-			subtitle.push(attr.description);
-		}
-
+		let subtitle = null;
 		if (props.periods) {
 			let names = props.periods.map(period => period.data && period.data.nameDisplay);
 			if (names.length > 1) {
 				let sortedNames = _.sortBy(names);
-				subtitle.push(`from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`);
+				subtitle = `From ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`;
 			} else {
-				subtitle.push(`in ${names[0]}`);
+				subtitle = `${names[0]}`;
 			}
 		}
 
@@ -114,7 +107,7 @@ class EsponFuoreChart extends React.PureComponent {
 				key={this.props.chartKey + "-wrapper"}
 				wrapperKey={this.props.chartKey + "-wrapper"}
 				title={title}
-				subtitle={subtitle.length ? subtitle.join(", ") : null}
+				subtitle={subtitle}
 				statusBar={filter ? (this.renderLabel(filter)) : null}
 				loading={loading}
 				enableExport

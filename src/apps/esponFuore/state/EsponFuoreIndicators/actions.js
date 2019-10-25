@@ -31,6 +31,7 @@ function setActiveAttributeByIndicatorKey(key) {
 
 function select(key) {
 	return (dispatch, getState) => {
+		dispatch(setActiveKey(key));
 		dispatch(setActiveAttributeByIndicatorKey(key));
 
 		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(getState(), key);
@@ -72,5 +73,6 @@ export default {
 	useIndexed,
 	useIndexedIndicatorsWithAttributes,
 	useIndexedClear,
-	select
+	select,
+	setActiveKey
 }

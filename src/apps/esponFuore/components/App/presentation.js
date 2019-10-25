@@ -23,6 +23,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import SimpleLayersControl from "../../../../components/common/maps/SimpleLayersControl/presentation";
 
 import bing from "../../assets/img/powered-by-bing.png";
+import IndicatorDescription from "./IndicatorDescription";
 
 const backgroundLayers = [
 	{
@@ -154,11 +155,14 @@ class EsponFuoreApp extends React.PureComponent {
 											minWidth: "20rem",
 											maxWidth: "45rem",
 											render: props => (
-												<ChartSet
-													setKey="esponFuoreCharts"
-												>
-													<EsponFuoreChart/>
-												</ChartSet>
+												<div className="esponFuore-right-panel">
+													<IndicatorDescription/>
+													<ChartSet
+														setKey="esponFuoreCharts"
+													>
+														<EsponFuoreChart/>
+													</ChartSet>
+												</div>
 												)
 										},
 									]}
