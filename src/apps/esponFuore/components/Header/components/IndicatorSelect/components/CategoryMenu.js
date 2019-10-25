@@ -22,12 +22,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 	const componentId = 'esponFuore_CategoryMenu_' + utils.randomString(6);
-	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}};
 
 	return (dispatch, ownProps) => {
 		return {
 			registerUse: () => {
-				dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
+				if (ownProps.subCategoryTagKey && ownProps.activeCategoryKey) {
+					dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
+				}
 			},
 			onUnmount: () => {
 				dispatch(Action.tags.useIndexedClear(componentId));

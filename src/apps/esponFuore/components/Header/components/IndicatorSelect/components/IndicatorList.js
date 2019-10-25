@@ -40,7 +40,10 @@ const mapDispatchToPropsFactory = () => {
 				if (ownProps.categoryKey) {
 					dispatch(Action.specific.esponFuoreIndicators.useIndexedIndicatorsWithAttributes({scope: true}, {tagKeys: {includes: [ownProps.categoryKey]}}, null, 1, 1000, componentId));
 				}
-				dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}}, null, 1, 20, componentId));
+
+				if (ownProps.subCategoryTagKey && ownProps.categoryKey) {
+					dispatch(Action.tags.useIndexed(filterByActive, {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}}, null, 1, 20, componentId));
+				}
 			},
 			onUnmount: () => {
 				dispatch(Action.specific.esponFuoreIndicators.useIndexedClear(componentId));
