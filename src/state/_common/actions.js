@@ -446,11 +446,11 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 				// check success to make sure it's our error from BE and not anything broken in render chain
 				if (response && response.message && response.success === false){
 					// do nothing
-				}
-
-				// TODO solve this and remove hack
-				else if (length - PAGE_SIZE > 0) {
-					return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
+				} else {
+					// remaining pages
+					if (length > PAGE_SIZE) {
+						return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
+					} // else already done
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
