@@ -130,15 +130,23 @@ class EsponFuoreTimeline extends React.PureComponent {
 				}
 
 				let available = this.props.availablePeriodKeys && _.includes(this.props.availablePeriodKeys, key);
+				let title = available ? null : 'Selected indicator is not available for this period.';
 				let disabled = (numOfActive <= MIN_ACTIVE && active) || (numOfActive >= MAX_ACTIVE && !active) || (!available && !active);
 	
 				let classes = classnames("esponFuore-timeline-period", {
 					active,
-					disabled
+					disabled,
+					unavailable: !available
 				});
 	
 				return (
-					<div key={period.key} className={classes} style={style} onClick={this.onPeriodClick.bind(this, period.key)}>
+					<div
+						key={period.key}
+						className={classes}
+						style={style}
+						onClick={disabled ? null : this.onPeriodClick.bind(this, period.key)}
+						title={title}
+					>
 						{caption}
 					</div>
 				);
