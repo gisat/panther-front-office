@@ -52,7 +52,7 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 
 		const attributes = new WorldWind.ShapeAttributes(null);
 
-		if(!isNaN(radius) && radius > 0) {
+		if((value || value === 0) && !isNaN(radius) && radius > 0) {
 			//TODO - test on no data
 			const shape = new WorldWind.SurfaceCircle(location, radius, attributes);
 
