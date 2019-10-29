@@ -24,6 +24,8 @@ class CaseSelect extends React.PureComponent {
 	selectCase(key) {
 		if (!this.props.activeCase || (key !== this.props.activeCase.key)) {
 			this.props.selectCase(key);
+		} else {
+			this.props.closeSelect();
 		}
 	}
 
