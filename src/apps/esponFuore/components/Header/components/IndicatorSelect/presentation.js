@@ -19,6 +19,7 @@ class IndicatorSelect extends React.PureComponent {
 
 		this.renderCurrent = this.renderCurrent.bind(this);
 		this.selectSubCategory = this.selectSubCategory.bind(this);
+		this.resetActiveSubcategory = this.resetActiveSubcategory.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,6 +44,11 @@ class IndicatorSelect extends React.PureComponent {
 			// this.props.onSelectSubCategory(key);
 		}
 	}
+
+	resetActiveSubcategory() {
+		this.selectSubCategory(null);
+	}
+
 
 	renderCurrent() {
 		const props = this.props;
@@ -95,11 +101,10 @@ class IndicatorSelect extends React.PureComponent {
 							/>
 						</div>
 					</div>
-					<div className="esponFuore-indicator-select-indicators">
+					<div className="esponFuore-indicator-select-indicators" onScroll={this.resetActiveSubcategory}>
 						<IndicatorList
 							categoryKey={activeCategoryKey}
 							activeSubCategoryKey={this.state.activeSubCategoryKey}
-							selectSubCategory={this.selectSubCategory}
 							subCategoryTagKey={props.subCategoryTagKey}
 						/>
 					</div>
