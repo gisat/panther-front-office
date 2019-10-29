@@ -124,7 +124,7 @@ class EsponFuoreChart extends React.PureComponent {
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
 		} else if (!enoughPeriods) {
-			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+			return <div className="ptr-chart-wrapper-info">No data available for selected period.</div>
 		} else {
 			return <ColumnChart
 				key={this.props.chartKey}
@@ -173,7 +173,7 @@ class EsponFuoreChart extends React.PureComponent {
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
 		} else if (!enoughPeriods) {
-			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+			return <div className="ptr-chart-wrapper-info">No data available for some of the selected periods.</div>
 		} else {
 			return <LineChart
 				key={this.props.chartKey}
