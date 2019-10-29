@@ -90,7 +90,7 @@ class LayerControls extends React.PureComponent {
 		if (props.isCrayfish) {
 			actualExpansionInsert = (
 				<div className={actualExpansionClassNames}>
-					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
+					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
 					<div className="tacrGeoinvaze-layer-description">Mapa VÚV TGM</div>
 				</div>
 			);
@@ -101,7 +101,7 @@ class LayerControls extends React.PureComponent {
 				
 				actualExpansionInsert = (
 					<div className={actualExpansionClassNames}>
-						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
+						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
 						<div>
 							<ButtonSwitch onClick={this.switchToActual} ghost>
 								{latestPeriods.map(period => (
@@ -118,7 +118,7 @@ class LayerControls extends React.PureComponent {
 			} else {
 				actualExpansionInsert = (
 					<div className={actualExpansionClassNames}>
-						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
+						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
 						<div>
 							(žádná data)
 						</div>
@@ -140,7 +140,7 @@ class LayerControls extends React.PureComponent {
 				<div className={classNames("tacrGeoinvaze-model-gis", {
 					active: gis1active || gis3active || gis10active
 				})}>
-					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření / Future expansion model</div>
+					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
 							<Option active={gis1active} value={"gis1"}>+ 1 rok</Option>
@@ -163,7 +163,7 @@ class LayerControls extends React.PureComponent {
 				<div className={classNames("tacrGeoinvaze-model-biomod", {
 					active: gamActive || gbmActive || maxentActive
 				})}>
-					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření / Expansion probability model</div>
+					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
 							<Option active={gamActive} value={"gam"}>gen. lineární</Option>
