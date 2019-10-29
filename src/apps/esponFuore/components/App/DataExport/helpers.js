@@ -27,7 +27,7 @@ export default (type, applyFilter) => {
 		};
 
 		/* Endpoint */
-		let url = `${config.serverUrl}rest/export/${type ? type : 'geojson'}/filtered`;
+		let url = `${config.apiBackendProtocol}://${config.apiBackendHost}/backend/rest/export/${type ? type : 'geojson'}/filtered`;
 
 		/* Payload */
 		let payload = {
