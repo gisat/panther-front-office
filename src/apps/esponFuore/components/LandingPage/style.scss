@@ -41,6 +41,11 @@
 	min-width: 10rem;
 }
 
+.esponFuore-landing-page-text .bottom-link.disabled a {
+	pointer-events: none;
+	color: var(--accent30);
+}
+
 .esponFuore-landing-page-footer {
 	padding: m(2) m(1) m(1);
 	display: flex;
