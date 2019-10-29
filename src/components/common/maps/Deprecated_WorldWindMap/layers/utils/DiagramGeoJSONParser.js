@@ -52,23 +52,21 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 
 		const attributes = new WorldWind.ShapeAttributes(null);
 
-		if(isNaN(radius)) {
+		if(!isNaN(radius) && radius > 0) {
 			//TODO - test on no data
-			radius = 0
-		}
+			const shape = new WorldWind.SurfaceCircle(location, radius, attributes);
 
-		const shape = new WorldWind.SurfaceCircle(location, radius, attributes);
+			if (configuration && configuration.userProperties) {
+				shape.userProperties = configuration.userProperties;
+			}
+			//TODO - better scale for negative values
+			//dont add shape to renderable for radius 0, it cause render error
+			if(!radius){
+				shape.enabled = false;
+			}
 
-		if (configuration && configuration.userProperties) {
-			shape.userProperties = configuration.userProperties;
+			layer.addRenderable(shape);
 		}
-		//TODO - better scale for negative values 
-		//dont add shape to renderable for radius 0, it cause render error
-		if(!radius){
-			shape.enabled = false;
-		}
-
-		layer.addRenderable(shape);
 	}
 
 	/**
