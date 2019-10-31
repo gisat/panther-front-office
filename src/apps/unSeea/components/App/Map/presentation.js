@@ -387,7 +387,8 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 
 	render() {
 		return (<WorldWindMap
-			{...this.props} 
+			{...this.props}
+			elevationModel={'default'} 
 			layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
 			label={this.props.label}
 			rerendererSetter={this.setRerenderer}
