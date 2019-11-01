@@ -13,7 +13,8 @@ class ChartPanel extends React.PureComponent {
 	
 	static propTypes = {
 		data: PropTypes.array,
-		spatialIdKey: PropTypes.string
+		spatialIdKey: PropTypes.string,
+		maximum: PropTypes.number,
 	};
 
 	transformDataForAsterChart(data) {
@@ -41,7 +42,7 @@ class ChartPanel extends React.PureComponent {
 	
 
 	render() {
-		const {data} = this.props;
+		const {data, maximum} = this.props;
 
 		let hoveredData;
 		/* Handle context */
@@ -93,7 +94,7 @@ class ChartPanel extends React.PureComponent {
 										captions: true
 									}}
 									forceMinimum={0}
-									forceMaximum={100}
+									forceMaximum={maximum}
 									legend
 								/>
 							</ChartWrapper> : 
@@ -137,7 +138,7 @@ class ChartPanel extends React.PureComponent {
 									}}
 									legend
 									forceMinimum={0}
-									forceMaximum={100}
+									forceMaximum={maximum}
 								/>
 							</ChartWrapper>
 						</div>

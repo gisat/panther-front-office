@@ -12,6 +12,8 @@ const useActiveMetadataKeys = {
 	period: false
 };
 
+const calculateMedian = (values) => [...values].sort((a, b) => a - b)[Math.round(values.length/2)];
+
 const mapStateToPropsFactory = (initialState, ownProps) => {
 
 	return (state) => {
@@ -58,7 +60,9 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		const dataStatistics = observedValues.map(d => ({
 			id: d.name,
 			min: null,
-			max: null
+			max: null,
+			values: [],
+			median: null,
 		}))
 
 		data.forEach((d) => {
@@ -68,19 +72,27 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 					const statistics = dataStatistics.find(s => s.id === key);
 					statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
 					statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
+					statistics.values.push(value);
 				}
 			}
 		})
 
 		const sumStatistics = {
 			min: null,
-			max: null
+			max: null,
+			median: null,
+			values: [],
 		}
 
 		dataStatistics.forEach(s => {
 			sumStatistics.min = (sumStatistics.min || sumStatistics.min === 0) ? Math.min(sumStatistics.min, s.min) : s.min;
 			sumStatistics.max = (sumStatistics.max || sumStatistics.max === 0) ? Math.max(sumStatistics.max, s.max) : s.max;
-		})
+			sumStatistics.values = [...sumStatistics.values, ...s.values];
+			
+			s.median = calculateMedian(s.values);
+		});
+
+		sumStatistics.median = calculateMedian(sumStatistics.values);
 
 
 		// convert absolute numbers to relative
@@ -92,7 +104,8 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 				if(observedValue) {
 					const statistics = dataStatistics.find(s => s.id === key);
 					data[key] = {
-						relative: 100 * value / statistics.max,
+						// relative: 100 * value / statistics.max,
+						relative: 100 * value / statistics.median,
 						absolute: value
 					}
 				} else {
@@ -105,7 +118,10 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		return {
 			statistics: sumStatistics,
 			data: relativeData,
-			selectedArea: selectedAreas[0]
+			selectedArea: selectedAreas[0],
+			// maximum: 100 * sumStatistics.max / sumStatistics.median,
+			// maximum: 100,
+			maximum: 150,
 		}
 	};
 };
