@@ -4,7 +4,8 @@ import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
-import observedValues from './observed';
+import observedEcosystemServiceIndicators from './observedEcosystemServiceIndicators';
+import observedMonetaryIndicators from './observedMonetaryIndicators';
 
 import './style.css';
 
@@ -12,14 +13,15 @@ class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;
 	
 	static propTypes = {
-		data: PropTypes.array,
+		ecosystemServiceIndicatorsData: PropTypes.array,
+		monetaryIndicatorsData: PropTypes.array,
 		selectedArea: PropTypes.string,
 	};
 
-	transformDataForAsterChart(data) {
+	transformDataForAsterChart(data = {}, filterObservedValues) {
 		const transformedData = [];
 		for (const [key, value] of Object.entries(data)) {
-			const observedValue = observedValues.find(ov => ov.name === key);
+			const observedValue = filterObservedValues.find(ov => ov.name === key);
 			if(observedValue) {
 				transformedData.push({
 					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
@@ -35,68 +37,92 @@ class ChartPanel extends React.PureComponent {
 
 		return {
 			key: data[this.props.spatialIdKey],
-			data: transformedData
+			data: transformedData,
+			name: data.name,
 		}
 	}
 	
 
 	render() {
-		const {data} = this.props;
+		const {ecosystemServiceIndicatorsData, monetaryIndicatorsData} = this.props;
 
-		let hoveredData;
-		/* Handle context */
-		if (this.context && this.context.hoveredItems) {
-			hoveredData = data.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0])
+		let hoverAsterDataEcosystemServiceIndicators
+		let hoverAsterDataMonetaryIndicators
+		if(this.context && this.context.hoveredItems) {
+			hoverAsterDataEcosystemServiceIndicators = this.transformDataForAsterChart(ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedEcosystemServiceIndicators);
+			hoverAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedMonetaryIndicators);
 		}
 
-		let hoverAsterData;
-		if(hoveredData) {
-			hoverAsterData = this.transformDataForAsterChart(hoveredData);
+		let selectAsterDataEcosystemServiceIndicators
+		let selectAsterDataMonetaryIndicators
+		if(this.props.selectedArea) {
+			selectAsterDataEcosystemServiceIndicators = this.transformDataForAsterChart(ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedEcosystemServiceIndicators);
+			selectAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryIndicators);
 		}
 
-		let selectedAreaData;
-		if (this.props.selectedArea) {
-			selectedAreaData = data.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea);
-		}
-
-		let selectAsterData;
-		if(selectedAreaData) {
-			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
-		}
-
-		const description = "Mean ecosystem values normalised by population per district."
+		const ecosystemServiceDescription = "Mean ecosystem service values normalised by population per district."
+		const monetaryIndicatorsDescription = "Mean monetary values normalised by population per district."
 
 			return (
 					<div className="ptr-unseea-chart-panel">
 						<div className="ptr-unseea-chart-column">
 						{
-							hoverAsterData ? 
-								<ChartWrapper
-									key={this.props.chartKey + "-wrapper"}
-									title={hoveredData.name}
-									subtitle={description}
-								>
-								<AsterChart
-									key="aster-doc-basic"
-									data={hoverAsterData.data}
+							hoverAsterDataEcosystemServiceIndicators && hoverAsterDataEcosystemServiceIndicators.data && hoverAsterDataEcosystemServiceIndicators.data.length > 0 && 
+							hoverAsterDataMonetaryIndicators && hoverAsterDataMonetaryIndicators.data && hoverAsterDataMonetaryIndicators.data.length > 0 ? 
+								<div>
+									<ChartWrapper
+										key={this.props.chartKey + "-wrapper-1"}
+										title={hoverAsterDataEcosystemServiceIndicators.name}
+										subtitle={ecosystemServiceDescription}
+									>
+										<AsterChart
+											key="aster-doc-basic-1"
+											data={hoverAsterDataEcosystemServiceIndicators.data}
 
-									keySourcePath="key"
-									nameSourcePath="name"
-									valueSourcePath="value.relative"
-									hoverValueSourcePath="value.absolute"
-									colorSourcePath="color"
-									relative
-									grid={{
-										captions: true
-									}}
-									radials={{
-										captions: true
-									}}
-									forceMinimum={0}
-									forceMaximum={100}
-									legend
-								/>
-							</ChartWrapper> : 
+											keySourcePath="key"
+											nameSourcePath="name"
+											valueSourcePath="value.relative"
+											hoverValueSourcePath="value.absolute"
+											colorSourcePath="color"
+											relative
+											grid={{
+												captions: true
+											}}
+											radials={{
+												captions: true
+											}}
+											forceMinimum={0}
+											forceMaximum={100}
+											legend
+										/>
+									</ChartWrapper>
+									<ChartWrapper
+										key={this.props.chartKey + "-wrapper-2"}
+										title={hoverAsterDataMonetaryIndicators.name}
+										subtitle={monetaryIndicatorsDescription}
+									>
+										<AsterChart
+											key="aster-doc-basic-2"
+											data={hoverAsterDataMonetaryIndicators.data}
+
+											keySourcePath="key"
+											nameSourcePath="name"
+											valueSourcePath="value.relative"
+											hoverValueSourcePath="value.absolute"
+											colorSourcePath="color"
+											relative
+											grid={{
+												captions: true
+											}}
+											radials={{
+												captions: true
+											}}
+											forceMinimum={0}
+											forceMaximum={100}
+											legend
+										/>
+									</ChartWrapper>
+								</div> : 
 							(
 								<div className="ptr-chart-wrapper-content">
 									<p>
@@ -113,33 +139,59 @@ class ChartPanel extends React.PureComponent {
 						}
 						</div>
 						<div className="ptr-unseea-chart-column">
-							<ChartWrapper
-							key={selectAsterData.key + "-wrapper"}
-							title={selectedAreaData.name}
-							subtitle={description}
-							>
-							
-								<AsterChart
-									key={`${selectAsterData.key}-aster-doc-basic`}
-									data={selectAsterData.data}
+								<ChartWrapper
+									key={selectAsterDataEcosystemServiceIndicators.key + "-wrapper-1"}
+									title={selectAsterDataEcosystemServiceIndicators.name}
+									subtitle={ecosystemServiceDescription}
+									>
+									<AsterChart
+										key={`${selectAsterDataEcosystemServiceIndicators.key}-aster-doc-basic-1`}
+										data={selectAsterDataEcosystemServiceIndicators.data}
 
-									keySourcePath="key"
-									nameSourcePath="name"
-									valueSourcePath="value.relative"
-									hoverValueSourcePath="value.absolute"
-									colorSourcePath="color"
-									relative
-									grid={{
-										captions: true
-									}}
-									radials={{
-										captions: true
-									}}
-									legend
-									forceMinimum={0}
-									forceMaximum={100}
-								/>
-							</ChartWrapper>
+										keySourcePath="key"
+										nameSourcePath="name"
+										valueSourcePath="value.relative"
+										hoverValueSourcePath="value.absolute"
+										colorSourcePath="color"
+										relative
+										grid={{
+											captions: true
+										}}
+										radials={{
+											captions: true
+										}}
+										legend
+										forceMinimum={0}
+										forceMaximum={100}
+									/>
+								</ChartWrapper>
+								<ChartWrapper
+								key={selectAsterDataMonetaryIndicators.key + "-wrapper-2"}
+								title={selectAsterDataMonetaryIndicators.name}
+								subtitle={monetaryIndicatorsDescription}
+								>
+								
+									<AsterChart
+										key={`${selectAsterDataMonetaryIndicators.key}-aster-doc-basic-2`}
+										data={selectAsterDataMonetaryIndicators.data}
+
+										keySourcePath="key"
+										nameSourcePath="name"
+										valueSourcePath="value.relative"
+										hoverValueSourcePath="value.absolute"
+										colorSourcePath="color"
+										relative
+										grid={{
+											captions: true
+										}}
+										radials={{
+											captions: true
+										}}
+										legend
+										forceMinimum={0}
+										forceMaximum={100}
+									/>
+								</ChartWrapper>
 						</div>
 					</div>
 				)

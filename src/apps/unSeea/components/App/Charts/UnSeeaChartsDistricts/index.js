@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import wrapper from './presentation';
-import observedValues from './observed';
+import observedEcosystemServiceIndicators from './observedEcosystemServiceIndicators';
+import observedMonetaryIndicators from './observedMonetaryIndicators';
 import _ from "lodash";
 
 
@@ -11,6 +12,49 @@ const useActiveMetadataKeys = {
 	attribute: false,
 	period: false
 };
+
+const calsulateDataStatistics = (data, observedValues) => {
+
+		//calculate data statistics
+		const dataStatistics = observedValues.map(d => ({
+			id: d.name,
+			min: null,
+			max: null
+		}))
+
+		data.forEach((d) => {
+			for (const [key, value] of Object.entries(d)) {
+				const observedValue = observedValues.find(ov => ov.name === key);
+				if(observedValue) {
+					const statistics = dataStatistics.find(s => s.id === key);
+					statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
+					statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
+				}
+			}
+		})
+
+		// convert absolute numbers to relative
+		//TODO -> should be in selector
+		const relativeData = data.map((d) => {
+			const data = {};
+			for (const [key, value] of Object.entries(d)) {
+				const observedValue = observedValues.find(ov => ov.name === key);
+				if(observedValue) {
+					const statistics = dataStatistics.find(s => s.id === key);
+					data[key] = {
+						relative: 100 * value / statistics.max,
+						absolute: value
+					}
+				} else {
+					data[key] = value;
+				}
+			}
+			return data;
+		});
+
+		return relativeData;
+}
+
 
 const mapStateToPropsFactory = (initialState, ownProps) => {
 
@@ -51,46 +95,9 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			return f.properties;
 		})
 
-
-		//calculate data statistics
-		const dataStatistics = observedValues.map(d => ({
-			id: d.name,
-			min: null,
-			max: null
-		}))
-
-		data.forEach((d) => {
-			for (const [key, value] of Object.entries(d)) {
-				const observedValue = observedValues.find(ov => ov.name === key);
-				if(observedValue) {
-					const statistics = dataStatistics.find(s => s.id === key);
-					statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
-					statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
-				}
-			}
-		})
-
-		// convert absolute numbers to relative
-		//TODO -> should be in selector
-		const relativeData = data.map((d) => {
-			const data = {};
-			for (const [key, value] of Object.entries(d)) {
-				const observedValue = observedValues.find(ov => ov.name === key);
-				if(observedValue) {
-					const statistics = dataStatistics.find(s => s.id === key);
-					data[key] = {
-						relative: 100 * value / statistics.max,
-						absolute: value
-					}
-				} else {
-					data[key] = value;
-				}
-			}
-			return data;
-		}) 
-
 		return {
-			data: relativeData,
+			ecosystemServiceIndicatorsData: calsulateDataStatistics(data, observedEcosystemServiceIndicators),
+			monetaryIndicatorsData: calsulateDataStatistics(data, observedMonetaryIndicators),
 			selectedArea: selectedAreas[0].toString()
 		}
 	};
