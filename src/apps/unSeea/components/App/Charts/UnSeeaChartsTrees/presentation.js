@@ -65,7 +65,7 @@ class ChartPanel extends React.PureComponent {
 			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
 		}
 
-		const description = "Ecosystem values"
+		const description = "Tree characteristics"
 
 			return (
 					<div className="ptr-unseea-chart-panel">
