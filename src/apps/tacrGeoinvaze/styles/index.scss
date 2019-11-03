@@ -80,17 +80,17 @@
 }
 .tacrGeoinvaze-case-select-overlay {
 	height: 100%;
-	//background-color: var(--base0);
-	background-color: var(--accent10);
+	background-color: var(--base90);
+	overflow-y: auto;
 }
 
-.tacrGeoinvaze-case-select-overlay-header {
-	height: m(4);
-	background-color: var(--base0);
-}
-.tacrGeoinvaze-case-select-content {
-	height: calc(100% - #{m(4)});
-}
+//.tacrGeoinvaze-case-select-overlay-header {
+//	height: m(4);
+//	background-color: var(--base0);
+//}
+//.tacrGeoinvaze-case-select-content {
+//	height: calc(100% - #{m(4)});
+//}
 
 .tacrGeoinvaze-sidebar {
 	padding-top: m(5);
