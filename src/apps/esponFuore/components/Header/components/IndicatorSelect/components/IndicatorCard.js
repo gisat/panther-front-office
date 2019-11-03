@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {getCartogramColorScale} from '../../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 
+import fuoreUtils from "../../../../../utils";
 import diagrams from "./sampleDiagrams";
 import polygons from "./samplePolygons";
 import preview_1 from '../../../../../assets/previews/preview_1.png';
@@ -45,7 +46,7 @@ class IndicatorCard extends React.PureComponent {
 
 		this.state = {
 			diagrams: getSomeDiagramsOrdered(props.indicator.key),
-			polygons: getSampleBasedOnUuid(polygons, 40, props.indicator.key),
+			polygons: getSampleBasedOnUuid(polygons, 35, props.indicator.key),
 			backgroundImage: previews[props.index % previews.length]
 		}
 	}
@@ -58,9 +59,8 @@ class IndicatorCard extends React.PureComponent {
 		const props = this.props;
 		const name = props.indicator && props.indicator.data.nameDisplay;
 		const type = props.attribute && props.attribute.data.valueType;
-		const color = props.attribute && props.attribute.data.color;
-
 		const style = {backgroundImage: 'url(' + this.state.backgroundImage + ')'};
+		const color = fuoreUtils.resolveColour(props.attribute);
 
 		let features = null;
 		if (type === 'absolute') {

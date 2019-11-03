@@ -6,6 +6,7 @@ import ColumnChart from "../../../../../../components/common/charts/ColumnChart/
 import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
 import Icon from "../../../../../../components/common/atoms/Icon";
 import chroma from "chroma-js";
+import fuoreUtils from "../../../../utils";
 
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
@@ -59,21 +60,14 @@ class EsponFuoreChart extends React.PureComponent {
 			title = attr && attr.nameDisplay;
 		}
 
-		let subtitle = [];
-		if (props.name && attr && attr.nameDisplay) {
-			subtitle.push(attr.nameDisplay);
-		}
-		if (attr && attr.description) {
-			subtitle.push(attr.description);
-		}
-
+		let subtitle = null;
 		if (props.periods) {
 			let names = props.periods.map(period => period.data && period.data.nameDisplay);
 			if (names.length > 1) {
 				let sortedNames = _.sortBy(names);
-				subtitle.push(`from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`);
+				subtitle = `From ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`;
 			} else {
-				subtitle.push(`in ${names[0]}`);
+				subtitle = `${names[0]}`;
 			}
 		}
 
@@ -106,29 +100,31 @@ class EsponFuoreChart extends React.PureComponent {
 			loading = false;
 		}
 
+		const color = fuoreUtils.resolveColour(props.attribute);
+
 		return (
 			<ChartWrapper
 				key={this.props.chartKey + "-wrapper"}
 				wrapperKey={this.props.chartKey + "-wrapper"}
 				title={title}
-				subtitle={subtitle.length ? subtitle.join(", ") : null}
+				subtitle={subtitle}
 				statusBar={filter ? (this.renderLabel(filter)) : null}
 				loading={loading}
 				enableExport
 			>
-				{singleValue ? this.renderColumnChart(data, availablePeriods) : this.renderLineChart(data, availablePeriods)}
+				{singleValue ? this.renderColumnChart(data, availablePeriods, color) : this.renderLineChart(data, availablePeriods, color)}
 			</ChartWrapper>
 		);
 	}
 
-	renderColumnChart(data, availablePeriods) {
+	renderColumnChart(data, availablePeriods, color) {
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
 		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
 
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
 		} else if (!enoughPeriods) {
-			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+			return <div className="ptr-chart-wrapper-info">No data available for selected period.</div>
 		} else {
 			return <ColumnChart
 				key={this.props.chartKey}
@@ -146,8 +142,8 @@ class EsponFuoreChart extends React.PureComponent {
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
-				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				defaultColor={color}
+				highlightColor={color ? chroma(color).darken(1) : null}
 				barGapRatio={0.25}
 				minBarWidth={5}
 				diverging
@@ -155,7 +151,7 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 	}
 
-	renderLineChart(data, availablePeriods) {
+	renderLineChart(data, availablePeriods, color) {
 		let yOptions = null;
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
 		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
@@ -177,7 +173,7 @@ class EsponFuoreChart extends React.PureComponent {
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
 		} else if (!enoughPeriods) {
-			return <div className="ptr-chart-wrapper-info">Selected indicator doesn't contain enough data for this type of chart.</div>
+			return <div className="ptr-chart-wrapper-info">No data available for some of the selected periods.</div>
 		} else {
 			return <LineChart
 				key={this.props.chartKey}
@@ -204,8 +200,8 @@ class EsponFuoreChart extends React.PureComponent {
 
 				withPoints
 				data={data}
-				defaultColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color}
-				highlightColor={this.props.attribute && this.props.attribute.data && this.props.attribute.data.color && chroma(this.props.attribute.data.color).darken(1)}
+				defaultColor={color}
+				highlightColor={color ? chroma(color).darken(1) : null}
 
 				legend={legend}
 			/>

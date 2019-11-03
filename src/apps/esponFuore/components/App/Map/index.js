@@ -8,6 +8,7 @@ import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper
 
 import utils from '../../../../../utils/utils';
 import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
+import fuoreUtils from "../../../utils";
 
 const useActiveMetadataKeys = {
 	scope: true,
@@ -148,9 +149,6 @@ const mapStateToProps = (state, props) => {
 		//active indicator type absolute/relative
 		let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
 		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
-		// const hueColor = '#00ff2b'; //green
-		const hueColor = '#4689d0'; //blue
-		// const hueColor = '#ff0000'; //red
 		
 		const map = Select.maps.getMapByKey(state, props.mapKey);
 		let label = null;
@@ -198,10 +196,11 @@ const mapStateToProps = (state, props) => {
 					const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
 					const attributeKey = layerData.attributeRelationsData.attributeKey;
 					const attribute = Select.attributes.getByKey(state, attributeKey);
+
 					acc[layerData.key] = {
 						dataType: attribute &&  attribute.data && attribute.data.valueType,
 						attributeDataKey,
-						color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
+						color: fuoreUtils.resolveColour(attribute)
 					}
 				}
 			}

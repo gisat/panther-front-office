@@ -19,7 +19,7 @@ export const Section = ({name, children}) => (
 		<tr key={'section' + name} className="ptr-docs-props-table-section">
 			<td colSpan={5}>{name}</td>
 		</tr>
-		{children}
+		{children} //todo add classes
 	</>
 );
 
@@ -38,25 +38,28 @@ class ComponentPropsTable extends React.PureComponent {
 						<th>Required</th>
 						<th>Description</th>
 					</tr>
-					{content ? content.map((prop, index) => {
-							return _.isEmpty(prop) ? (
-								<tr key={index} className="ptr-docs-props-table-empty-row">
-									<td colSpan={5}><div></div></td>
-								</tr>
-							) : (
-								<tr key={index}>
-									<td className="ptr-docs-props-table-name">{prop.name}</td>
-									<td className="ptr-docs-props-table-type">{prop.type}</td>
-									<td className="ptr-docs-props-table-default">{prop.default}</td>
-									<td className="ptr-docs-props-table-required">{prop.required ? <Icon icon="circle"/> : null}</td>
-									{this.renderDescription(prop.description, prop.objectPropsDescription)}
-								</tr>)
-						}) : this.renderChildren()
-					}
+					{content ? this.renderContent(content) : this.renderChildren()}
 					</tbody>
 				</table>
 			</div>
 		);
+	}
+	
+	renderContent(content) {
+		return content.map((prop, index) => {
+			return _.isEmpty(prop) ? (
+				<tr key={index} className="ptr-docs-props-table-empty-row">
+					<td colSpan={5}><div></div></td>
+				</tr>
+			) : (
+				<tr key={index}>
+					<td className="ptr-docs-props-table-name">{prop.name}</td>
+					<td className="ptr-docs-props-table-type">{prop.type}</td>
+					<td className="ptr-docs-props-table-default">{prop.default}</td>
+					<td className="ptr-docs-props-table-required">{prop.required ? <Icon icon="circle"/> : null}</td>
+					{this.renderDescription(prop.description, prop.objectPropsDescription)}
+				</tr>)
+		});
 	}
 
 	renderDescription(desc, objectPropsDesc) {

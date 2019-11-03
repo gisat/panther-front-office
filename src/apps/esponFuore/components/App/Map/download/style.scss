@@ -22,10 +22,17 @@
 	color: var(--base60);
 	margin-bottom: 1mm;
 	text-transform: uppercase;
+	font-size: 12pt;
 }
 
 #esponFuore-map-download .title {
 	font-size: 20pt;
+	margin-bottom: 5mm;
+}
+
+#esponFuore-map-download .description {
+	color: var(--base60);
+	font-size: 12pt;
 }
 
 /* Content */

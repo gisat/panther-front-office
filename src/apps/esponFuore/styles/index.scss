@@ -168,6 +168,17 @@ $headerHeight: m(2);
 }
 
 /* charts */
+.esponFuore-right-panel {
+	padding: m(1);
+	min-height: 100%;
+	background: var(--base15);
+}
+
+.esponFuore-right-panel .ptr-charts-container {
+	padding: 0;
+	min-height: auto;
+}
+
 .esponFuore-app .ptr-chart-legend {
 	justify-content: center;
 	margin-top: m(1/3);

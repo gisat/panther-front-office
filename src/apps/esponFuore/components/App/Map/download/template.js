@@ -4,7 +4,10 @@ import espon_logo from '../../../../assets/img/espon-logo-full.png';
 export default (d) => {
 	return `
 		<span class="scope">${d.scope.split(". ")[1]}</span>
-		<h1 class="title">${d.attribute} (${d.period}, ${d.description})</h1>
+		<h1 class="title">${d.attribute} (${d.period})</h1>
+		<p class="description">
+			${d.description}
+		</p>
 		<div class="content">
 			<img id="${d.mapComponentId}" class="map" alt="map" src="${d.mapCanvasData}"/>
 			<div class="legend-scale-container">

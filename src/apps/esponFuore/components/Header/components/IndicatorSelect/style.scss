@@ -2,8 +2,8 @@
 
 .esponFuore-indicator-select-content {
 	display: flex;
-	padding: 3rem 2rem 3rem 3rem;
-	overflow-y: auto;
+	//padding: 3rem 2rem 3rem 3rem;
+	padding: 3rem 0 0 3rem;
 }
 .esponFuore-indicator-select-sidebar {
 	flex: 0 0 12rem;
@@ -13,6 +13,7 @@
 }
 .esponFuore-indicator-select-indicators {
 	flex: 1;
+	overflow-y: auto;
 }
 
 .esponFuore-indicator-select-search {
@@ -83,6 +84,15 @@
 	padding-left: .25rem;
 }
 
+.esponFuore-indicator-select-categories {
+	overflow-y: auto;
+}
+.esponFuore-indicator-select-categories > a.esponFuore-indicator-select-menu-subCategory {
+	padding-left: 1.5rem;
+	font-style: italic;
+	color: rgba(255,255,255,.7);
+}
+
 
 .esponFuore-indicator-select-categories > a {
 	display: block;
@@ -120,11 +130,25 @@
 
 .esponFuore-indicator-select-indicators {
 	padding-left: 3rem;
+}
+
+.esponFuore-indicator-list-subCategory:not(:first-child) {
+	margin-top: m(1);
+}
+.esponFuore-indicator-list-subCategory-header {
+	height: m(2);
+	font-weight: bold;
+	color: #fff;
+	font-size: $b2;
+	letter-spacing: .025rem;
+}
+
+.esponFuore-indicator-list-indicators {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
 }
-.esponFuore-indicator-select-indicators > div {
+.esponFuore-indicator-list-indicator {
 	width: 25rem;
 	height: 12rem;
 	margin: 0 1rem 1rem 0;

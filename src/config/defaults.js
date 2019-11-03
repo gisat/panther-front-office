@@ -27,6 +27,8 @@ export default {
 	apiBackendSzifPath: 'backend/rest/szif/case',
 
 	devHostnames: [],
+	
+	requestPageSize: 10,
 
 	pucsInputVectorTemplateId: 3332,
 	pucsOutputRasterHwdTemplateId: 4092,
