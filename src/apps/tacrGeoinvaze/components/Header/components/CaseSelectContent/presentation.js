@@ -110,6 +110,30 @@ class CaseSelectContent extends React.PureComponent {
 						) : null}
 					</div>
 				</div>
+				<div className="tacrGeoinvaze-case-select-footer">
+					<div>
+						<div>
+							<b>Kontakt</b><br/>
+							Česká zemědělská univerzita v Praze<br/>
+							Fakulta životního prostředí<br/>
+							Kamýcká 129<br/>
+							165&nbsp;00 Praha - Suchdol
+						</div>
+						<div>
+							<b>Řešitel projektu</b><br/>
+							doc. Ing. Kateřina Berchová-Bímová, Ph.D.<br/>
+							berchova@fzp.czu.cz
+						</div>
+						<div>
+							<b>Partner projektu</b><br/>
+							Ing. Miroslav Kopecký<br/>
+							Gisat s.r.o.<br/>
+							Milady Horákové 57<br/>
+							170&nbsp;00 Praha&nbsp;7
+						</div>
+					</div>
+					<div>&copy; Česká zemědělská univerzita v Praze, Gisat s.r.o.</div>
+				</div>
 			</div>
 
 		);

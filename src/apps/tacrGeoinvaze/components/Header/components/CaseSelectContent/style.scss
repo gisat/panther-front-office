@@ -180,6 +180,24 @@
 //	background-size: cover;
 //}
 
+.tacrGeoinvaze-case-select-footer {
+	background: linear-gradient(rgba(0,0,0,.1) 0, transparent m(1));
+	padding: m(2) m(2) m(3) m(2);
+	color: var(--base65);
+	transition: color .3s ease-in-out;
+}
+.tacrGeoinvaze-case-select-footer:hover {
+	color: var(--base50);
+}
+.tacrGeoinvaze-case-select-footer > div:first-child {
+	display: flex;
+	//justify-content: space-evenly;
+	margin-bottom: m(1);
+}
+.tacrGeoinvaze-case-select-footer > div:first-child > div {
+	flex-grow: 1;
+}
+
 
 .tacrGeoinvaze-image-decsription {
 	display: block;
