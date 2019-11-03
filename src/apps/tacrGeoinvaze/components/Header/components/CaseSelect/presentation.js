@@ -40,8 +40,6 @@ class CaseSelect extends React.PureComponent {
 				style.backgroundImage =  `url(${CaseImage[activeCase.key]})` || null;
 			}
 
-			console.log("######", CaseImage[activeCase.key], style);
-
 			return (
 				<div>
 					<div className="tacrGeoinvaze-title">
