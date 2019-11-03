@@ -36,23 +36,36 @@
 }
 .tacrGeoinvaze-title {
 	position: relative;
-	z-index: 45;
+	//z-index: 45;
 	font-size: $b2;
 	//color: var(--base0);
 	color: var(--accent25);
 	height: m(2);
 	width: 30rem;
-	padding: .51825rem 1rem .51825rem 3.6rem;
-	background: var(--accent65) url("../assets/logo_invaznidruhy_v05_white.png") no-repeat .2rem 0;
-	background-size: contain;
+	padding: .51825rem 1rem .51825rem 3.75rem;
+	//background: var(--accent65) url("../assets/logo_invaznidruhy_v05_white.png") no-repeat .2rem 0;
+	//background-size: contain;
+}
+.tacrGeoinvaze-title > svg {
+	position: absolute;
+	left: .75rem;
+	top: .25rem;
+	width: 2.5rem;
+	height: 2.5rem;
+}
+.tacrGeoinvaze-title > svg path {
+	fill: var(--accent20);
 }
 .tacrGeoinvaze-case-select {
-	height: m(2);
+	//height: m(2);
+	height: m(5);
 	width: 30rem;
+	background: linear-gradient(var(--accent75) 0%, var(--accent65) 100%);
 }
 .tacrGeoinvaze-case-select .ptr-panther-select-current {
 	height: 100%;
-	background-color: var(--accent50);
+	//background-color: var(--accent50);
+	z-index: auto;
 }
 //.tacrGeoinvaze-title,
 //.tacrGeoinvaze-case-select .ptr-panther-select-current {
@@ -80,7 +93,7 @@
 }
 
 .tacrGeoinvaze-sidebar {
-	padding-top: m(4);
+	padding-top: m(5);
 	overflow: hidden;
 	height: 100%;
 	display: flex;

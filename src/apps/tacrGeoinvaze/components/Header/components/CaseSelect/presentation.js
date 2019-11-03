@@ -4,6 +4,8 @@ import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
 import CaseSelectContent from "../CaseSelectContent";
+import Logo from "../Logo";
+import CaseImage from "../../../CaseImage";
 
 class CaseSelect extends React.PureComponent {
 
@@ -32,9 +34,25 @@ class CaseSelect extends React.PureComponent {
 	renderCurrent() {
 		const activeCase = this.props.activeCase;
 		if (activeCase) {
+
+			let style = {};
+			if (CaseImage[activeCase.key]) {
+				style.backgroundImage =  `url(${CaseImage[activeCase.key]})` || null;
+			}
+
+			console.log("######", CaseImage[activeCase.key], style);
+
 			return (
-				<div className="tacrGeoinvaze-case-value" title={activeCase.data && activeCase.data.nameDisplay}>
-					{activeCase.data && activeCase.data.nameDisplay}
+				<div>
+					<div className="tacrGeoinvaze-title">
+						<Logo />
+						Geoinformační portál biologických invazí
+					</div>
+					<div className="tacrGeoinvaze-header-case-select" style={style}>
+						<div className="tacrGeoinvaze-case-value" title={activeCase.data && activeCase.data.nameDisplay}>
+							{activeCase.data && activeCase.data.nameDisplay}
+						</div>
+					</div>
 				</div>
 			);
 		} else {

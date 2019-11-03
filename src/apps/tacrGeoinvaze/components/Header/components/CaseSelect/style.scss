@@ -1,6 +1,12 @@
 @import '../../../../../../styles/variables';
 @import '../../../../styles/variables';
 
+.tacrGeoinvaze-header-case-select {
+	height: m(3);
+	position: relative;
+	background-size: cover;
+}
+
 .tacrGeoinvaze-case-select-current > div:first-child {
 	position: relative;
 }
@@ -13,8 +19,17 @@
 	letter-spacing: .07rem;
 }
 
+.tacrGeoinvaze-case-select-current.ptr-panther-select-current {
+	display: block;
+	position: relative;
+}
 .tacrGeoinvaze-case-select-current .ptr-panther-select-current-icon {
-	padding: .8rem .2rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-top: m(2);
+	//padding: .8rem .2rem;
+	padding: 1.5rem .2rem 0;
 }
 
 .tacrGeoinvaze-case-select-current .ptr-panther-select-current-icon > svg {
@@ -32,7 +47,8 @@
 	transition: background-color .3s ease-in-out;
 }
 .tacrGeoinvaze-case-select:not(.currentDisabled) .tacrGeoinvaze-case-select-current:hover {
-	background-color: var(--accent45);
+	//background-color: var(--accent45);
+	background-color: rgba(255,255,255,.1);
 }
 
 
