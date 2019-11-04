@@ -3,6 +3,13 @@
     flex-flow: row;
 }
 
+.ptr-unseea-top-options{
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    align-items: baseline;
+}
+
 .ptr-unseea-chart-column{
     flex: 1 1 0;
 }
