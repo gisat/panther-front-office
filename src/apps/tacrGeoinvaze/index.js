@@ -82,8 +82,8 @@ export default (path, baseUrl) => {
 		<>
 			<Provider store={Store}>
 				<Helmet
-					titleTemplate="%s | Geoinvaze"
-					defaultTitle="Geoinvaze"
+					// titleTemplate="%s | Geoinvaze"
+					defaultTitle="Geoinformační portál biologických invazí"
 				/>
 				<AppContainer appKey="tacrGeoinvaze">
 					<ConnectedRouter history={history}>

@@ -16,7 +16,7 @@ const Zlatobyl = props => (
 			<p>Druh se šíří jak semeny, tak regenerací z oddenků. Osidluje zejména ruderální stanoviště, ale i nekosené louky a úhory, okraje mokřadů, lesní paseky a okolí cest. Velmi snadno se šíří i na světlé okraje lesních porostů, zejména díky transportu těženého dřeva a pohybu lesnické mechanizace. Druh je konkurenčně velmi silný a díky své konkurenceschopnosti vytlačí i kompetičně silné druhy trav. Na území ČR patří mezi nejvýraznější invazní druhy, které je velmi obtížné vyhubit. Negativně reaguje na pravidelné kosení, a tudíž účinnou metodou vedoucí k jeho trvalému odstranění je pravidelná a dlouhodobá péče o pozemky. V současné době invaze ohrožuje okraje mokřadních lokalit, mezofilní louky a okraje rákosin.</p>
 		</TextBlock>
 		<InvasivePotential>
-			<InvasivePotentialCategory name="Rozmnožování sexuální" score={3}/>
+			<InvasivePotentialCategory name="Rozmnožování pohlavní" score={3}/>
 			<InvasivePotentialCategory name="Rozmnožování nepohlavní" score={3}/>
 			<InvasivePotentialCategory name="Ekologická nika" score={3}/>
 			<InvasivePotentialCategory name="Hustota populací" score={2}/>

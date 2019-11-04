@@ -16,7 +16,7 @@ const Rak = props => (
 			<p>Jedná se o adaptabilní druh, který je částečně tolerantní i k salinitě vody. Dožívá se 3 až 5 let věku. Osídluje střední a větší toky, případně i nádrže, rychlému proudění vody se ale vyhýbá. Pokud jsou samice z nějakého důvodu izolované od samců, mohou se začít množit partenogeneticky (ráčata se líhnou z neoplozených vajec). V jedné snůšce může být i více než 500 vajec. Jedná se o raka s neobvyklou denní aktivitou. Nejedná se o příliš hrabavý druh, hloubí si jen mělké nory. Stejně jako ostatní raci, je i rak pruhovaný všežravcem. Vzhledem k drobnějším klepetům není tak zdatným lovcem jako druhy s klepety většími. Je přenašečem infekčního račího moru a může se sympatricky vyskytovat na jedné lokalitě s dalšími invazními raky.</p>
 		</TextBlock>
 		<InvasivePotential>
-			<InvasivePotentialCategory name="Rozmnožování sexuální" score={3}/>
+			<InvasivePotentialCategory name="Rozmnožování pohlavní" score={3}/>
 			<InvasivePotentialCategory name="Rozmnožování nepohlavní" score={1}/>
 			<InvasivePotentialCategory name="Ekologická nika" score={3}/>
 			<InvasivePotentialCategory name="Hustota populací" score={3}/>

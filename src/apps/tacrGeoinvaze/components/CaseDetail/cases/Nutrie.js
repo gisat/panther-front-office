@@ -17,7 +17,7 @@ const Nutrie = props => (
 			<p>Nutrie obývají zejména travnaté a křovinaté břehy vodních toků a nádrží. Velkou část života tráví ve vodě. V březích si staví podzemní nory, které narušují stabilitu břehů a hrází. Nutrie je býložravec, spásá zejména vegetaci na březích a podél nich. Žije v sociálně uspořádaných skupinách čítajících až několik desítek jedinců. Je částečně teritoriální a teritoria jednotlivých matriarchálních rodin se překrývají.  Limitujícím faktorem pro šíření nutrií jsou nízké teploty v zimních měsících, kdy často dochází k omrzání neosrstěných částí těla a následným úhynům. Nutrie obývá v ČR nižší polohy, nicméně se v současné době šíří podél vodních toků i do poloh středních a vyšších.</p>
 		</TextBlock>
 		<InvasivePotential>
-			<InvasivePotentialCategory name="Rozmnožování sexuální" score={3}/>
+			<InvasivePotentialCategory name="Rozmnožování pohlavní" score={3}/>
 			<InvasivePotentialCategory name="Rozmnožování nepohlavní" score={0}/>
 			<InvasivePotentialCategory name="Ekologická nika" score={3}/>
 			<InvasivePotentialCategory name="Hustota populací" score={3}/>

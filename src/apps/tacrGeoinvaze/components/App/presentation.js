@@ -30,7 +30,7 @@ class TacrGeoinvazeApp extends React.PureComponent {
 
 		return (
 			<>
-				<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>
+				{/*<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>*/}
 				<Header
 					categories={props.categories}
 				/>
