@@ -235,6 +235,7 @@ class AsterChart extends React.PureComponent {
 	}
 
 	renderGrid(domain, origin, scale, width) {
+		// return null
 		const props = this.props;
 
 		let numOfSteps = props.gridStepsMax;
@@ -247,8 +248,13 @@ class AsterChart extends React.PureComponent {
 		if ((width/2) < numOfSteps * gap) {
 			numOfSteps = Math.floor((width/2)/gap);
 		}
-
-		let step = Math.floor((max-min)/numOfSteps);
+		
+		let step;
+		if(max-min < 10) {
+			step = (max-min)/numOfSteps;
+		} else {
+			step = Math.floor((max-min)/numOfSteps);
+		}
 
 		let domainForGrid = [];
 		let counter = 0;
