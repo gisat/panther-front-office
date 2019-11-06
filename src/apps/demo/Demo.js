@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Deprecated_PresentationMapWithControls from "../../components/common/maps/Deprecated_PresentationMapWithControls";
 import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation";
 import LeafletMap from "../../components/common/maps/LeafletMap/presentation";
-import MapControls from "../../components/common/maps/MapControls/presentation";
+import MapControls from "../../components/common/maps/controls/MapControls/presentation";
 import Select from "../../components/common/atoms/Select/Select";
 
 import central_europe from "./data/central_europe";

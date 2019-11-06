@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import viewUtils from '../viewUtils';
-import {numberOfLevels as maxNumberOfLevels} from '../constants';
+import viewUtils from '../../viewUtils';
+import {numberOfLevels as maxNumberOfLevels} from '../../constants';
 
-import Icon from '../../atoms/Icon';
-import HoldButton from '../../../presentation/atoms/HoldButton';
+import Icon from '../../../atoms/Icon';
+import HoldButton from '../../../../presentation/atoms/HoldButton';
 import './style.scss';
 
 class MapControls extends React.PureComponent {

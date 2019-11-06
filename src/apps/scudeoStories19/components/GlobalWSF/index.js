@@ -11,7 +11,7 @@ import LineChart from "../../../../components/common/charts/LineChart/LineChart"
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import Select from "../../../../components/common/atoms/Select/Select";
 import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import {getMergedDataset} from '../../data/wsf/data';
 import conversions from '../../data/conversions';
 import {getVectorLayer} from '../../data/data';

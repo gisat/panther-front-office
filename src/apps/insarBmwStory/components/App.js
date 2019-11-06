@@ -3,7 +3,7 @@ import Fade from 'react-reveal/Fade';
 
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
 import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import MapControls from "../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../components/common/maps/controls/MapControls/presentation";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
 import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";

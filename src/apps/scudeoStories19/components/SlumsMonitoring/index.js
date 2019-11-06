@@ -11,7 +11,7 @@ import LayerSelect from "../LayerSelect/index";
 import './styles/style.scss';
 import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
-import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import {getMergedDataset, getVectorLayer} from '../../data/data';

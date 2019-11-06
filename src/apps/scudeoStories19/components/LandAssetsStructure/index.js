@@ -5,7 +5,7 @@ import LeafletMap from "../../../../components/common/maps/LeafletMap/presentati
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import Select from "../../../../components/common/atoms/Select/Select";
-import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";

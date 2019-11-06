@@ -3,7 +3,7 @@ import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, S
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
 import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
 import {Link} from "react-router-dom";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
 

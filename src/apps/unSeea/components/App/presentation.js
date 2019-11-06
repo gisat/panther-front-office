@@ -7,7 +7,7 @@ import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import Map from "./Map";
 import MapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapTools from "../../../../components/common/maps/MapTools";
+import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";

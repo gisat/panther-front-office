@@ -2,7 +2,7 @@ import React from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 import MapSet from "../../../../components/common/maps/MapSet";
-import MapControls from "../../../../components/common/maps/MapControls";
+import MapControls from "../../../../components/common/maps/controls/MapControls";
 
 import './style.scss';
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";

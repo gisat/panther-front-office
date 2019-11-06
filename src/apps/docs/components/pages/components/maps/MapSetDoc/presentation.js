@@ -1,8 +1,8 @@
 import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 
-import MapControlsPresentation from "../../../../../../../components/common/maps/MapControls/presentation";
-import MapControls from "../../../../../../../components/common/maps/MapControls";
+import MapControlsPresentation from "../../../../../../../components/common/maps/controls/MapControls/presentation";
+import MapControls from "../../../../../../../components/common/maps/controls/MapControls";
 import MapSet from "../../../../../../../components/common/maps/MapSet";
 import MapSetPresentation, {PresentationMap} from "../../../../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../../../../components/common/maps/WorldWindMap/presentation";

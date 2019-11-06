@@ -2,7 +2,7 @@ import React from "react";
 
 import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
-import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 
 let dodoma_au_level_3 = null;
