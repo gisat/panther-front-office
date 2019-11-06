@@ -130,6 +130,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (layersAttributeStatisticsDataChanged) {
 				//set layer statistics
 				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics)
+				const layers = this.props.layers || [];
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
+
 				//setstylefunction
 				this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
 			}
@@ -335,8 +338,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 					if (existingLayer.renderables && existingLayer.renderables.length > 0) {
 						// debugger //TODO
 					}
-					//musejí být statistiky!!
-					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
+					//Statistics on layer must be set!
+					if(existingLayer.attributeStatistics && !isNaN(existingLayer.attributeStatistics.min) && !isNaN(existingLayer.attributeStatistics.max)) {
+						existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
+					}
 
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
