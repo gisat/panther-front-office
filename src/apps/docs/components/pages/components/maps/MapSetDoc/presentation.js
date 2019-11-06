@@ -85,7 +85,7 @@ class MapSetDoc extends React.PureComponent {
 				</Buttons>
 				<div style={{height: 500}}>
 					<MapSet
-						mapSetKey="docs-MapSet"
+						stateMapSetKey="docs-MapSet"
 						mapComponent={WorldWindMap}
 					>
 						<MapControls zoomOnly levelsBased/>

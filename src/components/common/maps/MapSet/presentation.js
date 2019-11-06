@@ -31,6 +31,7 @@ class MapSet extends React.PureComponent {
 		maps: PropTypes.array,
 		mapComponent: PropTypes.func,
 		view: PropTypes.object,
+		stateMapSetKey: PropTypes.string,
 		sync: PropTypes.object
 	};
 
@@ -52,7 +53,7 @@ class MapSet extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (prevProps.view !== this.props.view) {
+		if (!this.props.stateMapSetKey && (prevProps.view !== this.props.view)) {
 			this.setState({
 				view: {...this.state.view, ...this.props.view},
 				activeMapView: {...this.state.activeMapView, ...this.props.view}
@@ -87,6 +88,11 @@ class MapSet extends React.PureComponent {
 		}
 	}
 
+	/**
+	 * Called in uncontrolled map set
+	 * @param key
+	 * @param view
+	 */
 	onMapClick(key, view) {
 		this.setState({activeMapView: view, activeMapKey: key});
 	}
@@ -105,13 +111,25 @@ class MapSet extends React.PureComponent {
 	}
 
 	renderControls() {
+		let updateView, resetHeading, view;
+		if (this.props.stateMapSetKey) {
+			updateView = this.props.updateView;
+			resetHeading = this.props.resetHeading;
+			view = this.props.view;
+		} else {
+			updateView = this.onViewChange.bind(this, null);
+			resetHeading = () => {}; //TODO
+			view = this.state.activeMapView;
+		}
+
+
 		return React.Children.map(this.props.children, (child) => {
 			if (!(typeof child === "object" && child.type === Map)) {
 				return React.cloneElement(child, {
 					...child.props,
-					view: this.state.activeMapView,
-					updateView: this.onViewChange.bind(this, null),
-					resetHeading: () => {} //TODO
+					view,
+					updateView,
+					resetHeading
 				});
 			}
 		});

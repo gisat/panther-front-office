@@ -16,8 +16,8 @@ const mapStateToProps = (state, ownProps) => {
 		}
 	} else {
 		return {
-			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
-			layers: Select.maps.getLayers(state, ownProps.layers)
+			// backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
+			// layers: Select.maps.getLayers(state, ownProps.layers)
 		}
 	}
 };
