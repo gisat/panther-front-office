@@ -75,10 +75,10 @@ class LayersDoc extends React.PureComponent {
 	
 	options: {
 		features: {} //geojson with or without properties
-		style: ???
-		selected: {selectionKey: [], selectionKey2: []} //keys
-		filtered: [] //keys
-		hovered: [] //keys
+		style: TODO
+		selected: {selectionKey: {}, selectionKey2: {}} //keys and style
+		filtered: {} //keys and style
+		hovered: {} //keys and style
 	}
 }`
 					}
