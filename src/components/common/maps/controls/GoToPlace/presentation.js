@@ -7,8 +7,8 @@ import cz from "./locales/cz";
 import en from "./locales/en";
 
 import './style.scss';
-import Icon from "../../atoms/Icon";
-import utils from "../../../../utils/utils";
+import Icon from "../../../atoms/Icon";
+import utils from "../../../../../utils/utils";
 
 utils.addI18nResources('GoToPlace', {cz, en});
 
