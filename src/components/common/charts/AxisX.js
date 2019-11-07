@@ -18,6 +18,7 @@ class AxisX extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		scale: PropTypes.func,
+		scaleType: PropTypes.string,
 		sourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string,
 
@@ -81,9 +82,9 @@ class AxisX extends React.PureComponent {
 	renderGrid() {
 		let shift = this.props.ticks ? (TICK_SIZE) : 0;
 
-		if (this.props.data) {
+		if (this.props.scaleType === 'ordinal' || this.props.scaleType === 'yearBased') {
 			return this.renderOrdinalGrid(shift);
-		} else {
+		} else if (this.props.scaleType === 'linear') {
 			return this.renderLinearGrid(shift);
 		}
 	}

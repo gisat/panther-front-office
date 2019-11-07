@@ -19,7 +19,9 @@ class ScatterChart extends React.PureComponent {
 		maxPointRadius: 25,
 
 		yTicks: true,
-		xGridlines: true
+
+		xGridlines: true,
+		xScaleType: 'linear'
 	};
 
 	static propTypes = {
