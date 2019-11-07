@@ -11,12 +11,12 @@ import ninaLogo from "../../../assets/img/eeanina.png";
 import "./style.scss";
 
 
-const renderChartSet = (chartSetKey, activeAttributeKey) => {
+const renderChartSet = (chartSetKey, activeAttributeKey, onActiveMapChanged) => {
 	switch(chartSetKey) {
 		case 'unSeeaTreesCharts':
 			return <UnSeeaChartsTrees spatialIdKey={activeAttributeKey}/>
 		case 'unSeeaDistrictsCharts':
-			return <UnSeeaChartsDistricts spatialIdKey={activeAttributeKey}/>
+			return <UnSeeaChartsDistricts spatialIdKey={activeAttributeKey} onActiveMapChanged={onActiveMapChanged}/>
 		case 'unSeeaDistrictsSecondCharts':
 			return <UnSeeaChartsDistrictsSecond spatialIdKey={activeAttributeKey}/>
 	}
@@ -53,7 +53,7 @@ export default (props) => {
 				<ChartSet
 					setKey={props.activeChartSet}
 				>
-					{renderChartSet(props.activeChartSet, props.activeAttributeKey)}
+					{renderChartSet(props.activeChartSet, props.activeAttributeKey, props.onActiveMapChanged)}
 				</ChartSet>
 			</div>
 		</div>

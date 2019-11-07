@@ -6,8 +6,7 @@
 .ptr-unseea-top-options{
     display: flex;
     flex-flow: row;
-    justify-content: flex-end;
-    align-items: baseline;
+    justify-content: space-between;
 }
 
 .ptr-unseea-chart-column{

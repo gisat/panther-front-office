@@ -20,6 +20,21 @@ class App extends React.PureComponent {
 
 	static contextType = AppContext;
 
+	constructor(props) {
+		super(props);
+
+		this.onActiveMapChanged = this.onActiveMapChanged.bind(this);
+	}
+
+
+	onActiveMapChanged(mapSet, mapSetKey) {
+		//sync navigator
+		this.props.onActiveMapSetChanged(mapSet, mapSetKey, this.props.worldWindNavigator);
+		this.context.updateContext({
+			mapSetKey,
+		})
+	}
+
 	render() {
 		const props = this.props;
 
@@ -75,7 +90,7 @@ class App extends React.PureComponent {
 													<InfoPanel 
 														activeChartSet={this.context.activeChartSet}
 														activeAttributeKey={this.context.activeAttributeKey}
-
+														onActiveMapChanged={this.onActiveMapChanged}
 													/>
 													)
 											},

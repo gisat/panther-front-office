@@ -11,12 +11,12 @@ class Apps extends React.PureComponent {
 		this.context.updateContext({
 			activeView: 'UN_SEEA_DISTRICTS',
 			windowSetKey: "un_seea_districts",
-			mapSetKey: "un_seea_mapset_districts",
+			mapSetKey: "un_seea_mapset_districts_grid",
 			applicationKey: 'un_seea',
-			activeSpatialDataSourceKey: "un_seea_boundaries",
 			activeChartSet: "unSeeaDistrictsCharts",
 			vectorLayerStyleKey: 'districts',
-			activeAttributeKey: 'gid'
+			activeAttributeKey: 'gid',
+			// activeSpatialDataSourceKey: "un_seea_boundaries",
 		})
 	}
 	render() {

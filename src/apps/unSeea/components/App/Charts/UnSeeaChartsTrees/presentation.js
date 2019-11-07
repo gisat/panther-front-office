@@ -6,7 +6,6 @@ import AsterChart from "../../../../../../components/common/charts/AsterChart/As
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
 import observedValues from './observed';
 
-import './style.css';
 
 class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;

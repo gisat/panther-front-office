@@ -37,7 +37,7 @@ class LandingPage extends React.PureComponent {
 						<Link to={`${match.path}/districtsSecond`}>
 							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsTwoThumbnail})`}}>
 									<div className="unseea-subapp-card-name">
-										Districts
+										LULC
 									</div>
 									<div className="unseea-subapp-card-description">
 										<Truncate lines={6}>

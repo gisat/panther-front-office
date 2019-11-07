@@ -4,11 +4,24 @@ import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
+import Select from "../../../../../../components/common/atoms/Select/Select";
 import observedEcosystemServiceIndicators from './observedEcosystemServiceIndicators';
 import observedMonetaryIndicators from './observedMonetaryIndicators';
 
 import './style.css';
 
+const areas = [
+	{
+		key: 'un_seea_districts_grid',
+		name: 'Grid',
+		mapSetKey: 'un_seea_mapset_districts_grid'
+	},
+	{
+		key: 'un_seea_districts',
+		name: 'Standard',
+		mapSetKey: 'un_seea_mapset_districts'
+	},
+]
 class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;
 	
@@ -18,6 +31,8 @@ class ChartPanel extends React.PureComponent {
 		monetaryIndicatorsData: PropTypes.array,
 		monetaryIndicatorsStatistics: PropTypes.object,
 		selectedArea: PropTypes.string,
+		onActiveMapChanged: PropTypes.func,
+		activeMapSetKey: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -25,7 +40,7 @@ class ChartPanel extends React.PureComponent {
 		this.state = {
 			normalised: false,
 		};
-
+		this.onSelectedAreaChanged = this.onSelectedAreaChanged.bind(this);
 		this.onShowNormalisedDataClicked = this.onShowNormalisedDataClicked.bind(this);
 	}
 
@@ -60,9 +75,12 @@ class ChartPanel extends React.PureComponent {
 		})
 	}
 	
-
+	onSelectedAreaChanged(value) {
+		this.props.onActiveMapChanged(value.key, value.mapSetKey);
+		
+	}
 	render() {
-		const {ecosystemServiceIndicatorsData, monetaryIndicatorsData, ecosystemServiceIndicatorsStatistics, monetaryIndicatorsStatistics} = this.props;
+		const {ecosystemServiceIndicatorsData, monetaryIndicatorsData, ecosystemServiceIndicatorsStatistics, monetaryIndicatorsStatistics, activeMapSetKey} = this.props;
 
 		let hoverAsterDataEcosystemServiceIndicators
 		let hoverAsterDataMonetaryIndicators
@@ -80,10 +98,17 @@ class ChartPanel extends React.PureComponent {
 
 		const ecosystemServiceDescription = "Mean ecosystem service values normalised by population per district."
 		const monetaryIndicatorsDescription = "Mean monetary values normalised by population per district."
-
+		const activeMapSet = areas.find(a=>a.mapSetKey === activeMapSetKey);
 			return (
 					<div>
 						<div className="ptr-unseea-top-options">
+							<Select 
+								options={areas}
+								optionLabel={'name'}
+								optionValue={'key'}
+								value={activeMapSet}
+								onChange={this.onSelectedAreaChanged}
+								/>
 							<label>
 								Normalise data by by median
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />

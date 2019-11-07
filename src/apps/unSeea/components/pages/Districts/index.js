@@ -25,7 +25,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 			dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
 		});
 
-		Promise.all([spatialRelationsLoader, spatialDataSourcesLoader, boundariesLoader]).then(datasets => {
+		const boundariesGridLoader = import(/* webpackChunkName: "unseea_districts_boundariesGridSpatialData" */ "../../../data/districts/boundaries_grid.js").then(({default: boundariesSpatialData}) => {
+			dispatch(Action.spatialDataSources.vector.addBatch(boundariesSpatialData, 'spatialDataSourceKey'));
+
+			//set charts
+			dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
+		});
+
+		Promise.all([spatialRelationsLoader, spatialDataSourcesLoader, boundariesLoader, boundariesGridLoader]).then(datasets => {
 			dispatch(Action.views.add(viewCfg));
 			dispatch(Action.views.setActiveKey(ownProps.activeView));
 			dispatch(Action.views.apply(ownProps.activeView, Action));
@@ -41,11 +48,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 			//set selected area
 			dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
 
-			const spatialdataindexFilter = {
-				spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
-			};
-
-			dispatch(Action.spatialDataSources.vector.addBatchIndex(spatialdataindexFilter, null, [spatialdataindexFilter], 'spatialDataSourceKey'));
+			dispatch(Action.spatialDataSources.vector.addBatchIndex({spatialDataSourceKey: 'un_seea_boundaries'}, null, [{spatialDataSourceKey: 'un_seea_boundaries'}], 'spatialDataSourceKey'));
+			dispatch(Action.spatialDataSources.vector.addBatchIndex({spatialDataSourceKey: 'un_seea_boundaries_grid'}, null, [{spatialDataSourceKey: 'un_seea_boundaries_grid'}], 'spatialDataSourceKey'));
 		})
 	}
 })

@@ -83,7 +83,9 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
-		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, 'un_seea_districts', useActiveMetadataKeys);
+		let activeMapKey = Select.maps.getActiveMapKey(state);
+		let activeMapSetKey = Select.maps.getMapSetByMapKey(state, activeMapKey).key;
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, activeMapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = _.cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
@@ -111,8 +113,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			return acc
 		}, {});
 
-
-		const data = layersVectorData['lk_un_seea_boundaries-un_seea_boundaries'][0].spatialData.features.map((f) => {
+		const data = layersVectorData[Object.keys(layersVectorData)[0]][0].spatialData.features.map((f) => {
 			return f.properties;
 		})
 
@@ -120,14 +121,15 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		const monetaryIndicatorsStatistics = calculateDataStatistics(data, observedMonetaryIndicators);
 		const ecosystemServiceIndicatorsData = calculateData(data, observedEcosystemServiceIndicators, ecosystemServiceIndicatorsStatistics.observedDataStatistics);
 		const monetaryIndicatorsData = calculateData(data, observedMonetaryIndicators, monetaryIndicatorsStatistics.observedDataStatistics);
-		
 
 		return {
 			ecosystemServiceIndicatorsData,
 			ecosystemServiceIndicatorsStatistics,
 			monetaryIndicatorsData,
 			monetaryIndicatorsStatistics,
-			selectedArea: selectedAreas[0].toString()
+			selectedArea: selectedAreas[0].toString(),
+			activeMapSetKey: activeMapSetKey,
+			onActiveMapChanged: ownProps.onActiveMapChanged,
 		}
 	};
 };
