@@ -74,7 +74,7 @@ class App extends React.PureComponent {
 																	</Map>
 																</MapSet>
 																<MapTools>
-																	<MapControls zoomOnly/>
+																	<MapControls/>
 																</MapTools>
 															</>
 															)
