@@ -19,6 +19,7 @@ class LineChart extends React.PureComponent {
 		withPoints: true,
 
 		xGridlines: true,
+		xScaleType: 'ordinal',
 		withoutYbaseline: true
 	};
 
@@ -81,7 +82,8 @@ class LineChart extends React.PureComponent {
 			yDomain = [yMinimum, yMaximum];
 
 			/* scales */
-			if (this.props.xScale === 'yearBased') {
+			// TODO provisional - it will be solved after implementing time scale
+			if (this.props.xScaleType === 'yearBased') {
 				let xMaximum = _.max(sortedUniqueXvalues);
 				let xMinimum = _.min(sortedUniqueXvalues);
 				sortedUniqueXvalues = [];
