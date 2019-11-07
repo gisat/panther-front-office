@@ -9,7 +9,7 @@ export default (hostname) => {
 	ReactDOM.render(
 		<div>
 			<ul>
-				{apps.map(app => (
+				{apps.map(app => app.backOffice ? null : (
 					<li><a href={app.devPath}>{app.key}</a></li>
 				))}
 			</ul>
