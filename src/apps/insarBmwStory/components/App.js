@@ -203,9 +203,13 @@ class App extends React.PureComponent {
 													xValuesSize={2.5}
 													xOptions={{
 														startingTick: 2,
-														tickStep: 5
+														tickStep: 5,
+														inputValueFormat: 'YYYY',
+														axisValueFormat: 'YYYY',
+														popupValueFormat: 'YYYY',
 													}}
-													xScaleType="yearBased"
+
+													xScaleType="time"
 
 													sorting={[["period", "asc"]]}
 												/>
@@ -247,9 +251,12 @@ class App extends React.PureComponent {
 													xValuesSize={2.5}
 													xOptions={{
 														startingTick: 2,
-														tickStep: 5
+														tickStep: 5,
+														inputValueFormat: 'YYYY',
+														axisValueFormat: 'YYYY',
+														popupValueFormat: 'YYYY',
 													}}
-													xScaleType="yearBased"
+													xScaleType="time"
 												/>
 											</ChartWrapper>
 										</Fade>

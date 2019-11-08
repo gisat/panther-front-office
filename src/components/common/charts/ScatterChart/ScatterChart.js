@@ -116,15 +116,29 @@ class ScatterChart extends React.PureComponent {
 				yMax = props.yOptions.max;
 			}
 
-			xDomain = [xMin, xMax];
+
+			/* domains */
+			if (props.xScaleType === 'time') {
+				xDomain = [new Date(xMin), new Date(xMax)];
+			} else {
+				xDomain = [xMin, xMax];
+			}
+
 			yDomain = [yMin, yMax];
 			zDomain = [_.min(zValues), _.max(zValues)];
 
 			/* scales */
-			xScale = d3
-				.scaleLinear()
-				.domain(xDomain)
-				.range([0, props.innerPlotWidth]);
+			if (props.xScaleType === 'time') {
+				xScale = d3
+					.scaleTime()
+					.domain(xDomain)
+					.range([0, props.innerPlotWidth]);
+			} else {
+				xScale = d3
+					.scaleLinear()
+					.domain(xDomain)
+					.range([0, props.innerPlotWidth]);
+			}
 
 			yScale = d3
 				.scaleLinear()
@@ -181,6 +195,9 @@ class ScatterChart extends React.PureComponent {
 
 				return _.map(serie, (serieItem, index) => {
 					let xValue = _.get(serieItem, this.props.xSourcePath);
+					if (this.props.xScaleType === "time") {
+						xValue = new Date(xValue);
+					}
 					let yValue = _.get(serieItem, this.props.ySourcePath);
 					let zValue = _.get(serieItem, this.props.zSourcePath);
 					let itemName = _.get(serieItem, this.props.itemNameSourcePath);
@@ -194,6 +211,10 @@ class ScatterChart extends React.PureComponent {
 
 			} else {
 				let xValue = _.get(item, this.props.xSourcePath);
+				if (this.props.xScaleType === "time") {
+					xValue = new Date(xValue);
+				}
+
 				let yValue = _.get(item, this.props.ySourcePath);
 				let zValue = _.get(item, this.props.zSourcePath);
 
@@ -203,6 +224,7 @@ class ScatterChart extends React.PureComponent {
 	}
 
 	renderPoint(key, item, x, y, z, color, name, index, siblings) {
+		console.log("Point", x);
 		return (
 			<Point
 				key={key + '-' + index}
@@ -211,6 +233,7 @@ class ScatterChart extends React.PureComponent {
 				x={x}
 				y={y}
 				xSourcePath={this.props.xSourcePath}
+				xScaleType={this.props.xScaleType}
 				xOptions={this.props.xOptions}
 				ySourcePath={this.props.ySourcePath}
 				yOptions={this.props.yOptions}

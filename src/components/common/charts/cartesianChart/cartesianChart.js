@@ -56,7 +56,7 @@ export default (WrappedChartComponent) => {
 			xGridlines: PropTypes.bool,
 			xValues: PropTypes.bool,
 			xLabel: PropTypes.bool,
-			xScaleType: PropTypes.bool,
+			xScaleType: PropTypes.string,
 			xTicks: PropTypes.bool,
 
 			yOptions: PropTypes.object,

@@ -4,8 +4,12 @@ import _ from 'lodash';
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 
-import sample_4 from "../../../../mockData/sample_4";
 import sample_50 from "../../../../mockData/sample_50";
+
+import serie_50_time_iso_years from "../../../../mockData/timeBased/serie_50_time_iso_years";
+import serie_5_time_iso_24months from "../../../../mockData/timeBased/serie_5_time_iso_24months";
+import serie_5_time_iso_2hours from "../../../../mockData/timeBased/serie_5_time_iso_2hours";
+
 import sample_serie_10 from "../../../../mockData/scatterChart/serie_10";
 import Page, {DocsToDo, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
@@ -20,6 +24,101 @@ class ScatterChartDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Scatter chart">
+				<HoverHandler>
+					<ResizableContainer>
+						<ScatterChart
+							key="basic-settings"
+							data={serie_5_time_iso_2hours}
+
+							xSourcePath="time"
+							ySourcePath="some_value_1"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							keySourcePath="key"
+
+							isSerie
+							pointRadius={3}
+
+							xScaleType="time"
+							xValuesSize={5}
+							xOptions={{
+								min: '2016-10-01T06:00:00',
+								max: '2016-10-01T08:00:00',
+								axisValueFormat: 'H:mm',
+								popupValueFormat: 'D MMMM YYYY H:mm',
+								name: 'Time'
+							}}
+
+							yOptions={{
+								name: 'Temperature',
+								unit: '°C'
+							}}
+						/>
+					</ResizableContainer>
+				</HoverHandler>
+
+				<HoverHandler>
+					<ResizableContainer>
+						<ScatterChart
+							key="basic-settings"
+							data={serie_5_time_iso_24months}
+
+							xSourcePath="time"
+							ySourcePath="some_value_1"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							keySourcePath="key"
+
+							isSerie
+
+							xScaleType="time"
+							xValuesSize={5}
+							xOptions={{
+								axisValueFormat: 'MMMM YY',
+								popupValueFormat: 'D MMMM YYYY',
+								name: 'Time'
+							}}
+
+							yOptions={{
+								name: 'Temperature',
+								unit: '°C'
+							}}
+						/>
+					</ResizableContainer>
+				</HoverHandler>
+
+				<HoverHandler>
+					<ResizableContainer>
+						<ScatterChart
+							key="basic-settings"
+							data={serie_50_time_iso_years}
+
+							xSourcePath="time"
+							ySourcePath="some_value_1"
+							nameSourcePath="data.name"
+							serieDataSourcePath="data.data"
+							keySourcePath="key"
+
+							isSerie
+							pointRadius={3}
+
+							xScaleType="time"
+							xOptions={{
+								max: '2022-01-01T00:00:00',
+								min: '2012-01-01T00:00:00',
+								axisValueFormat: 'YYYY',
+								popupValueFormat: 'D MMMM YYYY',
+								name: 'Time'
+							}}
+
+							yOptions={{
+								name: 'Temperature',
+								unit: '°C'
+							}}
+						/>
+					</ResizableContainer>
+				</HoverHandler>
+
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<ScatterChart
