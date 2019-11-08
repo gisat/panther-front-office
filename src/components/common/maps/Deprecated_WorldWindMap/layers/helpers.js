@@ -5,6 +5,7 @@ import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
 import ExtendedRenderableLayer from "./VectorLayer";
 import CartodiagramVectorLayer from "./CartodiagramVectorLayer";
 import CartogramVectorLayer from "./CartogramVectorLayer";
+import LargePointLayer from "./largePointLayer";
 import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
@@ -109,6 +110,8 @@ function getLayerByType(layerData, type){
 				return getCartogramVectorLayer(layerData);
 			case "wmts-new":
 				return new WmtsLayer(layerData);
+			case "vector-large-point":
+				return getVectorLargePointLayer(layerData);
 			default:
 				return null;
 		}
@@ -192,6 +195,18 @@ function getCartogramVectorLayer(layerData) {
 		...layerData,
 	}, defaultVectorStyle);
 
+	return layer;
+}
+
+function getVectorLargePointLayer(layerData) {
+	const layer = new LargePointLayer({
+		key: layerData.key,
+		layerName: layerData.layerName,
+		spatialIdKey: layerData.spatialRelationsData.fidColumnName,
+		// attributeIdKey: layerData.attributeRelationsData.fidColumnName,
+		...layerData,
+	}, defaultVectorStyle);
+	
 	return layer;
 }
 

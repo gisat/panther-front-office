@@ -70,6 +70,7 @@
     "babel-preset-env": "1.7.0",
     "d3-sankey": "^0.12.3",
     "jest": "23.6.0",
+    "js-quadtree": "^2.0.1",
     "redux-testkit": "1.0.6"
   },
   "browserslist": [
