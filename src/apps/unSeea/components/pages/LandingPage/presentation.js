@@ -73,6 +73,18 @@ class LandingPage extends React.PureComponent {
 									</div>
 								</div>
 						</Link>
+						<Link to={`${match.path}/treesInTime`}>
+							<div className={'unseea-subapp-card'} style={{backgroundImage: `url(${districtsThumbnail})`}}>
+									<div className="unseea-subapp-card-name">
+										Trees in time
+									</div>
+									<div className="unseea-subapp-card-description">
+										<Truncate lines={6}>
+											District tree analysis
+										</Truncate>
+									</div>
+								</div>
+						</Link>
 					</div>
 
 					<div className="unseea-landing-page-footer">

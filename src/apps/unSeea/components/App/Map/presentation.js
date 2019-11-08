@@ -11,9 +11,14 @@ import ExtendedRenderableLayer from '../../../../../components/common/maps/Depre
 import CartodiagramVectorLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/CartodiagramVectorLayer';
 import {defaultVectorStyle} from "../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/vectorStyle";
 
+import WorldWind from 'webworldwind-esa';
 import WorldWindMap from "../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
+
+const {
+    TiledImageLayer
+} = WorldWind;
 
 class UnSeeaWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
@@ -238,7 +243,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			// const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
 			// const metadata = layersMetadata[key];
-			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer) || existingLayer && (existingLayer instanceof TiledImageLayer);
 
 			// if(instanceOfVector && layersAttributeData[key] && metadata) {
 			if(instanceOfVector) {

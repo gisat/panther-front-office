@@ -24,6 +24,7 @@ import AppContainer from "../../components/common/AppContainer";
 import DistrictsSecond from './components/pages/DistrictsSecond/subAppWrapper';
 import Districts from './components/pages/Districts/subAppWrapper';
 import Trees from './components/pages/Trees/subAppWrapper';
+import TreesInTime from './components/pages/TreesInTime/subAppWrapper';
 import LandingPage from './components/pages/LandingPage/presentation';
 
 // override and extend locales in namespaces
@@ -51,6 +52,7 @@ export default (path, baseUrl) => {
 								<Route path={path + "/districtsSecond"} component={DistrictsSecond} />
 								<Route path={path + "/districts"} component={Districts} />
 								<Route path={path + "/trees"} component={Trees} />
+								<Route path={path + "/treesInTime"} component={TreesInTime} />
 								<Route path={path} component={LandingPage} />
 							</Switch>
 						</ConnectedRouter>

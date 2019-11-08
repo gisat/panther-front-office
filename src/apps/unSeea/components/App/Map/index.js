@@ -26,11 +26,12 @@ const mapStateToProps = (state, props) => {
 		}) : null;
 		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		layers.forEach((l) => {
-			if(l.type === 'vector') {
+			if(l.type === 'vector' || l.type === 'vector-large-point') {
 				l.spatialIdKey = props.activeMapAttributeKey
 			}
 		})
-		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
+		// let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
+		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector' || layerData.type === 'vector-large-point') : [];
 
 		const map = Select.maps.getMapByKey(state, props.mapKey);
 		let label = null;
