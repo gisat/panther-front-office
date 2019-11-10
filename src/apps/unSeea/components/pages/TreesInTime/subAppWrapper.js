@@ -14,8 +14,8 @@ class Apps extends React.PureComponent {
 			mapSetKey: "un_seea_trees_in_time_2017",
 			applicationKey: 'un_seea',
 			activeChartSet: "unSeeaTreesInTimeCharts",
-			vectorLayerStyleKey: 'districts',
-			activeAttributeKey: 'gid',
+			vectorLayerStyleKey: 'treesInTime',
+			activeAttributeKey: 'CrownID',
 			// activeSpatialDataSourceKey: "un_seea_boundaries",
 		})
 	}

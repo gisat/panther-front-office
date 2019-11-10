@@ -19,6 +19,8 @@ import Menu, {MenuItem} from "../../atoms/Menu";
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
+let lastEvent = null;
+
 class WorldWindMap extends React.PureComponent {
 
 	static propTypes = {
@@ -88,6 +90,17 @@ class WorldWindMap extends React.PureComponent {
 
 	handleLayers(nextLayersData = []) {
 		this.wwd.layers = nextLayersData;
+
+		this.wwd.layers.forEach(l => {
+			if(typeof l.setWWD === 'function') {
+				l.setWWD(this.wwd);
+			}
+			
+			if(typeof l.setHoverHandler === 'function') {
+				l.setHoverHandler(this.handleHover.bind(this));
+			}
+		})
+
 		this.wwd.redraw();
 	}
 
@@ -156,6 +169,16 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	handleHover(renderables, e, showPopup) {
+		if(lastEvent && e && lastEvent.id === e.timeStamp) {
+			return;
+		};
+
+		//kontrola timestamp
+		lastEvent = {
+			id: e && e.timeStamp,
+			renderables: renderables,
+		}
+
 		if (this.props.onHover && renderables && renderables.length) {
 			this.props.onHover(renderables, e.clientX, e.clientY, showPopup, this.props.mapKey);
 		} else if (this.props.onHoverOut) {

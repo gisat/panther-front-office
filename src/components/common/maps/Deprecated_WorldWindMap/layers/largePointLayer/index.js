@@ -17,6 +17,7 @@ class LargeDataLayer extends TiledImageLayer {
     constructor(options) {
         super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'large-data-layer', 256, 256);
         this.tileWidth = 256;
+        this.spatialIdKey = options.spatialIdKey;
         this.tileHeight = 256;
         this.key = options.key;
         this.renderableLayer = options.renderableLayer;
@@ -40,9 +41,24 @@ class LargeDataLayer extends TiledImageLayer {
 
         data.features.forEach(feature => {
             this.quadTree.insert(
+                // new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, {userObject: {userProperties: {...feature.properties}}})
                 new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, feature.properties)
             );
         });
+    }
+
+    setWWD(wwd) {
+        this.wwd = wwd;
+    }
+
+    setHoverHandler(hoverHandler) {
+        if(hoverHandler && this.wwd) {
+            this.hoverHandler = hoverHandler;
+            // this.onClick = this.onClick.bind(this, options.wwd);
+            this.onMouseMove = this.onMouseMove.bind(this, this.wwd);
+            // options.wwd.addEventListener('click', this.onClick);
+            this.wwd.addEventListener('mousemove', this.onMouseMove);
+        }
     }
 
     handleEvent(wwd, event) {
@@ -67,21 +83,23 @@ class LargeDataLayer extends TiledImageLayer {
     }
 
     onMouseMove(wwd, event) {
-        this.onMouseMoveResult(this.handleEvent(wwd, event));
+        this.onMouseMoveResult(this.handleEvent(wwd, event), event);
     }
 
     onClick(wwd, event) {
-        this.onClickResult(this.handleEvent(wwd, event));
+        this.onClickResult(this.handleEvent(wwd, event), event);
     }
 
     onClickResult(points){}
 
-    onMouseMoveResult(points) {}
+    onMouseMoveResult(points, event) {
+        this.hoverHandler(points.map(p => ({userObject: {userProperties: {...p.data}}})), event, true)
+    }
 
     retrieveTileImage(dc, tile, suppressRedraw) {
-        if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
-            return;
-        }
+        // if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
+        //     return;
+        // }
         this.processedTiles[tile.imagePath] = true;
 
         const sector = tile.sector;

@@ -9,7 +9,7 @@ const spatialRelations = [
         "layerTemplateKey": "lt_un_seea_trees_in_time_2011",
         "scenarioKey": null,
         "caseKey": null,
-        "fidColumnName": null
+        "fidColumnName": 'CrownID'
     }
 },
 {
@@ -22,7 +22,7 @@ const spatialRelations = [
         "layerTemplateKey": "lt_un_seea_trees_in_time_2017",
         "scenarioKey": null,
         "caseKey": null,
-        "fidColumnName": null
+        "fidColumnName": 'CrownID'
     }
 },
 ];

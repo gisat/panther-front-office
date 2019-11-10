@@ -203,9 +203,10 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 		
 		for (const [key, data] of Object.entries(layersVectorData)) {
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
+			// const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer) || existingLayer && (existingLayer instanceof TiledImageLayer);
 
-			if(instanceOfVector) {
+			if(instanceOfVector && typeof existingLayer.setStyleFunction === 'function') {
 				//set layerstyle
 				switch(vectorLayerStyleKey) {
 					case 'districts':
@@ -220,6 +221,9 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 							existingLayer.setStyleFunction(getCartogramStyleFunction('#ca4466', 150, statistics, 'GREEN_GRAY'));
 							break;
 					case 'trees':
+							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
+							break;
+					case 'treesInTime':
 							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
 							break;
 				}
@@ -282,8 +286,8 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 	setHover(layers, areas) {
 		layers.forEach(layer => {
 			let existingLayer = layersHelper.findLayerByKey(layers, layer.key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
-			if(instanceOfVector) {
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer) || existingLayer && (existingLayer instanceof TiledImageLayer);
+			if(instanceOfVector && typeof existingLayer.setHover === 'function') {
 				existingLayer.setHover(areas);
 			}
 		})
@@ -292,8 +296,8 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 	setSelectedItems(layers, areas) {
 		layers.forEach(layer => {
 			let existingLayer = layersHelper.findLayerByKey(layers, layer.key);
-			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
-			if(instanceOfVector) {
+			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer) || existingLayer && (existingLayer instanceof TiledImageLayer);
+			if(instanceOfVector && typeof existingLayer.setSelected === 'function') {
 				existingLayer.setSelected(areas);
 			}
 		})
@@ -316,7 +320,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 		if (this.state.thematicLayers) {
 			this.state.thematicLayers.forEach(layer => {
 				let existingLayer = layersHelper.findLayerByKey(this.state.thematicLayers, layer.key);
-				const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer);
+				const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer) || existingLayer && (existingLayer instanceof TiledImageLayer);
 				if(instanceOfVector) {
 					let keySource = existingLayer.spatialIdKey;
 					let nameSource = existingLayer.attributeIdKey;
@@ -364,6 +368,11 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 								content.push(<div key={`${spatialId}_green_gray`}><i>Green vs gray index:</i> {greenGrayValue || value === 0 ? greenGrayValue.toLocaleString() : null}</div>);
 								break;
 						case 'trees':
+								let TOTBEN_N17 = _.get(feature, 'TOTBEN_N17');
+								content.push(<div key={`${spatialId}_id`}><i>Tree ID:</i> {spatialId}</div>);
+								content.push(<div key={`${spatialId}_benefits`}><i>Annual Benefits:</i> {TOTBEN_N17}</div>);
+								break;
+						case 'treesInTime':
 								content.push(<div key={spatialId}><i>Tree ID:</i> {spatialId}</div>);
 								break;
 					}
