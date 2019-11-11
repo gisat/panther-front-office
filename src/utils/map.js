@@ -10,7 +10,7 @@ const ensureViewIntegrity = (view) => {
 		}
 
 		if (view.heading && view.heading < 0) {
-			view.heading = 360 - (view.heading % 360);
+			view.heading = 360 - (-view.heading % 360);
 		}
 
 		if (view.tilt && view.tilt < 0) {
