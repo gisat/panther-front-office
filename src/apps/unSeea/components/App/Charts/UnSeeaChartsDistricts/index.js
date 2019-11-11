@@ -38,7 +38,7 @@ const calculateDataStatistics = (data, observedValues) => {
 			if(observedValueNormalised) {
 				const statistics = observedDataStatistics.find(s => s.idNormalised === key);
 				statistics.minNormalised = (statistics.minNormalised || statistics.minNormalised === 0) ? Math.min(statistics.minNormalised, d[observedValueNormalised.normalisedName]) : d[observedValueNormalised.normalisedName];
-				statistics.maxNormalised = (statistics.maxNormalised || statistics.maxNormalised === 0) ? Math.max(statistics.maxNormalised, d[observedValueNormalised.normalisedName]) : d[observedValueNormalised.normalisedName];
+				statistics.maxNormalised = (statistics.maxNormalised || statistics.maxNormalised === 0) ? Math.max(statistics.maxNormalised, d[observedValueNormalised.normalisedName] * 1000000 / d['Area of Borough']) : d[observedValueNormalised.normalisedName] * 1000000 / d['Area of Borough'];
 			}
 		}
 	})
@@ -92,7 +92,7 @@ const calculateData = (data, observedValues, dataStatistics) => {
 					calData[name] = {
 						...exists,
 						relativeNormalised: 100 * value / statistics.maxNormalised,
-						absoluteNormalised: value
+						absoluteNormalised: value * 1000000 / d['Area of Borough'] // normalisation in km2
 					}
 				}
 

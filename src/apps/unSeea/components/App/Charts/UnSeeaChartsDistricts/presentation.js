@@ -99,8 +99,8 @@ class ChartPanel extends React.PureComponent {
 			selectAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryIndicators);
 		}
 
-		const ecosystemServiceDescription = this.state.normalised ? "Ecosystem service values normalised by population per district in percentage by maximum." : "Mean ecosystem service values."
-		const monetaryIndicatorsDescription = this.state.normalised ? "Monetary values normalised by population per district in percentage by maximum." : "Mean monetary values."
+		const ecosystemServiceDescription = this.state.normalised ? "Ecosystem service values normalised by area on [1 km2]." : "Ecosystem service values in percentage by maximum."
+		const monetaryIndicatorsDescription = this.state.normalised ? "Monetary values normalised by population on [1 citizen]." : "Monetary values per districts in percentage by maximum."
 		const activeMapSet = areas.find(a=>a.mapSetKey === activeMapSetKey);
 			return (
 					<div>

@@ -31,31 +31,31 @@ export default [
 	{
 		name: 'G_ELEV',
 		color: '#568038',
-		getTooltip: getGramsFromKilograms,
+		// getTooltip: getGramsFromKilograms,
 		title: 'G elevation'
 	},
 	{
 		name: 'C_ELEV',
 		color: '#568038',
-		getTooltip: getGramsFromKilograms,
+		// getTooltip: getGramsFromKilograms,
 		title: 'C elevation'
 	},
 	{
 		name: 'POLY_AREA',
 		color: '#568038',
-		getTooltip: getGramsFromKilograms,
+		// getTooltip: getGramsFromKilograms,
 		title: 'Area'
 	},
 	{
 		name: 'PERIMETER',
 		color: '#568038',
-		getTooltip: getMicrogramsFromGrams,
+		// getTooltip: getMicrogramsFromGrams,
 		title: 'Perimeter'
 	},
 	{
 		name: 'MGBDIAM',
 		color: '#568038',
-		getTooltip: getMicrogramsFromGrams,
+		// getTooltip: getMicrogramsFromGrams,
 		title: 'MGBDIAM'
 	},
 	
