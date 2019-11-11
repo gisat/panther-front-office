@@ -40,7 +40,7 @@ class MapSet extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			view: props.view,
+			view: mapUtils.mergeViews(defaultMapView, props.view),
 			activeMapKey: props.activeMapKey
 		};
 
@@ -48,7 +48,7 @@ class MapSet extends React.PureComponent {
 			if (child && typeof child === "object"
 				&& (child.type === Map || child.type === ContainerMap || child.type === PresentationMap)
 				&& child.props.mapKey === props.activeMapKey) {
-				this.state.activeMapView = {...defaultMapView, ...props.view, ...child.props.view}
+				this.state.activeMapView = mapUtils.mergeViews(defaultMapView, props.view, child.props.view)
 			}
 		});
 	}
@@ -65,6 +65,8 @@ class MapSet extends React.PureComponent {
 	onViewChange(mapKey, update) {
 		let syncUpdate;
 		let activeUpdate;
+		update = mapUtils.ensureViewIntegrity(update);
+		mapKey = mapKey || this.state.activeMapKey;
 
 		if (this.props.sync) {
 			syncUpdate = _.pickBy(update, (updateVal, updateKey) => {
@@ -95,7 +97,7 @@ class MapSet extends React.PureComponent {
 	 * @param view
 	 */
 	onMapClick(key, view) {
-		this.setState({activeMapView: view, activeMapKey: key});
+		this.setState({activeMapView: mapUtils.mergeViews(this.state.view, view), activeMapKey: key});
 	}
 
 	render() {
