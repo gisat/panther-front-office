@@ -490,13 +490,13 @@ const updateMapAndSetView = (mapKey, update) => {
 
 		if (forSet) {
 			//check data integrity
-			forSet = mapUtils.checkViewIntegrity(forSet); //TODO test
+			forSet = mapUtils.ensureViewIntegrity(forSet); //TODO test
 			dispatch(actionUpdateSetView(set.key, forSet));
 		}
 
 		if (forMap) {
 			//check data integrity
-			forMap = mapUtils.checkViewIntegrity(forMap); //TODO test
+			forMap = mapUtils.ensureViewIntegrity(forMap); //TODO test
 			dispatch(actionUpdateMapView(mapKey, forMap));
 		}
 	}
@@ -1197,6 +1197,7 @@ export default {
 	updateMapLayer,
 	updateStateFromView,
 	updateMapAndSetView,
+	updateSetView,
 
 	use,
 	useClear,

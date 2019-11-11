@@ -69,7 +69,7 @@ class MapSet extends React.PureComponent {
 			syncUpdate = _.pickBy(update, (updateVal, updateKey) => {
 				return this.props.sync[updateKey];
 			});
-			syncUpdate = mapUtils.checkViewIntegrity(syncUpdate);
+			syncUpdate = mapUtils.ensureViewIntegrity(syncUpdate);
 		}
 
 		if ((mapKey && this.state.activeMapKey === mapKey) || (this.state.activeMapKey && !mapKey)) {

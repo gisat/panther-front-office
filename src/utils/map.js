@@ -3,7 +3,7 @@ import fetch from "isomorphic-fetch";
 import * as turf from '@turf/turf';
 import createCachedSelector from "re-reselect";
 
-const checkViewIntegrity = (view) => {
+const ensureViewIntegrity = (view) => {
 	if (view) {
 		if (view.heading && view.heading > 360) {
 			view.heading = view.heading % 360;
@@ -221,7 +221,7 @@ function resetHeading(heading, callback, increment) {
 
 
 export default {
-	checkViewIntegrity,
+	ensureViewIntegrity: ensureViewIntegrity,
 	getLocationFromPlaceString,
 	getViewFromGeometry,
 	mergeLayers,
