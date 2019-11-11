@@ -64,6 +64,7 @@ export default (WrappedChartComponent) => {
 			yValues: PropTypes.bool,
 			yTicks: PropTypes.bool,
 			yLabel: PropTypes.bool,
+			yScaleType: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
 
 			diverging: PropTypes.oneOfType([

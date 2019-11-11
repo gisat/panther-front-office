@@ -668,7 +668,7 @@ class GlobalWSF extends React.PureComponent {
 													xValuesSize={2}
 
 													yLabel
-													yScale="log"
+													yScaleType="logarithmic"
 													yOptions={{
 														name: "Urban Expansion Coefficient",
 														tickCount: 4,
