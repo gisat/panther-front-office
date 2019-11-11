@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Page, {
+	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
@@ -15,6 +16,9 @@ import LineChart from "../../../../../../../components/common/charts/LineChart/L
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
+import serie_5_time_iso_2hours from "../../../../mockData/timeBased/serie_5_time_iso_2hours";
+import serie_50_time_iso_years from "../../../../mockData/timeBased/serie_50_time_iso_years";
+import series_20_time_iso_31days from "../../../../mockData/timeBased/series_20_time_iso_31days";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
@@ -195,6 +199,11 @@ class CartesianCharts extends React.PureComponent {
 							default: "0.7",
 							description: "Space between chart body and top margin in rem."
 						}, {}, {
+							name: "xScaleType",
+							type: "string",
+							default: "'ordinal'/'linear'",
+							description: "Possible values are for column chart - ordinal (default); for line chart - ordinal (default), time; for scatter chart - linear (default), time. ISO 8601 time format is recommended for input data."
+						}, {
 							name: "xGridlines",
 							type: "boolean",
 							default: "true/false",
@@ -237,6 +246,18 @@ class CartesianCharts extends React.PureComponent {
 								type: "number",
 								default: 1,
 								description: "Show every nth tick (and value label, gridline). For ordinal scales only."
+							},{
+								name: "axisValueFormat",
+								type: "string",
+								description: <>Time format used as x axis value label. Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
+							},{
+								name: "popupValueFormat",
+								type: "string",
+								description: <>Time format used in popup. Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
+							},{
+								name: "inputValueFormat",
+								type: "string",
+								description: <>Time format which should be used for parsing input data. Use if source data for time are not in ISO 8601 format. Currently implemented for <b>line charts only</b> Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
 							}]
 						}, {
 							name: "xTicks",
@@ -583,6 +604,220 @@ class CartesianCharts extends React.PureComponent {
 						</ResizableContainer>
 					</HoverHandler>
 				</LightDarkBlock>
+
+				<h3>Time scale</h3>
+
+				<DocsToDo>Add description</DocsToDo>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ScatterChart \n' +
+					'\t\tkey="time-scale-scatter"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="time"\n' +
+					'\t\tySourcePath="some_value_1"\n' +
+					'\n' +
+					'\t\tisSerie\n' +
+					'\t\tpointRadius={3}\n' +
+					'\n' +
+					'\t\txScaleType="time"\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\taxisValueFormat "H:mm"\n' +
+					'\t\t\tpopupValueFormat: "D MMMM YYYY (H:mm)"\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t}}\n' +
+					'\t\txValuesSize={5}\n' +
+					'\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tname: "Temperature"\n' +
+					'\t\t\tunit: "°C"\n' +
+					'\t\t\tmin: -100\n' +
+					'\t\t\tmax: +100\n' +
+					'\t\t}}\n' +
+					'\t\tyLabel\n' +
+					'\t\tyTicks={false}\n' +
+					'\n' +
+					'\t\twithoutYbaseline={false}\n' +
+					'\t\tdiverging\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ScatterChart
+								key="time-scale-scatter"
+								data={serie_5_time_iso_2hours}
+
+								xSourcePath="time"
+								ySourcePath="some_value_1"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								keySourcePath="key"
+
+								isSerie
+								pointRadius={3}
+
+								xScaleType="time"
+								xValuesSize={5}
+								xOptions={{
+									axisValueFormat: 'H:mm',
+									popupValueFormat: 'D MMMM YYYY (H:mm)',
+									name: 'Time'
+								}}
+
+								yLabel
+								yTicks={false}
+								yOptions={{
+									name: 'Temperature',
+									unit: '°C',
+									min: -100,
+									max: 100
+								}}
+
+								diverging
+								withoutYbaseline={true}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ScatterChart \n' +
+					'\t\tkey="time-scale-scatter-2"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="time"\n' +
+					'\t\tySourcePath="some_value_1"\n' +
+					'\n' +
+					'\t\tisSerie\n' +
+					'\t\tpointRadius={3}\n' +
+					'\n' +
+					'\t\txScaleType="time"\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\taxisValueFormat "YYYY"\n' +
+					'\t\t\tpopupValueFormat: "D MMMM YYYY"\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\tmax "2022-01-01T00:00:00"\n' +
+					'\t\t\tmin "2012-01-01T00:00:00"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tname: "Temperature"\n' +
+					'\t\t\tunit: "°C"\n' +
+					'\t\t}}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ScatterChart
+								key="time-scale-scatter-2"
+								data={serie_50_time_iso_years}
+
+								xSourcePath="time"
+								ySourcePath="some_value_1"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								keySourcePath="key"
+
+								isSerie
+								pointRadius={3}
+
+								xScaleType="time"
+								xOptions={{
+									max: '2022-01-01T00:00:00',
+									min: '2012-01-01T00:00:00',
+									axisValueFormat: 'YYYY',
+									popupValueFormat: 'D MMMM YYYY',
+									name: 'Time'
+								}}
+
+								yOptions={{
+									name: 'Temperature',
+									unit: '°C'
+								}}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="time-scale-line"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tisSerie\n' +
+					'\t\tpointRadius={3}\n' +
+					'\n' +
+					'\t\txScaleType="time"\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\taxisValueFormat "YYYY"\n' +
+					'\t\t\tpopupValueFormat: "YYYY"\n' +
+					'\t\t\tinputValueFormat "YYYY"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tunit: "inhabitans"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tdiverging\n' +
+					'\t\tsorting={[["period", "asc"]]}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+						<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="time-scale-line"
+
+								xScaleType="time"
+
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
+
+								xOptions={{
+									inputValueFormat: 'YYYY',
+									axisValueFormat: 'YYYY',
+									popupValueFormat: 'YYYY',
+									name: 'Time',
+								}}
+
+								yOptions={{
+									unit: "inhabitans"
+								}}
+
+								diverging
+								sorting={[["period", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
 
 				<h3>Show legend</h3>
 				<p>A legend could be used in line chart or scatter and is hidden by default. To show the legend just add <InlineCodeHighlighter>legend</InlineCodeHighlighter> prop. In the examples below you can se the legend usage for all types of cartesian charts.</p>
