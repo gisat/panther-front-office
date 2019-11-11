@@ -73,7 +73,8 @@ class ChartPanel extends React.PureComponent {
 							hoverAsterData ? 
 								<ChartWrapper
 									key={this.props.chartKey + "-wrapper"}
-									title={`Tree ID: ${this.context.hoveredItems[0]}`}
+									// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
+									title={`Species common name: ${hoveredData['SP_CO_NAME']}`}
 									subtitle={description}
 								>
 								<AsterChart
@@ -115,7 +116,8 @@ class ChartPanel extends React.PureComponent {
 						<div className="ptr-unseea-chart-column">
 							<ChartWrapper
 							key={selectAsterData.key + "-wrapper"}
-							title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
+							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
+							title={`Species common name: ${selectedAreaData['SP_CO_NAME']}`}
 							subtitle={description}
 							>
 							
