@@ -36,10 +36,10 @@ const view = {
                         "data": {
                             "worldWindNavigator": {
                                 lookAtLocation: {
-                                    latitude: 59.9,
-                                    longitude: 10.9
+                                    latitude: 59.909,
+                                    longitude: 10.76
                                 },
-                                range: 70000,
+                                range: 2600,
                                 roll: 0,
                                 tilt: 0,
                                 heading: 0                    
@@ -56,10 +56,10 @@ const view = {
                         "data": {
                             "worldWindNavigator": {
                                 lookAtLocation: {
-                                    latitude: 59.9,
-                                    longitude: 10.9
+                                    latitude: 59.909,
+                                    longitude: 10.76
                                 },
-                                range: 70000,
+                                range: 2600,
                                 roll: 0,
                                 tilt: 0,
                                 heading: 0                    

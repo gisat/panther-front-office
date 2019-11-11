@@ -109,10 +109,10 @@ class ChartPanel extends React.PureComponent {
 								value={activeMapSet}
 								onChange={this.onSelectedAreaChanged}
 								/>
-							<label>
+							{/* <label>
 								Normalise data by by median
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />
-							</label>
+							</label> */}
 						</div>
 						<div className="ptr-unseea-chart-panel">
 

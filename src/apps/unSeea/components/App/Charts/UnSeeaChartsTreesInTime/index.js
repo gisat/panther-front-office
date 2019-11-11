@@ -127,7 +127,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			ecosystemServiceIndicatorsStatistics,
 			monetaryIndicatorsData,
 			monetaryIndicatorsStatistics,
-			selectedArea: selectedAreas[0].toString(),
+			selectedArea: selectedAreas[0],
 			activeMapSetKey: activeMapSetKey,
 			onActiveMapChanged: ownProps.onActiveMapChanged,
 		}

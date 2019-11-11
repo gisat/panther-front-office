@@ -80,21 +80,28 @@ class ChartPanel extends React.PureComponent {
 	render() {
 		const {ecosystemServiceIndicatorsData, monetaryIndicatorsData, ecosystemServiceIndicatorsStatistics, monetaryIndicatorsStatistics, activeMapSetKey} = this.props;
 
-		let hoverAsterDataEcosystemServiceIndicators
-		let hoverAsterDataMonetaryIndicators
-		if(this.context && this.context.hoveredItems) {
+		let hoverAsterDataEcosystemServiceIndicators;
+		let hoverAsterDataMonetaryIndicators;
+		let hoverId;
+		if(ecosystemServiceIndicatorsData && this.context && this.context.hoveredItems) {
+			const data = ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]);
+			hoverId = data && data[this.props.spatialIdKey] || '';
 			hoverAsterDataEcosystemServiceIndicators = this.transformDataForAsterChart(ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedEcosystemServiceIndicators);
 			hoverAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedMonetaryIndicators);
 		}
 
 		let selectAsterDataEcosystemServiceIndicators
 		let selectAsterDataMonetaryIndicators
-		if(this.props.selectedArea) {
-			selectAsterDataEcosystemServiceIndicators = this.transformDataForAsterChart(ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedEcosystemServiceIndicators);
-			selectAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryIndicators);
+		let selectId;
+		if(ecosystemServiceIndicatorsData && this.props.selectedArea) {
+			const selectData = ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] == this.props.selectedArea);
+			selectId = selectData && selectData[this.props.spatialIdKey];
+			selectAsterDataEcosystemServiceIndicators = this.transformDataForAsterChart(ecosystemServiceIndicatorsData.find((d) => d[this.props.spatialIdKey] == this.props.selectedArea), observedEcosystemServiceIndicators);
+			selectAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] == this.props.selectedArea), observedMonetaryIndicators);
 		}
 
-		const ecosystemServiceDescription = "Mean ecosystem service values normalised by population per district."
+		// const ecosystemServiceDescription = "Mean ecosystem service values normalised by population per district."
+		const ecosystemServiceDescription = ""
 		const monetaryIndicatorsDescription = "Mean monetary values normalised by population per district."
 		const activeMapSet = areas.find(a=>a.mapSetKey === activeMapSetKey);
 			return (
@@ -107,21 +114,21 @@ class ChartPanel extends React.PureComponent {
 								value={activeMapSet}
 								onChange={this.onSelectedAreaChanged}
 								/>
-							<label>
+							{/* <label>
 								Normalise data by by median
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />
-							</label>
+							</label> */}
 						</div>
 						<div className="ptr-unseea-chart-panel">
 
 							<div className="ptr-unseea-chart-column">
 							{
-								hoverAsterDataEcosystemServiceIndicators && hoverAsterDataEcosystemServiceIndicators.data && hoverAsterDataEcosystemServiceIndicators.data.length > 0 && 
-								hoverAsterDataMonetaryIndicators && hoverAsterDataMonetaryIndicators.data && hoverAsterDataMonetaryIndicators.data.length > 0 ? 
+								hoverAsterDataEcosystemServiceIndicators && hoverAsterDataEcosystemServiceIndicators.data && hoverAsterDataEcosystemServiceIndicators.data.length > 0 ?
+								// hoverAsterDataMonetaryIndicators && hoverAsterDataMonetaryIndicators.data && hoverAsterDataMonetaryIndicators.data.length > 0 ? 
 									<div>
 										<ChartWrapper
 											key={this.props.chartKey + "-wrapper-1"}
-											title={hoverAsterDataEcosystemServiceIndicators.name}
+											title={`Tree ID: ${hoverId}`}
 											subtitle={ecosystemServiceDescription}
 										>
 											<AsterChart
@@ -145,7 +152,7 @@ class ChartPanel extends React.PureComponent {
 												legend
 											/>
 										</ChartWrapper>
-										<ChartWrapper
+										{/* <ChartWrapper
 											key={this.props.chartKey + "-wrapper-2"}
 											title={hoverAsterDataMonetaryIndicators.name}
 											subtitle={monetaryIndicatorsDescription}
@@ -170,7 +177,7 @@ class ChartPanel extends React.PureComponent {
 												forceMaximum= {this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.max}
 												legend
 											/>
-										</ChartWrapper>
+										</ChartWrapper> */}
 									</div> : 
 								(
 									<div className="ptr-chart-wrapper-content">
@@ -189,9 +196,9 @@ class ChartPanel extends React.PureComponent {
 							</div>
 							<div className="ptr-unseea-chart-column">
 									<ChartWrapper
-										key={selectAsterDataEcosystemServiceIndicators.key + "-wrapper-1"}
-										title={selectAsterDataEcosystemServiceIndicators.name}
-										subtitle={ecosystemServiceDescription}
+											key={this.props.chartKey + "-wrapper-2"}
+											title={`Tree ID: ${selectId}`}
+											subtitle={ecosystemServiceDescription}
 										>
 										<AsterChart
 											key={`${selectAsterDataEcosystemServiceIndicators.key}-aster-doc-basic-1`}
@@ -214,7 +221,7 @@ class ChartPanel extends React.PureComponent {
 											forceMaximum= {this.state.normalised ? 100 : ecosystemServiceIndicatorsStatistics.sumStatistics.max}
 										/>
 									</ChartWrapper>
-									<ChartWrapper
+									{/* <ChartWrapper
 									key={selectAsterDataMonetaryIndicators.key + "-wrapper-2"}
 									title={selectAsterDataMonetaryIndicators.name}
 									subtitle={monetaryIndicatorsDescription}
@@ -240,7 +247,7 @@ class ChartPanel extends React.PureComponent {
 											forceMinimum={0}
 											forceMaximum= {this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.max}
 										/>
-									</ChartWrapper>
+									</ChartWrapper> */}
 							</div>
 						</div>
 					</div>

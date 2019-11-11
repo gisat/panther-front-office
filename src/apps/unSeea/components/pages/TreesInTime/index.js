@@ -23,11 +23,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		// 	.then(response => response.json())
 		// 	.then(spatialData => {
 		// 		const data = {
-		// 			spatialDataSourceKey: 'BYMTreeDatabase_cut_2011',
+		// 			spatialDataSourceKey: 'un_seea_trees_in_time_2011',
 		// 			spatialData,
 		// 		}
 	
 		// 		dispatch(Action.spatialDataSources.vector.addBatch(data, 'spatialDataSourceKey'));
+
+		// 		//set charts
+		// 		dispatch(Action.charts.setInitial(data, 'spatialDataSourceKey'));
 		// 	}
 		// )
 
@@ -35,14 +38,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		// 	.then(response => response.json())
 		// 	.then(spatialData => {
 		// 		const data = {
-		// 			spatialDataSourceKey: 'BYMTreeDatabase_cut_2017',
+		// 			spatialDataSourceKey: 'un_seea_trees_in_time_2017',
 		// 			spatialData,
 		// 		}
-	
-		// 		dispatch(Action.spatialDataSources.vector.addBatch(data, 'spatialDataSourceKey'));
-		// 	}
-		// )
 
+		// 		dispatch(Action.spatialDataSources.vector.addBatch(data, 'spatialDataSourceKey'));
+
+		// 		//set charts
+		// 		dispatch(Action.charts.setInitial(data, 'spatialDataSourceKey'));
+		// 	}
+		// );
 
 		const BYMTreeDatabase_cut_2011Loader = import(/* webpackChunkName: "unseea_trees_2_boundariesSpatialData" */ "../../../data/trees_in_time/trees2011_cut.json").then(({default: spatialData}) => {
 			const data = {
@@ -84,7 +89,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 			// dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
 
 			//set selected area
-			dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
+			dispatch(Action.selections.updateActiveSelection('name', [63844], []));
 
 			dispatch(Action.spatialDataSources.vector.addBatchIndex({spatialDataSourceKey: 'un_seea_trees_in_time_2011'}, null, [{spatialDataSourceKey: 'un_seea_trees_in_time_2011'}], 'spatialDataSourceKey'));
 			dispatch(Action.spatialDataSources.vector.addBatchIndex({spatialDataSourceKey: 'un_seea_trees_in_time_2017'}, null, [{spatialDataSourceKey: 'un_seea_trees_in_time_2017'}], 'spatialDataSourceKey'));

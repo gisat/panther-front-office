@@ -351,11 +351,11 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 	getPopupContent(features, nameSource = "name", valueSource, spatialIdSource) {
 		if (features && features.length) {
 			let content = [];
-			features.forEach((feature) => {
+			// features.forEach((feature) => {
 				let unit = 'District';
-				let name = _.get(feature, '_name');
-				let value = feature.name;
-				let spatialId = _.get(feature, spatialIdSource);
+				let name = _.get(features[0], '_name');
+				let value = features[0].name;
+				let spatialId = _.get(features[0], spatialIdSource);
 			
 				if(spatialId || spatialId === 0) {
 					switch(this.props.vectorLayerStyleKey) {
@@ -363,23 +363,25 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
 								break;
 						case 'districtsChoroplet':
-								let greenGrayValue = feature.GREEN_GRAY;
+								let greenGrayValue = features[0].GREEN_GRAY;
 								content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
 								content.push(<div key={`${spatialId}_green_gray`}><i>Green vs gray index:</i> {greenGrayValue || value === 0 ? greenGrayValue.toLocaleString() : null}</div>);
 								break;
 						case 'trees':
-								let TOTBEN_N17 = _.get(feature, 'TOTBEN_N17');
+								let TOTBEN_N17 = _.get(features[0], 'TOTBEN_N17');
 								content.push(<div key={`${spatialId}_id`}><i>Tree ID:</i> {spatialId}</div>);
 								content.push(<div key={`${spatialId}_benefits`}><i>Annual Benefits:</i> {TOTBEN_N17}</div>);
 								break;
-						case 'treesInTime':
-								content.push(<div key={spatialId}><i>Tree ID:</i> {spatialId}</div>);
+							case 'treesInTime':
+								let MGBDIAM = _.get(features[0], 'MGBDIAM');
+								content.push(<div key={`${spatialId}_treeid`}><i>Tree ID:</i> {spatialId}</div>);
+								content.push(<div key={`${spatialId}_MGBDIAM`}><i>MGBDIAM:</i> {MGBDIAM}</div>);
 								break;
 					}
 				} else {
 					content.push(<div key={spatialId}>No data</div>);
 				}
-			});
+			// });
 
 			return (<>{content}</>)
 		} else {
