@@ -183,13 +183,15 @@ function mergeLayers(one, two) {
 const mergeViews = createCachedSelector(
 	[
 		(one) => one,
-		(one, two) => two
+		(one, two) => two,
+		(one, two, three) => three
 	],
-	(one, two) => {
-		return {...one, ...two};
+	(one, two, three) => {
+		three = three || {};
+		return {...one, ...two, ...three};
 	}
 )(
-	(one, two) => `${one}_${two}`
+	(one, two, three) => `${one}_${two}_${three || ""}`
 );
 
 
