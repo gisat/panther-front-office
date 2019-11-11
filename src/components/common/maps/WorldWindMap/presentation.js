@@ -7,7 +7,7 @@ import WorldWind from 'webworldwind-esa';
 import decorateWorldWindowController from './controllers/WorldWindowControllerDecorator';
 import layersHelpers from './layers/helpers';
 import navigator from './navigator/helpers';
-import {defaultMapView} from '../constants';
+import {defaultMapView} from '../../../../constants/Map';
 
 import './style.scss';
 

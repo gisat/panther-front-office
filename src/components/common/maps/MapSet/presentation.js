@@ -6,7 +6,7 @@ import _ from 'lodash';
 import mapUtils from '../../../../utils/map';
 
 import ContainerMap from '../Map';
-import {defaultMapView} from '../constants';
+import {defaultMapView} from '../../../../constants/Map';
 
 import './style.scss';
 import MapGrid from "../MapGrid";

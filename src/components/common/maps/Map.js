@@ -3,7 +3,7 @@ import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import React from "react";
 import _ from "lodash";
-import {defaultMapView} from "./constants";
+import {defaultMapView} from "../../../constants/Map";
 import mapUtils from "../../../utils/map";
 
 const mapStateToProps = (state, ownProps) => {

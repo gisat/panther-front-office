@@ -4,7 +4,7 @@ import L from 'leaflet';
 import viewHelpers from './viewHelpers';
 import layersHelpers from './layersHelpers';
 import utils from '../viewUtils';
-import {defaultMapView} from '../constants';
+import {defaultMapView} from '../../../../constants/Map';
 
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
