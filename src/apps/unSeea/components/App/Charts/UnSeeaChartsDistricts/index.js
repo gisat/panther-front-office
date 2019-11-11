@@ -18,8 +18,11 @@ const calculateDataStatistics = (data, observedValues) => {
 	//calculate data statistics
 	const observedDataStatistics = observedValues.map(d => ({
 		id: d.name,
+		idNormalised: d.normalisedName,
 		min: null,
-		max: null
+		max: null,
+		minNormalised: null,
+		maxNormalised: null
 	}))
 
 	data.forEach((d) => {
@@ -29,6 +32,13 @@ const calculateDataStatistics = (data, observedValues) => {
 				const statistics = observedDataStatistics.find(s => s.id === key);
 				statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
 				statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
+			}
+
+			const observedValueNormalised = observedValues.find(ov => ov.normalisedName === key);
+			if(observedValueNormalised) {
+				const statistics = observedDataStatistics.find(s => s.idNormalised === key);
+				statistics.minNormalised = (statistics.minNormalised || statistics.minNormalised === 0) ? Math.min(statistics.minNormalised, d[observedValueNormalised.normalisedName]) : d[observedValueNormalised.normalisedName];
+				statistics.maxNormalised = (statistics.maxNormalised || statistics.maxNormalised === 0) ? Math.max(statistics.maxNormalised, d[observedValueNormalised.normalisedName]) : d[observedValueNormalised.normalisedName];
 			}
 		}
 	})
@@ -43,6 +53,8 @@ const calculateDataStatistics = (data, observedValues) => {
 	observedDataStatistics.forEach(s => {
 		sumStatistics.min = (sumStatistics.min || sumStatistics.min === 0) ? Math.min(sumStatistics.min, s.min) : s.min;
 		sumStatistics.max = (sumStatistics.max || sumStatistics.max === 0) ? Math.max(sumStatistics.max, s.max) : s.max;
+		sumStatistics.minNormalised = (sumStatistics.minNormalised || sumStatistics.minNormalised === 0) ? Math.min(sumStatistics.minNormalised, s.minNormalised) : s.minNormalised;
+		sumStatistics.maxNormalised = (sumStatistics.maxNormalised || sumStatistics.maxNormalised === 0) ? Math.max(sumStatistics.maxNormalised, s.maxNormalised) : s.maxNormalised;
 		// sumStatistics.values = [...sumStatistics.values, ...s.values];
 		// s.median = calculateMedian(s.values);
 	});
@@ -57,20 +69,38 @@ const calculateData = (data, observedValues, dataStatistics) => {
 		// convert absolute numbers to relative
 		//TODO -> should be in selector
 		const relativeData = data.map((d) => {
-			const data = {};
+			const calData = {};
 			for (const [key, value] of Object.entries(d)) {
+				
 				const observedValue = observedValues.find(ov => ov.name === key);
 				if(observedValue) {
+					const exists = calData[key] || {};
 					const statistics = dataStatistics.find(s => s.id === key);
-					data[key] = {
+					calData[key] = {
+						...exists,
 						relative: 100 * value / statistics.max,
 						absolute: value
 					}
-				} else {
-					data[key] = value;
+				}
+
+
+				const observedNormalisedValue = observedValues.find(ov => ov.normalisedName === key);
+				if(observedNormalisedValue) {
+					const statistics = dataStatistics.find(s => s.idNormalised === key);
+					const name = observedNormalisedValue.name;
+					const exists = calData[name] || {};
+					calData[name] = {
+						...exists,
+						relativeNormalised: 100 * value / statistics.maxNormalised,
+						absoluteNormalised: value
+					}
+				}
+
+				if(!calData[key]) {
+					calData[key] = value;
 				}
 			}
-			return data;
+			return calData;
 		});
 
 		return relativeData;

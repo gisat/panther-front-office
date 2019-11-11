@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 			// dispatch(Action.charts.setInitial(boundariesSpatialData, 'spatialDataSourceKey'));
 
 			//set selected area
-			dispatch(Action.selections.updateActiveSelection('name', ["1"], []));
+			dispatch(Action.selections.updateActiveSelection('name', ["4"], []));
 
 			dispatch(Action.spatialDataSources.vector.addBatchIndex({spatialDataSourceKey: 'un_seea_boundaries'}, null, [{spatialDataSourceKey: 'un_seea_boundaries'}], 'spatialDataSourceKey'));
 			dispatch(Action.spatialDataSources.vector.addBatchIndex({spatialDataSourceKey: 'un_seea_boundaries_grid'}, null, [{spatialDataSourceKey: 'un_seea_boundaries_grid'}], 'spatialDataSourceKey'));

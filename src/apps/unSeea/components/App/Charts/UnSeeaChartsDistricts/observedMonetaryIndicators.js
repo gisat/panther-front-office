@@ -55,31 +55,36 @@ export default [
 
 	//modra
 	{
-		name: 'CO_STO_N17_TP_MEAN_POP',
+		normalisedName: 'CO_STO_N17_TP_MEAN_POP',
+		name: 'CO_STO_N17_TP_MEAN',
 		color: '#4974C6',
 		getTooltip: getGramsFromKilograms,
 		title: 'Stored Carbon'
 	},
 	{
-		name: 'CO_SEQ_N17_TP_MEAN_POP',
+		normalisedName: 'CO_SEQ_N17_TP_MEAN_POP',
+		name: 'CO_SEQ_N17_TP_MEAN',
 		color: '#4974C6',
 		getTooltip: getGramsFromKilograms,
 		title: 'Sequestrated Carbon'
 	},
 	{
-		name: 'CO_AVO_N17_TP_MEAN_POP',
+		normalisedName: 'CO_AVO_N17_TP_MEAN_POP',
+		name: 'CO_AVO_N17_TP_MEAN',
 		color: '#4974C6',
 		getTooltip: getGramsFromKilograms,
 		title: 'Avoided runoff'
 	},
 	{
-		name: 'POL_RE_N17_TP_MEAN_POP',
+		normalisedName: 'POL_RE_N17_TP_MEAN_POP',
+		name: 'POL_RE_N17_TP_MEAN',
 		color: '#4974C6',
 		getTooltip: getGramsFromKilograms,
 		title: 'Removed air pollution'
 	},
 	{
-		name: 'TOTBEN_N17_TP_MEAN_POP',
+		normalisedName: 'TOTBEN_N17_TP_MEAN_POP',
+		name: 'TOTBEN_N17_TP_MEAN',
 		color: '#4974C6',
 		getTooltip: getDollars,
 		title: 'Annual Benefits'

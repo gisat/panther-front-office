@@ -54,7 +54,10 @@ class ChartPanel extends React.PureComponent {
 					value: {
 						relative: value.relative,
 						absolute: value.absolute,
-						absoluteTooltip: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
+						absoluteTooltip: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute,
+						relativeNormalised: value.relativeNormalised,
+						absoluteNormalised: value.absoluteNormalised,
+						absoluteTooltipNormalised: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absoluteNormalised) : value.absoluteNormalised
 					},
 					name: observedValue.title,
 					color: observedValue.color
@@ -96,8 +99,8 @@ class ChartPanel extends React.PureComponent {
 			selectAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryIndicators);
 		}
 
-		const ecosystemServiceDescription = "Mean ecosystem service values normalised by population per district."
-		const monetaryIndicatorsDescription = "Mean monetary values normalised by population per district."
+		const ecosystemServiceDescription = this.state.normalised ? "Ecosystem service values normalised by population per district in percentage by maximum." : "Mean ecosystem service values."
+		const monetaryIndicatorsDescription = this.state.normalised ? "Monetary values normalised by population per district in percentage by maximum." : "Mean monetary values."
 		const activeMapSet = areas.find(a=>a.mapSetKey === activeMapSetKey);
 			return (
 					<div>
@@ -109,10 +112,10 @@ class ChartPanel extends React.PureComponent {
 								value={activeMapSet}
 								onChange={this.onSelectedAreaChanged}
 								/>
-							{/* <label>
+							<label>
 								Normalise data by by median
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />
-							</label> */}
+							</label>
 						</div>
 						<div className="ptr-unseea-chart-panel">
 
@@ -127,25 +130,25 @@ class ChartPanel extends React.PureComponent {
 											subtitle={ecosystemServiceDescription}
 										>
 											<AsterChart
-												key="aster-doc-basic-1"
+												key="aster-doc-basic-hover-1"
 												data={hoverAsterDataEcosystemServiceIndicators.data}
 
 												keySourcePath="key"
 												nameSourcePath="name"
-												valueSourcePath= {this.state.normalised ? "value.relative" : "value.absolute"}
-												hoverValueSourcePath="value.absoluteTooltip"
+												valueSourcePath= {this.state.normalised ? "value.absoluteNormalised" : "value.relative"}
+												hoverValueSourcePath= {this.state.normalised ? "value.absoluteTooltipNormalised" : "value.absoluteTooltip"}
 												colorSourcePath="color"
-												relative = {this.state.normalised}
+												relative = {!this.state.normalised}
 												grid={{
 													captions: true
 												}}
 												radials={{
 													captions: true
 												}}
-												forceMinimum={0}
-												forceMaximum= {this.state.normalised ? 100 : ecosystemServiceIndicatorsStatistics.sumStatistics.max}
 												legend
-											/>
+												forceMinimum={0}
+												forceMaximum= {!this.state.normalised ? 100 : ecosystemServiceIndicatorsStatistics.sumStatistics.maxNormalised}
+										/>
 										</ChartWrapper>
 										<ChartWrapper
 											key={this.props.chartKey + "-wrapper-2"}
@@ -158,10 +161,10 @@ class ChartPanel extends React.PureComponent {
 
 												keySourcePath="key"
 												nameSourcePath="name"
-												valueSourcePath= {this.state.normalised ? "value.relative" : "value.absolute"}
-												hoverValueSourcePath="value.absoluteTooltip"
+												valueSourcePath= {this.state.normalised ? "value.absoluteNormalised" : "value.relative"}
+												hoverValueSourcePath= {this.state.normalised ? "value.absoluteTooltipNormalised" : "value.absoluteTooltip"}
 												colorSourcePath="color"
-												relative = {this.state.normalised}
+												relative = {!this.state.normalised}
 												grid={{
 													captions: true
 												}}
@@ -169,7 +172,7 @@ class ChartPanel extends React.PureComponent {
 													captions: true
 												}}
 												forceMinimum={0}
-												forceMaximum= {this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.max}
+												forceMaximum= {!this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.max}
 												legend
 											/>
 										</ChartWrapper>
@@ -201,10 +204,10 @@ class ChartPanel extends React.PureComponent {
 
 											keySourcePath="key"
 											nameSourcePath="name"
-											valueSourcePath= {this.state.normalised ? "value.relative" : "value.absolute"}
-											hoverValueSourcePath="value.absoluteTooltip"
+											valueSourcePath= {this.state.normalised ? "value.absoluteNormalised" : "value.relative"}
+											hoverValueSourcePath= {this.state.normalised ? "value.absoluteTooltipNormalised" : "value.absoluteTooltip"}
 											colorSourcePath="color"
-											relative = {this.state.normalised}
+											relative = {!this.state.normalised}
 											grid={{
 												captions: true
 											}}
@@ -213,7 +216,7 @@ class ChartPanel extends React.PureComponent {
 											}}
 											legend
 											forceMinimum={0}
-											forceMaximum= {this.state.normalised ? 100 : ecosystemServiceIndicatorsStatistics.sumStatistics.max}
+											forceMaximum= {!this.state.normalised ? 100 : ecosystemServiceIndicatorsStatistics.sumStatistics.maxNormalised}
 										/>
 									</ChartWrapper>
 									<ChartWrapper
@@ -228,10 +231,10 @@ class ChartPanel extends React.PureComponent {
 
 											keySourcePath="key"
 											nameSourcePath="name"
-											valueSourcePath= {this.state.normalised ? "value.relative" : "value.absolute"}
-											hoverValueSourcePath="value.absoluteTooltip"
+											valueSourcePath= {this.state.normalised ? "value.absoluteNormalised" : "value.relative"}
+											hoverValueSourcePath= {this.state.normalised ? "value.absoluteTooltipNormalised" : "value.absoluteTooltip"}
 											colorSourcePath="color"
-											relative = {this.state.normalised}
+											relative = {!this.state.normalised}
 											grid={{
 												captions: true
 											}}
@@ -240,7 +243,7 @@ class ChartPanel extends React.PureComponent {
 											}}
 											legend
 											forceMinimum={0}
-											forceMaximum= {this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.max}
+											forceMaximum= {!this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.maxNormalised}
 										/>
 									</ChartWrapper>
 							</div>
