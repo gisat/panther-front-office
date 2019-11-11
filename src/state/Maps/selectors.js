@@ -10,6 +10,7 @@ import mapHelpers from './helpers';
 import commonSelectors from "../_common/selectors";
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
+import {defaultMapView} from "../../constants/Map";
 
 
 /* ===== Basic selectors ==================== */
@@ -384,6 +385,22 @@ const getAllLayersStateByMapKey = createSelector(
 );
 
 /**
+ * Get active map key for set. Either local, or global.
+ *
+ * @param state {Object}
+ * @param setKey {string}
+ */
+const getMapSetActiveMapKey = createSelector(
+	[
+		getActiveMapKey,
+		getMapSetByKey
+	],
+	(mapKey, set) => {
+		return (set && set.activeMapKey) || mapKey || null;
+	}
+);
+
+/**
  * @param state {Object}
  * @param mapKey {string}
  */
@@ -396,12 +413,20 @@ const getView = createSelector(
 		if (map) {
 			if (set) {
 				let mapView = map.data && map.data.view;
+
+				// omit synced view params from map
+				if (set.sync && !_.isEmpty(set.sync)) {
+					mapView = _.omitBy(mapView, (viewValue, viewKey) => {
+						return set.sync[viewKey];
+					});
+				}
+
 				let mapSetView = set.data && set.data.view;
-				let view = mapUtils.mergeViews(mapSetView, mapView);
+				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
 				return !_.isEmpty(view) ? view : null;
 			} else {
 				let view = map.data && map.data.view;
-				return view && !_.isEmpty(view) ? view : null;
+				return mapUtils.mergeViews(defaultMapView, view);
 			}
 		} else {
 			return null;
@@ -409,9 +434,56 @@ const getView = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param setKey {string}
+ */
+const getMapSetView = createSelector(
+	[
+		getMapSetByKey
+	],
+	(set) => {
+		if (set) {
+			let setView = set.data && set.data.view;
+			return mapUtils.mergeViews(defaultMapView, setView);
+		} else {
+			return null;
+		}
+	}
+);
 
+const getMapSetActiveMapView = createSelector(
+	[
+		getMapSetActiveMapKey,
+		getMapSetByKey,
+		getMapsAsObject
+	],
+	(mapKey, set, maps) => {
+		let map = maps[mapKey];
 
+		if (map) {
+			if (set) {
+				let mapView = map.data && map.data.view;
 
+				// omit synced view params from map
+				if (set.sync && !_.isEmpty(set.sync)) {
+					mapView = _.omitBy(mapView, (viewValue, viewKey) => {
+						return set.sync[viewKey];
+					});
+				}
+
+				let mapSetView = set.data && set.data.view;
+				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
+				return !_.isEmpty(view) ? view : null;
+			} else {
+				let view = map.data && map.data.view;
+				return mapUtils.mergeViews(defaultMapView, view);
+			}
+		} else {
+			return null;
+		}
+	}
+);
 
 
 /* ===== Complex selectors ========================= */
@@ -425,15 +497,20 @@ const getView = createSelector(
 const getBackgroundLayer = (state, mapKey) => {
 	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
 	if (layerState) {
-		let layerKey = 'pantherBackgroundLayer';
-		let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(layerState, layerKey);
-		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+		if (layerState.type) {
+			// TODO helper
+			return layerState;
+		} else {
+			let layerKey = 'pantherBackgroundLayer';
+			let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(layerState, layerKey);
+			let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 
-		if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
-			return _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
-		}
-		else {
-			return null;
+			if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
+				return _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+			}
+			else {
+				return null;
+			}
 		}
 	} else {
 		return null;
@@ -885,10 +962,13 @@ export default {
 	getMapLayerByMapKeyAndLayerKey,
 	getMapsAsObject,
 
+	getMapSetActiveMapKey,
+	getMapSetActiveMapView,
 	getMapSetByKey,
 	getMapSetByMapKey,
 	getMapSetLayersStateBySetKey,
 	getMapSetMapKeys,
+	getMapSetView,
 	getMapSets,
 	getMapSetsAsObject,
 

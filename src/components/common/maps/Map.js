@@ -43,6 +43,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			},
 
 			onClick: (view) => {
+				// TODO set local active map key in set, if applicable
 				dispatch(Action.maps.setActiveMapKey(ownProps.stateMapKey));
 			}
 		}

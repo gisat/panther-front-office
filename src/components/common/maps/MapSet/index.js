@@ -7,10 +7,10 @@ import presentation, {Map as map, PresentationMap as presentationMap} from './pr
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapSetKey) {
 		return {
+			activeMapKey: Select.maps.getMapSetActiveMapKey(state),
+			activeMapView: Select.maps.getMapSetActiveMapView(state, ownProps.stateMapSetKey),
 			maps: Select.maps.getMapSetMapKeys(state, ownProps.stateMapSetKey),
-			// view: Select.maps.getMapSetView(state, ownProps.stateMapSetKey),
-			// backgroundLayer: Select.maps.getMapSetBackgroundLayer(state, ownProps.stateMapSetKey),
-			// layers: Select.maps.getMapSetLayers(state, ownProps.stateMapSetKey),
+			view: Select.maps.getMapSetView(state, ownProps.stateMapSetKey)
 		}
 	} else {
 		return {
@@ -23,9 +23,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	if (ownProps.stateMapSetKey) {
 		return {
-			// updateView: (update) => {
-			// 	dispatch(Action.maps.updateSetView(ownProps.stateMapSetKey, update));
-			// },
+			updateView: (update) => {
+				dispatch(Action.maps.updateSetView(ownProps.stateMapSetKey, update));
+			},
 			// resetHeading: () => {
 			// 	dispatch(Action.maps.resetSetViewHeading(ownProps.stateMapSetKey));
 			// }

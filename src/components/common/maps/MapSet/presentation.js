@@ -27,6 +27,7 @@ class MapSet extends React.PureComponent {
 
 	static propTypes = {
 		activeMapKey: PropTypes.string,
+		activeMapView: PropTypes.object,
 		mapSetKey: PropTypes.string,
 		maps: PropTypes.array,
 		mapComponent: PropTypes.func,
@@ -115,7 +116,7 @@ class MapSet extends React.PureComponent {
 		if (this.props.stateMapSetKey) {
 			updateView = this.props.updateView;
 			resetHeading = this.props.resetHeading;
-			view = this.props.view;
+			view = this.props.activeMapView;
 		} else {
 			updateView = this.onViewChange.bind(this, null);
 			resetHeading = () => {}; //TODO

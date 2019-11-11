@@ -502,6 +502,13 @@ const updateMapAndSetView = (mapKey, update) => {
 	}
 };
 
+const updateSetView = (setKey, update) => {
+	return (dispatch, getState) => {
+		let activeMapKey = Select.maps.getMapSetActiveMapKey(getState(), setKey); // TODO local active Key
+		dispatch(updateMapAndSetView(activeMapKey, update));
+	};
+};
+
 const resetViewHeading = (mapKey) => {
 	return (dispatch, getState) => {
 		const view = Select.maps.getView(getState(), mapKey);
