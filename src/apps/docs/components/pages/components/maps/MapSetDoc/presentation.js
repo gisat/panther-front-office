@@ -19,7 +19,10 @@ class MapSetDoc extends React.PureComponent {
 			key: 'docs-MapSet',
 			data: {
 				backgroundLayer: {
-					layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
+					type: 'worldwind',
+					options: {
+						layer: 'wikimedia'
+					}
 				},
 				layers: [
 					{
@@ -29,18 +32,18 @@ class MapSetDoc extends React.PureComponent {
 				],
 				view: {
 					center: {
-						lat: -6.15,
-						lon: 35.75
+						lat: 50,
+						lon: 15
 					},
-					boxRange: 50000
+					boxRange: 1000000
 				}
 			}
 		});
-		props.setSetSync('docs-MapSet', {center: true, boxRange: true});
+		props.setSetSync('docs-MapSet', {center: true, boxRange: true, heading: true});
 		props.addMap({key: 'docs-MapSet-Map1', data: {
-				backgroundLayer: {
-					layerTemplateKey: '8d1afd87-908b-4d22-90bb-af1a4e161930'
-				},
+				// backgroundLayer: {
+				// 	layerTemplateKey: '8d1afd87-908b-4d22-90bb-af1a4e161930'
+				// },
 				layers: [
 					{
 						key: 'lulc',
@@ -49,7 +52,10 @@ class MapSetDoc extends React.PureComponent {
 						key: 'vector',
 						layerTemplateKey: 'cfe1ceb6-a9c1-40f7-b6e0-034e14307cc3'
 					}
-				]
+				],
+				view: {
+					heading: 10
+				}
 			}},);
 		props.addMap({key: 'docs-MapSet-Map2', data: {
 				layers: [
@@ -79,16 +85,16 @@ class MapSetDoc extends React.PureComponent {
 		return (
 			<Page title="Map">
 				<h2>Connected to store</h2>
-				<Buttons>
-					<Button onClick={this.removeSetBackgroundLayer}>Remove background layer from set</Button>
-					<Button onClick={this.setSetBackgroundLayer.bind(this, '2793f35f-5433-45e1-9f59-55aa99985fc2')}>Add OSM as set background layer</Button>
-				</Buttons>
+				{/*<Buttons>*/}
+				{/*	<Button onClick={this.removeSetBackgroundLayer}>Remove background layer from set</Button>*/}
+				{/*	<Button onClick={this.setSetBackgroundLayer.bind(this, '2793f35f-5433-45e1-9f59-55aa99985fc2')}>Add OSM as set background layer</Button>*/}
+				{/*</Buttons>*/}
 				<div style={{height: 500}}>
 					<MapSet
 						stateMapSetKey="docs-MapSet"
 						mapComponent={WorldWindMap}
 					>
-						<MapControls zoomOnly levelsBased/>
+						<MapControlsPresentation/>
 					</MapSet>
 				</div>
 
@@ -98,7 +104,9 @@ class MapSetDoc extends React.PureComponent {
 						activeMapKey='map-2'
 						mapComponent={WorldWindMap}
 						view={{
-							boxRange: 100000
+							boxRange: 100000,
+							heading: 10,
+							tilt: 10
 						}}
 						sync={{
 							boxRange: true,
@@ -124,49 +132,49 @@ class MapSetDoc extends React.PureComponent {
 					</MapSetPresentation>
 				</div>
 				<br/>
-				<div style={{height: 500}}>
-					<MapSetPresentation
-						activeMapKey='map-2'
-						mapComponent={LeafletMap}
-						view={{
-							center: {
-								lat: -6.15,
-								lon: 35.75
-							},
-							boxRange: 50000
-						}}
-						sync={{
-							boxRange: true,
-							center: true
-						}}
-						backgroundLayer={{
-							key: 'osm',
-							type: 'wmts',
-							options: {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'}
-						}}
-						layers={[
-							{key: 'dodomaAuLevel3',
-								name: 'Analytical units 3',
-								type: 'vector',
-								options: {
-									features: au_3_data,
-									keyProperty: 'AL3_ID',
-									nameProperty: 'AL3_NAME'
-								}}
-						]}
-					>
-						<PresentationMap
-							mapKey='map-1'
-						/>
-						<PresentationMap
-							mapKey='map-2'
-						/>
-						<PresentationMap
-							mapKey='map-3'
-						/>
-						<MapControlsPresentation zoomOnly levelsBased/>
-					</MapSetPresentation>
-				</div>
+				{/*<div style={{height: 500}}>*/}
+				{/*	<MapSetPresentation*/}
+				{/*		activeMapKey='map-2'*/}
+				{/*		mapComponent={LeafletMap}*/}
+				{/*		view={{*/}
+				{/*			center: {*/}
+				{/*				lat: -6.15,*/}
+				{/*				lon: 35.75*/}
+				{/*			},*/}
+				{/*			boxRange: 50000*/}
+				{/*		}}*/}
+				{/*		sync={{*/}
+				{/*			boxRange: true,*/}
+				{/*			center: true*/}
+				{/*		}}*/}
+				{/*		backgroundLayer={{*/}
+				{/*			key: 'osm',*/}
+				{/*			type: 'wmts',*/}
+				{/*			options: {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png'}*/}
+				{/*		}}*/}
+				{/*		layers={[*/}
+				{/*			{key: 'dodomaAuLevel3',*/}
+				{/*				name: 'Analytical units 3',*/}
+				{/*				type: 'vector',*/}
+				{/*				options: {*/}
+				{/*					features: au_3_data,*/}
+				{/*					keyProperty: 'AL3_ID',*/}
+				{/*					nameProperty: 'AL3_NAME'*/}
+				{/*				}}*/}
+				{/*		]}*/}
+				{/*	>*/}
+				{/*		<PresentationMap*/}
+				{/*			mapKey='map-1'*/}
+				{/*		/>*/}
+				{/*		<PresentationMap*/}
+				{/*			mapKey='map-2'*/}
+				{/*		/>*/}
+				{/*		<PresentationMap*/}
+				{/*			mapKey='map-3'*/}
+				{/*		/>*/}
+				{/*		<MapControlsPresentation zoomOnly levelsBased/>*/}
+				{/*	</MapSetPresentation>*/}
+				{/*</div>*/}
 			</Page>
 		);
 	}
