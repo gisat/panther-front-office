@@ -39,32 +39,40 @@ class MapSet extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			view: mapUtils.mergeViews(defaultMapView, props.view),
-			activeMapKey: props.activeMapKey
-		};
+		if (!props.stateMapSetKey) {
+			this.state = {
+				view: mapUtils.mergeViews(defaultMapView, props.view),
 
-		_.forEach(this.props.children, child => {
-			if (child && typeof child === "object"
-				&& (child.type === Map || child.type === ContainerMap || child.type === PresentationMap)
-				&& child.props.mapKey === props.activeMapKey) {
-				this.state.activeMapView = mapUtils.mergeViews(defaultMapView, props.view, child.props.view)
-			}
-		});
+				activeMapKey: props.activeMapKey,
+				mapViews: {}
+			};
+
+			_.forEach(this.props.children, child => {
+				if (child && typeof child === "object"
+					&& (child.type === Map || child.type === ContainerMap || child.type === PresentationMap)
+					&& child.props.mapKey === props.activeMapKey) {
+					this.state.mapViews[child.mapKey] = mapUtils.mergeViews(defaultMapView, props.view, child.props.view);
+				}
+			});
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!this.props.stateMapSetKey && (prevProps.view !== this.props.view)) {
+			let mapViews = _.mapValues(this.state.mapViews, view => {
+				return {...view, ...this.props.view};
+			});
+
 			this.setState({
+				// TODO sync props to view only?
 				view: {...this.state.view, ...this.props.view},
-				activeMapView: {...this.state.activeMapView, ...this.props.view}
+				mapViews
 			});
 		}
 	}
 
 	onViewChange(mapKey, update) {
 		let syncUpdate;
-		let activeUpdate;
 		update = mapUtils.ensureViewIntegrity(update);
 		mapKey = mapKey || this.state.activeMapKey;
 
@@ -75,18 +83,22 @@ class MapSet extends React.PureComponent {
 			syncUpdate = mapUtils.ensureViewIntegrity(syncUpdate);
 		}
 
-		if ((mapKey && this.state.activeMapKey === mapKey) || (this.state.activeMapKey && !mapKey)) {
-			activeUpdate = mapUtils.mergeViews(this.state.activeMapView, update);
-		}
+		// merge views of all maps
+		let mapViews = _.mapValues(this.state.mapViews, view => {
+			return mapUtils.mergeViews(view, syncUpdate);
+		});
+
+		// merge views of given map
+		mapViews[mapKey] = mapUtils.mergeViews(this.state.mapViews[mapKey], update);
 
 		if (syncUpdate && !_.isEmpty(syncUpdate)) {
 			this.setState({
 				view: mapUtils.mergeViews(this.state.view, syncUpdate),
-				activeMapView: activeUpdate || mapUtils.mergeViews(this.state.activeMapView, syncUpdate)
+				mapViews
 			});
-		} else if (activeUpdate) {
+		} else {
 			this.setState({
-				activeMapView: activeUpdate
+				mapViews
 			});
 		}
 	}
@@ -97,7 +109,14 @@ class MapSet extends React.PureComponent {
 	 * @param view
 	 */
 	onMapClick(key, view) {
-		this.setState({activeMapView: mapUtils.mergeViews(this.state.view, view), activeMapKey: key});
+		if (this.state.mapViews[key]) {
+			this.setState({activeMapKey: key});
+		} else {
+			let mapViews = {...this.state.mapViews};
+			mapViews[key] = view;
+
+			this.setState({activeMapKey: key, mapViews});
+		}
 	}
 
 	render() {
@@ -122,7 +141,7 @@ class MapSet extends React.PureComponent {
 		} else {
 			updateView = this.onViewChange.bind(this, null);
 			resetHeading = () => {}; //TODO
-			view = this.state.activeMapView;
+			view = mapUtils.mergeViews(this.state.view, this.state.mapViews[this.state.activeMapKey]);
 		}
 
 
@@ -143,22 +162,29 @@ class MapSet extends React.PureComponent {
 
 		// For now, render either maps from state, OR from children
 
-		if (this.props.maps && this.props.maps.length) {
+		if (this.props.stateMapSetKey) {
 			// all from state
-			this.props.maps.map(mapKey => {
-				let props = {
-					key: mapKey,
-					stateMapKey: mapKey
-				};
-				maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
-			});
+			if (this.props.maps && this.props.maps.length) {
+				this.props.maps.map(mapKey => {
+					let props = {
+						key: mapKey,
+						stateMapKey: mapKey
+					};
+
+					// TODO
+					// if (mapKey === this.state.activeMapKey) {
+					// 	props.wrapperClasses = "active";
+					// }
+					maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
+				});
+			}
 		} else {
 			React.Children.map(this.props.children, (child,index) => {
 				let {view, layers, backgroundLayer, mapKey, ...restProps} = child.props;
 				let props = {
 					...restProps,
 					key: index,
-					view: mapUtils.mergeViews(this.state.view, view),
+					view: mapUtils.mergeViews(this.state.view, view, this.state.mapViews[mapKey]),
 					backgroundLayer: backgroundLayer || this.props.backgroundLayer,
 					layers: mapUtils.mergeLayers(this.props.layers, layers),
 					onViewChange: this.onViewChange.bind(this, mapKey),
@@ -167,7 +193,7 @@ class MapSet extends React.PureComponent {
 				};
 
 				if (mapKey === this.state.activeMapKey) {
-					props.view = this.state.activeMapView;
+					props.wrapperClasses = "active";
 				}
 
 				if (typeof child === "object" && (child.type === Map || child.type === ContainerMap)) {
@@ -175,7 +201,7 @@ class MapSet extends React.PureComponent {
 					maps.push(React.createElement(ContainerMap, {...props, mapComponent: this.props.mapComponent}));
 				} else if (typeof child === "object" && child.type === PresentationMap) {
 					// all presentational
-					maps.push([React.createElement(this.props.mapComponent, props), child.props.children]);
+					maps.push(React.createElement(this.props.mapComponent, props, child.props.children));
 				}
 			});
 		}
