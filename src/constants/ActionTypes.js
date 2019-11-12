@@ -341,6 +341,7 @@ export const commonActionTypesDefinitions = {
 				SET: null,
 				UPDATE: null
 			},
+			SET_ACTIVE_MAP_KEY: null,
 			SET_SYNC: null,
 		},
 		MAP: {

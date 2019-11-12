@@ -78,6 +78,11 @@ const setActiveMapKey = (state, mapKey) => {
 	return {...state, activeMapKey: mapKey}
 };
 
+const setSetActiveMapKey = (state, setKey, mapKey) => {
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, activeMapKey: mapKey}}};
+};
+
 const setActiveSetKey = (state, setKey) => {
 	return {...state, activeSetKey: setKey}
 };
@@ -407,6 +412,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setSetView(state, action.setKey, action.view);
 		case ActionTypes.MAPS.SET.VIEW.UPDATE:
 			return updateSetView(state, action.setKey, action.update);
+		case ActionTypes.MAPS.SET.SET_ACTIVE_MAP_KEY:
+			return setSetActiveMapKey(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.SET_MAPS:
 			return setSetMaps(state, action.setKey, action.maps);
 		case ActionTypes.MAPS.SET.SET_SYNC:

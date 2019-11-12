@@ -46,6 +46,15 @@ const setActiveMapKey = (mapKey) => {
 	};
 };
 
+const setMapSetActiveMapKey = (mapKey) => {
+	return (dispatch, getState) => {
+		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
+		if (set) {
+			dispatch(actionSetMapSetActiveMapKey(set.key, mapKey));
+		}
+	};
+};
+
 const setActiveSetKey = (setKey) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -173,7 +182,7 @@ const addMapToSet = (setKey, mapKey) => {
 				//if no map is active, set map as active
 				const activeMapKey = Select.maps.getActiveMapKey(state);
 				if(!activeMapKey) {
-					dispatch(actionSetActiveMapKey(mapKey));
+					dispatch(setMapSetActiveMapKey(setKey, mapKey));
 				}
 				
 			}
@@ -504,7 +513,7 @@ const updateMapAndSetView = (mapKey, update) => {
 
 const updateSetView = (setKey, update) => {
 	return (dispatch, getState) => {
-		let activeMapKey = Select.maps.getMapSetActiveMapKey(getState(), setKey); // TODO local active Key
+		let activeMapKey = Select.maps.getMapSetActiveMapKey(getState(), setKey);
 		dispatch(updateMapAndSetView(activeMapKey, update));
 	};
 };
@@ -898,6 +907,14 @@ const actionSetActiveMapKey = (mapKey) => {
 	}
 };
 
+const actionSetMapSetActiveMapKey = (setKey, mapKey) => {
+	return {
+		type: ActionTypes.MAPS.SET.SET_ACTIVE_MAP_KEY,
+		mapKey,
+		setKey
+	}
+};
+
 const actionSetActiveSetKey = (setKey) => {
 	return {
 		type: ActionTypes.MAPS.SET_ACTIVE_SET_KEY,
@@ -1195,6 +1212,7 @@ export default {
 	setMapScope,
 	setMapView,
 
+	setMapSetActiveMapKey,
 	setSetBackgroundLayer,
 	setSetSync,
 	setSetView,
