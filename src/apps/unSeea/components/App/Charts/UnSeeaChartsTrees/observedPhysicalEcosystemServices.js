@@ -10,39 +10,6 @@ const getGramsPerYear = (val) => `${Math.round(val * 100) / 100} g/year`;
 const getDollars = (val) => `${Math.round(val * 10) / 10} $`;
 
 export default [
-	//hneda
-	// {
-	// 	name: 'CD',
-	// 	color: '#CA4466',
-	// 	getTooltip: getCentimeters,
-	// 	title: 'Stem Diameter'
-	// },
-	{
-		name: 'H',
-		color: '#CA4466',
-		getTooltip: getMeters,
-		title: 'Tree Height'
-	},
-	{
-		name: 'DBH',
-		color: '#CA4466',
-		getTooltip: getMeters,
-		title: 'Stem Diameter'
-	},
-	{
-		name: 'CAN_COV_M2',
-		color: '#CA4466',
-		getTooltip: getSquareMeters,
-		title: 'Canopy area'
-	},
-	{
-		name: 'LF_AR_M2',
-		color: '#CA4466',
-		getTooltip: getSquareMeters,
-		title: 'Leaf Area'
-	},
-
-
 	//zelena
 	{
 		name: 'CO_STOR_KG',

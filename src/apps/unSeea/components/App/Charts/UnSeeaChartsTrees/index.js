@@ -2,8 +2,11 @@ import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import wrapper from './presentation';
-import observedValues from './observed';
+// import observedValues from './observed';
+import {calculateDataStatistics, calculateData} from '../utils';
 import _ from "lodash";
+import observedCondition from './observedCondition';
+import observedPhysicalEcosystemServices from './observedPhysicalEcosystemServices';
 
 
 const useActiveMetadataKeys = {
@@ -11,8 +14,6 @@ const useActiveMetadataKeys = {
 	attribute: false,
 	period: false
 };
-
-const calculateMedian = (values) => [...values].sort((a, b) => a - b)[Math.round(values.length/2)];
 
 const mapStateToPropsFactory = (initialState, ownProps) => {
 
@@ -50,74 +51,84 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		}, {});
 
 
-		//FIXME-key from context
+		// //FIXME-key from context
 		const data = layersVectorData['lk_un_seea_trees-un_seea_trees'][0].spatialData.features.map((f) => {
 			return f.properties;
 		})
 
 
-		//calculate data statistics
-		const dataStatistics = observedValues.map(d => ({
-			id: d.name,
-			min: null,
-			max: null,
-			values: [],
-			median: null,
-		}))
+		// //calculate data statistics
+		// const dataStatistics = observedValues.map(d => ({
+		// 	id: d.name,
+		// 	min: null,
+		// 	max: null,
+		// 	values: [],
+		// 	median: null,
+		// }))
 
-		data.forEach((d) => {
-			for (const [key, value] of Object.entries(d)) {
-				const observedValue = observedValues.find(ov => ov.name === key);
-				if(observedValue) {
-					const statistics = dataStatistics.find(s => s.id === key);
-					statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
-					statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
-					statistics.values.push(value);
-				}
-			}
-		})
+		// data.forEach((d) => {
+		// 	for (const [key, value] of Object.entries(d)) {
+		// 		const observedValue = observedValues.find(ov => ov.name === key);
+		// 		if(observedValue) {
+		// 			const statistics = dataStatistics.find(s => s.id === key);
+		// 			statistics.min = (statistics.min || statistics.min === 0) ? Math.min(statistics.min, value) : value;
+		// 			statistics.max = (statistics.max || statistics.max === 0) ? Math.max(statistics.max, value) : value;
+		// 			statistics.values.push(value);
+		// 		}
+		// 	}
+		// })
 
-		const sumStatistics = {
-			min: null,
-			max: null,
-			median: null,
-			values: [],
-		}
+		// const sumStatistics = {
+		// 	min: null,
+		// 	max: null,
+		// 	median: null,
+		// 	values: [],
+		// }
 
-		dataStatistics.forEach(s => {
-			sumStatistics.min = (sumStatistics.min || sumStatistics.min === 0) ? Math.min(sumStatistics.min, s.min) : s.min;
-			sumStatistics.max = (sumStatistics.max || sumStatistics.max === 0) ? Math.max(sumStatistics.max, s.max) : s.max;
-			sumStatistics.values = [...sumStatistics.values, ...s.values];
+		// dataStatistics.forEach(s => {
+		// 	sumStatistics.min = (sumStatistics.min || sumStatistics.min === 0) ? Math.min(sumStatistics.min, s.min) : s.min;
+		// 	sumStatistics.max = (sumStatistics.max || sumStatistics.max === 0) ? Math.max(sumStatistics.max, s.max) : s.max;
+		// 	sumStatistics.values = [...sumStatistics.values, ...s.values];
 			
-			s.median = calculateMedian(s.values);
-		});
+		// 	s.median = calculateMedian(s.values);
+		// });
 
-		sumStatistics.median = calculateMedian(sumStatistics.values);
+		// sumStatistics.median = calculateMedian(sumStatistics.values);
 
 
-		// convert absolute numbers to relative
-		//TODO -> should be in selector
-		const relativeData = data.map((d) => {
-			const data = {};
-			for (const [key, value] of Object.entries(d)) {
-				const observedValue = observedValues.find(ov => ov.name === key);
-				if(observedValue) {
-					const statistics = dataStatistics.find(s => s.id === key);
-					data[key] = {
-						// relative: 100 * value / statistics.max,
-						relative: 100 * value / statistics.median,
-						absolute: value
-					}
-				} else {
-					data[key] = value;
-				}
-			}
-			return data;
-		}) 
+		// // convert absolute numbers to relative
+		// //TODO -> should be in selector
+		// const relativeData = data.map((d) => {
+		// 	const data = {};
+		// 	for (const [key, value] of Object.entries(d)) {
+		// 		const observedValue = observedValues.find(ov => ov.name === key);
+		// 		if(observedValue) {
+		// 			const statistics = dataStatistics.find(s => s.id === key);
+		// 			data[key] = {
+		// 				// relative: 100 * value / statistics.max,
+		// 				relative: 100 * value / statistics.median,
+		// 				absolute: value
+		// 			}
+		// 		} else {
+		// 			data[key] = value;
+		// 		}
+		// 	}
+		// 	return data;
+		// }) 
+
+		const conditionIndicatorsStatistics = calculateDataStatistics(data, observedCondition);
+		const physicalEcosystemServicesIndicatorsStatistics = calculateDataStatistics(data, observedPhysicalEcosystemServices);
+		const conditionIndicatorsIndicatorsData = calculateData(data, observedCondition, conditionIndicatorsStatistics.observedDataStatistics);
+		const physicalEcosystemServicesIndicatorsData = calculateData(data, observedPhysicalEcosystemServices, physicalEcosystemServicesIndicatorsStatistics.observedDataStatistics);
 
 		return {
-			statistics: sumStatistics,
-			data: relativeData,
+			// statistics: sumStatistics,
+			// data: relativeData,
+			conditionIndicatorsStatistics,
+			physicalEcosystemServicesIndicatorsStatistics,
+			conditionIndicatorsIndicatorsData,
+			physicalEcosystemServicesIndicatorsData,
+
 			selectedArea: selectedAreas[0],
 			// maximum: 100 * sumStatistics.max / sumStatistics.median,
 			// maximum: 100,

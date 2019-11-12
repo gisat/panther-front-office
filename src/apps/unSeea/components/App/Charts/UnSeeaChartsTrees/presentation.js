@@ -4,28 +4,37 @@ import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
-import observedValues from './observed';
+import observedCondition from './observedCondition';
+import observedPhysicalEcosystemServices from './observedPhysicalEcosystemServices';
 
 
 class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;
 	
 	static propTypes = {
-		data: PropTypes.array,
+		// data: PropTypes.array,
+		conditionIndicatorsStatistics: PropTypes.array,
+		physicalEcosystemServicesIndicatorsStatistics: PropTypes.array,
+		conditionIndicatorsIndicatorsData: PropTypes.array,
+		physicalEcosystemServicesIndicatorsData: PropTypes.array,
 		spatialIdKey: PropTypes.string,
 		maximum: PropTypes.number,
 	};
 
-	transformDataForAsterChart(data) {
+	transformDataForAsterChart(data = {}, filterObservedValues) {
 		const transformedData = [];
 		for (const [key, value] of Object.entries(data)) {
-			const observedValue = observedValues.find(ov => ov.name === key);
+			const observedValue = filterObservedValues.find(ov => ov.name === key);
 			if(observedValue) {
 				transformedData.push({
 					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
-						relative: value.relative,
-						absolute: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute
+						relative: value.relativeMedian,
+						absolute: value.absolute,
+						absoluteTooltip: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute,
+						relativeNormalised: value.relativeNormalised,
+						absoluteNormalised: value.absoluteNormalised,
+						absoluteTooltipNormalised: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absoluteNormalised) : value.absoluteNormalised
 					},
 					name: observedValue.title,
 					color: observedValue.color
@@ -35,69 +44,118 @@ class ChartPanel extends React.PureComponent {
 
 		return {
 			key: data[this.props.spatialIdKey],
-			data: transformedData
+			data: transformedData,
+			name: data.name,
 		}
 	}
 	
 
 	render() {
-		const {data, maximum} = this.props;
+		// const {conditionIndicatorsIndicatorsData, maximum} = this.props;
 
-		let hoveredData;
-		/* Handle context */
-		if (this.context && this.context.hoveredItems) {
-			hoveredData = data.find((d) => d[this.props.spatialIdKey] == this.context.hoveredItems[0])
+		// let hoveredData;
+		// /* Handle context */
+		// if (this.context && this.context.hoveredItems) {
+		// 	hoveredData = conditionIndicatorsIndicatorsData.find((d) => d[this.props.spatialIdKey] == this.context.hoveredItems[0])
+		// }
+
+		// let hoverAsterData;
+		// if(hoveredData) {
+		// 	hoverAsterData = this.transformDataForAsterChart(hoveredData);
+		// }
+
+		// let selectedAreaData;
+		// if (this.props.selectedArea) {
+		// 	selectedAreaData = conditionIndicatorsIndicatorsData.find((d) => d[this.props.spatialIdKey] == this.props.selectedArea);
+		// }
+
+		// let selectAsterData;
+		// if(selectedAreaData) {
+		// 	selectAsterData = this.transformDataForAsterChart(selectedAreaData);
+		// }
+
+		const {conditionIndicatorsStatistics, physicalEcosystemServicesIndicatorsStatistics, conditionIndicatorsIndicatorsData, physicalEcosystemServicesIndicatorsData, maximum} = this.props;
+
+		let hoverAsterDataConditionIndicators
+		let hoverAsterDataPhysicalEcosystemServicesIndicators
+		if(this.context && this.context.hoveredItems) {
+			hoverAsterDataConditionIndicators = this.transformDataForAsterChart(conditionIndicatorsIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedCondition);
+			hoverAsterDataPhysicalEcosystemServicesIndicators = this.transformDataForAsterChart(physicalEcosystemServicesIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedPhysicalEcosystemServices);
 		}
 
-		let hoverAsterData;
-		if(hoveredData) {
-			hoverAsterData = this.transformDataForAsterChart(hoveredData);
+		let selectAsterDataConditionIndicators
+		let selectAsterDataPhysicalEcosystemServicesIndicators
+		let data;
+		if(this.props.selectedArea) {
+			data = conditionIndicatorsIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea);
+			selectAsterDataConditionIndicators = this.transformDataForAsterChart(data, observedCondition);
+			selectAsterDataPhysicalEcosystemServicesIndicators = this.transformDataForAsterChart(physicalEcosystemServicesIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedPhysicalEcosystemServices);
 		}
 
-		let selectedAreaData;
-		if (this.props.selectedArea) {
-			selectedAreaData = data.find((d) => d[this.props.spatialIdKey] == this.props.selectedArea);
-		}
-
-		let selectAsterData;
-		if(selectedAreaData) {
-			selectAsterData = this.transformDataForAsterChart(selectedAreaData);
-		}
-
-		const description = "Tree characteristics"
+		const physicalEcosystemServicesDescription = "Physical ecosystem services tree characteristics in percentage where 100% is mean for all data."
+		const conditionDescription = "Condition tree characteristics in percentage where 100% is mean for all data."
 
 			return (
 					<div className="ptr-unseea-chart-panel">
 						<div className="ptr-unseea-chart-column">
 						{
-							hoverAsterData ? 
+							hoverAsterDataConditionIndicators && hoverAsterDataConditionIndicators.data && hoverAsterDataConditionIndicators.data.length > 0 ? <div>
+									<ChartWrapper
+										key={this.props.chartKey + "-wrapper-1"}
+										// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
+										title={`Species common name: ${data['SP_CO_NAME']}`}
+										subtitle={conditionDescription}
+									>
+									<AsterChart
+										key="aster-doc-basic-2"
+										// data={[]}
+										data={hoverAsterDataConditionIndicators.data}
+										keySourcePath="key"
+										nameSourcePath="name"
+										valueSourcePath="value.relative"
+										hoverValueSourcePath="value.absoluteTooltip"
+										colorSourcePath="color"
+										relative
+										grid={{
+											captions: true
+										}}
+										radials={{
+											captions: true
+										}}
+										forceMinimum={0}
+										forceMaximum={maximum}
+										legend
+									/>
+								</ChartWrapper>
 								<ChartWrapper
-									key={this.props.chartKey + "-wrapper"}
+									key={this.props.chartKey + "-wrapper-2"}
 									// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
-									title={`Species common name: ${hoveredData['SP_CO_NAME']}`}
-									subtitle={description}
+									title={`Species common name: ${data['SP_CO_NAME']}`}
+									subtitle={physicalEcosystemServicesDescription}
 								>
-								<AsterChart
-									key="aster-doc-basic"
-									// data={[]}
-									data={hoverAsterData.data}
-									keySourcePath="key"
-									nameSourcePath="name"
-									valueSourcePath="value.relative"
-									hoverValueSourcePath="value.absolute"
-									colorSourcePath="color"
-									relative
-									grid={{
-										captions: true
-									}}
-									radials={{
-										captions: true
-									}}
-									forceMinimum={0}
-									forceMaximum={maximum}
-									legend
-								/>
-							</ChartWrapper> : 
+									<AsterChart
+										key="aster-doc-basic-2"
+										// data={[]}
+										data={hoverAsterDataPhysicalEcosystemServicesIndicators.data}
+										keySourcePath="key"
+										nameSourcePath="name"
+										valueSourcePath="value.relative"
+										hoverValueSourcePath="value.absoluteTooltip"
+										colorSourcePath="color"
+										relative
+										grid={{
+											captions: true
+										}}
+										radials={{
+											captions: true
+										}}
+										forceMinimum={0}
+										forceMaximum={maximum}
+										legend
+									/>
+								</ChartWrapper>
+							</div>
+							: 
 							(
 								<div className="ptr-chart-wrapper-content">
 									<p>
@@ -115,20 +173,48 @@ class ChartPanel extends React.PureComponent {
 						</div>
 						<div className="ptr-unseea-chart-column">
 							<ChartWrapper
-							key={selectAsterData.key + "-wrapper"}
+							key={selectAsterDataConditionIndicators.key + "-wrapper-1"}
 							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
-							title={`Species common name: ${selectedAreaData['SP_CO_NAME']}`}
-							subtitle={description}
+							title={`Species common name: ${data['SP_CO_NAME']}`}
+							subtitle={conditionDescription}
 							>
 							
 								<AsterChart
-									key={`${selectAsterData.key}-aster-doc-basic`}
-									data={selectAsterData.data}
+									key={`${selectAsterDataConditionIndicators.key}-aster-doc-basic-1`}
+									data={selectAsterDataConditionIndicators.data}
 
 									keySourcePath="key"
 									nameSourcePath="name"
 									valueSourcePath="value.relative"
-									hoverValueSourcePath="value.absolute"
+									hoverValueSourcePath="value.absoluteTooltip"
+									colorSourcePath="color"
+									relative
+									grid={{
+										captions: true
+									}}
+									radials={{
+										captions: true
+									}}
+									legend
+									forceMinimum={0}
+									forceMaximum={maximum}
+								/>
+							</ChartWrapper>
+							<ChartWrapper
+							key={selectAsterDataPhysicalEcosystemServicesIndicators.key + "-wrapper-2"}
+							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
+							title={`Species common name: ${data['SP_CO_NAME']}`}
+							subtitle={physicalEcosystemServicesDescription}
+							>
+							
+								<AsterChart
+									key={`${selectAsterDataPhysicalEcosystemServicesIndicators.key}-aster-doc-basic-2`}
+									data={selectAsterDataPhysicalEcosystemServicesIndicators.data}
+
+									keySourcePath="key"
+									nameSourcePath="name"
+									valueSourcePath="value.relative"
+									hoverValueSourcePath="value.absoluteTooltip"
 									colorSourcePath="color"
 									relative
 									grid={{

@@ -369,7 +369,9 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 								break;
 						case 'trees':
 								let TOTBEN_N17 = _.get(features[0], 'TOTBEN_N17');
+								let SP_CO_NAME = _.get(features[0], 'SP_CO_NAME');
 								content.push(<div key={`${spatialId}_id`}><i>Tree ID:</i> {spatialId}</div>);
+								content.push(<div key={`${spatialId}_CO_NAME`}><i>Species common name:</i> {SP_CO_NAME}</div>);
 								content.push(<div key={`${spatialId}_benefits`}><i>Annual Benefits:</i> {TOTBEN_N17}</div>);
 								break;
 							case 'treesInTime':

@@ -52,7 +52,7 @@ class ChartPanel extends React.PureComponent {
 				transformedData.push({
 					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
-						relative: value.relative,
+						relative: value.relativeMax,
 						absolute: value.absolute,
 						absoluteTooltip: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute,
 						relativeNormalised: value.relativeNormalised,
@@ -113,7 +113,7 @@ class ChartPanel extends React.PureComponent {
 								onChange={this.onSelectedAreaChanged}
 								/>
 							<label>
-								Normalise data by by median
+								Display normalise data
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />
 							</label>
 						</div>
