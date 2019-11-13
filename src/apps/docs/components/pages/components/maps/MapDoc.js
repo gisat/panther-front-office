@@ -2,47 +2,37 @@ import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
 import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
+import PresentationMapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
 import {Link} from "react-router-dom";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
+import {PresentationMap} from "../../../../../../components/common/maps/Map";
 
 class MapDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Map">
+
+				<h3>Uncontrolled unconnected</h3>
 				<div style={{height: 300}}>
-					<Deprecated_PresentationMapWithControls
-						map={(<WorldWindMap
-							backgroundLayer={{
-								type: 'worldwind',
-								options: {
-									layer: 'wikimedia'
+					<PresentationMap
+						mapComponent={WorldWindMap}
+						backgroundLayer={{
+							key: 'cuzk_ortofoto',
+							name: 'CUZK Ortofoto',
+							type: 'wms',
+							options: {
+								url: 'http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?',
+								params: {
+									layers: 'GR_ORTFOTORGB'
 								}
-							}}
-							layers={[
-								{
-									key: 'wtf-wms',
-									type: 'wms',
-									options: {
-										url: 'https://urban-tep.eu/puma/geoserver/gwc/service/wms',
-										params: {
-											layers: 'geonode:SE_Asia_WSF_Evolution_1995',
-											version: '1.1.0'
-										}
-									}
-								}
-							]}
-							view={{
-								center: {
-									lat: 10,
-									lon: 100
-								},
-								boxRange: 4000000
-							}}
-						/>)}
-						controls={(<MapControls/>)}
-					/>
+							}
+						}}
+						view={{
+							boxRange: 10000
+						}}
+					>
+						<PresentationMapControls/>
+					</PresentationMap>
 				</div>
 
 				<h2>Props</h2>

@@ -6,6 +6,8 @@ import _ from "lodash";
 import {defaultMapView} from "../../../constants/Map";
 import mapUtils from "../../../utils/map";
 
+import './style.scss';
+
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {
 		return {
@@ -111,7 +113,8 @@ class ConnectedMap extends React.PureComponent {
 	}
 	
 	onViewChange(update) {
-		const view = {...this.state.view, ...update};
+		let view = {...this.state.view, ...update};
+		view = mapUtils.ensureViewIntegrity(view);
 		
 		if (!_.isEqual(view, this.state.view)) {
 			this.setState({view});
@@ -151,5 +154,5 @@ class ConnectedMap extends React.PureComponent {
 	}
 }
 
-
+export const PresentationMap = ConnectedMap;
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMap);
