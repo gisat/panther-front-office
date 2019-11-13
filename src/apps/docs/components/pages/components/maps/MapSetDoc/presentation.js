@@ -83,7 +83,7 @@ class MapSetDoc extends React.PureComponent {
 
 	render() {
 		return (
-			<Page title="Map">
+			<Page title="Map set">
 				<h2>Connected to store</h2>
 				{/*<Buttons>*/}
 				{/*	<Button onClick={this.removeSetBackgroundLayer}>Remove background layer from set</Button>*/}
