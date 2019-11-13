@@ -39,6 +39,10 @@ const mapDispatchToPropsFactory = () => {
 					dispatch(Action.maps.useClear(ownProps.stateMapKey));
 				},
 
+				refreshUse: () => {
+					dispatch(Action.maps.use(ownProps.stateMapKey));
+				},
+
 				onViewChange: (update) => {
 					dispatch(Action.maps.updateMapAndSetView(ownProps.stateMapKey, update));
 				},
@@ -61,6 +65,10 @@ const mapDispatchToPropsFactory = () => {
 
 				onUnmount: () => {
 					dispatch(Action.maps.useClear(mapKey));
+				},
+
+				refreshUse: () => {
+					dispatch(Action.maps.use(mapKey, ownProps.backgroundLayer, ownProps.layers));
 				},
 
 				onViewChange: ownProps.onViewChange || ((update) => {}),
@@ -106,6 +114,13 @@ class Map extends React.PureComponent {
 					view: {...defaultMapView, ...props.view}
 				});
 			}
+		}
+
+		if (
+			(props.layers && props.layers !== prevProps.layers)
+			|| (props.backgroundLayer && props.backgroundLayer !== prevProps.backgroundLayer)
+		) {
+			this.props.refreshUse();
 		}
 	}
 

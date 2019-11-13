@@ -58,16 +58,26 @@ class MapSet extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (!this.props.stateMapSetKey && (prevProps.view !== this.props.view)) {
-			let mapViews = _.mapValues(this.state.mapViews, view => {
-				return {...view, ...this.props.view};
-			});
+		const props = this.props;
+		if (!props.stateMapSetKey) {
+			if (prevProps.view !== props.view) {
+				let mapViews = _.mapValues(this.state.mapViews, view => {
+					return {...view, ...props.view};
+				});
 
-			this.setState({
-				// TODO sync props to view only?
-				view: {...this.state.view, ...this.props.view},
-				mapViews
-			});
+				this.setState({
+					// TODO sync props to view only?
+					view: {...this.state.view, ...props.view},
+					mapViews
+				});
+			}
+
+			if (
+				(props.layers && props.layers !== prevProps.layers)
+				|| (props.backgroundLayer && props.backgroundLayer !== prevProps.backgroundLayer)
+			) {
+				props.refreshUse();
+			}
 		}
 	}
 

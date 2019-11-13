@@ -43,7 +43,11 @@ const mapDispatchToPropsFactory = () => {
 
 				onUnmount: () => {
 					dispatch(Action.maps.useClear(setKey));
-				}
+				},
+
+				refreshUse: () => {
+					dispatch(Action.maps.use(setKey, ownProps.backgroundLayer, ownProps.layers));
+				},
 			}
 		}
 	}
