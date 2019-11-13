@@ -76,7 +76,9 @@ class MapSet extends React.PureComponent {
 				(props.layers && props.layers !== prevProps.layers)
 				|| (props.backgroundLayer && props.backgroundLayer !== prevProps.backgroundLayer)
 			) {
-				props.refreshUse();
+				if (props.refreshUse) {
+					props.refreshUse();
+				}
 			}
 		}
 	}
