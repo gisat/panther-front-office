@@ -104,7 +104,8 @@ class LayerLegend extends LayerTool {
 				'REQUEST': 'GetLegendGraphic',
 				'FORMAT': 'image/png',
 				'WIDTH': 50,
-				'STYLE': style
+				'STYLE': style,
+				'LEGEND_OPTIONS': 'forceLabels:on'
 			};
 			if (this._defaultLayer.hasOwnProperty('sldId')) {
 				params['SLD_ID'] = this._defaultLayer.sldId;
