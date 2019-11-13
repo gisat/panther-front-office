@@ -84,6 +84,7 @@ class MapDoc extends React.PureComponent {
 						<Prop name="stateMapKey" required type="string">Valid key of a map in map store</Prop>
 					</Section>
 					<Section name="Uncontrolled">
+						<Prop name="mapKey" required type="string"/>
 						<Prop name="view" required type="map view"><Link to="/architecture/systemDataTypes/mapView">Map view</Link></Prop>
 						<Prop name="layers" type="layers"><Link to="/architecture/systemDataTypes/layers">Layers</Link></Prop>
 						<Prop name="backgroundLayer" type="background layer">
@@ -91,6 +92,7 @@ class MapDoc extends React.PureComponent {
 						</Prop>
 						<Prop name="onViewChange" type="function">Function called when a view change is initiated inside the Map component</Prop>
 						<Prop name="onClick" type="function">Function called on click</Prop>
+						<Prop name="wrapperClasses" type="string">Class names for wrapper component</Prop>
 					</Section>
 				</ComponentPropsTable>
 
