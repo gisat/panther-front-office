@@ -180,9 +180,9 @@ const addMapToSet = (setKey, mapKey) => {
 			} else {
 				dispatch(actionAddMapToSet(setKey, mapKey));
 				//if no map is active, set map as active
-				const activeMapKey = Select.maps.getActiveMapKey(state);
+				const activeMapKey = Select.maps.getMapSetActiveMapKey(state, setKey);
 				if(!activeMapKey) {
-					dispatch(setMapSetActiveMapKey(setKey, mapKey));
+					dispatch(setMapSetActiveMapKey(mapKey));
 				}
 				
 			}
