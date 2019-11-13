@@ -5,7 +5,7 @@ import layersHelper from '../../../../../../components/common/maps/WorldWindMap/
 import PresentationMapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
 import {Link} from "react-router-dom";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
-import {PresentationMap} from "../../../../../../components/common/maps/Map";
+import Map, {PresentationMap} from "../../../../../../components/common/maps/Map";
 
 class MapDoc extends React.PureComponent {
 	render() {
@@ -14,6 +14,23 @@ class MapDoc extends React.PureComponent {
 
 				<h3>Uncontrolled unconnected</h3>
 				<div style={{height: 300}}>
+					<Map
+						mapComponent={WorldWindMap}
+						backgroundLayer={{
+							layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
+							metadataModifiers: {
+								applicationKey: 'docs'
+							}
+						}}
+						view={{
+							boxRange: 10000
+						}}
+					>
+						<PresentationMapControls/>
+					</Map>
+				</div>
+
+				<div style={{marginTop: 10, height: 300}}>
 					<PresentationMap
 						mapComponent={WorldWindMap}
 						backgroundLayer={{

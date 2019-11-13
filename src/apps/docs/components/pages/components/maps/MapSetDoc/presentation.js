@@ -98,7 +98,41 @@ class MapSetDoc extends React.PureComponent {
 					</MapSet>
 				</div>
 
-				<h2>Presentation</h2>
+				<h2>Uncontrolled</h2>
+				<div style={{height: 500}}>
+					<MapSet
+						activeMapKey='map-2'
+						mapComponent={WorldWindMap}
+						view={{
+							boxRange: 100000,
+							heading: 10,
+							tilt: 10
+						}}
+						sync={{
+							boxRange: true,
+							center: true
+						}}
+						backgroundLayer={{
+							layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
+							metadataModifiers: {
+								applicationKey: 'docs'
+							}
+						}}
+					>
+						<PresentationMap
+							mapKey='map-1'
+						/>
+						<PresentationMap
+							mapKey='map-2'
+						/>
+						<PresentationMap
+							mapKey='map-3'
+						/>
+						<MapControlsPresentation/>
+					</MapSet>
+				</div>
+
+				<h2>Uncontrolled unconnected</h2>
 				<div style={{height: 500}}>
 					<MapSetPresentation
 						activeMapKey='map-2'

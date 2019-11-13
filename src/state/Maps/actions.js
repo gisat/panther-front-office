@@ -613,12 +613,21 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
-function use(mapKey) {
+function use(mapKey, backgroundLayer, layers) {
 	return (dispatch, getState) => {
 		let state = getState();
 
 		// let filterByActive = Select.maps.getFilterByActiveByMapKey(state, mapKey);
-		let layers = Select.maps.getAllLayersStateByMapKey(state, mapKey);
+		if (backgroundLayer || layers) {
+			if (backgroundLayer) {
+				backgroundLayer = {...backgroundLayer, key: 'pantherBackgroundLayer'};
+				layers = layers || [];
+				layers = [backgroundLayer, ...layers];
+			}
+		} else {
+			layers = Select.maps.getAllLayersStateByMapKey(state, mapKey);
+		}
+
 		let activeKeys = commonSelectors.getAllActiveKeys(state);
 
 		if (layers) {
@@ -655,7 +664,7 @@ function use(mapKey) {
 
 function useClear() {
 	return dispatch => {
-
+		// TODO
 	}
 }
 

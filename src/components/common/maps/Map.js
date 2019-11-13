@@ -7,6 +7,7 @@ import {defaultMapView} from "../../../constants/Map";
 import mapUtils from "../../../utils/map";
 
 import './style.scss';
+import utils from "../../../utils/utils";
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {
@@ -24,51 +25,53 @@ const mapStateToProps = (state, ownProps) => {
 	}
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-	if (ownProps.stateMapKey) {
-		return {
-			onMount: () => {
-				dispatch(Action.maps.use(ownProps.stateMapKey));
-			},
+const mapDispatchToPropsFactory = () => {
+	const componentId = 'Map_' + utils.randomString(6);
 
-			onUnmount: () => {
-				dispatch(Action.maps.useClear(ownProps.stateMapKey));
-			},
+	return (dispatch, ownProps) => {
+		if (ownProps.stateMapKey) {
+			return {
+				onMount: () => {
+					dispatch(Action.maps.use(ownProps.stateMapKey));
+				},
 
-			onViewChange: (update) => {
-				dispatch(Action.maps.updateMapAndSetView(ownProps.stateMapKey, update));
-				// dispatch(Action.maps.setActiveMapKey(ownProps.mapKey));
-			},
+				onUnmount: () => {
+					dispatch(Action.maps.useClear(ownProps.stateMapKey));
+				},
 
-			resetHeading: () => {
-				// todo
-			},
+				onViewChange: (update) => {
+					dispatch(Action.maps.updateMapAndSetView(ownProps.stateMapKey, update));
+				},
 
-			onClick: (view) => {
-				// TODO set local active map key in set, if applicable
-				dispatch(Action.maps.setMapSetActiveMapKey(ownProps.stateMapKey));
+				resetHeading: () => {
+					// todo
+				},
+
+				onClick: (view) => {
+					dispatch(Action.maps.setMapSetActiveMapKey(ownProps.stateMapKey));
+				}
 			}
-		}
-	} else {
-		return {
-			onMount: () => {
-				// TODO implement action
-				// dispatch(Action.maps.usePresentational(ownProps));
-			},
+		} else {
+			let mapKey = ownProps.mapKey || componentId;
 
-			onUnmount: () => {
-				// TODO implement action
-				// dispatch(Action.maps.usePresentationalClear(ownProps));
-			},
+			return {
+				onMount: () => {
+					dispatch(Action.maps.use(mapKey, ownProps.backgroundLayer, ownProps.layers));
+				},
 
-			onViewChange: ownProps.onViewChange || ((update) => {}),
+				onUnmount: () => {
+					dispatch(Action.maps.useClear(mapKey));
+				},
 
-			onClick: ownProps.onClick || ((view) => {})
+				onViewChange: ownProps.onViewChange || ((update) => {}),
+
+				onClick: ownProps.onClick || ((view) => {})
+			}
 		}
 	}
 };
 
-class ConnectedMap extends React.PureComponent {
+class Map extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
@@ -154,5 +157,5 @@ class ConnectedMap extends React.PureComponent {
 	}
 }
 
-export const PresentationMap = ConnectedMap;
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMap);
+export const PresentationMap = Map;
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(Map);
