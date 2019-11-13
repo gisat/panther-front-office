@@ -137,7 +137,7 @@ class MapSet extends React.PureComponent {
 		if (this.props.stateMapSetKey) {
 			updateView = this.props.updateView;
 			resetHeading = this.props.resetHeading;
-			view = this.props.activeMapView;
+			view = this.props.activeMapView || this.props.view;
 		} else {
 			updateView = this.onViewChange.bind(this, null);
 			resetHeading = () => {}; //TODO
