@@ -396,7 +396,12 @@ const getMapSetActiveMapKey = createSelector(
 		getMapSetByKey
 	],
 	(mapKey, set) => {
-		return (set && set.activeMapKey) || mapKey || null;
+		if (set) {
+			let mapKeyInSet = _.includes(set.maps, mapKey);
+			return set.activeMapKey || (mapKeyInSet && mapKey) || null;
+		} else {
+			return null;
+		}
 	}
 );
 
