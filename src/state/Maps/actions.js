@@ -615,6 +615,7 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 
 function use(mapKey, backgroundLayer, layers) {
 	return (dispatch, getState) => {
+		dispatch(useClear(mapKey));
 		let state = getState();
 
 		// let filterByActive = Select.maps.getFilterByActiveByMapKey(state, mapKey);
@@ -636,6 +637,10 @@ function use(mapKey, backgroundLayer, layers) {
 				let filter = {...layer.metadataModifiers};
 				if (layer.layerTemplateKey) {
 					filter.layerTemplateKey = layer.layerTemplateKey;
+					dispatch(Action.layerTemplates.useKeys([layer.layerTemplateKey], componentId));
+				} else if (layer.areaTreeLevelKey) {
+					filter.areaTreeLevelKey = layer.areaTreeLevelKey;
+					dispatch(Action.areas.areaTreeLevels.useKeys([layer.areaTreeLevelKey], componentId));
 				}
 
 				let filterByActive = layer.filterByActive || null;
@@ -655,8 +660,6 @@ function use(mapKey, backgroundLayer, layers) {
 						});
 					}
 				});
-
-				// TODO use layer template keys
 			});
 		}
 	}
