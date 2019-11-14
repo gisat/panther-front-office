@@ -665,10 +665,13 @@ function use(mapKey, backgroundLayer, layers) {
 	}
 }
 
-function useClear() {
-	return dispatch => {
-		// TODO
-	}
+function useClear(mapKey) {
+	return (dispatch) => {
+		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.SPATIAL_DATA_SOURCES)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.LAYER_TEMPLATES)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.AREAS.AREA_TREE_LEVELS)(`map_${mapKey}`));
+	};
 }
 
 function updateStateFromView(data) {
