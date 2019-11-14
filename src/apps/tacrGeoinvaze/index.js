@@ -44,16 +44,16 @@ export default (path, baseUrl) => {
 				layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
 			},
 
-			layers: [
-				{
-					key: 'thematicLayer',
-					filterByActive: {
-						layerTemplate: true,
-						period: true,
-						case: true
-					}
-				}
-			]
+			// layers: [
+			// 	{
+			// 		key: 'thematicLayer',
+			// 		filterByActive: {
+			// 			layerTemplate: true,
+			// 			period: true,
+			// 			case: true
+			// 		}
+			// 	}
+			// ]
 		}
 	}));
 	Store.dispatch(Action.maps.addSet({
