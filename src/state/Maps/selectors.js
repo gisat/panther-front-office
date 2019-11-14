@@ -12,6 +12,7 @@ import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
 import {defaultMapView} from "../../constants/Map";
 
+let getBackgroundLayerCache = {};
 
 /* ===== Basic selectors ==================== */
 const getSubstate = state => state.maps;
@@ -505,7 +506,23 @@ const getBackgroundLayer = (state, layerState) => {
 			let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 
 			if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
-				return _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+				let finalLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+
+				let cacheKey = JSON.stringify(layersWithFilter);
+				let cache = getBackgroundLayerCache[cacheKey];
+				let layerDataSources = dataSourcesByLayerKey[layerKey];
+
+				if (cache && cache.layersWithFilter === layersWithFilter && cache.layerDataSources === layerDataSources) {
+					return cache.finalLayers;
+				} else {
+					getBackgroundLayerCache[cacheKey] = {
+						layersWithFilter,
+						layerDataSources,
+						finalLayers
+					};
+
+					return finalLayers;
+				}
 			}
 			else {
 				return null;
@@ -527,14 +544,9 @@ const getMapBackgroundLayer = (state, mapKey) => {
 	return getBackgroundLayer(state, layerState);
 };
 
+
 // TODO cache?
-/**
- * @param state {Object}
- * @param mapKey {string}
- * @return {Array}
- */
-const getMapLayers = (state, mapKey) => {
-	let layersState = getLayersStateByMapKey(state, mapKey);
+const getLayers = (state, layersState) => {
 	let layersWithFilter = mapHelpers.getLayersWithFilter(state, layersState);
 
 	if (layersWithFilter && layersWithFilter.length) {
@@ -575,6 +587,17 @@ const getMapLayers = (state, mapKey) => {
 	} else {
 		return null;
 	}
+};
+
+// TODO cache?
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ * @return {Array}
+ */
+const getMapLayers = (state, mapKey) => {
+	let layersState = getLayersStateByMapKey(state, mapKey);
+	return getLayers(state, layersState);
 };
 
 
@@ -966,6 +989,7 @@ export default {
 
 	getFilterByActiveByMapKey,
 
+	getLayers,
 	getMapLayers,
 	getLayersStateByMapKey,
 

@@ -6,6 +6,27 @@ import MapSet from "../../../../../../../components/common/maps/MapSet";
 import MapSetPresentation, {PresentationMap} from "../../../../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../../../../components/common/maps/WorldWindMap/presentation";
 
+const backgroundLayer = {
+	layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+};
+
+const layers = [{
+	key: 'layer-cz',
+	layerTemplateKey: 'c87619f8-ef27-436f-9d99-d2b200415160',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+},{
+	key: 'layer-geoinv',
+	layerTemplateKey: '097d3fed-e6da-4f08-833e-839c88513b8b',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+}];
+
 class MapSetDoc extends React.PureComponent {
 	constructor(props){
 		super(props);
@@ -19,12 +40,7 @@ class MapSetDoc extends React.PureComponent {
 						layer: 'wikimedia'
 					}
 				},
-				layers: [
-					{
-						key: 'lulc',
-						layerTemplateKey: '8d1afd87-908b-4d22-90bb-af1a4e161930'
-					}
-				],
+				layers: layers,
 				view: {
 					center: {
 						lat: 50,
@@ -36,30 +52,11 @@ class MapSetDoc extends React.PureComponent {
 		});
 		props.setSetSync('docs-MapSet', {center: true, boxRange: true, heading: true});
 		props.addMap({key: 'docs-MapSet-Map1', data: {
-				// backgroundLayer: {
-				// 	layerTemplateKey: '8d1afd87-908b-4d22-90bb-af1a4e161930'
-				// },
-				layers: [
-					{
-						key: 'lulc',
-						layerTemplateKey: '8d1afd87-908b-4d22-90bb-af1a4e161930'
-					}, {
-						key: 'vector',
-						layerTemplateKey: 'cfe1ceb6-a9c1-40f7-b6e0-034e14307cc3'
-					}
-				],
 				view: {
 					heading: 10
 				}
 			}},);
-		props.addMap({key: 'docs-MapSet-Map2', data: {
-				layers: [
-					{
-						key: 'vector',
-						layerTemplateKey: 'cfe1ceb6-a9c1-40f7-b6e0-034e14307cc3'
-					}
-				],
-			}});
+		props.addMap({key: 'docs-MapSet-Map2'});
 		props.addMap({key: 'docs-MapSet-Map3'});
 		props.addMapToSet('docs-MapSet', 'docs-MapSet-Map1');
 		props.addMapToSet('docs-MapSet', 'docs-MapSet-Map2');
@@ -85,7 +82,7 @@ class MapSetDoc extends React.PureComponent {
 						activeMapKey='map-2'
 						mapComponent={WorldWindMap}
 						view={{
-							boxRange: 100000,
+							boxRange: 1000000,
 							heading: 10,
 							tilt: 10
 						}}
@@ -93,12 +90,8 @@ class MapSetDoc extends React.PureComponent {
 							boxRange: true,
 							center: true
 						}}
-						backgroundLayer={{
-							layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
-							metadataModifiers: {
-								applicationKey: 'docs'
-							}
-						}}
+						backgroundLayer={backgroundLayer}
+						layers={layers}
 					>
 						<PresentationMap
 							mapKey='map-1'

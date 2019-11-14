@@ -14,6 +14,20 @@ const backgroundLayer = {
 	}
 };
 
+const layers = [{
+	key: 'layer-cz',
+	layerTemplateKey: 'c87619f8-ef27-436f-9d99-d2b200415160',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+},{
+	key: 'layer-geoinv',
+	layerTemplateKey: '097d3fed-e6da-4f08-833e-839c88513b8b',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+}];
+
 class MapDoc extends React.PureComponent {
 	render() {
 		return (
@@ -24,8 +38,9 @@ class MapDoc extends React.PureComponent {
 					<Map
 						mapComponent={WorldWindMap}
 						backgroundLayer={backgroundLayer}
+						layers={layers}
 						view={{
-							boxRange: 10000
+							boxRange: 1000000
 						}}
 					>
 						<PresentationMapControls/>
