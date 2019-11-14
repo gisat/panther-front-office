@@ -7,6 +7,13 @@ import {Link} from "react-router-dom";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
 import Map, {PresentationMap} from "../../../../../../components/common/maps/Map";
 
+const backgroundLayer = {
+	layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+};
+
 class MapDoc extends React.PureComponent {
 	render() {
 		return (
@@ -16,12 +23,7 @@ class MapDoc extends React.PureComponent {
 				<div style={{height: 300}}>
 					<Map
 						mapComponent={WorldWindMap}
-						backgroundLayer={{
-							layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
-							metadataModifiers: {
-								applicationKey: 'docs'
-							}
-						}}
+						backgroundLayer={backgroundLayer}
 						view={{
 							boxRange: 10000
 						}}

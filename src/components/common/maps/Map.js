@@ -12,14 +12,14 @@ import utils from "../../../utils/utils";
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {
 		return {
-			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.stateMapKey),
-			layers: Select.maps.getLayers(state, ownProps.stateMapKey),
+			backgroundLayer: Select.maps.getMapBackgroundLayer(state, ownProps.stateMapKey),
+			layers: Select.maps.getMapLayers(state, ownProps.stateMapKey),
 			view: Select.maps.getView(state, ownProps.stateMapKey),
 			mapKey: ownProps.stateMapKey
 		}
 	} else {
 		return {
-			// backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
+			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.backgroundLayer),
 			// layers: Select.maps.getLayers(state, ownProps.layers)
 		}
 	}
@@ -120,7 +120,7 @@ class Map extends React.PureComponent {
 			(props.layers && props.layers !== prevProps.layers)
 			|| (props.backgroundLayer && props.backgroundLayer !== prevProps.backgroundLayer)
 		) {
-			this.props.refreshUse();
+			// this.props.refreshUse();
 		}
 	}
 

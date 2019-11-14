@@ -57,6 +57,18 @@ class MapSet extends React.PureComponent {
 		}
 	}
 
+	componentDidMount() {
+		if (this.props.onMount) {
+			this.props.onMount();
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.props.onUnmount) {
+			this.props.onUnmount();
+		}
+	}
+
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const props = this.props;
 		if (!props.stateMapSetKey) {
@@ -77,7 +89,7 @@ class MapSet extends React.PureComponent {
 				|| (props.backgroundLayer && props.backgroundLayer !== prevProps.backgroundLayer)
 			) {
 				if (props.refreshUse) {
-					props.refreshUse();
+					// props.refreshUse();
 				}
 			}
 		}

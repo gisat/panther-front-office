@@ -494,13 +494,7 @@ const getMapSetActiveMapView = createSelector(
 /* ===== Complex selectors ========================= */
 
 // TODO cache?
-/**
- * @param state {Object}
- * @param mapKey {string}
- * @return {Array}
- */
-const getBackgroundLayer = (state, mapKey) => {
-	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
+const getBackgroundLayer = (state, layerState) => {
 	if (layerState) {
 		if (layerState.type) {
 			// TODO helper
@@ -528,7 +522,18 @@ const getBackgroundLayer = (state, mapKey) => {
  * @param mapKey {string}
  * @return {Array}
  */
-const getLayers = (state, mapKey) => {
+const getMapBackgroundLayer = (state, mapKey) => {
+	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
+	return getBackgroundLayer(state, layerState);
+};
+
+// TODO cache?
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ * @return {Array}
+ */
+const getMapLayers = (state, mapKey) => {
 	let layersState = getLayersStateByMapKey(state, mapKey);
 	let layersWithFilter = mapHelpers.getLayersWithFilter(state, layersState);
 
@@ -956,11 +961,12 @@ export default {
 	getAllLayersStateByMapKey,
 
 	getBackgroundLayer,
+	getMapBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
 
 	getFilterByActiveByMapKey,
 
-	getLayers,
+	getMapLayers,
 	getLayersStateByMapKey,
 
 	getMapByKey,

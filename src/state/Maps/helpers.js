@@ -47,13 +47,14 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 
 const getBackgroundLayersWithFilter = createCachedSelector(
 	[
+		commonSelectors.getAllActiveKeys,
 		(layerState) => layerState,
 		(layerState, layerKey) => layerKey
 	],
-	(layerState, layerKey) => {
+	(activeMetadataKeys, layerState, layerKey) => {
 		return [{
 			key: layerKey,
-			filter: layerState
+			filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layerState, activeMetadataKeys)
 		}]
 	}
 )((layerState, layerKey) => (layerKey + JSON.stringify(layerState)));
