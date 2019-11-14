@@ -48,16 +48,21 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 const getBackgroundLayersWithFilter = createCachedSelector(
 	[
 		commonSelectors.getAllActiveKeys,
-		(layerState) => layerState,
-		(layerState, layerKey) => layerKey
+		(state, layerState) => layerState,
+		(state, layerState, layerKey) => layerKey
 	],
 	(activeMetadataKeys, layerState, layerKey) => {
+		layerState = JSON.parse(layerState);
+
 		return [{
 			key: layerKey,
 			filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layerState, activeMetadataKeys)
 		}]
 	}
-)((layerState, layerKey) => (layerKey + JSON.stringify(layerState)));
+)((state, layerState, layerKey) => (`${layerState}:${layerKey}`));
+
+
+
 
 const getLayersWithFilter = createCachedSelector(
 	[
@@ -65,6 +70,7 @@ const getLayersWithFilter = createCachedSelector(
 		(state, layersState) => layersState
 	],
 	(activeMetadataKeys, layersState) => {
+		layersState = JSON.parse(layersState);
 		if (layersState && layersState.length) {
 			return _.map(layersState, (layer) => {
 				return {
@@ -76,7 +82,7 @@ const getLayersWithFilter = createCachedSelector(
 			return null;
 		}
 	}
-)((state, layersState) => JSON.stringify(layersState));
+)((state, layersState) => layersState);
 
 const prepareLayerByDataSourceType = (layerKey, dataSource, index) => {
 	let dataSourceData = dataSource.data;

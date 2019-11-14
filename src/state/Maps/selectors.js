@@ -5,6 +5,7 @@ import * as path from "path";
 import config from "../../config/index";
 
 import mapUtils from '../../utils/map';
+import CacheFifo from "../../utils/CacheFifo";
 import mapHelpers from './helpers';
 
 import commonSelectors from "../_common/selectors";
@@ -12,7 +13,8 @@ import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
 import {defaultMapView} from "../../constants/Map";
 
-let getBackgroundLayerCache = {};
+let getBackgroundLayerCache = new CacheFifo(10);
+let getLayersCache = new CacheFifo(10);
 
 /* ===== Basic selectors ==================== */
 const getSubstate = state => state.maps;
@@ -502,26 +504,30 @@ const getBackgroundLayer = (state, layerState) => {
 			return layerState;
 		} else {
 			let layerKey = 'pantherBackgroundLayer';
-			let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(layerState, layerKey);
+			// TODO valid approach to stringify parameter?
+			let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(state, JSON.stringify(layerState), layerKey);
 			let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 
 			if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
-				let finalLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
 
+				// TODO experimental
 				let cacheKey = JSON.stringify(layersWithFilter);
-				let cache = getBackgroundLayerCache[cacheKey];
+				let cache = getBackgroundLayerCache.findByKey(cacheKey);
 				let layerDataSources = dataSourcesByLayerKey[layerKey];
-
+				
 				if (cache && cache.layersWithFilter === layersWithFilter && cache.layerDataSources === layerDataSources) {
-					return cache.finalLayers;
+					return cache.mapLayers;
 				} else {
-					getBackgroundLayerCache[cacheKey] = {
+					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+
+					getBackgroundLayerCache.addOrUpdate({
+						cacheKey,
 						layersWithFilter,
 						layerDataSources,
-						finalLayers
-					};
+						mapLayers
+					});
 
-					return finalLayers;
+					return mapLayers;
 				}
 			}
 			else {
@@ -545,42 +551,57 @@ const getMapBackgroundLayer = (state, mapKey) => {
 };
 
 
-// TODO cache?
+// TODO caching is experimental
 const getLayers = (state, layersState) => {
-	let layersWithFilter = mapHelpers.getLayersWithFilter(state, layersState);
+	// TODO valid approach to stringify parameter?
+	let layersWithFilter = mapHelpers.getLayersWithFilter(state, JSON.stringify(layersState));
 
 	if (layersWithFilter && layersWithFilter.length) {
 		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
-
+		
 		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
 			let mapLayers = [];
 
-			layersState.forEach((layerState) => {
-				let layerKey = layerState.key;
-				let dataSources = dataSourcesByLayerKey[layerKey];
-				if (dataSources && dataSources.length) {
-					dataSources.forEach((dataSource, index) => {
+			let cacheKey = JSON.stringify(layersWithFilter);
+			let cache = getLayersCache.findByKey(cacheKey);
+			
+			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey) {
+				return cache.mapLayers;
+			} else {
+				layersState.forEach((layerState) => {
+					let layerKey = layerState.key;
+					let dataSources = dataSourcesByLayerKey[layerKey];
+					if (dataSources && dataSources.length) {
+						dataSources.forEach((dataSource, index) => {
 
-						// TODO quick solution for geoinv
-						if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
-							mapLayers.push({
-								key: layerKey + '_' + dataSource.key,
-								type: "wms",
-								options: {
-									url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
-									params: {
-										layers: dataSource.data.layerName
+							// TODO quick solution for geoinv
+							if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
+								mapLayers.push({
+									key: layerKey + '_' + dataSource.key,
+									type: "wms",
+									options: {
+										url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
+										params: {
+											layers: dataSource.data.layerName
+										}
 									}
-								}
-							});
-						} else {
-							mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
-						}
-					});
-				}
-			});
+								});
+							} else {
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+							}
+						});
+					}
+				});
 
-			return mapLayers;
+				getLayersCache.addOrUpdate({
+					cacheKey,
+					layersWithFilter,
+					dataSourcesByLayerKey,
+					mapLayers
+				});
+
+				return mapLayers;
+			}
 		} else {
 			return null;
 		}

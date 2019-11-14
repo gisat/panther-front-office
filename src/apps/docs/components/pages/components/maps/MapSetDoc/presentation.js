@@ -13,6 +13,13 @@ const backgroundLayer = {
 	}
 };
 
+const wikimedia = {
+	type: 'worldwind',
+	options: {
+		layer: 'wikimedia'
+	}
+};
+
 const layers = [{
 	key: 'layer-cz',
 	layerTemplateKey: 'c87619f8-ef27-436f-9d99-d2b200415160',
@@ -27,6 +34,14 @@ const layers = [{
 	}
 }];
 
+const layers2 = [{
+	key: 'layer-geoinv',
+	layerTemplateKey: '097d3fed-e6da-4f08-833e-839c88513b8b',
+	metadataModifiers: {
+		applicationKey: 'docs'
+	}
+}];
+
 class MapSetDoc extends React.PureComponent {
 	constructor(props){
 		super(props);
@@ -34,12 +49,7 @@ class MapSetDoc extends React.PureComponent {
 		props.addSet({
 			key: 'docs-MapSet',
 			data: {
-				backgroundLayer: {
-					type: 'worldwind',
-					options: {
-						layer: 'wikimedia'
-					}
-				},
+				backgroundLayer: wikimedia,
 				layers: layers,
 				view: {
 					center: {
@@ -91,7 +101,7 @@ class MapSetDoc extends React.PureComponent {
 							center: true
 						}}
 						backgroundLayer={backgroundLayer}
-						layers={layers}
+						layers={layers2}
 					>
 						<PresentationMap
 							mapKey='map-1'
@@ -120,12 +130,7 @@ class MapSetDoc extends React.PureComponent {
 							boxRange: true,
 							center: true
 						}}
-						backgroundLayer={{
-							type: 'worldwind',
-							options: {
-								layer: 'wikimedia'
-							}
-						}}
+						backgroundLayer={wikimedia}
 					>
 						<PresentationMap
 							mapKey='map-1'
