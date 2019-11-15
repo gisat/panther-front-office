@@ -567,6 +567,31 @@ export const commonActionTypesDefinitions = {
 		}
 	},
 
+	SPATIAL_DATA: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_INDEX: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		},
+	},
+
 	SPATIAL_DATA_SOURCES: {
 		ADD: null,
 		ADD_UNRECEIVED: null,

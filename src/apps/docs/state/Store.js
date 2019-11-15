@@ -28,6 +28,7 @@ import scopesReducers from '../../../state/Scopes/reducers';
 import screensReducers from '../../../state/Screens/reducers';
 import selectionsReducers from '../../../state/Selections/reducers';
 import snapshotsReducers from '../../../state/Snapshots/reducers';
+import spatialDataReducers from '../../../state/SpatialData/reducers';
 import spatialDataSourcesReducers from '../../../state/SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from '../../../state/SpatialDataSources/vector/reducers';
 import spatialRelationsReducers from '../../../state/SpatialRelations/reducers';
@@ -79,6 +80,7 @@ export default history => {
 		screens: screensReducers,
 		selections: selectionsReducers,
 		snapshots: snapshotsReducers,
+		spatialData: spatialDataReducers,
 		spatialDataSources: spatialDataSourcesReducers,
 		spatialVectorDataSources: spatialVectorDataSourcesReducers,
 		spatialRelations: spatialRelationsReducers,
