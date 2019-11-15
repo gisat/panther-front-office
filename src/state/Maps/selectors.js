@@ -11,6 +11,7 @@ import mapHelpers from './helpers';
 import commonSelectors from "../_common/selectors";
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
+import AppSelectors from '../App/selectors';
 import {defaultMapView} from "../../constants/Map";
 
 let getBackgroundLayerCache = new CacheFifo(10);
@@ -575,18 +576,26 @@ const getLayers = (state, layersState) => {
 						dataSources.forEach((dataSource, index) => {
 
 							// TODO quick solution for geoinv
-							if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
-								mapLayers.push({
-									key: layerKey + '_' + dataSource.key,
-									type: "wms",
-									options: {
-										url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
-										params: {
-											layers: dataSource.data.layerName
+							let currentApp = AppSelectors.getKey(state);
+							if (currentApp === 'tacrGeoinvaze') {
+								if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
+									mapLayers.push({
+										key: layerKey + '_' + dataSource.key,
+										type: "wms",
+										options: {
+											url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
+											params: {
+												layers: dataSource.data.layerName
+											}
 										}
-									}
-								});
-							} else {
+									});
+								} else {
+									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+								}
+							}
+
+
+							else {
 								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
 							}
 						});
