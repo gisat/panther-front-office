@@ -137,7 +137,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				return null;
 			}
 		}
-		return fullFilter;
+		return _.isEmpty(fullFilter) ? null : fullFilter;
 	} else {
 		return filter;
 	}
