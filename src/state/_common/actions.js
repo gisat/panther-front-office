@@ -504,7 +504,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 		const apiPath = getAPIPath(categoryPath, dataType);
 
 		let payload = {
-			filter: {...filter},
+			filter: filter && {...filter},
 			offset: start -1,
 			order: order,
 			limit: PAGE_SIZE
