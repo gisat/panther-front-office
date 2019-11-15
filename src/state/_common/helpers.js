@@ -130,7 +130,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				fullFilter.layerTemplateKey = activeKeys.activeLayerTemplateKey;
 			}
 		}
-		return fullFilter;
+		return _.isEmpty(fullFilter) ? null : fullFilter;
 	} else {
 		return filter;
 	}
