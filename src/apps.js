@@ -90,6 +90,19 @@ export default [
 		})
 	},
 	/**
+	 * SŽDC insar
+	 * tw: InSAR projekty...
+	 */
+	{
+		key: 'szdcInsar19',
+		hostname: 'nope.gisat.cz',
+		path: null,
+		devPath: '/szdcInsar19',
+		app: (path, baseUrl) => import(/* webpackChunkName: "szdcInsar19" */'./apps/szdcInsar19').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * Geoinvaze
 	 * tw: GEOINV
 	 */
