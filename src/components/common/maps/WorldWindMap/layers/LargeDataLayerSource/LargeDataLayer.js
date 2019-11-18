@@ -80,22 +80,26 @@ class LargeDataLayer extends TiledImageLayer {
 			y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
 
 		const terrainObject = wwd.pickTerrain(wwd.canvasCoordinates(x, y)).terrainObject();
-		const position = terrainObject.position;
 
-		const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, 0.0001));
+		if (terrainObject) {
+			const position = terrainObject.position;
+			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, 0.0001));
 
-		if(this.renderableLayer) {
-			this.renderableLayer.removeAllRenderables();
-			if(points.length > 0) {
-				const radius = Math.sqrt(points[0].data[this.sizeColumnId]) || DEFAULT_POINT_RADIUS;
-				this.renderableLayer.addRenderable(
-					new SurfaceCircle(new Location(points[0].y - 90, points[0].x - 180), radius)
-				);
+			if(this.renderableLayer) {
+				this.renderableLayer.removeAllRenderables();
+				if(points.length > 0) {
+					const radius = Math.sqrt(points[0].data[this.sizeColumnId]) || DEFAULT_POINT_RADIUS;
+					this.renderableLayer.addRenderable(
+						new SurfaceCircle(new Location(points[0].y - 90, points[0].x - 180), radius)
+					);
+				}
+				wwd.redraw();
 			}
-			wwd.redraw();
-		}
 
-		return points;
+			return points;
+		} else {
+			return [];
+		}
 	}
 
 	onMouseMove(wwd, event) {
