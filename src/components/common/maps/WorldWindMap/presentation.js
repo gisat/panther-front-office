@@ -72,13 +72,13 @@ class WorldWindMap extends React.PureComponent {
 			let backgroundLayers = _.isArray(this.props.backgroundLayer) ? this.props.backgroundLayer : [this.props.backgroundLayer];
 
 			backgroundLayers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer));
+				layers.push(layersHelpers.getLayerByType(layer, this.wwd));
 			});
 		}
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer));
+				layers.push(layersHelpers.getLayerByType(layer, this.wwd));
 			});
 		}
 

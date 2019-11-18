@@ -4,9 +4,12 @@ import VectorLayer from './VectorLayer';
 import WikimediaLayer from './WikimediaLayer';
 import WmsLayer from './WmsLayer';
 import WmtsLayer from './WmtsLayer';
+import LargeDataLayer from "./LargeDataLayerSource/LargeDataLayer";
+
+const {RenderableLayer} = WorldWind;
 
 
-function getLayerByType(layer){
+function getLayerByType(layer, wwd){
 	if (layer.type){
 		switch (layer.type){
 			case "worldwind":
@@ -32,7 +35,17 @@ function getLayerByType(layer){
 			case "wms":
 				return new WmsLayer(layer);
 			case "vector":
-				return new VectorLayer(layer);
+				const url = layer.options && layer.options.url;
+				const numOfFeatures = layer.options && layer.options.features && layer.options.features.length;
+
+				// TODO better deciding
+				if (url || numOfFeatures > 10) {
+					let renderableLayer = new RenderableLayer(layer.key || 'Large data layer');
+					let options = {...layer.options, renderableLayer};
+					return new LargeDataLayer(wwd, options);
+				} else {
+					return new VectorLayer(layer);
+				}
 			default:
 				return null;
 		}
