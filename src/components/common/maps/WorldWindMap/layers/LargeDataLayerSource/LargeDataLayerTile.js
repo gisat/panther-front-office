@@ -21,7 +21,7 @@
  *  color strings.
  */
 
-const DEFAULT_POINT_RADIUS = 100;
+const DEFAULT_POINT_RADIUS = 5;
 
 class LargeDataLayerTile {
 
@@ -36,6 +36,9 @@ class LargeDataLayerTile {
 		this._height = options.height;
 
 		this._sizeColumnId = options.sizeColumnId;
+
+		const tileCenterLatitude = (this._sector.maxLatitude + this._sector.minLatitude)*(Math.PI/180)/2;
+		this._latitudeFactor = 1/Math.cos(Math.abs((tileCenterLatitude)));
 	};
 
 	/**
@@ -76,13 +79,28 @@ class LargeDataLayerTile {
 	shape(ctx, dataPoint) {
 		let radius = dataPoint.data[this._sizeColumnId] || DEFAULT_POINT_RADIUS;
 
-		ctx.beginPath();
-		ctx.arc(
-			this.longitudeInSector(dataPoint, this._sector, this._width),
-			this._height - this.latitudeInSector(dataPoint, this._sector, this._height),
-			Math.ceil(Math.sqrt(radius)), 0, 2 * Math.PI, false);
-		ctx.fillStyle = 'green'; // TODO custom style
-		ctx.fill();
+		let x = this.longitudeInSector(dataPoint, this._sector, this._width);
+		let y = this._height - this.latitudeInSector(dataPoint, this._sector, this._height);
+		let cy = radius;
+		let cx = radius * this._latitudeFactor;
+
+		this.ellipse(ctx, x, y, cx, cy);
+	}
+
+	ellipse(context, cx, cy, rx, ry){
+		context.save(); // save state
+		context.beginPath();
+
+		context.translate(cx-rx, cy-ry);
+		context.scale(rx, ry);
+		context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+
+		context.restore(); // restore to original state
+		context.fillStyle = 'green'; // TODO custom style
+		context.lineWidth = 1; // TODO custom style
+		context.strokeStyle = 'white'; // TODO custom style
+		context.fill();
+		context.stroke();
 	}
 
 	/**

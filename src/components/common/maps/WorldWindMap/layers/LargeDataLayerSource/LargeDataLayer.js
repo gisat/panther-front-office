@@ -11,7 +11,7 @@ const {
 	TiledImageLayer
 } = WorldWind;
 
-const DEFAULT_POINT_RADIUS = 100;
+const DEFAULT_POINT_RADIUS = 5;
 
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
 // Multipolygons are represented as points
