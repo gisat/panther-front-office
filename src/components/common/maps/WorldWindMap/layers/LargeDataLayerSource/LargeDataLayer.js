@@ -12,6 +12,7 @@ const {
 } = WorldWind;
 
 const DEFAULT_POINT_RADIUS = 5;
+const DEFAULT_POINT_HOVER_BUFFER = 0.01;
 
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
 // Multipolygons are represented as points
@@ -24,6 +25,7 @@ class LargeDataLayer extends TiledImageLayer {
 		this.tileWidth = 256;
 		this.tileHeight = 256;
 		this.sizeColumnId = options.sizeColumnId;
+		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_POINT_HOVER_BUFFER;
 		this.renderableLayer = options.renderableLayer;
 
 		// At the moment the URL must contain the GeoJSON.
@@ -83,7 +85,7 @@ class LargeDataLayer extends TiledImageLayer {
 
 		if (terrainObject) {
 			const position = terrainObject.position;
-			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, 0.0001));
+			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, this.pointHoverBuffer));
 
 			if(this.renderableLayer) {
 				this.renderableLayer.removeAllRenderables();
