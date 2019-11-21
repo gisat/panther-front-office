@@ -20,13 +20,15 @@
  * @param options.intensityGradient {Object} Keys represent the opacity between 0 and 1 and the values represent
  *  color strings.
  */
+import mapStyles from "../../../../../../utils/mapStyles";
 
 const DEFAULT_POINT_RADIUS = 5;
 
 class LargeDataLayerTile {
 
-	constructor(data, options) {
+	constructor(data, options, style) {
 		this._data = data;
+		this._style = style;
 
 		this._sector = options.sector;
 
@@ -34,8 +36,6 @@ class LargeDataLayerTile {
 
 		this._width = options.width;
 		this._height = options.height;
-
-		this._sizeColumnId = options.sizeColumnId;
 
 		const tileCenterLatitude = (this._sector.maxLatitude + this._sector.minLatitude)*(Math.PI/180)/2;
 		this._latitudeFactor = 1/Math.cos(Math.abs((tileCenterLatitude)));
@@ -60,9 +60,7 @@ class LargeDataLayerTile {
 	};
 
 	/**
-	 * Draws the shapes on the canvas. Create shapes based on the gradient. Each of the gradient colors has associated
-	 * shape, which defines how strong will be the center point.
-	 * @protected
+	 * Draws the shapes on the canvas.
 	 * @returns {HTMLCanvasElement}
 	 */
 	draw() {
@@ -76,18 +74,51 @@ class LargeDataLayerTile {
 		return this._canvas;
 	};
 
-	shape(ctx, dataPoint) {
-		let radius = dataPoint.data[this._sizeColumnId] || DEFAULT_POINT_RADIUS;
+	shape(context, data) {
+		let attributes = data.data;
+		let style = mapStyles.getStyleObject(attributes, this._style);
 
-		let x = this.longitudeInSector(dataPoint, this._sector, this._width);
-		let y = this._height - this.latitudeInSector(dataPoint, this._sector, this._height);
+		if (style.shape) {
+			if (style.shape === "circle-with-arrow") {
+				this.circleWithArrow(context, data, style)
+			} else {
+				this.point(context, data, style)
+			}
+		} else {
+			this.point(context, data, style)
+		}
+	}
+
+	point(context, data, style) {
+		let radius = style.size || DEFAULT_POINT_RADIUS;
+		let x = this.longitudeInSector(data, this._sector, this._width);
+		let y = this._height - this.latitudeInSector(data, this._sector, this._height);
 		let cy = radius;
 		let cx = radius * this._latitudeFactor;
 
-		this.ellipse(ctx, x, y, cx, cy);
+		this.ellipse(context, x, y, cx, cy, style);
 	}
 
-	ellipse(context, cx, cy, rx, ry){
+	circleWithArrow(context, data, style) {
+		let radius = style.size || DEFAULT_POINT_RADIUS;
+		let direction = style.arrowDirection || 1;
+
+		let x = this.longitudeInSector(data, this._sector, this._width);
+		let y = this._height - this.latitudeInSector(data, this._sector, this._height);
+		let ry = radius;
+		let rx = radius * this._latitudeFactor;
+
+		this.ellipse(context, x, y, rx, ry, style);
+
+		let x0 = x + direction*rx;
+		let y0 = y;
+		let x1 = x0 + direction*style.arrowLength;
+		let y1 = y0;
+
+		this.arrow(context, x0, y0, x1, y1, style.arrowColor, style.arrowWidth)
+	}
+
+	ellipse(context, cx, cy, rx, ry, style){
 		context.save(); // save state
 		context.beginPath();
 
@@ -96,10 +127,20 @@ class LargeDataLayerTile {
 		context.arc(1, 1, 1, 0, 2 * Math.PI, false);
 
 		context.restore(); // restore to original state
-		context.fillStyle = 'green'; // TODO custom style
-		context.lineWidth = 1; // TODO custom style
-		context.strokeStyle = 'white'; // TODO custom style
+		context.fillStyle = style.fill;
+		context.lineWidth = style.outlineWidth;
+		context.strokeStyle = style.outlineColor;
+		context.globalAlpha = style.fillOpacity || style.outlineOpacity; // TODO solve opacity properly
 		context.fill();
+		context.stroke();
+	}
+
+	arrow(context, x0, y0, x1, y1, color, width) {
+		context.beginPath();
+		context.moveTo(x0, y0);
+		context.lineTo(x1, y1);
+		context.strokeStyle = color;
+		context.lineWidth = width;
 		context.stroke();
 	}
 

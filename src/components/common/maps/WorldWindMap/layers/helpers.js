@@ -39,13 +39,12 @@ function getLayerByType(layer, wwd){
 				const numOfFeatures = layer.options && layer.options.features && layer.options.features.length;
 
 				// TODO better deciding
-				if (url || numOfFeatures > 10) {
+				if (url || numOfFeatures > 499) {
 					let renderableLayer = new RenderableLayer(layer.key || 'Large data layer');
 					let options = {
 						...layer.options,
 						renderableLayer,
 						pointHoverBuffer: 0.05,
-						sizeColumnId: null
 					};
 					return new LargeDataLayer(wwd, options);
 				} else {

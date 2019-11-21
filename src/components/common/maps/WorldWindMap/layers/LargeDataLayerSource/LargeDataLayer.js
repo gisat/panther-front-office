@@ -24,9 +24,10 @@ class LargeDataLayer extends TiledImageLayer {
 
 		this.tileWidth = 256;
 		this.tileHeight = 256;
-		this.sizeColumnId = options.sizeColumnId;
+
 		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_POINT_HOVER_BUFFER;
 		this.renderableLayer = options.renderableLayer;
+		this.style = options.style && options.style.data && options.style.data.definition;
 
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
@@ -90,7 +91,7 @@ class LargeDataLayer extends TiledImageLayer {
 			if(this.renderableLayer) {
 				this.renderableLayer.removeAllRenderables();
 				if(points.length > 0) {
-					const radius = Math.sqrt(points[0].data[this.sizeColumnId]) || DEFAULT_POINT_RADIUS;
+					const radius = DEFAULT_POINT_RADIUS;
 					this.renderableLayer.addRenderable(
 						new SurfaceCircle(new Location(points[0].y - 90, points[0].x - 180), radius)
 					);
@@ -138,8 +139,7 @@ class LargeDataLayer extends TiledImageLayer {
 				sector: extended.sector,
 
 				width: this.tileWidth + 2 * extendedWidth,
-				height: this.tileHeight + 2 * extendedHeight,
-				sizeColumnId: this.sizeColumnId
+				height: this.tileHeight + 2 * extendedHeight
 			}).canvas();
 
 			var result = document.createElement('canvas');
@@ -196,7 +196,7 @@ class LargeDataLayer extends TiledImageLayer {
 	};
 
 	createPointTile(data, options) {
-		return new LargeDataLayerTile(data, options);
+		return new LargeDataLayerTile(data, options, this.style);
 	};
 }
 
