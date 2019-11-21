@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import React from "react";
+import PropTypes from 'prop-types';
 import _ from "lodash";
 import {defaultMapView} from "../../../constants/Map";
 import mapUtils from "../../../utils/map";
@@ -81,6 +82,10 @@ const mapDispatchToPropsFactory = () => {
 };
 
 class Map extends React.PureComponent {
+
+	static propTypes = {
+		mapComponent: PropTypes.element
+	};
 
 	constructor(props) {
 		super(props);

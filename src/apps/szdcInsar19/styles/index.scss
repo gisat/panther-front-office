@@ -28,3 +28,30 @@
 	--accent100: #{$lightAccent100};
 	--accent100rgb: #{$lightAccent100rgb};
 }
+
+
+.szdcInsar19-app {
+	@include positionFill;
+	display: flex;
+	flex-direction: column;
+}
+
+.szdcInsar19-header {
+	flex-basis: m(2);
+}
+
+.szdcInsar19-content {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.szdcInsar19-map {
+	flex-grow: 1;
+
+	background: #000;
+}
+
+.szdcInsar19-visualization {
+	flex-basis: m(10);
+}

@@ -18,6 +18,7 @@ import './styles/index.scss';
 // import cz from "./locales/cz/common";
 
 import AppContainer from "../../components/common/AppContainer";
+import App from './components/App';
 
 // import App from './components/App';
 
@@ -36,6 +37,25 @@ export default (path, baseUrl) => {
 	
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
+
+	// Set up map
+	Store.dispatch(Action.maps.addMap({
+		key: 'szdcInsar19',
+		data: {
+			view: {
+				boxRange: 10000
+			},
+			// backgroundLayer: {
+			// 	layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
+			// }
+			backgroundLayer: {
+				type: 'worldwind',
+				options: {
+					layer: 'wikimedia'
+				}
+			}
+		}
+	}));
 	
 	
 	
@@ -47,7 +67,7 @@ export default (path, baseUrl) => {
 					defaultTitle="S"
 				/>
 				<AppContainer appKey="szdcInsar19">
-					<div>Hic sunt pantherae</div>
+					<App/>
 				</AppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
