@@ -8,6 +8,7 @@ import mapUtils from "../../../utils/map";
 
 import './style.scss';
 import utils from "../../../utils/utils";
+import Error from "../atoms/Error";
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {
@@ -149,7 +150,7 @@ class Map extends React.PureComponent {
 		const {children, mapComponent, ...props} = this.props;
 
 		if (!mapComponent) {
-			return (<div className="ptr-error-message">mapComponent not supplied to Map</div>);
+			return (<Error centered>mapComponent not supplied to Map</Error>);
 		} else {
 
 			if (!props.stateMapKey) {
