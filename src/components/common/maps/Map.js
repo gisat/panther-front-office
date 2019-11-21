@@ -147,29 +147,39 @@ class Map extends React.PureComponent {
 
 	render() {
 		const {children, mapComponent, ...props} = this.props;
-		if (!props.stateMapKey) {
-			props.view = this.state.view || props.view;
-			props.onViewChange = this.onViewChange;
-		}
-		let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
-		if (!children) {
-			return map;
+
+		if (!mapComponent) {
+			return (<div className="ptr-error-message">mapComponent not supplied to Map</div>);
 		} else {
-			return (
-				<div className="ptr-map-controls-wrapper">
-					{map}
-					{React.Children.map(children, child => {
-						return React.cloneElement(child, {
-							...child.props,
-							view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
-							updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
-							resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
-						});
-					})}
-				</div>
-			);
+
+			if (!props.stateMapKey) {
+				props.view = this.state.view || props.view;
+				props.onViewChange = this.onViewChange;
+			}
+
+			let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
+
+			if (!children) {
+				return map;
+			} else {
+				return (
+					<div className="ptr-map-controls-wrapper">
+						{map}
+						{React.Children.map(children, child => {
+							return React.cloneElement(child, {
+								...child.props,
+								view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
+								updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
+								resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
+							});
+						})}
+					</div>
+				);
+			}
+
 		}
 	}
+
 }
 
 export const PresentationMap = Map;
