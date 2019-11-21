@@ -20,6 +20,7 @@ import Scopes from './Scopes/actions';
 import Screens from './Screens/actions';
 import Selections from './Selections/actions';
 import Snapshots from './Snapshots/actions';
+import SpatialData from './SpatialData/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
@@ -56,6 +57,7 @@ export default {
 	screens: Screens,
 	selections: Selections,
 	snapshots: Snapshots,
+	spatialData: SpatialData,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,

@@ -7,6 +7,28 @@ import {Link} from "react-router-dom";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
 import Map, {PresentationMap} from "../../../../../../components/common/maps/Map";
 
+import cz_gadm from '../../../mockData/map/czGadm1WithStyles/geometries';
+import style from '../../../mockData/map/czGadm1WithStyles/style';
+
+const backgroundCuzk = {
+	key: 'cuzk_ortofoto',
+	name: 'CUZK Ortofoto',
+	type: 'wms',
+	options: {
+		url: 'http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?',
+		params: {
+			layers: 'GR_ORTFOTORGB'
+		}
+	}
+};
+
+const wikimedia = {
+	type: 'worldwind',
+	options: {
+		layer: 'wikimedia'
+	}
+};
+
 const backgroundLayer = {
 	layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
 	metadataModifiers: {
@@ -15,16 +37,22 @@ const backgroundLayer = {
 };
 
 const layers = [{
-	key: 'layer-cz',
-	layerTemplateKey: 'c87619f8-ef27-436f-9d99-d2b200415160',
-	metadataModifiers: {
-		applicationKey: 'docs'
+		key: 'layer-cz',
+		layerTemplateKey: 'b5afa739-7828-4ed0-8844-306a5470e7e0'
+	},{
+		key: 'layer-geoinv',
+		layerTemplateKey: '097d3fed-e6da-4f08-833e-839c88513b8b',
+		metadataModifiers: {
+			applicationKey: 'docs'
 	}
-},{
-	key: 'layer-geoinv',
-	layerTemplateKey: '097d3fed-e6da-4f08-833e-839c88513b8b',
-	metadataModifiers: {
-		applicationKey: 'docs'
+}];
+
+const presentationalLayers = [{
+	key: "gadm-1-cz",
+	type: "vector",
+	options: {
+		features: cz_gadm.features,
+		style: style
 	}
 }];
 
@@ -37,7 +65,7 @@ class MapDoc extends React.PureComponent {
 				<div style={{height: 300}}>
 					<Map
 						mapComponent={WorldWindMap}
-						backgroundLayer={backgroundLayer}
+						backgroundLayer={backgroundCuzk}
 						layers={layers}
 						view={{
 							boxRange: 1000000
@@ -47,22 +75,13 @@ class MapDoc extends React.PureComponent {
 					</Map>
 				</div>
 
-				<div style={{marginTop: 10, height: 300}}>
+				<div style={{marginTop: 10, height: 400}}>
 					<PresentationMap
 						mapComponent={WorldWindMap}
-						backgroundLayer={{
-							key: 'cuzk_ortofoto',
-							name: 'CUZK Ortofoto',
-							type: 'wms',
-							options: {
-								url: 'http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?',
-								params: {
-									layers: 'GR_ORTFOTORGB'
-								}
-							}
-						}}
+						backgroundLayer={wikimedia}
+						layers={presentationalLayers}
 						view={{
-							boxRange: 10000
+							boxRange: 1000000
 						}}
 					>
 						<PresentationMapControls/>

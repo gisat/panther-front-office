@@ -22,6 +22,7 @@ import scopesReducers from './Scopes/reducers';
 import screensReducers from './Screens/reducers';
 import selectionsReducers from './Selections/reducers';
 import snapshotsReducers from './Snapshots/reducers';
+import spatialDataReducers from './SpatialData/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from './SpatialDataSources/vector/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
@@ -60,6 +61,7 @@ const Store = createStore(combineReducers({
 	screens: screensReducers,
 	selections: selectionsReducers,
 	snapshots: snapshotsReducers,
+	spatialData: spatialDataReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialVectorDataSources: spatialVectorDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,

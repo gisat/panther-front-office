@@ -18,6 +18,7 @@
     "dom-to-image": "2.6.0",
     "i18next": "13.1.2",
     "isomorphic-fetch": "2.2.1",
+    "js-quadtree": "2.0.1",
     "lodash": "4.17.15",
     "leaflet": "1.5.1",
     "moment": "2.23.0",
@@ -54,7 +55,7 @@
     "regenerator-runtime": "0.13.1",
     "reselect": "4.0.0",
     "uri-templates": "0.2.0",
-    "webworldwind-esa": "0.10.0-alpha.6",
+    "webworldwind-esa": "1.0.0-rc.1",
     "xml2js": "0.4.19"
   },
   "scripts": {

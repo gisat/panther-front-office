@@ -1,0 +1,67 @@
+{
+  "key":"szdc-zonal-classification-example",
+  "data":{
+	"nameInternal":"",
+	"nameDisplay":"",
+	"description":"",
+	"source":"definition",
+	"nameGeoserver":"",
+	"definition":{
+	  "rules":[
+		{
+		  "styles": [
+			{
+			  "shape": "circle-with-arrow",
+			  "outlineWidth": 1,
+			  "arrowColor": "#39ff14",
+			  "arrowWidth": 3
+			},
+			{
+			  "attributeKey": "attr1",
+			  "attributeClasses": [
+				{
+				  "interval": [0,25],
+				  "fill": "#edf8fb"
+				},
+				{
+				  "interval": [25,50],
+				  "fill": "#b3cde3"
+				},{
+				  "interval": [50,75],
+				  "fill": "#8c96c6"
+				},{
+				  "interval": [75,101],
+				  "fill": "#88419d"
+				}
+			  ]
+			},{
+			  "attributeKey": "attr3",
+			  "attributeScale": {
+				"size": {
+				  "inputInterval": [0,1],
+				  "outputInterval": [5,20]
+				}
+			  }
+			},{
+			  "attributeKey": "attr2",
+			  "attributeScale": {
+				"arrowLength": {
+				  "inputTransformation": ["abs"],
+				  "inputInterval": [0,10],
+				  "outputInterval": [0,30]
+				}
+			  }
+			},{
+			  "attributeKey": "attr2",
+			  "attributeTransformation": {
+				"arrowDirection": {
+				  "inputTransformation": ["sign"]
+				}
+			  }
+			}
+		  ]
+		}
+	  ]
+	}
+  }
+}

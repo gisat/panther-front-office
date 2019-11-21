@@ -86,17 +86,20 @@ const getLayersWithFilter = createCachedSelector(
 
 const prepareLayerByDataSourceType = (layerKey, dataSource, index) => {
 	let dataSourceData = dataSource.data;
-	let {attribution, nameInternal, type, ...options} = dataSourceData;
+	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
 
 	// TODO data source strucutre
 	if (type === 'wmts') {
 		options.url = options.urls[0];
-	}
-	if (type === 'wms') {
+	} else if (type === 'wms') {
 		let {url, ...params} = options;
 		options = {
 			params,
 			url
+		}
+	} else if (type === 'vector' && features) {
+		options = {
+			features
 		}
 	}
 

@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import vectorSelectors from './vector/selectors';
 import common from "../_common/selectors";
+import SpatialData from "../SpatialData/selectors";
 import SpatialRelations from "../SpatialRelations/selectors";
 
 const getSubstate = (state) => state.spatialDataSources;
@@ -13,16 +14,24 @@ const getByKeys = common.getByKeys(getSubstate);
 const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
 	[
 		getAllAsObject,
-		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey
+		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		SpatialData.getAllAsObject
 	],
-	(dataSources, dataSourceKeysGroupedByLayerKey) => {
+	(dataSources, dataSourceKeysGroupedByLayerKey, spatialData) => {
 		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
 			let dataSourcesGroupedByLayerKey = {};
 			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
 				dataSourcesGroupedByLayerKey[layerKey] = [];
 				_.forEach(dataSourceKeys, (dataSourceKey) => {
 					if (dataSources[dataSourceKey]) {
-						dataSourcesGroupedByLayerKey[layerKey].push(dataSources[dataSourceKey]);
+						let finalDataSource = {...dataSources[dataSourceKey]};
+
+						const data = spatialData[dataSourceKey];
+						if (data && data.spatialData && data.spatialData.features) {
+							finalDataSource.data.features = data.spatialData.features;
+						}
+
+						dataSourcesGroupedByLayerKey[layerKey].push(finalDataSource);
 					}
 				});
 			});

@@ -215,6 +215,7 @@ class LeafletMap extends React.PureComponent {
 			<div className="ptr-map ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey} onClick={this.onClick}>
 				{this.state.backgroundLayer}
 				{this.state.layers}
+				{this.props.children}
 			</div>
 		);
 

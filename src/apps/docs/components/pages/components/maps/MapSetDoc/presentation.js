@@ -22,10 +22,7 @@ const wikimedia = {
 
 const layers = [{
 	key: 'layer-cz',
-	layerTemplateKey: 'c87619f8-ef27-436f-9d99-d2b200415160',
-	metadataModifiers: {
-		applicationKey: 'docs'
-	}
+	layerTemplateKey: 'b5afa739-7828-4ed0-8844-306a5470e7e0'
 },{
 	key: 'layer-geoinv',
 	layerTemplateKey: '097d3fed-e6da-4f08-833e-839c88513b8b',

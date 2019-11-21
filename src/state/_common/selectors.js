@@ -242,7 +242,7 @@ const getIndexed = (getSubstate) => { //todo proper memoization && unify with ol
 };
 
 const getByKey = (getSubstate) => {
-	return createSelector(
+	return createCachedSelector(
 		[
 			getAllAsObject(getSubstate),
 			(state, key) => key
@@ -254,7 +254,7 @@ const getByKey = (getSubstate) => {
 				return null;
 			}
 		}
-	);
+	)((state, key) => key);
 };
 
 // TODO test
