@@ -4,6 +4,60 @@ import {withNamespaces} from "react-i18next";
 import Page, {
 	SyntaxHighlighter
 } from '../../../Page';
+import {PresentationMap} from "../../../../../../components/common/maps/Map";
+import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
+import PresentationMapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
+import cz_gadm from "../../../mockData/map/czGadm1WithStyles/geometries";
+import largePointData from "../../../mockData/map/largePointData/geometries";
+import style from "../../../mockData/map/czGadm1WithStyles/style";
+import style2 from "../../../mockData/map/czGadm1WithStyles/style2";
+import largeDataStyle from "../../../mockData/map/largePointData/style";
+
+const wikimedia = {
+	type: 'worldwind',
+	options: {
+		layer: 'wikimedia'
+	}
+};
+
+const backgroundCuzk = {
+	key: 'cuzk_ortofoto',
+	name: 'CUZK Ortofoto',
+	type: 'wms',
+	options: {
+		url: 'http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?',
+		params: {
+			layers: 'GR_ORTFOTORGB'
+		}
+	}
+};
+
+const presentationalLayers = [{
+	key: "gadm-1-cz",
+	type: "vector",
+	options: {
+		features: cz_gadm.features,
+		style: style
+	}
+}];
+
+const presentationalLayers2 = [{
+	key: "gadm-1-cz-2",
+	type: "vector",
+	options: {
+		features: cz_gadm.features,
+		style: style2
+	}
+}];
+
+const largeDataLayers = [{
+	key: "large-data-layers",
+	type: "vector",
+	options: {
+		features: largePointData.features,
+		style: largeDataStyle
+	}
+}];
 
 class StyleDoc extends React.PureComponent {
 
@@ -11,6 +65,8 @@ class StyleDoc extends React.PureComponent {
 		return (
 			<Page title="Styles">
 				<p>Styles are for styling. </p>{/* todo */}
+
+
 				<SyntaxHighlighter language="javascript">
 					{
 `{
@@ -62,50 +118,179 @@ class StyleDoc extends React.PureComponent {
 					}
 				</SyntaxHighlighter>
 
+				<h3>Classes for fill, scale for outlines</h3>
 				<SyntaxHighlighter language="javascript">
 					{
 						`{
-	key: 'szdc-zonal-classification-example',
-	data: {
-		nameInternal: '',
-		nameDisplay: '',
-		description: '',
-		source: 'definition',
-		nameGeoserver: '',
-		definition: {
-			rules: [
+\t"key":"szdc-zonal-classification-example",
+\t"data":{
+\t"nameInternal":"",
+\t"nameDisplay":"",
+\t"description":"",
+\t"source":"definition",
+\t"nameGeoserver":"",
+\t"definition":{
+\t  "rules":[
+\t\t{
+\t\t  "styles":[
+\t\t\t{
+\t\t\t  "attributeKey":"e575b4d4-7c7a-4658-bb9a-a9b61fcc2587",
+\t\t\t  "attributeClasses":[
+\t\t\t\t{
+\t\t\t\t  "interval": [0,5],
+\t\t\t\t  "intervalBounds": [true, false],
+\t\t\t\t  "fill": "#e41a1c"
+\t\t\t\t},{
+\t\t\t\t  "interval": [5,10],
+\t\t\t\t  "intervalBounds": [true, false],
+\t\t\t\t  "fill": "#377eb8"
+\t\t\t\t},{
+\t\t\t\t  "interval": [10,20],
+\t\t\t\t  "intervalBounds": [true, false],
+\t\t\t\t  "fill": "#984ea3"
+\t\t\t\t}
+\t\t\t  ]
+\t\t\t}, {
+\t\t\t  "attributeKey": "22a43eb3-6552-476f-97a5-b47490519642",
+\t\t\t  "attributeScale": {
+\t\t\t\t"outlineWidth": {
+\t\t\t\t  "inputInterval": [-10,10],
+\t\t\t\t  "outputInterval": [0,7]
+\t\t\t\t}
+\t\t\t  }
+\t\t\t}
+\t\t  ]
+\t\t}
+\t  ]
+\t}
+  }
+}`
+					}
+				</SyntaxHighlighter>
+
+				<div style={{marginTop: 10, height: 400}}>
+					<PresentationMap
+						mapComponent={WorldWindMap}
+						backgroundLayer={wikimedia}
+						layers={presentationalLayers}
+						view={{
+							boxRange: 1000000
+						}}
+					>
+						<PresentationMapControls/>
+					</PresentationMap>
+				</div>
+
+
+				<h3>Scale for fill</h3>
+				<SyntaxHighlighter language="javascript">
+					{
+						`{
+\t"key":"szdc-zonal-classification-example",
+\t"data":{
+\t"nameInternal":"",
+\t"nameDisplay":"",
+\t"description":"",
+\t"source":"definition",
+\t"nameGeoserver":"",
+\t"definition":{
+\t  "rules":[
+\t\t{
+\t\t  "styles":[
+\t\t\t{
+\t\t\t  "attributeKey": "22a43eb3-6552-476f-97a5-b47490519642",
+\t\t\t  "attributeScale": {
+\t\t\t\t"fill": {
+\t\t\t\t  "inputInterval": [-10,0,10],
+\t\t\t\t  "outputInterval": ["yellow", "lightgreen", "008ae5"]
+\t\t\t\t}
+\t\t\t  }
+\t\t\t}
+\t\t  ]
+\t\t}
+\t  ]
+\t}
+  }
+}`
+					}
+				</SyntaxHighlighter>
+
+				<div style={{marginTop: 10, height: 400}}>
+					<PresentationMap
+						mapComponent={WorldWindMap}
+						backgroundLayer={wikimedia}
+						layers={presentationalLayers2}
+						view={{
+							boxRange: 1000000
+						}}
+					>
+						<PresentationMapControls/>
+					</PresentationMap>
+				</div>
+
+
+				<h3>Custom point symbol (large data layer)</h3>
+
+				<SyntaxHighlighter language="javascript">
+					{
+`{
+	"key":"szdc-zonal-classification-example",
+	"data":{
+		"nameInternal":"",
+		"nameDisplay":"",
+		"description":"",
+		"source":"definition",
+		"nameGeoserver":"",
+		"definition":{
+			"rules":[
 				{
-					styles: [
+					"styles": [
 						{
-							shape: 'circle-with-arrow'
-						}, {
-							attributeKey: 'vertical-movement',
-							attributeClasses: [
+							"shape": "circle-with-arrow",
+							"outlineWidth": 1,
+							"arrowColor": "#39ff14",
+							"arrowWidth": 3
+						},
+						{
+							"attributeKey": "attr1",
+							"attributeClasses": [
 								{
-									interval: [0,1],
-									fill: '#ff00ee'
-								}, {
-									interval: [1,2],
-									fill: '#ffaaee'
+									"interval": [0,25],
+									"fill": "#edf8fb"
+								},
+								{
+									"interval": [25,50],
+									"fill": "#b3cde3"
+								},{
+									"interval": [50,75],
+									"fill": "#8c96c6"
+								},{
+									"interval": [75,101],
+									"fill": "#88419d"
 								}
 							]
-						}, {
-							attributeKey: 'standard-deviation',
-							attributeScale: {
-								volume: {
-									inputInterval: [0,1], // optional
-									outputInterval: [5,1000],
-									outputUnits: 'sqm'
+						},{
+							"attributeKey": "attr3",
+							"attributeScale": {
+								"size": {
+									"inputInterval": [0,1],
+									"outputInterval": [5,20]
 								}
 							}
-						}, {
-							attributeKey: 'east-west-movement',
-							attributeScale: {
-								arrowLength: {
-									inputTransformation: ['abs'],
-									inputInterval: [0,50],
-									outputInterval: [10,500],
-									outputUnits: 'm'
+						},{
+							"attributeKey": "attr2",
+							"attributeScale": {
+								"arrowLength": {
+									"inputTransformation": ["abs"],
+									"inputInterval": [0,10],
+									"outputInterval": [0,30]
+								}
+							}
+						},{
+							"attributeKey": "attr2",
+							"attributeTransformation": {
+								"arrowDirection": {
+									"inputTransformation": ["sign"]
 								}
 							}
 						}
@@ -117,6 +302,23 @@ class StyleDoc extends React.PureComponent {
 }`
 					}
 				</SyntaxHighlighter>
+
+				<div style={{marginTop: 10, height: 400}}>
+					<PresentationMap
+						mapComponent={WorldWindMap}
+						backgroundLayer={backgroundCuzk}
+						layers={largeDataLayers}
+						view={{
+							boxRange: 20000,
+							center: {
+								lat: 50.25,
+								lon: 15.75
+							}
+						}}
+					>
+						<PresentationMapControls/>
+					</PresentationMap>
+				</div>
 			</Page>
 		);
 	}
