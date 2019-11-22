@@ -36,7 +36,7 @@ class CaseSelect extends React.PureComponent {
 							itemKey={oneCase.key}
 							key={oneCase.key}
 						>
-							<div className="tacrGeoinvaze-case-select-case" style={style}><span>{oneCase.data && oneCase.data.nameDisplay}</span></div>
+							<div className="tacrGeoinvaze-case-select-case" style={style}><span><>{oneCase.data && oneCase.data.nameDisplay} (<i>{oneCase.data && oneCase.data.nameInternal}</i>)</></span></div>
 						</PantherSelectItem>
 					);
 				})}
