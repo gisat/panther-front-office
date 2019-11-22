@@ -7,6 +7,13 @@ export const Title = props => (
 	</div>
 );
 
+export const CaseImage = props => (
+	<div className="tacrGeoinvaze-case-detail-image">
+		<img alt="case-image" src={props.source}/>
+		<div className="tacrGeoinvaze-case-image-copyright">{props.copyright}</div>
+	</div>
+);
+
 export const Summary = props => (
 	<div className="tacrGeoinvaze-case-detail-summary">
 		{props.children}

@@ -10,8 +10,9 @@ import {
 	PopulationDensity,
 	EnvironmentImpact,
 	ManagementMethod,
-	ManagementApplication, OriginalArea, SecondaryArea, Introduction, Breeding, Resource, Resources
+	ManagementApplication, OriginalArea, SecondaryArea, Introduction, Breeding, Resource, Resources, CaseImage
 } from "../components";
+import image from "../../../assets/caseDetails/zlatobyl-kanadsky.png";
 
 const Zlatobyl = props => (
 	<div>
@@ -24,6 +25,10 @@ const Zlatobyl = props => (
 			<Introduction text="Pěstování jako okrasná a medonosná rostlina"/>
 			<Breeding text="Ano"/>
 		</Summary>
+		<CaseImage
+			source={image}
+			copyright="Foto: Martina Kadlecová"
+		/>
 		<TextBlock>
 			<p>Zlatobýl kanadský je vytrvalá, přibližně 1,5m vysoká, nápadná bylina z čeledi hvězdnicovitých. Kvete latou drobných žlutých květů v období od července do září a vytváří velké množství snadno šiřitelných a dobře klíčích nažek. Lodyha je odspodu olistěná kopinatými, směrem k vrcholu se zmenšujícími listy s pilovitým okrajem. Jednotlivé lodyhy jsou pod zemí propojené oddenky, pomocí nich se rostliny poměrně rychle rozrůstají. Na obsazených lokalitách vytváří výrazné husté porosty. Od příbuzného druhu zlatobýlu obrovského (<i>dago gigantea</i>) se liší přítomností ca 2 mm dlouhých chlupů na lodyze, zejména v její dolní části.</p>
 			<h5>Ekologie a způsob šíření</h5>

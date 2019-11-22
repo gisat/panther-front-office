@@ -21,6 +21,25 @@
 	font-style: normal;
 }
 
+/* Image */
+.tacrGeoinvaze-case-detail-image {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tacrGeoinvaze-case-detail-image img {
+	max-width: 100%;
+}
+
+.tacrGeoinvaze-case-image-copyright {
+	font-size: $b1;
+	font-style: italic;
+	text-align: center;
+	margin-top: .25rem;
+}
+
+
 /* Summary */
 .tacrGeoinvaze-case-detail-summary {
 	margin: m(2/3) 0 m(4/3);

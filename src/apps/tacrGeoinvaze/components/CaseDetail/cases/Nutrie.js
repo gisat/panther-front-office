@@ -13,8 +13,10 @@ import {
 	EnvironmentImpact,
 	ManagementMethod,
 	ManagementApplication,
-	OriginalArea, SecondaryArea, Introduction, Breeding
+	OriginalArea, SecondaryArea, Introduction, Breeding, CaseImage
 } from "../components";
+
+import image from "../../../assets/caseDetails/nutrie-ricni.png";
 
 const Nutrie = props => (
 	<div>
@@ -25,6 +27,10 @@ const Nutrie = props => (
 			<Introduction text="Únik z chovů, záměrné vypouštění"/>
 			<Breeding text="Na povolení Ministerstva životního prostředí"/>
 		</Summary>
+		<CaseImage
+			source={image}
+			copyright="Foto: J. Červený"
+		/>
 		<TextBlock>
 			<p>Nutrie je jediným na našem území žijícím zástupcem rodu nutrie. Jde o velkého hlodavce, délka jeho těla dosahuje 40-80 cm, ocasu 30-50 cm a hmotnost dospělých samců je až 12 kg. Nutrie mají nejčastěji hnědé nebo šedé zabarvení, nicméně z chovů mohou uniknout i jiné barevné varianty (bílá, zlatá, černá). Srst nutrií je hustá, ovšem na tlapkách a šupinatém ocasu chybí. Charakteristické jsou výrazné, oranžově zabarvené řezáky. Dalším typickým znakem jsou plovací blány mezi prsty, chlopňovité uzavíratelné nozdry a na rozdíl od zaměnitelných hlodavců (bobr, ondatra) oválný až kulatý průřez ocasu. Nutrie jsou chovány pro dietní maso a kožešiny.</p>
 			<p>Nutrie je na Evropském seznamu nepůvodních invazních druhů a její záměrné šíření je protizákonné. Chov je povolován Ministerstvem ŽP.</p>

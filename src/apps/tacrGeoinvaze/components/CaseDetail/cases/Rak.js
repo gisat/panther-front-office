@@ -12,8 +12,9 @@ import {
 	PopulationDensity,
 	EnvironmentImpact,
 	ManagementMethod,
-	ManagementApplication, OriginalArea, SecondaryArea, Introduction, Breeding
+	ManagementApplication, OriginalArea, SecondaryArea, Introduction, Breeding, CaseImage
 } from "../components";
+import image from "../../../assets/caseDetails/rak-pruhovaný.png";
 
 const Rak = props => (
 	<div>
@@ -24,6 +25,10 @@ const Rak = props => (
 			<Introduction text="Vypuštěn záměrně, dále se šíří především samovolně"/>
 			<Breeding text="Ojediněle se chová v akváriích, jedná se o jedince odchycené v přírodě"/>
 		</Summary>
+		<CaseImage
+			source={image}
+			copyright="Foto: biolob.cz"
+		/>
 		<TextBlock>
 			<p>Dospělý rak dorůstá až 120 mm v délce těla, většinou ale méně. Krunýř je hladký, pouze po stranách hlavy jsou nápadné ostré trny. Má jeden pár postorbitálních lišt. Na svrchní straně zadečkových článků jsou příčné hnědočervené až tmavě červené pruhy či oddělené skvrny. Rostrum (rypec) je poměrně dlouhé. Klepeta jsou drobná s oranžovými hroty oddělenými od zbytku prstů černým proužkem. Spodní strana klepet je světlá. Existuje tmavá forma zbarvení, u které nejsou patrné proužky na zadečkových článcích. Někteří dospělí jedinci mohou být naopak světlí a s výraznými světlemodrými okrsky na těle a končetinách.</p>
 			<h5>Ekologie a způsob šíření</h5>
