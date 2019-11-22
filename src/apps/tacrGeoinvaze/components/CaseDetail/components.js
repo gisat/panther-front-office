@@ -20,6 +20,22 @@ export const SummaryItem = props => (
 	</div>
 );
 
+export const OriginalArea = props => (
+	<SummaryItem title="Původní areál" text={props.text}/>
+);
+
+export const SecondaryArea = props => (
+	<SummaryItem title="Sekundární areál" text={props.text}/>
+);
+
+export const Introduction = props => (
+	<SummaryItem title="Introdukce" text={props.text}/>
+);
+
+export const Breeding = props => (
+	<SummaryItem title="Pěstování/chov" text={props.text}/>
+);
+
 export const TextBlock = props => (
 	<div className="tacrGeoinvaze-case-detail-text">
 		{props.children}
@@ -33,14 +49,45 @@ export const InvasivePotential = props => (
 	</div>
 );
 
-export const InvasivePotentialCategory = props => (
+export const SexualReproduction = props => (
+	<InvasivePotentialCategoryWithRating name="Rozmnožování pohlavní" score={props.score}/>
+);
+
+export const AsexualReproduction = props => (
+	<InvasivePotentialCategoryWithRating name="Rozmnožování nepohlavní" score={props.score}/>
+);
+
+export const EcologicalNiche = props => (
+	<InvasivePotentialCategoryWithRating name="Ekologická nika" score={props.score}/>
+);
+
+export const PopulationDensity = props => (
+	<InvasivePotentialCategoryWithRating name="Hustota populací" score={props.score}/>
+);
+
+export const EnvironmentImpact = props => (
+	<InvasivePotentialCategoryWithRating name="Dopad na životní prostředí" score={props.score}/>
+);
+
+export const ManagementMethod = props => (
+	<InvasivePotentialCategoryWithValue name="Management metoda" text={props.text}/>
+);
+
+export const ManagementApplication = props => (
+	<InvasivePotentialCategoryWithValue name="Management aplikace" text={props.text}/>
+);
+
+export const InvasivePotentialCategoryWithRating = props => (
 	<div className="tacrGeoinvaze-case-detail-ip-category">
 		<div className="tacrGeoinvaze-case-detail-ip-category-name">{props.name}</div>
-		{props.text ? (
-			<InvasivePotentialValue text={props.text}/>
-		) : (
-			<InvasivePotentialRating score={props.score} total={props.total ? props.total : 3}/>
-		)}
+		<InvasivePotentialRating score={props.score} total={props.total ? props.total : 3}/>
+	</div>
+);
+
+export const InvasivePotentialCategoryWithValue = props => (
+	<div className="tacrGeoinvaze-case-detail-ip-category">
+		<div className="tacrGeoinvaze-case-detail-ip-category-name">{props.name}</div>
+		<InvasivePotentialValue text={props.text}/>
 	</div>
 );
 
@@ -71,13 +118,10 @@ export const Resources = props => (
 	</div>
 );
 
-export const Resource = props => (
-	<div className="tacrGeoinvaze-case-detail-resource">
-		<span>{props.authors} </span>
-		<span>({props.year}). </span>
-		<span>{props.title}. </span>
-		<span className="publication">{props.publication}, </span>
-		<span>{props.volume}, </span>
-		<span>{props.pages}.</span>
-	</div>
-);
+export const Resource = props => {
+	return (
+		<div className="tacrGeoinvaze-case-detail-resource">
+			{props.children}
+		</div>
+	)
+};
