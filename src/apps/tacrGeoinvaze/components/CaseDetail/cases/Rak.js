@@ -14,7 +14,7 @@ import {
 	ManagementMethod,
 	ManagementApplication, OriginalArea, SecondaryArea, Introduction, Breeding, CaseImage
 } from "../components";
-import image from "../../../assets/caseDetails/rak-pruhovaný.png";
+import image from "../../../assets/caseDetails/rak-pruhovany.png";
 
 const Rak = props => (
 	<div>
