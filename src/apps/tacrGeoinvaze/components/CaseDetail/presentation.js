@@ -1,6 +1,8 @@
 import React from "react";
 
 import './style.scss';
+
+import Jelen from "./cases/Jelen";
 import Nutrie from "./cases/Nutrie";
 import Muflon from "./cases/Muflon";
 import Myval from "./cases/Myval";
@@ -13,6 +15,9 @@ const CaseDetail = props => {
 	let component;
 
 	switch (caseKey) {
+		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
+			component = <Jelen/>;
+			break;
 		case 'fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf':
 			component = <Nutrie/>;
 			break;
