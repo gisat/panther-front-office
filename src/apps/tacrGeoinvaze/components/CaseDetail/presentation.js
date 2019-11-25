@@ -4,6 +4,7 @@ import './style.scss';
 
 import AmbroziePerenolista from "./cases/Ambrosie";
 import Astra from "./cases/Astra";
+import Bolsevnik from "./cases/Bolsevnik";
 import Blesivec from "./cases/Blesivec";
 import Jelen from "./cases/Jelen";
 import Krab from "./cases/Krab";
@@ -31,6 +32,9 @@ const CaseDetail = props => {
 			break;
 		case '64dace45-50b4-4349-9ee1-e28bd747c78d':
 			component = <Blesivec/>;
+			break;
+		case  '58778990-b620-4765-bbfb-b4a727f6574d':
+			component = <Bolsevnik/>;
 			break;
 		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
 			component = <Jelen/>;
