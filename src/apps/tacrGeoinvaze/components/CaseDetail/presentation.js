@@ -2,6 +2,7 @@ import React from "react";
 
 import './style.scss';
 import Nutrie from "./cases/Nutrie";
+import Muflon from "./cases/Muflon";
 import Myval from "./cases/Myval";
 import Psik from "./cases/Psik";
 import Rak from "./cases/Rak";
@@ -14,6 +15,9 @@ const CaseDetail = props => {
 	switch (caseKey) {
 		case 'fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf':
 			component = <Nutrie/>;
+			break;
+		case '6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a':
+			component = <Muflon/>;
 			break;
 		case '06f0aacf-09e8-499e-bba6-d472e8d54d7e':
 			component = <Myval/>;
