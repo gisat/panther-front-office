@@ -19,7 +19,7 @@ import image from "../../../assets/caseDetails/rak-pruhovany.png"; //TODO change
 
 const _template = props => (
 	<div>
-		<Title name="" latinName=""/>
+		<Title name="" nameSynonyms="" latinName="" latinNameSynonyms=""/>
 		<Summary>
 			<OriginalArea text=""/>
 			<SecondaryArea text=""/>
