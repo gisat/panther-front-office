@@ -154,18 +154,21 @@
 	padding: m(1/3) m(1/2) m(1/3) m(1);
 	font-size: $a1;
 	line-height: 1.1;
+	transition: background .3s ease-in-out;
 }
 .tacrGeoinvaze-case-select-case > div > span {
 	display: block;
 	font-size: $b2;
 	letter-spacing: .04rem;
 }
-
 .tacrGeoinvaze-case-select-case > div > i {
 	font-style: italic;
 	font-size: $b1;
 	color: #fffc;
 	letter-spacing: .015rem;
+}
+.ptr-panther-select-item:hover .tacrGeoinvaze-case-select-case > div {
+	background: rgba(0,0,0,.75);
 }
 
 //.tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
