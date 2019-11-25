@@ -49,7 +49,7 @@ const AmbroziePerenolista = props => (
 		<Resources>
 			<Resource>Essl F., Biro K., Brandes D., Broennimann O., Bullock J. M., Chapman D. S., Chauvel B., Dullinger S.,Fumanal B., Guisan A., Karrer G., Kazinczi G., Kueffer C., Laitung B., Lavoie C., Leitner M., Mang T.,Moser D., Muller-Scharer H., Petitpierre B., Richter R., Schaffner U., Smith M., Starfinger U., Vautard R.,Vogl G., von der Lippe M. & Follak S. (2015): Biological flora of the British Isles: <i>Ambrosia artemisiifolia</i>. – J. Ecol. 103: 1069–1098.</Resource>
 			<Resource>Skálová H., Guo W-Y., Wild J. & Pyšek P. (2017): <i>Ambrosia artemisiifolia</i> in the Czech Republic: history of invasion,current distribution and prediction of future spread – Preslia 89: 1–16. </Resource>
-			<Resource><a href="www.botany.cz" target="_blank">www.botany.cz</a>; 2007-2019</Resource>
+			<Resource><a href="http://www.botany.cz" target="_blank">www.botany.cz</a>; 2007-2019</Resource>
 		</Resources>
 	</div>
 );
