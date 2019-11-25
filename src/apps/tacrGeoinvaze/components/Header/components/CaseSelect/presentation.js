@@ -48,8 +48,7 @@ class CaseSelect extends React.PureComponent {
 					</div>
 					<div className="tacrGeoinvaze-header-case-select" style={style}>
 						<div className="tacrGeoinvaze-case-value" title={activeCase.data && activeCase.data.nameDisplay}>
-							{activeCase.data && activeCase.data.nameDisplay}
-							(<i>{activeCase.data && activeCase.data.nameInternal}</i>)
+							{activeCase.data && activeCase.data.nameDisplay} (<i>{activeCase.data && activeCase.data.nameInternal}</i>)
 						</div>
 					</div>
 				</div>
