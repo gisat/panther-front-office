@@ -17,7 +17,7 @@ import {
 
 import image from "../../../assets/caseDetails/vodni-mor-americky.jpg"; //TODO change source
 
-const VodniMor = props => (
+const VodniMorAmericky = props => (
 	<div>
 		<Title name="Vodní mor americký" nameSynonyms="" latinName="Elodea nuttallii" latinNameSynonyms={
 			<>
@@ -64,4 +64,4 @@ const VodniMor = props => (
 	</div>
 );
 
-export default VodniMor;
+export default VodniMorAmericky;
