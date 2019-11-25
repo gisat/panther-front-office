@@ -6,6 +6,7 @@ import Jelen from "./cases/Jelen";
 import Nutrie from "./cases/Nutrie";
 import Muflon from "./cases/Muflon";
 import Myval from "./cases/Myval";
+import Ondatra from "./cases/Ondatra";
 import Psik from "./cases/Psik";
 import Rak from "./cases/Rak";
 import Zlatobyl from "./cases/Zlatobyl";
@@ -26,6 +27,9 @@ const CaseDetail = props => {
 			break;
 		case '06f0aacf-09e8-499e-bba6-d472e8d54d7e':
 			component = <Myval/>;
+			break;
+		case "edfdd933-86fe-4b08-ae20-cb77eeb6afbc":
+			component = <Ondatra/>;
 			break;
 		case '2316b10f-b733-4e9b-958c-cc5bfd568735':
 			component = <Psik/>;
