@@ -12,6 +12,7 @@ import Nutrie from "./cases/Nutrie";
 import Ondatra from "./cases/Ondatra";
 import Psik from "./cases/Psik";
 import Rak from "./cases/Rak";
+import VodniMor from "./cases/VodniMor";
 import Zlatobyl from "./cases/Zlatobyl";
 
 const CaseDetail = props => {
@@ -48,6 +49,9 @@ const CaseDetail = props => {
 			break;
 		case 'edb75be0-8f1d-46a2-b07a-af1874d88569':
 			component = <Rak/>;
+			break;
+		case 'ed135671-9da6-495e-91ad-ff305f849b94':
+			component = <VodniMor/>;
 			break;
 		case '82acfc6b-5ebc-49a2-813a-76f1a85ef66c':
 			component = <Zlatobyl/>;
