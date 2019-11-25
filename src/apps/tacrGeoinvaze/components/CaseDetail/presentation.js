@@ -3,9 +3,10 @@ import React from "react";
 import './style.scss';
 
 import Jelen from "./cases/Jelen";
-import Nutrie from "./cases/Nutrie";
 import Muflon from "./cases/Muflon";
 import Myval from "./cases/Myval";
+import Norek from "./cases/Norek";
+import Nutrie from "./cases/Nutrie";
 import Ondatra from "./cases/Ondatra";
 import Psik from "./cases/Psik";
 import Rak from "./cases/Rak";
@@ -19,14 +20,17 @@ const CaseDetail = props => {
 		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
 			component = <Jelen/>;
 			break;
-		case 'fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf':
-			component = <Nutrie/>;
-			break;
 		case '6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a':
 			component = <Muflon/>;
 			break;
 		case '06f0aacf-09e8-499e-bba6-d472e8d54d7e':
 			component = <Myval/>;
+			break;
+		case "dc301b57-6a6d-4f37-90a0-f98f71600b81":
+			component = <Norek/>;
+			break;
+		case 'fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf':
+			component = <Nutrie/>;
 			break;
 		case "edfdd933-86fe-4b08-ae20-cb77eeb6afbc":
 			component = <Ondatra/>;
