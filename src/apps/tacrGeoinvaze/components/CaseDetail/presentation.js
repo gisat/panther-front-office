@@ -2,6 +2,7 @@ import React from "react";
 
 import './style.scss';
 
+import AmbroziePerenolista from "./cases/Ambrosie";
 import Blesivec from "./cases/Blesivec";
 import Jelen from "./cases/Jelen";
 import Krab from "./cases/Krab";
@@ -21,6 +22,9 @@ const CaseDetail = props => {
 	let component;
 
 	switch (caseKey) {
+		case 'aeb77ca2-ac1d-4cdd-b885-f1c4f922eb3f':
+			component = <AmbroziePerenolista/>;
+			break;
 		case '64dace45-50b4-4349-9ee1-e28bd747c78d':
 			component = <Blesivec/>;
 			break;
