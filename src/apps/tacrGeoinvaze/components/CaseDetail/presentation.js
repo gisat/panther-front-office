@@ -4,6 +4,7 @@ import './style.scss';
 
 import Blesivec from "./cases/Blesivec";
 import Jelen from "./cases/Jelen";
+import Krab from "./cases/Krab";
 import Muflon from "./cases/Muflon";
 import Myval from "./cases/Myval";
 import Norek from "./cases/Norek";
@@ -23,6 +24,9 @@ const CaseDetail = props => {
 			break;
 		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
 			component = <Jelen/>;
+			break;
+		case 'da8924f1-3c73-485b-8e0f-acc0d6650e8d':
+			component = <Krab/>;
 			break;
 		case '6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a':
 			component = <Muflon/>;
