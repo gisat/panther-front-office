@@ -155,7 +155,7 @@ class LargeDataLayer extends TiledImageLayer {
 
 		const points = this.filterGeographically(extended.sector);
 
-		if(points.length > 0) {
+		if(points) {
 			var imagePath = tile.imagePath,
 				cache = dc.gpuResourceCache,
 				layer = this;
