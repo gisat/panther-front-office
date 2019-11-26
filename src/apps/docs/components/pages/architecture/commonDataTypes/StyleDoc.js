@@ -60,6 +60,8 @@ const largeDataLayers = [{
 	}
 }];
 
+const levelsRange = [10, 18];
+
 class StyleDoc extends React.PureComponent {
 
 	render() {
@@ -307,6 +309,7 @@ class StyleDoc extends React.PureComponent {
 				<div style={{marginTop: 10, height: 400}}>
 					<HoverHandler>
 						<PresentationMap
+							levelsBased={levelsRange}
 							mapComponent={WorldWindMap}
 							backgroundLayer={backgroundCuzk}
 							layers={largeDataLayers}
@@ -318,7 +321,7 @@ class StyleDoc extends React.PureComponent {
 								}
 							}}
 						>
-							<PresentationMapControls levelsBased={true}/>
+							<PresentationMapControls levelsBased={levelsRange}/>
 						</PresentationMap>
 					</HoverHandler>
 				</div>

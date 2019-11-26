@@ -12,6 +12,8 @@ import {defaultMapView} from '../../../../constants/Map';
 import HoverContext from "../../../../components/common/HoverHandler/context";
 
 import './style.scss';
+import viewUtils from "../viewUtils";
+import {defaultLevelsRange, numberOfLevels} from "../constants";
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
@@ -42,6 +44,7 @@ class WorldWindMap extends React.PureComponent {
 
 		this.onClick = this.onClick.bind(this);
 		this.onHover = this.onHover.bind(this);
+		this.onZoomLevelsBased = this.onZoomLevelsBased.bind(this);
 	}
 
 	componentDidMount() {
@@ -50,9 +53,37 @@ class WorldWindMap extends React.PureComponent {
 		decorateWorldWindowController(this.wwd.worldWindowController);
 		this.wwd.worldWindowController.onNavigatorChanged = this.onNavigatorChange.bind(this);
 
+		if (this.props.levelsBased) {
+			// rewrite default wheel listener.
+			this.wwd.eventListeners.wheel.listeners = [this.onZoomLevelsBased.bind(this)];
+		}
+
 		this.updateNavigator(defaultMapView);
 		this.updateLayers();
 
+	}
+
+	onZoomLevelsBased(e) {
+		e.preventDefault();
+		if (e.wheelDelta) {
+			let zoomLevel = viewUtils.getZoomLevelFromView(this.props.view);
+
+			if (e.wheelDelta > 0) {
+				zoomLevel++;
+			} else {
+				zoomLevel--;
+			}
+
+			let levelsRange = this.props.levelsBased.length ? this.props.levelsBased : defaultLevelsRange;
+			if (zoomLevel <= levelsRange[1] && zoomLevel >= levelsRange[0]) {
+				const boxRange = viewUtils.getBoxRangeFromZoomLevelAndLatitude(zoomLevel);
+				if (this.props.onViewChange) {
+					this.props.onViewChange({
+						boxRange
+					});
+				}
+			}
+		}
 	}
 
 	componentDidUpdate(prevProps) {
