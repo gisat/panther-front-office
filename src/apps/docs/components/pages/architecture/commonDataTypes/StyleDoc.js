@@ -14,6 +14,35 @@ import style2 from "../../../mockData/map/czGadm1WithStyles/style2";
 import largeDataStyle from "../../../mockData/map/largePointData/style";
 import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
 
+const shapesStyle = {
+	"key":"szdc-zonal-classification-circles",
+	"data":{
+		"source":"definition",
+		"definition":{
+			"rules":[
+				{
+					"styles": [
+						{
+							// "shape": "circle"
+							"shape": "square"
+							// "shape": "diamond"
+							// "shape": "triangle"
+						},{
+							"attributeKey": "attr3",
+							"attributeScale": {
+								"size": {
+									"inputInterval": [0,1],
+									"outputInterval": [5,20]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	}
+};
+
 const wikimedia = {
 	type: 'worldwind',
 	options: {
@@ -57,6 +86,15 @@ const largeDataLayers = [{
 	options: {
 		features: largePointData.features,
 		style: largeDataStyle
+	}
+}];
+
+const largeDataLayersShapes = [{
+	key: "large-data-layers",
+	type: "vector",
+	options: {
+		features: largePointData.features,
+		style: shapesStyle
 	}
 }];
 
@@ -313,6 +351,25 @@ class StyleDoc extends React.PureComponent {
 							mapComponent={WorldWindMap}
 							backgroundLayer={backgroundCuzk}
 							layers={largeDataLayers}
+							view={{
+								boxRange: 20000,
+								center: {
+									lat: 50.25,
+									lon: 15.75
+								}
+							}}
+						>
+							<PresentationMapControls levelsBased={levelsRange}/>
+						</PresentationMap>
+					</HoverHandler>
+				</div>
+				<div style={{marginTop: 10, height: 400}}>
+					<HoverHandler>
+						<PresentationMap
+							levelsBased={levelsRange}
+							mapComponent={WorldWindMap}
+							backgroundLayer={backgroundCuzk}
+							layers={largeDataLayersShapes}
 							view={{
 								boxRange: 20000,
 								center: {

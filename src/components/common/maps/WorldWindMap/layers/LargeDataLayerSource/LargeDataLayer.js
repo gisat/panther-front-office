@@ -13,7 +13,7 @@ const {
 	TiledImageLayer
 } = WorldWind;
 
-const DEFAULT_POINT_RADIUS = 5;
+const DEFAULT_SIZE = 5;
 const DEFAULT_POINT_HOVER_BUFFER = 0.01;
 
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
@@ -99,7 +99,7 @@ class LargeDataLayer extends TiledImageLayer {
 			if(this.renderableLayer) {
 				this.renderableLayer.removeAllRenderables();
 				if(points.length > 0) {
-					const radius = DEFAULT_POINT_RADIUS;
+					const radius = DEFAULT_SIZE;
 					this.renderableLayer.addRenderable(
 						new SurfaceCircle(new Location(points[0].y - 90, points[0].x - 180), radius)
 					);

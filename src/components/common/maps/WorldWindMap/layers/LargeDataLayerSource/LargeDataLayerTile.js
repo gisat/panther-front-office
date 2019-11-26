@@ -21,8 +21,9 @@
  *  color strings.
  */
 import mapStyles from "../../../../../../utils/mapStyles";
+import shapes from "./canvasShapes";
 
-const DEFAULT_POINT_RADIUS = 5;
+const DEFAULT_SIZE = 5;
 
 class LargeDataLayerTile {
 
@@ -81,6 +82,12 @@ class LargeDataLayerTile {
 		if (style.shape) {
 			if (style.shape === "circle-with-arrow") {
 				this.circleWithArrow(context, data, style)
+			} else if (style.shape === "circle") {
+				this.point(context, data, style)
+			} else if (style.shape === "square") {
+				this.square(context, data, style)
+			} else if (style.shape === "diamond") {
+				this.square(context, data, style)
 			} else {
 				this.point(context, data, style)
 			}
@@ -90,17 +97,30 @@ class LargeDataLayerTile {
 	}
 
 	point(context, data, style) {
-		let radius = style.size || DEFAULT_POINT_RADIUS;
+		let radius = style.size || DEFAULT_SIZE;
 		let x = this.longitudeInSector(data, this._sector, this._width);
 		let y = this._height - this.latitudeInSector(data, this._sector, this._height);
 		let cy = radius;
 		let cx = radius * this._latitudeFactor;
 
-		this.ellipse(context, x, y, cx, cy, style);
+		shapes.ellipse(context, x, y, cx, cy, style);
 	}
 
+	square(context, data, style) {
+		let size = 2* (style.size || DEFAULT_SIZE);
+		let cx = this.longitudeInSector(data, this._sector, this._width);
+		let cy = this._height - this.latitudeInSector(data, this._sector, this._height);
+		let x0 = cx-size/2;
+		let y0 = cy-size/2;
+
+		let dx = size * this._latitudeFactor;
+
+		shapes.rectangle(context, cx, cy, dx, size, style);
+	}
+
+
 	circleWithArrow(context, data, style) {
-		let radius = style.size || DEFAULT_POINT_RADIUS;
+		let radius = style.size || DEFAULT_SIZE;
 		let direction = style.arrowDirection || 1;
 
 		let x = this.longitudeInSector(data, this._sector, this._width);
@@ -108,40 +128,14 @@ class LargeDataLayerTile {
 		let ry = radius;
 		let rx = radius * this._latitudeFactor;
 
-		this.ellipse(context, x, y, rx, ry, style);
+		shapes.ellipse(context, x, y, rx, ry, style);
 
 		let x0 = x + direction*rx;
 		let y0 = y;
 		let x1 = x0 + direction*style.arrowLength;
 		let y1 = y0;
 
-		this.arrow(context, x0, y0, x1, y1, style.arrowColor, style.arrowWidth)
-	}
-
-	ellipse(context, cx, cy, rx, ry, style){
-		context.save(); // save state
-		context.beginPath();
-
-		context.translate(cx-rx, cy-ry);
-		context.scale(rx, ry);
-		context.arc(1, 1, 1, 0, 2 * Math.PI, false);
-
-		context.restore(); // restore to original state
-		context.fillStyle = style.fill;
-		context.lineWidth = style.outlineWidth;
-		context.strokeStyle = style.outlineColor;
-		context.globalAlpha = style.fillOpacity || style.outlineOpacity; // TODO solve opacity properly
-		context.fill();
-		context.stroke();
-	}
-
-	arrow(context, x0, y0, x1, y1, color, width) {
-		context.beginPath();
-		context.moveTo(x0, y0);
-		context.lineTo(x1, y1);
-		context.strokeStyle = color;
-		context.lineWidth = width;
-		context.stroke();
+		shapes.arrow(context, x0, y0, x1, y1, style.arrowColor, style.arrowWidth)
 	}
 
 	/**
