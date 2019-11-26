@@ -9,11 +9,15 @@ import layersHelpers from './layers/helpers';
 import navigator from './navigator/helpers';
 import {defaultMapView} from '../../../../constants/Map';
 
+import HoverContext from "../../../../components/common/HoverHandler/context";
+
 import './style.scss';
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
 class WorldWindMap extends React.PureComponent {
+	static contextType = HoverContext;
+
 	static defaultProps = {
 		elevationModel: null
 	};
@@ -37,6 +41,7 @@ class WorldWindMap extends React.PureComponent {
 		this.canvasId = utils.uuid();
 
 		this.onClick = this.onClick.bind(this);
+		this.onHover = this.onHover.bind(this);
 	}
 
 	componentDidMount() {
@@ -78,7 +83,7 @@ class WorldWindMap extends React.PureComponent {
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer, this.wwd));
+				layers.push(layersHelpers.getLayerByType(layer, this.wwd, this.onHover));
 			});
 		}
 
@@ -132,6 +137,22 @@ class WorldWindMap extends React.PureComponent {
 		if (this.props.onClick) {
 			let currentView = navigator.getViewParamsFromWorldWindNavigator(this.wwd.navigator);
 			this.props.onClick(currentView);
+		}
+	}
+
+	onHover(points, x, y, popupContent) {
+		if (this.context && this.context.onHover) {
+			this.context.onHover(points, {
+				popup: {
+					x,
+					y,
+					content: popupContent
+				}
+			});
+
+			if (!points.length && this.context.onHoverOut) {
+				this.context.onHoverOut();
+			}
 		}
 	}
 

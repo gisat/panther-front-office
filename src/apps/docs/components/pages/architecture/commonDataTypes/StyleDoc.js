@@ -12,6 +12,7 @@ import largePointData from "../../../mockData/map/largePointData/geometries";
 import style from "../../../mockData/map/czGadm1WithStyles/style";
 import style2 from "../../../mockData/map/czGadm1WithStyles/style2";
 import largeDataStyle from "../../../mockData/map/largePointData/style";
+import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
 
 const wikimedia = {
 	type: 'worldwind',
@@ -304,20 +305,22 @@ class StyleDoc extends React.PureComponent {
 				</SyntaxHighlighter>
 
 				<div style={{marginTop: 10, height: 400}}>
-					<PresentationMap
-						mapComponent={WorldWindMap}
-						backgroundLayer={backgroundCuzk}
-						layers={largeDataLayers}
-						view={{
-							boxRange: 20000,
-							center: {
-								lat: 50.25,
-								lon: 15.75
-							}
-						}}
-					>
-						<PresentationMapControls/>
-					</PresentationMap>
+					<HoverHandler>
+						<PresentationMap
+							mapComponent={WorldWindMap}
+							backgroundLayer={backgroundCuzk}
+							layers={largeDataLayers}
+							view={{
+								boxRange: 20000,
+								center: {
+									lat: 50.25,
+									lon: 15.75
+								}
+							}}
+						>
+							<PresentationMapControls levelsBased={true}/>
+						</PresentationMap>
+					</HoverHandler>
 				</div>
 			</Page>
 		);

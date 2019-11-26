@@ -1,7 +1,9 @@
+import React from 'react';
 import WorldWind from 'webworldwind-esa';
 import {QuadTree, Box, Point, Circle} from 'js-quadtree';
 import * as turf from '@turf/turf';
 import LargeDataLayerTile from "./LargeDataLayerTile";
+import _ from 'lodash';
 
 const {
 	Location,
@@ -32,6 +34,9 @@ class LargeDataLayer extends TiledImageLayer {
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
 		this.quadTree = new QuadTree(new Box(0,0,360,180));
+
+		this.onHover = options.onHover;
+		this.gidColumn = options.gidColumn;
 
 		if (options.features) {
 			this.addFeatures(options.features);
@@ -82,6 +87,9 @@ class LargeDataLayer extends TiledImageLayer {
 		const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX,
 			y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
 
+		const pageX = event.touches && event.touches[0] && event.touches[0].pageX || event.pageX;
+		const pageY = event.touches && event.touches[0] && event.touches[0].pageY || event.pageY;
+
 		const terrainObject = wwd.pickTerrain(wwd.canvasCoordinates(x, y)).terrainObject();
 
 		if (terrainObject) {
@@ -99,9 +107,9 @@ class LargeDataLayer extends TiledImageLayer {
 				wwd.redraw();
 			}
 
-			return points;
+			return {points, x: pageX, y: pageY};
 		} else {
-			return [];
+			return {points: [], x: pageX, y: pageY};
 		}
 	}
 
@@ -115,7 +123,24 @@ class LargeDataLayer extends TiledImageLayer {
 
 	onClickResult(points){}
 
-	onMouseMoveResult(points) {}
+	onMouseMoveResult(data) {
+		if (this.onHover) {
+			let gids = data.points.map(point => point[this.gidColumn]);
+			let content = (
+				<div>
+					{data.points.map(point => {
+						let content = [];
+						_.forIn(point.data, (value,key) => {
+							content.push(<div>{key}: {value}</div>)
+						});
+						return content;
+					})}
+				</div>
+			);
+			this.onHover(gids, data.x, data.y, content);
+		}
+	}
+
 
 	retrieveTileImage(dc, tile, suppressRedraw) {
 		// if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
