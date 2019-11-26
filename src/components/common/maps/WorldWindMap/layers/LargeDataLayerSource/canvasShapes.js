@@ -35,6 +35,21 @@ function ellipse(context, cx, cy, rx, ry, style) {
 	fillPolygon(context, style);
 }
 
+function path(context, nodes, style) {
+	context.save(); // save state
+	context.beginPath();
+
+	nodes.forEach((node, index) => {
+		if (index === 0) {
+			context.moveTo(node[0], node[1]);
+		} else {
+			context.lineTo(node[0], node[1]);
+		}
+	});
+
+	fillPolygon(context, style);
+}
+
 /**
  *
  * @param context
@@ -52,6 +67,8 @@ function rectangle(context, x0, y0, dx, dy, style) {
 	fillPolygon(context, style);
 }
 
+
+
 // helpers
 function fillPolygon(context, style) {
 	context.restore(); // restore to original state
@@ -67,5 +84,6 @@ function fillPolygon(context, style) {
 export default {
 	arrow,
 	ellipse,
+	path,
 	rectangle
 }

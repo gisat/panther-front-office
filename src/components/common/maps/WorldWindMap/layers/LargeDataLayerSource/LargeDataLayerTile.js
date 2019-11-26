@@ -87,7 +87,9 @@ class LargeDataLayerTile {
 			} else if (style.shape === "square") {
 				this.square(context, data, style)
 			} else if (style.shape === "diamond") {
-				this.square(context, data, style)
+				this.diamond(context, data, style)
+			} else if (style.shape === "triangle") {
+				this.triangle(context, data, style)
 			} else {
 				this.point(context, data, style)
 			}
@@ -98,44 +100,81 @@ class LargeDataLayerTile {
 
 	point(context, data, style) {
 		let radius = style.size || DEFAULT_SIZE;
-		let x = this.longitudeInSector(data, this._sector, this._width);
-		let y = this._height - this.latitudeInSector(data, this._sector, this._height);
+		let center = this.getCenterCoordinates(data);
 		let cy = radius;
 		let cx = radius * this._latitudeFactor;
 
-		shapes.ellipse(context, x, y, cx, cy, style);
+		shapes.ellipse(context, center[0], center[1], cx, cy, style);
 	}
 
 	square(context, data, style) {
 		let size = 2* (style.size || DEFAULT_SIZE);
-		let cx = this.longitudeInSector(data, this._sector, this._width);
-		let cy = this._height - this.latitudeInSector(data, this._sector, this._height);
-		let x0 = cx-size/2;
-		let y0 = cy-size/2;
-
+		let center = this.getCenterCoordinates(data);
 		let dx = size * this._latitudeFactor;
 
-		shapes.rectangle(context, cx, cy, dx, size, style);
+		shapes.rectangle(context, center[0], center[1], dx, size, style);
 	}
 
+	diamond(context, data, style) {
+		let edgeLength = 2* (style.size || DEFAULT_SIZE);
+		let diagonalLength = Math.sqrt(2) * edgeLength;
+
+		// center coordinates
+		let center = this.getCenterCoordinates(data);
+
+		let dx = diagonalLength * this._latitudeFactor;
+		let nodes = [
+			[center[0]-dx/2, center[1]],
+			[center[0], center[1] - diagonalLength/2],
+			[center[0] + dx/2, center[1]],
+			[center[0], center[1] + diagonalLength/2],
+			[center[0]-dx/2, center[1]]
+		];
+
+		shapes.path(context, nodes, style);
+	}
+
+	triangle(context, data, style) {
+		let edgeLength = 2* (style.size || DEFAULT_SIZE);
+		let ty = Math.sqrt(Math.pow(edgeLength, 2) - Math.pow(edgeLength/2, 2));
+
+		// center coordinates
+		let center = this.getCenterCoordinates(data);
+		
+		let dx = edgeLength * this._latitudeFactor;
+		let nodes = [
+			[center[0]-dx/2, center[1] + ty/3],
+			[center[0], center[1] - 2*ty/3],
+			[center[0] + dx/2, center[1] + ty/3],
+			[center[0]-dx/2, center[1] + ty/3]
+		];
+
+		shapes.path(context, nodes, style);
+	}
 
 	circleWithArrow(context, data, style) {
 		let radius = style.size || DEFAULT_SIZE;
 		let direction = style.arrowDirection || 1;
 
-		let x = this.longitudeInSector(data, this._sector, this._width);
-		let y = this._height - this.latitudeInSector(data, this._sector, this._height);
+		let center = this.getCenterCoordinates(data);
 		let ry = radius;
 		let rx = radius * this._latitudeFactor;
 
-		shapes.ellipse(context, x, y, rx, ry, style);
+		shapes.ellipse(context, center[0], center[1], rx, ry, style);
 
-		let x0 = x + direction*rx;
-		let y0 = y;
+		let x0 = center[0] + direction*rx;
+		let y0 = center[1];
 		let x1 = x0 + direction*style.arrowLength;
 		let y1 = y0;
 
 		shapes.arrow(context, x0, y0, x1, y1, style.arrowColor, style.arrowWidth)
+	}
+	
+	getCenterCoordinates(data) {
+		return [
+			this.longitudeInSector(data, this._sector, this._width),
+			this._height - this.latitudeInSector(data, this._sector, this._height)
+		]
 	}
 
 	/**

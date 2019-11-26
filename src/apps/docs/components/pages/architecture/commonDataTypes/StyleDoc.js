@@ -24,8 +24,8 @@ const shapesStyle = {
 					"styles": [
 						{
 							// "shape": "circle"
-							"shape": "square"
-							// "shape": "diamond"
+							// "shape": "square"
+							"shape": "diamond"
 							// "shape": "triangle"
 						},{
 							"attributeKey": "attr3",
