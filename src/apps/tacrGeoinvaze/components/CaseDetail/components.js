@@ -92,7 +92,7 @@ export const InvasivePotentialCategoryWithRating = props => (
 );
 
 export const InvasivePotentialCategoryWithValue = props => (
-	<div className="tacrGeoinvaze-case-detail-ip-category">
+	<div className="tacrGeoinvaze-case-detail-ip-category management">
 		<div className="tacrGeoinvaze-case-detail-ip-category-name">{props.name}</div>
 		<InvasivePotentialValue text={props.text}/>
 	</div>

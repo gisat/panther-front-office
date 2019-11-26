@@ -82,6 +82,12 @@
 	border-bottom: 1px solid var(--base15);
 }
 
+.tacrGeoinvaze-case-detail-ip-category.management {
+	flex-direction: column;
+	align-items: flex-start;
+	border-bottom: 0;
+}
+
 .tacrGeoinvaze-case-detail-ip-category:nth-child(2) {
 	border-top: 1px solid var(--base15);
 }
@@ -89,6 +95,10 @@
 .tacrGeoinvaze-case-detail-ip-category-name {
 	padding: .15rem 1rem 0 0;
 	flex-grow: 1;
+}
+
+.tacrGeoinvaze-case-detail-ip-category.management .tacrGeoinvaze-case-detail-ip-category-name {
+	font-weight: bold;
 }
 
 .tacrGeoinvaze-case-detail-ip-rating {
@@ -111,7 +121,7 @@
 }
 
 .tacrGeoinvaze-case-detail-ip-value {
-	text-align: right;
+
 }
 
 /* Resources */
