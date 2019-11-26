@@ -106,7 +106,7 @@ export const InvasivePotentialRating = props => {
 		});
 
 		content.push(
-			<div className={classes}>
+			<div key={i} className={classes}>
 			</div>
 		);
 	}
