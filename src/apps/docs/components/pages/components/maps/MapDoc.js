@@ -61,6 +61,8 @@ const largeDataLayers = [{
 	areaTreeLevelKey: 'd1b6b010-16c3-40c6-b62f-bffe76b15067'
 }];
 
+const levelsRange = [10, 18];
+
 class MapDoc extends React.PureComponent {
 	render() {
 		return (
@@ -73,11 +75,16 @@ class MapDoc extends React.PureComponent {
 						mapComponent={WorldWindMap}
 						backgroundLayer={backgroundCuzk}
 						layers={largeDataLayers}
+						levelsBased={levelsRange}
 						view={{
-							boxRange: 1000000
+							boxRange: 1000,
+							center: {
+								lat: 50.348,
+								lon: 13.07
+							}
 						}}
 					>
-						<PresentationMapControls/>
+						<PresentationMapControls levelsBased={levelsRange}/>
 					</Map>
 				</div>
 
@@ -97,18 +104,18 @@ class MapDoc extends React.PureComponent {
 				</div>
 
 				<h3>Uncontrolled unconnected</h3>
-				{/*<div style={{marginTop: 10, height: 400}}>*/}
-				{/*	<PresentationMap*/}
-				{/*		mapComponent={WorldWindMap}*/}
-				{/*		backgroundLayer={wikimedia}*/}
-				{/*		layers={presentationalLayers}*/}
-				{/*		view={{*/}
-				{/*			boxRange: 1000000*/}
-				{/*		}}*/}
-				{/*	>*/}
-				{/*		<PresentationMapControls/>*/}
-				{/*	</PresentationMap>*/}
-				{/*</div>*/}
+				<div style={{marginTop: 10, height: 400}}>
+					<PresentationMap
+						mapComponent={WorldWindMap}
+						backgroundLayer={wikimedia}
+						layers={presentationalLayers}
+						view={{
+							boxRange: 1000000
+						}}
+					>
+						<PresentationMapControls/>
+					</PresentationMap>
+				</div>
 
 				<h2>Props</h2>
 				<ComponentPropsTable
