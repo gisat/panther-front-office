@@ -56,14 +56,35 @@ const presentationalLayers = [{
 	}
 }];
 
+const largeDataLayers = [{
+	key: 'large-data-test',
+	areaTreeLevelKey: 'd1b6b010-16c3-40c6-b62f-bffe76b15067'
+}];
+
 class MapDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Map">
 
-				<h3>Uncontrolled unconnected</h3>
+				<h3>Uncontrolled connected - large data as analytical units</h3>
+				<div style={{marginTop: 10, height: 400}}>
+					<Map
+						mapKey="Map-1"
+						mapComponent={WorldWindMap}
+						backgroundLayer={backgroundCuzk}
+						layers={largeDataLayers}
+						view={{
+							boxRange: 1000000
+						}}
+					>
+						<PresentationMapControls/>
+					</Map>
+				</div>
+
+				<h3>Uncontrolled connected</h3>
 				<div style={{height: 300}}>
 					<Map
+						mapKey="Map-2"
 						mapComponent={WorldWindMap}
 						backgroundLayer={backgroundCuzk}
 						layers={layers}
@@ -75,18 +96,19 @@ class MapDoc extends React.PureComponent {
 					</Map>
 				</div>
 
-				<div style={{marginTop: 10, height: 400}}>
-					<PresentationMap
-						mapComponent={WorldWindMap}
-						backgroundLayer={wikimedia}
-						layers={presentationalLayers}
-						view={{
-							boxRange: 1000000
-						}}
-					>
-						<PresentationMapControls/>
-					</PresentationMap>
-				</div>
+				<h3>Uncontrolled unconnected</h3>
+				{/*<div style={{marginTop: 10, height: 400}}>*/}
+				{/*	<PresentationMap*/}
+				{/*		mapComponent={WorldWindMap}*/}
+				{/*		backgroundLayer={wikimedia}*/}
+				{/*		layers={presentationalLayers}*/}
+				{/*		view={{*/}
+				{/*			boxRange: 1000000*/}
+				{/*		}}*/}
+				{/*	>*/}
+				{/*		<PresentationMapControls/>*/}
+				{/*	</PresentationMap>*/}
+				{/*</div>*/}
 
 				<h2>Props</h2>
 				<ComponentPropsTable
