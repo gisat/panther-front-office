@@ -4,8 +4,9 @@ import _ from 'lodash';
 
 import vectorSelectors from './vector/selectors';
 import common from "../_common/selectors";
-import SpatialData from "../SpatialData/selectors";
+import AreaRelations from "../AreaRelations/selectors";
 import SpatialRelations from "../SpatialRelations/selectors";
+import SpatialData from "../SpatialData/selectors";
 
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
@@ -15,9 +16,11 @@ const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
 	[
 		getAllAsObject,
 		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		AreaRelations.getFilteredDataSourceKeysGroupedByLayerKey,
 		SpatialData.getAllAsObject
 	],
-	(dataSources, dataSourceKeysGroupedByLayerKey, spatialData) => {
+	(dataSources, spatialRelationsDataSourceKeysGroupedByLayerKey, areaRelationsDataSourceKeysGroupedByLayerKey,  spatialData) => {
+		const dataSourceKeysGroupedByLayerKey = spatialRelationsDataSourceKeysGroupedByLayerKey || areaRelationsDataSourceKeysGroupedByLayerKey;
 		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
 			let dataSourcesGroupedByLayerKey = {};
 			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {

@@ -5,6 +5,7 @@ import logger from 'redux-logger';
 // base types
 import appReducers from './App/reducers';
 import areasReducers from './Areas/reducers';
+import areasRelationsReducers from './AreaRelations/reducers';
 import attributesReducers from './Attributes/reducers';
 import attributeDataReducers from './AttributeData/reducers';
 import attributeRelationsReducers from './AttributeRelations/reducers';
@@ -43,6 +44,7 @@ import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
 const Store = createStore(combineReducers({
 	app: appReducers,
 	areas: areasReducers,
+	areaRelations: areasRelationsReducers,
 	attributes: attributesReducers,
 	attributeData: attributeDataReducers,
 	attributeRelations: attributeRelationsReducers,
