@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Action from '../../../../state/Action';
-import Select from '../../../../state/Select';
+import Select from '../../state/Select';
 
 import presentation from "./presentation";
 
@@ -11,6 +11,7 @@ const mapStateToProps = state => {
 		activeAppView: Select.components.get(state, 'szdcInsar19_App', 'activeAppView'),
 		trackViews: Select.app.getConfiguration(state, 'track.views'),
 		zoneClassificationViews: Select.app.getConfiguration(state, 'zoneClassification.views'),
+		skoroLayers: Select.specific.szdcInsar19.getLayers(state)
 	}
 };
 
