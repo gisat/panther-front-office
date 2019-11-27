@@ -14,7 +14,6 @@ const {
 } = WorldWind;
 
 const DEFAULT_SIZE = 5;
-const DEFAULT_POINT_HOVER_BUFFER = 0.01;
 
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
 // Multipolygons are represented as points
@@ -27,7 +26,7 @@ class LargeDataLayer extends TiledImageLayer {
 		this.tileWidth = 256;
 		this.tileHeight = 256;
 
-		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_POINT_HOVER_BUFFER;
+		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_SIZE;
 		this.renderableLayer = options.renderableLayer;
 		this.style = options.style && options.style.data && options.style.data.definition;
 
@@ -92,9 +91,11 @@ class LargeDataLayer extends TiledImageLayer {
 
 		const terrainObject = wwd.pickTerrain(wwd.canvasCoordinates(x, y)).terrainObject();
 
+		let buffer = this.getPointHoverBuffer(wwd);
+
 		if (terrainObject) {
 			const position = terrainObject.position;
-			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, this.pointHoverBuffer));
+			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, buffer));
 
 			if(this.renderableLayer) {
 				this.renderableLayer.removeAllRenderables();
@@ -223,6 +224,18 @@ class LargeDataLayer extends TiledImageLayer {
 	createPointTile(data, options) {
 		return new LargeDataLayerTile(data, options, this.style);
 	};
+
+	/**
+	 * naive point hover buffer determination
+	 * @param wwd
+	 * @return {number} buffer in degrees
+	 */
+	getPointHoverBuffer(wwd) {
+		const canvasWidth = wwd.canvas.clientWidth;
+		const range = wwd.navigator.range;
+		const bufferInMeters = range/canvasWidth * this.pointHoverBuffer;
+		return bufferInMeters * 0.00001;
+	}
 }
 
 export default LargeDataLayer;

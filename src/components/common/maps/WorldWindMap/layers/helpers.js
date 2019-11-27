@@ -45,7 +45,7 @@ function getLayerByType(layer, wwd, onHover){
 						...layer.options,
 						onHover,
 						renderableLayer,
-						pointHoverBuffer: 0.002, // TODO pass pointHoverBuffer
+						pointHoverBuffer: 20, // in px TODO pass pointHoverBuffer
 						gidColumn: 'gid' // TODO always gid?
 					};
 					return new LargeDataLayer(wwd, options);
