@@ -10,18 +10,23 @@ const appViews = {
 		title: 'Časové řady a klasifikace v tracích',
 		items: {
 			totalDisplacement: {
-				title: 'Celkový posun'
+				title: 'Celkový posun',
+				colour: "#a64b"
 			},
 			dynamicTrend: {
-				title: 'Dynamika'
+				title: 'Dynamika',
+				colour: "#a45b"
 			},
 			progress: {
-				title: 'Vývoj'
+				title: 'Vývoj',
+				colour: "#a44b"
 			},
 			averageVelocity: {
-				title: 'Rychlost posunu'
+				title: 'Rychlost posunu',
+				colour: "#a34b"
 			},
-		}
+		},
+		colour: "#a53b"
 	},
 	zoneClassification: {
 		title: 'Zonální klasifikace s validací',
@@ -35,15 +40,27 @@ const appViews = {
 			combinedMovement: {
 				title: 'Kombinovaný posun' //todo
 			},
-		}
+		},
+		colour: "#37cb"
 	}
 };
 
 class SzdcInsar19App extends React.PureComponent {
+
+	constructor(props) {
+		super(props);
+
+		this.renderCurrent = this.renderCurrent.bind(this);
+	}
 	
 	render() {
 		
 		let props = this.props;
+		let currentStyle;
+		if (props.activeAppView) {
+			let [category, view] = props.activeAppView.split('.');
+			currentStyle = {background: appViews[category].colour};
+		}
 		
 		return (
 			<div className="szdcInsar19-app">
@@ -56,6 +73,7 @@ class SzdcInsar19App extends React.PureComponent {
 						}}
 						onSelect={this.props.selectAppView}
 						currentClasses="szdcInsar19-view-select-current"
+						currentStyle={currentStyle}
 						renderCurrent={this.renderCurrent}
 						listClasses="szdcInsar19-view-select-list"
 					>
@@ -76,9 +94,23 @@ class SzdcInsar19App extends React.PureComponent {
 	}
 	
 	renderCurrent() {
-		return (
-			<div>current</div>
-		);
+		if (this.props.activeAppView) {
+			let [category, view] = this.props.activeAppView.split('.');
+
+			return (
+				<div>
+					<span>{appViews[category].title}:</span> {appViews[category].items[view].title}
+				</div>
+			);
+
+		} else {
+
+			return (
+				<div></div>
+			);
+
+		}
+
 	}
 
 	renderSelectItems(trackViews, zoneClassificationViews) {
@@ -103,6 +135,7 @@ class SzdcInsar19App extends React.PureComponent {
 						<PantherSelectItem
 							key={itemKey}
 							itemKey={categoryKey + '.' + itemKey}
+							// style={{background: item.colour}}
 						>
 							{item.title}
 						</PantherSelectItem>
@@ -111,7 +144,7 @@ class SzdcInsar19App extends React.PureComponent {
 			});
 
 			return !items.length ? null : (
-				<div className="szdcInsar19-select-category">
+				<div className="szdcInsar19-select-category" style={{background: category.colour}}>
 					<span>{category.title}</span>
 					{items}
 				</div>
