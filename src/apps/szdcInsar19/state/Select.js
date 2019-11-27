@@ -38,6 +38,8 @@ const szdcInsar19 = {
 			});
 		}
 
+		// layers = CommonSelect.maps.getLayers(state, layers); // todo fix first
+
 		return layers;
 
 	}
