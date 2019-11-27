@@ -113,8 +113,9 @@ function getStyleObjectForAttributeScale(attributeScale, value) {
 			fill: chroma(scale(value)).hex()
 		};
 	} else if (parameter === "volume") {
-		// TODO
-		return {};
+		return {
+			volume: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
+		};
 	} else if (parameter === "size") {
 		return {
 			size: scaleValue(definitions.inputInterval, definitions.outputInterval, value)

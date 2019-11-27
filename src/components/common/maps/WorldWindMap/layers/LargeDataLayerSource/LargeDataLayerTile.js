@@ -99,7 +99,7 @@ class LargeDataLayerTile {
 	}
 
 	point(context, data, style) {
-		let radius = style.size || DEFAULT_SIZE;
+		let radius = this.getSize(style);
 		let center = this.getCenterCoordinates(data);
 		let cy = radius;
 		let cx = radius * this._latitudeFactor;
@@ -108,7 +108,7 @@ class LargeDataLayerTile {
 	}
 
 	square(context, data, style) {
-		let size = 2* (style.size || DEFAULT_SIZE);
+		let size = 2 * this.getSize(style);
 		let center = this.getCenterCoordinates(data);
 		let dx = size * this._latitudeFactor;
 
@@ -116,7 +116,7 @@ class LargeDataLayerTile {
 	}
 
 	diamond(context, data, style) {
-		let edgeLength = 2* (style.size || DEFAULT_SIZE);
+		let edgeLength = 2 * this.getSize(style);
 		let diagonalLength = Math.sqrt(2) * edgeLength;
 
 		// center coordinates
@@ -135,7 +135,7 @@ class LargeDataLayerTile {
 	}
 
 	triangle(context, data, style) {
-		let edgeLength = 2* (style.size || DEFAULT_SIZE);
+		let edgeLength = 2 * this.getSize(style);
 		let ty = Math.sqrt(Math.pow(edgeLength, 2) - Math.pow(edgeLength/2, 2));
 
 		// center coordinates
@@ -153,7 +153,7 @@ class LargeDataLayerTile {
 	}
 
 	circleWithArrow(context, data, style) {
-		let radius = style.size || DEFAULT_SIZE;
+		let radius = this.getSize(style);
 		let direction = style.arrowDirection || 1;
 
 		let center = this.getCenterCoordinates(data);
@@ -168,6 +168,22 @@ class LargeDataLayerTile {
 		let y1 = y0;
 
 		shapes.arrow(context, x0, y0, x1, y1, style.arrowColor, style.arrowWidth)
+	}
+
+	getSize(style) {
+		if (style.size) {
+			return style.size;
+		} else if (style.volume) {
+			if (style.shape === 'triangle') {
+				return Math.sqrt(style.volume/2);
+			} else if (style.shape === 'square' || style.shape === 'diamond') {
+				return Math.sqrt(style.volume);
+			} else {
+				return Math.sqrt(style.volume/Math.PI);
+			}
+		} else {
+			return DEFAULT_SIZE;
+		}
 	}
 	
 	getCenterCoordinates(data) {

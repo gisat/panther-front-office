@@ -30,9 +30,9 @@ const shapesStyle = {
 						},{
 							"attributeKey": "attr3",
 							"attributeScale": {
-								"size": {
+								"volume": {
 									"inputInterval": [0,1],
-									"outputInterval": [5,20]
+									"outputInterval": [10,100]
 								}
 							}
 						}
