@@ -171,9 +171,10 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	onHover(points, x, y, popupContent) {
+	onHover(layerKey, featureKeys, x, y, popupContent) {
+		// pass data to popup
 		if (this.context && this.context.onHover) {
-			this.context.onHover(points, {
+			this.context.onHover(featureKeys, {
 				popup: {
 					x,
 					y,
@@ -181,9 +182,14 @@ class WorldWindMap extends React.PureComponent {
 				}
 			});
 
-			if (!points.length && this.context.onHoverOut) {
+			if (!featureKeys.length && this.context.onHoverOut) {
 				this.context.onHoverOut();
 			}
+		}
+
+		// pass data to map state (global or local)
+		if (this.props.onLayerFeaturesHover) {
+			this.props.onLayerFeaturesHover(layerKey, featureKeys);
 		}
 	}
 

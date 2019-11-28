@@ -581,6 +581,7 @@ const getLayers = (state, layersState) => {
 								if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
 									mapLayers.push({
 										key: layerKey + '_' + dataSource.key,
+										layerKey: layerKey,
 										type: "wms",
 										options: {
 											url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
@@ -596,7 +597,7 @@ const getLayers = (state, layersState) => {
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index, layerState.options));
 							}
 						});
 					}
