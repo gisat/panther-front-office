@@ -15,6 +15,11 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 		if (layer.areaTreeLevelKey) {
 			filter.areaTreeLevelKey = layer.areaTreeLevelKey;
 		}
+		if (layer.attributeKeys) {
+			filter.attributeKeys = layer.attributeKeys;
+		}
+
+		//todo fail on conflict between metadataModifiers & filterByActive ?
 
 		let activeFilter = {};
 		if (layer.filterByActive) {
