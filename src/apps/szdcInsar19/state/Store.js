@@ -7,6 +7,7 @@ import { createBrowserHistory } from 'history';
 
 // base types
 import appReducers from '../../../state/App/reducers';
+import areaRelations from '../../../state/AreaRelations/reducers';
 import areasReducers from '../../../state/Areas/reducers';
 import attributeRelationsReducers from '../../../state/AttributeRelations/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
@@ -48,6 +49,7 @@ if (process.env.NODE_ENV === 'development') {
 export default createStore(combineReducers({
 	app: appReducers,
 	areas: areasReducers,
+	areaRelations: areaRelations,
 	attributes: attributesReducers,
 	attributeRelations: attributeRelationsReducers,
 	attributeStatistics: attributeStatisticsReducers,
