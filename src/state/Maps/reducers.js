@@ -176,7 +176,7 @@ const setMapName = (state, mapKey, name) => {
 };
 
 const setMap = (state, mapState = INITIAL_MAP_STATE) => {
-	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState);
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //todo where is this used & is the merge always ok?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
 };
 
@@ -308,6 +308,11 @@ const setMapPeriod = (state, mapKey, period) => {
 const setMapBackgroundLayer = (state, mapKey, backgroundLayer) => {
 	const mapState = getMapByKey(state, mapKey);
 	return setMap(state, {...mapState, data: {...mapState.data, backgroundLayer}});
+};
+
+const setMapLayers = (state, mapKey, layers) => {
+	const mapState = getMapByKey(state, mapKey);
+	return {...state, maps: {...state.maps, [mapKey]: {...mapState, data: {...mapState.data, layers}}}};
 };
 
 const setSetBackgroundLayer = (state, setKey, backgroundLayer) => {
@@ -442,6 +447,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return updateMapLayer(state, action.mapKey, action.layer, action.layerKey);
 		case ActionTypes.MAPS.LAYERS.LAYER.SET:
 			return setMapLayer(state, action.mapKey, action.layer, action.layerKey);
+		case ActionTypes.MAPS.LAYERS.SET:
+			return setMapLayers(state, action.mapKey, action.layers);
 		case ActionTypes.MAPS.SET_SCOPE:
 			return setMapScope(state, action.mapKey, action.scope);
 		case ActionTypes.MAPS.SET_SCENARIO:

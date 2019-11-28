@@ -1147,6 +1147,14 @@ const actionSetSetBackgroundLayer = (setKey, backgroundLayer) => {
 	}
 };
 
+const actionSetMapLayers = (mapKey, layers) => {
+	return {
+		type: ActionTypes.MAPS.LAYERS.SET,
+		mapKey,
+		layers,
+	}
+};
+
 const actionSetMapCase = (mapKey, caseKey) => {
 	return {
 		type: ActionTypes.MAPS.SET_CASE,
@@ -1261,6 +1269,7 @@ export default {
 	setMapCase,
 	setMapData,
 	setMapLayer,
+	setMapLayers: actionSetMapLayers,
 	setMapName,
 	setMapPeriod,
 	setMapPlace,

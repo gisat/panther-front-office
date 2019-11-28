@@ -386,7 +386,8 @@ export const commonActionTypesDefinitions = {
 				SET: null,
 				UPDATE: null,
 				SET_INDEX: null,
-			}
+			},
+			SET: null
 		},
 		UPDATE: null
 	},
