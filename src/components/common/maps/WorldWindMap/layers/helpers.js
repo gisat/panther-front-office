@@ -9,7 +9,7 @@ import LargeDataLayer from "./LargeDataLayerSource/LargeDataLayer";
 const {RenderableLayer} = WorldWind;
 
 
-function getLayerByType(layer, wwd){
+function getLayerByType(layer, wwd, onHover){
 	if (layer.type){
 		switch (layer.type){
 			case "worldwind":
@@ -43,8 +43,10 @@ function getLayerByType(layer, wwd){
 					let renderableLayer = new RenderableLayer(layer.key || 'Large data layer');
 					let options = {
 						...layer.options,
+						onHover,
 						renderableLayer,
-						pointHoverBuffer: 0.05,
+						pointHoverBuffer: 20, // in px TODO pass pointHoverBuffer
+						gidColumn: 'gid' // TODO always gid?
 					};
 					return new LargeDataLayer(wwd, options);
 				} else {

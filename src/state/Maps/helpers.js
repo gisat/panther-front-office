@@ -12,6 +12,14 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 		if (layer.layerTemplateKey) {
 			filter.layerTemplateKey = layer.layerTemplateKey;
 		}
+		if (layer.areaTreeLevelKey) {
+			filter.areaTreeLevelKey = layer.areaTreeLevelKey;
+		}
+		if (layer.attributeKeys) {
+			filter.attributeKeys = layer.attributeKeys;
+		}
+
+		//todo fail on conflict between metadataModifiers & filterByActive ?
 
 		let activeFilter = {};
 		if (layer.filterByActive) {
@@ -24,6 +32,9 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 			}
 			if (active.layerTemplate && activeMetadataKeys.activeLayerTemplateKey) {
 				activeFilter.layerTemplateKey = activeMetadataKeys.activeLayerTemplateKey;
+			}
+			if (active.areaTreeLevelKey && activeMetadataKeys.areaTreeLevelKey) {
+				activeFilter.areaTreeLevelKey = activeMetadataKeys.areaTreeLevelKey;
 			}
 			// TODO what if multiple periods
 			if (active.period && activeMetadataKeys.activePeriodKey) {

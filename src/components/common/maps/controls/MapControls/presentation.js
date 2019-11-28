@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import viewUtils from '../../viewUtils';
-import {numberOfLevels as maxNumberOfLevels} from '../../constants';
+import {defaultLevelsRange, numberOfLevels as maxNumberOfLevels} from '../../constants';
 
 import Icon from '../../../atoms/Icon';
 import HoldButton from '../../../../presentation/atoms/HoldButton';
@@ -81,8 +81,16 @@ class MapControls extends React.PureComponent {
 
 	render () {
 		let currentZoomLevel = null;
-		if (this.props.levelsBased && this.props.view && this.props.view.boxRange) {
-			currentZoomLevel = viewUtils.getZoomLevelFromView(this.props.view);
+		let zoomInDisabled = false;
+		let zoomOutDisabled = false;
+		if (this.props.levelsBased) {
+			if (this.props.view && this.props.view.boxRange) {
+				currentZoomLevel = viewUtils.getZoomLevelFromView(this.props.view);
+			}
+
+			let levelsRange = this.props.levelsBased.length ? this.props.levelsBased : defaultLevelsRange;
+			zoomInDisabled = currentZoomLevel >= levelsRange[1];
+			zoomOutDisabled = currentZoomLevel <= levelsRange[0];
 		}
 
 		// TODO different controls for 2D
@@ -115,7 +123,7 @@ class MapControls extends React.PureComponent {
 						onMouseDown={200}
 						pressCallbackTimeout={20}
 						finite={false}
-						disabled={this.props.levelsBased && currentZoomLevel === maxNumberOfLevels}
+						disabled={zoomInDisabled}
 					>
 						<Icon icon='plus-thick'/>
 					</HoldButton>
@@ -125,7 +133,7 @@ class MapControls extends React.PureComponent {
 						onMouseDown={200}
 						pressCallbackTimeout={20}
 						finite={false}
-						disabled={this.props.levelsBased && currentZoomLevel === 1}
+						disabled={zoomOutDisabled}
 					>
 						<Icon icon='minus-thick'/>
 					</HoldButton>

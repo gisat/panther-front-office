@@ -14,7 +14,8 @@
 			  "shape": "circle-with-arrow",
 			  "outlineWidth": 1,
 			  "arrowColor": "#39ff14",
-			  "arrowWidth": 3
+			  "arrowWidth": 3,
+			  "fillOpacity": 0.7
 			},
 			{
 			  "attributeKey": "attr1",

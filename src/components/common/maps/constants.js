@@ -1,4 +1,5 @@
 export const numberOfLevels = 18;
+export const defaultLevelsRange = [1,18];
 export const zoomCoefficient = 500;
 
 export const vectorLayerDefaultFeatureStyle = {

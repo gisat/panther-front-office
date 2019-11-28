@@ -1,7 +1,9 @@
+import React from 'react';
 import WorldWind from 'webworldwind-esa';
 import {QuadTree, Box, Point, Circle} from 'js-quadtree';
 import * as turf from '@turf/turf';
 import LargeDataLayerTile from "./LargeDataLayerTile";
+import _ from 'lodash';
 
 const {
 	Location,
@@ -11,8 +13,7 @@ const {
 	TiledImageLayer
 } = WorldWind;
 
-const DEFAULT_POINT_RADIUS = 5;
-const DEFAULT_POINT_HOVER_BUFFER = 0.01;
+const DEFAULT_SIZE = 5;
 
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
 // Multipolygons are represented as points
@@ -25,13 +26,16 @@ class LargeDataLayer extends TiledImageLayer {
 		this.tileWidth = 256;
 		this.tileHeight = 256;
 
-		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_POINT_HOVER_BUFFER;
+		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_SIZE;
 		this.renderableLayer = options.renderableLayer;
 		this.style = options.style && options.style.data && options.style.data.definition;
 
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
 		this.quadTree = new QuadTree(new Box(0,0,360,180));
+
+		this.onHover = options.onHover;
+		this.gidColumn = options.gidColumn;
 
 		if (options.features) {
 			this.addFeatures(options.features);
@@ -82,16 +86,21 @@ class LargeDataLayer extends TiledImageLayer {
 		const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX,
 			y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
 
+		const pageX = event.touches && event.touches[0] && event.touches[0].pageX || event.pageX;
+		const pageY = event.touches && event.touches[0] && event.touches[0].pageY || event.pageY;
+
 		const terrainObject = wwd.pickTerrain(wwd.canvasCoordinates(x, y)).terrainObject();
+
+		let buffer = this.getPointHoverBuffer(wwd);
 
 		if (terrainObject) {
 			const position = terrainObject.position;
-			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, this.pointHoverBuffer));
+			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, buffer));
 
 			if(this.renderableLayer) {
 				this.renderableLayer.removeAllRenderables();
 				if(points.length > 0) {
-					const radius = DEFAULT_POINT_RADIUS;
+					const radius = DEFAULT_SIZE;
 					this.renderableLayer.addRenderable(
 						new SurfaceCircle(new Location(points[0].y - 90, points[0].x - 180), radius)
 					);
@@ -99,9 +108,9 @@ class LargeDataLayer extends TiledImageLayer {
 				wwd.redraw();
 			}
 
-			return points;
+			return {points, x: pageX, y: pageY};
 		} else {
-			return [];
+			return {points: [], x: pageX, y: pageY};
 		}
 	}
 
@@ -115,7 +124,24 @@ class LargeDataLayer extends TiledImageLayer {
 
 	onClickResult(points){}
 
-	onMouseMoveResult(points) {}
+	onMouseMoveResult(data) {
+		if (this.onHover) {
+			let gids = data.points.map(point => point[this.gidColumn]);
+			let content = (
+				<div>
+					{data.points.map(point => {
+						let content = [];
+						_.forIn(point.data, (value,key) => {
+							content.push(<div>{key}: {value}</div>)
+						});
+						return content;
+					})}
+				</div>
+			);
+			this.onHover(gids, data.x, data.y, content);
+		}
+	}
+
 
 	retrieveTileImage(dc, tile, suppressRedraw) {
 		// if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
@@ -130,7 +156,7 @@ class LargeDataLayer extends TiledImageLayer {
 
 		const points = this.filterGeographically(extended.sector);
 
-		if(points.length > 0) {
+		if(points) {
 			var imagePath = tile.imagePath,
 				cache = dc.gpuResourceCache,
 				layer = this;
@@ -198,6 +224,18 @@ class LargeDataLayer extends TiledImageLayer {
 	createPointTile(data, options) {
 		return new LargeDataLayerTile(data, options, this.style);
 	};
+
+	/**
+	 * naive point hover buffer determination
+	 * @param wwd
+	 * @return {number} buffer in degrees
+	 */
+	getPointHoverBuffer(wwd) {
+		const canvasWidth = wwd.canvas.clientWidth;
+		const range = wwd.navigator.range;
+		const bufferInMeters = range/canvasWidth * this.pointHoverBuffer;
+		return bufferInMeters * 0.00001;
+	}
 }
 
 export default LargeDataLayer;
