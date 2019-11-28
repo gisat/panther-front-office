@@ -15,9 +15,6 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 		if (layer.areaTreeLevelKey) {
 			filter.areaTreeLevelKey = layer.areaTreeLevelKey;
 		}
-		if (layer.attributeKeys) {
-			filter.attributeKeys = layer.attributeKeys;
-		}
 
 		//todo fail on conflict between metadataModifiers & filterByActive ?
 
@@ -95,7 +92,7 @@ const getLayersWithFilter = createCachedSelector(
 	}
 )((state, layersState) => layersState);
 
-const prepareLayerByDataSourceType = (layerKey, dataSource, index) => {
+const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions) => {
 	let dataSourceData = dataSource.data;
 	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
 
@@ -110,12 +107,14 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, index) => {
 		}
 	} else if (type === 'vector' && features) {
 		options = {
+			...layerOptions,
 			features
-		}
+		};
 	}
 
 	return {
 		key: layerKey + '_' + index,
+		layerKey: layerKey,
 		type,
 		options
 	};

@@ -20,9 +20,10 @@ const DEFAULT_SIZE = 5;
 
 // TODO: Highlight the selected points.
 class LargeDataLayer extends TiledImageLayer {
-	constructor(wwd, options) {
+	constructor(wwd, options, layerKey) {
 		super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'large-data-layer', 256, 256);
 
+		this.layerKey = layerKey;
 		this.tileWidth = 256;
 		this.tileHeight = 256;
 
@@ -35,7 +36,9 @@ class LargeDataLayer extends TiledImageLayer {
 		this.quadTree = new QuadTree(new Box(0,0,360,180));
 
 		this.onHover = options.onHover;
+		this.hovered = options.hovered;
 		this.gidColumn = options.gidColumn;
+		this.wwd = wwd;
 
 		if (options.features) {
 			this.addFeatures(options.features);
@@ -65,13 +68,17 @@ class LargeDataLayer extends TiledImageLayer {
 		features.forEach(feature => {
 			const type = feature.geometry && feature.geometry.type;
 			let point = null;
+			let props = {...feature.properties};
+
 
 			// TODO support other geometry types
 			if (type === 'Point') {
-				point = new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, feature.properties);
+				props.centroid = feature.geometry.coordinates;
+				point = new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, props);
 			} else if (type === 'MultiPolygon') {
 				let centroid = turf.centroid(feature.geometry);
-				point = new Point(centroid.geometry.coordinates[0] + 180, centroid.geometry.coordinates[1] + 90, feature.properties);
+				props.centroid = centroid;
+				point = new Point(centroid.geometry.coordinates[0] + 180, centroid.geometry.coordinates[1] + 90, props);
 			}
 
 			if (point) {
@@ -80,6 +87,8 @@ class LargeDataLayer extends TiledImageLayer {
 				);
 			}
 		});
+
+		this.refresh();
 	}
 
 	handleEvent(wwd, event) {
@@ -95,17 +104,18 @@ class LargeDataLayer extends TiledImageLayer {
 
 		if (terrainObject) {
 			const position = terrainObject.position;
-			const points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, buffer));
+			let points = this.quadTree.query(new Circle(position.longitude + 180, position.latitude + 90, buffer));
 
-			if(this.renderableLayer) {
-				this.renderableLayer.removeAllRenderables();
-				if(points.length > 0) {
-					const radius = DEFAULT_SIZE;
-					this.renderableLayer.addRenderable(
-						new SurfaceCircle(new Location(points[0].y - 90, points[0].x - 180), radius)
-					);
-				}
-				wwd.redraw();
+			// find nearest
+			if (points.length > 1) {
+				let targetPoint = turf.point([position.longitude, position.latitude]);
+				let features = points.map(point => {
+					return turf.point([point.data.centroid[0], point.data.centroid[1]], {...point});
+				});
+
+				let featureCollection = turf.featureCollection(features);
+				let nearest = turf.nearestPoint(targetPoint,featureCollection);
+				points = [nearest.properties];
 			}
 
 			return {points, x: pageX, y: pageY};
@@ -126,7 +136,7 @@ class LargeDataLayer extends TiledImageLayer {
 
 	onMouseMoveResult(data) {
 		if (this.onHover) {
-			let gids = data.points.map(point => point[this.gidColumn]);
+			let gids = data.points.map(point => point.data[this.gidColumn]);
 			let content = (
 				<div>
 					{data.points.map(point => {
@@ -138,7 +148,7 @@ class LargeDataLayer extends TiledImageLayer {
 					})}
 				</div>
 			);
-			this.onHover(gids, data.x, data.y, content);
+			this.onHover(this.layerKey, gids, data.x, data.y, content);
 		}
 	}
 
@@ -222,7 +232,7 @@ class LargeDataLayer extends TiledImageLayer {
 	};
 
 	createPointTile(data, options) {
-		return new LargeDataLayerTile(data, options, this.style);
+		return new LargeDataLayerTile(data, options, this.style, this.gidColumn, this.hovered);
 	};
 
 	/**

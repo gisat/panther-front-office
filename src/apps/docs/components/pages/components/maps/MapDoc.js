@@ -6,9 +6,23 @@ import PresentationMapControls from "../../../../../../components/common/maps/co
 import {Link} from "react-router-dom";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
 import Map, {PresentationMap} from "../../../../../../components/common/maps/Map";
+import _ from 'lodash';
 
 import cz_gadm from '../../../mockData/map/czGadm1WithStyles/geometries';
 import style from '../../../mockData/map/czGadm1WithStyles/style';
+import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
+
+const hoveredStyle = {
+	"rules":[
+		{
+			"styles": [
+				{
+					"fill": "#ff0000"
+				}
+			]
+		}
+	]
+};
 
 const backgroundCuzk = {
 	key: 'cuzk_ortofoto',
@@ -58,117 +72,153 @@ const presentationalLayers = [{
 
 const largeDataLayers = [{
 	key: 'large-data-test',
-	areaTreeLevelKey: 'd1b6b010-16c3-40c6-b62f-bffe76b15067'
+	areaTreeLevelKey: 'd1b6b010-16c3-40c6-b62f-bffe76b15067',
+	options: {
+		hovered: {
+			keys: null,
+			style: hoveredStyle
+		},
+		gidColumn: "ID"
+	}
 }];
 
 const levelsRange = [10, 18];
 
 class MapDoc extends React.PureComponent {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			largeDataLayers,
+			hoveredKeys: null
+		};
+
+		this.onLayerFeaturesHover = this.onLayerFeaturesHover.bind(this);
+	}
+
+	onLayerFeaturesHover(layerKey, hoveredKeys) {
+		let layer = _.find(this.state.largeDataLayers, {key: layerKey});
+		hoveredKeys = hoveredKeys.length ? hoveredKeys : null;
+		layer.options.hovered.keys = hoveredKeys;
+
+		if (!_.isEqual(this.state.hoveredKeys, hoveredKeys)) {
+			this.setState({
+				hoveredKeys,
+				largeDataLayers: [layer]
+			});
+		}
+	}
+
+	// TODO uncomment after szdc testing
 	render() {
 		return (
 			<Page title="Map">
 
 				<h3>Uncontrolled connected - large data as analytical units</h3>
 				<div style={{marginTop: 10, height: 400}}>
-					<Map
-						mapKey="Map-1"
-						mapComponent={WorldWindMap}
-						backgroundLayer={backgroundCuzk}
-						layers={largeDataLayers}
-						levelsBased={levelsRange}
-						view={{
-							boxRange: 1000,
-							center: {
-								lat: 50.348,
-								lon: 13.07
-							}
-						}}
-					>
-						<PresentationMapControls levelsBased={levelsRange}/>
-					</Map>
+					<HoverHandler>
+						<Map
+							mapKey="Map-1"
+							mapComponent={WorldWindMap}
+							backgroundLayer={backgroundCuzk}
+							layers={this.state.largeDataLayers}
+							levelsBased={levelsRange}
+							view={{
+								boxRange: 1000,
+								center: {
+									lat: 50.348,
+									lon: 13.07
+								}
+							}}
+							onLayerFeaturesHover={this.onLayerFeaturesHover}
+						>
+							<PresentationMapControls levelsBased={levelsRange}/>
+						</Map>
+					</HoverHandler>
 				</div>
 
-				<h3>Uncontrolled connected</h3>
-				<div style={{height: 300}}>
-					<Map
-						mapKey="Map-2"
-						mapComponent={WorldWindMap}
-						backgroundLayer={backgroundCuzk}
-						layers={layers}
-						view={{
-							boxRange: 1000000
-						}}
-					>
-						<PresentationMapControls/>
-					</Map>
-				</div>
+				{/*<h3>Uncontrolled connected</h3>*/}
+				{/*<div style={{height: 300}}>*/}
+				{/*	<Map*/}
+				{/*		mapKey="Map-2"*/}
+				{/*		mapComponent={WorldWindMap}*/}
+				{/*		backgroundLayer={backgroundCuzk}*/}
+				{/*		layers={layers}*/}
+				{/*		view={{*/}
+				{/*			boxRange: 1000000*/}
+				{/*		}}*/}
+				{/*	>*/}
+				{/*		<PresentationMapControls/>*/}
+				{/*	</Map>*/}
+				{/*</div>*/}
 
-				<h3>Uncontrolled unconnected</h3>
-				<div style={{marginTop: 10, height: 400}}>
-					<PresentationMap
-						mapComponent={WorldWindMap}
-						backgroundLayer={wikimedia}
-						layers={presentationalLayers}
-						view={{
-							boxRange: 1000000
-						}}
-					>
-						<PresentationMapControls/>
-					</PresentationMap>
-				</div>
+				{/*<h3>Uncontrolled unconnected</h3>*/}
+				{/*<div style={{marginTop: 10, height: 400}}>*/}
+				{/*	<PresentationMap*/}
+				{/*		mapComponent={WorldWindMap}*/}
+				{/*		backgroundLayer={wikimedia}*/}
+				{/*		layers={presentationalLayers}*/}
+				{/*		view={{*/}
+				{/*			boxRange: 1000000*/}
+				{/*		}}*/}
+				{/*	>*/}
+				{/*		<PresentationMapControls/>*/}
+				{/*	</PresentationMap>*/}
+				{/*</div>*/}
 
-				<h2>Props</h2>
-				<ComponentPropsTable
-					// content={
-					// 	[{
-					// 		name: "view",
-					// 		type: "map view",
-					// 		description: <Link to="/architecture/systemDataTypes/mapView">Map view</Link>
-					// 	},{
-					// 		name: "layers",
-					// 		type: "layers",
-					// 		description: <Link to="/architecture/systemDataTypes/layers">Layers</Link>
-					// 	},{
-					// 		name: "backgroundLayer",
-					// 		type: "background layer",
-					// 		description: <Link to="/architecture/systemDataTypes/layers#backgroundLayer">Background layer</Link>
-					// 	},{
-					//
-					// 	},{
-					// 		name: "stateMapKey",
-					// 		type: "string",
-					// 		description: "Valid key of a map in map store"
-					// 	},{
-					//
-					// 	},{
-					// 		name: "onViewChange",
-					// 		type: "function",
-					// 		description: "Function called when a view change is initiated inside the Map component"
-					// 	},{
-					// 		name: "onClick",
-					// 		type: "function",
-					// 		description: "Function called on click"
-					// 	}]
-					// }
-				>
-					<Prop name="mapComponent" required>Presentational component to render the final map</Prop>
-					<Section name="Controlled">
-						<Prop name="stateMapKey" required type="string">Valid key of a map in map store</Prop>
-					</Section>
-					<Section name="Uncontrolled">
-						<Prop name="mapKey" required type="string"/>
-						<Prop name="view" required type="map view"><Link to="/architecture/systemDataTypes/mapView">Map view</Link></Prop>
-						<Prop name="layers" type="layers"><Link to="/architecture/systemDataTypes/layers">Layers</Link></Prop>
-						<Prop name="backgroundLayer" type="background layer">
-							<Link to="/architecture/systemDataTypes/layers#backgroundLayer">Background layer</Link>
-						</Prop>
-						<Prop name="onViewChange" type="function">Function called when a view change is initiated inside the Map component</Prop>
-						<Prop name="onClick" type="function">Function called on click</Prop>
-						<Prop name="wrapperClasses" type="string">Class names for wrapper component</Prop>
-					</Section>
-				</ComponentPropsTable>
+				{/*<h2>Props</h2>*/}
+				{/*<ComponentPropsTable*/}
+				{/*	// content={*/}
+				{/*	// 	[{*/}
+				{/*	// 		name: "view",*/}
+				{/*	// 		type: "map view",*/}
+				{/*	// 		description: <Link to="/architecture/systemDataTypes/mapView">Map view</Link>*/}
+				{/*	// 	},{*/}
+				{/*	// 		name: "layers",*/}
+				{/*	// 		type: "layers",*/}
+				{/*	// 		description: <Link to="/architecture/systemDataTypes/layers">Layers</Link>*/}
+				{/*	// 	},{*/}
+				{/*	// 		name: "backgroundLayer",*/}
+				{/*	// 		type: "background layer",*/}
+				{/*	// 		description: <Link to="/architecture/systemDataTypes/layers#backgroundLayer">Background layer</Link>*/}
+				{/*	// 	},{*/}
+				{/*	//*/}
+				{/*	// 	},{*/}
+				{/*	// 		name: "stateMapKey",*/}
+				{/*	// 		type: "string",*/}
+				{/*	// 		description: "Valid key of a map in map store"*/}
+				{/*	// 	},{*/}
+				{/*	//*/}
+				{/*	// 	},{*/}
+				{/*	// 		name: "onViewChange",*/}
+				{/*	// 		type: "function",*/}
+				{/*	// 		description: "Function called when a view change is initiated inside the Map component"*/}
+				{/*	// 	},{*/}
+				{/*	// 		name: "onClick",*/}
+				{/*	// 		type: "function",*/}
+				{/*	// 		description: "Function called on click"*/}
+				{/*	// 	}]*/}
+				{/*	// }*/}
+				{/*>*/}
+				{/*	<Prop name="mapComponent" required>Presentational component to render the final map</Prop>*/}
+				{/*	<Section name="Controlled">*/}
+				{/*		<Prop name="stateMapKey" required type="string">Valid key of a map in map store</Prop>*/}
+				{/*	</Section>*/}
+				{/*	<Section name="Uncontrolled">*/}
+				{/*		<Prop name="mapKey" required type="string"/>*/}
+				{/*		<Prop name="view" required type="map view"><Link to="/architecture/systemDataTypes/mapView">Map view</Link></Prop>*/}
+				{/*		<Prop name="layers" type="layers"><Link to="/architecture/systemDataTypes/layers">Layers</Link></Prop>*/}
+				{/*		<Prop name="backgroundLayer" type="background layer">*/}
+				{/*			<Link to="/architecture/systemDataTypes/layers#backgroundLayer">Background layer</Link>*/}
+				{/*		</Prop>*/}
+				{/*		<Prop name="onViewChange" type="function">Function called when a view change is initiated inside the Map component</Prop>*/}
+				{/*		<Prop name="onClick" type="function">Function called on click</Prop>*/}
+				{/*		<Prop name="wrapperClasses" type="string">Class names for wrapper component</Prop>*/}
+				{/*	</Section>*/}
+				{/*</ComponentPropsTable>*/}
 
-				<DocsToDo>Usage</DocsToDo>
+				{/*<DocsToDo>Usage</DocsToDo>*/}
 				
 			</Page>
 		);

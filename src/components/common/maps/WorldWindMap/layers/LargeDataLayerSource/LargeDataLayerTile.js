@@ -27,9 +27,16 @@ const DEFAULT_SIZE = 5;
 
 class LargeDataLayerTile {
 
-	constructor(data, options, style) {
+	constructor(data, options, style, gidColumn, hovered) {
 		this._data = data;
 		this._style = style;
+		this._gidColumn = gidColumn;
+		this._hovered = hovered;
+
+		// todo here?
+		if (this._hovered && this._hovered.keys) {
+			this._hoveredStyle = mapStyles.getStyleObject(null, this._hovered.style); // todo add default
+		}
 
 		this._sector = options.sector;
 
@@ -78,6 +85,14 @@ class LargeDataLayerTile {
 	shape(context, data) {
 		let attributes = data.data;
 		let style = mapStyles.getStyleObject(attributes, this._style);
+
+		// apply hovered style, if feature is hovered
+		if (this._hovered && this._hovered.keys) {
+			let hovered = this._hovered.keys.indexOf(attributes[this._gidColumn]) !== -1;
+			if (hovered) {
+				style = {...style, ...this._hoveredStyle};
+			}
+		}
 
 		if (style.shape) {
 			if (style.shape === "circle-with-arrow") {
