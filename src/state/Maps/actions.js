@@ -600,6 +600,24 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 		}
 	};
 };
+/**
+ * Set (replace) all map layers, and refresh use
+ * @param mapKey
+ * @param layers - complete layers array
+ * @returns {Function}
+ */
+const setMapLayers = (mapKey, layers) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapLayers(mapKey, layers));
+			dispatch(Action.maps.use(mapKey));
+		}
+	};
+};
 
 const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	return (dispatch, getState) => {
@@ -1269,7 +1287,7 @@ export default {
 	setMapCase,
 	setMapData,
 	setMapLayer,
-	setMapLayers: actionSetMapLayers,
+	setMapLayers,
 	setMapName,
 	setMapPeriod,
 	setMapPlace,
