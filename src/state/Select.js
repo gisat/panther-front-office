@@ -1,6 +1,7 @@
 // base types
 import App from './App/selectors';
 import Areas from './Areas/selectors';
+import AreaRelations from './AreaRelations/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeDataSources from './AttributeDataSources/selectors';
 import AttributeData from './AttributeData/selectors';
@@ -37,6 +38,7 @@ import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 export default {
 	app: App,
 	areas: Areas,
+	areaRelations: AreaRelations,
 	attributes: Attributes,
 	attributeData: AttributeData,
 	attributeDataSources: AttributeDataSources,

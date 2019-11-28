@@ -9,6 +9,7 @@ import { wrapHistory } from "oaf-react-router";
 // base types
 import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
+import areaRelationsReducers from '../../../state/AreaRelations/reducers';
 import attributeRelationsReducers from '../../../state/AttributeRelations/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
@@ -59,6 +60,7 @@ export default history => {
 	return createStore(combineReducers({
 		app: appReducers,
 		areas: areasReducers,
+		areaRelations: areaRelationsReducers,
 		attributes: attributesReducers,
 		attributeRelations: attributeRelationsReducers,
 		attributeStatistics: attributeStatisticsReducers,

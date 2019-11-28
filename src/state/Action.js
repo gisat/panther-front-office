@@ -2,6 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 import App from './App/actions';
 import Areas from './Areas/actions';
+import AreaRelations from './AreaRelations/actions';
 import Attributes from './Attributes/actions';
 import AttributeRelations from './AttributeRelations/actions';
 import AttributeDataSources from './AttributeDataSources/actions';
@@ -38,6 +39,7 @@ import LpisCheckCases from './_specific/LpisCheckCases/actions';
 export default {
 	app: App,
 	areas: Areas,
+	areaRelations: AreaRelations,
 	attributes: Attributes,
 	attributeData: AttributeData,
 	attributeDataSources: AttributeDataSources,

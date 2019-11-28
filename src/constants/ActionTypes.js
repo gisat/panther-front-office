@@ -74,6 +74,25 @@ export const commonActionTypesDefinitions = {
 		}
 	},
 
+	AREA_RELATIONS: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				CLEAR_ALL: null,
+				REGISTER: null
+			}
+		}
+	},
+
 	AREAS_SELECTIONS_SET_ACTIVE_MULTIPLE: 'AREAS_SELECTIONS_SET_ACTIVE_MULTIPLE',
 	AREAS_SELECTIONS_UPDATE: 'AREAS_SELECTIONS_UPDATE',
 
