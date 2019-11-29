@@ -31,9 +31,9 @@ class LargeDataLayer extends TiledImageLayer {
 		this.quadTree = new QuadTree(new Box(0,0,360,180));
 
 		this.pantherProps = {
-			features: [...options.features],
+			features: options.features,
 			gidColumn: options.gidColumn,
-			hovered: {...options.hovered},
+			hovered: options.hovered,
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
 			pointHoverBuffer: options.pointHoverBuffer || DEFAULT_SIZE,

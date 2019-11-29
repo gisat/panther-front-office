@@ -74,16 +74,14 @@ function updateVectorLayer(layerDefinition, wwd, onHover) {
 	if (!worldWindLayer) {
 		mapLayer = getLayerByType(layerDefinition, wwd, onHover);
 	} else {
-
-		// TODO better comparison than stringify?
-		let prevFeatures = JSON.stringify(worldWindLayer.pantherProps.features);
-		let nextFeatures = JSON.stringify(layerDefinition.options.features);
+		let prevFeatures = worldWindLayer.pantherProps.features;
+		let nextFeatures = layerDefinition.options.features;
 
 		if (prevFeatures === nextFeatures) {
 			mapLayer = worldWindLayer;
-			let prevHovered = JSON.stringify(worldWindLayer.pantherProps.hovered);
-			let nextHovered = JSON.stringify(layerDefinition.options.hovered);
-			if (prevHovered !== nextHovered) {
+			let prevHoveredKeys = worldWindLayer.pantherProps.hovered && worldWindLayer.pantherProps.hovered.keys;
+			let nextHoveredKeys = layerDefinition.options.hovered && layerDefinition.options.hovered.keys;
+			if (prevHoveredKeys !== nextHoveredKeys) {
 				worldWindLayer.updateHovered(layerDefinition.options.hovered);
 			}
 		}
