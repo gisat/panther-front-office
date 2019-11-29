@@ -20,28 +20,29 @@ const DEFAULT_SIZE = 5;
 
 // TODO: Highlight the selected points.
 class LargeDataLayer extends TiledImageLayer {
-	constructor(wwd, options, layerKey) {
+	constructor(wwd, options, layer) {
 		super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'large-data-layer', 256, 256);
-
-		this.layerKey = layerKey;
+		
 		this.tileWidth = 256;
 		this.tileHeight = 256;
-
-		this.pointHoverBuffer = options.pointHoverBuffer || DEFAULT_SIZE;
-		this.renderableLayer = options.renderableLayer;
-		this.style = options.style && options.style.data && options.style.data.definition;
 
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
 		this.quadTree = new QuadTree(new Box(0,0,360,180));
 
-		this.onHover = options.onHover;
-		this.hovered = options.hovered;
-		this.gidColumn = options.gidColumn;
-		this.wwd = wwd;
-
-		if (options.features) {
-			this.addFeatures(options.features);
+		this.pantherProps = {
+			features: [...options.features],
+			gidColumn: options.gidColumn,
+			hovered: {...options.hovered},
+			layerKey: layer.layerKey,
+			onHover: options.onHover,
+			pointHoverBuffer: options.pointHoverBuffer || DEFAULT_SIZE,
+			style: options.style && options.style.data && options.style.data.definition,
+			wwd: wwd
+		};
+		
+		if (this.pantherProps.features) {
+			this.addFeatures(this.pantherProps.features);
 		} else {
 			this.loadData(options.url);
 		}
@@ -77,7 +78,7 @@ class LargeDataLayer extends TiledImageLayer {
 				point = new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, props);
 			} else if (type === 'MultiPolygon') {
 				let centroid = turf.centroid(feature.geometry);
-				props.centroid = centroid;
+				props.centroid = centroid.geometry.coordinates;
 				point = new Point(centroid.geometry.coordinates[0] + 180, centroid.geometry.coordinates[1] + 90, props);
 			}
 
@@ -135,20 +136,24 @@ class LargeDataLayer extends TiledImageLayer {
 	onClickResult(points){}
 
 	onMouseMoveResult(data) {
-		if (this.onHover) {
-			let gids = data.points.map(point => point.data[this.gidColumn]);
+		if (this.pantherProps.onHover) {
+			let gids = data.points.map(point => point.data[this.pantherProps.gidColumn]);
+
+			// TODO provisional content
 			let content = (
 				<div>
 					{data.points.map(point => {
 						let content = [];
 						_.forIn(point.data, (value,key) => {
-							content.push(<div>{key}: {value}</div>)
+							if (key !== 'centroid') {
+								content.push(<div>{key}: {value}</div>)
+							}
 						});
 						return content;
 					})}
 				</div>
 			);
-			this.onHover(this.layerKey, gids, data.x, data.y, content);
+			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, content);
 		}
 	}
 
@@ -232,8 +237,20 @@ class LargeDataLayer extends TiledImageLayer {
 	};
 
 	createPointTile(data, options) {
-		return new LargeDataLayerTile(data, options, this.style, this.gidColumn, this.hovered);
+		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.gidColumn, this.pantherProps.hovered);
 	};
+
+
+
+	/**
+	 * @param hovered {Object}
+	 * @param hovered.style {Object}
+	 * @param hovered.keys {Array}
+	 */
+	updateHovered(hovered) {
+		this.pantherProps.hovered = {...hovered};
+		this.refresh();
+	}
 
 	/**
 	 * naive point hover buffer determination
@@ -243,7 +260,7 @@ class LargeDataLayer extends TiledImageLayer {
 	getPointHoverBuffer(wwd) {
 		const canvasWidth = wwd.canvas.clientWidth;
 		const range = wwd.navigator.range;
-		const bufferInMeters = range/canvasWidth * this.pointHoverBuffer;
+		const bufferInMeters = range/canvasWidth * this.pantherProps.pointHoverBuffer;
 		return bufferInMeters * 0.00001;
 	}
 }

@@ -82,7 +82,7 @@ const largeDataLayers = [{
 	}
 }];
 
-const levelsRange = [10, 18];
+const levelsRange = [0, 18];
 
 class MapDoc extends React.PureComponent {
 

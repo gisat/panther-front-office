@@ -35,7 +35,7 @@ class LargeDataLayerTile {
 
 		// todo here?
 		if (this._hovered && this._hovered.keys) {
-			this._hoveredStyle = mapStyles.getStyleObject(null, this._hovered.style); // todo add default
+			this._hoveredStyle = mapStyles.getStyleObject(null, this._hovered.style, true); // todo add default
 		}
 
 		this._sector = options.sector;
