@@ -25,7 +25,7 @@ const szdcInsar19 = {
 			let areaTreesAndLevels = CommonSelect.app.getConfiguration(state, 'areaTreesAndLevels');
 
 			//find active tracks
-			let activeTrackKeys = ["a34ed54f-c9ef-429b-a86e-11f1f20c94be"]; //todo
+			let activeTrackKeys = ["7987ffde-8a93-4f4d-9cbd-a85eac9747d1"]; //todo
 
 			//add a layer for each
 			layers = activeTrackKeys.map(activeTrackKey => {
