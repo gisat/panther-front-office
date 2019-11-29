@@ -666,43 +666,45 @@ function use(mapKey, backgroundLayer, layers) {
 
 
 				/* Ensure spatial relations or area relations */
-				let action, select;
-				if (layer.layerTemplateKey) {
-					action = Action.spatialRelations;
-					select = Select.spatialRelations;
-				} else if (layer.areaTreeLevelKey) {
-					action = Action.areaRelations;
-					select = Select.areaRelations;
-				}
-				dispatch(action.useIndexedRegister( componentId, filterByActive, filter, null, 1, 1000));
-				dispatch(action.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
-					/* Ensure spatial data sources */
-					const relations = select.getFilteredData(getState(), mergedFilter);
-					if (relations && relations.length) {
-						const spatialFilters = relations.map(relation => {return {
-							spatialDataSourceKey: relation.spatialDataSourceKey,
-							fidColumnName: relation.fidColumnName
-						}});
-						const spatialDataSourcesKeys = spatialFilters.map(filter => filter.spatialDataSourceKey);
-						
-						dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
-							const dataSources = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
-							if (dataSources) {
-								dataSources.forEach(dataSource => {
-									
-									// TODO load raster data?
-									if (dataSource && dataSource.data && dataSource.data.type === 'vector') {
-										const spatialFilter = _.find(spatialFilters, {spatialDataSourceKey: dataSource.key});
-										dispatch(Action.spatialData.useIndexed(null, spatialFilter, null, 1, 100, componentId));
-									}
-								});
-							}
-						});
+				if (layer.layerTemplateKey || layer.areaTreeLevelKey) {
+					let action, select;
+					if (layer.layerTemplateKey) {
+						action = Action.spatialRelations;
+						select = Select.spatialRelations;
+					} else if (layer.areaTreeLevelKey) {
+						action = Action.areaRelations;
+						select = Select.areaRelations;
 					}
-				});
+					dispatch(action.useIndexedRegister(componentId, filterByActive, filter, null, 1, 1000));
+					dispatch(action.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
+						/* Ensure spatial data sources */
+						const relations = select.getFilteredData(getState(), mergedFilter);
+						if (relations && relations.length) {
+							const spatialFilters = relations.map(relation => {
+								return {
+									spatialDataSourceKey: relation.spatialDataSourceKey,
+									fidColumnName: relation.fidColumnName
+								}
+							});
+							const spatialDataSourcesKeys = spatialFilters.map(filter => filter.spatialDataSourceKey);
+							
+							dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
+								const dataSources = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
+								if (dataSources) {
+									dataSources.forEach(dataSource => {
+										
+										// TODO load raster data?
+										if (dataSource && dataSource.data && dataSource.data.type === 'vector') {
+											const spatialFilter = _.find(spatialFilters, {spatialDataSourceKey: dataSource.key});
+											dispatch(Action.spatialData.useIndexed(null, spatialFilter, null, 1, 100, componentId));
+										}
+									});
+								}
+							});
+						}
+					});
+				}
 				
-				
-				// Ensure attribute relations //todo
 				
 			});
 		}
