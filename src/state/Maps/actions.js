@@ -707,35 +707,43 @@ function use(mapKey, backgroundLayer, layers) {
 				
 				
 				// Ensure attribute data //todo
-				// if (layer.attributeKeys) {
-				//
-				// 	dispatch(Action.attributeRelations.useIndexedRegister( componentId, filterByActive, filter, null, 1, 1000));
-				// 	dispatch(Action.attributeRelations.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
-				// 		/* Ensure data sources */
-				// 		const relations = Select.attributeRelations.getFilteredData(getState(), mergedFilter);
-				// 		if (relations && relations.length) {
-				// 			const filters = relations.map(relation => {return {
-				// 				dataSourceKey: relation.dataSourceKey
-				// 			}});
-				// 			const dataSourcesKeys = filters.map(filter => filter.dataSourceKey);
-				//
-				// 			dispatch(Action.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
-				// 				const dataSources = Select.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
-				// 				if (dataSources) {
-				//
-				// 					dataSources.forEach(dataSource => {
-				// 						if (dataSource && dataSource.data) {
-				// 							const filter = _.find(filters, {dataSourceKey: dataSource.key});
-				// 							dispatch(Action.attributeData.useIndexed(null, filter, null, 1, 100, componentId));
-				// 						}
-				// 					});
-				//
-				// 				}
-				// 			});
-				// 		}
-				// 	});
-				//
-				// }
+				if (layer.attributeKeys) {
+
+					dispatch(Action.attributeRelations.useIndexedRegister( componentId, filterByActive, filter, null, 1, 2000));
+					dispatch(Action.attributeRelations.ensureIndexed(mergedFilter, null, 1, 2000)).then(() => {
+						/* Ensure data sources */
+						const relations = Select.attributeRelations.getFiltered(getState(), mergedFilter);
+						if (relations && relations.length) {
+							const filters = relations.map(relation => {return {
+								attributeDataSourceKey: relation.attributeDataSourceKey,
+								fidColumnName: relation.fidColumnName
+							}});
+							const dataSourcesKeys = filters.map(filter => filter.attributeDataSourceKey);
+
+							dispatch(Action.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
+								const dataSources = Select.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
+								if (dataSources) {
+
+									let dataSourceKeys = [];
+									dataSources.forEach(dataSource => {
+										dataSourceKeys.push(dataSource.key);
+									});
+
+									// TODO fidColumnName!!!
+									const filter = {
+										attributeDataSourceKey: {
+											in: dataSourceKeys
+										},
+										fidColumnName: relations[0].fidColumnName
+									};
+									dispatch(Action.attributeData.useIndexed(null, filter, null, 1, 100, componentId));
+
+								}
+							});
+						}
+					});
+
+				}
 				
 				
 			});
