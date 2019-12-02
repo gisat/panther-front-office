@@ -14,6 +14,7 @@ import AttributeDataSelectors from '../AttributeData/selectors';
 import AppSelectors from '../App/selectors';
 import {defaultMapView} from "../../constants/Map";
 import StylesSelect from "../Styles/selectors";
+import AttributeDataSources from "../../apps/backOffice/components/TopBar/icons/AttributeDataSources";
 
 let getBackgroundLayerCache = new CacheFifo(10);
 let getLayersCache = new CacheFifo(10);
@@ -560,6 +561,7 @@ const getLayers = (state, layersState) => {
 
 	if (layersWithFilter && layersWithFilter.length) {
 		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+		let attributeDataByLayerKey = AttributeDataSelectors.getFilteredDataGroupedByLayerKey(state, layersWithFilter, layersState);
 		let stylesByLayerKey = StylesSelect.getGroupedByLayerKey(state, layersState);
 		
 		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {

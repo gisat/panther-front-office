@@ -708,9 +708,22 @@ function use(mapKey, backgroundLayer, layers) {
 				
 				// Ensure attribute data //todo
 				if (layer.attributeKeys) {
+					let attributeFilter = {
+						...filter,
+						attributeKey: {
+							in: layer.attributeKeys
+						}
+					};
 
-					dispatch(Action.attributeRelations.useIndexedRegister( componentId, filterByActive, filter, null, 1, 2000));
-					dispatch(Action.attributeRelations.ensureIndexed(mergedFilter, null, 1, 2000)).then(() => {
+					let mergedAttributeFilter = {
+						...mergedFilter,
+						attributeKey: {
+							in: layer.attributeKeys
+						}
+					};
+
+					dispatch(Action.attributeRelations.useIndexedRegister( componentId, filterByActive, attributeFilter, null, 1, 2000));
+					dispatch(Action.attributeRelations.ensureIndexed(mergedAttributeFilter, null, 1, 2000)).then(() => {
 						/* Ensure data sources */
 						const relations = Select.attributeRelations.getFiltered(getState(), mergedFilter);
 						if (relations && relations.length) {

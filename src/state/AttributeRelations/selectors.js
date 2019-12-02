@@ -7,6 +7,53 @@ const getSubstate = (state) => state.attributeRelations;
 
 const getAll = common.getAll(getSubstate);
 
+
+const getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey = createCachedSelector(
+	[
+		getAll,
+		(state, layersWithFilter) => layersWithFilter,
+		(state, layersWithFilter, layersState) => layersState
+	],
+	(relations, layersWithFilter, layersState) => {
+		if (relations && relations.length) {
+			let filteredGroupedByLayerKey = {};
+
+			_.forEach(layersWithFilter, (layer) => {
+				let layerState = _.find(layersState, {key: layer.key});
+				let attributeKeys = layerState.attributeKeys;
+				if (attributeKeys) {
+					let filter = {
+						...layer.filter,
+						attributeKey: {
+							in: attributeKeys
+						}
+					};
+					let filteredRelations = _.filter(relations, {'data': filter});
+					if (filteredRelations.length) {
+						filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => {
+							return {
+								attributeDataSourceKey: relation.data.attributeDataSourceKey,
+								fidColumnName: relation.data.fidColumnName
+							}
+						});
+					}
+
+				} else {
+					return null;
+				}
+			});
+			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
+
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layersWithFilter, layersState) => {return JSON.stringify(layersState)}
+);
+
+// DEPRECATED ---------------------
+
 const getAllData = createSelector(
 	[getAll],
 	(relations) => {
@@ -218,6 +265,9 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 );
 
 export default {
+	getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
+
+
 	getAllData,
 	getDataSourceKeyFiltered,
 	getFiltered,

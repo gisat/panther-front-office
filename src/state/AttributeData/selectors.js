@@ -10,6 +10,25 @@ const getAllAsObject = common.getAllAsObject(getSubstate);
 const getBatchByFilterOrder = common.getBatchByFilterOrder(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 
+const getFilteredDataGroupedByLayerKey = createCachedSelector(
+	[
+		AttributeRelations.getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
+		getAllAsObject,
+		(state, layersWithFilter, layersState) => layersState
+	],
+	(attributeRelations, data, layersState) => {
+		if (attributeRelations && data && !_.isEmpty(data)) {
+			debugger;
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layersWithFilter, layersState) => {return JSON.stringify(layersState)}
+);
+
+// DEPRECATED -------------------------------------------
+
 /**
  * Collect and prepare data sources grouped by layer key
  *
@@ -184,6 +203,8 @@ export default {
 	getFiltered,
 	getBatchByFilterOrder,
 	getFilteredGroupedByLayerKey,
+
+	getFilteredDataGroupedByLayerKey,
 
 	getFilteredGroupedByFid,
 	getNamesByFid,
