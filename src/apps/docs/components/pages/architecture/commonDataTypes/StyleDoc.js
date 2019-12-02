@@ -67,7 +67,7 @@ const presentationalLayers = [{
 	type: "vector",
 	options: {
 		features: cz_gadm.features,
-		style: style
+		style: style.data.definition
 	}
 }];
 
@@ -76,7 +76,7 @@ const presentationalLayers2 = [{
 	type: "vector",
 	options: {
 		features: cz_gadm.features,
-		style: style2
+		style: style2.data.definition
 	}
 }];
 
@@ -85,7 +85,7 @@ const largeDataLayers = [{
 	type: "vector",
 	options: {
 		features: largePointData.features,
-		style: largeDataStyle
+		style: largeDataStyle.data.definition
 	}
 }];
 
@@ -94,7 +94,7 @@ const largeDataLayersShapes = [{
 	type: "vector",
 	options: {
 		features: largePointData.features,
-		style: shapesStyle
+		style: shapesStyle.data.definition
 	}
 }];
 
