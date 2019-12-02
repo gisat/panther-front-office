@@ -744,8 +744,10 @@ function use(mapKey, backgroundLayer, layers) {
 					});
 
 				}
-				
-				
+
+				if (layer.styleKey) {
+					dispatch(Action.styles.useKeys([layer.styleKey],componentId));
+				}
 			});
 		}
 	}
@@ -757,6 +759,7 @@ function useClear(mapKey) {
 		dispatch(commonActions.useKeysClear(ActionTypes.SPATIAL_DATA_SOURCES)(`map_${mapKey}`));
 		dispatch(commonActions.useKeysClear(ActionTypes.LAYER_TEMPLATES)(`map_${mapKey}`));
 		dispatch(commonActions.useKeysClear(ActionTypes.AREAS.AREA_TREE_LEVELS)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.STYLES)(`map_${mapKey}`));
 	};
 }
 
@@ -1173,6 +1176,15 @@ const actionSetMapLayer = (mapKey, layerKey, layer) => {
 		mapKey,
 		layerKey,
 		layer,
+	}
+};
+
+const actionSetMapLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKeys) => {
+	return {
+		type: ActionTypes.MAPS.MAP.LAYERS.SET.HOVERED_FEATURE_KEYS,
+		mapKey,
+		layerKey,
+		hoveredFeatureKeys
 	}
 };
 

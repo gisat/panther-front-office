@@ -92,7 +92,7 @@ const getLayersWithFilter = createCachedSelector(
 	}
 )((state, layersState) => layersState);
 
-const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions) => {
+const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions, style) => {
 	let dataSourceData = dataSource.data;
 	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
 
@@ -110,6 +110,11 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions)
 			...layerOptions,
 			features
 		};
+
+		// TODO type=geoserver
+		if (style && style.data && style.data.source === 'definition') {
+			options.style = style.data.definition;
+		}
 	}
 
 	return {

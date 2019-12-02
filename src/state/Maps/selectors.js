@@ -13,6 +13,7 @@ import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
 import AppSelectors from '../App/selectors';
 import {defaultMapView} from "../../constants/Map";
+import StylesSelect from "../Styles/selectors";
 
 let getBackgroundLayerCache = new CacheFifo(10);
 let getLayersCache = new CacheFifo(10);
@@ -559,6 +560,7 @@ const getLayers = (state, layersState) => {
 
 	if (layersWithFilter && layersWithFilter.length) {
 		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+		let stylesByLayerKey = StylesSelect.getGroupedByLayerKey(state, layersState);
 		
 		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
 			let mapLayers = [];
@@ -566,12 +568,14 @@ const getLayers = (state, layersState) => {
 			let cacheKey = JSON.stringify(layersWithFilter);
 			let cache = getLayersCache.findByKey(cacheKey);
 			
-			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey) {
+			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey && cache.stylesByLayerKey === stylesByLayerKey) {
 				return cache.mapLayers;
 			} else {
 				layersState.forEach((layerState) => {
 					let layerKey = layerState.key;
 					let dataSources = dataSourcesByLayerKey[layerKey];
+					let style = stylesByLayerKey && stylesByLayerKey[layerKey];
+
 					if (dataSources && dataSources.length) {
 						dataSources.forEach((dataSource, index) => {
 
@@ -597,7 +601,7 @@ const getLayers = (state, layersState) => {
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index, layerState.options));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index, layerState.options, style));
 							}
 						});
 					}
@@ -607,7 +611,8 @@ const getLayers = (state, layersState) => {
 					cacheKey,
 					layersWithFilter,
 					dataSourcesByLayerKey,
-					mapLayers
+					mapLayers,
+					stylesByLayerKey
 				});
 
 				return mapLayers;

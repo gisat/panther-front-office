@@ -365,6 +365,11 @@ export const commonActionTypesDefinitions = {
 		},
 		MAP: {
 			ADD: null,
+			LAYERS: {
+				SET: {
+					HOVERED_FEATURE_KEYS: null
+				}
+			},
 			REMOVE: null,
 			SET_NAME: null,
 			SET_DATA: null,
@@ -772,7 +777,25 @@ export const commonActionTypesDefinitions = {
 
 	STYLES: {
 		ADD: null,
-		ADD_UNRECEIVED: null
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				CLEAR_ALL: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	SNAPSHOTS_ADD: 'SNAPSHOTS_ADD',

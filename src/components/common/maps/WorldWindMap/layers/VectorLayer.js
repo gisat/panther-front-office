@@ -23,12 +23,12 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		super(name);
 
 		this.opacity = layer.opacity || 1;
-		this.style = layer.options && layer.options.style && layer.options.style.data && layer.options.style.data.definition;
+		this.style = layer.options && layer.options.style;
 
 		this.addFeatures(layer.options.features || []);
 	};
 
-	/**
+	/**;
 	 * @param features {Array} List of GeoJSON features
 	 */
 	addFeatures(features) {
