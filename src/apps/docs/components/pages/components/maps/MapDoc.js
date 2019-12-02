@@ -77,8 +77,7 @@ const largeDataLayers = [{
 		hovered: {
 			keys: null,
 			style: hoveredStyle
-		},
-		gidColumn: "ID"
+		}
 	}
 }];
 

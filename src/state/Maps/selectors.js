@@ -520,7 +520,7 @@ const getBackgroundLayer = (state, layerState) => {
 				if (cache && cache.layersWithFilter === layersWithFilter && cache.layerDataSources === layerDataSources) {
 					return cache.mapLayers;
 				} else {
-					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSourceWithFidColumn, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSourceWithFidColumn.dataSource, dataSourceWithFidColumn.fidColumnName, index));
 
 					getBackgroundLayerCache.addOrUpdate({
 						cacheKey,
@@ -577,7 +577,9 @@ const getLayers = (state, layersState) => {
 					let style = stylesByLayerKey && stylesByLayerKey[layerKey];
 
 					if (dataSources && dataSources.length) {
-						dataSources.forEach((dataSource, index) => {
+						dataSources.forEach((dataSourceWithFidColumn, index) => {
+							const dataSource = dataSourceWithFidColumn && dataSourceWithFidColumn.dataSource;
+							const fidColumnName = dataSourceWithFidColumn && dataSourceWithFidColumn.fidColumnName;
 
 							// TODO quick solution for geoinv
 							let currentApp = AppSelectors.getKey(state);
@@ -595,13 +597,13 @@ const getLayers = (state, layersState) => {
 										}
 									});
 								} else {
-									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index));
 								}
 							}
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index, layerState.options, style));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style));
 							}
 						});
 					}

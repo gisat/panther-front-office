@@ -23,18 +23,21 @@ const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
 		const dataSourceKeysGroupedByLayerKey = spatialRelationsDataSourceKeysGroupedByLayerKey || areaRelationsDataSourceKeysGroupedByLayerKey;
 		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
 			let dataSourcesGroupedByLayerKey = {};
-			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
+			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeysAndFidColumns, layerKey) => {
 				dataSourcesGroupedByLayerKey[layerKey] = [];
-				_.forEach(dataSourceKeys, (dataSourceKey) => {
-					if (dataSources[dataSourceKey]) {
-						let finalDataSource = {...dataSources[dataSourceKey]};
+				_.forEach(dataSourceKeysAndFidColumns, (dataSourceKeyAndFidColumn) => {
+					if (dataSources[dataSourceKeyAndFidColumn.spatialDataSourceKey]) {
+						let finalDataSource = {...dataSources[dataSourceKeyAndFidColumn.spatialDataSourceKey]};
 
-						const data = spatialData[dataSourceKey];
+						const data = spatialData[dataSourceKeyAndFidColumn.spatialDataSourceKey];
 						if (data && data.spatialData && data.spatialData.features) {
 							finalDataSource.data.features = data.spatialData.features;
 						}
 
-						dataSourcesGroupedByLayerKey[layerKey].push(finalDataSource);
+						dataSourcesGroupedByLayerKey[layerKey].push({
+							dataSource: finalDataSource,
+							fidColumnName: dataSourceKeyAndFidColumn.fidColumnName
+						});
 					}
 				});
 			});

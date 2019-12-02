@@ -33,7 +33,7 @@ class LargeDataLayer extends TiledImageLayer {
 
 		this.pantherProps = {
 			features: options.features,
-			gidColumn: options.gidColumn,
+			fidColumnName: options.fidColumnName,
 			hovered: options.hovered,
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
@@ -138,7 +138,7 @@ class LargeDataLayer extends TiledImageLayer {
 
 	onMouseMoveResult(data) {
 		if (this.pantherProps.onHover) {
-			let gids = data.points.map(point => point.data[this.pantherProps.gidColumn]);
+			let gids = data.points.map(point => point.data[this.pantherProps.fidColumnName]);
 
 			// TODO provisional content
 			let content = (
@@ -238,7 +238,7 @@ class LargeDataLayer extends TiledImageLayer {
 	};
 
 	createPointTile(data, options) {
-		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.gidColumn, this.pantherProps.hovered);
+		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.fidColumnName, this.pantherProps.hovered);
 	};
 
 

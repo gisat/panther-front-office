@@ -92,7 +92,7 @@ const getLayersWithFilter = createCachedSelector(
 	}
 )((state, layersState) => layersState);
 
-const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions, style) => {
+const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index, layerOptions, style) => {
 	let dataSourceData = dataSource.data;
 	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
 
@@ -108,7 +108,8 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions,
 	} else if (type === 'vector' && features) {
 		options = {
 			...layerOptions,
-			features
+			features,
+			fidColumnName
 		};
 
 		// TODO type=geoserver
