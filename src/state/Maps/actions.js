@@ -430,6 +430,27 @@ const setLayerIndex = (mapKey, layerKey, index) => {
 	}
 };
 
+const setLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKeys) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapLayer = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+		if (mapLayer) {
+			dispatch(actionSetMapLayerHoveredFeatureKeys(mapKey, layerKey, hoveredFeatureKeys));
+		}
+
+		// TODO
+		else {
+			let set = Select.maps.getMapSetByMapKey(state, mapKey);
+			if (set) {
+				// let setLayer = Select.maps.getSetLayerBySetKeyAndLayerKey(state, set.key, layerKey);
+				// if (setLayer) {
+				// 	 dispatch(actionSetSetLayerHoveredFeatureKeys(state, setKey, layerKey, hoveredFeatureKeys));
+				// }
+			}
+		}
+	}
+};
+
 /**
  * 
  * Similar like add layer.
@@ -1320,6 +1341,7 @@ export default {
 
 	setActiveMapKey,
 	setActiveSetKey,
+	setLayerHoveredFeatureKeys,
 	setLayerIndex,
 
 	setMapBackgroundLayer,

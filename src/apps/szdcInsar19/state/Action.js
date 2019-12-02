@@ -1,5 +1,18 @@
 import CommonAction from '../../../state/Action';
 import CommonSelect from "../../../state/Select";
+
+const hoveredStyle = {
+	"rules":[
+		{
+			"styles": [
+				{
+					"fill": "#ff0000"
+				}
+			]
+		}
+	]
+};
+
 const szdcInsar19 = {
 
 	changeAppView: (nextAppView) => (dispatch, getState) => {
@@ -33,7 +46,13 @@ const szdcInsar19 = {
 					key: `szdcInsar19_${nextCategory}_${nextView}_${activeTrackKey}`,
 					areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
 					styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
-					attributeKeys: configuration.attributes || [configuration.attribute]
+					attributeKeys: configuration.attributes || [configuration.attribute],
+					options: {
+						hovered: {
+							style: hoveredStyle //TODO
+						},
+						gidColumn: 'ID'// TODO pass from relations
+					}
 				};
 			});
 		}

@@ -55,6 +55,9 @@ const mapDispatchToPropsFactory = () => {
 
 				onClick: (view) => {
 					dispatch(Action.maps.setMapSetActiveMapKey(ownProps.stateMapKey));
+				},
+				onLayerFeaturesHover: (layerKey, hoveredFeatureKeys) => {
+					dispatch(Action.maps.setLayerHoveredFeatureKeys(ownProps.stateMapKey, layerKey, hoveredFeatureKeys))
 				}
 			}
 		} else {
