@@ -144,7 +144,7 @@ class SzdcInsar19App extends React.PureComponent {
 			});
 
 			return !items.length ? null : (
-				<div className="szdcInsar19-select-category" style={{background: category.colour}}>
+				<div className="szdcInsar19-select-category" key={categoryKey} style={{background: category.colour}}>
 					<span>{category.title}</span>
 					{items}
 				</div>
