@@ -88,13 +88,10 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
-
-			// TODO compare references only?
 			if (this.props.view && prevProps.view !== this.props.view) {
 				this.updateNavigator();
 			}
 
-			// TODO compare references only?
 			if (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer) {
 				this.updateLayers();
 			}
@@ -114,7 +111,19 @@ class WorldWindMap extends React.PureComponent {
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer, this.wwd, this.onHover));
+				let mapLayer = null;
+
+				// TODO working for LargeDataLayer only
+				if (layer.type === 'vector') {
+					mapLayer = layersHelpers.updateVectorLayer(layer, this.wwd, this.onHover);
+				}
+
+				// TODO more sophisticated comparison for other layer types
+				else {
+					mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onHover);
+				}
+
+				layers.push(mapLayer);
 			});
 		}
 

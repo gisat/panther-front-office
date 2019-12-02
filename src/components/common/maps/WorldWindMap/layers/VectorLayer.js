@@ -18,7 +18,7 @@ const STYLE = {
  * @constructor
  */
 class VectorLayer extends WorldWind.RenderableLayer {
-	constructor(layer) {
+	constructor(layer, options) {
 		const name = layer.name || '';
 		super(name);
 

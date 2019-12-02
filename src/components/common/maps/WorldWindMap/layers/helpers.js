@@ -5,15 +5,13 @@ import WikimediaLayer from './WikimediaLayer';
 import WmsLayer from './WmsLayer';
 import WmtsLayer from './WmtsLayer';
 import LargeDataLayer from "./LargeDataLayerSource/LargeDataLayer";
+import _ from "lodash";
 
-const {RenderableLayer} = WorldWind;
-
-
-function getLayerByType(layer, wwd, onHover){
-	if (layer.type){
-		switch (layer.type){
+function getLayerByType(layerDefinition, wwd, onHover){
+	if (layerDefinition.type){
+		switch (layerDefinition.type){
 			case "worldwind":
-				switch (layer.options.layer){
+				switch (layerDefinition.options.layer){
 					case "bingAerial":
 						return new WorldWind.BingAerialLayer(null);
 					case "bluemarble":
@@ -31,26 +29,11 @@ function getLayerByType(layer, wwd, onHover){
 						return null;
 				}
 			case "wmts":
-				return new WmtsLayer(layer);
+				return new WmtsLayer(layerDefinition);
 			case "wms":
-				return new WmsLayer(layer);
+				return new WmsLayer(layerDefinition);
 			case "vector":
-				const url = layer.options && layer.options.url;
-				const numOfFeatures = layer.options && layer.options.features && layer.options.features.length;
-
-				// TODO better deciding
-				if (url || numOfFeatures > 499) {
-					let renderableLayer = new RenderableLayer(layer.key || 'Large data layer');
-					let options = {
-						...layer.options,
-						onHover,
-						renderableLayer,
-						pointHoverBuffer: 20, // in px TODO pass pointHoverBuffer
-					};
-					return new LargeDataLayer(wwd, options, layer.layerKey);
-				} else {
-					return new VectorLayer(layer);
-				}
+				return getVectorLayer(layerDefinition, wwd, onHover);
 			default:
 				return null;
 		}
@@ -59,6 +42,58 @@ function getLayerByType(layer, wwd, onHover){
 	}
 }
 
+function getVectorLayer(layerDefinition, wwd, onHover) {
+	const url = layerDefinition.options && layerDefinition.options.url;
+	const numOfFeatures = layerDefinition.options && layerDefinition.options.features && layerDefinition.options.features.length;
+	const key = layerDefinition.key || 'Vector layer';
+	const layerKey = layerDefinition.layerKey || key;
+
+	let options = {
+		...layerDefinition.options,
+		key,
+		layerKey,
+		onHover
+	};
+
+	// TODO better deciding
+	if (url || numOfFeatures > 499) {
+		options.pointHoverBuffer = 20; // in px TODO pass pointHoverBuffer
+		return new LargeDataLayer(wwd, options, layerDefinition);
+	} else {
+		return new VectorLayer(layerDefinition, options);
+	}
+}
+
+function updateVectorLayer(layerDefinition, wwd, onHover) {
+	let mapLayer = null;
+	let layerKey = layerDefinition.layerKey;
+	let worldWindLayer = _.find(wwd.layers, (lay) => {
+		return lay.pantherProps && lay.pantherProps .layerKey && (lay.pantherProps.layerKey === layerKey);
+	});
+
+	if (!worldWindLayer) {
+		mapLayer = getLayerByType(layerDefinition, wwd, onHover);
+	} else {
+		let prevFeatures = worldWindLayer.pantherProps.features;
+		let nextFeatures = layerDefinition.options.features;
+
+		if (prevFeatures === nextFeatures) {
+			mapLayer = worldWindLayer;
+			let prevHoveredKeys = worldWindLayer.pantherProps.hovered && worldWindLayer.pantherProps.hovered.keys;
+			let nextHoveredKeys = layerDefinition.options.hovered && layerDefinition.options.hovered.keys;
+			if (prevHoveredKeys !== nextHoveredKeys) {
+				worldWindLayer.updateHovered(layerDefinition.options.hovered);
+			}
+		}
+		else {
+			mapLayer = getLayerByType(layerDefinition, wwd, onHover);
+		}
+	}
+
+	return mapLayer;
+}
+
 export default {
-	getLayerByType
+	getLayerByType,
+	updateVectorLayer
 }

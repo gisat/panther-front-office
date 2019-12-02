@@ -11,7 +11,7 @@ const DEFAULT_STYLE_OBJECT = {
 
 // const FILTERED_STYLE_OBJECT ???
 
-function getStyleObject(attributes, styleDefinition) {
+function getStyleObject(attributes, styleDefinition, omitDefault) {
 	let finalStyleObject = {};
 
 	if (styleDefinition && styleDefinition.rules) {
@@ -35,7 +35,7 @@ function getStyleObject(attributes, styleDefinition) {
 		})
 	}
 
-	return {...DEFAULT_STYLE_OBJECT, ...finalStyleObject}
+	return omitDefault ? finalStyleObject : {...DEFAULT_STYLE_OBJECT, ...finalStyleObject}
 }
 
 /**

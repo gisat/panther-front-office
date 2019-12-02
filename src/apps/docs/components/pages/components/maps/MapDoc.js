@@ -82,7 +82,7 @@ const largeDataLayers = [{
 	}
 }];
 
-const levelsRange = [10, 18];
+const levelsRange = [0, 18];
 
 class MapDoc extends React.PureComponent {
 
@@ -100,12 +100,15 @@ class MapDoc extends React.PureComponent {
 	onLayerFeaturesHover(layerKey, hoveredKeys) {
 		let layer = _.find(this.state.largeDataLayers, {key: layerKey});
 		hoveredKeys = hoveredKeys.length ? hoveredKeys : null;
+
+		let updatedLayer = {...layer, options: {...layer.options, hovered: {...layer.options.hovered, keys: hoveredKeys}}};
+
 		layer.options.hovered.keys = hoveredKeys;
 
 		if (!_.isEqual(this.state.hoveredKeys, hoveredKeys)) {
 			this.setState({
 				hoveredKeys,
-				largeDataLayers: [layer]
+				largeDataLayers: [updatedLayer]
 			});
 		}
 	}
