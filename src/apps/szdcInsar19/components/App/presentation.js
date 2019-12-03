@@ -84,7 +84,7 @@ class SzdcInsar19App extends React.PureComponent {
 				<div className="szdcInsar19-content">
 					<div className="szdcInsar19-map">
 						<HoverHandler>
-							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap}/>
+							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap} levelsBased/>
 						</HoverHandler>
 					</div>
 					<div className="szdcInsar19-visualization">
