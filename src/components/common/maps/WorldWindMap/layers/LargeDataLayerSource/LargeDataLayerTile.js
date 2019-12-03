@@ -27,10 +27,10 @@ const DEFAULT_SIZE = 5;
 
 class LargeDataLayerTile {
 
-	constructor(data, options, style, gidColumn, hovered) {
+	constructor(data, options, style, fidColumnName, hovered) {
 		this._data = data;
 		this._style = style;
-		this._gidColumn = gidColumn;
+		this._fidColumnName = fidColumnName;
 		this._hovered = hovered;
 
 		// todo here?
@@ -88,7 +88,7 @@ class LargeDataLayerTile {
 
 		// apply hovered style, if feature is hovered
 		if (this._hovered && this._hovered.keys) {
-			let hovered = this._hovered.keys.indexOf(attributes[this._gidColumn]) !== -1;
+			let hovered = this._hovered.keys.indexOf(attributes[this._fidColumnName]) !== -1;
 			if (hovered) {
 				style = {...style, ...this._hoveredStyle};
 			}

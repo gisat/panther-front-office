@@ -92,7 +92,7 @@ const getLayersWithFilter = createCachedSelector(
 	}
 )((state, layersState) => layersState);
 
-const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions, style) => {
+const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index, layerOptions, style, attributeDataSources) => {
 	let dataSourceData = dataSource.data;
 	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
 
@@ -106,9 +106,15 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions,
 			url
 		}
 	} else if (type === 'vector' && features) {
+		if (attributeDataSources) {
+			features = mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName);
+		}
+		
+		
 		options = {
 			...layerOptions,
-			features
+			features,
+			fidColumnName
 		};
 
 		// TODO type=geoserver
@@ -124,6 +130,32 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, index, layerOptions,
 		options
 	};
 };
+
+function mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName) {
+	let finalFeaturesObject = {};
+	features.forEach((feature) => {
+		let key = feature.properties[fidColumnName];
+		finalFeaturesObject[key] = feature;
+	});
+
+	attributeDataSources.forEach(attributeDataSource => {
+		let featuresWithAttributes = attributeDataSource.dataSource.data.features;
+		if (featuresWithAttributes) {
+			featuresWithAttributes.forEach(featureWithAttributes => {
+				let featureKey = featureWithAttributes.properties[fidColumnName];
+				finalFeaturesObject[featureKey] = {
+					...finalFeaturesObject[featureKey],
+					properties: {
+						...finalFeaturesObject[featureKey].properties,
+						...featureWithAttributes.properties
+					}
+				}
+			});
+		}
+	});
+
+	return Object.values(finalFeaturesObject);
+}
 
 export default {
 	getBackgroundLayersWithFilter,

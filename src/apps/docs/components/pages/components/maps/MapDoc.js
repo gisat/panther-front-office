@@ -66,7 +66,7 @@ const presentationalLayers = [{
 	type: "vector",
 	options: {
 		features: cz_gadm.features,
-		style: style
+		style: style.data.definition
 	}
 }];
 
@@ -77,8 +77,7 @@ const largeDataLayers = [{
 		hovered: {
 			keys: null,
 			style: hoveredStyle
-		},
-		gidColumn: "ID"
+		}
 	}
 }];
 
