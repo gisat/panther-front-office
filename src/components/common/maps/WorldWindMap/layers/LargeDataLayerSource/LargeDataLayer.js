@@ -159,7 +159,7 @@ class LargeDataLayer extends TiledImageLayer {
 					})}
 				</div>
 			);
-			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, content);
+			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, content, data.points);
 		}
 	}
 

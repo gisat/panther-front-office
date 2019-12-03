@@ -9,7 +9,8 @@ class HoverHandler extends React.PureComponent {
 
 	static propTypes = {
 		selectedItems: PropTypes.array,
-		compressedPopups: PropTypes.bool
+		compressedPopups: PropTypes.bool,
+		popupContentComponent: PropTypes.element
 	};
 
 	constructor(props){
@@ -64,7 +65,7 @@ class HoverHandler extends React.PureComponent {
 		return <Popup
 			x={this.state.popup.x}
 			y={this.state.popup.y}
-			content={this.state.popup.content}
+			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.popup.data}) : this.state.popup.content}
 			compressed={this.props.compressedPopups}
 		/>
 	}

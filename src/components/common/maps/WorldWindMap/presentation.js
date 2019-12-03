@@ -180,14 +180,15 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	onHover(layerKey, featureKeys, x, y, popupContent) {
+	onHover(layerKey, featureKeys, x, y, popupContent, data) {
 		// pass data to popup
 		if (this.context && this.context.onHover) {
 			this.context.onHover(featureKeys, {
 				popup: {
 					x,
 					y,
-					content: popupContent
+					content: popupContent,
+					data
 				}
 			});
 
