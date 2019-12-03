@@ -4,6 +4,8 @@ import _ from 'lodash';
 import Map from "../../../../components/common/maps/Map";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import PantherSelect, {PantherSelectItem} from "../../../../components/common/atoms/PantherSelect";
+import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import MapPopup from "../MapPopup";
 
 const appViews = {
 	track: {
@@ -82,7 +84,11 @@ class SzdcInsar19App extends React.PureComponent {
 				</div>
 				<div className="szdcInsar19-content">
 					<div className="szdcInsar19-map">
-						<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap}/>
+						<HoverHandler
+							popupContentComponent={MapPopup}
+						>
+							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap} levelsBased/>
+						</HoverHandler>
 					</div>
 					<div className="szdcInsar19-visualization">
 					

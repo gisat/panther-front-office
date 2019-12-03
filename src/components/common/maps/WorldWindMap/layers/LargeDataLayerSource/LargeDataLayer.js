@@ -54,6 +54,11 @@ class LargeDataLayer extends TiledImageLayer {
 		wwd.addEventListener('mousemove', this.onMouseMove);
 	}
 
+	removeListeners() {
+		this.pantherProps.wwd.removeEventListener('click', this.onClick);
+		this.pantherProps.wwd.removeEventListener('mousemove', this.onMouseMove);
+	}
+
 	loadData(url) {
 		fetch(url).then(data => {
 			return data.json();
@@ -154,7 +159,7 @@ class LargeDataLayer extends TiledImageLayer {
 					})}
 				</div>
 			);
-			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, content);
+			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, content, data.points);
 		}
 	}
 

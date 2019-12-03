@@ -68,7 +68,7 @@ function updateVectorLayer(layerDefinition, wwd, onHover) {
 	let mapLayer = null;
 	let layerKey = layerDefinition.layerKey;
 	let worldWindLayer = _.find(wwd.layers, (lay) => {
-		return lay.pantherProps && lay.pantherProps .layerKey && (lay.pantherProps.layerKey === layerKey);
+		return lay.pantherProps && lay.pantherProps.layerKey && (lay.pantherProps.layerKey === layerKey);
 	});
 
 	if (!worldWindLayer) {
@@ -86,6 +86,7 @@ function updateVectorLayer(layerDefinition, wwd, onHover) {
 			}
 		}
 		else {
+			worldWindLayer.removeListeners();
 			mapLayer = getLayerByType(layerDefinition, wwd, onHover);
 		}
 	}
