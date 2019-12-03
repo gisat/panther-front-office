@@ -54,6 +54,11 @@ class LargeDataLayer extends TiledImageLayer {
 		wwd.addEventListener('mousemove', this.onMouseMove);
 	}
 
+	removeListeners() {
+		this.pantherProps.wwd.removeEventListener('click', this.onClick);
+		this.pantherProps.wwd.removeEventListener('mousemove', this.onMouseMove);
+	}
+
 	loadData(url) {
 		fetch(url).then(data => {
 			return data.json();

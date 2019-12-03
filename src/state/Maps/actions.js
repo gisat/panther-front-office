@@ -686,7 +686,7 @@ function use(mapKey, backgroundLayer, layers) {
 									fidColumnName: relation.fidColumnName
 								}
 							});
-							const spatialDataSourcesKeys = spatialFilters.map(filter => filter.spatialDataSourceKey);
+							const spatialDataSourcesKeys = _.uniq(spatialFilters.map(filter => filter.spatialDataSourceKey));
 							
 							dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
 								const dataSources = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
