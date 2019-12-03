@@ -11,10 +11,10 @@ import mapHelpers from './helpers';
 import commonSelectors from "../_common/selectors";
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
+import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
 import AppSelectors from '../App/selectors';
 import {defaultMapView} from "../../constants/Map";
 import StylesSelect from "../Styles/selectors";
-import AttributeDataSources from "../../apps/backOffice/components/TopBar/icons/AttributeDataSources";
 
 let getBackgroundLayerCache = new CacheFifo(10);
 let getLayersCache = new CacheFifo(10);
@@ -561,7 +561,7 @@ const getLayers = (state, layersState) => {
 
 	if (layersWithFilter && layersWithFilter.length) {
 		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
-		let attributeDataByLayerKey = AttributeDataSelectors.getFilteredDataGroupedByLayerKey(state, layersWithFilter, layersState);
+		let attributeDataSourcesByLayerKey = AttributeDataSourcesSelectors.getFilteredDataSourcesGroupedByLayerKey(state, layersWithFilter, layersState);
 		let stylesByLayerKey = StylesSelect.getGroupedByLayerKey(state, layersState);
 		
 		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
@@ -570,12 +570,13 @@ const getLayers = (state, layersState) => {
 			let cacheKey = JSON.stringify(layersWithFilter);
 			let cache = getLayersCache.findByKey(cacheKey);
 			
-			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey && cache.stylesByLayerKey === stylesByLayerKey) {
+			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey && cache.stylesByLayerKey === stylesByLayerKey && cache.attributeDataSourcesByLayerKey === attributeDataSourcesByLayerKey) {
 				return cache.mapLayers;
 			} else {
 				layersState.forEach((layerState) => {
 					let layerKey = layerState.key;
 					let dataSources = dataSourcesByLayerKey[layerKey];
+					let attributeDataSources = attributeDataSourcesByLayerKey && attributeDataSourcesByLayerKey[layerKey];
 					let style = stylesByLayerKey && stylesByLayerKey[layerKey];
 
 					if (dataSources && dataSources.length) {
@@ -605,7 +606,7 @@ const getLayers = (state, layersState) => {
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style, attributeDataSources));
 							}
 						});
 					}
@@ -615,6 +616,7 @@ const getLayers = (state, layersState) => {
 					cacheKey,
 					layersWithFilter,
 					dataSourcesByLayerKey,
+					attributeDataSourcesByLayerKey,
 					mapLayers,
 					stylesByLayerKey
 				});

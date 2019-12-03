@@ -22,17 +22,22 @@ const getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey = createCachedSele
 				let layerState = _.find(layersState, {key: layer.key});
 				let attributeKeys = layerState.attributeKeys;
 				if (attributeKeys) {
-					let filter = {
-						...layer.filter,
-						attributeKey: {
-							in: attributeKeys
+
+					// TODO more sophisticated filtering
+					let preFilteredRelations = _.filter(relations, {'data': layer.filter});
+					let filteredRelations = _.filter(preFilteredRelations, (relation) => {
+						if (relation.data.attributeKey) {
+							return !!_.includes(attributeKeys, relation.data.attributeKey);
+						} else {
+							return true;
 						}
-					};
-					let filteredRelations = _.filter(relations, {'data': filter});
+					});
+
 					if (filteredRelations.length) {
 						filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => {
 							return {
 								attributeDataSourceKey: relation.data.attributeDataSourceKey,
+								attributeKey: relation.data.attributeKey,
 								fidColumnName: relation.data.fidColumnName
 							}
 						});
