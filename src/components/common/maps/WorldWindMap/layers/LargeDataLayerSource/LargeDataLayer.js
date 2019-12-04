@@ -22,7 +22,7 @@ const DEFAULT_SIZE = 5;
 // TODO: Highlight the selected points.
 class LargeDataLayer extends TiledImageLayer {
 	constructor(wwd, options, layer) {
-		super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'large-data-layer', 256, 256);
+		super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', layer.key, 256, 256);
 		
 		this.tileWidth = 256;
 		this.tileHeight = 256;
