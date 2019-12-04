@@ -435,7 +435,17 @@ const setLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKeys) => {
 		const state = getState();
 		const mapLayer = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
 		if (mapLayer) {
-			dispatch(actionSetMapLayerHoveredFeatureKeys(mapKey, layerKey, hoveredFeatureKeys));
+			const prevKeys = mapLayer && mapLayer.options && mapLayer.options.hovered && mapLayer.options.hovered.keys;
+
+			if (prevKeys) {
+				const prevKeysString = JSON.stringify(_.sortBy(prevKeys));
+				const nextKeysString = JSON.stringify(_.sortBy(hoveredFeatureKeys));
+				if (prevKeysString !== nextKeysString) {
+					dispatch(actionSetMapLayerHoveredFeatureKeys(mapKey, layerKey, hoveredFeatureKeys));
+				}
+			} else {
+				dispatch(actionSetMapLayerHoveredFeatureKeys(mapKey, layerKey, hoveredFeatureKeys));
+			}
 		}
 
 		// TODO

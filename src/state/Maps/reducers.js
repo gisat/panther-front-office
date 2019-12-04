@@ -177,18 +177,31 @@ const setMapName = (state, mapKey, name) => {
 
 const setMapLayerHoveredFeatureKeys = (state, mapKey, layerKey, hoveredFeatureKeys) => {
 	const mapState = getMapByKey(state, mapKey);
-	return state;
-	// todo
 
-	// const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
-	// if (layerIndex > -1) {
-	// 	const mergedLayerState = _.merge(_.cloneDeep({...mapState.data.layers[layerIndex]}), layerState);
-	// 	const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState);
-	// 	return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
-	// } else {
-	// 	//error - layer not found
-	// 	return state;
-	// }
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	const layerState = _.find(mapState.data.layers, (layer) => {
+		return layer.key === layerKey;
+	});
+
+	if (layerState) {
+		const newLayerState = {
+			...layerState,
+			options: {
+				...layerState.options,
+				hovered: layerState.options.hovered ? {
+					...layerState.options.hovered,
+					keys: hoveredFeatureKeys
+				} : {
+					keys: hoveredFeatureKeys
+				}
+			}
+		};
+
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		return state;
+	}
 };
 
 const setMap = (state, mapState = INITIAL_MAP_STATE) => {

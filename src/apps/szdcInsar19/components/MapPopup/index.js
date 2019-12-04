@@ -50,7 +50,7 @@ const mapDispatchToPropsFactory = () => {
 				}
 			},
 			onUnmount: () => {
-				// TODO
+				dispatch(Action.attributes.useKeysClear(componentId));
 			}
 		}
 	}

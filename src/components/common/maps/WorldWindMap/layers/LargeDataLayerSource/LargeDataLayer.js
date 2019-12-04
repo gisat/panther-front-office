@@ -34,7 +34,7 @@ class LargeDataLayer extends TiledImageLayer {
 		this.pantherProps = {
 			features: options.features,
 			fidColumnName: options.fidColumnName,
-			hovered: options.hovered,
+			hovered: {...options.hovered},
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
 			pointHoverBuffer: options.pointHoverBuffer || DEFAULT_SIZE,
@@ -246,15 +246,8 @@ class LargeDataLayer extends TiledImageLayer {
 		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.fidColumnName, this.pantherProps.hovered);
 	};
 
-
-
-	/**
-	 * @param hovered {Object}
-	 * @param hovered.style {Object}
-	 * @param hovered.keys {Array}
-	 */
-	updateHovered(hovered) {
-		this.pantherProps.hovered = {...hovered};
+	updateHoveredKeys(hoveredKeys) {
+		this.pantherProps.hovered.keys = hoveredKeys;
 		this.refresh();
 	}
 

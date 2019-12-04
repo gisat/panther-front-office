@@ -14,6 +14,9 @@ class MapPopup extends React.PureComponent {
 	}
 
 	componentWillUnmount() {
+		if (this.props.onUnmount) {
+			this.props.onUnmount();
+		}
 	}
 
 	render() {

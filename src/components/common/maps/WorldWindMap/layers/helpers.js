@@ -64,7 +64,7 @@ function getVectorLayer(layerDefinition, wwd, onHover) {
 	}
 }
 
-function updateVectorLayer(layerDefinition, wwd, onHover) {
+function updateVectorLayer(layerDefinition, wwd, onHover, hoveredKeys) {
 	let mapLayer = null;
 	let layerKey = layerDefinition.layerKey;
 	let worldWindLayer = _.find(wwd.layers, (lay) => {
@@ -82,7 +82,7 @@ function updateVectorLayer(layerDefinition, wwd, onHover) {
 			let prevHoveredKeys = worldWindLayer.pantherProps.hovered && worldWindLayer.pantherProps.hovered.keys;
 			let nextHoveredKeys = layerDefinition.options.hovered && layerDefinition.options.hovered.keys;
 			if (prevHoveredKeys !== nextHoveredKeys) {
-				worldWindLayer.updateHovered(layerDefinition.options.hovered);
+				worldWindLayer.updateHoveredKeys(nextHoveredKeys);
 			}
 		}
 		else {

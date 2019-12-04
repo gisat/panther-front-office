@@ -14,6 +14,7 @@ import HoverContext from "../../../../components/common/HoverHandler/context";
 import './style.scss';
 import viewUtils from "../viewUtils";
 import {defaultLevelsRange, numberOfLevels} from "../constants";
+import LargeDataLayer from "./layers/LargeDataLayerSource/LargeDataLayer";
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
@@ -95,6 +96,13 @@ class WorldWindMap extends React.PureComponent {
 			if (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer) {
 				this.updateLayers();
 			}
+
+			if (this.context && this.context.hoveredItems) {
+				const currentHoveredItemsString = JSON.stringify(_.sortBy(this.context.hoveredItems));
+				if (currentHoveredItemsString !== this.previousHoveredItemsString) {
+					this.updateHoveredFeatures();
+				}
+			}
 		}
 	}
 
@@ -129,6 +137,16 @@ class WorldWindMap extends React.PureComponent {
 
 		this.wwd.layers = layers;
 		this.wwd.redraw();
+	}
+
+	updateHoveredFeatures() {
+		this.wwd.layers.forEach(layer => {
+			if (layer instanceof LargeDataLayer) {
+				layer.updateHoveredKeys(this.context.hoveredItems);
+			}
+		});
+		this.wwd.redraw();
+		this.previousHoveredItemsString = JSON.stringify(_.sortBy(this.context.hoveredItems));
 	}
 
 	updateNavigator(defaultView) {
@@ -198,9 +216,9 @@ class WorldWindMap extends React.PureComponent {
 		}
 
 		// pass data to map state (global or local)
-		if (this.props.onLayerFeaturesHover) {
-			this.props.onLayerFeaturesHover(layerKey, featureKeys);
-		}
+		// if (this.props.onLayerFeaturesHover) {
+		// 	this.props.onLayerFeaturesHover(layerKey, featureKeys);
+		// }
 	}
 
 	render() {
