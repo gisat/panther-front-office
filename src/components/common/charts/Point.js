@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import * as d3 from 'd3';
-import chroma from 'chroma-js';
+import moment from 'moment';
 
 import HoverContext from "../HoverHandler/context";
 
@@ -30,6 +29,8 @@ class Point extends React.PureComponent {
 			PropTypes.object
 		]),
 		highlighted: PropTypes.bool,
+
+		xScaleType: PropTypes.string,
 
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string,
@@ -186,7 +187,11 @@ class Point extends React.PureComponent {
 		let zValue = _.get(props.data, props.zSourcePath);
 
 		let xValueString = xValue;
-		if (xValue && (xValue % 1) !== 0) {
+		if (props.xScaleType === "time") {
+			if (props.xOptions.popupValueFormat) {
+				xValueString = moment(xValueString).format(props.xOptions.popupValueFormat);
+			}
+		} else if (xValue && (xValue % 1) !== 0) {
 			xValueString = xValueString.toFixed(2);
 		}
 

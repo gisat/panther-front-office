@@ -12,6 +12,11 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 		if (layer.layerTemplateKey) {
 			filter.layerTemplateKey = layer.layerTemplateKey;
 		}
+		if (layer.areaTreeLevelKey) {
+			filter.areaTreeLevelKey = layer.areaTreeLevelKey;
+		}
+
+		//todo fail on conflict between metadataModifiers & filterByActive ?
 
 		let activeFilter = {};
 		if (layer.filterByActive) {
@@ -24,6 +29,9 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 			}
 			if (active.layerTemplate && activeMetadataKeys.activeLayerTemplateKey) {
 				activeFilter.layerTemplateKey = activeMetadataKeys.activeLayerTemplateKey;
+			}
+			if (active.areaTreeLevelKey && activeMetadataKeys.areaTreeLevelKey) {
+				activeFilter.areaTreeLevelKey = activeMetadataKeys.areaTreeLevelKey;
 			}
 			// TODO what if multiple periods
 			if (active.period && activeMetadataKeys.activePeriodKey) {
@@ -47,16 +55,22 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 
 const getBackgroundLayersWithFilter = createCachedSelector(
 	[
-		(layerState) => layerState,
-		(layerState, layerKey) => layerKey
+		commonSelectors.getAllActiveKeys,
+		(state, layerState) => layerState,
+		(state, layerState, layerKey) => layerKey
 	],
-	(layerState, layerKey) => {
+	(activeMetadataKeys, layerState, layerKey) => {
+		layerState = JSON.parse(layerState);
+
 		return [{
 			key: layerKey,
-			filter: layerState
+			filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layerState, activeMetadataKeys)
 		}]
 	}
-)((layerState, layerKey) => (layerKey + JSON.stringify(layerState)));
+)((state, layerState, layerKey) => (`${layerState}:${layerKey}`));
+
+
+
 
 const getLayersWithFilter = createCachedSelector(
 	[
@@ -64,6 +78,7 @@ const getLayersWithFilter = createCachedSelector(
 		(state, layersState) => layersState
 	],
 	(activeMetadataKeys, layersState) => {
+		layersState = JSON.parse(layersState);
 		if (layersState && layersState.length) {
 			return _.map(layersState, (layer) => {
 				return {
@@ -75,30 +90,72 @@ const getLayersWithFilter = createCachedSelector(
 			return null;
 		}
 	}
-)((state, layersState) => JSON.stringify(layersState));
+)((state, layersState) => layersState);
 
-const prepareLayerByDataSourceType = (layerKey, dataSource, index) => {
+const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index, layerOptions, style, attributeDataSources) => {
 	let dataSourceData = dataSource.data;
-	let {attribution, nameInternal, type, ...options} = dataSourceData;
+	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
 
 	// TODO data source strucutre
 	if (type === 'wmts') {
 		options.url = options.urls[0];
-	}
-	if (type === 'wms') {
+	} else if (type === 'wms') {
 		let {url, ...params} = options;
 		options = {
 			params,
 			url
 		}
+	} else if (type === 'vector' && features) {
+		if (attributeDataSources) {
+			features = mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName);
+		}
+		
+		
+		options = {
+			...layerOptions,
+			features,
+			fidColumnName
+		};
+
+		// TODO type=geoserver
+		if (style && style.data && style.data.source === 'definition') {
+			options.style = style.data.definition;
+		}
 	}
 
 	return {
 		key: layerKey + '_' + index,
+		layerKey: layerKey,
 		type,
 		options
 	};
 };
+
+function mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName) {
+	let finalFeaturesObject = {};
+	features.forEach((feature) => {
+		let key = feature.properties[fidColumnName];
+		finalFeaturesObject[key] = feature;
+	});
+
+	attributeDataSources.forEach(attributeDataSource => {
+		let featuresWithAttributes = attributeDataSource.dataSource.data.features;
+		if (featuresWithAttributes) {
+			featuresWithAttributes.forEach(featureWithAttributes => {
+				let featureKey = featureWithAttributes.properties[fidColumnName];
+				finalFeaturesObject[featureKey] = {
+					...finalFeaturesObject[featureKey],
+					properties: {
+						...finalFeaturesObject[featureKey].properties,
+						...featureWithAttributes.properties
+					}
+				}
+			});
+		}
+	});
+
+	return Object.values(finalFeaturesObject);
+}
 
 export default {
 	getBackgroundLayersWithFilter,

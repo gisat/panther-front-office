@@ -3,14 +3,14 @@ import fetch from "isomorphic-fetch";
 import * as turf from '@turf/turf';
 import createCachedSelector from "re-reselect";
 
-const checkViewIntegrity = (view) => {
+const ensureViewIntegrity = (view) => {
 	if (view) {
 		if (view.heading && view.heading > 360) {
 			view.heading = view.heading % 360;
 		}
 
 		if (view.heading && view.heading < 0) {
-			view.heading = 360 - (view.heading % 360);
+			view.heading = 360 - (-view.heading % 360);
 		}
 
 		if (view.tilt && view.tilt < 0) {
@@ -183,13 +183,15 @@ function mergeLayers(one, two) {
 const mergeViews = createCachedSelector(
 	[
 		(one) => one,
-		(one, two) => two
+		(one, two) => two,
+		(one, two, three) => three
 	],
-	(one, two) => {
-		return {...one, ...two};
+	(one, two, three) => {
+		three = three || {};
+		return {...one, ...two, ...three};
 	}
 )(
-	(one, two) => `${one}_${two}`
+	(one, two, three) => `${one}_${two}_${three || ""}`
 );
 
 
@@ -221,7 +223,7 @@ function resetHeading(heading, callback, increment) {
 
 
 export default {
-	checkViewIntegrity,
+	ensureViewIntegrity: ensureViewIntegrity,
 	getLocationFromPlaceString,
 	getViewFromGeometry,
 	mergeLayers,

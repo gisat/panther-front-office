@@ -5,12 +5,19 @@ import * as path from "path";
 import config from "../../config/index";
 
 import mapUtils from '../../utils/map';
+import CacheFifo from "../../utils/CacheFifo";
 import mapHelpers from './helpers';
 
 import commonSelectors from "../_common/selectors";
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
+import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
+import AppSelectors from '../App/selectors';
+import {defaultMapView} from "../../constants/Map";
+import StylesSelect from "../Styles/selectors";
 
+let getBackgroundLayerCache = new CacheFifo(10);
+let getLayersCache = new CacheFifo(10);
 
 /* ===== Basic selectors ==================== */
 const getSubstate = state => state.maps;
@@ -384,6 +391,27 @@ const getAllLayersStateByMapKey = createSelector(
 );
 
 /**
+ * Get active map key for set. Either local, or global.
+ *
+ * @param state {Object}
+ * @param setKey {string}
+ */
+const getMapSetActiveMapKey = createSelector(
+	[
+		getActiveMapKey,
+		getMapSetByKey
+	],
+	(mapKey, set) => {
+		if (set) {
+			let mapKeyInSet = _.includes(set.maps, mapKey);
+			return set.activeMapKey || (mapKeyInSet && mapKey) || null;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
  * @param state {Object}
  * @param mapKey {string}
  */
@@ -396,12 +424,71 @@ const getView = createSelector(
 		if (map) {
 			if (set) {
 				let mapView = map.data && map.data.view;
+
+				// omit synced view params from map
+				if (set.sync && !_.isEmpty(set.sync)) {
+					mapView = _.omitBy(mapView, (viewValue, viewKey) => {
+						return set.sync[viewKey];
+					});
+				}
+
 				let mapSetView = set.data && set.data.view;
-				let view = mapUtils.mergeViews(mapSetView, mapView);
+				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
 				return !_.isEmpty(view) ? view : null;
 			} else {
 				let view = map.data && map.data.view;
-				return view && !_.isEmpty(view) ? view : null;
+				return mapUtils.mergeViews(defaultMapView, view);
+			}
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param setKey {string}
+ */
+const getMapSetView = createSelector(
+	[
+		getMapSetByKey
+	],
+	(set) => {
+		if (set) {
+			let setView = set.data && set.data.view;
+			return mapUtils.mergeViews(defaultMapView, setView);
+		} else {
+			return null;
+		}
+	}
+);
+
+const getMapSetActiveMapView = createSelector(
+	[
+		getMapSetActiveMapKey,
+		getMapSetByKey,
+		getMapsAsObject
+	],
+	(mapKey, set, maps) => {
+		let map = maps[mapKey];
+
+		if (map) {
+			if (set) {
+				let mapView = map.data && map.data.view;
+
+				// omit synced view params from map
+				if (set.sync && !_.isEmpty(set.sync)) {
+					mapView = _.omitBy(mapView, (viewValue, viewKey) => {
+						return set.sync[viewKey];
+					});
+				}
+
+				let mapSetView = set.data && set.data.view;
+				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
+				return !_.isEmpty(view) ? view : null;
+			} else {
+				let view = map.data && map.data.view;
+				return mapUtils.mergeViews(defaultMapView, view);
 			}
 		} else {
 			return null;
@@ -410,11 +497,50 @@ const getView = createSelector(
 );
 
 
-
-
-
-
 /* ===== Complex selectors ========================= */
+
+// TODO cache?
+const getBackgroundLayer = (state, layerState) => {
+	if (layerState) {
+		if (layerState.type) {
+			// TODO helper
+			return layerState;
+		} else {
+			let layerKey = 'pantherBackgroundLayer';
+			// TODO valid approach to stringify parameter?
+			let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(state, JSON.stringify(layerState), layerKey);
+			let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+
+			if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
+
+				// TODO experimental
+				let cacheKey = JSON.stringify(layersWithFilter);
+				let cache = getBackgroundLayerCache.findByKey(cacheKey);
+				let layerDataSources = dataSourcesByLayerKey[layerKey];
+				
+				if (cache && cache.layersWithFilter === layersWithFilter && cache.layerDataSources === layerDataSources) {
+					return cache.mapLayers;
+				} else {
+					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSourceWithFidColumn, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSourceWithFidColumn.dataSource, dataSourceWithFidColumn.fidColumnName, index));
+
+					getBackgroundLayerCache.addOrUpdate({
+						cacheKey,
+						layersWithFilter,
+						layerDataSources,
+						mapLayers
+					});
+
+					return mapLayers;
+				}
+			}
+			else {
+				return null;
+			}
+		}
+	} else {
+		return null;
+	}
+};
 
 // TODO cache?
 /**
@@ -422,17 +548,82 @@ const getView = createSelector(
  * @param mapKey {string}
  * @return {Array}
  */
-const getBackgroundLayer = (state, mapKey) => {
+const getMapBackgroundLayer = (state, mapKey) => {
 	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
-	if (layerState) {
-		let layerKey = 'pantherBackgroundLayer';
-		let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(layerState, layerKey);
-		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+	return getBackgroundLayer(state, layerState);
+};
 
-		if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
-			return _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
-		}
-		else {
+
+// TODO caching is experimental
+const getLayers = (state, layersState) => {
+	// TODO valid approach to stringify parameter?
+	let layersWithFilter = mapHelpers.getLayersWithFilter(state, JSON.stringify(layersState));
+
+	if (layersWithFilter && layersWithFilter.length) {
+		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+		let attributeDataSourcesByLayerKey = AttributeDataSourcesSelectors.getFilteredDataSourcesGroupedByLayerKey(state, layersWithFilter, layersState);
+		let stylesByLayerKey = StylesSelect.getGroupedByLayerKey(state, layersState);
+		
+		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
+			let mapLayers = [];
+
+			let cacheKey = JSON.stringify(layersWithFilter);
+			let cache = getLayersCache.findByKey(cacheKey);
+			
+			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey && cache.stylesByLayerKey === stylesByLayerKey && cache.attributeDataSourcesByLayerKey === attributeDataSourcesByLayerKey) {
+				return cache.mapLayers;
+			} else {
+				layersState.forEach((layerState) => {
+					let layerKey = layerState.key;
+					let dataSources = dataSourcesByLayerKey[layerKey];
+					let attributeDataSources = attributeDataSourcesByLayerKey && attributeDataSourcesByLayerKey[layerKey];
+					let style = stylesByLayerKey && stylesByLayerKey[layerKey];
+
+					if (dataSources && dataSources.length) {
+						dataSources.forEach((dataSourceWithFidColumn, index) => {
+							const dataSource = dataSourceWithFidColumn && dataSourceWithFidColumn.dataSource;
+							const fidColumnName = dataSourceWithFidColumn && dataSourceWithFidColumn.fidColumnName;
+
+							// TODO quick solution for geoinv
+							let currentApp = AppSelectors.getKey(state);
+							if (currentApp === 'tacrGeoinvaze') {
+								if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
+									mapLayers.push({
+										key: layerKey + '_' + dataSource.key,
+										layerKey: layerKey,
+										type: "wms",
+										options: {
+											url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
+											params: {
+												layers: dataSource.data.layerName
+											}
+										}
+									});
+								} else {
+									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index));
+								}
+							}
+
+
+							else {
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style, attributeDataSources));
+							}
+						});
+					}
+				});
+
+				getLayersCache.addOrUpdate({
+					cacheKey,
+					layersWithFilter,
+					dataSourcesByLayerKey,
+					attributeDataSourcesByLayerKey,
+					mapLayers,
+					stylesByLayerKey
+				});
+
+				return mapLayers;
+			}
+		} else {
 			return null;
 		}
 	} else {
@@ -446,48 +637,9 @@ const getBackgroundLayer = (state, mapKey) => {
  * @param mapKey {string}
  * @return {Array}
  */
-const getLayers = (state, mapKey) => {
+const getMapLayers = (state, mapKey) => {
 	let layersState = getLayersStateByMapKey(state, mapKey);
-	let layersWithFilter = mapHelpers.getLayersWithFilter(state, layersState);
-
-	if (layersWithFilter && layersWithFilter.length) {
-		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
-
-		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
-			let mapLayers = [];
-
-			layersState.forEach((layerState) => {
-				let layerKey = layerState.key;
-				let dataSources = dataSourcesByLayerKey[layerKey];
-				if (dataSources && dataSources.length) {
-					dataSources.forEach((dataSource, index) => {
-
-						// TODO quick solution for geoinv
-						if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
-							mapLayers.push({
-								key: layerKey + '_' + dataSource.key,
-								type: "wms",
-								options: {
-									url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
-									params: {
-										layers: dataSource.data.layerName
-									}
-								}
-							});
-						} else {
-							mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
-						}
-					});
-				}
-			});
-
-			return mapLayers;
-		} else {
-			return null;
-		}
-	} else {
-		return null;
-	}
+	return getLayers(state, layersState);
 };
 
 
@@ -874,21 +1026,26 @@ export default {
 	getAllLayersStateByMapKey,
 
 	getBackgroundLayer,
+	getMapBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
 
 	getFilterByActiveByMapKey,
 
 	getLayers,
+	getMapLayers,
 	getLayersStateByMapKey,
 
 	getMapByKey,
 	getMapLayerByMapKeyAndLayerKey,
 	getMapsAsObject,
 
+	getMapSetActiveMapKey,
+	getMapSetActiveMapView,
 	getMapSetByKey,
 	getMapSetByMapKey,
 	getMapSetLayersStateBySetKey,
 	getMapSetMapKeys,
+	getMapSetView,
 	getMapSets,
 	getMapSetsAsObject,
 

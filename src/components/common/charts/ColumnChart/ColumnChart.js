@@ -19,6 +19,8 @@ class ColumnChart extends React.PureComponent {
 		minBarWidth: 3,
 		barGapRatio: 0.35,
 
+		xScaleType: 'ordinal',
+
 		withoutYbaseline: true
 	};
 

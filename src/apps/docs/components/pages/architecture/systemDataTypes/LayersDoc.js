@@ -75,10 +75,10 @@ class LayersDoc extends React.PureComponent {
 	
 	options: {
 		features: {} //geojson with or without properties
-		style: ???
-		selected: {selectionKey: [], selectionKey2: []} //keys
-		filtered: [] //keys
-		hovered: [] //keys
+		style: TODO
+		selected: {selectionKey: {}, selectionKey2: {}} //keys and style
+		filtered: {} //keys and style
+		hovered: {} //keys and style
 	}
 }`
 					}
@@ -116,7 +116,8 @@ class LayersDoc extends React.PureComponent {
 `{
 	key: "example_layer",
 	opacity: 0.7,
-	layerTemplateKey: "366f98d0-10e1-4e6c-8be5-7754c45ef599",
+	layerTemplateKey|areaTreeLevelKey: "366f98d0-10e1-4e6c-8be5-7754c45ef599",
+	styleKey: "b9f1f8cd-fdff-43ca-9440-80d3dc6667d7"
 	metadataModifiers: {
 		caseKey: "c9f1f8cd-fdff-43ca-9440-80d3dc6667d6"
 	},

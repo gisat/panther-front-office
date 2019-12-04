@@ -2,13 +2,67 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 import common from "../_common/selectors";
+import AttributeData from "../AttributeData/selectors";
 import AttributeRelations from "../AttributeRelations/selectors";
+import createCachedSelector from "re-reselect";
 
 const getSubstate = (state) => state.attributeDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getBatchByFilterOrder = common.getBatchByFilterOrder(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
+
+
+const getFilteredDataSourcesGroupedByLayerKey = createCachedSelector(
+	[
+		AttributeRelations.getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
+		getAllAsObject,
+		AttributeData.getAllAsObject,
+		(state, layersWithFilter, layersState) => layersState
+	],
+	(dataSourcesDataByLayerKey, dataSources, attributeData, layersState) => {
+		if (dataSourcesDataByLayerKey && !_.isEmpty(dataSources)) {
+			let dataSourcesGroupedByLayerKey = {};
+			_.forIn(dataSourcesDataByLayerKey, (dataSourceKeysAndFidColumns, layerKey) => {
+				dataSourcesGroupedByLayerKey[layerKey] = [];
+				_.forEach(dataSourceKeysAndFidColumns, (dataSourceKeyAndFidColumn) => {
+					if (dataSources[dataSourceKeyAndFidColumn.attributeDataSourceKey]) {
+						let finalDataSource = {...dataSources[dataSourceKeyAndFidColumn.attributeDataSourceKey]};
+						const data = attributeData[dataSourceKeyAndFidColumn.attributeDataSourceKey];
+						if (data && data.attributeData && data.attributeData.features) {
+							finalDataSource.data.features = data.attributeData.features.map(feature => {
+								let updatedFeature = {
+									...feature,
+									properties: {
+										...feature.properties,
+										[dataSourceKeyAndFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName]
+									}
+								};
+
+								delete updatedFeature.properties[finalDataSource.data.columnName];
+								delete updatedFeature.properties[finalDataSource.data.columnName];
+								return updatedFeature;
+							});
+						}
+
+						dataSourcesGroupedByLayerKey[layerKey].push({
+							dataSource: finalDataSource,
+							attributeKey: dataSourceKeyAndFidColumn.attributeKey,
+							fidColumnName: dataSourceKeyAndFidColumn.fidColumnName
+						});
+					}
+				});
+			});
+
+			return dataSourcesGroupedByLayerKey;
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layersWithFilter, layersState) => {return JSON.stringify(layersState)}
+);
+
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -84,6 +138,9 @@ const getFilteredGroupedByLayerKey = createSelector(
 
 export default {
 	getSubstate,
+	getFilteredDataSourcesGroupedByLayerKey,
+
+
 	getFiltered,
 	getBatchByFilterOrder,
 	getFilteredGroupedByLayerKey,

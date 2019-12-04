@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
+import moment from 'moment';
 
 import '../style.scss';
 import utils from "../../../../utils/sort";
@@ -19,6 +20,7 @@ class LineChart extends React.PureComponent {
 		withPoints: true,
 
 		xGridlines: true,
+		xScaleType: 'ordinal',
 		withoutYbaseline: true
 	};
 
@@ -78,32 +80,50 @@ class LineChart extends React.PureComponent {
 				yMaximum = props.yOptions.max;
 			}
 
+			let xMaximum = _.max(sortedUniqueXvalues);
+			let xMinimum = _.min(sortedUniqueXvalues);
+
+			if (props.xOptions && (props.xOptions.min || props.xOptions.min === 0)) {
+				xMinimum = props.xOptions.min;
+			}
+
+			if (props.xOptions && (props.xOptions.max || props.xOptions.max === 0)) {
+				xMaximum = props.xOptions.max;
+			}
+
 			yDomain = [yMinimum, yMaximum];
 
 			/* scales */
-			if (this.props.xScale === 'yearBased') {
-				let xMaximum = _.max(sortedUniqueXvalues);
-				let xMinimum = _.min(sortedUniqueXvalues);
-				sortedUniqueXvalues = [];
-				for (let i = xMinimum; i <= xMaximum; i++) {
-					sortedUniqueXvalues.push(i);
+			if (props.xScaleType === 'time') {
+				if (props.xOptions && props.xOptions.inputValueFormat) {
+					xMinimum = moment(`${xMinimum}`, props.xOptions.inputValueFormat).toDate();
+					xMaximum = moment(`${xMaximum}`, props.xOptions.inputValueFormat).toDate();
+				} else {
+					xMinimum = new Date(xMinimum);
+					xMaximum = new Date(xMaximum);
 				}
+
+				xDomain = [xMinimum, xMaximum];
+				xScale = d3
+					.scaleTime()
+					.domain(xDomain)
+					.range([0, props.innerPlotWidth]);
+			} else {
+				xDomain = sortedUniqueXvalues;
+				xScale = d3
+					.scaleBand()
+					.padding(0)
+					.domain(xDomain)
+					.range([0, props.innerPlotWidth]);
+
+				// adjust range
+				let extension = xScale.bandwidth()/2;
+				xScale.range([0-extension, props.innerPlotWidth + extension]);
 			}
-
-			xDomain = sortedUniqueXvalues;
-			xScale = d3
-				.scaleBand()
-				.padding(0)
-				.domain(xDomain)
-				.range([0, props.innerPlotWidth]);
-
-			// adjust range
-			let extension = xScale.bandwidth()/2;
-			xScale.range([0-extension, props.innerPlotWidth + extension]);
 
 			yScale = d3.scaleLinear();
 
-			if (this.props.yScale === 'log') {
+			if (this.props.yScaleType === 'logarithmic') {
 				yScale = d3.scaleLog();
 			}
 
@@ -115,7 +135,7 @@ class LineChart extends React.PureComponent {
 
 			if (props.forceMode){
 				mode = props.forceMode;
-			} else if (data.length > props.aggregationThreshold) {
+			} else if (data.length > props.aggregationThreshold && props.xScaleType !== 'time') {
 				mode = 'aggregated';
 			} else if (data.length > props.grayingThreshold) {
 				mode = 'gray';
@@ -153,7 +173,7 @@ class LineChart extends React.PureComponent {
 	}
 
 	renderLines(data, props, xScale, yScale, colors, mode) {
-		let leftOffset = xScale.bandwidth()/2;
+		let leftOffset = props.xScaleType !== 'time' ? xScale.bandwidth()/2 : 0;
 		let siblings = data.map((item) => _.get(item, props.keySourcePath));
 
 		return _.map(data, (item) => {
@@ -165,7 +185,18 @@ class LineChart extends React.PureComponent {
 			serie = this.props.sorting ? utils.sortByOrder(serie, props.sorting) : serie;
 
 			let coordinates = serie.map(record => {
-				let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+				let xValue = _.get(record, props.xSourcePath);
+				let x;
+				if (this.props.xScaleType === "time") {
+					if (props.xOptions && props.xOptions.inputValueFormat) {
+						x = xScale(moment(`${xValue}`, props.xOptions.inputValueFormat).toDate());
+					} else {
+						x = xScale(new Date(xValue));
+					}
+				} else {
+					x = xScale(xValue) + leftOffset;
+				}
+
 				let y = yScale(_.get(record, props.ySourcePath));
 				return {x,y, originalData: record};
 			});
@@ -188,13 +219,15 @@ class LineChart extends React.PureComponent {
 					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
+					xOptions={props.xOptions}
+					xScaleType={props.xScaleType}
 				/>
 			);
 		});
 	}
 
 	renderAggregated(data, props, xScale, yScale, colors) {
-		let leftOffset = xScale.bandwidth()/2;
+		let leftOffset = props.xScaleType !== 'time' ? xScale.bandwidth()/2 : 0;
 
 		let maxValues = {};
 		let minValues = {};

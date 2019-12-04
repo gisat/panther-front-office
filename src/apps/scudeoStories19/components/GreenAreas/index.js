@@ -8,7 +8,7 @@ import ScatterChart from "../../../../components/common/charts/ScatterChart/Scat
 import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
-import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";

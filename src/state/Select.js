@@ -1,6 +1,7 @@
 // base types
 import App from './App/selectors';
 import Areas from './Areas/selectors';
+import AreaRelations from './AreaRelations/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeDataSources from './AttributeDataSources/selectors';
 import AttributeData from './AttributeData/selectors';
@@ -20,6 +21,7 @@ import Scopes from './Scopes/selectors';
 import Screens from './Screens/selectors';
 import Selections from './Selections/selectors';
 import Snapshots from './Snapshots/selectors';
+import SpatialData from './SpatialData/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
 import Styles from './Styles/selectors';
@@ -36,6 +38,7 @@ import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 export default {
 	app: App,
 	areas: Areas,
+	areaRelations: AreaRelations,
 	attributes: Attributes,
 	attributeData: AttributeData,
 	attributeDataSources: AttributeDataSources,
@@ -56,6 +59,7 @@ export default {
 	screens: Screens,
 	selections: Selections,
 	snapshots: Snapshots,
+	spatialData: SpatialData,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,

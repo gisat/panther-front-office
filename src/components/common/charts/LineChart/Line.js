@@ -6,6 +6,7 @@ import HoverContext from "../../HoverHandler/context";
 
 import '../style.scss';
 import Point from "../Point";
+import moment from "moment";
 
 class Line extends React.PureComponent {
 	static contextType = HoverContext;
@@ -30,7 +31,9 @@ class Line extends React.PureComponent {
 
 		pointNameSourcePath: PropTypes.string,
 		pointValueSourcePath: PropTypes.string,
-		yOptions: PropTypes.object
+		yOptions: PropTypes.object,
+		xScaleType: PropTypes.string,
+		xOptions: PropTypes.object
 	};
 
 	constructor(props) {
@@ -214,8 +217,7 @@ class Line extends React.PureComponent {
 
 		let pointName = data && _.get(data, props.pointNameSourcePath);
 		let pointValue = data && _.get(data, props.pointValueSourcePath);
-
-		if (pointName) {
+		if (pointName && props.xScaleType !== "time") {
 			lineName += ` (${pointName})`;
 		}
 
@@ -231,13 +233,40 @@ class Line extends React.PureComponent {
 				</div>
 				<div className="ptr-popup-record-group">
 					{(pointValue || pointValue === 0) ? <div className="ptr-popup-record">
-						<div className="ptr-popup-record-value-group">
-							{<span className="value">{pointValue.toLocaleString()}</span>}
-							{units ? <span className="unit">{units}</span> : null}
-						</div>
+						{props.xScaleType === "time" ? this.renderPopupContentWithTime(pointName, pointValue, units) :
+							<div className="ptr-popup-record-value-group">
+								{<span className="value">{pointValue.toLocaleString()}</span>}
+								{units ? <span className="unit">{units}</span> : null}
+							</div>
+						}
 					</div> : null}
 				</div>
 			</>
+		);
+	}
+
+	renderPopupContentWithTime (timeString, pointValue, units) {
+		let time = timeString;
+		if (this.props.xOptions) {
+			if (this.props.xOptions.inputValueFormat) {
+				timeString = moment(timeString, this.props.xOptions.inputValueFormat).toDate();
+			}
+
+			if (this.props.xOptions.popupValueFormat) {
+				time = moment(timeString).format(this.props.xOptions.popupValueFormat);
+			}
+		}
+
+		return (
+			<div className="ptr-popup-record-group">
+				<div className="ptr-popup-record">
+					{<div className="ptr-popup-record-attribute">{time}</div> }
+					<div className="ptr-popup-record-value-group">
+						{<span className="value">{pointValue.toLocaleString()}</span>}
+						{units ? <span className="unit">{units}</span> : null}
+					</div>
+				</div>
+			</div>
 		);
 	}
 }

@@ -90,11 +90,25 @@ export default [
 		})
 	},
 	/**
+	 * SŽDC insar
+	 * tw: InSAR projekty...
+	 */
+	{
+		key: 'szdcInsar19',
+		hostname: 'nope.gisat.cz',
+		path: null,
+		devPath: '/szdcInsar19',
+		app: (path, baseUrl) => import(/* webpackChunkName: "szdcInsar19" */'./apps/szdcInsar19').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * Geoinvaze
 	 * tw: GEOINV
 	 */
 	{
 		key: 'tacrGeoinvazeBackOffice',
+		backOffice: true,
 		hostname: 'panther.gisat.cz',
 		path: '/ptr3-beta/geoinvaze/backoffice',
 		devPath: '/tacrGeoinvazeBackOffice',
@@ -113,30 +127,6 @@ export default [
 	},
 	/**
 	 * UTEP Visualisation & Analytics Center
-	 * todo wip + name (visat?)
-	 */
-	{
-		key: 'urbanTepVacBackOffice',
-		backOffice: true,
-		hostname: 'urban-tep.eu',
-		path: '/vac/backoffice',
-		devPath: '/urbanTepVacBackOffice',
-		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
-			module.default(path, baseUrl, 'urbanTepVac');
-		})
-	},
-	{
-		key: 'urbanTepVac',
-		hostname: 'urban-tep.eu',
-		path: '/vac',
-		devPath: '/urbanTepVac',
-		app: (path, baseUrl) => import(/* webpackChunkName: "urbanTepVac" */'./apps/urbanTepVac').then(module => {
-			module.default(path, baseUrl);
-		})
-	},
-	/**
-	 * UTEP SDG 3.11.1 demonstration
-	 * 2019-06
 	 */
 	{
 		key: 'visatBackOffice',
@@ -148,6 +138,19 @@ export default [
 			module.default(path, baseUrl);
 		})
 	},
+	// {
+	// 	key: 'visat',
+	// 	hostname: 'urban-tep.eu',
+	// 	path: '/visat',
+	// 	devPath: '/visat',
+	// 	app: (path, baseUrl) => import(/* webpackChunkName: "urbanTepVac" */'./apps/urbanTepVac').then(module => {
+	// 		module.default(path, baseUrl);
+	// 	})
+	// },
+	/**
+	 * UTEP SDG 3.11.1 demonstration
+	 * 2019-06
+	 */
 	{
 		key: 'utep_sdg_11_3_1',
 		configuration: {},
@@ -162,21 +165,21 @@ export default [
 	 * UN SEEA demonstration
 	 * 2019-06
 	 */
-	{
-		key: 'visatUnSeea',
-		configuration: {},
-		hostname: 'urban-tep.eu',
-		path: '/visat/unseea',
-		devPath: '/visatUnSeea',
-		app: (path, baseUrl) => import(/* webpackChunkName: "unSeea" */'./apps/unSeea').then(module => {
-			module.default(path, baseUrl);
-		})
-	},
+	// {
+	// 	key: 'visatUnSeea',
+	// 	configuration: {},
+	// 	hostname: 'urban-tep.eu',
+	// 	path: '/visat/unseea',
+	// 	devPath: '/visatUnSeea',
+	// 	app: (path, baseUrl) => import(/* webpackChunkName: "unSeea" */'./apps/unSeea').then(module => {
+	// 		module.default(path, baseUrl);
+	// 	})
+	// },
 	{
 		key: 'unSeea',
 		configuration: {},
 		hostname: 'urban-tep.eu',
-		path: '/unseea',
+		path: '/visat/unseea',
 		devPath: '/unSeea',
 		app: (path, baseUrl) => import(/* webpackChunkName: "unSeea" */'./apps/unSeea').then(module => {
 			module.default(path, baseUrl);
@@ -185,28 +188,36 @@ export default [
 
 	// =============== TESTING ===============
 
-	{
-		key: 'visatMicrositeDemo',
-		hostname: 'urban-tep.eu',
-		path: '/visat/micrositeDemo',
-		devPath: '/visatMicrositeDemo',
-		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
-			module.default(path, baseUrl);
-		})
-	},
-	{
-		key: 'visatMicrositeElections',
-		hostname: 'urban-tep.eu',
-		path: '/visat/micrositeElections',
-		devPath: '/visatMicrositeElections',
-		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
-			module.default(path, baseUrl);
-		})
-	},
+	// {
+	// 	key: 'visatMicrositeDemo',
+	// 	hostname: 'urban-tep.eu',
+	// 	path: '/visat/micrositeDemo',
+	// 	devPath: '/visatMicrositeDemo',
+	// 	app: (path, baseUrl) => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
+	// 		module.default(path, baseUrl);
+	// 	})
+	// },
+	// {
+	// 	key: 'visatMicrositeElections',
+	// 	hostname: 'urban-tep.eu',
+	// 	path: '/visat/micrositeElections',
+	// 	devPath: '/visatMicrositeElections',
+	// 	app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
+	// 		module.default(path, baseUrl);
+	// 	})
+	// },
 	{
 		key: 'micrositeDemo',
-		hostname: 'panther.gisat.cz',
-		path: '/micrositeDemo',
+		urls: [
+			{
+				hostname: 'panther.gisat.cz',
+				path: '/micrositeDemo'
+			},
+			{
+				hostname: 'urban-tep.eu',
+				path: '/visat/micrositeDemo'
+			}
+		],
 		devPath: '/micrositeDemo',
 		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeDemo" */'./apps/micrositeDemo').then(module => {
 			module.default(path, baseUrl);
@@ -214,6 +225,16 @@ export default [
 	},
 	{
 		key: 'micrositeElections',
+		urls: [
+			{
+				hostname: 'panther.gisat.cz',
+				path: '/micrositeElections'
+			},
+			{
+				hostname: 'urban-tep.eu',
+				path: '/visat/micrositeElections'
+			}
+		],
 		hostname: 'panther.gisat.cz',
 		path: '/micrositeElections',
 		devPath: '/micrositeElections',

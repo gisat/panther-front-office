@@ -13,14 +13,14 @@ import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
 import MapControlLegend from "./Map/MapControlLegend";
-import MapTools from "../../../../components/common/maps/MapTools";
+import MapTools from "../../../../components/common/maps/controls/MapTools";
 import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
 import EsponFuoreChart from "./Charts/EsponFuoreChart";
 
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
-import SimpleLayersControl from "../../../../components/common/maps/SimpleLayersControl/presentation";
+import SimpleLayersControl from "../../../../components/common/maps/controls/SimpleLayersControl/presentation";
 
 import bing from "../../assets/img/powered-by-bing.png";
 import IndicatorDescription from "./IndicatorDescription";

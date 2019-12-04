@@ -4,8 +4,8 @@ import _ from 'lodash';
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 
-import sample_4 from "../../../../mockData/sample_4";
 import sample_50 from "../../../../mockData/sample_50";
+
 import sample_serie_10 from "../../../../mockData/scatterChart/serie_10";
 import Page, {DocsToDo, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";

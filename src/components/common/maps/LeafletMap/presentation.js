@@ -4,7 +4,7 @@ import L from 'leaflet';
 import viewHelpers from './viewHelpers';
 import layersHelpers from './layersHelpers';
 import utils from '../viewUtils';
-import {defaultMapView} from '../constants';
+import {defaultMapView} from '../../../../constants/Map';
 
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
@@ -215,6 +215,7 @@ class LeafletMap extends React.PureComponent {
 			<div className="ptr-map ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey} onClick={this.onClick}>
 				{this.state.backgroundLayer}
 				{this.state.layers}
+				{this.props.children}
 			</div>
 		);
 

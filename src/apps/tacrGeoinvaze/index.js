@@ -43,7 +43,6 @@ export default (path, baseUrl) => {
 			backgroundLayer: {
 				layerTemplateKey: '7fe2f005-b7db-408e-bdc9-a2f928a62ab7'
 			},
-
 			layers: [
 				{
 					key: 'thematicLayer',

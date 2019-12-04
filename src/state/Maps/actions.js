@@ -46,6 +46,15 @@ const setActiveMapKey = (mapKey) => {
 	};
 };
 
+const setMapSetActiveMapKey = (mapKey) => {
+	return (dispatch, getState) => {
+		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
+		if (set) {
+			dispatch(actionSetMapSetActiveMapKey(set.key, mapKey));
+		}
+	};
+};
+
 const setActiveSetKey = (setKey) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -171,9 +180,9 @@ const addMapToSet = (setKey, mapKey) => {
 			} else {
 				dispatch(actionAddMapToSet(setKey, mapKey));
 				//if no map is active, set map as active
-				const activeMapKey = Select.maps.getActiveMapKey(state);
+				const activeMapKey = Select.maps.getMapSetActiveMapKey(state, setKey);
 				if(!activeMapKey) {
-					dispatch(actionSetActiveMapKey(mapKey));
+					dispatch(setMapSetActiveMapKey(mapKey));
 				}
 				
 			}
@@ -421,6 +430,37 @@ const setLayerIndex = (mapKey, layerKey, index) => {
 	}
 };
 
+const setLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKeys) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapLayer = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+		if (mapLayer) {
+			const prevKeys = mapLayer && mapLayer.options && mapLayer.options.hovered && mapLayer.options.hovered.keys;
+
+			if (prevKeys) {
+				const prevKeysString = JSON.stringify(_.sortBy(prevKeys));
+				const nextKeysString = JSON.stringify(_.sortBy(hoveredFeatureKeys));
+				if (prevKeysString !== nextKeysString) {
+					dispatch(actionSetMapLayerHoveredFeatureKeys(mapKey, layerKey, hoveredFeatureKeys));
+				}
+			} else {
+				dispatch(actionSetMapLayerHoveredFeatureKeys(mapKey, layerKey, hoveredFeatureKeys));
+			}
+		}
+
+		// TODO
+		else {
+			let set = Select.maps.getMapSetByMapKey(state, mapKey);
+			if (set) {
+				// let setLayer = Select.maps.getSetLayerBySetKeyAndLayerKey(state, set.key, layerKey);
+				// if (setLayer) {
+				// 	 dispatch(actionSetSetLayerHoveredFeatureKeys(state, setKey, layerKey, hoveredFeatureKeys));
+				// }
+			}
+		}
+	}
+};
+
 /**
  * 
  * Similar like add layer.
@@ -490,16 +530,23 @@ const updateMapAndSetView = (mapKey, update) => {
 
 		if (forSet) {
 			//check data integrity
-			forSet = mapUtils.checkViewIntegrity(forSet); //TODO test
+			forSet = mapUtils.ensureViewIntegrity(forSet); //TODO test
 			dispatch(actionUpdateSetView(set.key, forSet));
 		}
 
 		if (forMap) {
 			//check data integrity
-			forMap = mapUtils.checkViewIntegrity(forMap); //TODO test
+			forMap = mapUtils.ensureViewIntegrity(forMap); //TODO test
 			dispatch(actionUpdateMapView(mapKey, forMap));
 		}
 	}
+};
+
+const updateSetView = (setKey, update) => {
+	return (dispatch, getState) => {
+		let activeMapKey = Select.maps.getMapSetActiveMapKey(getState(), setKey);
+		dispatch(updateMapAndSetView(activeMapKey, update));
+	};
 };
 
 const resetViewHeading = (mapKey) => {
@@ -584,6 +631,24 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 		}
 	};
 };
+/**
+ * Set (replace) all map layers, and refresh use
+ * @param mapKey
+ * @param layers - complete layers array
+ * @returns {Function}
+ */
+const setMapLayers = (mapKey, layers) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapLayers(mapKey, layers));
+			dispatch(Action.maps.use(mapKey));
+		}
+	};
+};
 
 const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	return (dispatch, getState) => {
@@ -597,12 +662,22 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
-function use(mapKey) {
+function use(mapKey, backgroundLayer, layers) {
 	return (dispatch, getState) => {
+		dispatch(useClear(mapKey));
 		let state = getState();
 
 		// let filterByActive = Select.maps.getFilterByActiveByMapKey(state, mapKey);
-		let layers = Select.maps.getAllLayersStateByMapKey(state, mapKey);
+		if (backgroundLayer || layers) {
+			if (backgroundLayer) {
+				backgroundLayer = {...backgroundLayer, key: 'pantherBackgroundLayer'};
+				layers = layers || [];
+				layers = [backgroundLayer, ...layers];
+			}
+		} else {
+			layers = Select.maps.getAllLayersStateByMapKey(state, mapKey);
+		}
+
 		let activeKeys = commonSelectors.getAllActiveKeys(state);
 
 		if (layers) {
@@ -611,36 +686,125 @@ function use(mapKey) {
 				let filter = {...layer.metadataModifiers};
 				if (layer.layerTemplateKey) {
 					filter.layerTemplateKey = layer.layerTemplateKey;
+					dispatch(Action.layerTemplates.useKeys([layer.layerTemplateKey], componentId));
+				} else if (layer.areaTreeLevelKey) {
+					filter.areaTreeLevelKey = layer.areaTreeLevelKey;
+					dispatch(Action.areas.areaTreeLevels.useKeys([layer.areaTreeLevelKey], componentId));
 				}
 
 				let filterByActive = layer.filterByActive || null;
 				let mergedFilter = commonHelpers.mergeFilters(activeKeys, filterByActive, filter);
 
-				/* Ensure spatial relations */
-				dispatch(Action.spatialRelations.useIndexedRegister( componentId, filterByActive, filter, null, 1, 1000));
-				dispatch(Action.spatialRelations.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
 
-					/* Ensure spatial data sources */
-					let spatialDataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), mergedFilter);
-					if (spatialDataSourcesKeys) {
-
-						dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
-
-							// TODO load data for vector data sources
-						});
+				/* Ensure spatial relations or area relations */
+				if (layer.layerTemplateKey || layer.areaTreeLevelKey) {
+					let action, select;
+					if (layer.layerTemplateKey) {
+						action = Action.spatialRelations;
+						select = Select.spatialRelations;
+					} else if (layer.areaTreeLevelKey) {
+						action = Action.areaRelations;
+						select = Select.areaRelations;
 					}
-				});
+					dispatch(action.useIndexedRegister(componentId, filterByActive, filter, null, 1, 1000));
+					dispatch(action.ensureIndexed(mergedFilter, null, 1, 1000)).then(() => {
+						/* Ensure spatial data sources */
+						const relations = select.getFilteredData(getState(), mergedFilter);
+						if (relations && relations.length) {
+							const spatialFilters = relations.map(relation => {
+								return {
+									spatialDataSourceKey: relation.spatialDataSourceKey,
+									fidColumnName: relation.fidColumnName
+								}
+							});
+							const spatialDataSourcesKeys = _.uniq(spatialFilters.map(filter => filter.spatialDataSourceKey));
+							
+							dispatch(Action.spatialDataSources.useKeys(spatialDataSourcesKeys, componentId)).then(() => {
+								const dataSources = Select.spatialDataSources.getByKeys(getState(), spatialDataSourcesKeys);
+								if (dataSources) {
+									dataSources.forEach(dataSource => {
+										
+										// TODO load raster data?
+										if (dataSource && dataSource.data && dataSource.data.type === 'vector') {
+											const spatialFilter = _.find(spatialFilters, {spatialDataSourceKey: dataSource.key});
+											dispatch(Action.spatialData.useIndexed(null, spatialFilter, null, 1, 100, componentId));
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+				
+				
+				// Ensure attribute data //todo
+				if (layer.attributeKeys) {
+					let attributeFilter = {
+						...filter,
+						attributeKey: {
+							in: layer.attributeKeys
+						}
+					};
 
-				// TODO use layer template keys
+					let mergedAttributeFilter = {
+						...mergedFilter,
+						attributeKey: {
+							in: layer.attributeKeys
+						}
+					};
+
+					dispatch(Action.attributeRelations.useIndexedRegister( componentId, filterByActive, attributeFilter, null, 1, 2000));
+					dispatch(Action.attributeRelations.ensureIndexed(mergedAttributeFilter, null, 1, 2000)).then(() => {
+						/* Ensure data sources */
+						const relations = Select.attributeRelations.getFiltered(getState(), mergedFilter);
+						if (relations && relations.length) {
+							const filters = relations.map(relation => {return {
+								attributeDataSourceKey: relation.attributeDataSourceKey,
+								fidColumnName: relation.fidColumnName
+							}});
+							const dataSourcesKeys = filters.map(filter => filter.attributeDataSourceKey);
+
+							dispatch(Action.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
+								const dataSources = Select.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
+								if (dataSources) {
+
+									let dataSourceKeys = [];
+									dataSources.forEach(dataSource => {
+										dataSourceKeys.push(dataSource.key);
+									});
+
+									// TODO fidColumnName!!!
+									const filter = {
+										attributeDataSourceKey: {
+											in: dataSourceKeys
+										},
+										fidColumnName: relations[0].fidColumnName
+									};
+									dispatch(Action.attributeData.useIndexed(null, filter, null, 1, 100, componentId));
+
+								}
+							});
+						}
+					});
+
+				}
+
+				if (layer.styleKey) {
+					dispatch(Action.styles.useKeys([layer.styleKey],componentId));
+				}
 			});
 		}
 	}
 }
 
-function useClear() {
-	return dispatch => {
-
-	}
+function useClear(mapKey) {
+	return (dispatch) => {
+		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.SPATIAL_DATA_SOURCES)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.LAYER_TEMPLATES)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.AREAS.AREA_TREE_LEVELS)(`map_${mapKey}`));
+		dispatch(commonActions.useKeysClear(ActionTypes.STYLES)(`map_${mapKey}`));
+	};
 }
 
 function updateStateFromView(data) {
@@ -891,6 +1055,14 @@ const actionSetActiveMapKey = (mapKey) => {
 	}
 };
 
+const actionSetMapSetActiveMapKey = (setKey, mapKey) => {
+	return {
+		type: ActionTypes.MAPS.SET.SET_ACTIVE_MAP_KEY,
+		mapKey,
+		setKey
+	}
+};
+
 const actionSetActiveSetKey = (setKey) => {
 	return {
 		type: ActionTypes.MAPS.SET_ACTIVE_SET_KEY,
@@ -1051,6 +1223,15 @@ const actionSetMapLayer = (mapKey, layerKey, layer) => {
 	}
 };
 
+const actionSetMapLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKeys) => {
+	return {
+		type: ActionTypes.MAPS.MAP.LAYERS.SET.HOVERED_FEATURE_KEYS,
+		mapKey,
+		layerKey,
+		hoveredFeatureKeys
+	}
+};
+
 const actionSetMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	return {
 		type: ActionTypes.MAPS.SET_BACKGROUND_LAYER,
@@ -1064,6 +1245,14 @@ const actionSetSetBackgroundLayer = (setKey, backgroundLayer) => {
 		type: ActionTypes.MAPS.SET.SET_BACKGROUND_LAYER,
 		setKey,
 		backgroundLayer,
+	}
+};
+
+const actionSetMapLayers = (mapKey, layers) => {
+	return {
+		type: ActionTypes.MAPS.LAYERS.SET,
+		mapKey,
+		layers,
 	}
 };
 
@@ -1175,12 +1364,14 @@ export default {
 
 	setActiveMapKey,
 	setActiveSetKey,
+	setLayerHoveredFeatureKeys,
 	setLayerIndex,
 
 	setMapBackgroundLayer,
 	setMapCase,
 	setMapData,
 	setMapLayer,
+	setMapLayers,
 	setMapName,
 	setMapPeriod,
 	setMapPlace,
@@ -1188,6 +1379,7 @@ export default {
 	setMapScope,
 	setMapView,
 
+	setMapSetActiveMapKey,
 	setSetBackgroundLayer,
 	setSetSync,
 	setSetView,
@@ -1197,6 +1389,7 @@ export default {
 	updateMapLayer,
 	updateStateFromView,
 	updateMapAndSetView,
+	updateSetView,
 
 	use,
 	useClear,

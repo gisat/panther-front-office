@@ -6,7 +6,7 @@ import AdjustableColumns from '../../../../components/common/atoms/AdjustableCol
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapTools from "../../../../components/common/maps/MapTools";
+import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 
 import ReactResizeDetector from 'react-resize-detector';

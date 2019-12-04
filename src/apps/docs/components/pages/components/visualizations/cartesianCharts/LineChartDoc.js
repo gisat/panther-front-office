@@ -6,6 +6,7 @@ import LineChart from "../../../../../../../components/common/charts/LineChart/L
 import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
+
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import Page, {
 	InlineCodeHighlighter,
@@ -26,8 +27,10 @@ class LineChartDoc extends React.PureComponent {
 				<div className="ptr-docs-visualizations-intro-example">
 					<HoverHandler>
 						<LineChart
-							key="line-chart-doc-typical-usage"
+							key="line-chart-doc-typical-usage-2"
 							maxWidth={50}
+
+							xScaleType="time"
 
 							data={sample_serie_4}
 							keySourcePath="key"
@@ -36,10 +39,18 @@ class LineChartDoc extends React.PureComponent {
 							xSourcePath="period" // in context of serie
 							ySourcePath="someStrangeValue" // in context of serie
 
+							xOptions={{
+								inputValueFormat: 'YYYY',
+								axisValueFormat: 'YYYY',
+								popupValueFormat: 'YYYY',
+								name: 'Time'
+							}}
+
 							sorting={[["period", "asc"]]} // not required, but recommended
 						/>
 					</HoverHandler>
 				</div>
+
 				<p>A line chart is a type of chart which displays information as a series of data points connected by straight line segments. Use this type of chart to <b>show progress</b> of one attribute/indicator in the time, or to show progress of multiple comparable attributes/indicators for one area.</p>
 
 				<h2 id="props">Props</h2>
@@ -60,10 +71,6 @@ class LineChartDoc extends React.PureComponent {
 							type: "number",
 							default: "10",
 							description: "If there is more lines than threshold, lines will be gray."
-						}, {
-							name: "xScale",
-							type: "string",
-							description: "Temporary solution. When set to 'yearBased' it fills missing years in source data so the xAxis is linear."
 						}, {
 							name: "withPoints",
 							type: "boolean",

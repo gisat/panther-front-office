@@ -4,7 +4,9 @@ import _ from 'lodash';
 
 import vectorSelectors from './vector/selectors';
 import common from "../_common/selectors";
+import AreaRelations from "../AreaRelations/selectors";
 import SpatialRelations from "../SpatialRelations/selectors";
+import SpatialData from "../SpatialData/selectors";
 
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
@@ -13,16 +15,29 @@ const getByKeys = common.getByKeys(getSubstate);
 const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
 	[
 		getAllAsObject,
-		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey
+		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		AreaRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		SpatialData.getAllAsObject
 	],
-	(dataSources, dataSourceKeysGroupedByLayerKey) => {
+	(dataSources, spatialRelationsDataSourceKeysGroupedByLayerKey, areaRelationsDataSourceKeysGroupedByLayerKey,  spatialData) => {
+		const dataSourceKeysGroupedByLayerKey = spatialRelationsDataSourceKeysGroupedByLayerKey || areaRelationsDataSourceKeysGroupedByLayerKey;
 		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
 			let dataSourcesGroupedByLayerKey = {};
-			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
+			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeysAndFidColumns, layerKey) => {
 				dataSourcesGroupedByLayerKey[layerKey] = [];
-				_.forEach(dataSourceKeys, (dataSourceKey) => {
-					if (dataSources[dataSourceKey]) {
-						dataSourcesGroupedByLayerKey[layerKey].push(dataSources[dataSourceKey]);
+				_.forEach(dataSourceKeysAndFidColumns, (dataSourceKeyAndFidColumn) => {
+					if (dataSources[dataSourceKeyAndFidColumn.spatialDataSourceKey]) {
+						let finalDataSource = {...dataSources[dataSourceKeyAndFidColumn.spatialDataSourceKey]};
+
+						const data = spatialData[dataSourceKeyAndFidColumn.spatialDataSourceKey];
+						if (data && data.spatialData && data.spatialData.features) {
+							finalDataSource.data.features = data.spatialData.features;
+						}
+
+						dataSourcesGroupedByLayerKey[layerKey].push({
+							dataSource: finalDataSource,
+							fidColumnName: dataSourceKeyAndFidColumn.fidColumnName
+						});
 					}
 				});
 			});

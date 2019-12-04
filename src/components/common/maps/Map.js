@@ -2,15 +2,20 @@ import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import React from "react";
+import PropTypes from 'prop-types';
 import _ from "lodash";
-import {defaultMapView} from "./constants";
+import {defaultMapView} from "../../../constants/Map";
 import mapUtils from "../../../utils/map";
+
+import './style.scss';
+import utils from "../../../utils/utils";
+import Error from "../atoms/Error";
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {
 		return {
-			backgroundLayer: Select.maps.getBackgroundLayer(state, ownProps.stateMapKey),
-			layers: Select.maps.getLayers(state, ownProps.stateMapKey),
+			backgroundLayer: Select.maps.getMapBackgroundLayer(state, ownProps.stateMapKey),
+			layers: Select.maps.getMapLayers(state, ownProps.stateMapKey),
 			view: Select.maps.getView(state, ownProps.stateMapKey),
 			mapKey: ownProps.stateMapKey
 		}
@@ -22,50 +27,68 @@ const mapStateToProps = (state, ownProps) => {
 	}
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-	if (ownProps.stateMapKey) {
-		return {
-			onMount: () => {
-				dispatch(Action.maps.use(ownProps.stateMapKey));
-			},
+const mapDispatchToPropsFactory = () => {
+	const componentId = 'Map_' + utils.randomString(6);
 
-			onUnmount: () => {
-				dispatch(Action.maps.useClear(ownProps.stateMapKey));
-			},
+	return (dispatch, ownProps) => {
+		if (ownProps.stateMapKey) {
+			return {
+				onMount: () => {
+					dispatch(Action.maps.use(ownProps.stateMapKey));
+				},
 
-			onViewChange: (update) => {
-				dispatch(Action.maps.updateMapAndSetView(ownProps.stateMapKey, update));
-				// dispatch(Action.maps.setActiveMapKey(ownProps.mapKey));
-			},
+				onUnmount: () => {
+					dispatch(Action.maps.useClear(ownProps.stateMapKey));
+				},
 
-			resetHeading: () => {
-				// todo
-			},
+				refreshUse: () => {
+					dispatch(Action.maps.use(ownProps.stateMapKey));
+				},
 
-			onClick: (view) => {
-				dispatch(Action.maps.setActiveMapKey(ownProps.stateMapKey));
+				onViewChange: (update) => {
+					dispatch(Action.maps.updateMapAndSetView(ownProps.stateMapKey, update));
+				},
+
+				resetHeading: () => {
+					// todo
+				},
+
+				onClick: (view) => {
+					dispatch(Action.maps.setMapSetActiveMapKey(ownProps.stateMapKey));
+				},
+				onLayerFeaturesHover: (layerKey, hoveredFeatureKeys) => {
+					dispatch(Action.maps.setLayerHoveredFeatureKeys(ownProps.stateMapKey, layerKey, hoveredFeatureKeys))
+				}
 			}
-		}
-	} else {
-		return {
-			onMount: () => {
-				// TODO implement action
-				// dispatch(Action.maps.usePresentational(ownProps));
-			},
+		} else {
+			let mapKey = ownProps.mapKey || componentId;
 
-			onUnmount: () => {
-				// TODO implement action
-				// dispatch(Action.maps.usePresentationalClear(ownProps));
-			},
+			return {
+				onMount: () => {
+					dispatch(Action.maps.use(mapKey, ownProps.backgroundLayer, ownProps.layers));
+				},
 
-			onViewChange: ownProps.onViewChange || ((update) => {}),
+				onUnmount: () => {
+					dispatch(Action.maps.useClear(mapKey));
+				},
 
-			onClick: ownProps.onClick || ((view) => {})
+				refreshUse: () => {
+					dispatch(Action.maps.use(mapKey, ownProps.backgroundLayer, ownProps.layers));
+				},
+
+				onViewChange: ownProps.onViewChange || ((update) => {}),
+
+				onClick: ownProps.onClick || ((view) => {})
+			}
 		}
 	}
 };
 
-class ConnectedMap extends React.PureComponent {
+class Map extends React.PureComponent {
+
+	static propTypes = {
+		mapComponent: PropTypes.element
+	};
 
 	constructor(props) {
 		super(props);
@@ -101,6 +124,13 @@ class ConnectedMap extends React.PureComponent {
 				});
 			}
 		}
+
+		if (
+			(props.layers && props.layers !== prevProps.layers)
+			|| (props.backgroundLayer && props.backgroundLayer !== prevProps.backgroundLayer)
+		) {
+			// this.props.refreshUse();
+		}
 	}
 
 	componentWillUnmount() {
@@ -110,7 +140,8 @@ class ConnectedMap extends React.PureComponent {
 	}
 	
 	onViewChange(update) {
-		const view = {...this.state.view, ...update};
+		let view = {...this.state.view, ...update};
+		view = mapUtils.ensureViewIntegrity(view);
 		
 		if (!_.isEqual(view, this.state.view)) {
 			this.setState({view});
@@ -125,30 +156,40 @@ class ConnectedMap extends React.PureComponent {
 
 	render() {
 		const {children, mapComponent, ...props} = this.props;
-		if (!props.stateMapKey) {
-			props.view = this.state.view || props.view;
-			props.onViewChange = this.onViewChange;
-		}
-		let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
-		if (!children) {
-			return map;
+
+		if (!mapComponent) {
+			return (<Error centered>mapComponent not supplied to Map</Error>);
 		} else {
-			return (
-				<div className="ptr-map-controls-wrapper">
-					{map}
-					{React.Children.map(children, child => {
-						return React.cloneElement(child, {
-							...child.props,
-							view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
-							updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
-							resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
-						});
-					})}
-				</div>
-			);
+
+			if (!props.stateMapKey) {
+				props.view = this.state.view || props.view;
+				props.onViewChange = this.onViewChange;
+			}
+
+			let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
+
+			if (!children) {
+				return map;
+			} else {
+				return (
+					<div className="ptr-map-controls-wrapper">
+						{map}
+						{React.Children.map(children, child => {
+							return React.cloneElement(child, {
+								...child.props,
+								view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
+								updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
+								resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
+							});
+						})}
+					</div>
+				);
+			}
+
 		}
 	}
+
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMap);
+export const PresentationMap = Map;
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(Map);

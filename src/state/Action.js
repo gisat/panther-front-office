@@ -2,6 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 import App from './App/actions';
 import Areas from './Areas/actions';
+import AreaRelations from './AreaRelations/actions';
 import Attributes from './Attributes/actions';
 import AttributeRelations from './AttributeRelations/actions';
 import AttributeDataSources from './AttributeDataSources/actions';
@@ -20,6 +21,7 @@ import Scopes from './Scopes/actions';
 import Screens from './Screens/actions';
 import Selections from './Selections/actions';
 import Snapshots from './Snapshots/actions';
+import SpatialData from './SpatialData/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
@@ -37,6 +39,7 @@ import LpisCheckCases from './_specific/LpisCheckCases/actions';
 export default {
 	app: App,
 	areas: Areas,
+	areaRelations: AreaRelations,
 	attributes: Attributes,
 	attributeData: AttributeData,
 	attributeDataSources: AttributeDataSources,
@@ -56,6 +59,7 @@ export default {
 	screens: Screens,
 	selections: Selections,
 	snapshots: Snapshots,
+	spatialData: SpatialData,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,

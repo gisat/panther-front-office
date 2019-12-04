@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import * as d3 from 'd3';
+import moment from 'moment';
 
 import './style.scss';
 import AxisLabel from "./AxisLabel";
@@ -18,6 +18,7 @@ class AxisX extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		scale: PropTypes.func,
+		scaleType: PropTypes.string,
 		sourcePath: PropTypes.string,
 		keySourcePath: PropTypes.string,
 
@@ -81,9 +82,11 @@ class AxisX extends React.PureComponent {
 	renderGrid() {
 		let shift = this.props.ticks ? (TICK_SIZE) : 0;
 
-		if (this.props.data) {
+		if (this.props.scaleType === 'ordinal') {
 			return this.renderOrdinalGrid(shift);
-		} else {
+		} else if (this.props.scaleType === 'linear') {
+			return this.renderLinearGrid(shift);
+		} else if (this.props.scaleType === 'time') {
 			return this.renderLinearGrid(shift);
 		}
 	}
@@ -96,6 +99,11 @@ class AxisX extends React.PureComponent {
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding}, 0)`}>
 				{ticks.map(value => {
 					let xCoord = this.props.scale(value);
+					let text = value;
+					if (this.props.scaleType !== 'time') {
+						text = value.toLocaleString();
+					}
+
 					if (xCoord || xCoord === 0) {
 						return (
 							<g key={value}>
@@ -106,7 +114,7 @@ class AxisX extends React.PureComponent {
 									y1={this.props.plotHeight + shift}
 									y2={this.props.gridlines ? 0 : this.props.plotHeight}
 								/>
-								{this.props.withValues ? this.renderValueLabel(null, xCoord, shift, availableHeight, value.toLocaleString()) : null}
+								{this.props.withValues ? this.renderValueLabel(null, xCoord, shift, availableHeight, text) : null}
 							</g>
 						);
 					} else {
@@ -187,6 +195,13 @@ class AxisX extends React.PureComponent {
 		let finalY = this.props.plotHeight + yShift + TICK_CAPTION_OFFSET_TOP;
 		let maxHeight = ((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2));
 
+		if (this.props.scaleType === 'time') {
+			if (this.props.options && this.props.options.axisValueFormat) {
+				text = moment(text).format(this.props.options.axisValueFormat);
+			} else {
+				text = moment(text).format();
+			}
+		}
 
 		if (this.props.options && this.props.options.valueLabelRenderer) {
 			// TODO fix available width

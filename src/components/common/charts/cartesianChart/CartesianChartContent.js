@@ -49,6 +49,7 @@ class CartesianChartContent extends React.PureComponent {
 				<AxisX
 					data={props.contentData}
 					scale={props.xScale}
+					scaleType={props.xScaleType}
 
 					sourcePath={props.xSourcePath}
 					keySourcePath={props.keySourcePath}

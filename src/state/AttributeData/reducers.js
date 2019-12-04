@@ -7,10 +7,20 @@ const INITIAL_STATE = {
 	...DEFAULT_INITIAL_STATE
 };
 
+const add = (state, action) => {
+	let newData = {...state.byKey};
+	if (action.data && action.data.length) {
+		action.data.forEach(model => {
+			newData[model.attributeDataSourceKey] = {...newData[model.attributeDataSourceKey], ...model};
+		});
+	}
+	return {...state, byKey: newData}
+};
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.ATTRIBUTE_DATA.ADD:
-			return common.add(state, action);
+			return add(state, action);
 		case ActionTypes.ATTRIBUTE_DATA.ADD_BATCH:
 			return common.addBatch(state, action);
 		case ActionTypes.ATTRIBUTE_DATA.ADD_UNRECEIVED:

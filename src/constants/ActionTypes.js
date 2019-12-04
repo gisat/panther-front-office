@@ -74,6 +74,25 @@ export const commonActionTypesDefinitions = {
 		}
 	},
 
+	AREA_RELATIONS: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				CLEAR_ALL: null,
+				REGISTER: null
+			}
+		}
+	},
+
 	AREAS_SELECTIONS_SET_ACTIVE_MULTIPLE: 'AREAS_SELECTIONS_SET_ACTIVE_MULTIPLE',
 	AREAS_SELECTIONS_UPDATE: 'AREAS_SELECTIONS_UPDATE',
 
@@ -341,10 +360,16 @@ export const commonActionTypesDefinitions = {
 				SET: null,
 				UPDATE: null
 			},
+			SET_ACTIVE_MAP_KEY: null,
 			SET_SYNC: null,
 		},
 		MAP: {
 			ADD: null,
+			LAYERS: {
+				SET: {
+					HOVERED_FEATURE_KEYS: null
+				}
+			},
 			REMOVE: null,
 			SET_NAME: null,
 			SET_DATA: null,
@@ -366,7 +391,8 @@ export const commonActionTypesDefinitions = {
 				SET: null,
 				UPDATE: null,
 				SET_INDEX: null,
-			}
+			},
+			SET: null
 		},
 		UPDATE: null
 	},
@@ -566,6 +592,31 @@ export const commonActionTypesDefinitions = {
 		}
 	},
 
+	SPATIAL_DATA: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_INDEX: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		},
+	},
+
 	SPATIAL_DATA_SOURCES: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
@@ -726,7 +777,25 @@ export const commonActionTypesDefinitions = {
 
 	STYLES: {
 		ADD: null,
-		ADD_UNRECEIVED: null
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				CLEAR_ALL: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	SNAPSHOTS_ADD: 'SNAPSHOTS_ADD',

@@ -33,6 +33,7 @@ import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
 import HoverHandlerDoc from "./components/pages/components/commonFeatures/HoverHandlerDoc";
 import LayersDoc from "./components/pages/architecture/systemDataTypes/LayersDoc";
 import MapViewDoc from "./components/pages/architecture/systemDataTypes/MapViewDoc";
+import StyleDoc from "./components/pages/architecture/commonDataTypes/StyleDoc";
 
 
 export default (path, baseUrl) => {
@@ -58,7 +59,9 @@ export default (path, baseUrl) => {
 					<Directory label="Architecture" path="architecture">
 						<Page label="Applications" path="applications"/>
 						<Directory label="Store data types" path="storeDataTypes">
-							<Page label="Common data types" path="common"/>
+							<Directory label="Common data types" path="common">
+								<Page label="Style" path="style" component={StyleDoc}/>
+							</Directory>
 							<Page label="Specific data types" path="specific"/>
 						</Directory>
 						<Directory label="System data types" path="systemDataTypes">

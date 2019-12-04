@@ -8,7 +8,7 @@ import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import UtepSdgMap from "./Map";
 import UtepSdgMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapTools from "../../../../components/common/maps/MapTools";
+import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
@@ -18,7 +18,7 @@ import AppContext from '../../context';
 import UtepSdgCharts from "./Charts/UtepSdgCharts";
 import UtepSdgHeader from "./UtepSdgHeader";
 import uTepLogo from '../../assets/urban-tep-logo.png';
-import GoToPlace from "../../../../components/common/maps/GoToPlace";
+import GoToPlace from "../../../../components/common/maps/controls/GoToPlace";
 
 class UtepSdg extends React.PureComponent {
 

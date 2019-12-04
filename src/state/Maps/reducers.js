@@ -78,6 +78,11 @@ const setActiveMapKey = (state, mapKey) => {
 	return {...state, activeMapKey: mapKey}
 };
 
+const setSetActiveMapKey = (state, setKey, mapKey) => {
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, activeMapKey: mapKey}}};
+};
+
 const setActiveSetKey = (state, setKey) => {
 	return {...state, activeSetKey: setKey}
 };
@@ -170,8 +175,37 @@ const setMapName = (state, mapKey, name) => {
 	return {...state, maps: {[mapKey]: {...mapState, name: name}}}
 };
 
+const setMapLayerHoveredFeatureKeys = (state, mapKey, layerKey, hoveredFeatureKeys) => {
+	const mapState = getMapByKey(state, mapKey);
+
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	const layerState = _.find(mapState.data.layers, (layer) => {
+		return layer.key === layerKey;
+	});
+
+	if (layerState) {
+		const newLayerState = {
+			...layerState,
+			options: {
+				...layerState.options,
+				hovered: layerState.options.hovered ? {
+					...layerState.options.hovered,
+					keys: hoveredFeatureKeys
+				} : {
+					keys: hoveredFeatureKeys
+				}
+			}
+		};
+
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		return state;
+	}
+};
+
 const setMap = (state, mapState = INITIAL_MAP_STATE) => {
-	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState);
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //todo where is this used & is the merge always ok?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
 };
 
@@ -305,6 +339,11 @@ const setMapBackgroundLayer = (state, mapKey, backgroundLayer) => {
 	return setMap(state, {...mapState, data: {...mapState.data, backgroundLayer}});
 };
 
+const setMapLayers = (state, mapKey, layers) => {
+	const mapState = getMapByKey(state, mapKey);
+	return {...state, maps: {...state.maps, [mapKey]: {...mapState, data: {...mapState.data, layers}}}};
+};
+
 const setSetBackgroundLayer = (state, setKey, backgroundLayer) => {
 	return {
 		...state,
@@ -407,12 +446,16 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setSetView(state, action.setKey, action.view);
 		case ActionTypes.MAPS.SET.VIEW.UPDATE:
 			return updateSetView(state, action.setKey, action.update);
+		case ActionTypes.MAPS.SET.SET_ACTIVE_MAP_KEY:
+			return setSetActiveMapKey(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.SET_MAPS:
 			return setSetMaps(state, action.setKey, action.maps);
 		case ActionTypes.MAPS.SET.SET_SYNC:
 			return setSetSync(state, action.setKey, action.sync);
 		case ActionTypes.MAPS.MAP.ADD:
 			return addMap(state, action.map);
+		case ActionTypes.MAPS.MAP.LAYERS.SET.HOVERED_FEATURE_KEYS:
+			return setMapLayerHoveredFeatureKeys(state, action.mapKey, action.layerKey, action.hoveredFeatureKeys);
 		case ActionTypes.MAPS.MAP.REMOVE:
 			return removeMap(state, action.mapKey);
 		case ActionTypes.MAPS.MAP.SET_NAME:
@@ -435,6 +478,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return updateMapLayer(state, action.mapKey, action.layer, action.layerKey);
 		case ActionTypes.MAPS.LAYERS.LAYER.SET:
 			return setMapLayer(state, action.mapKey, action.layer, action.layerKey);
+		case ActionTypes.MAPS.LAYERS.SET:
+			return setMapLayers(state, action.mapKey, action.layers);
 		case ActionTypes.MAPS.SET_SCOPE:
 			return setMapScope(state, action.mapKey, action.scope);
 		case ActionTypes.MAPS.SET_SCENARIO:

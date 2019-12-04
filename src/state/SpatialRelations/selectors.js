@@ -7,38 +7,6 @@ const getSubstate = (state) => state.spatialRelations;
 const getAll = common.getAll(getSubstate);
 
 /**
- * @returns {Object}
- */
-const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
-	[
-		getAll,
-		(state, layers) => layers
-	],
-	(relations, layers) => {
-		if (relations && relations.length) {
-			let filteredGroupedByLayerKey = {};
-
-			_.forEach(layers, (layer) => {
-				let filteredRelations = _.filter(relations, {'data': layer.filter});
-				if (filteredRelations.length) {
-					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => relation.data.spatialDataSourceKey);
-				}
-			});
-			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
-
-		} else {
-			return null;
-		}
-	}
-)(
-	(state, layers) => JSON.stringify(layers)
-);
-
-/********************************
- DEPRECATED
- ********************************/
-
-/**
  * @return {Array|null}
  */
 const getAllData = createSelector(
@@ -70,6 +38,43 @@ const getFilteredData = createSelector(
 		}
 	}
 );
+
+/**
+ * @returns {Object}
+ */
+const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
+	[
+		getAll,
+		(state, layers) => layers
+	],
+	(relations, layers) => {
+		if (relations && relations.length) {
+			let filteredGroupedByLayerKey = {};
+
+			_.forEach(layers, (layer) => {
+				let filteredRelations = _.filter(relations, {'data': layer.filter});
+				if (filteredRelations.length) {
+					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => {
+						return {
+							spatialDataSourceKey: relation.data.spatialDataSourceKey,
+							fidColumnName: relation.data.fidColumnName
+						}
+					});
+				}
+			});
+			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
+
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layers) => JSON.stringify(layers)
+);
+
+/********************************
+ DEPRECATED
+ ********************************/
 
 /**
  * Collect and prepare relations for given filters grouped by layer key
@@ -214,6 +219,7 @@ export default {
 	getSubstate,
 
 	getAllData,
+	getFilteredData,
 	getFilteredDataSourceKeysGroupedByLayerKey,
 
 
@@ -222,6 +228,5 @@ export default {
 	getDataSourceKeysGroupedByLayerKey,
 	getDataSourceRelationsGroupedByLayerKey: getFilteredDataGroupedByLayerKey,
 	getDataSourceRelationsForLayerKey,
-	getFilteredData,
 	getFilteredDataGroupedByLayerKey
 };

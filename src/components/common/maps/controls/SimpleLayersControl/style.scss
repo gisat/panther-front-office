@@ -1,0 +1,122 @@
+@import '../../../../../styles/variables';
+
+.ptr-simple-layers-control {
+	position: relative;
+}
+
+.ptr-simple-layers-control .hold-button {
+	border-radius: .3rem;
+}
+
+.ptr-simple-layers-control-menu {
+	position: absolute;
+	bottom: 0;
+	border-radius: .25rem;
+	width: 0;
+	background: var(--base0);
+	transition: width .15s ease-in-out .15s, height .15s ease-in-out, border-radius 0s;
+	filter: drop-shadow(0 0 .2rem rgba(0,0,0,.2));
+}
+
+.ptr-simple-layers-control-menu-content {
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.ptr-simple-layers-control-menu.open {
+	transition: width .15s ease-in-out, height .15s ease-in-out .15s, border-radius 0s ease-in-out .3s;
+}
+
+.ptr-simple-layers-control-menu:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	border-bottom-color: transparent;
+	border-bottom-style: solid;
+	border-bottom-width: 0;
+	border-top-color: transparent;
+	border-top-style: solid;
+	border-top-width: 0;
+}
+
+.ptr-simple-layers-control-menu.open:after {
+	border-bottom-width: 1rem;
+	border-top-width: 1rem;
+}
+
+/* Menu on left */
+.ptr-simple-layers-control-menu.left {
+	right: calc(100% + 1.5rem);
+	border-bottom-right-radius: 0;
+}
+
+.ptr-simple-layers-control-menu.left:not(.open) {
+	border-top-right-radius: 0;
+}
+
+.ptr-simple-layers-control-menu.left:after {
+	border-left-color: var(--base0);
+	border-left-style: solid;
+	border-left-width: 0;
+	right: -1rem;
+	transition: border-bottom-width 0s ease-in-out .3s, border-top-width 0s ease-in-out .3s, border-left-width 0s ease-in-out .3s;
+}
+
+.ptr-simple-layers-control-menu.left.open:after {
+	border-left-width: 1rem;
+	transition: border-bottom-width 0s, border-top-width 0s, border-left-width 0s;
+}
+
+/* Menu on right */
+.ptr-simple-layers-control-menu.right {
+	left: calc(100% + 1.5rem);
+	border-bottom-left-radius: 0;
+
+}
+
+.ptr-simple-layers-control-menu.right:not(.open) {
+	border-top-left-radius: 0;
+}
+
+.ptr-simple-layers-control-menu.right:after {
+	border-right-color: var(--base0);
+	border-right-style: solid;
+	border-right-width: 0;
+	left: -1rem;
+	transition: border-bottom-width 0s ease-in-out .3s, border-top-width 0s ease-in-out .3s, border-right-width 0s ease-in-out .3s;
+}
+
+.ptr-simple-layers-control-menu.right.open:after {
+	border-right-width: 1rem;
+	transition: border-bottom-width 0s, border-top-width 0s, border-right-width 0s;
+}
+
+/* Layer tile */
+.ptr-simple-layers-control-tile {
+	background-image: linear-gradient(0deg, rgba(178,178,178,1) 0%, rgba(233,233,233,1) 100%);
+	background-size: cover;
+	border: 2px solid var(--base50);
+	border-bottom: 0;
+	border-radius: .15rem;
+	display: flex;
+	align-items: flex-end;
+	cursor: pointer;
+}
+
+.ptr-simple-layers-control-tile.active {
+	border-color: var(--accent50);
+}
+
+.ptr-simple-layers-control-tile-name {
+	color: var(--base0);
+	background: var(--base50);
+	font-size: $b1;
+	width: 100%;
+	text-align: center;
+	padding: .15rem 0;
+}
+
+.ptr-simple-layers-control-tile.active .ptr-simple-layers-control-tile-name {
+	background: var(--accent50);
+}
