@@ -6,7 +6,7 @@ const hoveredStyle = {
 		{
 			"styles": [
 				{
-					"fill": "#ff0000"
+					"fill": "#ff00ff"
 				}
 			]
 		}
