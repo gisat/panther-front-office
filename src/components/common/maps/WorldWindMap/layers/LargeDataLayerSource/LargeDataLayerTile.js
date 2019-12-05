@@ -88,29 +88,70 @@ class LargeDataLayerTile {
 	 */
 	draw() {
 		const ctx = this._canvas.getContext('2d');
+		let hovered = [];
+		let selected = [];
 
 		for (let i = 0; i < this._data.length; i++) {
 			const dataPoint = this._data[i];
-			this.shape(ctx, dataPoint);
+			const attributes = dataPoint.data;
+			let style = mapStyles.getStyleObject(attributes, this._style);
+
+			let isHovered = this.isHovered(attributes);
+			let isSelected = this.isSelected(attributes);
+
+			if (isSelected) {
+				selected.push(dataPoint);
+			} else if (isHovered) {
+				hovered.push(dataPoint);
+			} else {
+				this.shape(ctx, dataPoint);
+			}
 		}
+
+		// draw hovered
+		hovered.forEach(dataPoint => {
+			this.shape(ctx, dataPoint, true);
+		});
+
+		// draw selected
+		selected.forEach(dataPoint => {
+			this.shape(ctx, dataPoint, false, true);
+		});
 
 		return this._canvas;
 	};
 
-	shape(context, data) {
+	isHovered(attributes) {
+		if (this._hovered && this._hovered.keys) {
+			return this._hovered.keys.indexOf(attributes[this._fidColumnName]) !== -1;
+		}
+	}
+
+	isSelected(attributes) {
+		let isSelected = false;
+		if (this._selected) {
+			this._selected.forEach(selection => {
+				let selected = selection.keys.indexOf(attributes[this._fidColumnName]) !== -1;
+				if (selected) {
+					isSelected = true;
+				}
+			});
+		}
+		return isSelected;
+	}
+
+	shape(context, data, hovered, selected) {
 		let attributes = data.data;
 		let style = mapStyles.getStyleObject(attributes, this._style);
 
 		// apply hovered style, if feature is hovered
-		if (this._hovered && this._hovered.keys) {
-			let hovered = this._hovered.keys.indexOf(attributes[this._fidColumnName]) !== -1;
-			if (hovered) {
-				style = {...style, ...this._hoveredStyle};
-			}
+		if (hovered) {
+			style = {...style, ...this._hoveredStyle};
 		}
 
+		// TODO optimize looping through selections two times
 		// apply selected style, if feature is selected
-		if (this._selected) {
+		if (selected) {
 			this._selected.forEach(selection => {
 				let selected = selection.keys.indexOf(attributes[this._fidColumnName]) !== -1;
 				if (selected) {
