@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 			dispatch(Action.charts.setInitial(data, 'spatialDataSourceKey'));
 	
 			//set selected area
-			dispatch(Action.selections.updateActiveSelection('name', [8867], []));
+			dispatch(Action._deprecatedSelections.updateActiveSelection('name', [8867], []));
 
 			const spatialdataindexFilter = {
 				spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,

@@ -1,4 +1,6 @@
 // base types
+import _deprecatedSelections from './_deprecatedSelections/selectors';
+
 import App from './App/selectors';
 import Areas from './Areas/selectors';
 import AreaRelations from './AreaRelations/selectors';
@@ -19,7 +21,6 @@ import Places from './Places/selectors';
 import Scenarios from './Scenarios/selectors';
 import Scopes from './Scopes/selectors';
 import Screens from './Screens/selectors';
-import Selections from './Selections/selectors';
 import Snapshots from './Snapshots/selectors';
 import SpatialData from './SpatialData/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
@@ -36,6 +37,7 @@ import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
 import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
+	_deprecatedSelections: _deprecatedSelections,
 	app: App,
 	areas: Areas,
 	areaRelations: AreaRelations,
@@ -57,7 +59,6 @@ export default {
 	scenarios: Scenarios,
 	scopes: Scopes,
 	screens: Screens,
-	selections: Selections,
 	snapshots: Snapshots,
 	spatialData: SpatialData,
 	spatialDataSources: SpatialDataSources,

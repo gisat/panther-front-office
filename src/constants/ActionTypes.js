@@ -566,7 +566,7 @@ export const commonActionTypesDefinitions = {
 		UPDATE: null
 	},
 
-	SELECTIONS: {
+	_DEPRECATED_SELECTIONS: {
 		ADD: null,
 		REMOVE: null,
 		SET_ACTIVE_KEY: null,

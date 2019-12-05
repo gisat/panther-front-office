@@ -1,5 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 
+import _deprecatedSelections from './_deprecatedSelections/actions';
+
 import App from './App/actions';
 import Areas from './Areas/actions';
 import AreaRelations from './AreaRelations/actions';
@@ -19,7 +21,6 @@ import Places from './Places/actions';
 import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
 import Screens from './Screens/actions';
-import Selections from './Selections/actions';
 import Snapshots from './Snapshots/actions';
 import SpatialData from './SpatialData/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
@@ -37,6 +38,7 @@ import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
 import LpisCheckCases from './_specific/LpisCheckCases/actions';
 
 export default {
+	_deprecatedSelections: _deprecatedSelections,
 	app: App,
 	areas: Areas,
 	areaRelations: AreaRelations,
@@ -57,7 +59,6 @@ export default {
 	scenarios: Scenarios,
 	scopes: Scopes,
 	screens: Screens,
-	selections: Selections,
 	snapshots: Snapshots,
 	spatialData: SpatialData,
 	spatialDataSources: SpatialDataSources,
