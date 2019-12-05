@@ -209,10 +209,6 @@ class WorldWindMap extends React.PureComponent {
 					data
 				}
 			});
-
-			if (!featureKeys.length && this.context.onHoverOut) {
-				this.context.onHoverOut();
-			}
 		}
 
 		// pass data to map state (global or local)

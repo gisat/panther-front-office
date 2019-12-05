@@ -5,21 +5,35 @@ import Select from '../../state/Select';
 
 import presentation from "./presentation";
 import utils from "../../../../utils/utils";
+import {point} from "leaflet/dist/leaflet-src.esm";
 
 const getAttributeKeys = (popupData) => {
-	const data = getAttributesData(popupData);
-	if (data) {
-		return Object.keys(data);
+	if (popupData) {
+		let keys = popupData.map(point => {
+			const {centroid, ID, ...attributes} = point.data;
+			let keys = [];
+			_.forIn(attributes, (value, key) => keys.push(key));
+			return keys;
+
+		});
+
+		if (keys && keys.length) {
+			return _.uniq(_.flatten(keys));
+		} else {
+			return null;
+		}
 	} else {
 		return null;
 	}
 };
 
 const getAttributesData = (popupData) => {
-	const data = popupData.length && popupData[0].data;
-	if (data) {
-		const {centroid, ID, ...attributes} = data;
-		return attributes;
+	// TODO pass columnId
+	if (popupData && popupData.length) {
+		return popupData.map(point => {
+			const {centroid, ID, ...attributes} = point.data;
+			return {id: ID, attributes};
+		});
 	} else {
 		return null;
 	}
@@ -33,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		attributesMetadata: Select.attributes.getByKeys(state, attributeKeys),
 		attributesData,
-		featureKey: ownProps.data && ownProps.data.length && ownProps.data[0].data.ID
+		featureKeys: ownProps.featureKeys
 	}
 };
 

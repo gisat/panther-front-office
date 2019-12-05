@@ -16,8 +16,11 @@ class HoverHandler extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.state = {
-			hoveredItems: null,
-			popup: null
+			hoveredItems: [],
+			popupContent: null,
+			x: null,
+			y: null,
+			data: null
 		};
 
 		this.onHover = this.onHover.bind(this);
@@ -25,25 +28,56 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	onHover(hoveredItems, options) {
-		let update = {};
+		// TODO what is wrong with attributes? Just bad signal? Else try single layer
 
-		if (hoveredItems) {
-			update.hoveredItems = hoveredItems;
+		// TODO check popup coordinates -> if the same -> merge data / else -> overwrite
+		// TODO if empty hovered items && nothing in state -> set state with nulls
+
+		let update = {};
+		let coordChanged = false;
+
+		// for older versions compatibility
+		if (options && options.popup && options.popup.content) {
+			update.popupContent = options.popup.content;
 		}
 
-		if (options && options.popup) {
-			update.popup = options.popup;
+		// check if coordinates has been changed
+		if (options.popup.x && options.popup.y) {
+			if (this.state.x !== options.popup.x || this.state.y !== options.popup.y) {
+				coordChanged = true;
+				update.x = options.popup.x;
+				update.y = options.popup.y;
+			}
+		}
+
+
+		// handle data according to coordinates change
+		if (coordChanged) {
+			update.hoveredItems = hoveredItems;
+			update.data = options.popup.data;
+		} else {
+			update.hoveredItems = [...this.state.hoveredItems, ...hoveredItems];
+			if (options.popup.data) {
+				update.data = [...this.state.data, ...options.popup.data];
+			}
 		}
 
 		if (!_.isEmpty(update)) {
-			this.setState(update);
+			if (update.hoveredItems && update.hoveredItems.length) {
+				this.setState(update);
+			} else {
+				this.onHoverOut();
+			}
 		}
 	}
 
 	onHoverOut() {
 		this.setState({
-			hoveredItems: null,
-			popup: null
+			hoveredItems: [],
+			popupContent: null,
+			x: null,
+			y: null,
+			data: null
 		});
 	}
 
@@ -56,16 +90,16 @@ class HoverHandler extends React.PureComponent {
 				onHoverOut: this.onHoverOut
 			}}>
 				{this.props.children}
-				{this.state.popup ? this.renderPopup() : null}
+				{this.state.popupContent || this.state.data ? this.renderPopup() : null}
 			</HoverContext.Provider>
 		);
 	}
 
 	renderPopup() {
 		return <Popup
-			x={this.state.popup.x}
-			y={this.state.popup.y}
-			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.popup.data}) : this.state.popup.content}
+			x={this.state.x}
+			y={this.state.y}
+			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.data, featureKeys: this.state.hoveredItems}) : this.state.popupContent}
 			compressed={this.props.compressedPopups}
 		/>
 	}

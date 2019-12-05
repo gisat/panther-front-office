@@ -21,16 +21,26 @@ class MapPopup extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="szdcInsar19-map-popup">
-				<div>Point: {this.props.featureKey}</div>
-				{this.props.attributesData && this.props.attributesMetadata ? this.renderContent() : null}
-			</div>
+			this.props.featureKeys ? (
+				<div className="szdcInsar19-map-popup">
+					{this.props.featureKeys.map(featureKey => {
+						let data = _.find(this.props.attributesData, {id: featureKey});
+						return (
+							<>
+								<div>Point: {featureKey}</div>
+								{data  ? this.renderContent(data.attributes) : null}
+								{/*{data && this.props.attributesMetadata  ? this.renderContent(data.attributes) : null}*/}
+							</>
+						);
+					})}
+				</div>
+			) : null
 		);
 	}
 
-	renderContent() {
+	renderContent(attributes) {
 		let content = [];
-		_.forIn(this.props.attributesData, (value, attributeKey) => {
+		_.forIn(attributes, (value, attributeKey) => {
 			let attributeMetadata = _.find(this.props.attributesMetadata, {key: attributeKey});
 			content.push(
 				<div>{attributeMetadata ? attributeMetadata.data.nameDisplay : attributeKey}: {value}</div>
