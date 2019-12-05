@@ -461,6 +461,50 @@ const setLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKeys) => {
 	}
 };
 
+
+const setLayerSelectedFeatureKeys = (mapKey, layerKey, selectedFeatureKeys) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapLayer = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+		const activeSelectionKey = Select.selections.getActiveKey(state);
+		const selectionKey = activeSelectionKey || utils.uuid();
+
+		// set selection in selections store
+		if (!activeSelectionKey) {
+			const defaultSelection = {
+				key: selectionKey,
+				data: {
+					colour: "#00ffff",
+					//style: styleKey // TODO???
+					featureKeysFilter: {
+						keys: selectedFeatureKeys
+					}
+				}
+			};
+			dispatch(Action.selections.add([defaultSelection]));
+			dispatch(Action.selections.setActiveKey(selectionKey));
+		} else {
+			dispatch(Action.selections.setActiveSelectionFeatureKeysFilterKeys(selectedFeatureKeys));
+		}
+
+		// set selection in map store
+		if (mapLayer) {
+			const mapLayerSelections = mapLayer && mapLayer.options && mapLayer.options.selected;
+			if (!mapLayerSelections || (mapLayerSelections && !mapLayerSelections[selectionKey])) {
+				dispatch(actionSetMapLayerSelection(mapKey, layerKey, selectionKey));
+			}
+		}
+
+		// TODO
+		else {
+			let set = Select.maps.getMapSetByMapKey(state, mapKey);
+			if (set) {
+
+			}
+		}
+	}
+};
+
 /**
  * 
  * Similar like add layer.
@@ -1232,6 +1276,15 @@ const actionSetMapLayerHoveredFeatureKeys = (mapKey, layerKey, hoveredFeatureKey
 	}
 };
 
+const actionSetMapLayerSelection = (mapKey, layerKey, selectionKey) => {
+	return {
+		type: ActionTypes.MAPS.MAP.LAYERS.SET.SELECTION,
+		mapKey,
+		layerKey,
+		selectionKey
+	}
+};
+
 const actionSetMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	return {
 		type: ActionTypes.MAPS.SET_BACKGROUND_LAYER,
@@ -1365,6 +1418,7 @@ export default {
 	setActiveMapKey,
 	setActiveSetKey,
 	setLayerHoveredFeatureKeys,
+	setLayerSelectedFeatureKeys,
 	setLayerIndex,
 
 	setMapBackgroundLayer,

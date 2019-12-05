@@ -204,6 +204,35 @@ const setMapLayerHoveredFeatureKeys = (state, mapKey, layerKey, hoveredFeatureKe
 	}
 };
 
+const setMapLayerSelection = (state, mapKey, layerKey, selectionKey) => {
+	const mapState = getMapByKey(state, mapKey);
+
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	const layerState = _.find(mapState.data.layers, (layer) => {
+		return layer.key === layerKey;
+	});
+
+	if (layerState) {
+		const newLayerState = {
+			...layerState,
+			options: {
+				...layerState.options,
+				selected: layerState.options.selected ? {
+					...layerState.options.selected,
+					[selectionKey]: {}
+				} : {
+					[selectionKey]: {}
+				}
+			}
+		};
+
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		return state;
+	}
+};
+
 const setMap = (state, mapState = INITIAL_MAP_STATE) => {
 	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //todo where is this used & is the merge always ok?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
@@ -456,6 +485,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return addMap(state, action.map);
 		case ActionTypes.MAPS.MAP.LAYERS.SET.HOVERED_FEATURE_KEYS:
 			return setMapLayerHoveredFeatureKeys(state, action.mapKey, action.layerKey, action.hoveredFeatureKeys);
+		case ActionTypes.MAPS.MAP.LAYERS.SET.SELECTION:
+			return setMapLayerSelection(state, action.mapKey, action.layerKey, action.selectionKey);
 		case ActionTypes.MAPS.MAP.REMOVE:
 			return removeMap(state, action.mapKey);
 		case ActionTypes.MAPS.MAP.SET_NAME:

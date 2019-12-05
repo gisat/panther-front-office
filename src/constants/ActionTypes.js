@@ -367,7 +367,8 @@ export const commonActionTypesDefinitions = {
 			ADD: null,
 			LAYERS: {
 				SET: {
-					HOVERED_FEATURE_KEYS: null
+					HOVERED_FEATURE_KEYS: null,
+					SELECTION: null
 				}
 			},
 			REMOVE: null,
@@ -564,6 +565,17 @@ export const commonActionTypesDefinitions = {
 		},
 		TOP_HISTORY: null,
 		UPDATE: null
+	},
+
+	SELECTIONS: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		SET_ACTIVE_KEY: null,
+		SET: {
+			FEATURE_KEYS_FILTER: {
+				KEYS: null
+			}
+		}
 	},
 
 	_DEPRECATED_SELECTIONS: {

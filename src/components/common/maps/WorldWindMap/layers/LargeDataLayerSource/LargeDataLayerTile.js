@@ -22,12 +22,13 @@
  */
 import mapStyles from "../../../../../../utils/mapStyles";
 import shapes from "./canvasShapes";
+import _ from "lodash";
 
 const DEFAULT_SIZE = 5;
 
 class LargeDataLayerTile {
 
-	constructor(data, options, style, fidColumnName, hovered) {
+	constructor(data, options, style, fidColumnName, selected, hovered) {
 		this._data = data;
 		this._style = style;
 		this._fidColumnName = fidColumnName;
@@ -36,6 +37,20 @@ class LargeDataLayerTile {
 		// todo here?
 		if (this._hovered && this._hovered.keys) {
 			this._hoveredStyle = mapStyles.getStyleObject(null, this._hovered.style, true); // todo add default
+		}
+
+		if (selected && !_.isEmpty(selected)) {
+			let sel = [];
+			_.forIn(selected, (selectedDef) => {
+				if (selectedDef && !_.isEmpty(selectedDef)) {
+					sel.push({
+						keys: selectedDef.keys,
+						style: mapStyles.getStyleObject(null, selectedDef.style, true) // todo add default
+					});
+				}
+			});
+
+			this._selected = sel.length ? sel : null;
 		}
 
 		this._sector = options.sector;
@@ -92,6 +107,16 @@ class LargeDataLayerTile {
 			if (hovered) {
 				style = {...style, ...this._hoveredStyle};
 			}
+		}
+
+		// apply selected style, if feature is selected
+		if (this._selected) {
+			this._selected.forEach(selection => {
+				let selected = selection.keys.indexOf(attributes[this._fidColumnName]) !== -1;
+				if (selected) {
+					style = {...style, ...selection.style};
+				}
+			});
 		}
 
 		if (style.shape) {

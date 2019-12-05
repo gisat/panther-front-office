@@ -92,9 +92,9 @@ const getLayersWithFilter = createCachedSelector(
 	}
 )((state, layersState) => layersState);
 
-const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index, layerOptions, style, attributeDataSources) => {
+const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index, layerOptions, style, attributeDataSources, selections) => {
 	let dataSourceData = dataSource.data;
-	let {attribution, nameInternal, type, tableName, layerName, features, ...options} = dataSourceData;
+	let {attribution, nameInternal, type, tableName, layerName, features, selected, ...options} = dataSourceData;
 
 	// TODO data source strucutre
 	if (type === 'wmts') {
@@ -109,11 +109,37 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index
 		if (attributeDataSources) {
 			features = mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName);
 		}
+
+		if (selections && layerOptions.selected) {
+			let populatedSelections = {};
+			_.forIn(layerOptions.selected, (value, key) => {
+				let selection = selections[key];
+
+				// TODO other selection types
+				if (selection && selection.data && selection.data.featureKeysFilter) {
+					// TODO style?
+					populatedSelections[key] = {
+						style: {
+							rules: [
+								{
+									styles: [{
+										fill: selection.data.colour
+									}]
+								}
+							]
+						},
+						keys: selection.data.featureKeysFilter.keys
+					}
+				}
+			});
+			selected = populatedSelections;
+		}
 		
 		
 		options = {
 			...layerOptions,
 			features,
+			selected,
 			fidColumnName
 		};
 

@@ -7,7 +7,7 @@ import WmtsLayer from './WmtsLayer';
 import LargeDataLayer from "./LargeDataLayerSource/LargeDataLayer";
 import _ from "lodash";
 
-function getLayerByType(layerDefinition, wwd, onHover){
+function getLayerByType(layerDefinition, wwd, onHover, onClick){
 	if (layerDefinition.type){
 		switch (layerDefinition.type){
 			case "worldwind":
@@ -33,7 +33,7 @@ function getLayerByType(layerDefinition, wwd, onHover){
 			case "wms":
 				return new WmsLayer(layerDefinition);
 			case "vector":
-				return getVectorLayer(layerDefinition, wwd, onHover);
+				return getVectorLayer(layerDefinition, wwd, onHover, onClick);
 			default:
 				return null;
 		}
@@ -42,7 +42,7 @@ function getLayerByType(layerDefinition, wwd, onHover){
 	}
 }
 
-function getVectorLayer(layerDefinition, wwd, onHover) {
+function getVectorLayer(layerDefinition, wwd, onHover, onClick) {
 	const url = layerDefinition.options && layerDefinition.options.url;
 	const numOfFeatures = layerDefinition.options && layerDefinition.options.features && layerDefinition.options.features.length;
 	const key = layerDefinition.key || 'Vector layer';
@@ -52,7 +52,8 @@ function getVectorLayer(layerDefinition, wwd, onHover) {
 		...layerDefinition.options,
 		key,
 		layerKey,
-		onHover
+		onHover,
+		onClick
 	};
 
 	// TODO better deciding
@@ -64,7 +65,7 @@ function getVectorLayer(layerDefinition, wwd, onHover) {
 	}
 }
 
-function updateVectorLayer(layerDefinition, wwd, onHover, hoveredKeys) {
+function updateVectorLayer(layerDefinition, wwd, onHover, onClick) {
 	let mapLayer = null;
 	let layerKey = layerDefinition.layerKey;
 	let worldWindLayer = _.find(wwd.layers, (lay) => {
@@ -72,7 +73,7 @@ function updateVectorLayer(layerDefinition, wwd, onHover, hoveredKeys) {
 	});
 
 	if (!worldWindLayer) {
-		mapLayer = getLayerByType(layerDefinition, wwd, onHover);
+		mapLayer = getLayerByType(layerDefinition, wwd, onHover, onClick);
 	} else {
 		let prevFeatures = worldWindLayer.pantherProps.features;
 		let nextFeatures = layerDefinition.options.features;
@@ -87,7 +88,7 @@ function updateVectorLayer(layerDefinition, wwd, onHover, hoveredKeys) {
 		}
 		else {
 			worldWindLayer.removeListeners();
-			mapLayer = getLayerByType(layerDefinition, wwd, onHover);
+			mapLayer = getLayerByType(layerDefinition, wwd, onHover, onClick);
 		}
 	}
 

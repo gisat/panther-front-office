@@ -14,7 +14,8 @@ import AttributeDataSelectors from '../AttributeData/selectors';
 import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
 import AppSelectors from '../App/selectors';
 import {defaultMapView} from "../../constants/Map";
-import StylesSelect from "../Styles/selectors";
+import StylesSelectors from "../Styles/selectors";
+import SelectionsSelectors from "../Selections/selectors";
 
 let getBackgroundLayerCache = new CacheFifo(10);
 let getLayersCache = new CacheFifo(10);
@@ -562,7 +563,8 @@ const getLayers = (state, layersState) => {
 	if (layersWithFilter && layersWithFilter.length) {
 		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 		let attributeDataSourcesByLayerKey = AttributeDataSourcesSelectors.getFilteredDataSourcesGroupedByLayerKey(state, layersWithFilter, layersState);
-		let stylesByLayerKey = StylesSelect.getGroupedByLayerKey(state, layersState);
+		let stylesByLayerKey = StylesSelectors.getGroupedByLayerKey(state, layersState);
+		let selections = SelectionsSelectors.getAllAsObject(state);
 		
 		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
 			let mapLayers = [];
@@ -570,7 +572,13 @@ const getLayers = (state, layersState) => {
 			let cacheKey = JSON.stringify(layersWithFilter);
 			let cache = getLayersCache.findByKey(cacheKey);
 			
-			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey && cache.stylesByLayerKey === stylesByLayerKey && cache.attributeDataSourcesByLayerKey === attributeDataSourcesByLayerKey) {
+			if (cache
+				&& cache.layersWithFilter === layersWithFilter
+				&& cache.dataSourcesByLayerKey === dataSourcesByLayerKey
+				&& cache.stylesByLayerKey === stylesByLayerKey
+				&& cache.attributeDataSourcesByLayerKey === attributeDataSourcesByLayerKey
+				&& cache.selections === selections
+			) {
 				return cache.mapLayers;
 			} else {
 				layersState.forEach((layerState) => {
@@ -606,7 +614,7 @@ const getLayers = (state, layersState) => {
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style, attributeDataSources));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style, attributeDataSources, selections));
 							}
 						});
 					}
@@ -618,7 +626,8 @@ const getLayers = (state, layersState) => {
 					dataSourcesByLayerKey,
 					attributeDataSourcesByLayerKey,
 					mapLayers,
-					stylesByLayerKey
+					stylesByLayerKey,
+					selections
 				});
 
 				return mapLayers;

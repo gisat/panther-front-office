@@ -44,7 +44,8 @@ class WorldWindMap extends React.PureComponent {
 		this.canvasId = utils.uuid();
 
 		this.onClick = this.onClick.bind(this);
-		this.onHover = this.onHover.bind(this);
+		this.onLayerHover = this.onLayerHover.bind(this);
+		this.onLayerClick = this.onLayerClick.bind(this);
 		this.onZoomLevelsBased = this.onZoomLevelsBased.bind(this);
 	}
 
@@ -123,12 +124,12 @@ class WorldWindMap extends React.PureComponent {
 
 				// TODO working for LargeDataLayer only
 				if (layer.type === 'vector') {
-					mapLayer = layersHelpers.updateVectorLayer(layer, this.wwd, this.onHover);
+					mapLayer = layersHelpers.updateVectorLayer(layer, this.wwd, this.onLayerHover, this.onLayerClick);
 				}
 
 				// TODO more sophisticated comparison for other layer types
 				else {
-					mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onHover);
+					mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onLayerHover);
 				}
 
 				layers.push(mapLayer);
@@ -198,7 +199,7 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	onHover(layerKey, featureKeys, x, y, popupContent, data) {
+	onLayerHover(layerKey, featureKeys, x, y, popupContent, data) {
 		// pass data to popup
 		if (this.context && this.context.onHover) {
 			this.context.onHover(featureKeys, {
@@ -210,11 +211,12 @@ class WorldWindMap extends React.PureComponent {
 				}
 			});
 		}
+	}
 
-		// pass data to map state (global or local)
-		// if (this.props.onLayerFeaturesHover) {
-		// 	this.props.onLayerFeaturesHover(layerKey, featureKeys);
-		// }
+	onLayerClick(layerKey, featureKeys) {
+		if (this.props.onLayerClick) {
+			this.props.onLayerClick(this.props.mapKey, layerKey, featureKeys);
+		}
 	}
 
 	render() {

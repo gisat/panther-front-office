@@ -35,8 +35,10 @@ class LargeDataLayer extends TiledImageLayer {
 			features: options.features,
 			fidColumnName: options.fidColumnName,
 			hovered: {...options.hovered},
+			selected: {...options.selected},
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
+			onClick: options.onClick,
 			pointHoverBuffer: options.pointHoverBuffer || DEFAULT_SIZE,
 			style: options.style,
 			wwd: wwd
@@ -139,7 +141,14 @@ class LargeDataLayer extends TiledImageLayer {
 		this.onClickResult(this.handleEvent(wwd, event));
 	}
 
-	onClickResult(points){}
+	onClickResult(data){
+		if (this.pantherProps.onClick) {
+			let gids = data.points.map(point => point.data[this.pantherProps.fidColumnName]);
+			if (gids && gids.length) {
+				this.pantherProps.onClick(this.pantherProps.layerKey, gids);
+			}
+		}
+	}
 
 	onMouseMoveResult(data) {
 		if (this.pantherProps.onHover) {
@@ -228,7 +237,7 @@ class LargeDataLayer extends TiledImageLayer {
 	};
 
 	createPointTile(data, options) {
-		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.fidColumnName, this.pantherProps.hovered);
+		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.fidColumnName, this.pantherProps.selected,this.pantherProps.hovered);
 	};
 
 	updateHoveredKeys(hoveredKeys) {

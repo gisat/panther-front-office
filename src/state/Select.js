@@ -21,6 +21,7 @@ import Places from './Places/selectors';
 import Scenarios from './Scenarios/selectors';
 import Scopes from './Scopes/selectors';
 import Screens from './Screens/selectors';
+import Selections from './Selections/selectors';
 import Snapshots from './Snapshots/selectors';
 import SpatialData from './SpatialData/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
@@ -59,6 +60,7 @@ export default {
 	scenarios: Scenarios,
 	scopes: Scopes,
 	screens: Screens,
+	selections: Selections,
 	snapshots: Snapshots,
 	spatialData: SpatialData,
 	spatialDataSources: SpatialDataSources,
