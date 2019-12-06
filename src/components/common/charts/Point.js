@@ -88,25 +88,26 @@ class Point extends React.PureComponent {
 	}
 
 	onMouseOver(e) {
-		if (this.props.onMouseOver) {
-			this.props.onMouseOver(e, this.props.data);
-		}
-
-		if (this.props.standalone && this.context && this.context.onHover) {
-			this.context.onHover([this.props.itemKey], {
-				popup: {
-					x: e.pageX,
-					y: e.pageY,
-					content: this.getPopupContent()
-				}
-			});
-		}
-
-		if (!this.props.zSourcePath) {
-			this.setState({
-				radius: this.props.r + 3
-			});
-		}
+		// TODO is it necessary?
+		// if (this.props.onMouseOver) {
+		// 	this.props.onMouseOver(e, this.props.data);
+		// }
+		//
+		// if (this.props.standalone && this.context && this.context.onHover) {
+		// 	this.context.onHover([this.props.itemKey], {
+		// 		popup: {
+		// 			x: e.pageX,
+		// 			y: e.pageY,
+		// 			content: this.getPopupContent()
+		// 		}
+		// 	});
+		// }
+		//
+		// if (!this.props.zSourcePath) {
+		// 	this.setState({
+		// 		radius: this.props.r + 3
+		// 	});
+		// }
 	}
 
 	onMouseOut(e) {
