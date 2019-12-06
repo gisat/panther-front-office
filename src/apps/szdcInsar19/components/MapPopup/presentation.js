@@ -26,7 +26,7 @@ class MapPopup extends React.PureComponent {
 					{this.props.featureKeys.map(featureKey => {
 						let data = _.find(this.props.attributesData, {id: featureKey});
 						return (
-							<React.Fragment key={featureKey}>
+							<React.Fragment>
 								<div>Point: {featureKey}</div>
 								{data  ? this.renderContent(data.attributes) : null}
 								{/*{data && this.props.attributesMetadata  ? this.renderContent(data.attributes) : null}*/}

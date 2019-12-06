@@ -60,7 +60,7 @@ class HoverHandler extends React.PureComponent {
 			update.data = options.popup.data;
 		} else {
 			update.hoveredItems = [...this.state.hoveredItems, ...hoveredItems];
-			if (options.popup.data) {
+			if (options.popup.data && options.popup.data.length) {
 				update.data = [...this.state.data, ...options.popup.data];
 			}
 		}

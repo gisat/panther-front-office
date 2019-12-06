@@ -87,7 +87,6 @@ const getFilteredDataSourcesGroupedByLayerKey = createCachedSelector(
 								};
 
 								delete updatedFeature.properties[finalDataSource.data.columnName];
-								delete updatedFeature.properties[finalDataSource.data.columnName];
 								return updatedFeature;
 							});
 						}
