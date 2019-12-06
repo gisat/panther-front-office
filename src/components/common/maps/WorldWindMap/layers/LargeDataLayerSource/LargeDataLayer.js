@@ -36,6 +36,7 @@ class LargeDataLayer extends TiledImageLayer {
 			fidColumnName: options.fidColumnName,
 			hovered: {...options.hovered},
 			selected: {...options.selected},
+			key: layer.key,
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
 			onClick: options.onClick,

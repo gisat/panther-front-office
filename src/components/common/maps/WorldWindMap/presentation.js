@@ -120,24 +120,23 @@ class WorldWindMap extends React.PureComponent {
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				let mapLayer = null;
-
-				// TODO working for LargeDataLayer only
-				if (layer.type === 'vector') {
-					mapLayer = layersHelpers.updateVectorLayer(layer, this.wwd, this.onLayerHover, this.onLayerClick);
-				}
-
-				// TODO more sophisticated comparison for other layer types
-				else {
-					mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onLayerHover);
-				}
-
+				const mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onLayerHover, this.onLayerClick);
 				layers.push(mapLayer);
 			});
 		}
 
+
+		this.invalidateLayers(this.wwd.layers);
 		this.wwd.layers = layers;
 		this.wwd.redraw();
+	}
+
+	invalidateLayers(previousLayers) {
+		previousLayers.forEach(prevLayer => {
+			if (prevLayer instanceof LargeDataLayer) {
+				prevLayer.removeListeners();
+			}
+		});
 	}
 
 	updateHoveredFeatures() {
