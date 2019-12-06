@@ -56,6 +56,16 @@ class SzdcInsar19App extends React.PureComponent {
 		this.renderCurrent = this.renderCurrent.bind(this);
 	}
 	
+	selectTrack(key, select) {
+		let activeTracks = this.props.activeTracks && [...this.props.activeTracks] || this.props.areaTrees && [this.props.areaTrees[0]];
+		if (select) {
+			activeTracks.push(key);
+		} else {
+			activeTracks = _.without(activeTracks, key)
+		}
+		this.props.selectTracks(activeTracks);
+	}
+	
 	render() {
 		
 		let props = this.props;
@@ -64,6 +74,8 @@ class SzdcInsar19App extends React.PureComponent {
 			let [category, view] = props.activeAppView.split('.');
 			currentStyle = {background: appViews[category].colour};
 		}
+		
+		let activeTracks = props.activeTracks || props.areaTrees && props.areaTrees[0];
 		
 		return (
 			<div className="szdcInsar19-app">
@@ -82,6 +94,34 @@ class SzdcInsar19App extends React.PureComponent {
 					>
 						{this.renderSelectItems(props.trackViews, props.zoneClassificationViews)}
 					</PantherSelect>
+					<div>
+						{props.periods && _.map(props.periods, (uuid, days) => (
+							<label>
+								<input
+									type="radio"
+									name="period"
+									value={days}
+									onClick={props.selectPeriod.bind(this, uuid)}
+									checked={props.activePeriod === uuid}
+								/>
+									{days}
+								</label>
+						))}
+					</div>
+					<div>
+						{props.areaTrees && _.map(props.areaTrees, uuid => (
+							<label>
+								<input
+									type="checkbox"
+									name="track"
+									value={uuid}
+									onClick={this.selectTrack.bind(this, uuid, !_.includes(activeTracks, uuid))}
+									checked={_.includes(activeTracks, uuid)}
+								/>
+									{uuid}
+								</label>
+						))}
+					</div>
 				</div>
 				<div className="szdcInsar19-content">
 					<div className="szdcInsar19-map">
