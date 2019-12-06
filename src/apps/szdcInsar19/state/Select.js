@@ -4,7 +4,7 @@ import _ from 'lodash';
 import CommonSelect from '../../../state/Select';
 import CacheFifo from "../../../utils/CacheFifo";
 
-let getLayersCache = new CacheFifo(10);
+let trackTimeSerieChartCache = new CacheFifo(10);
 
 // TODO
 const getTrackTimeSerieChartFilter = createSelector(
@@ -38,36 +38,52 @@ const getDataForTrackTimeSerieChart = (state) => {
 			const periods = CommonSelect.periods.getAllAsObject(state);
 
 			let cacheKey = JSON.stringify(filter);
-			let cache = getLayersCache.findByKey(cacheKey);
+			let cache = trackTimeSerieChartCache.findByKey(cacheKey);
 
-			//TODO cache - data sources, periods, filter
-			let timeSerie = [];
-			let pointId = null;
-			_.each(dataSources, ds => {
-				let properties = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features && ds.dataSource.data.features[0].properties; // TODO more features?
-				if (properties) {
-					if (!pointId) {
-						pointId = properties[ds.fidColumnName]
-					}
-					let period = periods[ds.periodKey];
-					if (period) {
-						timeSerie.push({
-							period: period.data.start,
-							value: properties[ds.attributeKey]
-						})
-					}
-				}
-			});
+			// return cached values if following data did not change
+			if (cache
+				&& cache.filter === filter
+				&& cache.dataSources === dataSources
+				&& cache.periods === periods
+			) {
+				return cache.dataForChart;
+			}
 
-			// TODO
-			if (timeSerie.length) {
-				return [{
+			else {
+				let timeSerie = [];
+				let pointId = null;
+				_.each(dataSources, ds => {
+					let properties = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features && ds.dataSource.data.features[0].properties; // TODO more features?
+					if (properties) {
+						if (!pointId) {
+							pointId = properties[ds.fidColumnName]
+						}
+						let period = periods[ds.periodKey];
+						if (period) {
+							timeSerie.push({
+								period: period.data.start,
+								value: properties[ds.attributeKey]
+							})
+						}
+					}
+				});
+
+				// TODO
+				let dataForChart = [{
 					key: pointId,
 					name: pointId,
 					data: timeSerie
-				}]
-			} else {
-				return null;
+				}];
+
+				trackTimeSerieChartCache.addOrUpdate({
+					cacheKey,
+					filter,
+					dataSources,
+					periods,
+					dataForChart
+				});
+
+				return dataForChart
 			}
 		} else {
 			return null;
