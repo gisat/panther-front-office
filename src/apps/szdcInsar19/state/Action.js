@@ -48,6 +48,9 @@ const szdcInsar19 = {
 					areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
 					styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
 					attributeKeys: configuration.attributes || [configuration.attribute],
+					attributeMetadataModifiers: {
+						periodKey: "326760b2-dc84-4112-80dc-2430023c5007", //TODO base period
+					},
 					options: {
 						hovered: {
 							style: hoveredStyle //TODO

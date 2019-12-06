@@ -782,25 +782,41 @@ function use(mapKey, backgroundLayer, layers) {
 				
 				
 				// Ensure attribute data //todo
+				// TODO handle "key: in {}" case in filters
 				if (layer.attributeKeys) {
 					let attributeFilter = {
-						...filter,
+						...layer.attributeMetadataModifiers,
+					};
+
+					if (layer.layerTemplateKey) {
+						attributeFilter.layerTemplateKey = layer.layerTemplateKey;
+					} else if (layer.areaTreeLevelKey) {
+						attributeFilter.areaTreeLevelKey = layer.areaTreeLevelKey;
+					}
+
+					let attributeFilterByActive = layer.attributeFilterByActive || null;
+					let mergedAttributeFilter = commonHelpers.mergeFilters(activeKeys, attributeFilterByActive, attributeFilter);
+
+
+					let attributeFilterWithAttributeKeys = {
+						...attributeFilter,
+						attributeKey: {
+							in: layer.attributeKeys
+						}
+					};
+					let mergedAttributeFilterWithAttributeKeys = {
+						...mergedAttributeFilter,
 						attributeKey: {
 							in: layer.attributeKeys
 						}
 					};
 
-					let mergedAttributeFilter = {
-						...mergedFilter,
-						attributeKey: {
-							in: layer.attributeKeys
-						}
-					};
 
-					dispatch(Action.attributeRelations.useIndexedRegister( componentId, filterByActive, attributeFilter, null, 1, 2000));
-					dispatch(Action.attributeRelations.ensureIndexed(mergedAttributeFilter, null, 1, 2000)).then(() => {
+
+					dispatch(Action.attributeRelations.useIndexedRegister( componentId, attributeFilterByActive, attributeFilter, null, 1, 2000));
+					dispatch(Action.attributeRelations.ensureIndexed(mergedAttributeFilterWithAttributeKeys, null, 1, 2000)).then(() => {
 						/* Ensure data sources */
-						const relations = Select.attributeRelations.getFiltered(getState(), mergedFilter);
+						const relations = Select.attributeRelations.getFiltered(getState(), mergedAttributeFilter);
 						if (relations && relations.length) {
 							const filters = relations.map(relation => {return {
 								attributeDataSourceKey: relation.attributeDataSourceKey,
