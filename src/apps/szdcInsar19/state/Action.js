@@ -1,5 +1,6 @@
 import CommonAction from '../../../state/Action';
 import CommonSelect from "../../../state/Select";
+import Select from "./Select";
 
 const hoveredStyle = {
 	"rules":[
@@ -38,7 +39,7 @@ const szdcInsar19 = {
 			let areaTreesAndLevels = CommonSelect.app.getConfiguration(state, 'areaTreesAndLevels');
 
 			//find active tracks
-			let activeTrackKeys = ["25893f38-7a34-438c-9ffa-be1413fb85ae", "bbbf9c49-1b65-44b3-a2a0-2fd5d7944b16"]; //todo
+			let activeTrackKeys = ["25893f38-7a34-438c-9ffa-be1413fb85ae"]; //todo
 
 			//add a layer for each
 			layers = activeTrackKeys.map(activeTrackKey => {
@@ -59,8 +60,48 @@ const szdcInsar19 = {
 
 		dispatch(CommonAction.maps.setMapLayers('szdcInsar19', layers));
 
-	}
+	},
 
+	trackTimeSerieChartUse: (componentId, keys) => (dispatch, getState) => {
+		if (keys && keys.length) {
+			let filter = Select.specific.szdcInsar19.getTrackTimeSerieChartFilter(getState());
+
+			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, filter, null, 1, 1000));
+			dispatch(CommonAction.attributeRelations.ensureIndexed(filter, null, 1, 1000)).then(() => {
+				/* Ensure data sources */
+				const relations = CommonSelect.attributeRelations.getFiltered(getState(), filter);
+				if (relations && relations.length) {
+					const dataSourcesKeys = relations.map(relation => relation.attributeDataSourceKey);
+					const periodKeys = relations.map(relation => relation.periodKey);
+
+					dispatch(CommonAction.periods.useKeys(periodKeys, componentId));
+
+					dispatch(CommonAction.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
+						const dataSources = CommonSelect.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
+						if (dataSources) {
+							let dataSourceKeys = [];
+							dataSources.forEach(dataSource => {
+								dataSourceKeys.push(dataSource.key);
+							});
+
+							// TODO fidColumnName!!!
+							const filter = {
+								attributeDataSourceKey: {
+									in: dataSourceKeys
+								},
+								fidColumnName: relations[0].fidColumnName,
+								fid: {
+									in: keys
+								}
+							};
+							dispatch(CommonAction.attributeData.useIndexed(null, filter, null, 1, 1, componentId));
+
+						}
+					});
+				}
+			});
+		}
+	}
 };
 
 

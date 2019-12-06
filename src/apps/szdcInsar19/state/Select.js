@@ -1,9 +1,91 @@
 import {createSelector} from 'reselect';
+import _ from 'lodash';
 
 import CommonSelect from '../../../state/Select';
+import CacheFifo from "../../../utils/CacheFifo";
+
+let getLayersCache = new CacheFifo(10);
+
+// TODO
+const getTrackTimeSerieChartFilter = createSelector(
+	[
+		CommonSelect.app.getCompleteConfiguration
+	],
+		(config) => {
+			let areaTreesAndLevels = config && config.areaTreesAndLevels;
+			let trackConfiguration = config && config.track;
+			//find active tracks
+			let activeTrackKey = "25893f38-7a34-438c-9ffa-be1413fb85ae"; //todo
+
+			if (areaTreesAndLevels && trackConfiguration) {
+				return {
+					areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
+					attributeKey: trackConfiguration.dAttribute
+				};
+			} else {
+				return null;
+			}
+		}
+);
+
+const getDataForTrackTimeSerieChart = (state) => {
+	const filter = getTrackTimeSerieChartFilter(state);
+
+	if (filter) {
+		const dataSources = CommonSelect.attributeDataSources.getFilteredDataSources(state, filter);
+
+		if (dataSources) {
+			const periods = CommonSelect.periods.getAllAsObject(state);
+
+			let cacheKey = JSON.stringify(filter);
+			let cache = getLayersCache.findByKey(cacheKey);
+
+			//TODO cache - data sources, periods, filter
+			let timeSerie = [];
+			let pointId = null;
+			_.each(dataSources, ds => {
+				let properties = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features && ds.dataSource.data.features[0].properties; // TODO more features?
+				if (properties) {
+					if (!pointId) {
+						pointId = properties[ds.fidColumnName]
+					}
+					let period = periods[ds.periodKey];
+					if (period) {
+						timeSerie.push({
+							period: period.data.start,
+							value: properties[ds.attributeKey]
+						})
+					}
+				}
+			});
+
+			// TODO
+			if (timeSerie.length) {
+				return [{
+					key: pointId,
+					name: pointId,
+					data: timeSerie
+				}]
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	} else {
+		return null;
+	}
+};
+
 
 let lastAppView = null; //let's call this caching
 const szdcInsar19 = {
+
+
+	// TODO
+	getTrackTimeSerieChartFilter,
+	getDataForTrackTimeSerieChart
+
 
 	// probably obsolete
 	// getLayers: state => {

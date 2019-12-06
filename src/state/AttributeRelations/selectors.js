@@ -7,6 +7,33 @@ const getSubstate = (state) => state.attributeRelations;
 
 const getAll = common.getAll(getSubstate);
 
+const getFilteredDataSourceKeysWithFidColumn = createCachedSelector(
+	[
+		getAll,
+		(state, filter) => filter
+	],
+	(relations, filter) => {
+		if (relations && relations.length) {
+			let filteredRelations = _.filter(relations, {'data': filter});
+			if (filteredRelations.length) {
+				return filteredRelations.map(relation => {
+					return {
+						attributeDataSourceKey: relation.data.attributeDataSourceKey,
+						attributeKey: relation.data.attributeKey,
+						periodKey: relation.data.periodKey,
+						fidColumnName: relation.data.fidColumnName
+					}
+				});
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, filter) => {return JSON.stringify(filter)}
+);
 
 const getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey = createCachedSelector(
 	[
@@ -270,6 +297,7 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 );
 
 export default {
+	getFilteredDataSourceKeysWithFidColumn,
 	getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
 
 

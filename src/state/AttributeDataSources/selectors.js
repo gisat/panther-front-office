@@ -12,6 +12,53 @@ const getBatchByFilterOrder = common.getBatchByFilterOrder(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
 
+const getFilteredDataSources = createCachedSelector(
+	[
+		getAllAsObject,
+		AttributeRelations.getFilteredDataSourceKeysWithFidColumn,
+		AttributeData.getAllAsObject,
+		(state, filter) => filter
+	],
+	(dataSources, dataSourcesWithFidColumn, attributeData, filter) => {
+		if (!_.isEmpty(dataSourcesWithFidColumn) && attributeData && dataSources) {
+			let finalDataSources = [];
+			_.forEach(dataSourcesWithFidColumn, dataSourceWithFidColumn => {
+				const key = dataSourceWithFidColumn.attributeDataSourceKey;
+				let finalDataSource = {
+					...dataSources[key]
+				};
+
+				const data = attributeData[key];
+				if (data && data.attributeData && data.attributeData.features) {
+					finalDataSource.data.features = data.attributeData.features.map(feature => {
+						let updatedFeature = {
+							...feature,
+							properties: {
+								...feature.properties,
+								[dataSourceWithFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName]
+							}
+						};
+
+						delete updatedFeature.properties[finalDataSource.data.columnName];
+						return updatedFeature;
+					});
+				}
+
+				finalDataSources.push({
+					dataSource: finalDataSource,
+					attributeKey: dataSourceWithFidColumn.attributeKey,
+					periodKey: dataSourceWithFidColumn.periodKey,
+					fidColumnName: dataSourceWithFidColumn.fidColumnName
+				});
+			});
+
+			return finalDataSources.length ? finalDataSources : null;
+
+		} else {
+			return null;
+		}
+	}
+)((state, filter) => JSON.stringify(filter));
 
 const getFilteredDataSourcesGroupedByLayerKey = createCachedSelector(
 	[
@@ -138,6 +185,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 
 export default {
 	getSubstate,
+	getFilteredDataSources,
 	getFilteredDataSourcesGroupedByLayerKey,
 
 

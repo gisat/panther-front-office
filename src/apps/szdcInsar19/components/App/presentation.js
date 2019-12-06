@@ -6,6 +6,7 @@ import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presen
 import PantherSelect, {PantherSelectItem} from "../../../../components/common/atoms/PantherSelect";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import MapPopup from "../MapPopup";
+import TrackTimeSerieChart from "../TrackTimeSerieChart";
 
 const appViews = {
 	track: {
@@ -91,7 +92,7 @@ class SzdcInsar19App extends React.PureComponent {
 						</HoverHandler>
 					</div>
 					<div className="szdcInsar19-visualization">
-					
+						<TrackTimeSerieChart/>
 					</div>
 				</div>
 			
