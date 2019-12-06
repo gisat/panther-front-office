@@ -26,11 +26,11 @@ class MapPopup extends React.PureComponent {
 					{this.props.featureKeys.map(featureKey => {
 						let data = _.find(this.props.attributesData, {id: featureKey});
 						return (
-							<>
+							<React.Fragment key={featureKey}>
 								<div>Point: {featureKey}</div>
 								{data  ? this.renderContent(data.attributes) : null}
 								{/*{data && this.props.attributesMetadata  ? this.renderContent(data.attributes) : null}*/}
-							</>
+							</React.Fragment>
 						);
 					})}
 				</div>
@@ -43,7 +43,7 @@ class MapPopup extends React.PureComponent {
 		_.forIn(attributes, (value, attributeKey) => {
 			let attributeMetadata = _.find(this.props.attributesMetadata, {key: attributeKey});
 			content.push(
-				<div>{attributeMetadata ? attributeMetadata.data.nameDisplay : attributeKey}: {value}</div>
+				<div key={attributeKey}>{attributeMetadata ? attributeMetadata.data.nameDisplay : attributeKey}: {value}</div>
 			);
 		});
 

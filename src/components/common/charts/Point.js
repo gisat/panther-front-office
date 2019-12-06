@@ -17,7 +17,10 @@ class Point extends React.PureComponent {
 			PropTypes.number
 		]),
 		data: PropTypes.object,
-		name: PropTypes.string,
+		name: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 		x: PropTypes.number,
 		y: PropTypes.number,
 		r: PropTypes.number,

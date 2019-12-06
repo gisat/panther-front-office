@@ -87,7 +87,10 @@ const mapDispatchToPropsFactory = () => {
 class Map extends React.PureComponent {
 
 	static propTypes = {
-		mapComponent: PropTypes.element
+		mapComponent: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.func
+		])
 	};
 
 	constructor(props) {

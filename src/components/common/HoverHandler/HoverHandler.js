@@ -10,7 +10,10 @@ class HoverHandler extends React.PureComponent {
 	static propTypes = {
 		selectedItems: PropTypes.array,
 		compressedPopups: PropTypes.bool,
-		popupContentComponent: PropTypes.element
+		popupContentComponent: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.func
+		])
 	};
 
 	constructor(props){

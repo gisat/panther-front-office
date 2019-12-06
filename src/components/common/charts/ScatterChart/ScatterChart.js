@@ -224,7 +224,6 @@ class ScatterChart extends React.PureComponent {
 	}
 
 	renderPoint(key, item, x, y, z, color, name, index, siblings) {
-		console.log("Point", x);
 		return (
 			<Point
 				key={key + '-' + index}
