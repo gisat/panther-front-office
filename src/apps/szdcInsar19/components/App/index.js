@@ -11,6 +11,11 @@ const mapStateToProps = state => {
 		activeAppView: Select.components.get(state, 'szdcInsar19_App', 'activeAppView'),
 		trackViews: Select.app.getConfiguration(state, 'track.views'),
 		zoneClassificationViews: Select.app.getConfiguration(state, 'zoneClassification.views'),
+		periods: Select.app.getConfiguration(state, 'periods'),
+		activePeriod: Select.components.get(state, 'szdcInsar19_App', 'activePeriod') || Select.app.getConfiguration(state, 'basePeriod'),
+		basePeriod: Select.app.getConfiguration(state, 'basePeriod'),
+		areaTrees: Select.app.getConfiguration(state, 'track.areaTrees'),
+		activeTracks: Select.components.get(state, 'szdcInsar19_App', 'activeTracks'),
 		// skoroLayers: Select.specific.szdcInsar19.getLayers(state)
 	}
 };
@@ -27,6 +32,12 @@ const mapDispatchToProps = (dispatch) => {
 			// dispatch(Action.components.set('szdcInsar19_App', 'activeAppView', key));
 			dispatch(Action.specific.szdcInsar19.changeAppView(key));
 			dispatch(Action.components.set('szdcInsar19_ViewSelect', 'viewSelectOpen', false));
+		},
+		selectPeriod: key => {
+			dispatch(Action.components.set('szdcInsar19_App', 'activePeriod', key));
+		},
+		selectTracks: keys => {
+			dispatch(Action.components.set('szdcInsar19_App', 'activeTracks', keys));
 		},
 	}
 };
