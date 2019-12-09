@@ -95,20 +95,22 @@ class SzdcInsar19App extends React.PureComponent {
 					>
 						{this.renderSelectItems(props.trackViews, props.zoneClassificationViews)}
 					</PantherSelect>
-					<div>
-						{props.periods && _.map(props.periods, (uuid, days) => (
-							<label>
-								<input
-									type="radio"
-									name="period"
-									value={days}
-									onClick={props.selectPeriod.bind(this, uuid)}
-									checked={props.activePeriod === uuid}
-								/>
-									{days}
-								</label>
-						))}
-					</div>
+					{props.periods ? (
+						<div className="szdcInsar19-period-select">
+							Posledních {_.map(props.periods, (uuid, days) => (
+								<label>
+									<input
+										type="radio"
+										name="period"
+										value={days}
+										onClick={props.selectPeriod.bind(this, uuid)}
+										checked={props.activePeriod === uuid}
+									/>
+										{days}
+									</label>
+							))} dní
+						</div>
+					) : null }
 					{props.areaTreeKeys ? (
 						<TrackSelect
 							activeTracks={activeTracks}

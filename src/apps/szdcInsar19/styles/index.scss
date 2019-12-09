@@ -128,3 +128,24 @@
 .szdcInsar19-select-category > div:hover::after {
 	background: #fff3;
 }
+
+
+.szdcInsar19-period-select,
+.szdcInsar19-TrackSelect {
+	padding: 0 1rem;
+	line-height: m(2);
+	color: #ccc;
+}
+.szdcInsar19-period-select > label,
+.szdcInsar19-TrackSelect > label {
+	padding: 0 m(1/3);
+	color: #eee;
+}
+.szdcInsar19-period-select input,
+.szdcInsar19-TrackSelect input {
+	margin-right: m(1/6);
+}
+
+.szdcInsar19-period-select {
+	background: rgba(120,120,120,.3);
+}

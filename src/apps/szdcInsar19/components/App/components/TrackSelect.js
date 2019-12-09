@@ -46,7 +46,7 @@ class TrackSelect extends React.PureComponent {
 		if (props.activeTracks && props.areaTreeKeys) {
 
 			return (
-				<div>
+				<div className="szdcInsar19-TrackSelect">
 					{_.map(props.areaTreeKeys, uuid => (
 						<label>
 							<input
