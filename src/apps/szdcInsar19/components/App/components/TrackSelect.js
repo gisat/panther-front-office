@@ -23,32 +23,38 @@ let selectTrack = (activeTracks, key) => {
 	return _.includes(activeTracks, key) ? _.without(activeTracks, key) : _.concat(activeTracks, key);
 };
 
-let TrackSelect = props => {
+class TrackSelect extends React.PureComponent {
 
-	if (props.activeTracks && props.areaTreeKeys) {
+	render() {
 
-		return (
-			<div>
-				{_.map(props.areaTreeKeys, uuid => (
-					<label>
-						<input
-							key={uuid}
-							type="checkbox"
-							name="track"
-							value={uuid}
-							onClick={props.selectTracks.bind(null, selectTrack(props.activeTracks, uuid))}
-							checked={_.includes(props.activeTracks, uuid)}
-						/>
-						{uuid}
-					</label>
-				))}
-			</div>
-		);
+		let props = this.props;
 
-	}
+		if (props.activeTracks && props.areaTreeKeys) {
 
-	return null;
+			return (
+				<div>
+					{_.map(props.areaTreeKeys, uuid => (
+						<label>
+							<input
+								key={uuid}
+								type="checkbox"
+								name="track"
+								value={uuid}
+								onClick={props.selectTracks.bind(null, selectTrack(props.activeTracks, uuid))}
+								checked={_.includes(props.activeTracks, uuid)}
+							/>
+							{uuid}
+						</label>
+					))}
+				</div>
+			);
 
-};
+		}
+
+		return null;
+
+	};
+
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackSelect);
