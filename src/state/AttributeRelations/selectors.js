@@ -6,6 +6,7 @@ import createCachedSelector from "re-reselect";
 const getSubstate = (state) => state.attributeRelations;
 
 const getAll = common.getAll(getSubstate);
+const getIndexed = common.getIndexed(getSubstate);
 
 const getFilteredDataSourceKeysWithFidColumn = createCachedSelector(
 	[
@@ -299,6 +300,7 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 export default {
 	getFilteredDataSourceKeysWithFidColumn,
 	getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
+	getIndexed,
 
 
 	getAllData,
