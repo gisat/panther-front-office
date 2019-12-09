@@ -257,7 +257,26 @@ const getByKey = (getSubstate) => {
 	)((state, key) => key);
 };
 
-// TODO test
+const getByKeysAsObject = (getSubstate) => {
+	return createCachedSelector(
+		[
+			getAllAsObject(getSubstate),
+			(state, keys) => keys,
+		],
+		(allData, keys) => {
+			if (keys && keys.length && allData && !_.isEmpty(allData)) {
+				let data = _.pick(allData, keys);
+				return _.isEmpty(data) ? null : data;
+			} else {
+				return null;
+			}
+		}
+	)(
+		(state, keys) => `${keys}`
+	);
+};
+
+// TODO test + use getByKeysAsObject?
 const getByKeys = (getSubstate) => {
 	return createCachedSelector(
 		[
@@ -774,6 +793,7 @@ export default {
 	getByFilterOrder,
 	getBatchByFilterOrder,
 	getByKey,
+	getByKeysAsObject,
 	getByKeys,
 
 	getDataByKey,

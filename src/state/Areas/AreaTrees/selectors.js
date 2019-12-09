@@ -19,6 +19,7 @@ export default {
 	getActive,
 
 	getByKeys: common.getByKeys(getSubstate),
+	getByKeysAsObject: common.getByKeysAsObject(getSubstate),
 
 	getSubstate
 };
