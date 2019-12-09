@@ -52,7 +52,7 @@ const getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey = createCachedSele
 				if (attributeKeys) {
 
 					// TODO more sophisticated filtering
-					let preFilteredRelations = _.filter(relations, {'data': layer.filter});
+					let preFilteredRelations = _.filter(relations, {'data': layer.attributeFilter});
 					let filteredRelations = _.filter(preFilteredRelations, (relation) => {
 						if (relation.data.attributeKey) {
 							return !!_.includes(attributeKeys, relation.data.attributeKey);

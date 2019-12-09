@@ -5,10 +5,11 @@ import commonSelectors from '../_common/selectors';
 const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 	[
 		(layer) => layer,
-		(layer, activeMetadataKeys) => activeMetadataKeys
+		(layer, activeMetadataKeys) => activeMetadataKeys,
+		(layer, activeMetadataKeys, modifiersPath) => modifiersPath
 	],
-	(layer, activeMetadataKeys) => {
-		let filter = {...layer.metadataModifiers};
+	(layer, activeMetadataKeys, modifiersPath) => {
+		let filter = {...layer[modifiersPath]};
 		if (layer.layerTemplateKey) {
 			filter.layerTemplateKey = layer.layerTemplateKey;
 		}
@@ -17,6 +18,7 @@ const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 		}
 
 		//todo fail on conflict between metadataModifiers & filterByActive ?
+		//todo special filterByActive for attribute data
 
 		let activeFilter = {};
 		if (layer.filterByActive) {
@@ -64,7 +66,7 @@ const getBackgroundLayersWithFilter = createCachedSelector(
 
 		return [{
 			key: layerKey,
-			filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layerState, activeMetadataKeys)
+			filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layerState, activeMetadataKeys, 'metadataModifiers')
 		}]
 	}
 )((state, layerState, layerKey) => (`${layerState}:${layerKey}`));
@@ -83,7 +85,8 @@ const getLayersWithFilter = createCachedSelector(
 			return _.map(layersState, (layer) => {
 				return {
 					key: layer.key,
-					filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layer, activeMetadataKeys)
+					filter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layer, activeMetadataKeys, 'metedataModifiers'),
+					attributeFilter: getMergedFilterFromLayerStateAndActiveMetadataKeys(layer, activeMetadataKeys, 'attributeMetadataModifiers')
 				}
 			});
 		} else {
