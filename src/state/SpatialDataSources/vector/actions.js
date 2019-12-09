@@ -279,12 +279,20 @@ function loadLayerData(filter, componentId) {
 	return (dispatch, getState) => {
 		let additionalParams = {};
 		let geometriesAccuracy = Select.app.getLocalConfiguration(getState(), 'geometriesAccuracy');
+		const simplifyGeometriesTolerance = Select.app.getLocalConfiguration(getState(), 'simplifyGeometriesTolerance');
+		const simplifyGeometriesCfg = simplifyGeometriesTolerance ? {
+			simplify: {
+				tolerance: simplifyGeometriesTolerance,
+				preserveCollapsed: true,
+			}
+		} : {};
 
 		if (geometriesAccuracy) {
 			additionalParams.transformation = {
 				snapToGrid: {
 					size: geometriesAccuracy
 				},
+				...simplifyGeometriesCfg,
 				transform: 4326
 			}
 		}
