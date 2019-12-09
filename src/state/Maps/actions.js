@@ -782,10 +782,14 @@ function use(mapKey, backgroundLayer, layers) {
 				
 				
 				// Ensure attribute data //todo
+				// TODO layer.attributeKey case?
 				// TODO handle "key: in {}" case in filters
 				if (layer.attributeKeys) {
 					let attributeFilter = {
 						...layer.attributeMetadataModifiers,
+						attributeKey: {
+							in: layer.attributeKeys
+						}
 					};
 
 					if (layer.layerTemplateKey) {
@@ -797,30 +801,14 @@ function use(mapKey, backgroundLayer, layers) {
 					let attributeFilterByActive = layer.attributeFilterByActive || null;
 					let mergedAttributeFilter = commonHelpers.mergeFilters(activeKeys, attributeFilterByActive, attributeFilter);
 
-
-					let attributeFilterWithAttributeKeys = {
-						...attributeFilter,
-						attributeKey: {
-							in: layer.attributeKeys
-						}
-					};
-					let mergedAttributeFilterWithAttributeKeys = {
-						...mergedAttributeFilter,
-						attributeKey: {
-							in: layer.attributeKeys
-						}
-					};
-
-
-
 					dispatch(Action.attributeRelations.useIndexedRegister( componentId, attributeFilterByActive, attributeFilter, null, 1, 2000));
-					dispatch(Action.attributeRelations.ensureIndexed(mergedAttributeFilterWithAttributeKeys, null, 1, 2000)).then(() => {
+					dispatch(Action.attributeRelations.ensureIndexed(mergedAttributeFilter, null, 1, 2000)).then(() => {
 						/* Ensure data sources */
-						const relations = Select.attributeRelations.getFiltered(getState(), mergedAttributeFilter);
+						const relations = Select.attributeRelations.getIndexed(getState(), attributeFilterByActive, attributeFilter, null, 1, 2000);
 						if (relations && relations.length) {
 							const filters = relations.map(relation => {return {
-								attributeDataSourceKey: relation.attributeDataSourceKey,
-								fidColumnName: relation.fidColumnName
+								attributeDataSourceKey: relation.data && relation.data.attributeDataSourceKey,
+								fidColumnName: relation.data && relation.data.fidColumnName
 							}});
 							const dataSourcesKeys = filters.map(filter => filter.attributeDataSourceKey);
 
@@ -838,7 +826,7 @@ function use(mapKey, backgroundLayer, layers) {
 										attributeDataSourceKey: {
 											in: dataSourceKeys
 										},
-										fidColumnName: relations[0].fidColumnName
+										fidColumnName: relations[0].data.fidColumnName
 									};
 									dispatch(Action.attributeData.useIndexed(null, filter, null, 1, 100, componentId));
 

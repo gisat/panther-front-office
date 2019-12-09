@@ -46,6 +46,7 @@ class WorldWindMap extends React.PureComponent {
 		this.onClick = this.onClick.bind(this);
 		this.onLayerHover = this.onLayerHover.bind(this);
 		this.onLayerClick = this.onLayerClick.bind(this);
+		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onZoomLevelsBased = this.onZoomLevelsBased.bind(this);
 	}
 
@@ -198,6 +199,12 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
+	onMouseOut() {
+		if (this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
+	}
+
 	onLayerHover(layerKey, featureKeys, x, y, popupContent, data) {
 		// pass data to popup
 		if (this.context && this.context.onHover) {
@@ -220,7 +227,7 @@ class WorldWindMap extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="ptr-map ptr-world-wind-map" onClick={this.onClick}>
+			<div className="ptr-map ptr-world-wind-map" onClick={this.onClick} onMouseOut={this.onMouseOut}>
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>
