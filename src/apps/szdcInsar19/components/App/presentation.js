@@ -109,10 +109,12 @@ class SzdcInsar19App extends React.PureComponent {
 								</label>
 						))}
 					</div>
-					<TrackSelect
-						activeTracks={activeTracks}
-						areaTreeKeys={props.areaTreeKeys}
-					/>
+					{props.areaTreeKeys ? (
+						<TrackSelect
+							activeTracks={activeTracks}
+							areaTreeKeys={props.areaTreeKeys}
+						/>
+					) : null }
 				</div>
 				<div className="szdcInsar19-content">
 					<div className="szdcInsar19-map">

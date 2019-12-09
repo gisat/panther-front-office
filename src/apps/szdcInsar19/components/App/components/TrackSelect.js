@@ -6,16 +6,22 @@ import React from "react";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		areaTrees: Select.areas.areaTrees.getByKeys(state, ownProps.areaTreeKeys)
+		areaTrees: Select.areas.areaTrees.getByKeysAsObject(state, ownProps.areaTreeKeys)
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		selectTracks: keys => {
 			dispatch(Action.components.set('szdcInsar19_App', 'activeTracks', keys));
 			dispatch(Action.specific.szdcInsar19.changeAppView());
 		},
+		onMount: () => {
+			dispatch(Action.areas.areaTrees.useKeys(ownProps.areaTreeKeys, 'szdcInsar19_TrackSelect'));
+		},
+		onUnmount: () => {
+			dispatch(Action.areas.areaTrees.useKeysClear('szdcInsar19_TrackSelect'));
+		}
 	}
 };
 
@@ -24,6 +30,14 @@ let selectTrack = (activeTracks, key) => {
 };
 
 class TrackSelect extends React.PureComponent {
+
+	componentDidMount() {
+		this.props.onMount();
+	}
+
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
 
 	render() {
 
@@ -43,7 +57,7 @@ class TrackSelect extends React.PureComponent {
 								onClick={props.selectTracks.bind(null, selectTrack(props.activeTracks, uuid))}
 								checked={_.includes(props.activeTracks, uuid)}
 							/>
-							{uuid}
+							{props.areaTrees && props.areaTrees[uuid].data.nameInternal || 'Track'}
 						</label>
 					))}
 				</div>
