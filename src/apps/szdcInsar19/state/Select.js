@@ -53,7 +53,7 @@ const getDataForTrackTimeSerieChart = (state) => {
 				let timeSerie = [];
 				let pointId = null;
 				_.each(dataSources, ds => {
-					let properties = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features && ds.dataSource.data.features[0].properties; // TODO more features?
+					let properties = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features && ds.dataSource.data.features[0] && ds.dataSource.data.features[0].properties; // TODO more features?
 					if (properties) {
 						if (!pointId) {
 							pointId = properties[ds.fidColumnName]
