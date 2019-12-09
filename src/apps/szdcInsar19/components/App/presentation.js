@@ -7,6 +7,7 @@ import PantherSelect, {PantherSelectItem} from "../../../../components/common/at
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import MapPopup from "../MapPopup";
 import TrackTimeSerieChart from "../TrackTimeSerieChart";
+import TrackSelect from "./components/TrackSelect";
 
 const appViews = {
 	track: {
@@ -75,7 +76,7 @@ class SzdcInsar19App extends React.PureComponent {
 			currentStyle = {background: appViews[category].colour};
 		}
 		
-		let activeTracks = props.activeTracks || props.areaTrees && props.areaTrees[0];
+		let activeTracks = props.activeTracks || props.areaTrees && [props.areaTrees[0]];
 		
 		return (
 			<div className="szdcInsar19-app">
@@ -108,20 +109,10 @@ class SzdcInsar19App extends React.PureComponent {
 								</label>
 						))}
 					</div>
-					<div>
-						{props.areaTrees && _.map(props.areaTrees, uuid => (
-							<label>
-								<input
-									type="checkbox"
-									name="track"
-									value={uuid}
-									onClick={this.selectTrack.bind(this, uuid, !_.includes(activeTracks, uuid))}
-									checked={_.includes(activeTracks, uuid)}
-								/>
-									{uuid}
-								</label>
-						))}
-					</div>
+					<TrackSelect
+						activeTracks={activeTracks}
+						areaTrees={props.areaTrees}
+					/>
 				</div>
 				<div className="szdcInsar19-content">
 					<div className="szdcInsar19-map">

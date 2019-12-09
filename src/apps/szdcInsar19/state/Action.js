@@ -20,9 +20,9 @@ const szdcInsar19 = {
 
 		let state = getState();
 
-		//get active view, abort on same
+		//get active view, abort on same or none
 		let activeAppView = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView');
-		if (activeAppView === nextAppView) return null;
+		if (activeAppView === nextAppView || !activeAppView && !nextAppView) return null;
 
 		//use current view as next if not supplied
 		if (!nextAppView) nextAppView = activeAppView;
