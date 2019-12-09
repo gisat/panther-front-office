@@ -24,6 +24,9 @@ const szdcInsar19 = {
 		let activeAppView = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView');
 		if (activeAppView === nextAppView) return null;
 
+		//use current view as next if not supplied
+		if (!nextAppView) nextAppView = activeAppView;
+
 		//initialize, load configuration for active view or abort
 		let layers;
 		let [nextCategory, nextView] = nextAppView.split('.');
@@ -39,29 +42,35 @@ const szdcInsar19 = {
 			let areaTreesAndLevels = CommonSelect.app.getConfiguration(state, 'areaTreesAndLevels');
 
 			//find active tracks
-			let activeTrackKeys = ["25893f38-7a34-438c-9ffa-be1413fb85ae"]; //todo
+			let activeTrackKeys = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeTracks')
+				|| CommonSelect.app.getConfiguration(state, 'track.areaTrees') && [CommonSelect.app.getConfiguration(state, 'track.areaTrees')[0]];
+			let activePeriodKey = CommonSelect.components.get(state, 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(state, 'basePeriod');
 
-			//add a layer for each
-			layers = activeTrackKeys.map(activeTrackKey => {
-				return {
-					key: `szdcInsar19_${nextCategory}_${nextView}_${activeTrackKey}`,
-					areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
-					styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
-					attributeKeys: configuration.attributes || [configuration.attribute],
-					attributeMetadataModifiers: {
-						periodKey: "326760b2-dc84-4112-80dc-2430023c5007", //TODO base period
-					},
-					options: {
-						hovered: {
-							style: hoveredStyle //TODO
+			if (activeTrackKeys && activePeriodKey) {
+				//add a layer for each
+				layers = activeTrackKeys.map(activeTrackKey => {
+					return {
+						key: `szdcInsar19_${nextCategory}_${nextView}_${activeTrackKey}`,
+						areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
+						styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
+						attributeKeys: configuration.attributes || [configuration.attribute],
+						attributeMetadataModifiers: {
+							periodKey: activePeriodKey
 						},
-						gidColumn: 'ID'// TODO pass from relations
-					}
-				};
-			});
+						options: {
+							hovered: {
+								style: hoveredStyle //TODO
+							},
+							gidColumn: 'ID'// TODO pass from relations
+						}
+					};
+				});
+			}
 		}
 
-		dispatch(CommonAction.maps.setMapLayers('szdcInsar19', layers));
+		if (layers) {
+			dispatch(CommonAction.maps.setMapLayers('szdcInsar19', layers));
+		}
 
 	},
 
