@@ -58,7 +58,7 @@ class SzdcInsar19App extends React.PureComponent {
 	}
 	
 	selectTrack(key, select) {
-		let activeTracks = this.props.activeTracks && [...this.props.activeTracks] || this.props.areaTrees && [this.props.areaTrees[0]];
+		let activeTracks = this.props.activeTracks && [...this.props.activeTracks] || this.props.areaTreeKeys && [this.props.areaTreeKeys[0]];
 		if (select) {
 			activeTracks.push(key);
 		} else {
@@ -76,7 +76,7 @@ class SzdcInsar19App extends React.PureComponent {
 			currentStyle = {background: appViews[category].colour};
 		}
 		
-		let activeTracks = props.activeTracks || props.areaTrees && [props.areaTrees[0]];
+		let activeTracks = props.activeTracks || props.areaTreeKeys && [props.areaTreeKeys[0]];
 		
 		return (
 			<div className="szdcInsar19-app">
@@ -111,7 +111,7 @@ class SzdcInsar19App extends React.PureComponent {
 					</div>
 					<TrackSelect
 						activeTracks={activeTracks}
-						areaTrees={props.areaTrees}
+						areaTreeKeys={props.areaTreeKeys}
 					/>
 				</div>
 				<div className="szdcInsar19-content">

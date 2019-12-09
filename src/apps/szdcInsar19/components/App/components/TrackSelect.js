@@ -4,8 +4,9 @@ import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import React from "react";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
 	return {
+		areaTrees: Select.areas.areaTrees.getByKeys(state, ownProps.areaTreeKeys)
 	}
 };
 
@@ -24,13 +25,14 @@ let selectTrack = (activeTracks, key) => {
 
 let TrackSelect = props => {
 
-	if (props.activeTracks && props.areaTrees) {
+	if (props.activeTracks && props.areaTreeKeys) {
 
 		return (
 			<div>
-				{_.map(props.areaTrees, uuid => (
+				{_.map(props.areaTreeKeys, uuid => (
 					<label>
 						<input
+							key={uuid}
 							type="checkbox"
 							name="track"
 							value={uuid}
