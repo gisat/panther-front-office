@@ -192,9 +192,19 @@ class Point extends React.PureComponent {
 
 		let xValueString = xValue;
 		if (props.xScaleType === "time") {
-			if (props.xOptions.popupValueFormat) {
-				xValueString = moment(xValueString).format(props.xOptions.popupValueFormat);
+			let time = moment(xValueString);
+			if (props.xOptions){
+				if (props.xOptions.timeValueLanguage) {
+					time = time.locale(props.xOptions.timeValueLanguage)
+				}
+
+				if (props.xOptions.popupValueFormat) {
+					time = time.format(props.xOptions.popupValueFormat);
+				} else {
+					time = time.format();
+				}
 			}
+			xValueString = time;
 		} else if (xValue && (xValue % 1) !== 0) {
 			xValueString = xValueString.toFixed(2);
 		}

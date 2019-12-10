@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
 import moment from 'moment';
+import 'moment/locale/cs';
 
 import './style.scss';
 import AxisLabel from "./AxisLabel";
@@ -196,11 +197,19 @@ class AxisX extends React.PureComponent {
 		let maxHeight = ((this.props.height  - yShift - TICK_CAPTION_OFFSET_TOP) * Math.sqrt(2));
 
 		if (this.props.scaleType === 'time') {
-			if (this.props.options && this.props.options.axisValueFormat) {
-				text = moment(text).format(this.props.options.axisValueFormat);
-			} else {
-				text = moment(text).format();
+			let time = moment(text);
+			if (this.props.options){
+				if (this.props.options.timeValueLanguage) {
+					time = time.locale(this.props.options.timeValueLanguage)
+				}
+
+				if (this.props.options.axisValueFormat) {
+					time = time.format(this.props.options.axisValueFormat);
+				} else {
+					time = time.format();
+				}
 			}
+			text = time;
 		}
 
 		if (this.props.options && this.props.options.valueLabelRenderer) {
