@@ -18,10 +18,17 @@ class TrackTimeSerieChart extends React.PureComponent {
 				this.props.onPointsChange(keys);
 			}
 		}
+
+		if (this.props.currentAttributeKey !== prevProps.currentAttributeKey) {
+			this.props.onAttributeKeysChange([this.props.currentAttributeKey]);
+		}
 	}
 
 	render() {
 		let axisValueFormat = "MMMM YY";
+		let attributeName = null;
+		let attributeUnit = null;
+
 		if (this.props.activePeriod) {
 			const start = this.props.activePeriod.data && this.props.activePeriod.data.start;
 			const end = this.props.activePeriod.data && this.props.activePeriod.data.end;
@@ -33,45 +40,58 @@ class TrackTimeSerieChart extends React.PureComponent {
 			}
 		}
 
+		if (this.props.currentAttribute) {
+			const data = this.props.currentAttribute.data;
+			if (data.nameDisplay) {
+				attributeName = data.nameDisplay;
+			}
+			if (data.unit) {
+				attributeUnit = data.unit;
+			}
+		}
+
 		return (
 			this.props.data ? (
 				<>
 					<h3 style={{textAlign: 'center'}}>{this.props.data[0].name}</h3>
-					<div style={{height: '20rem', margin: '1rem'}}>
 						<HoverHandler>
-							<ScatterChart
-								key="time-scale-scatter"
+							<div style={{margin: '2rem'}}>
+								<ScatterChart
+									key="time-scale-scatter"
 
-								data={this.props.data}
-								keySourcePath="key"
-								nameSourcePath="name"
-								serieDataSourcePath="data"
-								xSourcePath="period"
-								ySourcePath="value"
+									height={20}
 
-								isSerie
-								pointRadius={3}
+									data={this.props.data}
+									keySourcePath="key"
+									nameSourcePath="name"
+									serieDataSourcePath="data"
+									xSourcePath="period"
+									ySourcePath="value"
 
-								xScaleType="time"
-								xOptions={{
-									axisValueFormat,
-									popupValueFormat: "D MMMM YYYY",
-									timeValueLanguage: 'cs',
-									name: "Time"
-								}}
-								xValuesSize={5}
+									isSerie
+									pointRadius={3}
 
-								yOptions={{
-									name: "Attribute"
-								}}
-								yLabel
-								yTicks={false}
+									xScaleType="time"
+									xOptions={{
+										axisValueFormat,
+										popupValueFormat: "D MMMM YYYY",
+										timeValueLanguage: 'cs',
+										name: 'Datum pořízení'
+									}}
+									xValuesSize={5}
 
-								withoutYbaseline={false}
-								diverging
-							/>
+									yOptions={{
+										name: attributeName,
+										unit: attributeUnit
+									}}
+									yLabel
+									yTicks={false}
+
+									withoutYbaseline={false}
+									diverging
+								/>
+							</div>
 						</HoverHandler>
-					</div>
 				</>
 			) : null
 		);

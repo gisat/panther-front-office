@@ -11,6 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		activePeriod: Select.periods.getActive(state),
 		activeSelection: Select.selections.getActive(state),
+		currentAttribute: Select.attributes.getByKey(state, ownProps.currentAttributeKey),
 		data: Select.specific.szdcInsar19.getDataForTrackTimeSerieChart(state)
 	}
 };
@@ -22,6 +23,9 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onPointsChange: (keys) => {
 				dispatch(Action.specific.szdcInsar19.trackTimeSerieChartUse(componentId, keys));
+			},
+			onAttributeKeysChange: (keys) => {
+				dispatch(Action.attributes.useKeys(keys, componentId));
 			}
 		}
 	}

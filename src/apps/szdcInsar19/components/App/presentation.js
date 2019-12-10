@@ -10,6 +10,7 @@ import TrackTimeSerieChart from "../TrackTimeSerieChart";
 import TrackSelect from "./components/TrackSelect";
 import PeriodSelect from "./components/PeriodSelect";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
+import view from "../../../unSeea/data/trees/view";
 
 const appViews = {
 	track: {
@@ -73,9 +74,11 @@ class SzdcInsar19App extends React.PureComponent {
 		
 		let props = this.props;
 		let currentStyle;
+		let currentAttributeKey;
 		if (props.activeAppView) {
 			let [category, view] = props.activeAppView.split('.');
 			currentStyle = {background: appViews[category].colour};
+			currentAttributeKey = props.trackViews && view && props.trackViews[view].attribute;
 		}
 		
 		let activeTracks = props.activeTracks || props.areaTreeKeys && [props.areaTreeKeys[0]];
@@ -122,7 +125,9 @@ class SzdcInsar19App extends React.PureComponent {
 						</HoverHandler>
 					</div>
 					<div className="szdcInsar19-visualization">
-						<TrackTimeSerieChart/>
+						<TrackTimeSerieChart
+							currentAttributeKey={currentAttributeKey}
+						/>
 					</div>
 				</div>
 			
