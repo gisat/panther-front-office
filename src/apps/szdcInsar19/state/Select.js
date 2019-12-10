@@ -35,7 +35,11 @@ const getDataForTrackTimeSerieChart = (state) => {
 		const dataSources = CommonSelect.attributeDataSources.getFilteredDataSources(state, filter);
 
 		if (dataSources) {
-			const periods = CommonSelect.periods.getAllAsObject(state);
+			const activeBigPeriodKey = CommonSelect.components.get(state, 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(state, 'basePeriod');
+			const activePeriod = CommonSelect.periods.getByKey(state, activeBigPeriodKey);
+			const startTime = activePeriod && activePeriod.data && activePeriod.data.start;
+			const endTime = activePeriod && activePeriod.data && activePeriod.data.end;
+			const periods = CommonSelect.periods.getByFullPeriodAsObject(state, startTime, endTime);
 
 			let cacheKey = JSON.stringify(filter);
 			let cache = trackTimeSerieChartCache.findByKey(cacheKey);

@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch) => {
 		selectPeriod: key => {
 			dispatch(Action.components.set('szdcInsar19_App', 'activePeriod', key));
 			dispatch(Action.specific.szdcInsar19.changeAppView());
+			dispatch(Action.periods.useKeys([key]));
 		},
 		selectTracks: keys => {
 			dispatch(Action.components.set('szdcInsar19_App', 'activeTracks', keys));

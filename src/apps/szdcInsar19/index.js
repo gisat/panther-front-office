@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
 import Action from '../../state/Action';
+import Select from '../../state/Select';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
@@ -30,7 +31,11 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setKey('szdcInsar19'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
-	Store.dispatch(Action.app.loadConfiguration());
+	Store.dispatch(Action.app.loadConfiguration()).then(() => {
+		const state = Store.getState();
+		const basePeriodKey = Select.app.getConfiguration(state, 'basePeriod');
+		Store.dispatch(Action.periods.useKeys([basePeriodKey], 'szdcInsar19Index'))
+	});
 	
 	// Set language
 	// i18n.changeLanguage("cz");
