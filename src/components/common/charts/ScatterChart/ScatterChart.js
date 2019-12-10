@@ -116,6 +116,16 @@ class ScatterChart extends React.PureComponent {
 				yMax = props.yOptions.max;
 			}
 
+			// apply diversion value to extreme values
+			let diversionValue = props.diverging && props.yOptions && props.yOptions.diversionValue || 0;
+			if (yMin > diversionValue) {
+				yMin = diversionValue;
+			}
+
+			if (yMax < diversionValue) {
+				yMax = diversionValue;
+			}
+
 
 			/* domains */
 			if (props.xScaleType === 'time') {
