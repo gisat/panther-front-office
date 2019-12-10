@@ -44,8 +44,8 @@ export default (path, baseUrl) => {
 		key: 'szdcInsar19',
 		data: {
 			view: {
-				boxRange: 1000,
-				center: {lat: 50.263265, lon: 12.891939}
+				boxRange: 2000,
+				center: {lat: 50.232390, lon: 12.810656}
 			},
 			// backgroundLayer: {
 			// 	layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'

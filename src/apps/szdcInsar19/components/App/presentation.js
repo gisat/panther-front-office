@@ -9,6 +9,7 @@ import MapPopup from "../MapPopup";
 import TrackTimeSerieChart from "../TrackTimeSerieChart";
 import TrackSelect from "./components/TrackSelect";
 import PeriodSelect from "./components/PeriodSelect";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 
 const appViews = {
 	track: {
@@ -115,7 +116,9 @@ class SzdcInsar19App extends React.PureComponent {
 						<HoverHandler
 							popupContentComponent={MapPopup}
 						>
-							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap} levelsBased/>
+							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap} levelsBased>
+								<MapControls zoomOnly levelsBased/>
+							</Map>
 						</HoverHandler>
 					</div>
 					<div className="szdcInsar19-visualization">
