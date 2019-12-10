@@ -25,8 +25,12 @@ class TrackTimeSerieChart extends React.PureComponent {
 		if (this.props.activePeriod) {
 			const start = this.props.activePeriod.data && this.props.activePeriod.data.start;
 			const end = this.props.activePeriod.data && this.props.activePeriod.data.end;
-			//TODO
-
+			if (start && end) {
+				const differenceInDays = moment(end).diff(moment(start),'days');
+				if (differenceInDays < 100) {
+					axisValueFormat = "D MMM YY"
+				}
+			}
 		}
 
 		return (

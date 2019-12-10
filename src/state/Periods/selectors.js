@@ -72,6 +72,7 @@ const getByFullPeriodAsObject = createCachedSelector(
 )((state, start, end) => `${start}_${end}`);
 
 export default {
+	getActive,
 	getActiveKey,
 	getActiveKeys,
 	getActiveModels,

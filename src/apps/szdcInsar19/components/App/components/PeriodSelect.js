@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		onMount: () => {
 			dispatch(Action.periods.useKeys(ownProps.periodKeys, 'szdcInsar19_TrackSelect'));
+			dispatch(Action.periods.setActiveKey(ownProps.activePeriodKey));
 		},
 		onUnmount: () => {
 			dispatch(Action.periods.useKeysClear('szdcInsar19_TrackSelect'));

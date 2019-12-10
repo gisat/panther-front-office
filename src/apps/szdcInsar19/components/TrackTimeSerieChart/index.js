@@ -9,6 +9,7 @@ import utils from "../../../../utils/utils";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		activePeriod: Select.periods.getActive(state),
 		activeSelection: Select.selections.getActive(state),
 		data: Select.specific.szdcInsar19.getDataForTrackTimeSerieChart(state)
 	}
