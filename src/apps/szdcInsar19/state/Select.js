@@ -73,11 +73,11 @@ const getDataForTrackTimeSerieChart = (state) => {
 				});
 
 				// TODO
-				let dataForChart = [{
+				let dataForChart = (timeSerie && timeSerie.length) ? [{
 					key: pointId,
 					name: pointId,
 					data: timeSerie
-				}];
+				}] : null;
 
 				trackTimeSerieChartCache.addOrUpdate({
 					cacheKey,
