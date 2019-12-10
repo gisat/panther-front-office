@@ -74,11 +74,9 @@ class SzdcInsar19App extends React.PureComponent {
 		
 		let props = this.props;
 		let currentStyle;
-		let currentAttributeKey;
 		if (props.activeAppView) {
 			let [category, view] = props.activeAppView.split('.');
 			currentStyle = {background: appViews[category].colour};
-			currentAttributeKey = props.trackViews && view && props.trackViews[view].attribute;
 		}
 		
 		let activeTracks = props.activeTracks || props.areaTreeKeys && [props.areaTreeKeys[0]];
@@ -126,7 +124,7 @@ class SzdcInsar19App extends React.PureComponent {
 					</div>
 					<div className="szdcInsar19-visualization">
 						<TrackTimeSerieChart
-							currentAttributeKey={currentAttributeKey}
+							currentAttributeKey={props.dAttribute}
 						/>
 					</div>
 				</div>

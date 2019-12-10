@@ -18,15 +18,12 @@ class TrackTimeSerieChart extends React.PureComponent {
 				this.props.onPointsChange(keys);
 			}
 		}
-
-		if (this.props.currentAttributeKey !== prevProps.currentAttributeKey) {
-			this.props.onAttributeKeysChange([this.props.currentAttributeKey]);
-		}
 	}
 
 	render() {
 		let axisValueFormat = "MMMM YY";
 		let attributeName = null;
+		let attributeDescription = null;
 		let attributeUnit = null;
 
 		if (this.props.activePeriod) {
@@ -48,14 +45,18 @@ class TrackTimeSerieChart extends React.PureComponent {
 			if (data.unit) {
 				attributeUnit = data.unit;
 			}
+			if (data.description) {
+				attributeDescription = data.description;
+			}
 		}
 
 		return (
 			this.props.data ? (
 				<>
-					<h3 style={{textAlign: 'center'}}>{this.props.data[0].name}</h3>
 						<HoverHandler>
 							<div style={{margin: '2rem'}}>
+								<h3>{this.props.data[0].name}</h3>
+								{attributeDescription ? <p>{attributeDescription}</p> : null}
 								<ScatterChart
 									key="time-scale-scatter"
 
@@ -81,7 +82,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 									xValuesSize={5}
 
 									yOptions={{
-										name: attributeName,
+										name: attributeName || "Poloha bodu",
 										unit: attributeUnit
 									}}
 									yLabel

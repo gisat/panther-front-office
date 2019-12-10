@@ -9,6 +9,7 @@ const mapStateToProps = state => {
 	return {
 		viewSelectOpen: Select.components.get(state, 'szdcInsar19_ViewSelect', 'viewSelectOpen'),
 		activeAppView: Select.components.get(state, 'szdcInsar19_App', 'activeAppView'),
+		dAttribute: Select.app.getConfiguration(state, 'track.dAttribute'),
 		trackViews: Select.app.getConfiguration(state, 'track.views'),
 		zoneClassificationViews: Select.app.getConfiguration(state, 'zoneClassification.views'),
 		periods: Select.app.getConfiguration(state, 'periods'),

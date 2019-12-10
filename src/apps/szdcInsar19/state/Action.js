@@ -82,6 +82,8 @@ const szdcInsar19 = {
 		if (keys && keys.length) {
 			let filter = Select.specific.szdcInsar19.getTrackTimeSerieChartFilter(getState());
 
+			dispatch(CommonAction.attributes.useKeys([filter.attributeKey], componentId));
+
 			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, filter, null, 1, 1000));
 			dispatch(CommonAction.attributeRelations.ensureIndexed(filter, null, 1, 1000)).then(() => {
 				/* Ensure data sources */

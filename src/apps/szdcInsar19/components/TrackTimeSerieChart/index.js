@@ -23,9 +23,6 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onPointsChange: (keys) => {
 				dispatch(Action.specific.szdcInsar19.trackTimeSerieChartUse(componentId, keys));
-			},
-			onAttributeKeysChange: (keys) => {
-				dispatch(Action.attributes.useKeys(keys, componentId));
 			}
 		}
 	}
