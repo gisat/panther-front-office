@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import moment from "moment";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 
@@ -20,6 +21,14 @@ class TrackTimeSerieChart extends React.PureComponent {
 	}
 
 	render() {
+		let axisValueFormat = "MMMM YY";
+		if (this.props.activePeriod) {
+			const start = this.props.activePeriod.data && this.props.activePeriod.data.start;
+			const end = this.props.activePeriod.data && this.props.activePeriod.data.end;
+			//TODO
+
+		}
+
 		return (
 			this.props.data ? (
 				<>
@@ -41,7 +50,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 
 								xScaleType="time"
 								xOptions={{
-									axisValueFormat: "MMMM YY",
+									axisValueFormat,
 									popupValueFormat: "D MMMM YYYY",
 									name: "Time"
 								}}

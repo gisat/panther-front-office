@@ -8,6 +8,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import MapPopup from "../MapPopup";
 import TrackTimeSerieChart from "../TrackTimeSerieChart";
 import TrackSelect from "./components/TrackSelect";
+import PeriodSelect from "./components/PeriodSelect";
 
 const appViews = {
 	track: {
@@ -96,20 +97,11 @@ class SzdcInsar19App extends React.PureComponent {
 						{this.renderSelectItems(props.trackViews, props.zoneClassificationViews)}
 					</PantherSelect>
 					{props.periods ? (
-						<div className="szdcInsar19-period-select">
-							Posledních {_.map(props.periods, (uuid, days) => (
-								<label>
-									<input
-										type="radio"
-										name="period"
-										value={days}
-										onClick={props.selectPeriod.bind(this, uuid)}
-										checked={props.activePeriod === uuid}
-									/>
-										{days}
-									</label>
-							))} dní
-						</div>
+						<PeriodSelect
+							periods={props.periods}
+							periodKeys={props.periods ? _.map(props.periods, (uuid) => uuid) : null}
+							activePeriodKey={props.activePeriod}
+						/>
 					) : null }
 					{props.areaTreeKeys ? (
 						<TrackSelect
