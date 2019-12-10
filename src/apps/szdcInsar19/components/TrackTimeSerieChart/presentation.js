@@ -56,6 +56,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 								xOptions={{
 									axisValueFormat,
 									popupValueFormat: "D MMMM YYYY",
+									timeValueLanguage: 'cs',
 									name: "Time"
 								}}
 								xValuesSize={5}
