@@ -36,6 +36,9 @@ const szdcInsar19 = {
 		//save active view if we got this far
 		dispatch(CommonAction.components.set('szdcInsar19_App', 'activeAppView', nextAppView));
 
+		//get active selection key
+		let activeSelectionKey = CommonSelect.selections.getActiveKey(state);
+
 		if (nextCategory === "track") {
 
 			let trackAreaTrees = CommonSelect.app.getConfiguration(state, 'track.areaTrees');
@@ -58,6 +61,7 @@ const szdcInsar19 = {
 							periodKey: activePeriodKey
 						},
 						options: {
+							selected: activeSelectionKey ? {[activeSelectionKey]: {}} : false,
 							hovered: {
 								style: hoveredStyle //TODO
 							},
