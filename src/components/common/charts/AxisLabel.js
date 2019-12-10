@@ -41,6 +41,11 @@ class AxisLabel extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (prevProps.text !== this.props.text) {
+			this.setState({
+				text: this.props.text
+			});
+		}
 		this.handleText(prevProps.maxWidth);
 	}
 
