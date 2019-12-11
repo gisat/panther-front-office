@@ -52,6 +52,8 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 			return getStyleObjectForAttributeScale(styleDefinition.attributeScale, value);
 		} else if (styleDefinition.attributeTransformation) {
 			return getStyleObjectForAttributeTransformation(styleDefinition.attributeTransformation, value);
+		} else if (styleDefinition.attributeValues) {
+			return getStyleObjectForAttributeValues(styleDefinition.attributeValues, value)
 		}
 		// TODO add other cases
 		else {
@@ -85,6 +87,17 @@ function getStyleObjectForAttributeClasses(attributeClasses, value) {
 	});
 
 	return styleObject;
+}
+
+/**
+ * Attribute value
+ *
+ * @param attributeValues {Object}
+ * @param value {String} attribute value
+ * @return {Object}
+ */
+function getStyleObjectForAttributeValues(attributeValues, value) {
+	return attributeValues[value] || {};
 }
 
 
