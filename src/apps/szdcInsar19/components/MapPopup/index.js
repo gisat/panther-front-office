@@ -5,7 +5,6 @@ import Select from '../../state/Select';
 
 import presentation from "./presentation";
 import utils from "../../../../utils/utils";
-import {point} from "leaflet/dist/leaflet-src.esm";
 
 const getAttributeKeys = (popupData) => {
 	if (popupData) {
