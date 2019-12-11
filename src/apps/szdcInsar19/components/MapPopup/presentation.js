@@ -20,10 +20,15 @@ class MapPopup extends React.PureComponent {
 	}
 
 	render() {
+		let featureKeys = null;
+		if (this.props.featureKeys) {
+			featureKeys = _.uniq(this.props.featureKeys);
+		}
+
 		return (
-			this.props.featureKeys ? (
+			featureKeys ? (
 				<div className="szdcInsar19-map-popup">
-					{this.props.featureKeys.map(featureKey => {
+					{featureKeys.map(featureKey => {
 						let data = _.find(this.props.attributesData, {id: featureKey});
 						return (
 							<React.Fragment>
