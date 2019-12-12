@@ -21,7 +21,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 	}
 
 	render() {
-		let axisValueFormat = "MMMM YY";
+		let axisValueFormat = "MMM YY";
 		let attributeName = null;
 		let attributeDescription = null;
 		let attributeUnit = null;
@@ -60,7 +60,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 								<ScatterChart
 									key="time-scale-scatter"
 
-									height={20}
+									height={15}
 
 									data={this.props.data}
 									keySourcePath="key"

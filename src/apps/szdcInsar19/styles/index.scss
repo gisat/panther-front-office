@@ -55,7 +55,18 @@
 }
 
 .szdcInsar19-visualization {
-	flex-basis: m(10);
+	//flex-basis: m(10);
+	//flex-grow: 0;
+	flex: 0 1 m(14);
+	
+	display: flex;
+}
+.szdcInsar19-detail {
+	flex: 1 1 0%;
+}
+.szdcInsar19-legend {
+	flex: 0 0 m(10);
+	background: #ccc;
 }
 
 

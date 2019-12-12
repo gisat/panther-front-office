@@ -123,9 +123,19 @@ class SzdcInsar19App extends React.PureComponent {
 						</HoverHandler>
 					</div>
 					<div className="szdcInsar19-visualization">
-						<TrackTimeSerieChart
-							currentAttributeKey={props.dAttribute}
-						/>
+						<div className="szdcInsar19-detail">
+							<div className="szdcInsar19-detail-info">
+							
+							</div>
+							<div className="szdcInsar19-detail-chart">
+								<TrackTimeSerieChart
+									currentAttributeKey={props.dAttribute}
+								/>
+							</div>
+						</div>
+						<div className="szdcInsar19-legend">
+						
+						</div>
 					</div>
 				</div>
 			
