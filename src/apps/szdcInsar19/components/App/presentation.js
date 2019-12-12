@@ -122,7 +122,7 @@ class SzdcInsar19App extends React.PureComponent {
 							</Map>
 						</HoverHandler>
 					</div>
-					<MapLegend/>
+					
 					<div className="szdcInsar19-visualization">
 						<div className="szdcInsar19-detail">
 							<div className="szdcInsar19-detail-info">
@@ -135,7 +135,7 @@ class SzdcInsar19App extends React.PureComponent {
 							</div>
 						</div>
 						<div className="szdcInsar19-legend">
-						
+							<MapLegend/>
 						</div>
 					</div>
 				</div>
