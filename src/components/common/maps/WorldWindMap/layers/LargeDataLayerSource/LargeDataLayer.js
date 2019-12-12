@@ -5,6 +5,7 @@ import * as turf from '@turf/turf';
 import LargeDataLayerTile from "./LargeDataLayerTile";
 import _ from 'lodash';
 import {style} from "redux-logger/src/diff";
+import {DEFAULT_SIZE} from "../../../../../../utils/mapStyles";
 
 const {
 	Location,
@@ -13,8 +14,6 @@ const {
 	SurfaceCircle,
 	TiledImageLayer
 } = WorldWind;
-
-const DEFAULT_SIZE = 5;
 
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
 // Multipolygons are represented as points
