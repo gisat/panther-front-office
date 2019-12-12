@@ -369,6 +369,9 @@ export const commonActionTypesDefinitions = {
 				SET: {
 					HOVERED_FEATURE_KEYS: null,
 					SELECTION: null
+				},
+				CLEAR: {
+					SELECTION: null
 				}
 			},
 			REMOVE: null,

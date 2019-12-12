@@ -490,6 +490,7 @@ const setLayerSelectedFeatureKeys = (mapKey, layerKey, selectedFeatureKeys) => {
 		// set selection in map store
 		if (mapLayer) {
 			const mapLayerSelections = mapLayer && mapLayer.options && mapLayer.options.selected;
+			dispatch(actionClearSelectionInAllLayers(mapKey, selectionKey));
 			if (!mapLayerSelections || (mapLayerSelections && !mapLayerSelections[selectionKey])) {
 				dispatch(actionSetMapLayerSelection(mapKey, layerKey, selectionKey));
 			}
@@ -785,6 +786,8 @@ function use(mapKey, backgroundLayer, layers) {
 				// TODO layer.attributeKey case?
 				// TODO handle "key: in {}" case in filters
 				if (layer.attributeKeys) {
+					dispatch(Action.attributes.useKeys(layer.attributeKeys, componentId));
+
 					let attributeFilter = {
 						...layer.attributeMetadataModifiers,
 						attributeKey: {
@@ -1285,6 +1288,14 @@ const actionSetMapLayerSelection = (mapKey, layerKey, selectionKey) => {
 		type: ActionTypes.MAPS.MAP.LAYERS.SET.SELECTION,
 		mapKey,
 		layerKey,
+		selectionKey
+	}
+};
+
+const actionClearSelectionInAllLayers = (mapKey, selectionKey) => {
+	return {
+		type: ActionTypes.MAPS.MAP.LAYERS.CLEAR.SELECTION,
+		mapKey,
 		selectionKey
 	}
 };

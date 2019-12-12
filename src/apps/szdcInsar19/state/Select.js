@@ -6,20 +6,64 @@ import CacheFifo from "../../../utils/CacheFifo";
 
 let trackTimeSerieChartCache = new CacheFifo(10);
 
+const getLayersForLegendByMapKey = createSelector(
+	[
+		CommonSelect.maps.getLayersStateByMapKey,
+		CommonSelect.styles.getAllAsObject,
+		CommonSelect.attributes.getAllAsObject
+	],
+	(layers, styles, attributes) => {
+		if (layers && !_.isEmpty(styles) && !_.isEmpty(attributes)) {
+			let layersForLegend = [];
+
+			layers.forEach(layer => {
+				if (layer.styleKey) {
+					let layerForLegend = {
+						key: layer.key,
+						name: layer.name,
+						style: styles[layer.styleKey]
+					};
+
+					if (layer.attributeKeys) {
+						layerForLegend.attributes = {};
+						layer.attributeKeys.forEach(key => {
+							layerForLegend.attributes[key] = attributes[key];
+						});
+					}
+
+					layersForLegend.push(layerForLegend);
+				}
+			});
+
+			return layersForLegend.length ? layersForLegend : null;
+		} else {
+			return null;
+		}
+	}
+);
+
 // TODO
 const getTrackTimeSerieChartFilter = createSelector(
 	[
-		CommonSelect.app.getCompleteConfiguration
+		CommonSelect.app.getCompleteConfiguration,
+		CommonSelect.maps.getMapsAsObject,
+		CommonSelect.selections.getActiveKey,
 	],
-		(config) => {
-			let areaTreesAndLevels = config && config.areaTreesAndLevels;
-			let trackConfiguration = config && config.track;
-			//find active tracks
-			let activeTrackKey = "25893f38-7a34-438c-9ffa-be1413fb85ae"; //todo
+		(config, maps, activeSelectionKey) => {
+			let areaTreeLevelKey = null;
+			const layers = maps.szdcInsar19.data.layers;
+			if (layers && activeSelectionKey) {
+				const selectedLayer = _.find(layers, layer => {return layer && layer.options && layer.options.selected && layer.options.selected.hasOwnProperty(activeSelectionKey)});
+				if (selectedLayer) {
+					areaTreeLevelKey = selectedLayer.areaTreeLevelKey;
+				}
+			}
 
-			if (areaTreesAndLevels && trackConfiguration) {
+			let trackConfiguration = config && config.track;
+
+			if (areaTreeLevelKey && trackConfiguration) {
 				return {
-					areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
+					areaTreeLevelKey,
 					attributeKey: trackConfiguration.dAttribute
 				};
 			} else {
@@ -101,10 +145,10 @@ const getDataForTrackTimeSerieChart = (state) => {
 let lastAppView = null; //let's call this caching
 const szdcInsar19 = {
 
-
 	// TODO
 	getTrackTimeSerieChartFilter,
-	getDataForTrackTimeSerieChart
+	getDataForTrackTimeSerieChart,
+	getLayersForLegendByMapKey,
 
 
 	// probably obsolete
