@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import chroma from 'chroma-js';
 
-const DEFAULT_STYLE_OBJECT = {
+export const DEFAULT_STYLE_OBJECT = {
 	fill: "#ffffff",
 	fillOpacity: 1,
 	outlineColor: "#000000",
 	outlineWidth: 2,
 	outlineOpacity: 1
 };
+
+export const DEFAULT_SIZE = 20;
 
 // const FILTERED_STYLE_OBJECT ???
 

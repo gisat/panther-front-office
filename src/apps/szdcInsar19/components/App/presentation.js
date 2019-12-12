@@ -10,7 +10,7 @@ import TrackTimeSerieChart from "../TrackTimeSerieChart";
 import TrackSelect from "./components/TrackSelect";
 import PeriodSelect from "./components/PeriodSelect";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
-import view from "../../../unSeea/data/trees/view";
+import MapLegend from "../MapLegend";
 
 const appViews = {
 	track: {
@@ -122,6 +122,7 @@ class SzdcInsar19App extends React.PureComponent {
 							</Map>
 						</HoverHandler>
 					</div>
+					<MapLegend/>
 					<div className="szdcInsar19-visualization">
 						<TrackTimeSerieChart
 							currentAttributeKey={props.dAttribute}

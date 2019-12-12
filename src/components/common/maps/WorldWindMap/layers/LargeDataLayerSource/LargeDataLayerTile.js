@@ -20,11 +20,9 @@
  * @param options.intensityGradient {Object} Keys represent the opacity between 0 and 1 and the values represent
  *  color strings.
  */
-import mapStyles from "../../../../../../utils/mapStyles";
+import mapStyles, {DEFAULT_SIZE} from "../../../../../../utils/mapStyles";
 import shapes from "./canvasShapes";
 import _ from "lodash";
-
-const DEFAULT_SIZE = 5;
 
 class LargeDataLayerTile {
 
@@ -180,7 +178,7 @@ class LargeDataLayerTile {
 	}
 
 	point(context, data, style) {
-		let radius = this.getSize(style);
+		let radius = this.getSize(style)/2;
 		let center = this.getCenterCoordinates(data);
 		let cy = radius;
 		let cx = radius * this._latitudeFactor;
@@ -189,7 +187,7 @@ class LargeDataLayerTile {
 	}
 
 	square(context, data, style) {
-		let size = 2 * this.getSize(style);
+		let size = this.getSize(style);
 		let center = this.getCenterCoordinates(data);
 		let dx = size * this._latitudeFactor;
 
@@ -197,7 +195,7 @@ class LargeDataLayerTile {
 	}
 
 	diamond(context, data, style) {
-		let edgeLength = 2 * this.getSize(style);
+		let edgeLength = this.getSize(style);
 		let diagonalLength = Math.sqrt(2) * edgeLength;
 
 		// center coordinates
@@ -216,7 +214,7 @@ class LargeDataLayerTile {
 	}
 
 	triangle(context, data, style) {
-		let edgeLength = 2 * this.getSize(style);
+		let edgeLength = this.getSize(style);
 		let ty = Math.sqrt(Math.pow(edgeLength, 2) - Math.pow(edgeLength/2, 2));
 
 		// center coordinates
@@ -234,7 +232,7 @@ class LargeDataLayerTile {
 	}
 
 	circleWithArrow(context, data, style) {
-		let radius = this.getSize(style);
+		let radius = this.getSize(style)/2;
 		let direction = style.arrowDirection || 1;
 
 		let center = this.getCenterCoordinates(data);
