@@ -32,6 +32,7 @@ const getGroupedByLayerKey = createCachedSelector(
 
 export default {
 	getAll,
+	getAllAsObject,
 	getByKey: common.getByKey(getSubstate),
 
 	getGroupedByLayerKey,
