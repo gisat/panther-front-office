@@ -191,7 +191,7 @@ class LargeDataLayerTile {
 		let center = this.getCenterCoordinates(data);
 		let dx = size * this._latitudeFactor;
 
-		shapes.rectangle(context, center[0], center[1], dx, size, style);
+		shapes.rectangle(context, center[0] - dx/2, center[1] - size/2, dx, size, style);
 	}
 
 	diamond(context, data, style) {

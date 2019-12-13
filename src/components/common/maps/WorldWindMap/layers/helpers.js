@@ -6,6 +6,7 @@ import WmsLayer from './WmsLayer';
 import WmtsLayer from './WmtsLayer';
 import LargeDataLayer from "./LargeDataLayerSource/LargeDataLayer";
 import _ from "lodash";
+import {DEFAULT_SIZE} from "../../../../../utils/mapStyles";
 
 function getLayerByType(layerDefinition, wwd, onHover, onClick){
 	if (layerDefinition.type){
@@ -58,7 +59,7 @@ function getVectorLayer(layerDefinition, wwd, onHover, onClick) {
 
 	// TODO better deciding
 	if (url || numOfFeatures > 499) {
-		options.pointHoverBuffer = 20; // in px TODO pass pointHoverBuffer
+		options.pointHoverBuffer = DEFAULT_SIZE; // in px TODO pass pointHoverBuffer
 		return new LargeDataLayer(wwd, options, layerDefinition);
 	} else {
 		return new VectorLayer(layerDefinition, options);
