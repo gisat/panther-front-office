@@ -68,6 +68,14 @@ const getMapByKey = createCachedSelector(
 )((state, key) => key);
 
 
+const getMapLayersByMapKey = createSelector(
+	[getMapByKey],
+	(map) => {
+		return map && map.data && map.data.layers || null;
+	}
+);
+
+
 
 /**
  * @param state {Object}
@@ -1046,6 +1054,7 @@ export default {
 
 	getMapByKey,
 	getMapLayerByMapKeyAndLayerKey,
+	getMapLayersByMapKey,
 	getMapsAsObject,
 
 	getMapSetActiveMapKey,

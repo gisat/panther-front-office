@@ -46,12 +46,11 @@ const getLayersForLegendByMapKey = createSelector(
 const getTrackTimeSerieChartFilter = createSelector(
 	[
 		CommonSelect.app.getCompleteConfiguration,
-		CommonSelect.maps.getMapsAsObject,
+		(state) => CommonSelect.maps.getMapLayersByMapKey(state, 'szdcInsar19'),
 		CommonSelect.selections.getActiveKey,
 	],
-		(config, maps, activeSelectionKey) => {
+		(config, layers, activeSelectionKey) => {
 			let areaTreeLevelKey = null;
-			const layers = maps.szdcInsar19.data.layers;
 			if (layers && activeSelectionKey) {
 				const selectedLayer = _.find(layers, layer => {return layer && layer.options && layer.options.selected && layer.options.selected.hasOwnProperty(activeSelectionKey)});
 				if (selectedLayer) {
@@ -87,6 +86,12 @@ const getDataForTrackTimeSerieChart = (state) => {
 
 			let cacheKey = JSON.stringify(filter);
 			let cache = trackTimeSerieChartCache.findByKey(cacheKey);
+
+			if (cache) {
+				console.log(cache.filter === filter
+					, cache.dataSources === dataSources
+					, cache.periods === periods);
+			}
 
 			// return cached values if following data did not change
 			if (cache
