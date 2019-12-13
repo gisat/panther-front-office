@@ -55,13 +55,16 @@ class HoverHandler extends React.PureComponent {
 
 
 		// handle data according to coordinates change
+		// TODO fid column name should be part of data
 		if (coordChanged) {
 			update.hoveredItems = hoveredItems;
 			update.data = options.popup.data;
+			update.fidColumnName = options.popup.fidColumnName;
 		} else {
 			update.hoveredItems = [...this.state.hoveredItems, ...hoveredItems];
 			if (options.popup.data && options.popup.data.length) {
 				update.data = [...this.state.data, ...options.popup.data];
+				update.fidColumnName = options.popup.fidColumnName;
 			}
 		}
 
@@ -80,7 +83,8 @@ class HoverHandler extends React.PureComponent {
 			popupContent: null,
 			x: null,
 			y: null,
-			data: null
+			data: null,
+			fidColumnName: null
 		});
 	}
 
@@ -102,7 +106,7 @@ class HoverHandler extends React.PureComponent {
 		return <Popup
 			x={this.state.x}
 			y={this.state.y}
-			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.data, featureKeys: this.state.hoveredItems}) : this.state.popupContent}
+			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.data, featureKeys: this.state.hoveredItems, fidColumnName: this.state.fidColumnName}) : this.state.popupContent}
 			compressed={this.props.compressedPopups}
 		/>
 	}

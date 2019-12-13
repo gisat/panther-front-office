@@ -66,7 +66,7 @@ const szdcInsar19 = {
 							hovered: {
 								style: hoveredStyle //TODO
 							},
-							gidColumn: 'ID'// TODO pass from relations
+							// gidColumn: 'ID'// TODO still needed
 						}
 					};
 				});

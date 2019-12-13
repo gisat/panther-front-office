@@ -6,10 +6,13 @@ import Select from '../../state/Select';
 import presentation from "./presentation";
 import utils from "../../../../utils/utils";
 
-const getAttributeKeys = (popupData) => {
-	if (popupData) {
+const getAttributeKeys = (popupData, fidColumnName) => {
+	if (popupData && fidColumnName) {
 		let keys = popupData.map(point => {
-			const {centroid, ID, ...attributes} = point.data;
+			let attributes = {...point.data};
+			delete attributes[fidColumnName];
+			delete attributes.centroid;
+
 			let keys = [];
 			_.forIn(attributes, (value, key) => keys.push(key));
 			return keys;
@@ -26,12 +29,15 @@ const getAttributeKeys = (popupData) => {
 	}
 };
 
-const getAttributesData = (popupData) => {
-	// TODO pass columnId
-	if (popupData && popupData.length) {
+const getAttributesData = (popupData, fidColumnName) => {
+	if (fidColumnName && popupData && popupData.length) {
 		return popupData.map(point => {
-			const {centroid, ID, ...attributes} = point.data;
-			return {id: ID, attributes};
+			let attributes = {...point.data};
+			let id = attributes[fidColumnName];
+			delete attributes[fidColumnName];
+			delete attributes.centroid;
+
+			return {id, attributes};
 		});
 	} else {
 		return null;
@@ -39,10 +45,9 @@ const getAttributesData = (popupData) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-	let attributeKeys = getAttributeKeys(ownProps.data) || [];
-	let attributesData = getAttributesData(ownProps.data) || null;
+	let attributeKeys = getAttributeKeys(ownProps.data, ownProps.fidColumnName) || [];
+	let attributesData = getAttributesData(ownProps.data, ownProps.fidColumnName) || null;
 
-	// TODO pass fidColumnName
 	return {
 		attributesMetadata: Select.attributes.getByKeys(state, attributeKeys),
 		attributesData,
