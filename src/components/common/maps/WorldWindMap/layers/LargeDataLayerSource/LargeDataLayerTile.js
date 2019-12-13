@@ -92,7 +92,6 @@ class LargeDataLayerTile {
 		for (let i = 0; i < this._data.length; i++) {
 			const dataPoint = this._data[i];
 			const attributes = dataPoint.data;
-			let style = mapStyles.getStyleObject(attributes, this._style);
 
 			let isHovered = this.isHovered(attributes);
 			let isSelected = this.isSelected(attributes);
