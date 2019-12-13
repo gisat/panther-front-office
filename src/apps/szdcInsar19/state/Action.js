@@ -54,6 +54,7 @@ const szdcInsar19 = {
 				layers = activeTrackKeys.map(activeTrackKey => {
 					return {
 						key: `szdcInsar19_${nextCategory}_${nextView}_${activeTrackKey}`,
+						name: "Track", // TODO add number
 						areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
 						styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
 						attributeKeys: configuration.attributes || [configuration.attribute],

@@ -1,0 +1,23 @@
+@import '../../../../styles/variables';
+
+.szdcInsar19-legend-content {
+	padding: m(1/3);
+	font-size: $b1;
+}
+
+.szdcInsar19-legend-attribute-name {
+	font-weight: bold;
+}
+
+.szdcInsar19-legend-attribute-content {
+	margin: m(1/3) 0;
+}
+
+.szdcInsar19-legend-item {
+	display: flex;
+	margin-bottom: .35rem;
+}
+
+.szdcInsar19-legend-item svg {
+	margin-right: .35rem;
+}

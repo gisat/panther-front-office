@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
+import './style.scss';
 
 class MapLegend extends React.PureComponent {
 
@@ -11,16 +12,19 @@ class MapLegend extends React.PureComponent {
 
 	render() {
 		return (
-			<div>
+			<div className="szdcInsar19-legend-content">
 				{this.props.layers && this.props.layers.map(layer => this.renderLayerLegend(layer))}
 			</div>
 		);
 	}
 
 	renderLayerLegend(layer) {
+		const name = layer.name;
 		const rules = layer.style && layer.style.data && layer.style.data.definition && layer.style.data.definition.rules;
+		let content = null;
+
 		if (rules) {
-			return rules.map(rule => {
+			content = rules.map(rule => {
 				const styles = rule.styles;
 				const attributeStyles = _.filter(styles, (style) => !!style.hasOwnProperty(('attributeKey')));
 				const defaultStyle = _.find(styles, (style) => !style.hasOwnProperty(('attributeKey')));
@@ -28,16 +32,27 @@ class MapLegend extends React.PureComponent {
 				if (defaultStyle && attributeStyles.length) {
 					return attributeStyles.map(attributeStyle => {
 						let attributeMetadata = layer.attributes[attributeStyle.attributeKey];
-						if (attributeStyle.attributeClasses) {
-							return this.renderIntervals(attributeStyle.attributeClasses, defaultStyle);
-						} else if (attributeStyle.attributeValues) {
-							return this.renderValues(attributeStyle.attributeValues, defaultStyle);
-						}
+						let content = null;
 
-						// TODO add other cases
-						else {
-							return null;
+						if (attributeStyle.attributeClasses) {
+							content = this.renderIntervals(attributeStyle.attributeClasses, defaultStyle);
+						} else if (attributeStyle.attributeValues) {
+							content = this.renderValues(attributeStyle.attributeValues, defaultStyle);
 						}
+						// TODO add other cases
+
+						return (
+							<div className="szdcInsar19-legend-attribute">
+								{attributeMetadata ? (
+									<div className="szdcInsar19-legend-attribute-header">
+										<div className="szdcInsar19-legend-attribute-name">{attributeMetadata.data.nameDisplay}</div>
+										{attributeMetadata.data.description ?
+											(<div className="szdcInsar19-legend-attribute-description">{attributeMetadata.data.description}</div>) : null}
+									</div>
+								) : null}
+								<div className="szdcInsar19-legend-attribute-content">{content}</div>
+							</div>
+						);
 					});
 				} else if (defaultStyle) {
 					// TODO
@@ -49,16 +64,21 @@ class MapLegend extends React.PureComponent {
 					throw Error(layer.style.key + ": No style definition for rule")
 				}
 			});
-		} else {
-			return null;
 		}
+
+		return (
+			<div className="szdcInsar19-legend-layer">
+				{name ? <div className="szdcInsar19-legend-layer-name">{name}</div> : null}
+				{content}
+			</div>
+		);
 	}
 
 	renderIntervals(classes, defaultStyle) {
 		return classes.map((cls, index) => {
 			const {interval, intervalBounds, ...style} = cls;
 			return (
-				<div key={index}>
+				<div className="szdcInsar19-legend-item" key={index}>
 					{this.renderSymbol({...DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
 					<div>{interval[0]} to {interval[1]}</div>
 				</div>
@@ -69,7 +89,7 @@ class MapLegend extends React.PureComponent {
 	renderValues(values, defaultStyle) {
 		return _.map(values, (style, value) => {
 			return (
-				<div key={value}>
+				<div className="szdcInsar19-legend-item" key={value}>
 					{this.renderSymbol({...DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
 					<div>{value}</div>
 				</div>
