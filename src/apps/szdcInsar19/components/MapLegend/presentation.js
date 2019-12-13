@@ -39,8 +39,8 @@ class MapLegend extends React.PureComponent {
 			const name = layer.name;
 			const rules = layer.style && layer.style.data && layer.style.data.definition && layer.style.data.definition.rules;
 			const shapeStyle = rules && rules[0] && _.find(rules[0].styles, (style) => style.hasOwnProperty(('shape')));
-			const shape = shapeStyle && shapeStyle.shape;
-			return name && shape && {name, shape};
+			// const shape = shapeStyle && shapeStyle.shape;
+			return name && shapeStyle && {name, shapeStyle};
 		});
 
 		let attributes = props.layers && props.layers.map(layer => {
@@ -60,9 +60,16 @@ class MapLegend extends React.PureComponent {
 			}
 		});
 
-		return tracks && tracks.map(track => (
-			<div>{track ? track.name + track.shape : null}</div>
-		));
+		return tracks && tracks.map(track => {
+			if (track) {
+				return (
+					<div>
+						{this.renderSymbol(track.shapeStyle)}
+						{track.name}
+					</div>
+				);
+			}
+		});
 
 	}
 
