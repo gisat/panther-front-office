@@ -10,12 +10,60 @@ class MapLegend extends React.PureComponent {
 		super(props);
 	}
 
+	// render() {
+	// 	return (
+	// 		<div className="szdcInsar19-legend-content">
+	// 			{this.props.layers && this.props.layers.map(layer => this.renderLayerLegend(layer))}
+	// 		</div>
+	// 	);
+	// }
+
 	render() {
+		const props = this.props;
+		let content = null;
+		if (props.activeAppView && props.activeAppView.startsWith('track')) {
+			content = this.renderTracksLegend();
+		}
 		return (
 			<div className="szdcInsar19-legend-content">
-				{this.props.layers && this.props.layers.map(layer => this.renderLayerLegend(layer))}
+				{content}
 			</div>
 		);
+	}
+
+	renderTracksLegend() {
+
+		const props = this.props;
+
+		let tracks = props.layers && props.layers.map(layer => {
+			const name = layer.name;
+			const rules = layer.style && layer.style.data && layer.style.data.definition && layer.style.data.definition.rules;
+			const shapeStyle = rules && rules[0] && _.find(rules[0].styles, (style) => style.hasOwnProperty(('shape')));
+			const shape = shapeStyle && shapeStyle.shape;
+			return name && shape && {name, shape};
+		});
+
+		let attributes = props.layers && props.layers.map(layer => {
+			const name = layer.name;
+			const rules = layer.style && layer.style.data && layer.style.data.definition && layer.style.data.definition.rules;
+			const shapeStyle = rules && rules[0] && _.find(rules[0].styles, (style) => style.hasOwnProperty(('shape')));
+			const attributeStyles = rules && rules[0] && _.filter(rules[0].styles, (style) => style.hasOwnProperty(('attributeKey')));
+			if (attributeStyles && attributeStyles.length) {
+				return attributeStyles.map(style => {
+					let attribute = layer.attributes[style.attributeKey];
+					return {
+						key: style.attributeKey,
+						attribute,
+						style
+					};
+				});
+			}
+		});
+
+		return tracks && tracks.map(track => (
+			<div>{track ? track.name + track.shape : null}</div>
+		));
+
 	}
 
 	renderLayerLegend(layer) {

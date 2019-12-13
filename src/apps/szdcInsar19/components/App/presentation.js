@@ -135,7 +135,9 @@ class SzdcInsar19App extends React.PureComponent {
 							</div>
 						</div>
 						<div className="szdcInsar19-legend">
-							<MapLegend/>
+							<MapLegend
+								activeAppView={props.activeAppView}
+							/>
 						</div>
 					</div>
 				</div>
