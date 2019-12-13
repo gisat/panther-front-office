@@ -45,13 +45,14 @@ class PeriodSelect extends React.PureComponent {
 			return (
 				<div className="szdcInsar19-period-select">
 					Posledních {_.map(props.periods, (uuid, days) => (
-					<label>
+					<label key={uuid}>
 						<input
 							type="radio"
 							name="period"
 							value={days}
 							onClick={props.selectPeriod.bind(this, uuid)}
 							checked={props.activePeriodKey === uuid}
+							readOnly
 						/>
 						{days}
 					</label>

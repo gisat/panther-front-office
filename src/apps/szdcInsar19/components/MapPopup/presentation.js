@@ -31,7 +31,7 @@ class MapPopup extends React.PureComponent {
 					{featureKeys.map(featureKey => {
 						let data = _.find(this.props.attributesData, {id: featureKey});
 						return (
-							<React.Fragment>
+							<React.Fragment key={featureKey}>
 								<div className="ptr-popup-header">
 									{featureKey}
 								</div>

@@ -55,10 +55,10 @@ class MapLegend extends React.PureComponent {
 	}
 
 	renderIntervals(classes, defaultStyle) {
-		return classes.map(cls => {
+		return classes.map((cls, index) => {
 			const {interval, intervalBounds, ...style} = cls;
 			return (
-				<div>
+				<div key={index}>
 					{this.renderSymbol({...DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
 					<div>{interval[0]} to {interval[1]}</div>
 				</div>
@@ -69,7 +69,7 @@ class MapLegend extends React.PureComponent {
 	renderValues(values, defaultStyle) {
 		return _.map(values, (style, value) => {
 			return (
-				<div>
+				<div key={value}>
 					{this.renderSymbol({...DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
 					<div>{value}</div>
 				</div>

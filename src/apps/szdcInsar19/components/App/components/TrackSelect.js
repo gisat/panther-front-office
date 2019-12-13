@@ -48,7 +48,7 @@ class TrackSelect extends React.PureComponent {
 			return (
 				<div className="szdcInsar19-TrackSelect">
 					{_.map(props.areaTreeKeys, uuid => (
-						<label>
+						<label key={uuid}>
 							<input
 								key={uuid}
 								type="checkbox"
@@ -56,6 +56,7 @@ class TrackSelect extends React.PureComponent {
 								value={uuid}
 								onClick={props.selectTracks.bind(null, selectTrack(props.activeTracks, uuid))}
 								checked={_.includes(props.activeTracks, uuid)}
+								readOnly
 							/>
 							{props.areaTrees && props.areaTrees[uuid].data.nameInternal || 'Track'}
 						</label>
