@@ -153,6 +153,8 @@ class MapLegend extends React.PureComponent {
 				return this.renderCircle(style);
 			case 'square':
 				return this.renderSquare(style);
+			case 'diamond':
+				return this.renderDiamond(style);
 			default:
 				return null;
 		}
@@ -187,7 +189,22 @@ class MapLegend extends React.PureComponent {
 		const svgStyle = this.getSvgStyle(style);
 		return (
 			<svg width={size + 2*style.outlineWidth} height={size + 2*style.outlineWidth}>
-				<rect width={size + 2*style.outlineWidth} height={size + 2*style.outlineWidth} style={svgStyle}/>
+				<rect width={size} height={size} style={svgStyle}/>
+			</svg>
+		);
+	}
+
+	renderDiamond(style) {
+		const size = DEFAULT_SIZE;
+		const diagonalSize = Math.sqrt(2) * (size + 2*style.outlineWidth);
+		const transformation = `rotate(45, ${size/2}, ${size/2}) translate(${(diagonalSize - size)/2})`;
+
+		const svgStyle = this.getSvgStyle(style);
+		return (
+			<svg width={diagonalSize} height={diagonalSize}>
+				<g transform={transformation}>
+					<rect width={size} height={size} style={svgStyle}/>
+				</g>
 			</svg>
 		);
 	}

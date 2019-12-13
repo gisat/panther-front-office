@@ -9,7 +9,7 @@ export const DEFAULT_STYLE_OBJECT = {
 	outlineOpacity: 1
 };
 
-export const DEFAULT_SIZE = 20;
+export const DEFAULT_SIZE = 15;
 
 // const FILTERED_STYLE_OBJECT ???
 
