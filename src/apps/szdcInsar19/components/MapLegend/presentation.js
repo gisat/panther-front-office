@@ -30,7 +30,7 @@ class MapLegend extends React.PureComponent {
 				const defaultStyle = _.find(styles, (style) => !style.hasOwnProperty(('attributeKey')));
 
 				if (defaultStyle && attributeStyles.length) {
-					return attributeStyles.map(attributeStyle => {
+					return attributeStyles.map((attributeStyle, index) => {
 						let attributeMetadata = layer.attributes[attributeStyle.attributeKey];
 						let content = null;
 
@@ -42,7 +42,7 @@ class MapLegend extends React.PureComponent {
 						// TODO add other cases
 
 						return (
-							<div className="szdcInsar19-legend-attribute">
+							<div className="szdcInsar19-legend-attribute" key={index}>
 								{attributeMetadata ? (
 									<div className="szdcInsar19-legend-attribute-header">
 										<div className="szdcInsar19-legend-attribute-name">{attributeMetadata.data.nameDisplay}</div>
@@ -67,7 +67,7 @@ class MapLegend extends React.PureComponent {
 		}
 
 		return (
-			<div className="szdcInsar19-legend-layer">
+			<div className="szdcInsar19-legend-layer" key={layer.key}>
 				{name ? <div className="szdcInsar19-legend-layer-name">{name}</div> : null}
 				{content}
 			</div>
