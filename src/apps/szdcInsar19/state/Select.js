@@ -87,12 +87,6 @@ const getDataForTrackTimeSerieChart = (state) => {
 			let cacheKey = JSON.stringify(filter);
 			let cache = trackTimeSerieChartCache.findByKey(cacheKey);
 
-			if (cache) {
-				console.log(cache.filter === filter
-					, cache.dataSources === dataSources
-					, cache.periods === periods);
-			}
-
 			// return cached values if following data did not change
 			if (cache
 				&& cache.filter === filter
