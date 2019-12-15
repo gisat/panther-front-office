@@ -43,7 +43,8 @@ class Point extends React.PureComponent {
 		zOptions: PropTypes.object,
 
 		standalone: PropTypes.bool,
-		siblings: PropTypes.array
+		siblings: PropTypes.array,
+		symbol: PropTypes.string
 	};
 
 	constructor(props) {
@@ -88,26 +89,25 @@ class Point extends React.PureComponent {
 	}
 
 	onMouseOver(e) {
-		// TODO is it necessary?
-		// if (this.props.onMouseOver) {
-		// 	this.props.onMouseOver(e, this.props.data);
-		// }
-		//
-		// if (this.props.standalone && this.context && this.context.onHover) {
-		// 	this.context.onHover([this.props.itemKey], {
-		// 		popup: {
-		// 			x: e.pageX,
-		// 			y: e.pageY,
-		// 			content: this.getPopupContent()
-		// 		}
-		// 	});
-		// }
-		//
-		// if (!this.props.zSourcePath) {
-		// 	this.setState({
-		// 		radius: this.props.r + 3
-		// 	});
-		// }
+		if (this.props.onMouseOver) {
+			this.props.onMouseOver(e, this.props.data);
+		}
+
+		if (this.props.standalone && this.context && this.context.onHover) {
+			this.context.onHover([this.props.itemKey], {
+				popup: {
+					x: e.pageX,
+					y: e.pageY,
+					content: this.getPopupContent()
+				}
+			});
+		}
+
+		if (!this.props.zSourcePath) {
+			this.setState({
+				radius: this.props.r + 3
+			});
+		}
 	}
 
 	onMouseOut(e) {
@@ -155,20 +155,51 @@ class Point extends React.PureComponent {
 			style.opacity = 1;
 		}
 
+		if (props.symbol === 'plus') {
+			return this.renderPlusSymbol(props.itemKey, props.x, props.y, this.state.radius, classes, style);
+		} else {
+			return (
+				<circle
+					onMouseOver={this.onMouseOver}
+					onMouseMove={this.onMouseMove}
+					onMouseOut={this.onMouseOut}
+					onClick={this.onClick}
+					className={classes}
+					key={props.itemKey}
+					cx={props.x}
+					cy={props.y}
+					r={this.state.radius}
+					style={style}
+				/>
+			)
+		}
+	}
+
+	renderPlusSymbol(key, x, y, radius, classes, style) {
+		classes += ' path';
+
 		return (
-			<circle
+			<g
+				key={key}
+				style={style}
+				className={classes}
 				onMouseOver={this.onMouseOver}
 				onMouseMove={this.onMouseMove}
 				onMouseOut={this.onMouseOut}
 				onClick={this.onClick}
-				className={classes}
-				key={props.itemKey}
-				cx={props.x}
-				cy={props.y}
-				r={this.state.radius}
-				style={style}
-			/>
-		)
+				width={2*radius}
+				height={2*radius}
+			>
+				<circle
+					style={{opacity: 0}}
+					cx={x}
+					cy={y}
+					r={this.state.radius}
+				/>
+				<path
+					d={`M${x},${y-radius} L${x},${y+radius} M${x-radius},${y} L${x+radius},${y}`}/>
+			</g>
+		);
 	}
 
 	getPopupContent() {

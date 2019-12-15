@@ -70,7 +70,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 									ySourcePath="value"
 
 									isSerie
-									pointRadius={3}
+									pointRadius={5}
 
 									xScaleType="time"
 									xOptions={{
@@ -90,6 +90,8 @@ class TrackTimeSerieChart extends React.PureComponent {
 
 									withoutYbaseline={false}
 									diverging
+
+									pointSymbol="plus"
 								/>
 							</div>
 						</HoverHandler>

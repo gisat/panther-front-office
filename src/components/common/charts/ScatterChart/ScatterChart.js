@@ -30,6 +30,9 @@ class ScatterChart extends React.PureComponent {
 		isSerie: PropTypes.bool,
 		itemNameSourcePath: PropTypes.string, // only if serie
 
+		// TODO add to docs
+		pointSymbol: PropTypes.string,
+
 		zSourcePath: PropTypes.string,
 		zOptions: PropTypes.object
 	};
@@ -253,6 +256,7 @@ class ScatterChart extends React.PureComponent {
 				color={color}
 				siblings={siblings}
 				standalone
+				symbol={this.props.pointSymbol}
 			/>
 		);
 	}
