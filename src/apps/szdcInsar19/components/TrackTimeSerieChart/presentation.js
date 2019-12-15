@@ -80,13 +80,16 @@ class TrackTimeSerieChart extends React.PureComponent {
 										name: 'Datum pořízení'
 									}}
 									xValuesSize={5}
+									xTicks={false}
 
 									yOptions={{
 										name: attributeName || "Poloha bodu",
-										unit: attributeUnit
+										unit: attributeUnit || "mm",
+										min: -65,
+										max: 40
 									}}
 									yLabel
-									yTicks={false}
+									yValuesSize={3}
 
 									withoutYbaseline={false}
 									diverging
