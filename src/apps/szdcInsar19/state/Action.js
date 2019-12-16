@@ -73,10 +73,24 @@ const szdcInsar19 = {
 			}
 		}
 
+		let allLayers = [{
+			key: 'cuzk-ortofoto',
+			layerTemplateKey: '8caba0b4-9d8e-4b11-a19b-f135edb9f02d'
+		},{
+			key: 'dem',
+			layerTemplateKey: '4d2a48de-d573-4ff1-aea1-39c89fe33818',
+			opacity: 0.5
+		},{
+			key: 'staniceni',
+			layerTemplateKey: '17d29801-b5fc-4787-ba3a-8cfe54ec5d45'
+		}];
+
+
 		if (layers) {
-			dispatch(CommonAction.maps.setMapLayers('szdcInsar19', layers));
+			allLayers = [...allLayers, ...layers];
 		}
 
+		dispatch(CommonAction.maps.setMapLayers('szdcInsar19', allLayers));
 	},
 
 	trackTimeSerieChartUse: (componentId, keys) => (dispatch, getState) => {
