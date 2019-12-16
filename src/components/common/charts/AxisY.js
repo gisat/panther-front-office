@@ -59,6 +59,7 @@ class AxisY extends React.PureComponent {
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
 				{props.options && props.options.highlightedArea ? this.renderHighlightedArea() : null}
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
+				{props.border ? this.renderBorder() : null}
 				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
 			</g>
@@ -79,6 +80,17 @@ class AxisY extends React.PureComponent {
 				className="ptr-axis-baseline"
 				d={`M${xCoord} ${this.props.height} L${xCoord} 0`}
 			/>
+		);
+	}
+
+	renderBorder() {
+		const xCoordLeft = this.props.width + this.props.labelSize;
+		const xCoordRight = this.props.width + this.props.labelSize + this.props.plotWidth - 1;
+		return (
+			<>
+				<path className="ptr-axis-border ptr-axis-border-right" d={`M${xCoordRight} ${this.props.height} L${xCoordRight} 0`}/>
+				{this.props.diverging ? <path className="ptr-axis-border ptr-axis-border-left" d={`M${xCoordLeft} ${this.props.height} L${xCoordLeft} 0`}/> : null}
+			</>
 		);
 	}
 

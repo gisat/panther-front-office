@@ -71,6 +71,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 
 									isSerie
 									pointRadius={5}
+									border
 
 									xScaleType="time"
 									xOptions={{
@@ -79,8 +80,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 										timeValueLanguage: 'cs',
 										name: 'Datum pořízení'
 									}}
-									xValuesSize={5}
-									xTicks={false}
+									xValuesSize={4}
 
 									yOptions={{
 										name: attributeName || "Poloha bodu",

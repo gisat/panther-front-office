@@ -61,6 +61,12 @@
 	stroke: var(--base30);
 }
 
+.ptr-axis-border {
+	stroke-width: 2px;
+	stroke-linecap: square;
+	stroke: var(--base30);
+}
+
 .ptr-axis-gridline {
 	stroke-width: 1px;
 	stroke-linecap: square;
