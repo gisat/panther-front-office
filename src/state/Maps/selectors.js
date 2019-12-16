@@ -622,7 +622,7 @@ const getLayers = (state, layersState) => {
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState.options, style, attributeDataSources, selections));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState, style, attributeDataSources, selections));
 							}
 						});
 					}
