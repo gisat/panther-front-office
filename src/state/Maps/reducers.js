@@ -237,7 +237,7 @@ const clearMapLayersSelection = (state, mapKey, selectionKey) => {
 	const mapState = getMapByKey(state, mapKey);
 
 	let updatedLayers = _.map([...mapState.data.layers], layer => {
-		if (layer.options.selected[selectionKey]) {
+		if (layer.options && layer.options.selected[selectionKey]) {
 			delete layer.options.selected[selectionKey];
 		}
 
