@@ -63,12 +63,23 @@
 }
 .szdcInsar19-detail {
 	flex: 1 1 0%;
+	display: flex;
 }
 .szdcInsar19-legend {
 	flex: 0 0 m(10);
 	background: #ccc;
 }
 
+.szdcInsar19-detail > div {
+	flex: 1 1;
+}
+.szdcInsar19-detail-info {
+	background: #eee;
+	padding: m(1);
+}
+.szdcInsar19-detail-chart {
+	//position: relative;
+}
 
 
 
@@ -178,4 +189,19 @@
 /* Popups */
 .szdcInsar19-app .ptr-popup-record-color {
 	display: none;
+}
+
+
+
+.szdcInsar19-point-attribute {
+	display: flex;
+	//justify-content: space-between;
+}
+.szdcInsar19-point-attribute > div {
+	display: block;
+	flex: 1 1 m(4);
+}
+.szdcInsar19-point-attribute > span {
+	display: block;
+	flex: 0 1 m(4);
 }

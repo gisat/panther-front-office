@@ -3,6 +3,8 @@ import _ from 'lodash';
 import moment from "moment";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
+import Center from '../../../../components/common/atoms/Center';
+import Loader from '../../../../components/common/atoms/Loader/Loader';
 
 class TrackTimeSerieChart extends React.PureComponent {
 
@@ -50,57 +52,61 @@ class TrackTimeSerieChart extends React.PureComponent {
 			}
 		}
 
-		return (
-			this.props.data ? (
-				<>
-						<HoverHandler>
-							<div style={{margin: '2rem'}}>
-								<h3>{this.props.data[0].name}</h3>
-								{attributeDescription ? <p>{attributeDescription}</p> : null}
-								<ScatterChart
-									key="time-scale-scatter"
+		if (this.props.data) {
+			return (
+				<HoverHandler>
+					<div style={{margin: '2rem'}}>
+						{/*<h3>{this.props.data[0].name}</h3>*/}
+						{/*{attributeDescription ? <p>{attributeDescription}</p> : null}*/}
+						<ScatterChart
+							key="time-scale-scatter"
 
-									height={15}
+							height={15}
 
-									data={this.props.data}
-									keySourcePath="key"
-									nameSourcePath="name"
-									serieDataSourcePath="data"
-									xSourcePath="period"
-									ySourcePath="value"
+							data={this.props.data}
+							keySourcePath="key"
+							nameSourcePath="name"
+							serieDataSourcePath="data"
+							xSourcePath="period"
+							ySourcePath="value"
 
-									isSerie
-									pointRadius={5}
-									border
+							isSerie
+							pointRadius={5}
+							border
 
-									xScaleType="time"
-									xOptions={{
-										axisValueFormat,
-										popupValueFormat: "D MMMM YYYY",
-										timeValueLanguage: 'cs',
-										name: 'Datum pořízení'
-									}}
-									xValuesSize={4}
+							xScaleType="time"
+							xOptions={{
+								axisValueFormat,
+								popupValueFormat: "D MMMM YYYY",
+								timeValueLanguage: 'cs',
+								name: 'Datum pořízení'
+							}}
+							xValuesSize={4}
 
-									yOptions={{
-										name: attributeName || "Poloha bodu",
-										unit: attributeUnit || "mm",
-										min: -65,
-										max: 40
-									}}
-									yLabel
-									yValuesSize={3}
+							yOptions={{
+								name: attributeName || "Poloha bodu",
+								unit: attributeUnit || "mm",
+								min: -65,
+								max: 40
+							}}
+							yLabel
+							yValuesSize={3}
 
-									withoutYbaseline={false}
-									diverging
+							withoutYbaseline={false}
+							diverging
 
-									pointSymbol="plus"
-								/>
-							</div>
-						</HoverHandler>
-				</>
-			) : null
-		);
+							pointSymbol="plus"
+						/>
+					</div>
+				</HoverHandler>
+			);
+		} else if (this.props.activeSelection) {
+			return (
+				<div style={{position:'relative', height:'100%'}}><Center horizontally verticaly><Loader /></Center></div>
+			);
+		} else {
+			return null;
+		}
 	}
 }
 

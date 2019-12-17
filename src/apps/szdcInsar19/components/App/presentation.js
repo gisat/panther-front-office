@@ -12,6 +12,7 @@ import PeriodSelect from "./components/PeriodSelect";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import MapLegend from "../MapLegend";
 import LayersControl from "../LayersControl";
+import PointInfo from "../PointInfo/presentation";
 
 const appViews = {
 	track: {
@@ -132,7 +133,7 @@ class SzdcInsar19App extends React.PureComponent {
 					<div className="szdcInsar19-visualization">
 						<div className="szdcInsar19-detail">
 							<div className="szdcInsar19-detail-info">
-							
+								<PointInfo/>
 							</div>
 							<div className="szdcInsar19-detail-chart">
 								<TrackTimeSerieChart
