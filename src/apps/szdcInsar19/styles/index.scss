@@ -182,6 +182,16 @@
 
 
 /* Charts */
+.szdcInsar19-chart-container {
+	margin: m(2/3);
+	display: flex;
+	justify-content: center;
+}
+
+.szdcInsar19-chart-container .ptr-chart-container {
+	max-width: 35rem;
+}
+
 .szdcInsar19-app .ptr-chart-point.standalone.path {
 	stroke: #195dd1
 }
