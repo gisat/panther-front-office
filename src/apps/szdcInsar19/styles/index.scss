@@ -67,7 +67,7 @@
 }
 .szdcInsar19-legend {
 	flex: 0 0 m(10);
-	background: #ccc;
+	background: #ddd;
 }
 
 .szdcInsar19-detail > div {
@@ -204,4 +204,9 @@
 .szdcInsar19-point-attribute > span {
 	display: block;
 	flex: 0 1 m(4);
+}
+
+
+.szdcInsar19-legend-section {
+	margin-bottom: m(1/3);
 }

@@ -58,6 +58,13 @@ class MapLegend extends React.PureComponent {
 
 				//sizes
 				const sizeStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('attributeClasses') && style.attributeClasses[0].hasOwnProperty('size'));
+				if (sizeStyle) {
+					const attribute = layer.attributes[sizeStyle.attributeKey];
+					sizes = {
+						attribute,
+						style: sizeStyle.attributeClasses
+					};
+				}
 
 				//scale
 
@@ -100,6 +107,20 @@ class MapLegend extends React.PureComponent {
 							);
 						}
 					})}</div>
+				)}
+
+				{sizes && (
+					<div className="szdcInsar19-legend-section">
+						<span>{sizes.attribute.data.nameDisplay}</span>
+						<div>
+							{sizes.style.map(styleClass => (
+								<div className="szdcInsar19-legend-class">
+									<div><div style={{transform: `scale(${styleClass.size/15})`}}>{this.renderCircle()}</div></div>
+									<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
+								</div>
+							))}
+						</div>
+					</div>
 				)}
 
 				{classes && (
@@ -246,26 +267,29 @@ class MapLegend extends React.PureComponent {
 	renderCircle(style) {
 		const size = DEFAULT_SIZE;
 		const svgStyle = this.getSvgStyle(style);
+		const outlineWidth = style && style.outlineWidth || 0;
 		return (
-			<svg width={size + 2*style.outlineWidth} height={size + 2*style.outlineWidth}>
-				<circle cx={size/2 + style.outlineWidth} cy={size/2 + style.outlineWidth} r={size/2} style={svgStyle}/>
+			<svg width={size + 2*outlineWidth} height={size + 2*outlineWidth}>
+				<circle cx={size/2 + outlineWidth} cy={size/2 + outlineWidth} r={size/2} style={svgStyle}/>
 			</svg>
 		);
 	}
 
 	renderSquare(style) {
-		const size = DEFAULT_SIZE;
+		const size = DEFAULT_SIZE * 0.9;
 		const svgStyle = this.getSvgStyle(style);
+		const outlineWidth = style && style.outlineWidth || 0;
 		return (
-			<svg width={size + 2*style.outlineWidth} height={size + 2*style.outlineWidth}>
+			<svg width={size + 2*outlineWidth} height={size + 2*outlineWidth}>
 				<rect width={size} height={size} style={svgStyle}/>
 			</svg>
 		);
 	}
 
 	renderDiamond(style) {
-		const size = DEFAULT_SIZE;
-		const diagonalSize = Math.sqrt(2) * (size + 2*style.outlineWidth);
+		const size = DEFAULT_SIZE * 0.85;
+		const outlineWidth = style && style.outlineWidth || 0;
+		const diagonalSize = Math.sqrt(2) * (size + 2*outlineWidth);
 		const transformation = `rotate(45, ${size/2}, ${size/2}) translate(${(diagonalSize - size)/2})`;
 
 		const svgStyle = this.getSvgStyle(style);
@@ -280,20 +304,22 @@ class MapLegend extends React.PureComponent {
 
 	getSvgStyle(style) {
 		let svgStyle = {};
-		if (style.fill) {
-			svgStyle.fill = style.fill;
-		}
-		if (style.fillOpacity) {
-			svgStyle.fillOpacity = style.fillOpacity;
-		}
-		if (style.outlineColor) {
-			svgStyle.stroke = style.outlineColor;
-		}
-		if (style.outlineWidth) {
-			svgStyle.strokeWidth = style.outlineWidth;
-		}
-		if (style.outlineOpacity) {
-			svgStyle.strokeOpacity = style.outlineOpacity;
+		if (style) {
+			if (style.fill) {
+				svgStyle.fill = style.fill;
+			}
+			if (style.fillOpacity) {
+				svgStyle.fillOpacity = style.fillOpacity;
+			}
+			if (style.outlineColor) {
+				svgStyle.stroke = style.outlineColor;
+			}
+			if (style.outlineWidth) {
+				svgStyle.strokeWidth = style.outlineWidth;
+			}
+			if (style.outlineOpacity) {
+				svgStyle.strokeOpacity = style.outlineOpacity;
+			}
 		}
 
 		return svgStyle;
