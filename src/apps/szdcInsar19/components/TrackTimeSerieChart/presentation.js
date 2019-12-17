@@ -55,13 +55,14 @@ class TrackTimeSerieChart extends React.PureComponent {
 		if (this.props.data) {
 			return (
 				<HoverHandler>
-					<div style={{margin: '2rem'}}>
+					<div className="szdcInsar19-chart-container">
 						{/*<h3>{this.props.data[0].name}</h3>*/}
 						{/*{attributeDescription ? <p>{attributeDescription}</p> : null}*/}
 						<ScatterChart
 							key="time-scale-scatter"
 
-							height={15}
+							height={20}
+							maxWidth={35}
 
 							data={this.props.data}
 							keySourcePath="key"
@@ -87,10 +88,11 @@ class TrackTimeSerieChart extends React.PureComponent {
 								name: attributeName || "Poloha bodu",
 								unit: attributeUnit || "mm",
 								min: -65,
-								max: 40
+								max: 40,
+								tickCount: 10
 							}}
 							yLabel
-							yValuesSize={3}
+							yValuesSize={2.5}
 
 							withoutYbaseline={false}
 							diverging
