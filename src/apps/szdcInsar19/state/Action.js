@@ -1,6 +1,7 @@
 import CommonAction from '../../../state/Action';
 import CommonSelect from "../../../state/Select";
 import Select from "./Select";
+import _ from 'lodash';
 
 const hoveredStyle = {
 	"rules":[
@@ -73,18 +74,26 @@ const szdcInsar19 = {
 			}
 		}
 
-		let allLayers = [{
-			key: 'cuzk-ortofoto',
-			layerTemplateKey: '8caba0b4-9d8e-4b11-a19b-f135edb9f02d'
-		},{
-			key: 'dem',
-			layerTemplateKey: '4d2a48de-d573-4ff1-aea1-39c89fe33818',
-			opacity: 0.5
-		},{
-			key: 'staniceni',
-			layerTemplateKey: '17d29801-b5fc-4787-ba3a-8cfe54ec5d45'
-		}];
 
+		// find and add custom layers
+		let allLayers = [];
+
+		let activeCustomLayerKeys = CommonSelect.components.get(state, 'szdcInsar19_CustomLayers', 'active');
+		let customLayersConfiguration = CommonSelect.app.getConfiguration(state, 'customLayers');
+
+		if (activeCustomLayerKeys && customLayersConfiguration) {
+			let selectedCustomLayers = [];
+			customLayersConfiguration.forEach(layer => {
+				const {key, data} = layer;
+				if (_.includes(activeCustomLayerKeys, key)) {
+					selectedCustomLayers.push({...data, key});
+				}
+			});
+
+			if (selectedCustomLayers.length) {
+				allLayers = [...allLayers, ...selectedCustomLayers];
+			}
+		}
 
 		if (layers) {
 			allLayers = [...allLayers, ...layers];

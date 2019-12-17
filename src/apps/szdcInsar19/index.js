@@ -39,6 +39,10 @@ export default (path, baseUrl) => {
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
+	// Add default active custom layers
+	// TODO move to the app configuration
+	Store.dispatch(Action.components.set('szdcInsar19_CustomLayers', 'active', ['ortophoto', 'dem']));
+
 	// Set up map
 	Store.dispatch(Action.maps.addMap({
 		key: 'szdcInsar19',

@@ -17,6 +17,7 @@ const mapStateToProps = state => {
 		basePeriod: Select.app.getConfiguration(state, 'basePeriod'),
 		areaTreeKeys: Select.app.getConfiguration(state, 'track.areaTrees'),
 		activeTracks: Select.components.get(state, 'szdcInsar19_App', 'activeTracks'),
+		customLayers: Select.app.getConfiguration(state, 'customLayers')
 		// skoroLayers: Select.specific.szdcInsar19.getLayers(state)
 	}
 };

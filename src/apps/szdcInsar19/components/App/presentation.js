@@ -11,6 +11,7 @@ import TrackSelect from "./components/TrackSelect";
 import PeriodSelect from "./components/PeriodSelect";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import MapLegend from "../MapLegend";
+import LayersControl from "../LayersControl";
 
 const appViews = {
 	track: {
@@ -118,6 +119,11 @@ class SzdcInsar19App extends React.PureComponent {
 							popupContentComponent={MapPopup}
 						>
 							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap} levelsBased>
+								{props.customLayers && props.activeAppView ? (
+									<LayersControl
+										layers={props.customLayers}
+									/>
+								) : <></>}
 								<MapControls zoomOnly levelsBased/>
 							</Map>
 						</HoverHandler>
