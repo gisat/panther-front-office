@@ -4,6 +4,12 @@ import _ from 'lodash';
 import {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
 import './style.scss';
 
+//todo utils?
+const formatInterval = (interval, bounds) => {
+	bounds = bounds || [true, false];
+	return (bounds[0] ? "[" : "(") + interval[0] + ", " + interval[1] + (bounds[1] ? "]" : ")");
+};
+
 class MapLegend extends React.PureComponent {
 
 	constructor(props) {
@@ -34,42 +40,74 @@ class MapLegend extends React.PureComponent {
 	renderTracksLegend() {
 
 		const props = this.props;
+		let tracks, sizes, scale, classes;
 
-		let tracks = props.layers && props.layers.map(layer => {
+		props.layers && props.layers.forEach(layer => {
+
 			const name = layer.name;
 			const rules = layer.style && layer.style.data && layer.style.data.definition && layer.style.data.definition.rules;
-			const shapeStyle = rules && rules[0] && _.find(rules[0].styles, (style) => style.hasOwnProperty(('shape')));
-			// const shape = shapeStyle && shapeStyle.shape;
-			return name && shapeStyle && {name, shapeStyle};
-		});
 
-		let attributes = props.layers && props.layers.map(layer => {
-			const name = layer.name;
-			const rules = layer.style && layer.style.data && layer.style.data.definition && layer.style.data.definition.rules;
-			const shapeStyle = rules && rules[0] && _.find(rules[0].styles, (style) => style.hasOwnProperty(('shape')));
-			const attributeStyles = rules && rules[0] && _.filter(rules[0].styles, (style) => style.hasOwnProperty(('attributeKey')));
-			if (attributeStyles && attributeStyles.length) {
-				return attributeStyles.map(style => {
-					let attribute = layer.attributes[style.attributeKey];
-					return {
-						key: style.attributeKey,
+			if (rules && rules[0] && rules[0].styles) {
+
+				// tracks
+				const shapeStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('shape'));
+				if (name && shapeStyle) {
+					tracks = tracks || [];
+					tracks.push({name, shapeStyle});
+				}
+
+				//sizes
+				const sizeStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('attributeClasses') && style.attributeClasses[0].hasOwnProperty('size'));
+
+				//scale
+
+				//classes
+				const classesStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('attributeClasses') && style.attributeClasses[0].hasOwnProperty('fill'));
+				if (classesStyle) {
+					const attribute = layer.attributes[classesStyle.attributeKey];
+					classes = {
 						attribute,
-						style
+						style: classesStyle.attributeClasses
 					};
-				});
+				}
+
+
 			}
+
 		});
 
-		return tracks && tracks.map(track => {
-			if (track) {
-				return (
-					<div>
-						{this.renderSymbol(track.shapeStyle)}
-						{track.name}
+		return (
+			<>
+
+				{tracks && (
+					<div className="szdcInsar19-legend-section">{tracks.map(track => {
+						if (track) {
+							return (
+								<div>
+									{this.renderSymbol(track.shapeStyle)}
+									{track.name}
+								</div>
+							);
+						}
+					})}</div>
+				)}
+
+				{classes && (
+					<div className="szdcInsar19-legend-section">
+						<span>{classes.attribute.data.nameDisplay}</span>
+						<div>
+							{classes.style.map(styleClass => (
+								<div className="szdcInsar19-legend-class">
+									<div style={{background: styleClass.fill}}/>
+									<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
+								</div>
+							))}
+						</div>
 					</div>
-				);
-			}
-		});
+				)}
+
+			</>
+		);
 
 	}
 
