@@ -6,6 +6,22 @@ import CacheFifo from "../../../utils/CacheFifo";
 
 let trackTimeSerieChartCache = new CacheFifo(10);
 
+const getActiveViewConfigurationPeriod = createSelector(
+	[
+		(state) => CommonSelect.app.getConfiguration(state, 'track.views'),
+		(state) => CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView')
+	],
+	(views, activeView) => {
+		if (views && activeView) {
+			const [category, viewKey] = activeView.split('.');
+			const view = views[viewKey];
+			return view && view.period;
+		} else {
+			return null;
+		}
+	}
+);
+
 const getLayersForLegendByMapKey = createSelector(
 	[
 		CommonSelect.maps.getLayersStateByMapKey,
@@ -148,6 +164,7 @@ const szdcInsar19 = {
 	getTrackTimeSerieChartFilter,
 	getDataForTrackTimeSerieChart,
 	getLayersForLegendByMapKey,
+	getActiveViewConfigurationPeriod
 
 
 	// probably obsolete

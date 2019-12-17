@@ -40,15 +40,21 @@ const szdcInsar19 = {
 		//get active selection key
 		let activeSelectionKey = CommonSelect.selections.getActiveKey(state);
 
+		//check selected periods
+		if (configuration.period) {
+			const periods = CommonSelect.app.getConfiguration(state, 'periods');
+			dispatch(CommonAction.components.set('szdcInsar19_App', 'activePeriod', periods[configuration.period]));
+		}
+
 		if (nextCategory === "track") {
 
-			let trackAreaTrees = CommonSelect.app.getConfiguration(state, 'track.areaTrees');
-			let areaTreesAndLevels = CommonSelect.app.getConfiguration(state, 'areaTreesAndLevels');
+			let trackAreaTrees = CommonSelect.app.getConfiguration(getState(), 'track.areaTrees');
+			let areaTreesAndLevels = CommonSelect.app.getConfiguration(getState(), 'areaTreesAndLevels');
 
 			//find active tracks
-			let activeTrackKeys = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeTracks')
-				|| CommonSelect.app.getConfiguration(state, 'track.areaTrees') && [CommonSelect.app.getConfiguration(state, 'track.areaTrees')[0]];
-			let activePeriodKey = CommonSelect.components.get(state, 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(state, 'basePeriod');
+			let activeTrackKeys = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activeTracks')
+				|| CommonSelect.app.getConfiguration(state, 'track.areaTrees') && [CommonSelect.app.getConfiguration(getState(), 'track.areaTrees')[0]];
+			let activePeriodKey = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(getState(), 'basePeriod');
 
 			if (activeTrackKeys && activePeriodKey) {
 				//add a layer for each
@@ -78,8 +84,8 @@ const szdcInsar19 = {
 		// find and add custom layers
 		let allLayers = [];
 
-		let activeCustomLayerKeys = CommonSelect.components.get(state, 'szdcInsar19_CustomLayers', 'active');
-		let customLayersConfiguration = CommonSelect.app.getConfiguration(state, 'customLayers');
+		let activeCustomLayerKeys = CommonSelect.components.get(getState(), 'szdcInsar19_CustomLayers', 'active');
+		let customLayersConfiguration = CommonSelect.app.getConfiguration(getState(), 'customLayers');
 
 		if (activeCustomLayerKeys && customLayersConfiguration) {
 			let selectedCustomLayers = [];

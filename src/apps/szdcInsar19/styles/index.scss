@@ -161,6 +161,14 @@
 	background: rgba(120,120,120,.3);
 }
 
+.szdcInsar19-period-select.disabled{
+	color: #777;
+}
+
+.szdcInsar19-period-select.disabled > label{
+	color: #777;
+}
+
 
 /* Charts */
 .szdcInsar19-app .ptr-chart-point.standalone.path {
