@@ -21,3 +21,15 @@
 .szdcInsar19-legend-item svg {
 	margin-right: .35rem;
 }
+
+
+
+.szdcInsar19-legend-class {
+	height: m(2/3);
+	display: flex;
+}
+.szdcInsar19-legend-class > div {
+	width: 1rem;
+	height: 100%;
+	margin-right: m(1/3);
+}
