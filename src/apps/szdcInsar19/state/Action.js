@@ -8,7 +8,8 @@ const hoveredStyle = {
 		{
 			"styles": [
 				{
-					"fill": "#ff00ff"
+					"outlineColor": "#ff00ff",
+					"outlineWidth": 3
 				}
 			]
 		}
