@@ -40,7 +40,7 @@ class MapLegend extends React.PureComponent {
 	renderTracksLegend() {
 
 		const props = this.props;
-		let tracks, sizes, scale, classes;
+		let tracks, sizes, scale, classes, enumValues;
 
 		props.layers && props.layers.forEach(layer => {
 
@@ -68,6 +68,16 @@ class MapLegend extends React.PureComponent {
 					classes = {
 						attribute,
 						style: classesStyle.attributeClasses
+					};
+				}
+
+				//enum
+				const enumStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('attributeValues') && _.find(style.attributeValues, value => value.hasOwnProperty('fill')));
+				if (enumStyle) {
+					const attribute = layer.attributes[enumStyle.attributeKey];
+					enumValues = {
+						attribute,
+						style: enumStyle.attributeValues
 					};
 				}
 
@@ -100,6 +110,20 @@ class MapLegend extends React.PureComponent {
 								<div className="szdcInsar19-legend-class">
 									<div style={{background: styleClass.fill}}/>
 									<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				{enumValues && (
+					<div className="szdcInsar19-legend-section">
+						<span>{enumValues.attribute.data.nameDisplay}</span>
+						<div>
+							{_.map(enumValues.style, (enumStyle, enumKey) => (
+								<div className="szdcInsar19-legend-class">
+									<div style={{background: enumStyle.fill}}/>
+									<span>{enumKey}</span>
 								</div>
 							))}
 						</div>
