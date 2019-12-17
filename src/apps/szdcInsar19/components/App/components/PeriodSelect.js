@@ -7,7 +7,7 @@ import classnames from 'classnames';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		disabled: Select.specific.szdcInsar19.getActiveViewConfigurationPeriod(state) === 1400
+		disabled: !!Select.specific.szdcInsar19.getActiveViewConfigurationPeriod(state)
 	}
 };
 
