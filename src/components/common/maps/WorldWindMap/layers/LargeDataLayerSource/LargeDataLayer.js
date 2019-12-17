@@ -25,6 +25,7 @@ class LargeDataLayer extends TiledImageLayer {
 		
 		this.tileWidth = 256;
 		this.tileHeight = 256;
+		this.detailControl = 1;
 
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
