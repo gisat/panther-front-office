@@ -489,11 +489,8 @@ const setLayerSelectedFeatureKeys = (mapKey, layerKey, selectedFeatureKeys) => {
 
 		// set selection in map store
 		if (mapLayer) {
-			const mapLayerSelections = mapLayer && mapLayer.options && mapLayer.options.selected;
 			dispatch(actionClearSelectionInAllLayers(mapKey, selectionKey));
-			if (!mapLayerSelections || (mapLayerSelections && !mapLayerSelections[selectionKey])) {
-				dispatch(actionSetMapLayerSelection(mapKey, layerKey, selectionKey));
-			}
+			dispatch(actionSetMapLayerSelection(mapKey, layerKey, selectionKey));
 		}
 
 		// TODO
