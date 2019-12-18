@@ -1,8 +1,23 @@
 @import '../../../../styles/variables';
 
 .szdcInsar19-legend-content {
-	padding: m(1/3);
+	//padding: m(1/3);
 	font-size: $b1;
+	display: flex;
+}
+.szdcInsar19-legend-content > div {
+	padding: m(2/3);
+	flex: 1 1 50%;
+}
+
+.szdcInsar19-legend-section {
+	margin-bottom: m(1/3);
+}
+.szdcInsar19-legend-section > span {
+	font-weight: bold;
+	display: block;
+	line-height: 1.2;
+	margin-bottom: .25rem;
 }
 
 .szdcInsar19-legend-attribute-name {
@@ -32,4 +47,20 @@
 	width: 1rem;
 	height: 100%;
 	margin-right: m(1/3);
+}
+
+.szdcInsar19-legend-track {
+	height: m(1);
+	padding-left: m(1);
+	position: relative;
+	line-height: m(1);
+}
+.szdcInsar19-legend-track > svg {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.szdcInsar19-legend-track > span {
+	//vertical-align: middle;
 }

@@ -95,62 +95,68 @@ class MapLegend extends React.PureComponent {
 
 		return (
 			<>
-
-				{tracks && (
-					<div className="szdcInsar19-legend-section">{tracks.map(track => {
-						if (track) {
-							return (
-								<div>
-									{this.renderSymbol(track.shapeStyle)}
-									{track.name}
-								</div>
-							);
-						}
-					})}</div>
-				)}
-
-				{sizes && (
-					<div className="szdcInsar19-legend-section">
-						<span>{sizes.attribute.data.nameDisplay}</span>
-						<div>
-							{sizes.style.map(styleClass => (
-								<div className="szdcInsar19-legend-class">
-									<div><div style={{transform: `scale(${styleClass.size/15})`}}>{this.renderCircle()}</div></div>
-									<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
-								</div>
-							))}
+				<div>
+					{classes && (
+						<div className="szdcInsar19-legend-section">
+							<span>{classes.attribute.data.nameDisplay}</span>
+							<div>
+								{classes.style.map(styleClass => (
+									<div className="szdcInsar19-legend-class">
+										<div style={{background: styleClass.fill}}/>
+										<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
+									</div>
+								))}
+							</div>
 						</div>
-					</div>
-				)}
-
-				{classes && (
-					<div className="szdcInsar19-legend-section">
-						<span>{classes.attribute.data.nameDisplay}</span>
-						<div>
-							{classes.style.map(styleClass => (
-								<div className="szdcInsar19-legend-class">
-									<div style={{background: styleClass.fill}}/>
-									<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
-								</div>
-							))}
+					)}
+					
+					{enumValues && (
+						<div className="szdcInsar19-legend-section">
+							<span>{enumValues.attribute.data.nameDisplay}</span>
+							<div>
+								{_.map(enumValues.style, (enumStyle, enumKey) => (
+									<div className="szdcInsar19-legend-class">
+										<div style={{background: enumStyle.fill}}/>
+										<span>{enumKey}</span>
+									</div>
+								))}
+							</div>
 						</div>
-					</div>
-				)}
-
-				{enumValues && (
-					<div className="szdcInsar19-legend-section">
-						<span>{enumValues.attribute.data.nameDisplay}</span>
-						<div>
-							{_.map(enumValues.style, (enumStyle, enumKey) => (
-								<div className="szdcInsar19-legend-class">
-									<div style={{background: enumStyle.fill}}/>
-									<span>{enumKey}</span>
-								</div>
-							))}
+					)}
+				</div>
+				<div>
+					{tracks && (
+						<div className="szdcInsar19-legend-section">
+							<span>Tracky</span>
+							<div>
+								{tracks.map(track => {
+									if (track) {
+										return (
+											<div className="szdcInsar19-legend-track">
+												{this.renderSymbol(track.shapeStyle)}
+												<span>{track.name}</span>
+											</div>
+										);
+									}
+								})}
+							</div>
 						</div>
-					</div>
-				)}
-
+					)}
+					
+					{sizes && (
+						<div className="szdcInsar19-legend-section">
+							<span>{sizes.attribute.data.nameDisplay}</span>
+							<div>
+								{sizes.style.map(styleClass => (
+									<div className="szdcInsar19-legend-class">
+										<div><div style={{transform: `scale(${styleClass.size/15})`}}>{this.renderCircle()}</div></div>
+										<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+				</div>
 			</>
 		);
 
