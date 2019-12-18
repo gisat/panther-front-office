@@ -52,12 +52,14 @@
 
 .szdcInsar19-map {
 	flex-grow: 1;
+	z-index: 2;
 
 	background: #000;
 }
 
 .szdcInsar19-visualization {
 	flex: 0 1 m(20);
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 }
@@ -206,6 +208,10 @@
 /* Popups */
 .szdcInsar19-app .ptr-popup-record-color {
 	display: none;
+}
+
+.szdcInsar19-map .ptr-popup {
+	min-width: 25rem;
 }
 
 
