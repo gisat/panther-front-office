@@ -124,6 +124,8 @@ const getDataForTrackTimeSerieChart = (state) => {
 						let period = periods[ds.periodKey];
 						if (period) {
 							timeSerie.push({
+								key: `${pointId}_${period.data.start}`,
+								name: pointId,
 								period: period.data.start,
 								value: properties[ds.attributeKey]
 							})
@@ -132,11 +134,7 @@ const getDataForTrackTimeSerieChart = (state) => {
 				});
 
 				// TODO
-				let dataForChart = (timeSerie && timeSerie.length) ? [{
-					key: pointId,
-					name: pointId,
-					data: timeSerie
-				}] : null;
+				let dataForChart = (timeSerie && timeSerie.length) ? timeSerie : null;
 
 				trackTimeSerieChartCache.addOrUpdate({
 					cacheKey,
