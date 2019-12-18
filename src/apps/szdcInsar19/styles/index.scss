@@ -45,6 +45,7 @@
 .szdcInsar19-content {
 	flex-grow: 1;
 	display: flex;
+	overflow: hidden;
 }
 .szdcInsar19-content.horizontal {
 	flex-direction: column;
@@ -62,6 +63,7 @@
 	z-index: 1;
 	display: flex;
 	flex-direction: column;
+	overflow-y: auto;
 }
 .szdcInsar19-content.horizontal .szdcInsar19-visualization {
 	flex: 0 1 m(14);
