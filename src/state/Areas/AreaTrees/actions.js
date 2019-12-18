@@ -29,6 +29,7 @@ export default {
 	setActiveKey,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
-	useKeys
+	useKeys,
+	useKeysClear: common.useKeysClear(ActionTypes.AREAS.AREA_TREES)
 }
 
