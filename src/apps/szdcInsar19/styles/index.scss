@@ -93,7 +93,7 @@
 }
 .szdcInsar19-view-select-list > div > div {
 	background: rgba(var(--base100rgb), .7);
-	padding: m(1);
+	padding: m(1) m(1) 0 m(1);
 }
 
 .szdcInsar19-view-select-current,
@@ -124,6 +124,7 @@
 	//padding: m(1);
 	//background: #ff0c;
 	color: var(--base0);
+	margin-bottom: m(1);
 }
 .szdcInsar19-select-category > span {
 	//position: relative;

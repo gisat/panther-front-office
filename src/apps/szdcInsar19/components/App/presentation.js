@@ -75,9 +75,9 @@ class SzdcInsar19App extends React.PureComponent {
 	render() {
 		
 		let props = this.props;
-		let currentStyle;
+		let currentStyle, category, view;
 		if (props.activeAppView) {
-			let [category, view] = props.activeAppView.split('.');
+			[category, view] = props.activeAppView.split('.');
 			currentStyle = {background: appViews[category].colour};
 		}
 		
@@ -100,14 +100,14 @@ class SzdcInsar19App extends React.PureComponent {
 					>
 						{this.renderSelectItems(props.trackViews, props.zoneClassificationViews)}
 					</PantherSelect>
-					{props.periods ? (
+					{category && props.periods ? (
 						<PeriodSelect
 							periods={props.periods}
 							periodKeys={props.periods ? _.map(props.periods, (uuid) => uuid) : null}
 							activePeriodKey={props.activePeriod}
 						/>
 					) : null }
-					{props.areaTreeKeys ? (
+					{(category === 'track') && props.areaTreeKeys ? (
 						<TrackSelect
 							activeTracks={activeTracks}
 							areaTreeKeys={props.areaTreeKeys}
