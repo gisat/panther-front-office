@@ -34,6 +34,7 @@
 	@include positionFill;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 }
 
 .szdcInsar19-header {
