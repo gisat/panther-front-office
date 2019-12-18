@@ -95,10 +95,18 @@ const getDataForTrackTimeSerieChart = (state) => {
 
 		if (dataSources) {
 			const activeBigPeriodKey = CommonSelect.components.get(state, 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(state, 'basePeriod');
+			const basePeriodKey = CommonSelect.app.getConfiguration(state, 'basePeriod');
+			
 			const activePeriod = CommonSelect.periods.getByKey(state, activeBigPeriodKey);
+			const basePeriod = CommonSelect.periods.getByKey(state, basePeriodKey);
+			
 			const startTime = activePeriod && activePeriod.data && activePeriod.data.start;
 			const endTime = activePeriod && activePeriod.data && activePeriod.data.end;
-			const periods = CommonSelect.periods.getByFullPeriodAsObject(state, startTime, endTime);
+			const baseStartTime = basePeriod && basePeriod.data && basePeriod.data.start;
+			const baseEndTime = basePeriod && basePeriod.data && basePeriod.data.end;
+			
+			const periodsByActive = CommonSelect.periods.getByFullPeriodAsObject(state, startTime, endTime);
+			const periodsByBase = CommonSelect.periods.getByFullPeriodAsObject(state, baseStartTime, baseEndTime);
 
 			let cacheKey = JSON.stringify(filter);
 			let cache = trackTimeSerieChartCache.findByKey(cacheKey);
@@ -107,7 +115,7 @@ const getDataForTrackTimeSerieChart = (state) => {
 			if (cache
 				&& cache.filter === filter
 				&& cache.dataSources === dataSources
-				&& cache.periods === periods
+				&& cache.periodsByBase === periodsByBase
 			) {
 				return cache.dataForChart;
 			}
@@ -121,14 +129,25 @@ const getDataForTrackTimeSerieChart = (state) => {
 						if (!pointId) {
 							pointId = properties[ds.fidColumnName]
 						}
-						let period = periods[ds.periodKey];
+
+						let period = periodsByBase[ds.periodKey];
+						let isInActivePeriod = !!periodsByActive[ds.periodKey];
+
 						if (period) {
-							timeSerie.push({
-								key: `${pointId}_${period.data.start}`,
+							let point = {
 								name: pointId,
 								period: period.data.start,
 								value: properties[ds.attributeKey]
-							})
+							};
+
+							if (isInActivePeriod) {
+								point.color = "#195dd1"
+							} else {
+								point.color = "#888"
+							}
+
+							point.key = `${pointId}_${period.data.start}_${point.color}`;
+							timeSerie.push(point);
 						}
 					}
 				});
@@ -140,7 +159,7 @@ const getDataForTrackTimeSerieChart = (state) => {
 					cacheKey,
 					filter,
 					dataSources,
-					periods,
+					periodsByBase,
 					dataForChart
 				});
 

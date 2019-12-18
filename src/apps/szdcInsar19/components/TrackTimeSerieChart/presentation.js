@@ -69,6 +69,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 							nameSourcePath="name"
 							xSourcePath="period"
 							ySourcePath="value"
+							colorSourcePath="color"
 
 							pointRadius={5}
 							border
