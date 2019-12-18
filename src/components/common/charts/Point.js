@@ -178,6 +178,11 @@ class Point extends React.PureComponent {
 	renderPlusSymbol(key, x, y, radius, classes, style) {
 		classes += ' path';
 
+		let pathStyle = {};
+		if (this.props.color) {
+			pathStyle.stroke = this.props.color;
+		}
+
 		return (
 			<g
 				key={key}
@@ -197,6 +202,7 @@ class Point extends React.PureComponent {
 					r={this.state.radius}
 				/>
 				<path
+					style={pathStyle}
 					d={`M${x},${y-radius} L${x},${y+radius} M${x-radius},${y} L${x+radius},${y}`}/>
 			</g>
 		);
