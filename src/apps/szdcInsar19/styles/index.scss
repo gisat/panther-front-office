@@ -45,6 +45,8 @@
 .szdcInsar19-content {
 	flex-grow: 1;
 	display: flex;
+}
+.szdcInsar19-content.horizontal {
 	flex-direction: column;
 }
 
@@ -55,15 +57,21 @@
 }
 
 .szdcInsar19-visualization {
-	//flex-basis: m(10);
-	//flex-grow: 0;
-	flex: 0 1 m(14);
-	
+	flex: 0 1 m(20);
 	display: flex;
+	flex-direction: column;
+}
+.szdcInsar19-content.horizontal .szdcInsar19-visualization {
+	flex: 0 1 m(14);
+	flex-direction: row;
 }
 .szdcInsar19-detail {
 	flex: 1 1 0%;
 	display: flex;
+	flex-direction: column;
+}
+.szdcInsar19-content.horizontal .szdcInsar19-detail {
+	flex-direction: row;
 }
 .szdcInsar19-legend {
 	flex: 0 0 m(10);
@@ -74,8 +82,10 @@
 	flex: 1 1;
 }
 .szdcInsar19-detail-info {
-	background: #eee;
 	padding: m(1);
+}
+.szdcInsar19-content.horizontal .szdcInsar19-detail-info {
+	background: #eee;
 }
 .szdcInsar19-detail-chart {
 	//position: relative;
