@@ -94,7 +94,7 @@ class LayersControl extends React.PureComponent {
 		return (
 			<div className={menuClasses} style={menuStyle} onMouseDown={this.onMenuMouseDown}>
 				<div className="szdcInsar19-layers-control-menu-content">
-					{this.props.layers.map(layer => {
+					{[...this.props.layers].reverse().map(layer => {
 						const template = this.props.layerTemplates[layer.data.layerTemplateKey];
 
 						return (
