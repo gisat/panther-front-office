@@ -119,13 +119,13 @@ class SzdcInsar19App extends React.PureComponent {
 						<HoverHandler
 							popupContentComponent={MapPopup}
 						>
-							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap} levelsBased>
+							<Map stateMapKey="szdcInsar19" mapComponent={WorldWindMap}>
 								{props.customLayers && props.activeAppView ? (
 									<LayersControl
 										layers={props.customLayers}
 									/>
 								) : <></>}
-								<MapControls zoomOnly levelsBased/>
+								<MapControls zoomOnly/>
 							</Map>
 						</HoverHandler>
 					</div>
