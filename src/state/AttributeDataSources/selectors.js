@@ -31,16 +31,13 @@ const getFilteredDataSources = createCachedSelector(
 				const data = attributeData[key];
 				if (data && data.attributeData && data.attributeData.features) {
 					finalDataSource.data.features = data.attributeData.features.map(feature => {
-						let updatedFeature = {
+						return {
 							...feature,
 							properties: {
-								...feature.properties,
-								[dataSourceWithFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName]
+								[dataSourceWithFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName],
+								[dataSourceWithFidColumn.fidColumnName]: feature.properties[dataSourceWithFidColumn.fidColumnName]
 							}
 						};
-
-						delete updatedFeature.properties[finalDataSource.data.columnName];
-						return updatedFeature;
 					});
 				}
 
@@ -78,16 +75,13 @@ const getFilteredDataSourcesGroupedByLayerKey = createCachedSelector(
 						const data = attributeData[dataSourceKeyAndFidColumn.attributeDataSourceKey];
 						if (data && data.attributeData && data.attributeData.features) {
 							finalDataSource.data.features = data.attributeData.features.map(feature => {
-								let updatedFeature = {
+								return {
 									...feature,
 									properties: {
-										...feature.properties,
-										[dataSourceKeyAndFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName]
+										[dataSourceKeyAndFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName],
+										[dataSourceKeyAndFidColumn.fidColumnName]: feature.properties[dataSourceKeyAndFidColumn.fidColumnName]
 									}
 								};
-
-								delete updatedFeature.properties[finalDataSource.data.columnName];
-								return updatedFeature;
 							});
 						}
 
