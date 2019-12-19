@@ -20,6 +20,7 @@ import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
 import App from './components/App';
+import _ from "lodash";
 
 // import App from './components/App';
 
@@ -27,11 +28,31 @@ import App from './components/App';
 // utils.addI18nResources('common', {cz});
 
 export default (path, baseUrl) => {
-	
+
 	Store.dispatch(Action.app.setKey('szdcInsar19'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
-	Store.dispatch(Action.app.loadConfiguration());
+	Store.dispatch(Action.app.loadConfiguration()).then(() => {
+
+		let state = Store.getState();
+		let activeCustomLayerKeys = Select.components.get(state, 'szdcInsar19_CustomLayers', 'active');
+		let customLayersConfiguration = Select.app.getConfiguration(state, 'customLayers');
+
+		if (activeCustomLayerKeys && customLayersConfiguration) {
+			let selectedCustomLayers = [];
+			customLayersConfiguration.forEach(layer => {
+				const {key, data} = layer;
+				if (_.includes(activeCustomLayerKeys, key)) {
+					selectedCustomLayers.push({...data, key});
+				}
+			});
+
+			if (selectedCustomLayers.length) {
+				Store.dispatch(Action.maps.setMapLayers('szdcInsar19', selectedCustomLayers));
+			}
+		}
+
+	});
 	
 	// Set language
 	// i18n.changeLanguage("cz");
