@@ -12,7 +12,7 @@ import PeriodSelect from "./components/PeriodSelect";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import MapLegend from "../MapLegend";
 import LayersControl from "../LayersControl";
-import PointInfo from "../PointInfo/presentation";
+import PointInfo from "../PointInfo";
 
 const appViews = {
 	track: {

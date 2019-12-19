@@ -58,6 +58,45 @@ const getLayersForLegendByMapKey = createSelector(
 	}
 );
 
+const getPointInfoFilter = createSelector(
+	[
+		CommonSelect.app.getCompleteConfiguration,
+		(state) => CommonSelect.maps.getMapLayersByMapKey(state, 'szdcInsar19'),
+		CommonSelect.selections.getActiveKey,
+		(state) => CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView'),
+		(state) => CommonSelect.components.get(state, 'szdcInsar19_App', 'activePeriod'),
+		(state) => CommonSelect.app.getConfiguration(state, 'basePeriod')
+	],
+	(config, layers, activeSelectionKey, activeAppView, activePeriodKey, basePeriodKey) => {
+		let areaTreeLevelKey = null;
+		if (config && layers && activeSelectionKey && activeAppView) {
+			const selectedLayer = _.find(layers, layer => {return layer && layer.options && layer.options.selected && layer.options.selected.hasOwnProperty(activeSelectionKey)});
+
+			const [category, view] = activeAppView.split('.');
+			const attributesToShowKeys = config[category].attributesToShow;
+
+			if (selectedLayer) {
+				areaTreeLevelKey = selectedLayer.areaTreeLevelKey;
+			}
+
+			if (areaTreeLevelKey && attributesToShowKeys) {
+				return {
+					areaTreeLevelKey,
+					periodKey: activePeriodKey || basePeriodKey,
+					attributeKey: {
+						in: attributesToShowKeys
+					}
+				};
+			} else {
+				return null;
+			}
+
+		} else {
+			return null;
+		}
+	}
+);
+
 // TODO
 const getTrackTimeSerieChartFilter = createSelector(
 	[
@@ -99,6 +138,9 @@ const getDataForTrackTimeSerieChart = (state) => {
 			
 			const activePeriod = CommonSelect.periods.getByKey(state, activeBigPeriodKey);
 			const basePeriod = CommonSelect.periods.getByKey(state, basePeriodKey);
+
+			const selection = CommonSelect.selections.getActive(state);
+			const featureKey = selection && selection.data.featureKeysFilter.keys[0];
 			
 			const startTime = activePeriod && activePeriod.data && activePeriod.data.start;
 			const endTime = activePeriod && activePeriod.data && activePeriod.data.end;
@@ -114,6 +156,7 @@ const getDataForTrackTimeSerieChart = (state) => {
 			// return cached values if following data did not change
 			if (cache
 				&& cache.filter === filter
+				&& cache.featureKey === featureKey
 				&& cache.dataSources === dataSources
 				&& cache.periodsByBase === periodsByBase
 			) {
@@ -122,32 +165,32 @@ const getDataForTrackTimeSerieChart = (state) => {
 
 			else {
 				let timeSerie = [];
-				let pointId = null;
 				_.each(dataSources, ds => {
-					let properties = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features && ds.dataSource.data.features[0] && ds.dataSource.data.features[0].properties; // TODO more features?
-					if (properties) {
-						if (!pointId) {
-							pointId = properties[ds.fidColumnName]
-						}
+					let features = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features;
+					if (features) {
+						const feature = _.find(features, (feature) => {return feature.properties[ds.fidColumnName] === featureKey});
 
-						let period = periodsByBase[ds.periodKey];
-						let isInActivePeriod = !!periodsByActive[ds.periodKey];
+						if (feature) {
+							let pointId = feature.properties[ds.fidColumnName];
+							let period = periodsByBase[ds.periodKey];
+							let isInActivePeriod = !!periodsByActive[ds.periodKey];
 
-						if (period) {
-							let point = {
-								name: pointId,
-								period: period.data.start,
-								value: properties[ds.attributeKey]
-							};
+							if (period) {
+								let point = {
+									name: pointId,
+									period: period.data.start,
+									value: feature.properties[ds.attributeKey]
+								};
 
-							if (isInActivePeriod) {
-								point.color = "#195dd1"
-							} else {
-								point.color = "#888"
+								if (isInActivePeriod) {
+									point.color = "#195dd1"
+								} else {
+									point.color = "#888"
+								}
+
+								point.key = `${pointId}_${period.data.start}_${point.color}`;
+								timeSerie.push(point);
 							}
-
-							point.key = `${pointId}_${period.data.start}_${point.color}`;
-							timeSerie.push(point);
 						}
 					}
 				});
@@ -158,6 +201,7 @@ const getDataForTrackTimeSerieChart = (state) => {
 				trackTimeSerieChartCache.addOrUpdate({
 					cacheKey,
 					filter,
+					featureKey,
 					dataSources,
 					periodsByBase,
 					dataForChart
@@ -179,6 +223,7 @@ const szdcInsar19 = {
 
 	// TODO
 	getTrackTimeSerieChartFilter,
+	getPointInfoFilter,
 	getDataForTrackTimeSerieChart,
 	getLayersForLegendByMapKey,
 	getActiveViewConfigurationPeriod

@@ -152,6 +152,45 @@ const szdcInsar19 = {
 				}
 			});
 		}
+	},
+
+	pointInfoUse: (componentId, keys) => (dispatch, getState) => {
+		if (keys && keys.length) {
+			let filter = Select.specific.szdcInsar19.getPointInfoFilter(getState());
+
+			dispatch(CommonAction.attributes.useKeys(filter.attributeKey.in, componentId));
+			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, filter, null, 1, 1000));
+			dispatch(CommonAction.attributeRelations.ensureIndexed(filter, null, 1, 1000)).then(() => {
+				/* Ensure data sources */
+				const relations = CommonSelect.attributeRelations.getIndexed(getState(), null, filter, null, 1, 2000);
+				if (relations && relations.length) {
+					const dataSourcesKeys = relations.map(relation => relation.data.attributeDataSourceKey);
+
+					dispatch(CommonAction.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
+						const dataSources = CommonSelect.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
+						if (dataSources) {
+							let dataSourceKeys = [];
+							dataSources.forEach(dataSource => {
+								dataSourceKeys.push(dataSource.key);
+							});
+
+							// TODO fidColumnName!!!
+							const filter = {
+								attributeDataSourceKey: {
+									in: dataSourceKeys
+								},
+								fidColumnName: relations[0].data.fidColumnName,
+								fid: {
+									in: keys
+								}
+							};
+							dispatch(CommonAction.attributeData.useIndexed(null, filter, null, 1, 1, componentId));
+
+						}
+					});
+				}
+			});
+		}
 	}
 };
 

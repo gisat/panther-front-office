@@ -7,15 +7,15 @@ class PointInfo extends React.PureComponent {
 		super(props);
 	}
 
-	// componentDidUpdate(prevProps) {
-	// 	const selection = this.props.activeSelection;
-	// 	if (this.props.activeSelection !== prevProps.activeSelection) {
-	// 		let keys = selection && selection.data && selection.data.featureKeysFilter && selection.data.featureKeysFilter.keys;
-	// 		if (keys && this.props.onPointsChange) {
-	// 			this.props.onPointsChange(keys);
-	// 		}
-	// 	}
-	// }
+	componentDidUpdate(prevProps) {
+		const selection = this.props.activeSelection;
+		if (this.props.activeSelection !== prevProps.activeSelection) {
+			let keys = selection && selection.data && selection.data.featureKeysFilter && selection.data.featureKeysFilter.keys;
+			if (keys && this.props.onPointsChange) {
+				this.props.onPointsChange(keys);
+			}
+		}
+	}
 
 	render() {
 

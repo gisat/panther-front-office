@@ -9,7 +9,7 @@ import utils from "../../../../utils/utils";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-
+		activeSelection: Select.selections.getActive(state)
 	}
 };
 
@@ -18,7 +18,9 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch, ownProps) => {
 		return {
-
+			onPointsChange: (keys) => {
+				dispatch(Action.specific.szdcInsar19.pointInfoUse(componentId, keys));
+			}
 		}
 	}
 };
