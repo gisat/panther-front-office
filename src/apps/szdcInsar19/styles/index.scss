@@ -200,13 +200,12 @@
 
 /* Charts */
 .szdcInsar19-chart-container {
-	//margin: m(2/3);
-	margin: m(2/3) m(1) m(2/3) 0; //hack instead of chart width
+	margin: m(2/3) m(1) m(2/3) m(1/3);
 	//display: flex;
 	//justify-content: center;
 }
 .szdcInsar19-chart-container > h4 {
-	margin-left: m(1);
+	margin-left: m(2/3);
 }
 .szdcInsar19-chart-container > h4 > span {
 	font-size: $b1;
