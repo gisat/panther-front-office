@@ -48,7 +48,7 @@ class PeriodSelect extends React.PureComponent {
 		if (props.periods && props.activePeriodKey) {
 			return (
 				<div className={classes}>
-					Posledních {_.map(props.periods, (uuid, days) => (
+					Časový úsek: {_.map(props.periods, (uuid, days) => (
 					<label key={uuid}>
 						<input
 							disabled={this.props.disabled}
@@ -61,7 +61,7 @@ class PeriodSelect extends React.PureComponent {
 						/>
 						{days}
 					</label>
-				))} dní
+				))} dní před posledním měřením
 				</div>
 			);
 
