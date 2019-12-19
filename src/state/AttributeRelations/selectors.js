@@ -15,7 +15,18 @@ const getFilteredDataSourceKeysWithFidColumn = createCachedSelector(
 	],
 	(relations, filter) => {
 		if (relations && relations.length) {
-			let filteredRelations = _.filter(relations, {'data': filter});
+			// TODO more sophisticated filtering
+			const attributeKeys = filter.attributeKey.in || [filter.attributeKey];
+			const filterWithoutAttributes = _.omit(filter, 'attributeKey');
+			let preFilteredRelations = _.filter(relations, {'data': filterWithoutAttributes});
+			let filteredRelations = _.filter(preFilteredRelations, (relation) => {
+				if (relation.data.attributeKey) {
+					return !!_.includes(attributeKeys, relation.data.attributeKey);
+				} else {
+					return true;
+				}
+			});
+
 			if (filteredRelations.length) {
 				return filteredRelations.map(relation => {
 					return {

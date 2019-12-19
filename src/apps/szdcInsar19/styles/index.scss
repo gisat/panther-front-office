@@ -85,7 +85,7 @@
 
 .szdcInsar19-detail-info {
 	flex: 1 1;
-	padding: m(1);
+	padding: 0 m(1) m(1);
 }
 .szdcInsar19-detail-chart {
 	flex: 0 1 m(15);
@@ -222,6 +222,7 @@
 
 .szdcInsar19-point-attribute {
 	display: flex;
+	font-size: $b1;
 	//justify-content: space-between;
 }
 .szdcInsar19-point-attribute > div {
@@ -231,6 +232,7 @@
 .szdcInsar19-point-attribute > span {
 	display: block;
 	flex: 0 1 m(4);
+	text-align: right;
 }
 
 

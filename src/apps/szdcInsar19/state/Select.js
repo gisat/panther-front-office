@@ -5,6 +5,7 @@ import CommonSelect from '../../../state/Select';
 import CacheFifo from "../../../utils/CacheFifo";
 
 let trackTimeSerieChartCache = new CacheFifo(10);
+let pointInfoCache = new CacheFifo(10);
 
 const getActiveViewConfigurationPeriod = createSelector(
 	[
@@ -126,6 +127,72 @@ const getTrackTimeSerieChartFilter = createSelector(
 		}
 );
 
+const getDataForPointInfo = (state) => {
+	const filter = getPointInfoFilter(state);
+
+	if (filter) {
+		const dataSources = CommonSelect.attributeDataSources.getFilteredDataSources(state, filter);
+
+		if (dataSources) {
+			const attributes = CommonSelect.attributes.getAllAsObject(state);
+			const selection = CommonSelect.selections.getActive(state);
+			const featureKey = selection && selection.data.featureKeysFilter.keys[0];
+
+			let cacheKey = JSON.stringify(filter);
+			let cache = pointInfoCache.findByKey(cacheKey);
+
+			// return cached values if following data did not change
+			if (cache
+				&& cache.filter === filter
+				&& cache.featureKey === featureKey
+				&& cache.dataSources === dataSources
+				&& cache.attributes === attributes
+			) {
+				return cache.dataForPointInfo;
+			}
+
+			else {
+				let dataForPointInfo = [];
+				_.each(dataSources, ds => {
+					let features = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features;
+					let fidColumnName = ds.fidColumnName;
+					if (features) {
+						const feature = _.find(features, (feature) => {return feature.properties[ds.fidColumnName] === featureKey});
+
+						if (feature) {
+							const properties = _.omit(feature.properties, [fidColumnName]);
+							_.forIn(properties, (value, key) => {
+								const attributeMetadata = attributes[key] && attributes[key].data;
+
+								dataForPointInfo.push({
+									name: attributeMetadata.nameDisplay,
+									unit: attributeMetadata.unit,
+									value
+								});
+							});
+						}
+					}
+				});
+
+				trackTimeSerieChartCache.addOrUpdate({
+					cacheKey,
+					filter,
+					featureKey,
+					dataSources,
+					dataForPointInfo,
+					attributes
+				});
+
+				return dataForPointInfo
+			}
+		} else {
+			return null;
+		}
+	} else {
+		return null;
+	}
+};
+
 const getDataForTrackTimeSerieChart = (state) => {
 	const filter = getTrackTimeSerieChartFilter(state);
 
@@ -135,18 +202,18 @@ const getDataForTrackTimeSerieChart = (state) => {
 		if (dataSources) {
 			const activeBigPeriodKey = CommonSelect.components.get(state, 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(state, 'basePeriod');
 			const basePeriodKey = CommonSelect.app.getConfiguration(state, 'basePeriod');
-			
+
 			const activePeriod = CommonSelect.periods.getByKey(state, activeBigPeriodKey);
 			const basePeriod = CommonSelect.periods.getByKey(state, basePeriodKey);
 
 			const selection = CommonSelect.selections.getActive(state);
 			const featureKey = selection && selection.data.featureKeysFilter.keys[0];
-			
+
 			const startTime = activePeriod && activePeriod.data && activePeriod.data.start;
 			const endTime = activePeriod && activePeriod.data && activePeriod.data.end;
 			const baseStartTime = basePeriod && basePeriod.data && basePeriod.data.start;
 			const baseEndTime = basePeriod && basePeriod.data && basePeriod.data.end;
-			
+
 			const periodsByActive = CommonSelect.periods.getByFullPeriodAsObject(state, startTime, endTime);
 			const periodsByBase = CommonSelect.periods.getByFullPeriodAsObject(state, baseStartTime, baseEndTime);
 
@@ -224,6 +291,7 @@ const szdcInsar19 = {
 	// TODO
 	getTrackTimeSerieChartFilter,
 	getPointInfoFilter,
+	getDataForPointInfo,
 	getDataForTrackTimeSerieChart,
 	getLayersForLegendByMapKey,
 	getActiveViewConfigurationPeriod

@@ -9,7 +9,8 @@ import utils from "../../../../utils/utils";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		activeSelection: Select.selections.getActive(state)
+		activeSelection: Select.selections.getActive(state),
+		data: Select.specific.szdcInsar19.getDataForPointInfo(state)
 	}
 };
 
