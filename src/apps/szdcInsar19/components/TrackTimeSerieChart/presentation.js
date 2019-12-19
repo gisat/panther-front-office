@@ -84,13 +84,12 @@ class TrackTimeSerieChart extends React.PureComponent {
 							xValuesSize={4}
 
 							yOptions={{
-								// name: attributeName || "Poloha bodu",
-								// unit: attributeUnit || "mm",
+								name: attributeName || "Poloha bodu",
+								unit: attributeUnit || "mm",
 								min: -65,
 								max: 40,
 								tickCount: 10
 							}}
-							yLabel
 							yValuesSize={2.5}
 
 							withoutYbaseline={false}
