@@ -769,7 +769,7 @@ function use(mapKey, backgroundLayer, layers) {
 										// TODO load raster data?
 										if (dataSource && dataSource.data && dataSource.data.type === 'vector') {
 											const spatialFilter = _.find(spatialFilters, {spatialDataSourceKey: dataSource.key});
-											dispatch(Action.spatialData.useIndexed(null, spatialFilter, null, 1, 100, componentId));
+											dispatch(Action.spatialData.useIndexed(null, spatialFilter, null, 1, 1, componentId));
 										}
 									});
 								}
@@ -828,7 +828,7 @@ function use(mapKey, backgroundLayer, layers) {
 										},
 										fidColumnName: relations[0].data.fidColumnName
 									};
-									dispatch(Action.attributeData.useIndexed(null, filter, null, 1, 100, componentId));
+									dispatch(Action.attributeData.useIndexed(null, filter, null, 1, 1, componentId));
 
 								}
 							});
