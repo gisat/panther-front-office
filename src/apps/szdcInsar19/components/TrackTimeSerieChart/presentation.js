@@ -56,7 +56,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 			return (
 				<HoverHandler>
 					<div className="szdcInsar19-chart-container">
-						{/*<h3>{this.props.data[0].name}</h3>*/}
+						<h4>{attributeName}<span>{attributeUnit ? "(" + attributeUnit + ")" : null}</span></h4>
 						{/*{attributeDescription ? <p>{attributeDescription}</p> : null}*/}
 						<ScatterChart
 							key="time-scale-scatter"
@@ -84,8 +84,8 @@ class TrackTimeSerieChart extends React.PureComponent {
 							xValuesSize={4}
 
 							yOptions={{
-								name: attributeName || "Poloha bodu",
-								unit: attributeUnit || "mm",
+								// name: attributeName || "Poloha bodu",
+								// unit: attributeUnit || "mm",
 								min: -65,
 								max: 40,
 								tickCount: 10

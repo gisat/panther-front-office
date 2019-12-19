@@ -24,7 +24,7 @@ class PointInfo extends React.PureComponent {
 		return (
 			this.props.data ? (
 				<div className="szdcInsar19-point-info">
-					<h4>{featureKey}</h4>
+					<h3>{featureKey}</h3>
 					{this.props.data.map(attribute => this.renderAttribute(attribute))}
 				</div>
 			) : null
