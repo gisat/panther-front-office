@@ -152,7 +152,9 @@ const getDataForPointInfo = (state) => {
 			}
 
 			else {
+				const attributeKeys = filter.attributeKey.in;
 				let dataForPointInfo = [];
+
 				_.each(dataSources, ds => {
 					let features = ds.dataSource && ds.dataSource.data && ds.dataSource.data.features;
 					let fidColumnName = ds.fidColumnName;
@@ -161,10 +163,12 @@ const getDataForPointInfo = (state) => {
 
 						if (feature) {
 							const properties = _.omit(feature.properties, [fidColumnName]);
+
 							_.forIn(properties, (value, key) => {
 								const attributeMetadata = attributes[key] && attributes[key].data;
 
 								dataForPointInfo.push({
+									key,
 									name: attributeMetadata.nameDisplay,
 									unit: attributeMetadata.unit,
 									value
@@ -173,6 +177,17 @@ const getDataForPointInfo = (state) => {
 						}
 					}
 				});
+
+				if (dataForPointInfo.length && attributeKeys) {
+					let sortedDataForPointInfo = [];
+					attributeKeys.forEach(key => {
+						let data = _.find(dataForPointInfo, (point) => key === point.key);
+						if (data) {
+							sortedDataForPointInfo.push(data);
+						}
+					});
+					dataForPointInfo = sortedDataForPointInfo;
+				}
 
 				trackTimeSerieChartCache.addOrUpdate({
 					cacheKey,
