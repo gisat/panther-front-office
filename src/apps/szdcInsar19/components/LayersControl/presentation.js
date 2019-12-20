@@ -87,7 +87,7 @@ class LayersControl extends React.PureComponent {
 		});
 
 		let menuStyle = {
-			width: this.state.open ? `10rem` : 0,
+			width: this.state.open ? `15rem` : 0,
 			height: this.state.open ? `${this.props.layers.length * 2}rem` : '2rem'
 		};
 
