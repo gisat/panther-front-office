@@ -26,6 +26,7 @@ class LargeDataLayer extends TiledImageLayer {
 		this.tileWidth = 256;
 		this.tileHeight = 256;
 		this.detailControl = 1;
+		this.wwd = wwd;
 
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
@@ -241,9 +242,35 @@ class LargeDataLayer extends TiledImageLayer {
 		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.fidColumnName, this.pantherProps.selected,this.pantherProps.hovered);
 	};
 
-	updateHoveredKeys(hoveredKeys) {
+	updateHoveredKeys(hoveredKeys, x, y) {
 		this.pantherProps.hovered.keys = hoveredKeys;
-		this.refresh();
+
+		const terrainObject = this.wwd.pickTerrain(this.wwd.canvasCoordinates(x, y)).terrainObject();
+
+		if (terrainObject) {
+			const lat = terrainObject.position.latitude;
+			const lon = terrainObject.position.longitude;
+
+			_.each(this.currentTiles, (tile) => {
+				const s = tile.sector;
+				const prev = this.previousHoveredCoordinates;
+
+				const latDiff = Math.abs(s.maxLatitude - s.minLatitude);
+				const lonDiff = Math.abs(s.maxLongitude - s.minLongitude);
+
+				const latBuffer = latDiff/10;
+				const lonBuffer = lonDiff/10;
+
+				const hovered = (lat <= (s.maxLatitude + latBuffer) && lat >= (s.minLatitude - latBuffer) && lon <= (s.maxLongitude + lonBuffer) && lon >= (s.minLongitude - lonBuffer));
+				const previouslyHovered = prev && (prev.lat <= (s.maxLatitude + latBuffer) && prev.lat >= (s.minLatitude - latBuffer) && prev.lon <= (s.maxLongitude + lonBuffer) && prev.lon >= (s.minLongitude - lonBuffer));
+
+				if (hovered || previouslyHovered) {
+					this.retrieveTileImage(this.wwd.drawContext, tile, true);
+				}
+			});
+
+			this.previousHoveredCoordinates = {lat, lon};
+		}
 	}
 
 	/**

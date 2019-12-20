@@ -81,8 +81,6 @@ class HoverHandler extends React.PureComponent {
 		this.setState({
 			hoveredItems: [],
 			popupContent: null,
-			x: null,
-			y: null,
 			data: null,
 			fidColumnName: null
 		});
@@ -94,7 +92,9 @@ class HoverHandler extends React.PureComponent {
 				hoveredItems: this.state.hoveredItems,
 				selectedItems: this.props.selectedItems,
 				onHover: this.onHover,
-				onHoverOut: this.onHoverOut
+				onHoverOut: this.onHoverOut,
+				x: this.state.x,
+				y: this.state.y
 			}}>
 				{this.props.children}
 				{this.state.popupContent || this.state.data ? this.renderPopup() : null}

@@ -81,11 +81,12 @@ function updateVectorLayer(layerDefinition, wwd, onHover, onClick) {
 
 		if (prevFeatures === nextFeatures) {
 			mapLayer = worldWindLayer;
-			let prevHoveredKeys = worldWindLayer.pantherProps.hovered && worldWindLayer.pantherProps.hovered.keys;
-			let nextHoveredKeys = layerDefinition.options.hovered && layerDefinition.options.hovered.keys;
-			if (prevHoveredKeys !== nextHoveredKeys) {
-				worldWindLayer.updateHoveredKeys(nextHoveredKeys);
-			}
+			// TODO still needed?
+			// let prevHoveredKeys = worldWindLayer.pantherProps.hovered && worldWindLayer.pantherProps.hovered.keys;
+			// let nextHoveredKeys = layerDefinition.options.hovered && layerDefinition.options.hovered.keys;
+			// if (prevHoveredKeys !== nextHoveredKeys) {
+			// 	worldWindLayer.updateHoveredKeys(nextHoveredKeys);
+			// }
 		}
 		else {
 			worldWindLayer.removeListeners();

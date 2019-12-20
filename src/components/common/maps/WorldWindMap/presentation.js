@@ -143,7 +143,7 @@ class WorldWindMap extends React.PureComponent {
 	updateHoveredFeatures() {
 		this.wwd.layers.forEach(layer => {
 			if (layer instanceof LargeDataLayer) {
-				layer.updateHoveredKeys(this.context.hoveredItems);
+				layer.updateHoveredKeys(this.context.hoveredItems, this.context.x, this.context.y);
 			}
 		});
 		this.wwd.redraw();
