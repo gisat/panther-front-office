@@ -25,20 +25,20 @@ class PointInfo extends React.PureComponent {
 			this.props.data ? (
 				<div className="szdcInsar19-point-info">
 					<h3>{featureKey}</h3>
-					{this.props.data.map(attribute => this.renderAttribute(attribute))}
+					{this.props.data.map((attribute, index) => this.renderAttribute(attribute, index))}
 				</div>
 			) : null
 		);
 	}
 
-	renderAttribute(data) {
+	renderAttribute(data, index) {
 		let value = data.value;
 		if (typeof value === 'number') {
 			value = value.toFixed(3);
 		}
 
 		return (
-			<div className="szdcInsar19-point-attribute">
+			<div key={index} className="szdcInsar19-point-attribute">
 				<div>{data.name}</div>
 				<span>{value} {data.unit ? data.unit :null}</span>
 			</div>
