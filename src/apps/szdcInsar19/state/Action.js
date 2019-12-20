@@ -9,9 +9,9 @@ const hoveredStyle = {
 			"styles": [
 				{
 					"outlineColor": "#ff00ff",
-					"outlineWidth": 2,
-					"shadowColor": "#000000",
-					"shadowBlur": 10
+					"outlineWidth": 3,
+					// "shadowColor": "#000000",
+					// "shadowBlur": 10
 				}
 			]
 		}
