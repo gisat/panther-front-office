@@ -46,30 +46,34 @@ class MapPopup extends React.PureComponent {
 
 	renderContent(attributes) {
 		let content = [];
-		_.forIn(attributes, (value, attributeKey) => {
-			let attributeMetadata = _.find(this.props.attributesMetadata, {key: attributeKey});
+
+		_.forEach(this.props.attributeKeys, key => {
+			let attributeMetadata = _.find(this.props.attributesMetadata, {key});
 			let unit = attributeMetadata && attributeMetadata.data.unit;
+			let value = attributes[key];
 
-			if (typeof value === 'number') {
-				if (value && (value % 1) !== 0) {
-					value = value.toFixed(2);
+			if (value) {
+				if (typeof value === 'number') {
+					if (value && (value % 1) !== 0) {
+						value = value.toFixed(2);
+					}
+					value.toLocaleString();
 				}
-				value.toLocaleString();
-			}
 
-			content.push(
-				<div className="ptr-popup-record-group" key={attributeKey}>
-					<div className="ptr-popup-record">
-						{<div className="ptr-popup-record-attribute">
-							{attributeMetadata ? attributeMetadata.data.nameDisplay : attributeKey}
-						</div> }
-						<div className="ptr-popup-record-value-group">
-							{value || value === 0 ? <span className="value">{value}</span> : null}
-							{unit ? <span className="unit">{unit}</span> : null}
+				content.push(
+					<div className="ptr-popup-record-group" key={key}>
+						<div className="ptr-popup-record">
+							{<div className="ptr-popup-record-attribute">
+								{attributeMetadata ? attributeMetadata.data.nameDisplay : key}
+							</div> }
+							<div className="ptr-popup-record-value-group">
+								{value || value === 0 ? <span className="value">{value}</span> : null}
+								{unit ? <span className="unit">{unit}</span> : null}
+							</div>
 						</div>
 					</div>
-				</div>
-			);
+				);
+			}
 		});
 
 		return (

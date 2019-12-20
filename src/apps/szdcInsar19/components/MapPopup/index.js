@@ -49,6 +49,7 @@ const mapStateToProps = (state, ownProps) => {
 	let attributesData = getAttributesData(ownProps.data, ownProps.fidColumnName) || null;
 
 	return {
+		attributeKeys: Select.specific.szdcInsar19.getActiveViewConfigurationAttributes(state),
 		attributesMetadata: Select.attributes.getByKeys(state, attributeKeys),
 		attributesData,
 		featureKeys: ownProps.featureKeys
