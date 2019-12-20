@@ -236,7 +236,9 @@
 	display: flex;
 	font-size: $b1;
 	//justify-content: space-between;
-	height: m(1);
+	//height: m(1);
+	line-height: 1.25;
+	padding: .25rem 0;
 }
 .szdcInsar19-point-attribute > div {
 	display: block;
