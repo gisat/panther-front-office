@@ -59,12 +59,16 @@ const szdcInsar19 = {
 				|| CommonSelect.app.getConfiguration(state, 'track.areaTrees') && [CommonSelect.app.getConfiguration(getState(), 'track.areaTrees')[0]];
 			let activePeriodKey = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(getState(), 'basePeriod');
 
+			let areaTrees = CommonSelect.areas.areaTrees.getAllAsObject(getState());
+
 			if (activeTrackKeys && activePeriodKey) {
 				//add a layer for each
 				layers = activeTrackKeys.map(activeTrackKey => {
+					const trackName = areaTrees[activeTrackKey] && areaTrees[activeTrackKey].data.nameInternal;
+
 					return {
 						key: `szdcInsar19_${nextCategory}_${nextView}_${activeTrackKey}`,
-						name: "Track", // TODO add number
+						name: trackName || "Track",
 						areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
 						styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
 						attributeKeys: configuration.attributes || [configuration.attribute],

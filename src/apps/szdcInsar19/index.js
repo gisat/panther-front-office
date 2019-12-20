@@ -37,6 +37,7 @@ export default (path, baseUrl) => {
 		let state = Store.getState();
 		let activeCustomLayerKeys = Select.components.get(state, 'szdcInsar19_CustomLayers', 'active');
 		let customLayersConfiguration = Select.app.getConfiguration(state, 'customLayers');
+		let areaTreesAndLevels = Select.app.getConfiguration(state, 'areaTreesAndLevels');
 
 		if (activeCustomLayerKeys && customLayersConfiguration) {
 			let selectedCustomLayers = [];
@@ -50,6 +51,11 @@ export default (path, baseUrl) => {
 			if (selectedCustomLayers.length) {
 				Store.dispatch(Action.maps.setMapLayers('szdcInsar19', selectedCustomLayers));
 			}
+		}
+
+		if (areaTreesAndLevels) {
+			let areaTreeKeys = Object.keys(areaTreesAndLevels);
+			Store.dispatch(Action.areas.areaTrees.useKeys(areaTreeKeys));
 		}
 
 	});
