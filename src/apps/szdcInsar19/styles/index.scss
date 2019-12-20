@@ -244,11 +244,17 @@
 	display: block;
 	flex: 1 1 m(4);
 }
-.szdcInsar19-point-attribute > span {
+.szdcInsar19-point-attribute > span:first-of-type {
 	display: block;
 	flex: 0 1 m(3);
 	text-align: right;
 	font-weight: bold;
+}
+.szdcInsar19-point-attribute > span:last-child {
+	display: block;
+	flex: 0 1 m(4/3);
+	color: var(--base80);
+	margin-left: m(1/4);
 }
 
 
