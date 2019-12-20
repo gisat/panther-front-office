@@ -38,7 +38,7 @@ class PointInfo extends React.PureComponent {
 		}
 
 		return (
-			<div key={index} className="szdcInsar19-point-attribute">
+			<div key={index} className="szdcInsar19-point-attribute" title={data.description}>
 				<div>{data.name}</div>
 				<span>{value} {data.unit ? data.unit :null}</span>
 			</div>

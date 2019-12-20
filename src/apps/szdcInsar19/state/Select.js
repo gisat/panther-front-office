@@ -171,6 +171,7 @@ const getDataForPointInfo = (state) => {
 									key,
 									name: attributeMetadata.nameDisplay,
 									unit: attributeMetadata.unit,
+									description: attributeMetadata.description,
 									value
 								});
 							});
