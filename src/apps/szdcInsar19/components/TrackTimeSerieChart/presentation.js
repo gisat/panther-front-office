@@ -6,6 +6,8 @@ import ScatterChart from "../../../../components/common/charts/ScatterChart/Scat
 import Center from '../../../../components/common/atoms/Center';
 import Loader from '../../../../components/common/atoms/Loader/Loader';
 
+import './style.scss';
+
 class TrackTimeSerieChart extends React.PureComponent {
 
 	constructor(props) {
@@ -55,7 +57,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 		if (this.props.data) {
 			return (
 				<HoverHandler>
-					<div className="szdcInsar19-chart-container">
+					<div className="szdcInsar19-chart-container track-time-serie">
 						<h4>{attributeName}<span>{attributeUnit ? "(" + attributeUnit + ")" : null}</span></h4>
 						{/*{attributeDescription ? <p>{attributeDescription}</p> : null}*/}
 						<ScatterChart
