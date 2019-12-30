@@ -72,8 +72,6 @@ function rectangle(context, x0, y0, dx, dy, style) {
 // helpers
 function fillPolygon(context, style) {
 	context.restore(); // restore to original state
-	context.shadowColor = style.shadowColor;
-	context.shadowBlur = style.shadowBlur;
 	context.fillStyle = style.fill;
 	context.lineWidth = style.outlineWidth;
 	context.strokeStyle = style.outlineColor;
