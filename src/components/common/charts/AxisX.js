@@ -54,9 +54,9 @@ class AxisX extends React.PureComponent {
 
 		return (
 			<g className="ptr-column-chart-axis-x" transform={`translate(${props.leftMargin},0)`}>
+				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{this.renderBaseline()}
 				{props.border ? this.renderBorder() : null}
-				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
 			</g>
 		);

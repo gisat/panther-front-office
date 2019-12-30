@@ -58,9 +58,9 @@ class AxisY extends React.PureComponent {
 		return (
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
 				{props.options && props.options.highlightedArea ? this.renderHighlightedArea() : null}
+				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{props.border ? this.renderBorder() : null}
-				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
 			</g>
 		);
