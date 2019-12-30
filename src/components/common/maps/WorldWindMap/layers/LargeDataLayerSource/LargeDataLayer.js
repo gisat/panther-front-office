@@ -161,16 +161,10 @@ class LargeDataLayer extends TiledImageLayer {
 
 
 	retrieveTileImage(dc, tile, suppressRedraw) {
-		// if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
-		// 	return;
-		// }
 		this.processedTiles[tile.imagePath] = true;
 
 		const sector = tile.sector;
 		const extended = this.calculateExtendedSector(sector, 0.2, 0.2);
-		const extendedWidth = Math.ceil(extended.extensionFactorWidth * this.tileWidth);
-		const extendedHeight = Math.ceil(extended.extensionFactorHeight * this.tileHeight);
-
 		const points = this.filterGeographically(extended.sector);
 
 		if(points) {
@@ -179,21 +173,13 @@ class LargeDataLayer extends TiledImageLayer {
 				layer = this;
 
 			var canvas = this.createPointTile(points, {
-				sector: extended.sector,
+				sector: sector,
 
-				width: this.tileWidth + 2 * extendedWidth,
-				height: this.tileHeight + 2 * extendedHeight
+				width: this.tileWidth,
+				height: this.tileHeight
 			}).canvas();
 
-			var result = document.createElement('canvas');
-			result.height = this.tileHeight;
-			result.width = this.tileWidth;
-			result.getContext('2d').putImageData(
-				canvas.getContext('2d').getImageData(extendedWidth, extendedHeight, this.tileWidth, this.tileHeight),
-				0, 0
-			);
-
-			var texture = layer.createTexture(dc, tile, result);
+			var texture = layer.createTexture(dc, tile, canvas);
 			layer.removeFromCurrentRetrievals(imagePath);
 
 			if (texture) {
@@ -211,6 +197,60 @@ class LargeDataLayer extends TiledImageLayer {
 			}
 		}
 	}
+
+
+	// TODO Original implementation from @jbalhar
+	// retrieveTileImage(dc, tile, suppressRedraw) {
+	// 	// if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
+	// 	// 	return;
+	// 	// }
+	// 	this.processedTiles[tile.imagePath] = true;
+	//
+	// 	const sector = tile.sector;
+	// 	const extended = this.calculateExtendedSector(sector, 0.2, 0.2);
+	// 	const extendedWidth = Math.ceil(extended.extensionFactorWidth * this.tileWidth);
+	// 	const extendedHeight = Math.ceil(extended.extensionFactorHeight * this.tileHeight);
+	//
+	// 	const points = this.filterGeographically(extended.sector);
+	//
+	// 	if(points) {
+	// 		var imagePath = tile.imagePath,
+	// 			cache = dc.gpuResourceCache,
+	// 			layer = this;
+	//
+	// 		var canvas = this.createPointTile(points, {
+	// 			sector: extended.sector,
+	//
+	// 			width: this.tileWidth + 2 * extendedWidth,
+	// 			height: this.tileHeight + 2 * extendedHeight
+	// 		}).canvas();
+	//
+	// 		var result = document.createElement('canvas');
+	// 		result.height = this.tileHeight;
+	// 		result.width = this.tileWidth;
+	// 		result.getContext('2d').putImageData(
+	// 			canvas.getContext('2d').getImageData(extendedWidth, extendedHeight, this.tileWidth, this.tileHeight),
+	// 			0, 0
+	// 		);
+	//
+	// 		var texture = layer.createTexture(dc, tile, result);
+	// 		layer.removeFromCurrentRetrievals(imagePath);
+	//
+	// 		if (texture) {
+	// 			cache.putResource(imagePath, texture, texture.size);
+	//
+	// 			layer.currentTilesInvalid = true;
+	// 			layer.absentResourceList.unmarkResourceAbsent(imagePath);
+	//
+	// 			if (!suppressRedraw) {
+	// 				// Send an event to request a redraw.
+	// 				const e = document.createEvent('Event');
+	// 				e.initEvent(REDRAW_EVENT_TYPE, true, true);
+	// 				window.dispatchEvent(e);
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	filterGeographically(sector) {
 		const width = sector.maxLongitude - sector.minLongitude;
