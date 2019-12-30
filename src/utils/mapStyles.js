@@ -24,11 +24,11 @@ function getStyleObject(attributes, styleDefinition, omitDefault) {
 
 			if (rule.styles) {
 				_.each(rule.styles, style => {
-					let styleObject = {};
+					let styleObject = null;
 					if (style.attributeKey) {
 						styleObject = getStyleObjectForAttribute(style, attributes);
 					} else {
-						styleObject = {...style}
+						styleObject = style;
 					}
 
 					finalStyleObject = {...finalStyleObject, ...styleObject}
