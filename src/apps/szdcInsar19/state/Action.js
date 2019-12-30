@@ -49,14 +49,16 @@ const szdcInsar19 = {
 			dispatch(CommonAction.components.set('szdcInsar19_App', 'activePeriod', periods[configuration.period]));
 		}
 
+
+		// =================== TRACK =================
+
 		if (nextCategory === "track") {
 
 			let trackAreaTrees = CommonSelect.app.getConfiguration(getState(), 'track.areaTrees');
 			let areaTreesAndLevels = CommonSelect.app.getConfiguration(getState(), 'areaTreesAndLevels');
 
 			//find active tracks
-			let activeTrackKeys = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activeTracks')
-				|| CommonSelect.app.getConfiguration(state, 'track.areaTrees') && [CommonSelect.app.getConfiguration(getState(), 'track.areaTrees')[0]];
+			let activeTrackKeys = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activeTracks') || trackAreaTrees && [trackAreaTrees[0]];
 			let activePeriodKey = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(getState(), 'basePeriod');
 
 			let areaTrees = CommonSelect.areas.areaTrees.getAllAsObject(getState());
@@ -85,6 +87,38 @@ const szdcInsar19 = {
 					};
 				});
 			}
+		}
+
+		// =================== ZONE CLASSIFICATION =================
+
+		else if (nextCategory === "zoneClassification") {
+
+			let zoneClassificationAreaTree = CommonSelect.app.getConfiguration(getState(), 'zoneClassification.areaTree');
+			let areaTreesAndLevels = CommonSelect.app.getConfiguration(getState(), 'areaTreesAndLevels');
+			let activePeriodKey = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(getState(), 'basePeriod');
+
+			if (zoneClassificationAreaTree && activePeriodKey) {
+
+				layers = [{
+					key: `szdcInsar19_${nextCategory}_${nextView}_${zoneClassificationAreaTree}`,
+					name: "Zone Classification",
+					areaTreeLevelKey: areaTreesAndLevels[zoneClassificationAreaTree],
+					styleKey: configuration.style,
+					attributeKeys: configuration.attributes || [configuration.attribute],
+					attributeMetadataModifiers: {
+						periodKey: activePeriodKey
+					},
+					options: {
+						selected: activeSelectionKey ? {[activeSelectionKey]: {}} : false,
+						hovered: {
+							style: hoveredStyle //TODO
+						},
+						// gidColumn: 'ID'// TODO still needed
+					}
+				}];
+
+			}
+
 		}
 
 
