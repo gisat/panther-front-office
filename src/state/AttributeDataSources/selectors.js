@@ -32,7 +32,6 @@ const getFilteredDataSources = createCachedSelector(
 				if (data && data.attributeData && data.attributeData.features) {
 					finalDataSource.data.features = data.attributeData.features.map(feature => {
 						return {
-							...feature,
 							properties: {
 								[dataSourceWithFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName],
 								[dataSourceWithFidColumn.fidColumnName]: feature.properties[dataSourceWithFidColumn.fidColumnName]
@@ -76,7 +75,6 @@ const getFilteredDataSourcesGroupedByLayerKey = createCachedSelector(
 						if (data && data.attributeData && data.attributeData.features) {
 							finalDataSource.data.features = data.attributeData.features.map(feature => {
 								return {
-									...feature,
 									properties: {
 										[dataSourceKeyAndFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName],
 										[dataSourceKeyAndFidColumn.fidColumnName]: feature.properties[dataSourceKeyAndFidColumn.fidColumnName]
