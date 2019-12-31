@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import createCachedSelector from "re-reselect";
 import commonSelectors from '../_common/selectors';
+import CacheFifo from "../../utils/CacheFifo";
+
+let mergeFeaturesWithAttributesCache = new CacheFifo(20);
 
 const getMergedFilterFromLayerStateAndActiveMetadataKeys = createCachedSelector(
 	[
@@ -112,7 +115,7 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index
 		}
 	} else if (type === 'vector' && features) {
 		if (attributeDataSources) {
-			features = mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName);
+			features = mergeFeaturesWithAttributes(layerKey, features, attributeDataSources, fidColumnName);
 		}
 
 		if (selections && layerOptions.selected) {
@@ -163,28 +166,40 @@ const prepareLayerByDataSourceType = (layerKey, dataSource, fidColumnName, index
 	};
 };
 
-function mergeFeaturesWithAttributes(features, attributeDataSources, fidColumnName) {
+function mergeFeaturesWithAttributes(layerKey, features, attributeDataSources, fidColumnName) {
+	let cacheKey = JSON.stringify(layerKey);
+	let cache = mergeFeaturesWithAttributesCache.findByKey(cacheKey);
+
 	let finalFeaturesObject = {};
-	features.forEach((feature) => {
-		let key = feature.properties[fidColumnName];
-		finalFeaturesObject[key] = feature;
-	});
+	if (cache && cache.features === features) {
+		finalFeaturesObject = cache.finalFeaturesObject;
+	} else {
+		features.forEach((feature) => {
+			let key = feature.properties[fidColumnName];
+			finalFeaturesObject[key] = {...feature};
+		});
+
+	}
 
 	attributeDataSources.forEach(attributeDataSource => {
 		let featuresWithAttributes = attributeDataSource.dataSource.data.features;
 		if (featuresWithAttributes) {
 			featuresWithAttributes.forEach(featureWithAttributes => {
 				let featureKey = featureWithAttributes.properties[fidColumnName];
-				finalFeaturesObject[featureKey] = {
-					...finalFeaturesObject[featureKey],
-					properties: {
-						...finalFeaturesObject[featureKey].properties,
-						...featureWithAttributes.properties
-					}
-				}
+
+				_.forIn(featureWithAttributes.properties, (value, key) => {
+					finalFeaturesObject[featureKey].properties[key] = value;
+				});
 			});
 		}
 	});
+
+	mergeFeaturesWithAttributesCache.addOrUpdate({
+		cacheKey,
+		features,
+		finalFeaturesObject
+	});
+
 
 	return Object.values(finalFeaturesObject);
 }
