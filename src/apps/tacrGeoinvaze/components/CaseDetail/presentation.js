@@ -20,6 +20,7 @@ import VodniMorKanadsky from "./cases/VodniMorKanadsky";
 import Zlatobyl from "./cases/Zlatobyl";
 import RakMramorovany from "./cases/RakMramorovany";
 import RakSignalni from "./cases/RakSignalni";
+import KorbikulaAsijska from "./cases/KorbikulaAsijska";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -40,6 +41,9 @@ const CaseDetail = props => {
 			break;
 		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
 			component = <Jelen/>;
+			break;
+		case 'b58af36a-473a-4ee5-8333-195cb791cc9a':
+			component = <KorbikulaAsijska/>;
 			break;
 		case 'da8924f1-3c73-485b-8e0f-acc0d6650e8d':
 			component = <Krab/>;
