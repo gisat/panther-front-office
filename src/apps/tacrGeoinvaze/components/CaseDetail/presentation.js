@@ -19,6 +19,7 @@ import VodniMorAmericky from "./cases/VodniMorAmericky";
 import VodniMorKanadsky from "./cases/VodniMorKanadsky";
 import Zlatobyl from "./cases/Zlatobyl";
 import RakMramorovany from "./cases/RakMramorovany";
+import RakSignalni from "./cases/RakSignalni";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -66,6 +67,9 @@ const CaseDetail = props => {
 			break;
 		case '07d06cdd-8d38-4a43-87f2-c7e819ff3670':
 			component = <RakMramorovany/>;
+			break;
+		case '572b2ddf-d8d7-4a5b-9a30-92cf2c1d42bc':
+			component = <RakSignalni/>;
 			break;
 		case 'ed135671-9da6-495e-91ad-ff305f849b94':
 			component = <VodniMorAmericky/>;
