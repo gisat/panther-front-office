@@ -10,6 +10,7 @@ import norekAmericky from "../assets/cases/norek-americky.jpg";
 import nutrieRicni from "../assets/cases/nutrie-ricni.jpg";
 import ondatraPizmova from "../assets/cases/ondatra-pizmova.jpg";
 import psikMyvalovity from "../assets/cases/psik-myvalovity.jpg";
+import rakMramorovany from "../assets/cases/rak-mramorovany.png";
 import vodniMorAmericky from "../assets/cases/vodni-mor-americky.jpg";
 import vodniMorKanadsky from "../assets/cases/vodni-mor-kanadsky.jpg";
 import zlatobylKanadsky from "../assets/cases/zlatobyl-kanadsky.jpg";
@@ -27,6 +28,7 @@ export default {
 	"fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf": nutrieRicni,
 	"edfdd933-86fe-4b08-ae20-cb77eeb6afbc": ondatraPizmova,
 	"2316b10f-b733-4e9b-958c-cc5bfd568735": psikMyvalovity,
+	"07d06cdd-8d38-4a43-87f2-c7e819ff3670": rakMramorovany,
 	"ed135671-9da6-495e-91ad-ff305f849b94": vodniMorAmericky,
 	"ae694a84-4fda-400b-bf26-b78b4484b516": vodniMorKanadsky,
 	"82acfc6b-5ebc-49a2-813a-76f1a85ef66c": zlatobylKanadsky
