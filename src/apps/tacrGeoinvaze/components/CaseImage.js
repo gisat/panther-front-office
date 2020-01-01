@@ -12,6 +12,7 @@ import nutrieRicni from "../assets/cases/nutrie-ricni.jpg";
 import ondatraPizmova from "../assets/cases/ondatra-pizmova.jpg";
 import psikMyvalovity from "../assets/cases/psik-myvalovity.jpg";
 import rakMramorovany from "../assets/cases/rak-mramorovany.png";
+import rakPruhovany from "../assets/cases/rak-pruhovany.png";
 import rakSignalni from "../assets/cases/rak-signalni.jpg";
 import skebliceAsijska from "../assets/cases/skeblice-asijska.jpg";
 import slavickaMnohotvarna from "../assets/cases/slavicka-mnohotvarna.jpg";
@@ -34,6 +35,7 @@ export default {
 	"fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf": nutrieRicni,
 	"edfdd933-86fe-4b08-ae20-cb77eeb6afbc": ondatraPizmova,
 	"2316b10f-b733-4e9b-958c-cc5bfd568735": psikMyvalovity,
+	"edb75be0-8f1d-46a2-b07a-af1874d88569": rakPruhovany,
 	"07d06cdd-8d38-4a43-87f2-c7e819ff3670": rakMramorovany,
 	"572b2ddf-d8d7-4a5b-9a30-92cf2c1d42bc": rakSignalni,
 	"73c6ee99-3a51-419a-b2f5-12ac2366dcd1": skebliceAsijska,
