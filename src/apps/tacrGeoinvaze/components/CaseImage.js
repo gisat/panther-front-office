@@ -17,6 +17,7 @@ import skebliceAsijska from "../assets/cases/skeblice-asijska.jpg";
 import slavickaMnohotvarna from "../assets/cases/slavicka-mnohotvarna.jpg";
 import vodniMorAmericky from "../assets/cases/vodni-mor-americky.jpg";
 import vodniMorKanadsky from "../assets/cases/vodni-mor-kanadsky.jpg";
+import zelvaNadherna from "../assets/cases/zelva-nadherna.jpg";
 import zlatobylKanadsky from "../assets/cases/zlatobyl-kanadsky.jpg";
 
 export default {
@@ -39,5 +40,6 @@ export default {
 	"102385c0-5a76-4b98-b429-a1aa42abb8d3": slavickaMnohotvarna,
 	"ed135671-9da6-495e-91ad-ff305f849b94": vodniMorAmericky,
 	"ae694a84-4fda-400b-bf26-b78b4484b516": vodniMorKanadsky,
+	"d435f0a6-0b8f-454e-905e-85c4dbc22288": zelvaNadherna,
 	"82acfc6b-5ebc-49a2-813a-76f1a85ef66c": zlatobylKanadsky
 };
