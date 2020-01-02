@@ -34,8 +34,14 @@ const szdcInsar19 = {
 		//initialize, load configuration for active view or abort
 		let layers;
 		let [nextCategory, nextView] = nextAppView.split('.');
+		let [currentCategory, currentView] = activeAppView.split('.');
 		let configuration = CommonSelect.app.getConfiguration(state, nextCategory + '.views.' + nextView);
 		if (!configuration) return null;
+		
+		// clear selection on category change
+		if (nextCategory !== currentCategory) {
+			//todo clear selection
+		}
 
 		//save active view if we got this far
 		dispatch(CommonAction.components.set('szdcInsar19_App', 'activeAppView', nextAppView));
