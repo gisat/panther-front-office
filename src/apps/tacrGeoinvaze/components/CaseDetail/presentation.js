@@ -30,6 +30,7 @@ import KolotocnikOzdobny from "./cases/KolotocnikOzdobny";
 import KomuleDavidova from "./cases/KomuleDavidova";
 import KridlatkaJaponska from "./cases/KridlatkaJaponska";
 import KridlatkaCeska from "./cases/KridlatkaCeska";
+import KridlatkaSachalinska from "./cases/KridlatkaSachalinska";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -71,6 +72,9 @@ const CaseDetail = props => {
 			break;
 		case 'da731426-75dd-4a00-9082-2debaa78aa75':
 			component = <KridlatkaJaponska/>;
+			break;
+		case '7e7d1899-dff3-4d75-af52-e913f744fdc5':
+			component = <KridlatkaSachalinska/>;
 			break;
 		case '87ce0a75-6769-405b-be0d-805eb116ac71':
 			component = <KustovniceCizi/>;
