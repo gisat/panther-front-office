@@ -34,7 +34,10 @@ class PointInfo extends React.PureComponent {
 	renderAttribute(data, index) {
 		let value = data.value;
 		if (typeof value === 'number') {
-			value = value.toFixed(3);
+			if (value && (value % 1) !== 0) {
+				value = value.toFixed(3);
+			}
+			value.toLocaleString();
 		}
 
 		return (

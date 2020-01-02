@@ -52,7 +52,7 @@ class MapPopup extends React.PureComponent {
 			let unit = attributeMetadata && attributeMetadata.data.unit;
 			let value = attributes[key];
 
-			if (value) {
+			if (value || value === 0) {
 				if (typeof value === 'number') {
 					if (value && (value % 1) !== 0) {
 						value = value.toFixed(2);
