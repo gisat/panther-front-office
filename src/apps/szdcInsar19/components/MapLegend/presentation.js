@@ -27,8 +27,8 @@ class MapLegend extends React.PureComponent {
 	render() {
 		const props = this.props;
 		let content = null;
-		if (props.activeAppView && props.activeAppView.startsWith('track')) {
-			content = this.renderTracksLegend();
+		if (props.activeAppView) {
+			content = this.renderLegend();
 		}
 		return (
 			<div className="szdcInsar19-legend-content">
@@ -37,9 +37,10 @@ class MapLegend extends React.PureComponent {
 		);
 	}
 
-	renderTracksLegend() {
+	renderLegend() {
 
 		const props = this.props;
+		const showTracks = props.activeAppView && props.activeAppView.startsWith('track');
 		let tracks, sizes, scale, classes, enumValues;
 
 		props.layers && props.layers.forEach(layer => {
@@ -50,10 +51,12 @@ class MapLegend extends React.PureComponent {
 			if (rules && rules[0] && rules[0].styles) {
 
 				// tracks
-				const shapeStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('shape'));
-				if (name && shapeStyle) {
-					tracks = tracks || [];
-					tracks.push({name, shapeStyle});
+				if (showTracks) {
+					const shapeStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('shape'));
+					if (name && shapeStyle) {
+						tracks = tracks || [];
+						tracks.push({name, shapeStyle});
+					}
 				}
 
 				//sizes
