@@ -86,6 +86,10 @@ class LargeDataLayer extends TiledImageLayer {
 			if (type === 'Point') {
 				props.centroid = feature.geometry.coordinates;
 				point = new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, props);
+			} else if (type==='MultiPoint') {
+				const coordinates = feature.geometry.coordinates[0];
+				props.centroid = coordinates;
+				point = new Point(coordinates[0] + 180, coordinates[1] + 90, props);
 			} else if (type === 'MultiPolygon') {
 				let centroid = turf.centroid(feature.geometry);
 				props.centroid = centroid.geometry.coordinates;
