@@ -60,7 +60,7 @@ const mapDispatchToPropsFactory = () => {
 	const componentId = 'SzdcInsar09MapPopup' + utils.randomString(6);
 
 	return (dispatch, ownProps) => {
-		let attributeKeys = getAttributeKeys(ownProps.data);
+		let attributeKeys = getAttributeKeys(ownProps.data, ownProps.fidColumnName);
 
 		return {
 			onMount: () => {

@@ -7,35 +7,27 @@ import CacheFifo from "../../../utils/CacheFifo";
 let trackTimeSerieChartCache = new CacheFifo(10);
 let pointInfoCache = new CacheFifo(10);
 
+const getActiveViewConfiguration = (state) => {
+	const activeAppView = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView');
+	const [category, viewKey] = activeAppView.split('.');
+	return CommonSelect.app.getConfiguration(state, category + '.views.' + viewKey) || null;
+};
+
 const getActiveViewConfigurationAttributes = createSelector(
 	[
-		(state) => CommonSelect.app.getConfiguration(state, 'track.views'),
-		(state) => CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView')
+		getActiveViewConfiguration
 	],
-	(views,activeView) => {
-		if (views && activeView) {
-			const [category, viewKey] = activeView.split('.');
-			const view = views[viewKey];
-			return view && view.attributes;
-		} else {
-			return null;
-		}
+	(view) => {
+		return view && view.attributes || null;
 	}
 );
 
 const getActiveViewConfigurationPeriod = createSelector(
 	[
-		(state) => CommonSelect.app.getConfiguration(state, 'track.views'),
-		(state) => CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView')
+		getActiveViewConfiguration
 	],
-	(views, activeView) => {
-		if (views && activeView) {
-			const [category, viewKey] = activeView.split('.');
-			const view = views[viewKey];
-			return view && view.period;
-		} else {
-			return null;
-		}
+	(view) => {
+		return view && view.period || null;
 	}
 );
 
