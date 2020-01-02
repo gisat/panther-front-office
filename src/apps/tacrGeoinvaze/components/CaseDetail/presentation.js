@@ -26,6 +26,7 @@ import SkebliceAsijska from "./cases/SkebliceAsijska";
 import ZelvaNadherna from "./cases/ZelvaNadherna";
 import KlejichaHedvabna from "./cases/KlejichaHedvabna";
 import KustovniceCizi from "./cases/KustovniceCizi";
+import KolotocnikOzdobny from "./cases/KolotocnikOzdobny";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -55,6 +56,9 @@ const CaseDetail = props => {
 			break;
 		case 'da8924f1-3c73-485b-8e0f-acc0d6650e8d':
 			component = <Krab/>;
+			break;
+		case '385e6a88-4dda-474f-81d0-700f8785d092':
+			component = <KolotocnikOzdobny/>;
 			break;
 		case '87ce0a75-6769-405b-be0d-805eb116ac71':
 			component = <KustovniceCizi/>;
