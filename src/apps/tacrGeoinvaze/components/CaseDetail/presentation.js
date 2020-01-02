@@ -29,6 +29,7 @@ import KustovniceCizi from "./cases/KustovniceCizi";
 import KolotocnikOzdobny from "./cases/KolotocnikOzdobny";
 import KomuleDavidova from "./cases/KomuleDavidova";
 import KridlatkaJaponska from "./cases/KridlatkaJaponska";
+import KridlatkaCeska from "./cases/KridlatkaCeska";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -53,17 +54,20 @@ const CaseDetail = props => {
 		case 'c445b9a9-a6a3-47a6-baf7-ca48a063cbcb':
 			component = <KlejichaHedvabna/>;
 			break;
+		case 'c91a552d-59a1-4531-886e-1de5cac3992c':
+			component = <KomuleDavidova/>;
+			break;
+		case '385e6a88-4dda-474f-81d0-700f8785d092':
+			component = <KolotocnikOzdobny/>;
+			break;
 		case 'b58af36a-473a-4ee5-8333-195cb791cc9a':
 			component = <KorbikulaAsijska/>;
 			break;
 		case 'da8924f1-3c73-485b-8e0f-acc0d6650e8d':
 			component = <Krab/>;
 			break;
-		case 'c91a552d-59a1-4531-886e-1de5cac3992c':
-			component = <KomuleDavidova/>;
-			break;
-		case '385e6a88-4dda-474f-81d0-700f8785d092':
-			component = <KolotocnikOzdobny/>;
+		case "71d1a171-4ff6-43ed-bb47-fc9a40767fad":
+			component = <KridlatkaCeska/>;
 			break;
 		case 'da731426-75dd-4a00-9082-2debaa78aa75':
 			component = <KridlatkaJaponska/>;

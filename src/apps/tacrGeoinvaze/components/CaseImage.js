@@ -8,6 +8,7 @@ import komlueDavidova from "../assets/cases/komule-davidova.jpg";
 import korbikulaAsijska from "../assets/cases/korbikula-asijska.jpg";
 import klejichaHedvabna from "../assets/cases/klejicha-hedvabna.jpg";
 import krabCinsky from "../assets/cases/krab-cinsky.jpg";
+import kridlatkaCeska from "../assets/cases/kridlatka-ceska.jpg";
 import kridlatkaJaponska from "../assets/cases/kridlatka-japonska.jpg";
 import kustovniceCizi from "../assets/cases/kustovnice-cizi.png";
 import muflonEvropsky from "../assets/cases/muflon-evropsky.png";
@@ -37,6 +38,7 @@ export default {
 	"c91a552d-59a1-4531-886e-1de5cac3992c": komlueDavidova,
 	"b58af36a-473a-4ee5-8333-195cb791cc9a": korbikulaAsijska,
 	"da8924f1-3c73-485b-8e0f-acc0d6650e8d": krabCinsky,
+	"71d1a171-4ff6-43ed-bb47-fc9a40767fad": kridlatkaCeska,
 	"da731426-75dd-4a00-9082-2debaa78aa75": kridlatkaJaponska,
 	"87ce0a75-6769-405b-be0d-805eb116ac71": kustovniceCizi,
 	"6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a": muflonEvropsky,
