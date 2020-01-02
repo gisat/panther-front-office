@@ -24,6 +24,7 @@ import KorbikulaAsijska from "./cases/KorbikulaAsijska";
 import SlavickaMnohotvarna from "./cases/SlavickaMnohotvarna";
 import SkebliceAsijska from "./cases/SkebliceAsijska";
 import ZelvaNadherna from "./cases/ZelvaNadherna";
+import KlejichaHedvabna from "./cases/KlejichaHedvabna";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -44,6 +45,9 @@ const CaseDetail = props => {
 			break;
 		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
 			component = <Jelen/>;
+			break;
+		case 'c445b9a9-a6a3-47a6-baf7-ca48a063cbcb':
+			component = <KlejichaHedvabna/>;
 			break;
 		case 'b58af36a-473a-4ee5-8333-195cb791cc9a':
 			component = <KorbikulaAsijska/>;

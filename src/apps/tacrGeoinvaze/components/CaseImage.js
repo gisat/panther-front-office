@@ -4,6 +4,7 @@ import blesivecVelkohrby from "../assets/cases/blesivec-velkohrby.jpg";
 import bolsevnikVelkolepy from "../assets/cases/bolsevnik-velkolepy.jpg";
 import jelenSika from "../assets/cases/jelen-sika.jpg";
 import korbikulaAsijska from "../assets/cases/korbikula-asijska.jpg";
+import klejichaHedvabna from "../assets/cases/klejicha-hedvabna.jpg";
 import krabCinsky from "../assets/cases/krab-cinsky.jpg";
 import muflonEvropsky from "../assets/cases/muflon-evropsky.png";
 import myvalSeverni from "../assets/cases/myval-severni.jpg";
@@ -27,6 +28,7 @@ export default {
 	"64dace45-50b4-4349-9ee1-e28bd747c78d": blesivecVelkohrby,
 	"58778990-b620-4765-bbfb-b4a727f6574d": bolsevnikVelkolepy,
 	"933cace6-cc31-49fc-9f0d-3f52ad4bb328": jelenSika,
+	"c445b9a9-a6a3-47a6-baf7-ca48a063cbcb": klejichaHedvabna,
 	"b58af36a-473a-4ee5-8333-195cb791cc9a": korbikulaAsijska,
 	"da8924f1-3c73-485b-8e0f-acc0d6650e8d": krabCinsky,
 	"6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a": muflonEvropsky,
