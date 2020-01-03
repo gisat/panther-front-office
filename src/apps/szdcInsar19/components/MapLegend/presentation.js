@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
+import mapStyles, {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
 import './style.scss';
 
 //todo utils?
@@ -41,7 +41,7 @@ class MapLegend extends React.PureComponent {
 
 		const props = this.props;
 		const showTracks = props.activeAppView && props.activeAppView.startsWith('track');
-		let tracks, sizes, scale, classes, enumValues;
+		let tracks, sizes, scale, classes, enumValues, arrowData;
 
 		props.layers && props.layers.forEach(layer => {
 
@@ -91,6 +91,29 @@ class MapLegend extends React.PureComponent {
 					};
 				}
 
+				// arrow
+				const baseStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('shape') && style.shape === 'circle-with-arrow');
+				const directionStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('attributeTransformation') && style.attributeTransformation.hasOwnProperty('arrowDirection'));
+				const lengthStyle = _.find(rules[0].styles, (style) => style.hasOwnProperty('attributeScale') && style.attributeScale.hasOwnProperty('arrowLength'));
+
+				if (baseStyle && (directionStyle || lengthStyle)) {
+					const attributeKey = directionStyle.attributeKey || lengthStyle.attributeKey;
+					const attribute = layer.attributes[attributeKey];
+
+
+					// format for utils/mapStyles
+					const styleDefinition = {rules: [{styles: [baseStyle, directionStyle, lengthStyle]}]};
+					const styleValues = [
+						{[attributeKey]: -10},
+						{[attributeKey]: 10}
+					];
+
+					arrowData = {
+						attribute,
+						styleDefinition,
+						styleValues
+					};
+				}
 
 			}
 
@@ -156,6 +179,24 @@ class MapLegend extends React.PureComponent {
 										<span>{formatInterval(styleClass.interval, styleClass.intervalBounds)}</span>
 									</div>
 								))}
+							</div>
+						</div>
+					)}
+
+					{arrowData && (
+						<div className="szdcInsar19-legend-section">
+							<span>{arrowData.attribute.data.nameDisplay}</span>
+							<div>
+								{arrowData.styleValues.map((value, index) => {
+									let style = mapStyles.getStyleObject(value, arrowData.styleDefinition);
+
+									return (
+										<div key={index} className="szdcInsar19-legend-item">
+											<div>{this.renderCircleWithArrow(style)}</div>
+											<span>{value[arrowData.attribute.key]}</span>
+										</div>
+									);
+								})}
 							</div>
 						</div>
 					)}
@@ -307,6 +348,23 @@ class MapLegend extends React.PureComponent {
 				<g transform={transformation}>
 					<rect width={size} height={size} style={svgStyle}/>
 				</g>
+			</svg>
+		);
+	}
+
+	renderCircleWithArrow(style) {
+		const circleSize = DEFAULT_SIZE;
+		const outlineWidth = style && style.outlineWidth || 1;
+		const circleStyle = this.getSvgStyle(style);
+
+		const direction = style.arrowDirection || 1;
+
+		let rectX = direction > 0 ? (circleSize + 2*outlineWidth  + style.arrowLength) : 0;
+
+		return (
+			<svg width={circleSize + 2*outlineWidth + 2*style.arrowLength} height={circleSize + 2*outlineWidth}>
+				<circle cx={circleSize/2 + outlineWidth  + style.arrowLength} cy={circleSize/2 + outlineWidth} r={circleSize/2} style={circleStyle}/>
+				<rect x={rectX} y={circleSize/2} width={style.arrowLength} height={style.arrowWidth} style={{fill: style.arrowColor}}/>
 			</svg>
 		);
 	}
