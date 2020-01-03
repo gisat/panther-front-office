@@ -21,14 +21,33 @@ class PointInfo extends React.PureComponent {
 		const props = this.props;
 		let featureKey = props.activeSelection &&  props.activeSelection.data &&  props.activeSelection.data.featureKeysFilter &&  props.activeSelection.data.featureKeysFilter.keys &&  props.activeSelection.data.featureKeysFilter.keys[0];
 
-		return (
-			this.props.data ? (
-				<div className="szdcInsar19-point-info">
-					<h3>{featureKey}</h3>
-					{this.props.data.map((attribute, index) => this.renderAttribute(attribute, index))}
-				</div>
-			) : null
-		);
+		if (this.props.data) {
+			if (_.isObject(this.props.data)) {
+				return (
+					<div className="szdcInsar19-point-info">
+						<h3>{featureKey}</h3>
+						<div>
+							<h4>selectedPeriod</h4>
+							{this.props.data.selectedPeriod && this.props.data.selectedPeriod.map((attribute, index) => this.renderAttribute(attribute, index))}
+						</div>
+						<div>
+							<h4>basePeriod</h4>
+							{this.props.data.basePeriod && this.props.data.basePeriod.map((attribute, index) => this.renderAttribute(attribute, index))}
+						</div>
+						
+					</div>
+				);
+			} else {
+				return (
+					<div className="szdcInsar19-point-info">
+						<h3>{featureKey}</h3>
+						{this.props.data.map((attribute, index) => this.renderAttribute(attribute, index))}
+					</div>
+				);
+			}
+		}
+		
+		return null;
 	}
 
 	renderAttribute(data, index) {

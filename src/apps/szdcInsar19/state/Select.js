@@ -82,7 +82,7 @@ const getPointInfoFilter = createSelector(
 			const selectedLayer = _.find(layers, layer => {return layer && layer.options && layer.options.selected && layer.options.selected.hasOwnProperty(activeSelectionKey)});
 
 			const [category, view] = activeAppView.split('.');
-			const attributesToShowKeys = config[category].attributesToShow;
+			const attributesToShowKeys = _.flatten(_.values(config[category].views[view].attributesToShow));
 
 			if (selectedLayer) {
 				areaTreeLevelKey = selectedLayer.areaTreeLevelKey;
@@ -160,6 +160,9 @@ const getDataForPointInfo = (state) => {
 			}
 
 			else {
+				let activeAppView = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView');
+				const [category, view] = activeAppView.split('.');
+				let attributesToShow = CommonSelect.app.getConfiguration(state, `${category}.views.${view}.attributesToShow`);
 				const attributeKeys = filter.attributeKey.in;
 				let dataForPointInfo = [];
 
@@ -198,6 +201,21 @@ const getDataForPointInfo = (state) => {
 					dataForPointInfo = sortedDataForPointInfo;
 				}
 
+				let ret;
+				if (dataForPointInfo.length && attributesToShow) {
+					ret = {};
+					_.each(attributesToShow, (attributeKeys, type) => {
+						let sortedDataForPointInfo = [];
+						attributeKeys.forEach(key => {
+							let data = _.find(dataForPointInfo, (point) => key === point.key);
+							if (data) {
+								sortedDataForPointInfo.push(data);
+							}
+						});
+						ret[type] = sortedDataForPointInfo;
+					});
+				}
+
 				trackTimeSerieChartCache.addOrUpdate({
 					cacheKey,
 					filter,
@@ -207,7 +225,7 @@ const getDataForPointInfo = (state) => {
 					attributes
 				});
 
-				return dataForPointInfo
+				return ret || dataForPointInfo;
 			}
 		} else {
 			return null;
