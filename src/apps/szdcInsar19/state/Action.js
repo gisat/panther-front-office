@@ -112,7 +112,7 @@ const szdcInsar19 = {
 					key: `szdcInsar19_${nextCategory}_${nextView}_${zoneClassificationAreaTree}`,
 					name: "Zone Classification",
 					areaTreeLevelKey: areaTreesAndLevels[zoneClassificationAreaTree],
-					styleKey: configuration.style,
+					styleKey: configuration.style[areaTreesAndLevels[zoneClassificationAreaTree]],
 					attributeKeys: configuration.attributes || [configuration.attribute],
 					attributeMetadataModifiers: {
 						periodKey: activePeriodKey
