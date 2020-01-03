@@ -359,12 +359,15 @@ class MapLegend extends React.PureComponent {
 
 		const direction = style.arrowDirection || 1;
 
-		let rectX = direction > 0 ? (circleSize + 2*outlineWidth  + style.arrowLength) : 0;
+		// hack to make arrow in map and legend similar
+		const arrowLength = style.arrowLength/2;
+
+		let rectX = direction > 0 ? (circleSize + 2*outlineWidth  + arrowLength) : 0;
 
 		return (
-			<svg width={circleSize + 2*outlineWidth + 2*style.arrowLength} height={circleSize + 2*outlineWidth}>
-				<circle cx={circleSize/2 + outlineWidth  + style.arrowLength} cy={circleSize/2 + outlineWidth} r={circleSize/2} style={circleStyle}/>
-				<rect x={rectX} y={circleSize/2} width={style.arrowLength} height={style.arrowWidth} style={{fill: style.arrowColor}}/>
+			<svg width={circleSize + 2*outlineWidth + 2*arrowLength} height={circleSize + 2*outlineWidth}>
+				<circle cx={circleSize/2 + outlineWidth  + arrowLength} cy={circleSize/2 + outlineWidth} r={circleSize/2} style={circleStyle}/>
+				<rect x={rectX} y={circleSize/2} width={arrowLength} height={style.arrowWidth} style={{fill: style.arrowColor}}/>
 			</svg>
 		);
 	}
