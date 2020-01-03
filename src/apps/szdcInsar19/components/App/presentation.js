@@ -7,6 +7,7 @@ import PantherSelect, {PantherSelectItem} from "../../../../components/common/at
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import MapPopup from "../MapPopup";
 import TrackTimeSerieChart from "../TrackTimeSerieChart";
+import ZoneClassificationTimeSerieChart from "../ZoneClassificationTimeSerieChart";
 import TrackSelect from "./components/TrackSelect";
 import PeriodSelect from "./components/PeriodSelect";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
@@ -136,9 +137,16 @@ class SzdcInsar19App extends React.PureComponent {
 								<PointInfo/>
 							</div>
 							<div className="szdcInsar19-detail-chart">
-								<TrackTimeSerieChart
-									currentAttributeKey={props.dAttribute}
-								/>
+								{category === "track" ? (
+									<TrackTimeSerieChart
+										currentAttributeKey={props.dAttribute}
+									/>
+								) : category === "zoneClassification" ? (
+									<ZoneClassificationTimeSerieChart
+										currentAttributeKey={props.dAttribute}
+									/>
+								) : null}
+
 							</div>
 						</div>
 						<div className="szdcInsar19-legend">
