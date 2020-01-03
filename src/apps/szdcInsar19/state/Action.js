@@ -203,17 +203,17 @@ const szdcInsar19 = {
 
 	zoneClassificationTimeSerieChartUse: (componentId, keys) => (dispatch, getState) => {
 		if (keys && keys.length) {
-			let zoneFilter = Select.specific.szdcInsar19.getTrackTimeSerieChartFilter(getState());
+			let zoneFilter = Select.specific.szdcInsar19.getZoneClassificationSerieChartFilter(getState());
 
-			dispatch(CommonAction.attributes.useKeys([zoneFilter.attributeKey], componentId));
+			dispatch(CommonAction.attributes.useKeys([zoneFilter.attributeKey.in], componentId));
 
 			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, zoneFilter, null, 1, 1000));
 			dispatch(CommonAction.attributeRelations.ensureIndexed(zoneFilter, null, 1, 1000)).then(() => {
 				/* Ensure data sources */
-				const relations = CommonSelect.attributeRelations.getFiltered(getState(), zoneFilter);
+				const relations = CommonSelect.attributeRelations.getIndexed(getState(), null, zoneFilter, null, 1, 100);
 				if (relations && relations.length) {
-					const dataSourcesKeys = relations.map(relation => relation.attributeDataSourceKey);
-					const periodKeys = relations.map(relation => relation.periodKey);
+					const dataSourcesKeys = relations.map(relation => relation.data.attributeDataSourceKey);
+					const periodKeys = relations.map(relation => relation.data.periodKey);
 
 					dispatch(CommonAction.periods.useKeys(periodKeys, componentId));
 
@@ -230,7 +230,7 @@ const szdcInsar19 = {
 								attributeDataSourceKey: {
 									in: dataSourceKeys
 								},
-								fidColumnName: relations[0].fidColumnName,
+								fidColumnName: relations[0].data.fidColumnName,
 								fid: {
 									in: keys
 								}

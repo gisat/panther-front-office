@@ -22,7 +22,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, ownProps) => {
 		return {
 			onPointsChange: (keys) => {
-				dispatch(Action.specific.szdcInsar19.trackTimeSerieChartUse(componentId, keys));
+				dispatch(Action.specific.szdcInsar19.zoneClassificationTimeSerieChartUse(componentId, keys));
 			}
 		}
 	}

@@ -106,7 +106,6 @@ const getPointInfoFilter = createSelector(
 	}
 );
 
-// TODO
 const getTrackTimeSerieChartFilter = createSelector(
 	[
 		CommonSelect.app.getCompleteConfiguration,
@@ -133,6 +132,42 @@ const getTrackTimeSerieChartFilter = createSelector(
 				return null;
 			}
 		}
+);
+
+const getZoneClassificationSerieChartFilter = createSelector(
+	[
+		CommonSelect.app.getCompleteConfiguration,
+		(state) => CommonSelect.maps.getMapLayersByMapKey(state, 'szdcInsar19'),
+		CommonSelect.selections.getActiveKey,
+	],
+	(config, layers, activeSelectionKey) => {
+		let areaTreeLevelKey = null;
+		if (layers && activeSelectionKey) {
+			const selectedLayer = _.find(layers, layer => {return layer && layer.options && layer.options.selected && layer.options.selected.hasOwnProperty(activeSelectionKey)});
+			if (selectedLayer) {
+				areaTreeLevelKey = selectedLayer.areaTreeLevelKey;
+			}
+		}
+
+		// TODO ????Correct areaTreeLevelKey and attributeKeys????
+		const trackConfiguration = config && config.zoneClassification.tracks;
+		const attributeKeys = [];
+		_.forIn(trackConfiguration, (track, key) => {
+			attributeKeys.push(track.idAttribute);
+		});
+
+
+		if (areaTreeLevelKey && attributeKeys.length) {
+			return {
+				areaTreeLevelKey,
+				attributeKey: {
+					in: attributeKeys
+				}
+			};
+		} else {
+			return null;
+		}
+	}
 );
 
 const getDataForPointInfo = (state) => {
@@ -337,49 +372,8 @@ const szdcInsar19 = {
 	getDataForPointInfo,
 	getDataForTrackTimeSerieChart,
 	getLayersForLegendByMapKey,
-	getActiveViewConfigurationPeriod
-
-
-	// probably obsolete
-	// getLayers: state => {
-	//
-	// 	//get active view, abort on same as last time or none
-	// 	let activeAppView = CommonSelect.components.get(state, 'szdcInsar19_App', 'activeAppView');
-	// 	if (!activeAppView || activeAppView === lastAppView) return null;
-	//
-	// 	//initialize, load configuration for active view or abort
-	// 	let layers;
-	// 	let [activeCategory, activeView] = activeAppView.split('.');
-	// 	let configuration = CommonSelect.app.getConfiguration(state, activeCategory + '.views.' + activeView);
-	// 	if (!configuration) return null;
-	//
-	// 	//save active view if we got this far
-	// 	lastAppView = activeAppView;
-	//
-	// 	if (activeCategory === "track") {
-	//
-	// 		let trackAreaTrees = CommonSelect.app.getConfiguration(state, 'track.areaTrees');
-	// 		let areaTreesAndLevels = CommonSelect.app.getConfiguration(state, 'areaTreesAndLevels');
-	//
-	// 		//find active tracks
-	// 		let activeTrackKeys = ["a34ed54f-c9ef-429b-a86e-11f1f20c94be"];
-	// 		//add a layer for each
-	// 		layers = activeTrackKeys.map(activeTrackKey => {
-	// 			return {
-	// 				key: `szdcInsar19_${activeCategory}_${activeView}_${activeTrackKey}`,
-	// 				areaTreeLevelKey: areaTreesAndLevels[activeTrackKey],
-	// 				styleKey: configuration.style[areaTreesAndLevels[activeTrackKey]],
-	// 				attributeKeys: configuration.attributes || [configuration.attribute]
-	// 			};
-	// 		});
-	// 	}
-	//
-	// 	layers = CommonSelect.maps.getLayers(state, layers); // todo fix first
-	//
-	// 	return layers;
-	//
-	// }
-
+	getActiveViewConfigurationPeriod,
+	getZoneClassificationSerieChartFilter
 };
 
 export default {
