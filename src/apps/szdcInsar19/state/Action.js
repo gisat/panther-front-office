@@ -201,6 +201,54 @@ const szdcInsar19 = {
 		}
 	},
 
+	zoneClassificationTimeSerieChartUse: (componentId, keys) => (dispatch, getState) => {
+		if (keys && keys.length) {
+			let zoneFilter = Select.specific.szdcInsar19.getTrackTimeSerieChartFilter(getState());
+
+			dispatch(CommonAction.attributes.useKeys([zoneFilter.attributeKey], componentId));
+
+			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, zoneFilter, null, 1, 1000));
+			dispatch(CommonAction.attributeRelations.ensureIndexed(zoneFilter, null, 1, 1000)).then(() => {
+				/* Ensure data sources */
+				const relations = CommonSelect.attributeRelations.getFiltered(getState(), zoneFilter);
+				if (relations && relations.length) {
+					const dataSourcesKeys = relations.map(relation => relation.attributeDataSourceKey);
+					const periodKeys = relations.map(relation => relation.periodKey);
+
+					dispatch(CommonAction.periods.useKeys(periodKeys, componentId));
+
+					dispatch(CommonAction.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
+						const dataSources = CommonSelect.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
+						if (dataSources) {
+							let dataSourceKeys = [];
+							dataSources.forEach(dataSource => {
+								dataSourceKeys.push(dataSource.key);
+							});
+
+							// TODO fidColumnName!!!
+							const filter = {
+								attributeDataSourceKey: {
+									in: dataSourceKeys
+								},
+								fidColumnName: relations[0].fidColumnName,
+								fid: {
+									in: keys
+								}
+							};
+							dispatch(CommonAction.attributeData.useIndexed(null, filter, null, 1, 1, componentId)).then(() => {
+
+								//todo the magic
+								const bzzz = CommonSelect.attributeData;
+
+							});
+
+						}
+					});
+				}
+			});
+		}
+	},
+
 	pointInfoUse: (componentId, keys) => (dispatch, getState) => {
 		if (keys && keys.length) {
 			let filter = Select.specific.szdcInsar19.getPointInfoFilter(getState());
