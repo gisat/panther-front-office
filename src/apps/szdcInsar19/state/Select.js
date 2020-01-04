@@ -136,6 +136,30 @@ const getTrackTimeSerieChartFilter = createSelector(
 
 const getZoneClassificationSerieChartFilter = createSelector(
 	[
+		CommonSelect.app.getCompleteConfiguration
+	],
+	(config) => {
+		const trackConfiguration = config && config.zoneClassification.tracks;
+		const generalTrackConfig = config && config.track;
+		let areaTreeKeys = [];
+		_.forIn(trackConfiguration, (track) => areaTreeKeys.push(track.areaTree));
+
+		if (areaTreeKeys.length && generalTrackConfig) {
+			const areaTreeLevelKeys = areaTreeKeys.map(areaTreeKey => config.areaTreesAndLevels[areaTreeKey]);
+			return {
+				areaTreeLevelKey: {
+					in: areaTreeLevelKeys
+				},
+				attributeKey: generalTrackConfig.mAttribute
+			};
+		} else {
+			return null;
+		}
+	}
+);
+
+const getZoneClassificationSerieChartFeaturesFilter = createSelector(
+	[
 		CommonSelect.app.getCompleteConfiguration,
 		(state) => CommonSelect.maps.getMapLayersByMapKey(state, 'szdcInsar19'),
 		CommonSelect.selections.getActiveKey,
@@ -149,7 +173,6 @@ const getZoneClassificationSerieChartFilter = createSelector(
 			}
 		}
 
-		// TODO ????Correct areaTreeLevelKey and attributeKeys????
 		const trackConfiguration = config && config.zoneClassification.tracks;
 		const attributeKeys = [];
 		_.forIn(trackConfiguration, (track, key) => {
@@ -363,6 +386,51 @@ const getDataForTrackTimeSerieChart = (state) => {
 	}
 };
 
+const getFeatureIdsForZoneClassificationChart = (state) => {
+	// prepare filter
+	let filter = getZoneClassificationSerieChartFeaturesFilter(state);
+	if (filter) {
+
+		// get filtered data sources with data
+		const dataSources = CommonSelect.attributeDataSources.getFilteredDataSources(state, filter);
+		if (dataSources) {
+
+			// select fids
+			let allFids = [];
+			let fidsByTrack = {};
+
+			dataSources.forEach(item => {
+				const data = item.dataSource.data;
+				const trackName = data.columnName.split("_")[1];
+
+				data.features.forEach(feature => {
+					let fidsString = feature.properties[item.attributeKey];
+					if (fidsString) {
+						const fids = fidsString.split(" ");
+
+						allFids = [...allFids, ...fids];
+						if (fidsByTrack[trackName]) {
+							fidsByTrack[trackName] = [...fidsByTrack[trackName], ...fids];
+						} else {
+							fidsByTrack[trackName] = fids;
+						}
+					}
+				});
+			});
+
+			return {
+				fidsByTrack,
+				allFids
+			}
+		} else {
+			return null;
+		}
+	} else {
+		return null;
+	}
+
+};
+
 
 let lastAppView = null; //let's call this caching
 const szdcInsar19 = {
@@ -375,7 +443,11 @@ const szdcInsar19 = {
 	getDataForTrackTimeSerieChart,
 	getLayersForLegendByMapKey,
 	getActiveViewConfigurationPeriod,
-	getZoneClassificationSerieChartFilter
+
+	getZoneClassificationSerieChartFilter,
+	getZoneClassificationSerieChartFeaturesFilter,
+
+	getFeatureIdsForZoneClassificationChart
 };
 
 export default {
