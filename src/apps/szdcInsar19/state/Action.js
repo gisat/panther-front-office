@@ -205,7 +205,7 @@ const szdcInsar19 = {
 		if (keys && keys.length) {
 			let zoneFilter = Select.specific.szdcInsar19.getZoneClassificationSerieChartFilter(getState());
 
-			dispatch(CommonAction.attributes.useKeys([zoneFilter.attributeKey.in], componentId));
+			dispatch(CommonAction.attributes.useKeys(zoneFilter.attributeKey.in, componentId));
 
 			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, zoneFilter, null, 1, 1000));
 			dispatch(CommonAction.attributeRelations.ensureIndexed(zoneFilter, null, 1, 1000)).then(() => {

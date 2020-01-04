@@ -156,13 +156,15 @@ const getZoneClassificationSerieChartFilter = createSelector(
 			attributeKeys.push(track.idAttribute);
 		});
 
+		const periodKey = config.basePeriod;
 
 		if (areaTreeLevelKey && attributeKeys.length) {
 			return {
 				areaTreeLevelKey,
 				attributeKey: {
 					in: attributeKeys
-				}
+				},
+				periodKey
 			};
 		} else {
 			return null;
