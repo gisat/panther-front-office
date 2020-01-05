@@ -68,7 +68,8 @@ const szdcInsar19 = {
 
 			//find active tracks
 			let activeTrackKeys = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activeTracks') || trackAreaTrees && [trackAreaTrees[0]];
-			let activePeriodKey = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activePeriod') || CommonSelect.app.getConfiguration(getState(), 'basePeriod');
+			let basePeriod = CommonSelect.app.getConfiguration(getState(), 'basePeriod');
+			let activePeriodKey = CommonSelect.components.get(getState(), 'szdcInsar19_App', 'activePeriod') || basePeriod;
 
 			let areaTrees = CommonSelect.areas.areaTrees.getAllAsObject(getState());
 
@@ -86,6 +87,10 @@ const szdcInsar19 = {
 						attributeMetadataModifiers: {
 							periodKey: activePeriodKey
 						},
+						// TODO
+						// metadataModifiers: {
+						// 	periodKey: basePeriod
+						// },
 						options: {
 							selected: activeSelectionKey ? {[activeSelectionKey]: {}} : false,
 							hovered: {

@@ -386,6 +386,11 @@ const getDataForTrackTimeSerieChart = (state) => {
 	}
 };
 
+
+const getDataForZoneClassificationTimeSerieChart = (state) => {
+	// TODO
+};
+
 const getFeatureIdsForZoneClassificationChart = (state) => {
 	// prepare filter
 	let filter = getZoneClassificationSerieChartFeaturesFilter(state);
@@ -441,6 +446,7 @@ const szdcInsar19 = {
 	getPointInfoFilter,
 	getDataForPointInfo,
 	getDataForTrackTimeSerieChart,
+	getDataForZoneClassificationTimeSerieChart,
 	getLayersForLegendByMapKey,
 	getActiveViewConfigurationPeriod,
 

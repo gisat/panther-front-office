@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
 		activePeriod: Select.periods.getActive(state),
 		activeSelection: Select.selections.getActive(state),
 		currentAttribute: Select.attributes.getByKey(state, ownProps.currentAttributeKey),
-		data: Select.specific.szdcInsar19.getDataForTrackTimeSerieChart(state)
+		data: Select.specific.szdcInsar19.getDataForZoneClassificationTimeSerieChart(state)
 	}
 };
 
