@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.components.set('szdcInsar19_App', 'activePeriod', key));
 			dispatch(Action.specific.szdcInsar19.changeAppView());
 			dispatch(Action.periods.setActiveKey(key));
+			dispatch(Action.specific.szdcInsar19.checkDataForPointInfoOnPeriodChange('szdcInsar19_PeriodSelect'));
 		},
 		onMount: () => {
 			dispatch(Action.periods.useKeys(ownProps.periodKeys, 'szdcInsar19_PeriodSelect'));

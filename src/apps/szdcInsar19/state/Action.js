@@ -2,6 +2,7 @@ import CommonAction from '../../../state/Action';
 import CommonSelect from "../../../state/Select";
 import Select from "./Select";
 import _ from 'lodash';
+import {getState} from "../../../__testUtils/sampleStates/_common";
 
 const hoveredStyle = {
 	"rules":[
@@ -17,6 +18,45 @@ const hoveredStyle = {
 			]
 		}
 	]
+};
+
+const pointInfoUse = (componentId, keys) => (dispatch, getState) => {
+	if (keys && keys.length) {
+		let filter = Select.specific.szdcInsar19.getPointInfoFilter(getState());
+
+		dispatch(CommonAction.attributes.useKeys(filter.attributeKey.in, componentId));
+		dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, filter, null, 1, 1000));
+		dispatch(CommonAction.attributeRelations.ensureIndexed(filter, null, 1, 1000)).then(() => {
+			/* Ensure data sources */
+			const relations = CommonSelect.attributeRelations.getIndexed(getState(), null, filter, null, 1, 2000);
+			if (relations && relations.length) {
+				const dataSourcesKeys = relations.map(relation => relation.data.attributeDataSourceKey);
+
+				dispatch(CommonAction.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
+					const dataSources = CommonSelect.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
+					if (dataSources) {
+						let dataSourceKeys = [];
+						dataSources.forEach(dataSource => {
+							dataSourceKeys.push(dataSource.key);
+						});
+
+						// TODO fidColumnName!!!
+						const filter = {
+							attributeDataSourceKey: {
+								in: dataSourceKeys
+							},
+							fidColumnName: relations[0].data.fidColumnName,
+							fid: {
+								in: keys
+							}
+						};
+						dispatch(CommonAction.attributeData.useIndexed(null, filter, null, 1, 1, componentId));
+
+					}
+				});
+			}
+		});
+	}
 };
 
 const szdcInsar19 = {
@@ -298,42 +338,18 @@ const szdcInsar19 = {
 		}
 	},
 
-	pointInfoUse: (componentId, keys) => (dispatch, getState) => {
-		if (keys && keys.length) {
-			let filter = Select.specific.szdcInsar19.getPointInfoFilter(getState());
+	pointInfoUse,
 
-			dispatch(CommonAction.attributes.useKeys(filter.attributeKey.in, componentId));
-			dispatch(CommonAction.attributeRelations.useIndexedRegister(componentId, null, filter, null, 1, 1000));
-			dispatch(CommonAction.attributeRelations.ensureIndexed(filter, null, 1, 1000)).then(() => {
-				/* Ensure data sources */
-				const relations = CommonSelect.attributeRelations.getIndexed(getState(), null, filter, null, 1, 2000);
-				if (relations && relations.length) {
-					const dataSourcesKeys = relations.map(relation => relation.data.attributeDataSourceKey);
+	checkDataForPointInfoOnPeriodChange: (componentId) => (dispatch, getState) => {
+		const activeSelection = CommonSelect.selections.getActive(getState());
+		const activePeriodKey = CommonSelect.periods.getActiveKey(getState());
+		const basePeriodKey = CommonSelect.app.getConfiguration(getState(), 'basePeriod');
 
-					dispatch(CommonAction.attributeDataSources.useKeys(dataSourcesKeys, componentId)).then(() => {
-						const dataSources = CommonSelect.attributeDataSources.getByKeys(getState(), dataSourcesKeys);
-						if (dataSources) {
-							let dataSourceKeys = [];
-							dataSources.forEach(dataSource => {
-								dataSourceKeys.push(dataSource.key);
-							});
-
-							// TODO fidColumnName!!!
-							const filter = {
-								attributeDataSourceKey: {
-									in: dataSourceKeys
-								},
-								fidColumnName: relations[0].data.fidColumnName,
-								fid: {
-									in: keys
-								}
-							};
-							dispatch(CommonAction.attributeData.useIndexed(null, filter, null, 1, 1, componentId));
-
-						}
-					});
-				}
-			});
+		if (basePeriodKey && activePeriodKey && activePeriodKey === basePeriodKey && activeSelection) {
+			const featureKeys = activeSelection.data && activeSelection.data.featureKeysFilter && activeSelection.data.featureKeysFilter.keys;
+			if (featureKeys) {
+				dispatch(pointInfoUse(componentId, featureKeys));
+			}
 		}
 	}
 };
