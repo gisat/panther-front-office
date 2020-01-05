@@ -136,18 +136,13 @@ class SzdcInsar19App extends React.PureComponent {
 							<div className="szdcInsar19-detail-info">
 								<PointInfo/>
 							</div>
-							<div className="szdcInsar19-detail-chart">
-								{category === "track" ? (
+							{category === "track" ? (
+								<div className="szdcInsar19-detail-chart">
 									<TrackTimeSerieChart
 										currentAttributeKey={props.dAttribute}
 									/>
-								) : category === "zoneClassification" ? (
-									<ZoneClassificationTimeSerieChart
-										currentAttributeKey={props.dAttribute}
-									/>
-								) : null}
-
-							</div>
+								</div>
+							) : null}
 						</div>
 						<div className="szdcInsar19-legend">
 							<MapLegend
