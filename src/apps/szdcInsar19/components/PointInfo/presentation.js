@@ -21,7 +21,7 @@ class PointInfo extends React.PureComponent {
 		const props = this.props;
 		let featureKey = props.activeSelection &&  props.activeSelection.data &&  props.activeSelection.data.featureKeysFilter &&  props.activeSelection.data.featureKeysFilter.keys &&  props.activeSelection.data.featureKeysFilter.keys[0];
 
-		if (this.props.data) {
+		if (this.props.data && this.props.activeSelection) {
 			if (_.isObject(this.props.data)) {
 				return (
 					<div className="szdcInsar19-point-info">

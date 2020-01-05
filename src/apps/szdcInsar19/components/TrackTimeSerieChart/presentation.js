@@ -54,7 +54,7 @@ class TrackTimeSerieChart extends React.PureComponent {
 			}
 		}
 
-		if (this.props.data) {
+		if (this.props.data && this.props.activeSelection) {
 			return (
 				<HoverHandler>
 					<div className="szdcInsar19-chart-container track-time-serie">
