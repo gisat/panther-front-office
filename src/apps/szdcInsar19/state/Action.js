@@ -42,7 +42,7 @@ const szdcInsar19 = {
 		if (activeAppView) {
 			let [currentCategory, currentView] = activeAppView.split('.');
 			if (nextCategory !== currentCategory) {
-				//todo clear selection
+				//clear selection
 				dispatch(CommonAction.selections.setActiveKey(null));
 			}
 		}
