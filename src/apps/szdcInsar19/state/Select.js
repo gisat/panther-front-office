@@ -243,6 +243,7 @@ const getDataForPointInfo = (state) => {
 									name: attributeMetadata.nameDisplay,
 									unit: attributeMetadata.unit,
 									description: attributeMetadata.description,
+									nameInternal: attributeMetadata.nameInternal,
 									value
 								});
 							});
