@@ -150,7 +150,7 @@ const getZoneClassificationSerieChartFilter = createSelector(
 				areaTreeLevelKey: {
 					in: areaTreeLevelKeys
 				},
-				attributeKey: generalTrackConfig.mAttribute
+				attributeKey: generalTrackConfig.sAttribute
 			};
 		} else {
 			return null;
