@@ -253,6 +253,10 @@ class CartesianCharts extends React.PureComponent {
 								name: "inputValueFormat",
 								type: "string",
 								description: <>Time format which should be used for parsing input data. Use if source data for time are not in ISO 8601 date and time format (2000-12-31T07:02:44). Currently implemented for <b>line charts only</b>. Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
+							},{
+								name: "timeValueLanguage",
+								type: "string",
+								description: <>Languge used for time values. Possible values 'en' (default) or 'cs'. Other languages are possible, but not implemented yet.</>
 							}]
 						}, {
 							name: "xTicks",

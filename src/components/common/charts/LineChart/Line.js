@@ -246,14 +246,26 @@ class Line extends React.PureComponent {
 	}
 
 	renderPopupContentWithTime (timeString, pointValue, units) {
+		const props = this.props;
 		let time = timeString;
-		if (this.props.xOptions) {
-			if (this.props.xOptions.inputValueFormat) {
-				timeString = moment(timeString, this.props.xOptions.inputValueFormat).toDate();
+
+		if (props.xOptions) {
+			if (props.xOptions.inputValueFormat) {
+				timeString = moment(timeString, props.xOptions.inputValueFormat).toDate();
 			}
 
-			if (this.props.xOptions.popupValueFormat) {
-				time = moment(timeString).format(this.props.xOptions.popupValueFormat);
+			if (props.xScaleType === "time") {
+				let momentTime = moment(timeString);
+				if (props.xOptions.timeValueLanguage) {
+					momentTime = momentTime.locale(props.xOptions.timeValueLanguage)
+				}
+
+				if (props.xOptions.popupValueFormat) {
+					momentTime = momentTime.format(props.xOptions.popupValueFormat);
+				} else {
+					momentTime = momentTime.format();
+				}
+				time = momentTime;
 			}
 		}
 

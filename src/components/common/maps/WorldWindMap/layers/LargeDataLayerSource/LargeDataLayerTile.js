@@ -20,22 +20,35 @@
  * @param options.intensityGradient {Object} Keys represent the opacity between 0 and 1 and the values represent
  *  color strings.
  */
-import mapStyles from "../../../../../../utils/mapStyles";
+import mapStyles, {DEFAULT_SIZE} from "../../../../../../utils/mapStyles";
 import shapes from "./canvasShapes";
-
-const DEFAULT_SIZE = 5;
+import _ from "lodash";
 
 class LargeDataLayerTile {
 
-	constructor(data, options, style, gidColumn, hovered) {
+	constructor(data, options, style, fidColumnName, selected, hovered) {
 		this._data = data;
 		this._style = style;
-		this._gidColumn = gidColumn;
+		this._fidColumnName = fidColumnName;
 		this._hovered = hovered;
 
 		// todo here?
 		if (this._hovered && this._hovered.keys) {
 			this._hoveredStyle = mapStyles.getStyleObject(null, this._hovered.style, true); // todo add default
+		}
+
+		if (selected && !_.isEmpty(selected)) {
+			let sel = [];
+			_.forIn(selected, (selectedDef) => {
+				if (selectedDef && !_.isEmpty(selectedDef)) {
+					sel.push({
+						keys: selectedDef.keys,
+						style: mapStyles.getStyleObject(null, selectedDef.style, true) // todo add default
+					});
+				}
+			});
+
+			this._selected = sel.length ? sel : null;
 		}
 
 		this._sector = options.sector;
@@ -73,25 +86,75 @@ class LargeDataLayerTile {
 	 */
 	draw() {
 		const ctx = this._canvas.getContext('2d');
+		let hovered = [];
+		let selected = [];
 
 		for (let i = 0; i < this._data.length; i++) {
 			const dataPoint = this._data[i];
-			this.shape(ctx, dataPoint);
+			const attributes = dataPoint.data;
+
+			let isHovered = this.isHovered(attributes);
+			let isSelected = this.isSelected(attributes);
+
+			if (isSelected) {
+				selected.push(dataPoint);
+			} else if (isHovered) {
+				hovered.push(dataPoint);
+			} else {
+				this.shape(ctx, dataPoint);
+			}
 		}
+
+		// draw hovered
+		hovered.forEach(dataPoint => {
+			this.shape(ctx, dataPoint, true);
+		});
+
+		// draw selected
+		selected.forEach(dataPoint => {
+			this.shape(ctx, dataPoint, false, true);
+		});
 
 		return this._canvas;
 	};
 
-	shape(context, data) {
+	isHovered(attributes) {
+		if (this._hovered && this._hovered.keys) {
+			return this._hovered.keys.indexOf(attributes[this._fidColumnName]) !== -1;
+		}
+	}
+
+	isSelected(attributes) {
+		let isSelected = false;
+		if (this._selected) {
+			this._selected.forEach(selection => {
+				let selected = selection.keys.indexOf(attributes[this._fidColumnName]) !== -1;
+				if (selected) {
+					isSelected = true;
+				}
+			});
+		}
+		return isSelected;
+	}
+
+	shape(context, data, hovered, selected) {
 		let attributes = data.data;
 		let style = mapStyles.getStyleObject(attributes, this._style);
 
 		// apply hovered style, if feature is hovered
-		if (this._hovered && this._hovered.keys) {
-			let hovered = this._hovered.keys.indexOf(attributes[this._gidColumn]) !== -1;
-			if (hovered) {
-				style = {...style, ...this._hoveredStyle};
-			}
+		if (hovered) {
+			style = {...style, ...this._hoveredStyle};
+		}
+
+		// TODO optimize looping through selections two times
+		// apply selected style, if feature is selected
+		if (selected) {
+			this._selected.forEach(selection => {
+				let selected = selection.keys.indexOf(attributes[this._fidColumnName]) !== -1;
+				if (selected) {
+					style = {...style, ...selection.style};
+				}
+			});
 		}
 
 		if (style.shape) {
@@ -114,7 +177,7 @@ class LargeDataLayerTile {
 	}
 
 	point(context, data, style) {
-		let radius = this.getSize(style);
+		let radius = this.getSize(style)/2;
 		let center = this.getCenterCoordinates(data);
 		let cy = radius;
 		let cx = radius * this._latitudeFactor;
@@ -123,15 +186,15 @@ class LargeDataLayerTile {
 	}
 
 	square(context, data, style) {
-		let size = 2 * this.getSize(style);
+		let size = this.getSize(style);
 		let center = this.getCenterCoordinates(data);
 		let dx = size * this._latitudeFactor;
 
-		shapes.rectangle(context, center[0], center[1], dx, size, style);
+		shapes.rectangle(context, center[0] - dx/2, center[1] - size/2, dx, size, style);
 	}
 
 	diamond(context, data, style) {
-		let edgeLength = 2 * this.getSize(style);
+		let edgeLength = this.getSize(style);
 		let diagonalLength = Math.sqrt(2) * edgeLength;
 
 		// center coordinates
@@ -150,7 +213,7 @@ class LargeDataLayerTile {
 	}
 
 	triangle(context, data, style) {
-		let edgeLength = 2 * this.getSize(style);
+		let edgeLength = this.getSize(style);
 		let ty = Math.sqrt(Math.pow(edgeLength, 2) - Math.pow(edgeLength/2, 2));
 
 		// center coordinates
@@ -168,7 +231,7 @@ class LargeDataLayerTile {
 	}
 
 	circleWithArrow(context, data, style) {
-		let radius = this.getSize(style);
+		let radius = this.getSize(style)/2;
 		let direction = style.arrowDirection || 1;
 
 		let center = this.getCenterCoordinates(data);

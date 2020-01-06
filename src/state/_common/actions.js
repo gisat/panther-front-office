@@ -274,7 +274,7 @@ function receiveIndexed(actionTypes, result, dataType, filter, order, start) {
 		return dispatch => {
 			// add data to store
 			if (result.data[dataType].length){
-				dispatch(actionAdd(actionTypes, result.data[dataType]));
+				dispatch(actionAdd(actionTypes, result.data[dataType], filter));
 			}
 
 			// add to index
@@ -769,9 +769,9 @@ function action(actionTypes, type, payload) {
 	return {...payload, type: actionTypes};
 }
 
-function actionAdd(actionTypes, data) {
+function actionAdd(actionTypes, data, filter) {
 	if (!_.isArray(data)) data = [data];
-	return action(actionTypes, 'ADD', {data});
+	return action(actionTypes, 'ADD', {data, filter});
 }
 
 function actionAddBatch(actionTypes, data, key) {

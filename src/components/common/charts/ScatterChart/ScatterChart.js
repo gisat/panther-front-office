@@ -30,6 +30,9 @@ class ScatterChart extends React.PureComponent {
 		isSerie: PropTypes.bool,
 		itemNameSourcePath: PropTypes.string, // only if serie
 
+		// TODO add to docs
+		pointSymbol: PropTypes.string,
+
 		zSourcePath: PropTypes.string,
 		zOptions: PropTypes.object
 	};
@@ -114,6 +117,16 @@ class ScatterChart extends React.PureComponent {
 
 			if (props.yOptions && (props.yOptions.max || props.yOptions.max === 0)) {
 				yMax = props.yOptions.max;
+			}
+
+			// apply diversion value to extreme values
+			let diversionValue = props.diverging && props.yOptions && props.yOptions.diversionValue || 0;
+			if (yMin > diversionValue) {
+				yMin = diversionValue;
+			}
+
+			if (yMax < diversionValue) {
+				yMax = diversionValue;
 			}
 
 
@@ -224,7 +237,6 @@ class ScatterChart extends React.PureComponent {
 	}
 
 	renderPoint(key, item, x, y, z, color, name, index, siblings) {
-		console.log("Point", x);
 		return (
 			<Point
 				key={key + '-' + index}
@@ -244,6 +256,7 @@ class ScatterChart extends React.PureComponent {
 				color={color}
 				siblings={siblings}
 				standalone
+				symbol={this.props.pointSymbol}
 			/>
 		);
 	}

@@ -11,8 +11,11 @@ import mapHelpers from './helpers';
 import commonSelectors from "../_common/selectors";
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
+import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
 import AppSelectors from '../App/selectors';
 import {defaultMapView} from "../../constants/Map";
+import StylesSelectors from "../Styles/selectors";
+import SelectionsSelectors from "../Selections/selectors";
 
 let getBackgroundLayerCache = new CacheFifo(10);
 let getLayersCache = new CacheFifo(10);
@@ -63,6 +66,14 @@ const getMapByKey = createCachedSelector(
 		}
 	}
 )((state, key) => key);
+
+
+const getMapLayersByMapKey = createSelector(
+	[getMapByKey],
+	(map) => {
+		return map && map.data && map.data.layers || null;
+	}
+);
 
 
 
@@ -519,7 +530,7 @@ const getBackgroundLayer = (state, layerState) => {
 				if (cache && cache.layersWithFilter === layersWithFilter && cache.layerDataSources === layerDataSources) {
 					return cache.mapLayers;
 				} else {
-					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSource, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSourceWithFidColumn, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSourceWithFidColumn.dataSource, dataSourceWithFidColumn.fidColumnName, index));
 
 					getBackgroundLayerCache.addOrUpdate({
 						cacheKey,
@@ -559,6 +570,9 @@ const getLayers = (state, layersState) => {
 
 	if (layersWithFilter && layersWithFilter.length) {
 		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+		let attributeDataSourcesByLayerKey = AttributeDataSourcesSelectors.getFilteredDataSourcesGroupedByLayerKey(state, layersWithFilter, layersState);
+		let stylesByLayerKey = StylesSelectors.getGroupedByLayerKey(state, layersState);
+		let selections = SelectionsSelectors.getAllAsObject(state);
 		
 		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
 			let mapLayers = [];
@@ -566,14 +580,25 @@ const getLayers = (state, layersState) => {
 			let cacheKey = JSON.stringify(layersWithFilter);
 			let cache = getLayersCache.findByKey(cacheKey);
 			
-			if (cache && cache.layersWithFilter === layersWithFilter && cache.dataSourcesByLayerKey === dataSourcesByLayerKey) {
+			if (cache
+				&& cache.layersWithFilter === layersWithFilter
+				&& cache.dataSourcesByLayerKey === dataSourcesByLayerKey
+				&& cache.stylesByLayerKey === stylesByLayerKey
+				&& cache.attributeDataSourcesByLayerKey === attributeDataSourcesByLayerKey
+				&& cache.selections === selections
+			) {
 				return cache.mapLayers;
 			} else {
 				layersState.forEach((layerState) => {
 					let layerKey = layerState.key;
 					let dataSources = dataSourcesByLayerKey[layerKey];
+					let attributeDataSources = attributeDataSourcesByLayerKey && attributeDataSourcesByLayerKey[layerKey];
+					let style = stylesByLayerKey && stylesByLayerKey[layerKey];
+
 					if (dataSources && dataSources.length) {
-						dataSources.forEach((dataSource, index) => {
+						dataSources.forEach((dataSourceWithFidColumn, index) => {
+							const dataSource = dataSourceWithFidColumn && dataSourceWithFidColumn.dataSource;
+							const fidColumnName = dataSourceWithFidColumn && dataSourceWithFidColumn.fidColumnName;
 
 							// TODO quick solution for geoinv
 							let currentApp = AppSelectors.getKey(state);
@@ -591,13 +616,13 @@ const getLayers = (state, layersState) => {
 										}
 									});
 								} else {
-									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index));
+									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index));
 								}
 							}
 
 
 							else {
-								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, index, layerState.options));
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState, style, attributeDataSources, selections));
 							}
 						});
 					}
@@ -607,7 +632,10 @@ const getLayers = (state, layersState) => {
 					cacheKey,
 					layersWithFilter,
 					dataSourcesByLayerKey,
-					mapLayers
+					attributeDataSourcesByLayerKey,
+					mapLayers,
+					stylesByLayerKey,
+					selections
 				});
 
 				return mapLayers;
@@ -1026,6 +1054,7 @@ export default {
 
 	getMapByKey,
 	getMapLayerByMapKeyAndLayerKey,
+	getMapLayersByMapKey,
 	getMapsAsObject,
 
 	getMapSetActiveMapKey,

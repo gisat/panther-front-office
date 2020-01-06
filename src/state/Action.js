@@ -1,5 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 
+import _deprecatedSelections from './_deprecatedSelections/actions';
+
 import App from './App/actions';
 import Areas from './Areas/actions';
 import AreaRelations from './AreaRelations/actions';
@@ -37,6 +39,7 @@ import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
 import LpisCheckCases from './_specific/LpisCheckCases/actions';
 
 export default {
+	_deprecatedSelections: _deprecatedSelections,
 	app: App,
 	areas: Areas,
 	areaRelations: AreaRelations,

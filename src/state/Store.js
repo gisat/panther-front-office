@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // base types
+import _deprecatedSelectionsReducers from './_deprecatedSelections/reducers';
 import appReducers from './App/reducers';
 import areasReducers from './Areas/reducers';
 import areasRelationsReducers from './AreaRelations/reducers';
@@ -42,6 +43,7 @@ import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
 
 // Redux store
 const Store = createStore(combineReducers({
+	_deprecatedSelections: _deprecatedSelectionsReducers(),
 	app: appReducers,
 	areas: areasReducers,
 	areaRelations: areasRelationsReducers,

@@ -54,7 +54,12 @@ const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
 			_.forEach(layers, (layer) => {
 				let filteredRelations = _.filter(relations, {'data': layer.filter});
 				if (filteredRelations.length) {
-					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => relation.data.dataSourceKey);
+					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => {
+						return {
+							spatialDataSourceKey: relation.data.spatialDataSourceKey,
+							fidColumnName: relation.data.fidColumnName
+						}
+					});
 				}
 			});
 			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;

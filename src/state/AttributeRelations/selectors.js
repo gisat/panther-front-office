@@ -6,6 +6,97 @@ import createCachedSelector from "re-reselect";
 const getSubstate = (state) => state.attributeRelations;
 
 const getAll = common.getAll(getSubstate);
+const getIndexed = common.getIndexed(getSubstate);
+
+const getFilteredDataSourceKeysWithFidColumn = createCachedSelector(
+	[
+		getAll,
+		(state, filter) => filter
+	],
+	(relations, filter) => {
+		if (relations && relations.length) {
+			// TODO more sophisticated filtering
+			const attributeKeys = filter.attributeKey.in || [filter.attributeKey];
+			const filterWithoutAttributes = _.omit(filter, 'attributeKey');
+			let preFilteredRelations = _.filter(relations, {'data': filterWithoutAttributes});
+			let filteredRelations = _.filter(preFilteredRelations, (relation) => {
+				if (relation.data.attributeKey) {
+					return !!_.includes(attributeKeys, relation.data.attributeKey);
+				} else {
+					return true;
+				}
+			});
+
+			if (filteredRelations.length) {
+				return filteredRelations.map(relation => {
+					return {
+						attributeDataSourceKey: relation.data.attributeDataSourceKey,
+						attributeKey: relation.data.attributeKey,
+						periodKey: relation.data.periodKey,
+						fidColumnName: relation.data.fidColumnName
+					}
+				});
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, filter) => {return JSON.stringify(filter)}
+);
+
+const getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey = createCachedSelector(
+	[
+		getAll,
+		(state, layersWithFilter) => layersWithFilter,
+		(state, layersWithFilter, layersState) => layersState
+	],
+	(relations, layersWithFilter, layersState) => {
+		if (relations && relations.length) {
+			let filteredGroupedByLayerKey = {};
+
+			_.forEach(layersWithFilter, (layer) => {
+				let layerState = _.find(layersState, {key: layer.key});
+				let attributeKeys = layerState.attributeKeys;
+				if (attributeKeys) {
+
+					// TODO more sophisticated filtering
+					let preFilteredRelations = _.filter(relations, {'data': layer.attributeFilter});
+					let filteredRelations = _.filter(preFilteredRelations, (relation) => {
+						if (relation.data.attributeKey) {
+							return !!_.includes(attributeKeys, relation.data.attributeKey);
+						} else {
+							return true;
+						}
+					});
+
+					if (filteredRelations.length) {
+						filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => {
+							return {
+								attributeDataSourceKey: relation.data.attributeDataSourceKey,
+								attributeKey: relation.data.attributeKey,
+								fidColumnName: relation.data.fidColumnName
+							}
+						});
+					}
+
+				} else {
+					return null;
+				}
+			});
+			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
+
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layersWithFilter, layersState) => {return JSON.stringify(layersState)}
+);
+
+// DEPRECATED ---------------------
 
 const getAllData = createSelector(
 	[getAll],
@@ -218,6 +309,11 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 );
 
 export default {
+	getFilteredDataSourceKeysWithFidColumn,
+	getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
+	getIndexed,
+
+
 	getAllData,
 	getDataSourceKeyFiltered,
 	getFiltered,

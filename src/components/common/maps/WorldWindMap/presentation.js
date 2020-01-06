@@ -14,6 +14,7 @@ import HoverContext from "../../../../components/common/HoverHandler/context";
 import './style.scss';
 import viewUtils from "../viewUtils";
 import {defaultLevelsRange, numberOfLevels} from "../constants";
+import LargeDataLayer from "./layers/LargeDataLayerSource/LargeDataLayer";
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
@@ -43,7 +44,9 @@ class WorldWindMap extends React.PureComponent {
 		this.canvasId = utils.uuid();
 
 		this.onClick = this.onClick.bind(this);
-		this.onHover = this.onHover.bind(this);
+		this.onLayerHover = this.onLayerHover.bind(this);
+		this.onLayerClick = this.onLayerClick.bind(this);
+		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onZoomLevelsBased = this.onZoomLevelsBased.bind(this);
 	}
 
@@ -95,6 +98,13 @@ class WorldWindMap extends React.PureComponent {
 			if (prevProps.layers !== this.props.layers || prevProps.backgroundLayer !== this.props.backgroundLayer) {
 				this.updateLayers();
 			}
+
+			if (this.context && this.context.hoveredItems) {
+				const currentHoveredItemsString = JSON.stringify(_.sortBy(this.context.hoveredItems));
+				if (currentHoveredItemsString !== this.previousHoveredItemsString) {
+					this.updateHoveredFeatures();
+				}
+			}
 		}
 	}
 
@@ -111,24 +121,33 @@ class WorldWindMap extends React.PureComponent {
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				let mapLayer = null;
-
-				// TODO working for LargeDataLayer only
-				if (layer.type === 'vector') {
-					mapLayer = layersHelpers.updateVectorLayer(layer, this.wwd, this.onHover);
-				}
-
-				// TODO more sophisticated comparison for other layer types
-				else {
-					mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onHover);
-				}
-
+				const mapLayer = layersHelpers.getLayerByType(layer, this.wwd, this.onLayerHover, this.onLayerClick);
 				layers.push(mapLayer);
 			});
 		}
 
+
+		this.invalidateLayers(this.wwd.layers);
 		this.wwd.layers = layers;
 		this.wwd.redraw();
+	}
+
+	invalidateLayers(previousLayers) {
+		previousLayers.forEach(prevLayer => {
+			if (prevLayer instanceof LargeDataLayer) {
+				prevLayer.removeListeners();
+			}
+		});
+	}
+
+	updateHoveredFeatures() {
+		this.wwd.layers.forEach(layer => {
+			if (layer instanceof LargeDataLayer) {
+				layer.updateHoveredKeys(this.context.hoveredItems, this.context.x, this.context.y);
+			}
+		});
+		this.wwd.redraw();
+		this.previousHoveredItemsString = JSON.stringify(_.sortBy(this.context.hoveredItems));
 	}
 
 	updateNavigator(defaultView) {
@@ -180,31 +199,36 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	onHover(layerKey, featureKeys, x, y, popupContent) {
+	onMouseOut() {
+		if (this.context && this.context.onHoverOut) {
+			this.context.onHoverOut();
+		}
+	}
+
+	onLayerHover(layerKey, featureKeys, x, y, popupContent, data, fidColumnName) {
 		// pass data to popup
 		if (this.context && this.context.onHover) {
 			this.context.onHover(featureKeys, {
 				popup: {
 					x,
 					y,
-					content: popupContent
+					content: popupContent,
+					data,
+					fidColumnName
 				}
 			});
-
-			if (!featureKeys.length && this.context.onHoverOut) {
-				this.context.onHoverOut();
-			}
 		}
+	}
 
-		// pass data to map state (global or local)
-		if (this.props.onLayerFeaturesHover) {
-			this.props.onLayerFeaturesHover(layerKey, featureKeys);
+	onLayerClick(layerKey, featureKeys) {
+		if (this.props.onLayerClick) {
+			this.props.onLayerClick(this.props.mapKey, layerKey, featureKeys);
 		}
 	}
 
 	render() {
 		return (
-			<div className="ptr-map ptr-world-wind-map" onClick={this.onClick}>
+			<div className="ptr-map ptr-world-wind-map" onClick={this.onClick} onMouseOut={this.onMouseOut}>
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>

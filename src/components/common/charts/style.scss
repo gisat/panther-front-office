@@ -61,6 +61,12 @@
 	stroke: var(--base30);
 }
 
+.ptr-axis-border {
+	stroke-width: 2px;
+	stroke-linecap: square;
+	stroke: var(--base30);
+}
+
 .ptr-axis-gridline {
 	stroke-width: 1px;
 	stroke-linecap: square;
@@ -127,6 +133,10 @@
 	stroke: var(--base0);
 	stroke-width: 1px;
 	stroke-opacity: 1;
+}
+
+.ptr-chart-point.standalone.path {
+	stroke: var(--accent50);
 }
 
 .ptr-line-chart-area {

@@ -17,7 +17,10 @@ class Point extends React.PureComponent {
 			PropTypes.number
 		]),
 		data: PropTypes.object,
-		name: PropTypes.string,
+		name: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 		x: PropTypes.number,
 		y: PropTypes.number,
 		r: PropTypes.number,
@@ -40,7 +43,8 @@ class Point extends React.PureComponent {
 		zOptions: PropTypes.object,
 
 		standalone: PropTypes.bool,
-		siblings: PropTypes.array
+		siblings: PropTypes.array,
+		symbol: PropTypes.string
 	};
 
 	constructor(props) {
@@ -151,20 +155,57 @@ class Point extends React.PureComponent {
 			style.opacity = 1;
 		}
 
+		if (props.symbol === 'plus') {
+			return this.renderPlusSymbol(props.itemKey, props.x, props.y, this.state.radius, classes, style);
+		} else {
+			return (
+				<circle
+					onMouseOver={this.onMouseOver}
+					onMouseMove={this.onMouseMove}
+					onMouseOut={this.onMouseOut}
+					onClick={this.onClick}
+					className={classes}
+					key={props.itemKey}
+					cx={props.x}
+					cy={props.y}
+					r={this.state.radius}
+					style={style}
+				/>
+			)
+		}
+	}
+
+	renderPlusSymbol(key, x, y, radius, classes, style) {
+		classes += ' path';
+
+		let pathStyle = {};
+		if (this.props.color) {
+			pathStyle.stroke = this.props.color;
+		}
+
 		return (
-			<circle
+			<g
+				key={key}
+				style={style}
+				className={classes}
 				onMouseOver={this.onMouseOver}
 				onMouseMove={this.onMouseMove}
 				onMouseOut={this.onMouseOut}
 				onClick={this.onClick}
-				className={classes}
-				key={props.itemKey}
-				cx={props.x}
-				cy={props.y}
-				r={this.state.radius}
-				style={style}
-			/>
-		)
+				width={2*radius}
+				height={2*radius}
+			>
+				<circle
+					style={{opacity: 0}}
+					cx={x}
+					cy={y}
+					r={this.state.radius}
+				/>
+				<path
+					style={pathStyle}
+					d={`M${x},${y-radius} L${x},${y+radius} M${x-radius},${y} L${x+radius},${y}`}/>
+			</g>
+		);
 	}
 
 	getPopupContent() {
@@ -188,9 +229,19 @@ class Point extends React.PureComponent {
 
 		let xValueString = xValue;
 		if (props.xScaleType === "time") {
-			if (props.xOptions.popupValueFormat) {
-				xValueString = moment(xValueString).format(props.xOptions.popupValueFormat);
+			let time = moment(xValueString);
+			if (props.xOptions){
+				if (props.xOptions.timeValueLanguage) {
+					time = time.locale(props.xOptions.timeValueLanguage)
+				}
+
+				if (props.xOptions.popupValueFormat) {
+					time = time.format(props.xOptions.popupValueFormat);
+				} else {
+					time = time.format();
+				}
 			}
+			xValueString = time;
 		} else if (xValue && (xValue % 1) !== 0) {
 			xValueString = xValueString.toFixed(2);
 		}

@@ -15,7 +15,7 @@ const useActiveMetadataKeys = {
 const mapStateToPropsFactory = (initialState, ownProps) => {
 
 	return (state) => {
-		let selectedFeatures = Select.selections.getActive(state);
+		let selectedFeatures = Select._deprecatedSelections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
 		//FIXME - from context

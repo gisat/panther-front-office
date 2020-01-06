@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import chroma from 'chroma-js';
 
-const DEFAULT_STYLE_OBJECT = {
+export const DEFAULT_STYLE_OBJECT = {
 	fill: "#ffffff",
 	fillOpacity: 1,
 	outlineColor: "#000000",
 	outlineWidth: 2,
 	outlineOpacity: 1
 };
+
+export const DEFAULT_SIZE = 15;
 
 // const FILTERED_STYLE_OBJECT ???
 
@@ -22,11 +24,11 @@ function getStyleObject(attributes, styleDefinition, omitDefault) {
 
 			if (rule.styles) {
 				_.each(rule.styles, style => {
-					let styleObject = {};
+					let styleObject = null;
 					if (style.attributeKey) {
 						styleObject = getStyleObjectForAttribute(style, attributes);
 					} else {
-						styleObject = {...style}
+						styleObject = style;
 					}
 
 					finalStyleObject = {...finalStyleObject, ...styleObject}
@@ -52,6 +54,8 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 			return getStyleObjectForAttributeScale(styleDefinition.attributeScale, value);
 		} else if (styleDefinition.attributeTransformation) {
 			return getStyleObjectForAttributeTransformation(styleDefinition.attributeTransformation, value);
+		} else if (styleDefinition.attributeValues) {
+			return getStyleObjectForAttributeValues(styleDefinition.attributeValues, value)
 		}
 		// TODO add other cases
 		else {
@@ -85,6 +89,17 @@ function getStyleObjectForAttributeClasses(attributeClasses, value) {
 	});
 
 	return styleObject;
+}
+
+/**
+ * Attribute value
+ *
+ * @param attributeValues {Object}
+ * @param value {String} attribute value
+ * @return {Object}
+ */
+function getStyleObjectForAttributeValues(attributeValues, value) {
+	return attributeValues[value] || {};
 }
 
 

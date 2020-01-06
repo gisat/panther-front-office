@@ -175,8 +175,80 @@ const setMapName = (state, mapKey, name) => {
 	return {...state, maps: {[mapKey]: {...mapState, name: name}}}
 };
 
+const setMapLayerHoveredFeatureKeys = (state, mapKey, layerKey, hoveredFeatureKeys) => {
+	const mapState = getMapByKey(state, mapKey);
+
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	const layerState = _.find(mapState.data.layers, (layer) => {
+		return layer.key === layerKey;
+	});
+
+	if (layerState) {
+		const newLayerState = {
+			...layerState,
+			options: {
+				...layerState.options,
+				hovered: layerState.options.hovered ? {
+					...layerState.options.hovered,
+					keys: hoveredFeatureKeys
+				} : {
+					keys: hoveredFeatureKeys
+				}
+			}
+		};
+
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		return state;
+	}
+};
+
+const setMapLayerSelection = (state, mapKey, layerKey, selectionKey) => {
+	const mapState = getMapByKey(state, mapKey);
+
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	const layerState = _.find(mapState.data.layers, (layer) => {
+		return layer.key === layerKey;
+	});
+
+	if (layerState) {
+		const newLayerState = {
+			...layerState,
+			options: {
+				...layerState.options,
+				selected: layerState.options.selected ? {
+					...layerState.options.selected,
+					[selectionKey]: {}
+				} : {
+					[selectionKey]: {}
+				}
+			}
+		};
+
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		return state;
+	}
+};
+
+const clearMapLayersSelection = (state, mapKey, selectionKey) => {
+	const mapState = getMapByKey(state, mapKey);
+
+	let updatedLayers = _.map([...mapState.data.layers], layer => {
+		if (layer.options && layer.options.selected[selectionKey]) {
+			delete layer.options.selected[selectionKey];
+		}
+
+		return layer;
+	});
+
+	return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+};
+
 const setMap = (state, mapState = INITIAL_MAP_STATE) => {
-	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState);
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //todo where is this used & is the merge always ok?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
 };
 
@@ -310,6 +382,11 @@ const setMapBackgroundLayer = (state, mapKey, backgroundLayer) => {
 	return setMap(state, {...mapState, data: {...mapState.data, backgroundLayer}});
 };
 
+const setMapLayers = (state, mapKey, layers) => {
+	const mapState = getMapByKey(state, mapKey);
+	return {...state, maps: {...state.maps, [mapKey]: {...mapState, data: {...mapState.data, layers}}}};
+};
+
 const setSetBackgroundLayer = (state, setKey, backgroundLayer) => {
 	return {
 		...state,
@@ -420,6 +497,12 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setSetSync(state, action.setKey, action.sync);
 		case ActionTypes.MAPS.MAP.ADD:
 			return addMap(state, action.map);
+		case ActionTypes.MAPS.MAP.LAYERS.SET.HOVERED_FEATURE_KEYS:
+			return setMapLayerHoveredFeatureKeys(state, action.mapKey, action.layerKey, action.hoveredFeatureKeys);
+		case ActionTypes.MAPS.MAP.LAYERS.SET.SELECTION:
+			return setMapLayerSelection(state, action.mapKey, action.layerKey, action.selectionKey);
+		case ActionTypes.MAPS.MAP.LAYERS.CLEAR.SELECTION:
+			return clearMapLayersSelection(state, action.mapKey, action.selectionKey);
 		case ActionTypes.MAPS.MAP.REMOVE:
 			return removeMap(state, action.mapKey);
 		case ActionTypes.MAPS.MAP.SET_NAME:
@@ -442,6 +525,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return updateMapLayer(state, action.mapKey, action.layer, action.layerKey);
 		case ActionTypes.MAPS.LAYERS.LAYER.SET:
 			return setMapLayer(state, action.mapKey, action.layer, action.layerKey);
+		case ActionTypes.MAPS.LAYERS.SET:
+			return setMapLayers(state, action.mapKey, action.layers);
 		case ActionTypes.MAPS.SET_SCOPE:
 			return setMapScope(state, action.mapKey, action.scope);
 		case ActionTypes.MAPS.SET_SCENARIO:

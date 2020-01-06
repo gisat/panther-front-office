@@ -4,6 +4,8 @@ import {QuadTree, Box, Point, Circle} from 'js-quadtree';
 import * as turf from '@turf/turf';
 import LargeDataLayerTile from "./LargeDataLayerTile";
 import _ from 'lodash';
+import {style} from "redux-logger/src/diff";
+import {DEFAULT_SIZE} from "../../../../../../utils/mapStyles";
 
 const {
 	Location,
@@ -13,18 +15,18 @@ const {
 	TiledImageLayer
 } = WorldWind;
 
-const DEFAULT_SIZE = 5;
-
 // It supports GeoJSON as format with only points and maximum 1 000 000 points.
 // Multipolygons are represented as points
 
 // TODO: Highlight the selected points.
 class LargeDataLayer extends TiledImageLayer {
 	constructor(wwd, options, layer) {
-		super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', 'large-data-layer', 256, 256);
+		super(new Sector(-90, 90, -180, 180), new Location(45, 45), 18, 'image/png', layer.key, 256, 256);
 		
 		this.tileWidth = 256;
 		this.tileHeight = 256;
+		this.detailControl = 1;
+		this.wwd = wwd;
 
 		// At the moment the URL must contain the GeoJSON.
 		this.processedTiles = {};
@@ -32,12 +34,15 @@ class LargeDataLayer extends TiledImageLayer {
 
 		this.pantherProps = {
 			features: options.features,
-			gidColumn: options.gidColumn,
-			hovered: options.hovered,
+			fidColumnName: options.fidColumnName,
+			hovered: {...options.hovered},
+			selected: {...options.selected},
+			key: layer.key,
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
+			onClick: options.onClick,
 			pointHoverBuffer: options.pointHoverBuffer || DEFAULT_SIZE,
-			style: options.style && options.style.data && options.style.data.definition,
+			style: options.style,
 			wwd: wwd
 		};
 		
@@ -51,6 +56,11 @@ class LargeDataLayer extends TiledImageLayer {
 		this.onMouseMove = this.onMouseMove.bind(this, wwd);
 		wwd.addEventListener('click', this.onClick);
 		wwd.addEventListener('mousemove', this.onMouseMove);
+	}
+
+	removeListeners() {
+		this.pantherProps.wwd.removeEventListener('click', this.onClick);
+		this.pantherProps.wwd.removeEventListener('mousemove', this.onMouseMove);
 	}
 
 	loadData(url) {
@@ -76,6 +86,10 @@ class LargeDataLayer extends TiledImageLayer {
 			if (type === 'Point') {
 				props.centroid = feature.geometry.coordinates;
 				point = new Point(feature.geometry.coordinates[0] + 180, feature.geometry.coordinates[1] + 90, props);
+			} else if (type==='MultiPoint') {
+				const coordinates = feature.geometry.coordinates[0];
+				props.centroid = coordinates;
+				point = new Point(coordinates[0] + 180, coordinates[1] + 90, props);
 			} else if (type === 'MultiPolygon') {
 				let centroid = turf.centroid(feature.geometry);
 				props.centroid = centroid.geometry.coordinates;
@@ -133,42 +147,28 @@ class LargeDataLayer extends TiledImageLayer {
 		this.onClickResult(this.handleEvent(wwd, event));
 	}
 
-	onClickResult(points){}
+	onClickResult(data){
+		if (this.pantherProps.onClick) {
+			let gids = data.points.map(point => point.data[this.pantherProps.fidColumnName]);
+			if (gids && gids.length) {
+				this.pantherProps.onClick(this.pantherProps.layerKey, gids);
+			}
+		}
+	}
 
 	onMouseMoveResult(data) {
 		if (this.pantherProps.onHover) {
-			let gids = data.points.map(point => point.data[this.pantherProps.gidColumn]);
-
-			// TODO provisional content
-			let content = (
-				<div>
-					{data.points.map(point => {
-						let content = [];
-						_.forIn(point.data, (value,key) => {
-							if (key !== 'centroid') {
-								content.push(<div>{key}: {value}</div>)
-							}
-						});
-						return content;
-					})}
-				</div>
-			);
-			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, content);
+			let gids = data.points.map(point => point.data[this.pantherProps.fidColumnName]);
+			this.pantherProps.onHover(this.pantherProps.layerKey, gids, data.x, data.y, null, data.points, this.pantherProps.fidColumnName);
 		}
 	}
 
 
 	retrieveTileImage(dc, tile, suppressRedraw) {
-		// if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
-		// 	return;
-		// }
 		this.processedTiles[tile.imagePath] = true;
 
 		const sector = tile.sector;
 		const extended = this.calculateExtendedSector(sector, 0.2, 0.2);
-		const extendedWidth = Math.ceil(extended.extensionFactorWidth * this.tileWidth);
-		const extendedHeight = Math.ceil(extended.extensionFactorHeight * this.tileHeight);
-
 		const points = this.filterGeographically(extended.sector);
 
 		if(points) {
@@ -177,21 +177,13 @@ class LargeDataLayer extends TiledImageLayer {
 				layer = this;
 
 			var canvas = this.createPointTile(points, {
-				sector: extended.sector,
+				sector: sector,
 
-				width: this.tileWidth + 2 * extendedWidth,
-				height: this.tileHeight + 2 * extendedHeight
+				width: this.tileWidth,
+				height: this.tileHeight
 			}).canvas();
 
-			var result = document.createElement('canvas');
-			result.height = this.tileHeight;
-			result.width = this.tileWidth;
-			result.getContext('2d').putImageData(
-				canvas.getContext('2d').getImageData(extendedWidth, extendedHeight, this.tileWidth, this.tileHeight),
-				0, 0
-			);
-
-			var texture = layer.createTexture(dc, tile, result);
+			var texture = layer.createTexture(dc, tile, canvas);
 			layer.removeFromCurrentRetrievals(imagePath);
 
 			if (texture) {
@@ -209,6 +201,60 @@ class LargeDataLayer extends TiledImageLayer {
 			}
 		}
 	}
+
+
+	// TODO Original implementation from @jbalhar
+	// retrieveTileImage(dc, tile, suppressRedraw) {
+	// 	// if(tile.level.levelNumber < 14 || this.processedTiles[tile.imagePath]){
+	// 	// 	return;
+	// 	// }
+	// 	this.processedTiles[tile.imagePath] = true;
+	//
+	// 	const sector = tile.sector;
+	// 	const extended = this.calculateExtendedSector(sector, 0.2, 0.2);
+	// 	const extendedWidth = Math.ceil(extended.extensionFactorWidth * this.tileWidth);
+	// 	const extendedHeight = Math.ceil(extended.extensionFactorHeight * this.tileHeight);
+	//
+	// 	const points = this.filterGeographically(extended.sector);
+	//
+	// 	if(points) {
+	// 		var imagePath = tile.imagePath,
+	// 			cache = dc.gpuResourceCache,
+	// 			layer = this;
+	//
+	// 		var canvas = this.createPointTile(points, {
+	// 			sector: extended.sector,
+	//
+	// 			width: this.tileWidth + 2 * extendedWidth,
+	// 			height: this.tileHeight + 2 * extendedHeight
+	// 		}).canvas();
+	//
+	// 		var result = document.createElement('canvas');
+	// 		result.height = this.tileHeight;
+	// 		result.width = this.tileWidth;
+	// 		result.getContext('2d').putImageData(
+	// 			canvas.getContext('2d').getImageData(extendedWidth, extendedHeight, this.tileWidth, this.tileHeight),
+	// 			0, 0
+	// 		);
+	//
+	// 		var texture = layer.createTexture(dc, tile, result);
+	// 		layer.removeFromCurrentRetrievals(imagePath);
+	//
+	// 		if (texture) {
+	// 			cache.putResource(imagePath, texture, texture.size);
+	//
+	// 			layer.currentTilesInvalid = true;
+	// 			layer.absentResourceList.unmarkResourceAbsent(imagePath);
+	//
+	// 			if (!suppressRedraw) {
+	// 				// Send an event to request a redraw.
+	// 				const e = document.createEvent('Event');
+	// 				e.initEvent(REDRAW_EVENT_TYPE, true, true);
+	// 				window.dispatchEvent(e);
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	filterGeographically(sector) {
 		const width = sector.maxLongitude - sector.minLongitude;
@@ -237,19 +283,38 @@ class LargeDataLayer extends TiledImageLayer {
 	};
 
 	createPointTile(data, options) {
-		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.gidColumn, this.pantherProps.hovered);
+		return new LargeDataLayerTile(data, options, this.pantherProps.style, this.pantherProps.fidColumnName, this.pantherProps.selected,this.pantherProps.hovered);
 	};
 
+	updateHoveredKeys(hoveredKeys, x, y) {
+		this.pantherProps.hovered.keys = hoveredKeys;
 
+		const terrainObject = this.wwd.pickTerrain(this.wwd.canvasCoordinates(x, y)).terrainObject();
 
-	/**
-	 * @param hovered {Object}
-	 * @param hovered.style {Object}
-	 * @param hovered.keys {Array}
-	 */
-	updateHovered(hovered) {
-		this.pantherProps.hovered = {...hovered};
-		this.refresh();
+		if (terrainObject) {
+			const lat = terrainObject.position.latitude;
+			const lon = terrainObject.position.longitude;
+
+			_.each(this.currentTiles, (tile) => {
+				const s = tile.sector;
+				const prev = this.previousHoveredCoordinates;
+
+				const latDiff = Math.abs(s.maxLatitude - s.minLatitude);
+				const lonDiff = Math.abs(s.maxLongitude - s.minLongitude);
+
+				const latBuffer = latDiff/10;
+				const lonBuffer = lonDiff/10;
+
+				const hovered = (lat <= (s.maxLatitude + latBuffer) && lat >= (s.minLatitude - latBuffer) && lon <= (s.maxLongitude + lonBuffer) && lon >= (s.minLongitude - lonBuffer));
+				const previouslyHovered = prev && (prev.lat <= (s.maxLatitude + latBuffer) && prev.lat >= (s.minLatitude - latBuffer) && prev.lon <= (s.maxLongitude + lonBuffer) && prev.lon >= (s.minLongitude - lonBuffer));
+
+				if (hovered || previouslyHovered) {
+					this.retrieveTileImage(this.wwd.drawContext, tile, true);
+				}
+			});
+
+			this.previousHoveredCoordinates = {lat, lon};
+		}
 	}
 
 	/**

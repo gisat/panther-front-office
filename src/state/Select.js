@@ -1,4 +1,6 @@
 // base types
+import _deprecatedSelections from './_deprecatedSelections/selectors';
+
 import App from './App/selectors';
 import Areas from './Areas/selectors';
 import AreaRelations from './AreaRelations/selectors';
@@ -36,6 +38,7 @@ import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
 import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
+	_deprecatedSelections: _deprecatedSelections,
 	app: App,
 	areas: Areas,
 	areaRelations: AreaRelations,

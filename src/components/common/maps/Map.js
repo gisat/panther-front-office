@@ -2,12 +2,14 @@ import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import React from "react";
+import PropTypes from 'prop-types';
 import _ from "lodash";
 import {defaultMapView} from "../../../constants/Map";
 import mapUtils from "../../../utils/map";
 
 import './style.scss';
 import utils from "../../../utils/utils";
+import Error from "../atoms/Error";
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {
@@ -53,6 +55,9 @@ const mapDispatchToPropsFactory = () => {
 
 				onClick: (view) => {
 					dispatch(Action.maps.setMapSetActiveMapKey(ownProps.stateMapKey));
+				},
+				onLayerClick: (mapKey, layerKey, selectedFeatureKeys) => {
+					dispatch(Action.maps.setLayerSelectedFeatureKeys(ownProps.stateMapKey, layerKey, selectedFeatureKeys))
 				}
 			}
 		} else {
@@ -80,6 +85,13 @@ const mapDispatchToPropsFactory = () => {
 };
 
 class Map extends React.PureComponent {
+
+	static propTypes = {
+		mapComponent: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.func
+		])
+	};
 
 	constructor(props) {
 		super(props);
@@ -147,29 +159,39 @@ class Map extends React.PureComponent {
 
 	render() {
 		const {children, mapComponent, ...props} = this.props;
-		if (!props.stateMapKey) {
-			props.view = this.state.view || props.view;
-			props.onViewChange = this.onViewChange;
-		}
-		let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
-		if (!children) {
-			return map;
+
+		if (!mapComponent) {
+			return (<Error centered>mapComponent not supplied to Map</Error>);
 		} else {
-			return (
-				<div className="ptr-map-controls-wrapper">
-					{map}
-					{React.Children.map(children, child => {
-						return React.cloneElement(child, {
-							...child.props,
-							view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
-							updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
-							resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
-						});
-					})}
-				</div>
-			);
+
+			if (!props.stateMapKey) {
+				props.view = this.state.view || props.view;
+				props.onViewChange = this.onViewChange;
+			}
+
+			let map = React.createElement(mapComponent, props, children); //todo ptr-map-wrapper ?
+
+			if (!children) {
+				return map;
+			} else {
+				return (
+					<div className="ptr-map-controls-wrapper">
+						{map}
+						{React.Children.map(children, child => {
+							return React.cloneElement(child, {
+								...child.props,
+								view: this.props.stateMapKey ? this.props.view : (this.state.view || this.props.view),
+								updateView: this.props.stateMapKey ? this.props.onViewChange : this.onViewChange,
+								resetHeading: this.props.stateMapKey ? this.props.resetHeading : this.resetHeading
+							});
+						})}
+					</div>
+				);
+			}
+
 		}
 	}
+
 }
 
 export const PresentationMap = Map;

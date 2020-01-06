@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
 			}
 		})
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
-		// let activeFilter = Select.selections.getActive(state);
+		// let activeFilter = Select._deprecatedSelections.getActive(state);
 
 		//TODO -> select
 		//active indicator type absolute/relative
