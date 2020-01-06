@@ -98,11 +98,11 @@ export default [
 		urls: [
 			{
 				hostname: 'insar.gisat.cz',
-				path: '/szdc140',
+				path: '/',
 			},
 			{
 				hostname: 'insar.gisat.cz',
-				path: null,
+				path: '/szdc140',
 			}
 		],
 		hostname: 'nope.gisat.cz',
