@@ -124,7 +124,7 @@ class MapLegend extends React.PureComponent {
 				<div>
 					{classes && (
 						<div className="szdcInsar19-legend-section">
-							<span>{classes.attribute.data.nameDisplay}</span>
+							<span>{classes.attribute && classes.attribute.data.nameDisplay}</span>
 							<div>
 								{classes.style.map((styleClass, index) => (
 									<div key={index} className="szdcInsar19-legend-class">
@@ -138,7 +138,7 @@ class MapLegend extends React.PureComponent {
 					
 					{enumValues && (
 						<div className="szdcInsar19-legend-section">
-							<span>{enumValues.attribute.data.nameDisplay}</span>
+							<span>{enumValues.attribute && enumValues.attribute.data.nameDisplay}</span>
 							<div>
 								{_.map(enumValues.style, (enumStyle, enumKey) => (
 									<div key={enumKey} className="szdcInsar19-legend-class">
@@ -171,7 +171,7 @@ class MapLegend extends React.PureComponent {
 					
 					{sizes && (
 						<div className="szdcInsar19-legend-section">
-							<span>{sizes.attribute.data.nameDisplay}</span>
+							<span>{sizes.attribute && sizes.attribute.data.nameDisplay}</span>
 							<div>
 								{sizes.style.map((styleClass, index) => (
 									<div key={index} className="szdcInsar19-legend-class">
@@ -185,7 +185,7 @@ class MapLegend extends React.PureComponent {
 
 					{arrowData && (
 						<div className="szdcInsar19-legend-section">
-							<span>{arrowData.attribute.data.nameDisplay}</span>
+							<span>{arrowData.attribute && arrowData.attribute.data.nameDisplay}</span>
 							<div>
 								{arrowData.styleValues.map((value, index) => {
 									let style = mapStyles.getStyleObject(value, arrowData.styleDefinition);
