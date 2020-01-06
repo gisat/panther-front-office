@@ -10,8 +10,17 @@ const mapStateToProps = state => {
 		activeScopeKey: Select.scopes.getActiveKey(state),
 		activeScope: Select.scopes.getActive(state),
 		activeAttributeKey: Select.attributes.getActiveKey(state),
+		activePeriodKeys: Select.periods.getActiveKeys(state),
 		attribute: Select.attributes.getActive(state)
 	}
 };
 
-export default connect(mapStateToProps)(presentation);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onSelectionClear: () => {
+			dispatch(Action.specific.esponFuoreSelections.clearActiveSelection());
+		}
+	}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(presentation);

@@ -10,6 +10,7 @@ import AxisY from "../AxisY";
 class CartesianChartContent extends React.PureComponent {
 	static propTypes = {
 		contentData: PropTypes.array,
+		aggregated: PropTypes.bool,
 
 		xScale: PropTypes.func,
 		yScale: PropTypes.func
@@ -25,6 +26,7 @@ class CartesianChartContent extends React.PureComponent {
 
 					bottomMargin={props.xValuesSize}
 					topPadding={props.innerPaddingTop}
+					leftPadding={props.innerPaddingLeft}
 
 					height={props.plotHeight}
 					plotWidth={props.plotWidth}
@@ -37,27 +39,40 @@ class CartesianChartContent extends React.PureComponent {
 					labelSize={props.yLabelSize}
 					options={props.yOptions}
 
+					diverging={props.diverging}
+					stacked={props.stacked}
+					xScale={props.xScale}
+					xOptions={props.xOptions}
+
 					hiddenBaseline={props.withoutYbaseline}
 				/>
 				<AxisX
 					data={props.contentData}
 					scale={props.xScale}
+					scaleType={props.xScaleType}
 
 					sourcePath={props.xSourcePath}
 					keySourcePath={props.keySourcePath}
 
 					leftMargin={props.yValuesSize + props.yLabelSize}
 					leftPadding={props.innerPaddingLeft}
+					topPadding={props.innerPaddingTop}
+
 					height={props.xValuesSize}
 					plotHeight={props.plotHeight}
 					width={props.plotWidth}
 
-					ticks={props.xTicks}
-					gridlines={props.xGridlines}
-					withValues={props.xValues}
+					ticks={props.xTicks && !props.aggregated}
+					gridlines={props.xGridlines && !props.aggregated}
+					withValues={props.xValues && !props.aggregated}
 					label={props.xLabel}
 					labelSize={props.xLabelSize}
 					options={props.xOptions}
+
+					diverging={props.diverging}
+
+					yScale={props.yScale}
+					yOptions={props.yOptions}
 				/>
 				<g transform={`translate(${props.yValuesSize + props.yLabelSize + props.innerPaddingLeft},${props.innerPaddingTop})`}>
 					{this.props.children}

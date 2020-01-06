@@ -30,25 +30,44 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
-	Store.dispatch(Action.app.loadConfiguration())
+	Store.dispatch(Action.app.loadConfiguration());
 
-	Store.dispatch(Action.maps.addMap({key: 'tacrGeoinvaze'}));
-	Store.dispatch(Action.maps.addSet({key: 'tacrGeoinvaze'}));
+	// TODO just for testing
+	Store.dispatch(Action.layerTemplates.setActiveKey('5ff15c35-e6dc-4204-9720-80ad5f7b67a0'));
+	Store.dispatch(Action.periods.setActiveKey('5f853535-13c5-488c-af75-b167ce2262bb'));
+	// Store.dispatch(Action.cases.setActiveKey('fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf'));
+
+	Store.dispatch(Action.maps.addMap({
+		key: 'tacrGeoinvaze',
+		data: {
+			backgroundLayer: {
+				layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
+			},
+			layers: [
+				{
+					key: 'thematicLayer',
+					filterByActive: {
+						layerTemplate: true,
+						period: true,
+						case: true
+					}
+				}
+			]
+		}
+	}));
+	Store.dispatch(Action.maps.addSet({
+		key: 'tacrGeoinvaze',
+		data: {
+			view: {
+				center: {
+					lat: 50,
+					lon: 15
+				},
+				boxRange: 1000000
+			}
+		}
+	}));
 	Store.dispatch(Action.maps.addMapToSet('tacrGeoinvaze', 'tacrGeoinvaze'));
-
-	const navigator = {
-		lookAtLocation: {
-			latitude: 49.8,
-			longitude: 15.4
-		},
-		range: 500000,
-		roll: 0,
-		tilt: 0,
-		heading: 0
-	}
-
-	Store.dispatch(Action.maps.setMapWorldWindNavigator('tacrGeoinvaze', navigator));
-
 
 	// Set language
 	i18n.changeLanguage("cz");
@@ -65,7 +84,7 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | Geoinvaze"
 					defaultTitle="Geoinvaze"
 				/>
-				<AppContainer>
+				<AppContainer appKey="tacrGeoinvaze">
 					<ConnectedRouter history={history}>
 						<>
 							<Route path={path + "/:caseKey?/:layerTemplateKey?/:periodKey?"} component={App} />

@@ -37,8 +37,13 @@
 }
 
 .esponFuore-landing-page-text .bottom-link {
-	margin: 0 2rem m(1/3) 0;
+	margin: 0 m(2/3) m(1/3) 0;
 	min-width: 10rem;
+}
+
+.esponFuore-landing-page-text .bottom-link.disabled a {
+	pointer-events: none;
+	color: var(--accent30);
 }
 
 .esponFuore-landing-page-footer {

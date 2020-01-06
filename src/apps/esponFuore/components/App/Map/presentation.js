@@ -16,12 +16,15 @@ import WorldWindMap from "../../../../../components/common/maps/Deprecated_World
 import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
 
+import helpers from './download/helpers';
+
 class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
 
 	static propTypes = {
 		nameData: PropTypes.object,
 		layersTreeLoaded: PropTypes.bool,
+		activeAttribute: PropTypes.object,
 		activeFilter: PropTypes.object,
 		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
@@ -127,6 +130,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 			if (layersAttributeStatisticsDataChanged) {
 				//set layer statistics
 				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics)
+				const layers = this.props.layers || [];
+				this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.nameData);
+
 				//setstylefunction
 				this.setStyleFunction(this.props.layersVectorData, [...this.state.backgroundLayers, ...this.state.thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
 			}
@@ -192,7 +198,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//Add section
 		if (newBackgroundLayer || changedBackgroundLayer) {
 			nextLayerData.forEach(layer => {
-				changedLayers = layersHelper.addLayer(changedLayers, layer, 0);
+				changedLayers = layersHelper.addLayer([], layer, 0);
 			});
 		} else if (noBackgroundLayer || removeBackgroundLayer){
 			//if no layers, than add colored layer
@@ -313,7 +319,9 @@ class FuoreWorldWindMap extends React.PureComponent {
 						const attributeFeatureData = attributeDataSourceData.find((ad) => ad.properties[layer.attributeRelationsData.fidColumnName] === featureId);
 						if(attributeFeatureData && nameData && nameData[key]) {
 							const nameFeatureData = nameData[key].find((nd) => nd.key === attributeFeatureData.properties[layer.attributeRelationsData.fidColumnName]);
-							nameProperty['_name'] = nameFeatureData.data.name;
+							if (nameFeatureData) {
+								nameProperty['_name'] = nameFeatureData.data.name;
+							}
 						} else {
 							console.warn("No attribute data found for feature", feature)
 						}
@@ -330,8 +338,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 					if (existingLayer.renderables && existingLayer.renderables.length > 0) {
 						// debugger //TODO
 					}
-					//musejí být statistiky!!
-					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
+					//Statistics on layer must be set!
+					if(existingLayer.attributeStatistics && !isNaN(existingLayer.attributeStatistics.min) && !isNaN(existingLayer.attributeStatistics.max)) {
+						existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
+					}
 
 				} else {
 					//Data are empty, set empty GoeJSON as renderable
@@ -382,7 +392,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 					let valueSource = existingLayer.metadata && existingLayer.metadata.attributeDataKey;
 					
 					if(this.props.activeFilter) {
-						features = features.filter((feature) => this.props.activeFilter.data.areas.includes(feature[keySource]))
+						features = features.filter((feature) => this.props.activeFilter.data.filteredKeys.includes(feature[keySource]))
 					}
 
 					let keys = features.map(feature => feature[keySource]);
@@ -412,9 +422,12 @@ class FuoreWorldWindMap extends React.PureComponent {
 				let value = _.get(feature, valueSource);
 				let spatialId = _.get(feature, spatialIdSource);
 				if(value || value === 0) {
-					content.push(<div key={spatialId}><i>{name || unit}:</i> {value || value === 0 ? value.toLocaleString() : null}</div>);
+					content.push(<div className="ptr-popup-header" key={spatialId}>{name || unit}</div>);
+					content.push(<div key={spatialId + '-group'} className="ptr-popup-record-value-group">
+						{value || value === 0 ? <span className="value">{value.toLocaleString()}</span> : null}
+					</div>)
 				} else {
-					content.push(<div key={spatialId}>No data</div>);
+					content.push(<div className="ptr-popup-header" key={spatialId}>No data</div>);
 				}
 			});
 
@@ -437,8 +450,17 @@ class FuoreWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap {...this.props} layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]} label={this.props.label}  rerendererSetter={this.setRerenderer} onHover={this.onHover} onHoverOut={this.onHoverOut} />);
-
+		return (
+			<WorldWindMap
+				{...this.props}
+				layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
+				label={this.props.label}
+				rerendererSetter={this.setRerenderer}
+				onHover={this.onHover}
+				onHoverOut={this.onHoverOut}
+				onDownloadAsPng={helpers.downloadAsPng.bind(this)}
+			/>
+		);
 	}
 }
 

@@ -4,10 +4,11 @@ import Action from "../../../../../state/Action";
 
 import {cloneDeep, isEqual} from 'lodash';
 
-import wrapper from '../../../../../components/common/maps/MapWrapper';
+import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
 import utils from '../../../../../utils/utils';
 import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
+import fuoreUtils from "../../../utils";
 
 const useActiveMetadataKeys = {
 	scope: true,
@@ -18,7 +19,7 @@ const useActiveMetadataKeys = {
 const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
 
-	const layersState = Select.maps.getLayersStateByMapSetKey(state, mapSet.key);
+	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, mapSet.key);
 
 
 	const mapSetsLayers = {};
@@ -28,17 +29,19 @@ const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
 			})
-			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
 
 	const layersByLayerTemplateKey = {};
 	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
-		for (const layer of layers) {
-			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
-			if(layerTemplateKey) {
-				if(!layersByLayerTemplateKey[layerTemplateKey]) {
-					layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+		if(layers) {
+			for (const layer of layers) {
+				const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+				if(layerTemplateKey) {
+					if(!layersByLayerTemplateKey[layerTemplateKey]) {
+						layersByLayerTemplateKey[layerTemplateKey] = Select.charts.getNamesForChart(state, namesFilter, layerTemplateKey);
+					}
 				}
 			}
 		}
@@ -51,7 +54,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 	//get mapSetByMapKey
 	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
 
-	const layersState = Select.maps.getLayersStateByMapSetKey(state, mapSet.key);
+	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, mapSet.key);
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
@@ -60,26 +63,29 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 				const filter = cloneDeep(l.mergedFilter);
 				return {filter, data: l.layer};
 			})
-			mapSetsLayers[key] = Select.maps.getLayers(state, layersData);
+			mapSetsLayers[key] = Select.maps.getLayers_deprecated(state, layersData);
 		}
 	};
 
 	const layersByLayerTemplateKey = {};
+	
 	for (const [mapKey, layers] of Object.entries(mapSetsLayers)) {
-		for (const layer of layers) {
-			const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
-			if(layerTemplateKey) {
-				if(!layersByLayerTemplateKey[layerTemplateKey]) {
-					layersByLayerTemplateKey[layerTemplateKey] = {};
-					layersByLayerTemplateKey[layerTemplateKey] = {
-						key: layerTemplateKey,
-						type: layer.type,
-						statistics: {},
-						mergedStatistics: null,
-						layers: {}
-					};
+		if(layers) {
+			for (const layer of layers) {
+				const layerTemplateKey = layer.spatialRelationsData && layer.spatialRelationsData.layerTemplateKey;
+				if(layerTemplateKey) {
+					if(!layersByLayerTemplateKey[layerTemplateKey]) {
+						layersByLayerTemplateKey[layerTemplateKey] = {};
+						layersByLayerTemplateKey[layerTemplateKey] = {
+							key: layerTemplateKey,
+							type: layer.type,
+							statistics: {},
+							mergedStatistics: null,
+							layers: {}
+						};
+					}
+					layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
 				}
-				layersByLayerTemplateKey[layerTemplateKey].layers[layer.key] = layer
 			}
 		}
 	}
@@ -115,15 +121,15 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 
 const mapStateToProps = (state, props) => {
 	let namesFilter = {};
-	let filter = {};
+	// let filter = {};
 	let chartCfg = {};
 
 	return (state) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
-		let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
-		let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
+		// let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
+		// let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);
 
 		// don't mutate selector input if it is not needed
@@ -131,31 +137,29 @@ const mapStateToProps = (state, props) => {
 			namesFilter = cloneDeep(currentNamesFilter);
 		}
 
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
-			const filter = cloneDeep(layer.mergedFilter)
+			const filter = cloneDeep(layer.mergedFilter);
 			return {filter, data: layer.layer}
 		}) : null;
-		let layers = Select.maps.getLayers(state, layersData);
+		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
-		let activeFilter = Select.selections.getActive(state);
 
 		//TODO -> select
 		//active indicator type absolute/relative
 		let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
 		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
-		const indicatorData = activeIndicator ? activeIndicator.data.type : 'relative';
-		// const hueColor = '#00ff2b'; //green
-		const hueColor = '#4689d0'; //blue
-		// const hueColor = '#ff0000'; //red
 		
 		const map = Select.maps.getMapByKey(state, props.mapKey);
 		let label = null;
+		let periodKey = null;
 		if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
-			const periodKey = map.data.metadataModifiers.period;
+			periodKey = map.data.metadataModifiers.period;
 			const period = Select.periods.getDataByKey(state, periodKey);
-			label = period ? period.nameDisplay : null
+			label = period ? period.nameDisplay : null;
 		}
+
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeysByPeriod(state, periodKey);
 
 		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.spatialRelationsData) {
@@ -192,10 +196,11 @@ const mapStateToProps = (state, props) => {
 					const attributeDataKey = attributeDataSource && attributeDataSource[0] ? attributeDataSource[0].data.columnName : null;
 					const attributeKey = layerData.attributeRelationsData.attributeKey;
 					const attribute = Select.attributes.getByKey(state, attributeKey);
+
 					acc[layerData.key] = {
-						dataType: indicatorData,
+						dataType: attribute &&  attribute.data && attribute.data.valueType,
 						attributeDataKey,
-						color: attribute &&  attribute.data && attribute.data.color ? attribute.data.color : hueColor,
+						color: fuoreUtils.resolveColour(attribute)
 					}
 				}
 			}
@@ -218,7 +223,7 @@ const mapStateToProps = (state, props) => {
 			return acc
 		}, {});
 
-		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter, chartCfg)		
+		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter);
 		let vectorLayersNames = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.attributeRelationsData) {
 				const layer = namesForVectorLayers[layerData.attributeRelationsData.layerTemplateKey];
@@ -231,14 +236,15 @@ const mapStateToProps = (state, props) => {
 			// backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
 			layersTreeLoaded: !!layerTree,
 			activeFilter,
-			backgroundLayer: [{type:'wikimedia'}],
 			layers,
 			layersVectorData,
 			layersAttributeData,
 			layersAttributeStatistics,
 			layersMetadata,
-			navigator: Select.maps.getNavigator(state, props.mapKey),
-			activeAttributeKey: Select.attributes.getActiveKey(state),
+			navigator: Select.maps.getNavigator_deprecated(state, props.mapKey),
+			activeAttribute: Select.attributes.getActive(state),
+			activeScope: Select.scopes.getActive(state),
+			activeMapSetKey: Select.maps.getActiveSetKey(state),
 			label: label || null,
 			nameData: vectorLayersNames,
 		}
@@ -252,7 +258,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onMount: (layersTreeLoaded) => {
 			// if(!layersTreeLoaded) {
 			if(true) {
-				dispatch(Action.maps.use(props.mapKey, useActiveMetadataKeys));
+				dispatch(Action.maps.deprecated_use(props.mapKey, useActiveMetadataKeys));
 				const layerTreesFilter = props.layerTreesFilter;
 				//action to load LT data and add visible layers to map store
 				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
@@ -263,7 +269,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 
 		onUnmount: () => {
-			dispatch(Action.maps.useClear(props.mapKey));
+			dispatch(Action.maps.deprecated_useClear(props.mapKey));
 			dispatch(Action.layersTrees.useIndexedClear(componentId));
 			dispatch(Action.attributeData.useIndexedClear(componentId));
 			dispatch(Action.spatialDataSources.vector.useIndexedClear(componentId));
@@ -272,7 +278,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 
 		onWorldWindNavigatorChange: (updates) => {
-			dispatch(Action.maps.updateWorldWindNavigator(props.mapKey, updates));
+			dispatch(Action.maps.deprecated_updateWorldWindNavigator(props.mapKey, updates));
 		},
 
 		setActiveMapKey: () => {

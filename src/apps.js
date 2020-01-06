@@ -50,6 +50,45 @@ export default [
 			module.default(path, baseUrl);
 		})
 	},
+
+	/**
+	 * INSAR for BMW story line
+	 */
+	{
+		key: 'insarBmwStory',
+		hostname: 'urban-tep.eu',
+		path: '/visat/insarBmw',
+		devPath: '/insarBmwStory',
+		app: (path, baseUrl) => import(/* webpackChunkName: "insarBmwStory" */'./apps/insarBmwStory').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
+	 * SCUDEO Cities
+	 * tw: SCUDEO
+	 */
+	{
+		key: 'scudeoCities',
+		hostname: 'null',
+		path: null,
+		devPath: '/scudeoCities',
+		app: (path, baseUrl) => import(/* webpackChunkName: "scudeoCities" */'./apps/scudeoCities').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
+	 * SCUDEO Stories
+	 * tw: SCUDEO
+	 */
+	{
+		key: 'scudeoStories19',
+		hostname: 'urban-tep.eu',
+		path: '/visat/scudeoStories19',
+		devPath: '/scudeoStories19',
+		app: (path, baseUrl) => import(/* webpackChunkName: "scudeoStories19" */'./apps/scudeoStories19').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
 	/**
 	 * Geoinvaze
 	 * tw: GEOINV
@@ -187,6 +226,15 @@ export default [
 		path: '/micrositeElections',
 		devPath: '/micrositeElections',
 		app: (path, baseUrl) => import(/* webpackChunkName: "micrositeElections" */'./apps/micrositeElections').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	{
+		key: 'demo',
+		hostname: 'panther.gisat.cz',
+		path: '/demo',
+		devPath: '/demo',
+		app: (path, baseUrl) => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
 			module.default(path, baseUrl);
 		})
 	},

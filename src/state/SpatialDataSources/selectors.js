@@ -1,13 +1,57 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _ from 'lodash';
 
 import vectorSelectors from './vector/selectors';
 import common from "../_common/selectors";
+import AreaRelations from "../AreaRelations/selectors";
 import SpatialRelations from "../SpatialRelations/selectors";
+import SpatialData from "../SpatialData/selectors";
 
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
+
+const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
+	[
+		getAllAsObject,
+		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		AreaRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		SpatialData.getAllAsObject
+	],
+	(dataSources, spatialRelationsDataSourceKeysGroupedByLayerKey, areaRelationsDataSourceKeysGroupedByLayerKey,  spatialData) => {
+		const dataSourceKeysGroupedByLayerKey = spatialRelationsDataSourceKeysGroupedByLayerKey || areaRelationsDataSourceKeysGroupedByLayerKey;
+		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
+			let dataSourcesGroupedByLayerKey = {};
+			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeys, layerKey) => {
+				dataSourcesGroupedByLayerKey[layerKey] = [];
+				_.forEach(dataSourceKeys, (dataSourceKey) => {
+					if (dataSources[dataSourceKey]) {
+						let finalDataSource = {...dataSources[dataSourceKey]};
+
+						const data = spatialData[dataSourceKey];
+						if (data && data.spatialData && data.spatialData.features) {
+							finalDataSource.data.features = data.spatialData.features;
+						}
+
+						dataSourcesGroupedByLayerKey[layerKey].push(finalDataSource);
+					}
+				});
+			});
+
+			return dataSourcesGroupedByLayerKey;
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layers) => JSON.stringify(layers)
+);
+
+
+/**************************************************
+ DEPRECATED
+ **************************************************/
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -28,7 +72,7 @@ const getFilteredGroupedByLayerKey = createSelector(
 	 * @return {null | Object} Data sources grouped by layer key
 	 */
 	(dataSources, groupedKeys, groupedRelations) => {
-		if (groupedKeys) {
+		if (groupedKeys && Object.keys(dataSources).length) {
 			let groupedSources = {};
 			_.forIn(groupedKeys, (keys, layerKey) => {
 				let sources = [];
@@ -70,8 +114,11 @@ const getFilteredData = createSelector(
 export default {
 	getSubstate,
 
+	getByKeys,
+	getFilteredSourcesGroupedByLayerKey,
+
+	// Deprecated
 	getFilteredGroupedByLayerKey,
 	getFilteredData,
-	getByKeys,
 	vector: vectorSelectors
 };

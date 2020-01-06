@@ -1,0 +1,44 @@
+{
+  "key":"classes-scale-example",
+  "data":{
+	"nameInternal":"",
+	"nameDisplay":"",
+	"description":"",
+	"source":"definition",
+	"nameGeoserver":"",
+	"definition":{
+	  "rules":[
+		{
+		  "styles":[
+			{
+			  "attributeKey":"e575b4d4-7c7a-4658-bb9a-a9b61fcc2587",
+			  "attributeClasses":[
+				{
+				  "interval": [0,5],
+				  "intervalBounds": [true, false],
+				  "fill": "#e41a1c"
+				},{
+				  "interval": [5,10],
+				  "intervalBounds": [true, false],
+				  "fill": "#377eb8"
+				},{
+				  "interval": [10,20],
+				  "intervalBounds": [true, false],
+				  "fill": "#984ea3"
+				}
+			  ]
+			}, {
+			  "attributeKey": "22a43eb3-6552-476f-97a5-b47490519642",
+			  "attributeScale": {
+				"outlineWidth": {
+				  "inputInterval": [-10,10],
+				  "outputInterval": [0,7]
+				}
+			  }
+			}
+		  ]
+		}
+	  ]
+	}
+  }
+}

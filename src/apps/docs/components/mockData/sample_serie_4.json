@@ -57,10 +57,6 @@
 		  "someStrangeValue": -717
 		},
 		{
-		  "period": 2003,
-		  "someStrangeValue": -1919
-		},
-		{
 		  "period": 2005,
 		  "someStrangeValue": -467
 		}
@@ -110,7 +106,7 @@
 		},
 		{
 		  "period": 2003,
-		  "someStrangeValue": 366
+		  "someStrangeValue": null
 		},
 		{
 		  "period": 2004,
@@ -182,7 +178,7 @@
 		},
 		{
 		  "period": 2003,
-		  "someStrangeValue": -935
+		  "someStrangeValue": null
 		},
 		{
 		  "period": 2004,
@@ -251,10 +247,6 @@
 		{
 		  "period": 2002,
 		  "someStrangeValue": -994
-		},
-		{
-		  "period": 2003,
-		  "someStrangeValue": 456
 		},
 		{
 		  "period": 2004,

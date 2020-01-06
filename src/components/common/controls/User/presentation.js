@@ -30,7 +30,7 @@ class User extends React.PureComponent {
 					<div className="ptr-user-image"></div>
 					<div className="ptr-user-name">{name}</div>
 					<div className="ptr-user-options">
-						<Button icon="dots" invisible inverted={this.props.inverted}>
+						<Button onClick={()=>{}} icon="dots" invisible inverted={this.props.inverted}>
 							<Menu bottom left>
 								<MenuItem onClick={this.props.logout}>{t("user.logout")}</MenuItem>
 							</Menu>

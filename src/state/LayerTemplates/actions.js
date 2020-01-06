@@ -27,6 +27,8 @@ export default {
 	ensureIndexesWithFilterByActive,
 
 	saveEdited,
+	
+	setActiveKey: common.setActiveKeyAndEnsureDependencies(ActionTypes.LAYER_TEMPLATES, 'layerTemplate'),
 
 	updateEdited,
 	useIndexed,

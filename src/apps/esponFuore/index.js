@@ -38,7 +38,8 @@ export default (path, baseUrl) => {
 
 	Store.dispatch(Action.app.setKey('esponFuore'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
-	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
+	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.01));
+	Store.dispatch(Action.app.loadConfiguration());
 
 	// Set language
 	i18n.changeLanguage("en");

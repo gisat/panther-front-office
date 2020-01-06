@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Page, {
+	DocsToDo,
 	InlineCodeHighlighter,
 	LightDarkBlock,
 	SyntaxHighlighter
@@ -15,6 +16,9 @@ import LineChart from "../../../../../../../components/common/charts/LineChart/L
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
+import serie_5_time_iso_2hours from "../../../../mockData/timeBased/serie_5_time_iso_2hours";
+import serie_50_time_iso_years from "../../../../mockData/timeBased/serie_50_time_iso_years";
+import series_logarithmic_10 from "../../../../mockData/logarithmic/series_logarithmic_10";
 
 class CartesianCharts extends React.PureComponent {
 	constructor(props) {
@@ -102,9 +106,9 @@ class CartesianCharts extends React.PureComponent {
 				</div>
 				<p>Each type of chart is suitable for different use case. For detailed information about proper chart type usage, please go to the particular chart documentation. Based on input data and, mainly, based on the message you want to deliver to your audience, you can choose from following charts:</p>
 				<ul className="ptr-docs-basic-list">
-					<li><Link to="/docs/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
-					<li><Link to="/docs/components/visualizations/cartesianCharts/lineChart"><b>Line chart</b></Link> - progress of one attribute/indicator (e.g. Population progress between 1985 and 2015 by country) or progress of multiple comparable attributes/indicators for one area</li>
-					<li><Link to="/docs/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
+					<li><Link to="/components/visualizations/cartesianCharts/columnChart"><b>Column chart</b></Link> - one attribute/indicator at one point in time (e.g. Population in 2015 by country) or multiple comparable (relative, same unit etc.) attributes/indicators for one area at one point in time</li>
+					<li><Link to="/components/visualizations/cartesianCharts/lineChart"><b>Line chart</b></Link> - progress of one attribute/indicator (e.g. Population progress between 1985 and 2015 by country) or progress of multiple comparable attributes/indicators for one area</li>
+					<li><Link to="/components/visualizations/cartesianCharts/scatterChart"><b>Scatter chart</b></Link> - two attributes/indicators at one point (or even multiple points) in time (e.g. Population growth vs. Urban area growth by country in 2000, 2005 and 2010)</li>
 				</ul>
 
 				<h2 id="props">Common props</h2>
@@ -140,9 +144,9 @@ class CartesianCharts extends React.PureComponent {
 							description: "Path to value for axis x. The Value could be string or number depending on chart type. If data are serial, the path is in the context of the serie."
 						},{
 							name: "ySourcePath",
-							type: "string",
+							type: "string|array",
 							required: true,
-							description: "Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie."
+							description: <>Path to value for axis y. The value has to be numeric. If data are serial, the path is in the context of the serie. It could be a collection as well (See <Link to="/components/visualizations/cartesianCharts/columnChart#stacked">stacked column charts</Link>).</>
 						}, {}, {
 							name: "sorting",
 							type: "array",
@@ -223,12 +227,43 @@ class CartesianCharts extends React.PureComponent {
 								name: "unit",
 								type: "string",
 								description: "Axis x unit. It's displayed in brackets next to the title."
+							},{
+								name: "diversionValue",
+								type: "number",
+								description: "Use together with 'diverging' prop to move axis Y baseline to this value. Scale of axis X has to be linear (currently useful for scatter charts only). By default 0."
+							},{
+								name: "startingTick",
+								type: "number",
+								default: 0,
+								description: "Show ticks (and value labels, gridlines) starting from this position. For ordinal scales only."
+							},{
+								name: "tickStep",
+								type: "number",
+								default: 1,
+								description: "Show every nth tick (and value label, gridline). For ordinal scales only."
+							},{
+								name: "axisValueFormat",
+								type: "string",
+								description: <>Time format used as x axis value label. Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
+							},{
+								name: "popupValueFormat",
+								type: "string",
+								description: <>Time format used in popup. Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
+							},{
+								name: "inputValueFormat",
+								type: "string",
+								description: <>Time format which should be used for parsing input data. Use if source data for time are not in ISO 8601 date and time format (2000-12-31T07:02:44). Currently implemented for <b>line charts only</b>. Use together with xScaleType='time'. See <a href="https://momentjs.com/docs/#/displaying/" target="_blank">MomentJS documentation</a> to set the format correctly.</>
 							}]
 						}, {
 							name: "xTicks",
 							type: "boolean",
 							default: "true",
 							description: "Show ticks on axis x."
+						}, {
+							name: "xScaleType",
+							type: "string",
+							default: "'ordinal'/'linear'",
+							description: <>Possible values are for column chart - ordinal (default); for line chart - ordinal (default), time; for scatter chart - linear (default), time. ISO 8601 date and time format (2000-12-31T07:02:44) is recommended for input data. See <Link to={"#scales"}>Scales section</Link> how to use different scale types.</>
 						}, {
 							name: "xValues",
 							type: "boolean",
@@ -263,7 +298,20 @@ class CartesianCharts extends React.PureComponent {
 								name: "unit",
 								type: "string",
 								description: "Axis y unit. It's displayed in brackets next to the title."
+							},{
+								name: "diversionValue",
+								type: "number",
+								description: "Use together with 'diverging' prop to move axis X baseline to this value. By default 0."
+							}, {
+								name: "highlightedArea",
+								type: "object",
+								description: "Using 'from' and 'to' define the area in the chart which will be highlighted."
 							}]
+						}, {
+							name: "yScaleType",
+							type: "string",
+							default: "'linear'",
+							description: <>Possible values are for column chart - linear (default); for line chart - linear (default), logarithmic; for scatter chart - linear (default). See <Link to="#scales">Scales section</Link> how to use different scale types.</>
 						}, {
 							name: "yTicks",
 							type: "boolean",
@@ -284,6 +332,10 @@ class CartesianCharts extends React.PureComponent {
 							type: "boolean",
 							default: "false",
 							description: "Show legend below chart."
+						}, {}, {
+							name: "diverging",
+							type: "string|boolean",
+							description: (<>Use if the values are diverging from some point (defined in xOptions or yOptions). See <Link to="/components/visualizations/cartesianCharts/columnChart#diverging">Diverging column chart</Link> to find out more. Possible values: 'single', 'double'. If double, ySourcePath must be an array containing paths to both values. If value is not defined, 'single' is used by default.</>)
 						}]
 					}
 				/>
@@ -467,6 +519,7 @@ class CartesianCharts extends React.PureComponent {
 				<p>To increase readability you can switch on or off gridlines (<InlineCodeHighlighter>xGridlines</InlineCodeHighlighter> - auxiliary horizontal lines, <InlineCodeHighlighter>yGridlines</InlineCodeHighlighter> - auxiliary vertical lines) and ticks (<InlineCodeHighlighter>xTicks</InlineCodeHighlighter>, <InlineCodeHighlighter>yTicks</InlineCodeHighlighter>) for both axis.</p>
 				<p>Use <InlineCodeHighlighter>xLabel</InlineCodeHighlighter>/<InlineCodeHighlighter>yLabel</InlineCodeHighlighter> to add label (title) for axis x/axis y. Source data for the label must be defined in <InlineCodeHighlighter>xOptions</InlineCodeHighlighter>/<InlineCodeHighlighter>yOptions</InlineCodeHighlighter> object as you can see in the example below.</p>
 				<p>Furthermore, you can extend minimum and maximum for axis y (or even for axis x, if its scale is linear - e.g. scatter chart) in the options object.</p>
+				<p>If you want to highlight certain area in the chart (e.g. emphasize filter range), you can define the <InlineCodeHighlighter>highlightedArea</InlineCodeHighlighter> object in <InlineCodeHighlighter>yOptions</InlineCodeHighlighter>. Specify <InlineCodeHighlighter>from</InlineCodeHighlighter> and <InlineCodeHighlighter>to</InlineCodeHighlighter> property to set the range on axis y which should be highlighted.</p>
 				<p>For axis y, there is an additional prop <InlineCodeHighlighter>withoutYbaseline</InlineCodeHighlighter>nset to false. It means show the baseline of axis Y, because the baseline is hidden by default for column chart.</p>
 
 				<SyntaxHighlighter language="jsx">
@@ -497,6 +550,10 @@ class CartesianCharts extends React.PureComponent {
 					'\t\t\tunit: "sqkm"\n' +
 					'\t\t\tmin: 0\n' +
 					'\t\t\tmax: 104000\n' +
+					'\t\t\thighlightedArea: {\n' +
+					'\t\t\t\tfrom: 30000\n' +
+					'\t\t\t\tto: 60000\n' +
+					'\t\t\t}\n' +
 					'\t\t}}\n' +
 					'\t\tyLabel\n' +
 					'\t\tyTicks\n' +
@@ -536,7 +593,11 @@ class CartesianCharts extends React.PureComponent {
 									name: "Urban Area",
 									unit: "sqkm",
 									min: 0,
-									max: 104000
+									max: 104000,
+									highlightedArea: {
+										from: 30000,
+										to: 60000
+									}
 								}}
 								yLabel
 								yTicks
@@ -548,6 +609,256 @@ class CartesianCharts extends React.PureComponent {
 						</ResizableContainer>
 					</HoverHandler>
 				</LightDarkBlock>
+
+				<h3 id="scales">Scales</h3>
+
+				<p>Currently, this functionality is under development. However, it is possible to use some basic scale types for both axis x and y in line chart and scatter chart.</p>
+
+				<h4>Line chart</h4>
+				<p>For line chart, the default scale of axis y is linear (all line chart examples above). Optionally it is possible to use logarithmic scale: <InlineCodeHighlighter>yScaleType="logarithmic"</InlineCodeHighlighter>. Use logarithmic scale type together with <InlineCodeHighlighter>yOptions (min, max, tickCount).</InlineCodeHighlighter> to get nice rounded values and gridlines on axis y.</p>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="time-scale-line"
+
+								data={series_logarithmic_10}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="time" // in context of serie
+								ySourcePath="otherValue" // in context of serie
+
+								yScaleType="logarithmic"
+								yOptions={{
+									min: 0.01,
+									max: 100,
+									tickCount: 4
+								}}
+
+								sorting={[["time", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<p>For axis x, the default scale is ordinal (all line chart examples above). Another scale you can use for axis x is time-based by setting <InlineCodeHighlighter>xScaleType="time"</InlineCodeHighlighter>. It is recommended to specify <InlineCodeHighlighter>axisValueFormat</InlineCodeHighlighter> and <InlineCodeHighlighter>popupValueFormat</InlineCodeHighlighter> to format axis x value labels and values in popups. Additionally, if the input data which represents the period is not in ISO 8601 date and time format (2000-12-31T07:02:44), specify <InlineCodeHighlighter>inputValueFormat</InlineCodeHighlighter> (this functionality is experimental).</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<LineChart \n' +
+					'\t\tkey="time-scale-line"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="period"\n' +
+					'\t\tySourcePath="someStrangeValue"\n' +
+					'\n' +
+					'\t\tisSerie\n' +
+					'\t\tpointRadius={3}\n' +
+					'\n' +
+					'\t\txScaleType="time"\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\taxisValueFormat "YYYY"\n' +
+					'\t\t\tpopupValueFormat: "YYYY"\n' +
+					'\t\t\tinputValueFormat "YYYY"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tunit: "inhabitans"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tdiverging\n' +
+					'\t\tsorting={[["period", "asc"]]}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<LineChart
+								key="time-scale-line"
+
+								xScaleType="time"
+
+								data={sample_serie_4}
+								keySourcePath="key"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								xSourcePath="period" // in context of serie
+								ySourcePath="someStrangeValue" // in context of serie
+
+								xOptions={{
+									inputValueFormat: 'YYYY',
+									axisValueFormat: 'YYYY',
+									popupValueFormat: 'YYYY',
+									name: 'Time',
+								}}
+
+								yOptions={{
+									unit: "inhabitans"
+								}}
+
+								diverging
+								sorting={[["period", "asc"]]} // not required, but recommended
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<h4>Scatter chart</h4>
+				<p>For axis x, the default scale is linear (all line chart examples above). Another scale you can use for axis x is time-based by setting <InlineCodeHighlighter>xScaleType="time"</InlineCodeHighlighter>. It is recommended to specify <InlineCodeHighlighter>axisValueFormat</InlineCodeHighlighter> and <InlineCodeHighlighter>popupValueFormat</InlineCodeHighlighter> to format axis x value labels and values in popups.</p>
+				<p>See the examples bellow how different time ranges are handled. An optional range of axis x is set in the first example. In the second example, time scale on axis x is combined with linear scale with diverging values on axis y.</p>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ScatterChart \n' +
+					'\t\tkey="time-scale-scatter-2"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="time"\n' +
+					'\t\tySourcePath="some_value_1"\n' +
+					'\n' +
+					'\t\tisSerie\n' +
+					'\t\tpointRadius={3}\n' +
+					'\n' +
+					'\t\txScaleType="time"\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\taxisValueFormat "YYYY"\n' +
+					'\t\t\tpopupValueFormat: "D MMMM YYYY"\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\tmax "2022-01-01T00:00:00"\n' +
+					'\t\t\tmin "2012-01-01T00:00:00"\n' +
+					'\t\t}}\n' +
+					'\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tname: "Temperature"\n' +
+					'\t\t\tunit: "°C"\n' +
+					'\t\t}}\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ScatterChart
+								key="time-scale-scatter-2"
+								data={serie_50_time_iso_years}
+
+								xSourcePath="time"
+								ySourcePath="some_value_1"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								keySourcePath="key"
+
+								isSerie
+								pointRadius={3}
+
+								xScaleType="time"
+								xOptions={{
+									max: '2022-01-01T00:00:00',
+									min: '2012-01-01T00:00:00',
+									axisValueFormat: 'YYYY',
+									popupValueFormat: 'D MMMM YYYY',
+									name: 'Time'
+								}}
+
+								yOptions={{
+									name: 'Temperature',
+									unit: '°C'
+								}}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+				<SyntaxHighlighter language="jsx">
+					{'<HoverHandler>\n' +
+					'\t<ScatterChart \n' +
+					'\t\tkey="time-scale-scatter"\n' +
+					'\t\t\n' +
+					'\t\tdata={data}\n' +
+					'\t\tkeySourcePath="key"\n' +
+					'\t\tnameSourcePath="data.name"\n' +
+					'\t\txSourcePath="time"\n' +
+					'\t\tySourcePath="some_value_1"\n' +
+					'\n' +
+					'\t\tisSerie\n' +
+					'\t\tpointRadius={3}\n' +
+					'\n' +
+					'\t\txScaleType="time"\n' +
+					'\t\txOptions={{\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t\taxisValueFormat "H:mm"\n' +
+					'\t\t\tpopupValueFormat: "D MMMM YYYY (H:mm)"\n' +
+					'\t\t\tname: "Time"\n' +
+					'\t\t}}\n' +
+					'\t\txValuesSize={5}\n' +
+					'\n' +
+					'\t\tyOptions={{\n' +
+					'\t\t\tname: "Temperature"\n' +
+					'\t\t\tunit: "°C"\n' +
+					'\t\t\tmin: -100\n' +
+					'\t\t\tmax: +100\n' +
+					'\t\t}}\n' +
+					'\t\tyLabel\n' +
+					'\t\tyTicks={false}\n' +
+					'\n' +
+					'\t\twithoutYbaseline={false}\n' +
+					'\t\tdiverging\n' +
+					'\t/>\n' +
+					'</HoverHandler>'}
+				</SyntaxHighlighter>
+
+				<LightDarkBlock forceRows>
+					<HoverHandler>
+						<ResizableContainer>
+							<ScatterChart
+								key="time-scale-scatter"
+								data={serie_5_time_iso_2hours}
+
+								xSourcePath="time"
+								ySourcePath="some_value_1"
+								nameSourcePath="data.name"
+								serieDataSourcePath="data.data"
+								keySourcePath="key"
+
+								isSerie
+								pointRadius={3}
+
+								xScaleType="time"
+								xValuesSize={5}
+								xOptions={{
+									axisValueFormat: 'H:mm',
+									popupValueFormat: 'D MMMM YYYY (H:mm)',
+									name: 'Time'
+								}}
+
+								yLabel
+								yTicks={false}
+								yOptions={{
+									name: 'Temperature',
+									unit: '°C',
+									min: -100,
+									max: 100
+								}}
+
+								diverging
+								withoutYbaseline={true}
+							/>
+						</ResizableContainer>
+					</HoverHandler>
+				</LightDarkBlock>
+
+
 
 				<h3>Show legend</h3>
 				<p>A legend could be used in line chart or scatter and is hidden by default. To show the legend just add <InlineCodeHighlighter>legend</InlineCodeHighlighter> prop. In the examples below you can se the legend usage for all types of cartesian charts.</p>

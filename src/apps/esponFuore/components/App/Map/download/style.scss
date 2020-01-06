@@ -1,0 +1,125 @@
+@import '../../../../styles/variables';
+
+#esponFuore-map-download {
+	position: absolute;
+	width: 210mm;
+	height: 297mm;
+	padding: 8mm 8mm 10mm;
+	background: #ffffff;
+	border: 1px solid;
+	display: flex;
+	flex-direction: column;
+	top: 0;
+	left: 0;
+
+	// for testing
+	//z-index: 99999999;
+}
+
+/* Header */
+#esponFuore-map-download .scope {
+	display: inline-block;
+	color: var(--base60);
+	margin-bottom: 1mm;
+	text-transform: uppercase;
+	font-size: 12pt;
+}
+
+#esponFuore-map-download .title {
+	font-size: 20pt;
+	margin-bottom: 5mm;
+}
+
+#esponFuore-map-download .description {
+	color: var(--base60);
+	font-size: 12pt;
+}
+
+/* Content */
+#esponFuore-map-download .content {
+	width: 100%;
+	overflow: hidden;
+	flex-grow: 1;
+}
+
+#esponFuore-map-download .map {
+	max-width: 100%;
+	max-height: 200mm;
+	overflow: hidden;
+}
+
+#esponFuore-map-download .legend-scale-container {
+	display: flex;
+	margin: 1mm 0 0;
+}
+
+/* Legend */
+#esponFuore-map-legend {
+	flex: 1;
+	margin-top: .5rem;
+}
+
+#esponFuore-map-legend .legend {
+	margin: 0;
+}
+
+#esponFuore-map-legend .legend .legend-title,
+#esponFuore-map-legend .legend .legend-subtitle {
+	display: none;
+}
+
+#esponFuore-map-legend .legend .legend-item .images .image {
+	align-items: flex-start;
+}
+
+#esponFuore-map-legend .legend .legend-item .images .image svg,
+#esponFuore-map-legend .legend .legend-item .images .image svg rect {
+	width: 10mm;
+	height: 5mm;
+}
+
+#esponFuore-map-legend .title {
+	font-size: 10pt;
+	width: 100%;
+}
+
+#esponFuore-map-legend .diagram-container {
+	border: 0;
+}
+
+/* Scale */
+#esponFuore-map-scale {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#esponFuore-map-scale .scale-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#esponFuore-map-scale-line {
+	height: .8mm;
+	background: var(--base50);
+	margin-bottom: .5mm;
+}
+
+#esponFuore-map-scale-label {
+	color: var(--base60);
+	font-size: 10pt;
+}
+
+/* Footer */
+#esponFuore-map-download .footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 3mm;
+	position: absolute;
+	right: 8mm;
+	bottom: 10mm;
+}
+
+#esponFuore-map-download .footer-logo {
+	max-width: 40mm;
+}

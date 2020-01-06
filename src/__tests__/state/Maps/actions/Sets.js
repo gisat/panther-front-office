@@ -154,7 +154,7 @@ describe('Maps Sets Actions', () => {
 				setKey: 'set1',
 				worldWindNavigator,
 			}];
-			store.dispatch(Action.maps.setSetWorldWindNavigator('set1', worldWindNavigator));
+			store.dispatch(Action.maps.deprecated_setSetWorldWindNavigator('set1', worldWindNavigator));
 			expect(store.getActions()).toEqual(expectedActions);
 		});
 		it('should dispatch ERROR action, after try to set WORLD_WIND_NAVIGATOR to undefined set.', () => {
@@ -165,7 +165,7 @@ describe('Maps Sets Actions', () => {
 			const expectedActions = [{
 				type: 'ERROR'
 			}];
-			store.dispatch(Action.maps.setSetWorldWindNavigator('set2', worldWindNavigator));
+			store.dispatch(Action.maps.deprecated_setSetWorldWindNavigator('set2', worldWindNavigator));
 			expect(store.getActions()).toEqual(expectedActions);
 		});
 		it('should dispatch setSetSync action.', () => {

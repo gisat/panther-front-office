@@ -1,20 +1,149 @@
 @import '../../../../../styles/variables';
 
 .esponFuore-areas-filter {
-  padding: m(1) m(4/3) m(1) m(1);
+  padding: m(1) m(4/3) 0 m(1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.esponFuore-areas-filter-content {
+  flex: 1;
 }
 
 .esponFuore-areas-filter-attribute {
-  margin-bottom: m(2/3);
+  margin-bottom: m(4/3);
+}
+
+.esponFuore-areas-filter-attribute.slider {
+  padding-right: .7rem;
 }
 
 .esponFuore-areas-filter-attribute > span {
   display: inline-block;
-  margin-bottom: .1rem;
-  font-size: $a1;
+  margin-bottom: .25rem;
+  font-size: $b1;
+  font-weight: bold;
   color: var(--base70);
+
 }
 
 .esponFuore-areas-filter-buttons {
   margin-top: m(1);
+  margin-bottom: m(2/3);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-right: -.5rem;
+}
+
+.esponFuore-areas-filter-areas-info {
+  flex: 1;
+  color: var(--accent50);
+  white-space: nowrap;
+}
+
+/* Slider */
+.esponFuore-attribute-slider {
+  margin: .15rem .35rem 0;
+}
+
+.esponFuore-attribute-slider .rc-slider-mark {
+  margin-top: .15rem;
+}
+
+.esponFuore-attribute-slider .rc-slider-mark-text {
+  font-size: $b1;
+  color: var(--base50);
+}
+
+.esponFuore-attribute-slider .rc-slider-track {
+  background-color: var(--accent40);
+}
+
+.esponFuore-attribute-slider .rc-slider-handle {
+  width: 18px;
+  height: 18px;
+  margin-top: -8px;
+  margin-left: -8px;
+}
+
+.esponFuore-attribute-slider .rc-slider-handle-2 {
+  margin-left: -10px;
+}
+
+.esponFuore-attribute-slider .rc-slider-handle,
+.esponFuore-attribute-slider .rc-slider-handle-click-focused,
+.esponFuore-attribute-slider .rc-slider-handle-click-focused:focus {
+  border: 3px solid var(--accent40);
+}
+
+.esponFuore-attribute-slider .rc-slider-handle:hover {
+  border-color: var(--accent50);
+}
+
+/* slider inputs */
+.esponFuore-attribute-filter-inputs {
+  display: flex;
+  justify-content: center;
+  margin-top: .15rem;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number {
+  width: 4.5rem;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px dotted var(--accent30);
+  transition: border .3s ease-in-out;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number:hover {
+  border-bottom-color: var(--accent50);
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number-focused {
+  border-bottom: 2px solid var(--accent50);
+  box-shadow: none;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number-input {
+  color: var(--accent50);
+  font-size: $b1;
+  border-radius: 0;
+  padding: 0 .35rem;
+  text-align: left;
+  width: 100%;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number:first-child .rc-input-number-input {
+  text-align: right;
+}
+
+.esponFuore-attribute-filter-inputs .rc-input-number-focused  .rc-input-number-input {
+  color: var(--accent60);
+  background: var(--accent15);
+}
+
+.esponFuore-attribute-filter-inputs > div .rc-input-number-handler-wrap {
+  display: none;
+}
+
+.esponFuore-attribute-filter-input-separator {
+  padding: 0 .15rem;
+  color: var(--accent50);
+}
+
+// TODO find out how to add custom class
+.rc-slider-tooltip {
+  z-index: 999999;
+}
+
+.rc-slider-tooltip .rc-slider-tooltip-inner {
+  padding: .35rem .5rem;
+  font-size: $b1;
+  background: $lightBase90;
+}
+
+.rc-slider-tooltip.rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+  border-top-color: $lightBase90;
 }

@@ -4,7 +4,7 @@ import Action from "../../../../../state/Action";
 
 import {cloneDeep} from 'lodash';
 
-import wrapper from '../../../../../components/common/maps/MapWrapper';
+import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
 import utils from '../../../../../utils/utils';
 
@@ -19,12 +19,12 @@ const mapStateToProps = (state, props) => {
 	return (state) => {
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
-		let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey, useActiveMetadataKeys);
+		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
 		let layersData = layersState ? layersState.map(layer => {
 			const filter = cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
 		}) : null;
-		let layers = Select.maps.getLayers(state, layersData);
+		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		layers.forEach((l) => {
 			if(l.type === 'vector') {
 				l.spatialIdKey = props.activeMapAttributeKey
@@ -64,7 +64,7 @@ const mapStateToProps = (state, props) => {
 			layersAttributeData: null,
 			layersAttributeStatistics: {},
 			layersMetadata: {},
-			navigator: Select.maps.getNavigator(state, props.mapKey),
+			navigator: Select.maps.getNavigator_deprecated(state, props.mapKey),
 			// activeAttributeKey: Select.attributes.getActiveKey(state),
 			label: label || null,
 			// nameData: vectorLayersNames,
@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		onUnmount: () => {},
 
 		onWorldWindNavigatorChange: (updates) => {
-			dispatch(Action.maps.updateWorldWindNavigator(props.mapKey, updates));
+			dispatch(Action.maps.deprecated_updateWorldWindNavigator(props.mapKey, updates));
 		},
 
 		setActiveMapKey: () => {

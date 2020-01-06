@@ -31,6 +31,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.clearIndex(state, action);
 		case ActionTypes.LAYER_TEMPLATES.MARK_DELETED:
 			return common.markDeleted(state, action);
+		case ActionTypes.LAYER_TEMPLATES.SET_ACTIVE_KEY:
+			return common.setActive(state, action);
+		case ActionTypes.LAYER_TEMPLATES.SET_ACTIVE_KEYS:
+			return common.setActiveMultiple(state, action);
 		case ActionTypes.LAYER_TEMPLATES.USE.KEYS.REGISTER:
 			return common.useKeysRegister(state, action);
 		case ActionTypes.LAYER_TEMPLATES.USE.KEYS.CLEAR:

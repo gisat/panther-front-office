@@ -5,8 +5,6 @@ import classnames from 'classnames';
 
 import './style.scss';
 import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
-import scopeThumbnail0 from '../../../assets/img/thumbnail_0.jpg';
-import scopePreview1 from '../../../assets/img/preview_1.jpg';
 
 class ScopesList extends React.PureComponent {
 
@@ -61,26 +59,37 @@ class ScopesList extends React.PureComponent {
 	// TODO implement Read more.. for scope description?
 	renderCards() {
 		return this.props.scopes.map((scope, index) => {
-			let style = {
-				backgroundImage: index === 0 ? `url(${scopeThumbnail0})` : `url(${scopePreview1})`
-			};
+			let style = {};
 
-			let classes = classnames("esponFuore-scope-card", {
-				disabled: scope && scope.data && scope.data.configuration && scope.data.configuration.fuoreMockScope
-			});
+			if (scope) {
+				if (scope.data.configuration.imageName) {
+					try {
+						let image = require(`../../../assets/scopePreviews/${scope.data.configuration.imageName}.png`);
+						style.backgroundImage = `url(${image})`;
+					} catch (e) {
+						console.warn("esponFuore#ScopesList: ", e)
+					}
+				}
 
-			return (
-				<div className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
-					<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
-					{scope.data && scope.data.description ? (
-						<div className="esponFuore-scope-card-description">
-							<Truncate lines={6}>
-								{scope.data && scope.data.description}
-							</Truncate>
-						</div>
-					) : null}
-				</div>
-			);
+				let classes = classnames("esponFuore-scope-card", {
+					disabled: scope && scope.data && scope.data.configuration && scope.data.configuration.fuoreMockScope
+				});
+
+				return (
+					<div className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
+						<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
+						{scope.data && scope.data.description ? (
+							<div className="esponFuore-scope-card-description">
+								<Truncate lines={6}>
+									{scope.data && scope.data.description}
+								</Truncate>
+							</div>
+						) : null}
+					</div>
+				);
+			} else {
+				return null;
+			}
 		});
 	}
 

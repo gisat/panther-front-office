@@ -7,14 +7,15 @@ import './style.scss';
 import AxisLabel from "./AxisLabel";
 
 const TICK_SIZE = 5; // TODO optional?
-const TICK_COUNT = 5; // TODO optional?
+const TICK_COUNT = 5;
 const TICK_CAPTION_OFFSET_VERTICAL = 7;
 const TICK_CAPTION_OFFSET_HORIZONTAL = 4;
 
 class AxisY extends React.PureComponent {
 
 	static defaultProps = {
-		topPadding: 0
+		topPadding: 0,
+		leftPadding: 0
 	};
 
 	static propTypes = {
@@ -22,6 +23,7 @@ class AxisY extends React.PureComponent {
 
 		bottomMargin: PropTypes.number,
 		topPadding: PropTypes.number,
+		leftPadding: PropTypes.number,
 		height: PropTypes.number,
 		plotWidth: PropTypes.number,
 		labelSize: PropTypes.number,
@@ -32,7 +34,18 @@ class AxisY extends React.PureComponent {
 		ticks: PropTypes.bool,
 		withValues: PropTypes.bool,
 		label: PropTypes.bool,
-		options: PropTypes.object
+		options: PropTypes.object,
+
+		diverging: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]),
+		stacked: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]),
+		xScale: PropTypes.func,
+		xOptions: PropTypes.object
 	};
 
 	constructor(props) {
@@ -44,6 +57,7 @@ class AxisY extends React.PureComponent {
 
 		return (
 			<g className="ptr-column-chart-axis-y" transform={`translate(0,0)`}>
+				{props.options && props.options.highlightedArea ? this.renderHighlightedArea() : null}
 				{!props.hiddenBaseline ? this.renderBaseline() : null}
 				{(props.ticks || props.gridlines || props.withValues) ? this.renderGrid() : null}
 				{props.label ? this.renderLabel() : null}
@@ -52,55 +66,81 @@ class AxisY extends React.PureComponent {
 	}
 
 	renderBaseline() {
+		const props = this.props;
+
+		let xCoord = this.props.width + this.props.labelSize;
+
+		if (props.diverging && props.xOptions && props.xOptions.diversionValue) {
+			xCoord += props.xScale(props.xOptions.diversionValue) + props.leftPadding;
+		}
+
 		return (
 			<path
 				className="ptr-axis-baseline"
-				d={`M${this.props.width + this.props.labelSize} ${this.props.height} L${this.props.width + this.props.labelSize} 0`}
+				d={`M${xCoord} ${this.props.height} L${xCoord} 0`}
 			/>
 		);
 	}
 
 	renderGrid() {
-		let shift = this.props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
-		let ticks = this.props.scale.ticks(TICK_COUNT);
-		let topPadding = this.props.topPadding ? this.props.topPadding : 0;
+		const props = this.props;
+		const tickCount = this.props.options && this.props.options.tickCount ? this.props.options.tickCount : TICK_COUNT;
+
+		let shift = props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
+		let ticks = props.scale.ticks(tickCount);
+
+		if (props.diverging) {
+			let diversionValue = props.options && props.options.diversionValue || 0;
+			let notInTicks = _.indexOf(ticks, diversionValue) === -1;
+			if (notInTicks) {
+				let newTicks = [diversionValue];
+				let domain = props.scale.domain();
+				let min = domain[0];
+				let max = domain[1];
+				let step = Math.abs(ticks[0] - ticks[1]);
+				for (let i = (diversionValue + step); i < max; i+=step) {
+					newTicks.push(i);
+				}
+				for (let j = (diversionValue - step); j > min; j-=step) {
+					newTicks.unshift(j);
+				}
+				ticks = newTicks;
+			}
+		}
 
 		return (
-			<g className="ptr-axis-grid" transform={`translate(${this.props.width + this.props.labelSize - shift},${topPadding})`}>
+			<g className="ptr-axis-grid" transform={`translate(${props.width + props.labelSize - shift},${props.topPadding })`}>
 				{ticks.map(value => {
-					let yCoord = this.props.scale(value);
+					let yCoord = props.scale(value);
 
-					// avoid too top grid lines
-					if (yCoord > 5) {
-						return (
+					return (
+						(yCoord || yCoord === 0) ? (
 							<g key={value}>
 								<line
 									className="ptr-axis-gridline"
 									x1={TICK_CAPTION_OFFSET_VERTICAL}
-									x2={this.props.gridlines ? (this.props.plotWidth  + shift) : shift}
+									x2={props.gridlines ? (props.plotWidth  + shift) : shift}
 									y1={yCoord}
 									y2={yCoord}
 								/>
-								{this.props.withValues ? (
+								{props.withValues ? (
 									<g
-									transform={`
-										translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
-									`}
+										transform={`
+											translate(0 ${yCoord + TICK_CAPTION_OFFSET_HORIZONTAL})
+										`}
 									>
 										<AxisLabel
 											classes="ptr-tick-caption"
-											maxWidth={this.props.width}
-											maxHeight={this.props.height/ticks.length}
+											maxWidth={props.width}
+											maxHeight={props.height/ticks.length}
 											text={value.toLocaleString()}
 											textAnchor="end"
 										/>
 									</g>
 								) : null}
 							</g>
-						)
-					} else {
-						return null;
-					}
+						) : null
+					)
 				})}
 			</g>
 		);
@@ -115,8 +155,13 @@ class AxisY extends React.PureComponent {
 				content += props.options.name;
 			}
 
-			if (props.options.unit) {
-				content += " (" + props.options.unit + ")"
+			if (props.options.unit || props.stacked === "relative") {
+				let unit = props.options.unit;
+				if (props.stacked === "relative") {
+					unit = "%";
+				}
+
+				content += " (" + unit + ")"
 			}
 
 		} else {
@@ -136,6 +181,49 @@ class AxisY extends React.PureComponent {
 					text={content}
 					textAnchor="middle"
 				/>
+			</g>
+		);
+	}
+
+	renderHighlightedArea() {
+		const props = this.props;
+		let shift = props.ticks ? (TICK_SIZE + TICK_CAPTION_OFFSET_VERTICAL) : TICK_CAPTION_OFFSET_VERTICAL;
+		let options = props.options.highlightedArea;
+
+		let domain = props.scale.domain();
+		let min = domain[0] > options.from ? domain[0] : options.from;
+		let max = domain[1] < options.to ? domain[1] : options.to;
+
+
+		let x1 = TICK_CAPTION_OFFSET_VERTICAL;
+		let x2 = props.gridlines ? (props.plotWidth + shift) : props.plotWidth;
+		let yMin = props.scale(min);
+		let yMax = props.scale(max);
+
+		return (
+			<g className="ptr-axis-grid" transform={`translate(${props.width + props.labelSize - shift},${props.topPadding })`}>
+				<path
+					className="ptr-axis-highlighted-area"
+					d={`M${x1},${yMin} L${x1},${yMax} L${x2},${yMax} L${x2},${yMin}`}
+				/>
+				{min === options.from ? (
+					<line
+						className="ptr-axis-highlighted-area-edge"
+						x1={x1}
+						x2={x2}
+						y1={yMin}
+						y2={yMin}
+					/>
+				) : null}
+				{max === options.to ? (
+					<line
+						className="ptr-axis-highlighted-area-edge"
+						x1={x1}
+						x2={x2}
+						y1={yMax}
+						y2={yMax}
+					/>
+				) : null}
 			</g>
 		);
 	}

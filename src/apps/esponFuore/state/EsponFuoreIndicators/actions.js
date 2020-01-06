@@ -31,6 +31,7 @@ function setActiveAttributeByIndicatorKey(key) {
 
 function select(key) {
 	return (dispatch, getState) => {
+		dispatch(setActiveKey(key));
 		dispatch(setActiveAttributeByIndicatorKey(key));
 
 		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(getState(), key);
@@ -41,6 +42,18 @@ function select(key) {
 			dispatch(viewsActions.setActiveKey(viewKey));
 			dispatch(viewsActions.apply(activeIndicator.data.viewKey, Action));
 		}
+	}
+}
+
+function useIndexedIndicatorsWithAttributes(filterByActive, filter, order, start, length, componentId) {
+	return (dispatch, getState) => {
+		dispatch(useIndexed(filterByActive, filter, order, start, length, componentId)).then(() => {
+			let indicators = Select.specific.esponFuoreIndicators.getIndexed(getState(), filterByActive, filter, order, start, length);
+			if (indicators) {
+				let attributeKeys = indicators.map(indicator => indicator.data.attributeKey);
+				dispatch(attributeActions.useKeys(attributeKeys, componentId));
+			}
+		});
 	}
 }
 
@@ -58,6 +71,8 @@ export default {
 	useKeysClear,
 	refreshUses,
 	useIndexed,
+	useIndexedIndicatorsWithAttributes,
 	useIndexedClear,
-	select
+	select,
+	setActiveKey
 }
