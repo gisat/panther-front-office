@@ -5,6 +5,7 @@ import Select from "../Select";
 
 // ============ creators ===========
 
+const add = common.add(ActionTypes.CASES);
 const create = common.create(Select.cases.getSubstate, 'cases', ActionTypes.CASES);
 const deleteItem = common.delete(Select.cases.getSubstate, 'cases', ActionTypes.CASES);
 const saveEdited = common.saveEdited(Select.cases.getSubstate, 'cases', ActionTypes.CASES);
@@ -36,6 +37,7 @@ function setActiveKeys(keys) {
 // ============ export ===========
 
 export default {
+	add,
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,

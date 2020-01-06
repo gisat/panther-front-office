@@ -4,8 +4,8 @@ import _ from 'lodash';
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
 
-import sample_4 from "../../../../mockData/sample_4";
 import sample_50 from "../../../../mockData/sample_50";
+
 import sample_serie_10 from "../../../../mockData/scatterChart/serie_10";
 import Page, {DocsToDo, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
@@ -28,8 +28,13 @@ class ScatterChartDoc extends React.PureComponent {
 
 							xSourcePath="data.some_value_1"
 							ySourcePath="data.some_value_2"
+							zSourcePath="data.some_value_1"
 							nameSourcePath="data.name"
 							keySourcePath="key"
+
+							innerPaddingRight={0}
+							innerPaddingTop={0}
+							innerPaddingLeft={0}
 
 							maxWidth={30}
 						/>
@@ -41,7 +46,7 @@ class ScatterChartDoc extends React.PureComponent {
 
 
 				<h2 id="props">Props</h2>
-				<p>Bellow are listed specific props for scatter chart. Other props are common to all cartesian charts (<Link to="/docs/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
+				<p>Bellow are listed specific props for scatter chart. Other props are common to all cartesian charts (<Link to="/components/visualizations/CartesianCharts">see Cartesian charts documentation</Link>).</p>
 				<ComponentPropsTable
 					content={[
 						{
@@ -63,6 +68,22 @@ class ScatterChartDoc extends React.PureComponent {
 							name: "itemNameSourcePath",
 							type: "string",
 							description: "Required if isSerie is true."
+						}, {}, {
+							name: "zSourcePath",
+							type: "string",
+							description: "Path to value for point size. If data are serial, the path is in the context of the serie."
+						}, {
+							name: "zOptions",
+							type: "object",
+							objectPropsDescription: [{
+								name: "name",
+								type: "string",
+								description: "Z attrribute title."
+							},{
+								name: "unit",
+								type: "string",
+								description: "Z attribute units"
+							}]
 						}
 					]}
 				/>

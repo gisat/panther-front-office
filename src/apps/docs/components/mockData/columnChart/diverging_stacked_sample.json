@@ -1,0 +1,282 @@
+[
+  {
+	"key": "7c2e6c72-267f-4af0-9418-f47e865e243e",
+	"data": {
+	  "name": "Tennessee",
+	  "positive": null,
+	  "negative": null,
+	  "part1": null,
+	  "part2": null,
+	  "part3": null,
+	  "part4": null,
+	  "part5": null,
+	  "part6": null
+	}
+  },
+  {
+	"key": "1bc88ca7-a928-4c09-be7c-8db012c85bb0",
+	"data": {
+	  "name": "Nevada",
+	  "positive": 487,
+	  "negative": -1381,
+	  "part1": null,
+	  "part2": null,
+	  "part3": null,
+	  "part4": -4.8979,
+	  "part5": -3.3072,
+	  "part6": -1.9769
+	}
+  },
+  {
+	"key": "e3563760-81ee-4d84-861c-109ac2db1307",
+	"data": {
+	  "name": "Nebraska",
+	  "positive": 1282,
+	  "negative": -1510,
+	  "part1": 3.5153,
+	  "part2": null,
+	  "part3": 3.2393,
+	  "part4": -0.3006,
+	  "part5": -3.2842,
+	  "part6": -1.4405
+	}
+  },
+  {
+	"key": "dd458dae-8b4c-41e7-9e89-a0ca4863b12e",
+	"data": {
+	  "name": "Oklahoma",
+	  "positive": 1911,
+	  "negative": -1090,
+	  "part1": 2.1676,
+	  "part2": 3.543,
+	  "part3": 2.4584,
+	  "part4": -1.1472,
+	  "part5": -4.8009,
+	  "part6": -0.9257
+	}
+  },
+  {
+	"key": "0069d39a-80cf-4229-bc80-2943b282ab39",
+	"data": {
+	  "name": "Virginia",
+	  "positive": 1788,
+	  "negative": -628,
+	  "part1": 0.6566,
+	  "part2": 1.1503,
+	  "part3": 1.2577,
+	  "part4": -4.8368,
+	  "part5": -1.8556,
+	  "part6": -3.1086
+	}
+  },
+  {
+	"key": "b47d2ce8-c987-4dc4-aba7-c28db3e79c22",
+	"data": {
+	  "name": "Massachusetts",
+	  "positive": 706,
+	  "negative": -530,
+	  "part1": 1.1026,
+	  "part2": 0.118,
+	  "part3": 0.8777,
+	  "part4": -0.4622,
+	  "part5": -2.4526,
+	  "part6": -2.0249
+	}
+  },
+  {
+	"key": "2e7ac678-c815-4553-b245-190c708a36c8",
+	"data": {
+	  "name": "Palau",
+	  "positive": 649,
+	  "negative": -1113,
+	  "part1": 2.4024,
+	  "part2": 3.1189,
+	  "part3": 3.9016,
+	  "part4": -4.9746,
+	  "part5": -0.9241,
+	  "part6": -3.9803
+	}
+  },
+  {
+	"key": "deed7fda-55b6-4e0c-a7fb-64747350ef78",
+	"data": {
+	  "name": "New York",
+	  "positive": 1331,
+	  "negative": -215,
+	  "part1": 0.9699,
+	  "part2": 2.257,
+	  "part3": 4.1458,
+	  "part4": -1.8171,
+	  "part5": -2.5341,
+	  "part6": -1.8265
+	}
+  },
+  {
+	"key": "d0729b91-9693-45ea-91a8-a2e026733eb4",
+	"data": {
+	  "name": "Kentucky",
+	  "positive": 1878,
+	  "negative": -1595,
+	  "part1": 2.9857,
+	  "part2": 3.384,
+	  "part3": 3.9117,
+	  "part4": -0.7329,
+	  "part5": -1.7672,
+	  "part6": -4.3486
+	}
+  },
+  {
+	"key": "022eb79e-c903-4ddb-8b21-b7259e273d5d",
+	"data": {
+	  "name": "Alaska",
+	  "positive": 538,
+	  "negative": -103,
+	  "part1": 1.5282,
+	  "part2": 3.0945,
+	  "part3": 2.626,
+	  "part4": -4.2799,
+	  "part5": -0.6003,
+	  "part6": -2.3997
+	}
+  },
+  {
+	"key": "6b2fd891-c541-4f55-a55f-e899aa09b762",
+	"data": {
+	  "name": "Arkansas",
+	  "positive": 48,
+	  "negative": -947,
+	  "part1": 2.0839,
+	  "part2": 0.6276,
+	  "part3": 0.5938,
+	  "part4": -2.7992,
+	  "part5": -0.3631,
+	  "part6": -0.6079
+	}
+  },
+  {
+	"key": "65bfc26c-1db9-44df-abbf-cc40f9bcb898",
+	"data": {
+	  "name": "New Jersey",
+	  "positive": 827,
+	  "negative": -1939,
+	  "part1": 3.568,
+	  "part2": 1.4767,
+	  "part3": 1.4555,
+	  "part4": -3.6229,
+	  "part5": -3.912,
+	  "part6": -4.4087
+	}
+  },
+  {
+	"key": "b15ed302-31e3-4e5c-8378-429558693e17",
+	"data": {
+	  "name": "Louisiana",
+	  "positive": 1421,
+	  "negative": -96,
+	  "part1": 0.1186,
+	  "part2": 4.9611,
+	  "part3": 2.4023,
+	  "part4": -1.6954,
+	  "part5": -2.2153,
+	  "part6": -3.0732
+	}
+  },
+  {
+	"key": "17f71f4a-038b-421e-bad9-eca8c72fe604",
+	"data": {
+	  "name": "Puerto Rico",
+	  "positive": 1797,
+	  "negative": -376,
+	  "part1": 4.4484,
+	  "part2": 2.6605,
+	  "part3": 3.1599,
+	  "part4": -4.3713,
+	  "part5": -4.7356,
+	  "part6": -3.8338
+	}
+  },
+  {
+	"key": "cd9877c9-6e4a-4cdd-bbb4-b50161896a6b",
+	"data": {
+	  "name": "Missouri",
+	  "positive": 522,
+	  "negative": -1340,
+	  "part1": 3.9143,
+	  "part2": 2.3239,
+	  "part3": 3.1731,
+	  "part4": -4.8802,
+	  "part5": -1.1332,
+	  "part6": -0.317
+	}
+  },
+  {
+	"key": "61967498-b390-430d-a26a-10132a46767a",
+	"data": {
+	  "name": "Montana",
+	  "positive": 1637,
+	  "negative": -880,
+	  "part1": 4.7183,
+	  "part2": 2.8409,
+	  "part3": 1.8665,
+	  "part4": -3.6505,
+	  "part5": -4.3755,
+	  "part6": -3.1022
+	}
+  },
+  {
+	"key": "20eb5e05-6e13-4522-813c-af7f96bd148e",
+	"data": {
+	  "name": "Guam",
+	  "positive": 1092,
+	  "negative": -380,
+	  "part1": 4.0659,
+	  "part2": 2.748,
+	  "part3": 4.4395,
+	  "part4": -2.9821,
+	  "part5": -3.9415,
+	  "part6": -4.8149
+	}
+  },
+  {
+	"key": "b19ebd3f-00a7-41e7-b624-07199de676ad",
+	"data": {
+	  "name": "West Virginia",
+	  "positive": 1880,
+	  "negative": -466,
+	  "part1": 2.3994,
+	  "part2": 3.0341,
+	  "part3": 3.1356,
+	  "part4": -1.2414,
+	  "part5": -1.7543,
+	  "part6": -2.1377
+	}
+  },
+  {
+	"key": "0db9f548-c818-4bb2-aff8-4fc7cee6d1a1",
+	"data": {
+	  "name": "Georgia",
+	  "positive": 1143,
+	  "negative": -924,
+	  "part1": 0.6998,
+	  "part2": 3.712,
+	  "part3": 1.1284,
+	  "part4": -1.3217,
+	  "part5": -3.0112,
+	  "part6": -3.7258
+	}
+  },
+  {
+	"key": "16aea525-c933-49f7-9184-6cd1c0856936",
+	"data": {
+	  "name": "Arizona",
+	  "positive": 151,
+	  "negative": -879,
+	  "part1": 3.0814,
+	  "part2": 3.8231,
+	  "part3": 3.4345,
+	  "part4": -0.2683,
+	  "part5": -0.4229,
+	  "part6": -4.9546
+	}
+  }
+]

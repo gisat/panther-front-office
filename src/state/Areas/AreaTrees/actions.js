@@ -7,10 +7,10 @@ import Select from "../../Select";
 // ============ creators ===========
 
 const setActiveKey = common.setActiveKey(ActionTypes.AREAS.AREA_TREES);
-const useIndexed = common.useIndexed(Select.areas.areaTrees.getSubstate, 'areatrees', ActionTypes.AREAS.AREA_TREES);
-const useKeys = common.useKeys(Select.areas.areaTrees.getSubstate, 'areatrees', ActionTypes.AREAS.AREA_TREES);
-const refreshUses = common.refreshUses(Select.areas.areaTrees.getSubstate, `areatrees`, ActionTypes.AREAS.AREA_TREES);
-const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.areas.areaTrees.getSubstate, 'areatrees', ActionTypes.AREAS.AREA_TREES);
+const useIndexed = common.useIndexed(Select.areas.areaTrees.getSubstate, 'areaTrees', ActionTypes.AREAS.AREA_TREES);
+const useKeys = common.useKeys(Select.areas.areaTrees.getSubstate, 'areaTrees', ActionTypes.AREAS.AREA_TREES);
+const refreshUses = common.refreshUses(Select.areas.areaTrees.getSubstate, `areaTrees`, ActionTypes.AREAS.AREA_TREES);
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.areas.areaTrees.getSubstate, 'areaTrees', ActionTypes.AREAS.AREA_TREES);
 
 // ============ actions ===========
 
@@ -29,6 +29,7 @@ export default {
 	setActiveKey,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
-	useKeys
+	useKeys,
+	useKeysClear: common.useKeysClear(ActionTypes.AREAS.AREA_TREES)
 }
 

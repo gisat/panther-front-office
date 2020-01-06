@@ -32,7 +32,10 @@ export default (WrappedChartComponent) => {
 			colorSourcePath: PropTypes.string, // only if color is defined in data
 			serieDataSourcePath: PropTypes.string, // only if serie
 			xSourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
-			ySourcePath: PropTypes.string.isRequired, // if serie, path is in context of serie
+			ySourcePath: PropTypes.oneOfType([
+				PropTypes.string,
+				PropTypes.array
+			]).isRequired, // if serie, path is in context of serie
 
 			sorting: PropTypes.array,
 
@@ -53,6 +56,7 @@ export default (WrappedChartComponent) => {
 			xGridlines: PropTypes.bool,
 			xValues: PropTypes.bool,
 			xLabel: PropTypes.bool,
+			xScaleType: PropTypes.string,
 			xTicks: PropTypes.bool,
 
 			yOptions: PropTypes.object,
@@ -60,7 +64,16 @@ export default (WrappedChartComponent) => {
 			yValues: PropTypes.bool,
 			yTicks: PropTypes.bool,
 			yLabel: PropTypes.bool,
+			yScaleType: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
+
+			// TODO doc
+			border: PropTypes.bool,
+
+			diverging: PropTypes.oneOfType([
+				PropTypes.string,
+				PropTypes.bool
+			]),
 
 			legend: PropTypes.bool
 		};
@@ -93,6 +106,7 @@ export default (WrappedChartComponent) => {
 			let content = null;
 			let remSize = utils.getRemSize();
 			let width = null;
+			let paddingAdjustment = 0;
 
 			if (this.props.width || this.state.width) {
 				const props = this.props;
@@ -107,9 +121,13 @@ export default (WrappedChartComponent) => {
 				let xValuesSize = props.xValues ? props.xValuesSize*remSize : .5*remSize;
 				let yValuesSize = props.yValues ? props.yValuesSize*remSize : .5*remSize;
 
-				let innerPaddingLeft = props.innerPaddingLeft*remSize;
-				let innerPaddingRight = props.innerPaddingRight*remSize;
-				let innerPaddingTop = props.innerPaddingTop*remSize;
+				if (WrappedChartComponent.defaultProps && WrappedChartComponent.defaultProps.maxPointRadius && this.props.zSourcePath) {
+					paddingAdjustment = WrappedChartComponent.defaultProps.maxPointRadius;
+				}
+
+				let innerPaddingLeft = props.innerPaddingLeft*remSize + paddingAdjustment;
+				let innerPaddingRight = props.innerPaddingRight*remSize + paddingAdjustment;
+				let innerPaddingTop = props.innerPaddingTop*remSize + paddingAdjustment;
 
 				let xLabelSize = 0;
 				let yLabelSize = 0;

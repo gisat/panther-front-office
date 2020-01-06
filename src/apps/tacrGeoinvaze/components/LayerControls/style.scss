@@ -2,13 +2,22 @@
 @import '../../styles/variables';
 
 .tacrGeoinvaze-layer-controls > div {
-  background: var(--accent15);
-	border-bottom: 1px solid var(--accent25);
+  background: var(--accent05);
+	border-bottom: 1px solid var(--accent20);
 	padding: m(1/3) m(1);
 }
 
 .tacrGeoinvaze-layer-controls > div:hover {
-	background: var(--accent20);
+	//background: var(--accent20);
+}
+
+.tacrGeoinvaze-layer-controls > div .tacrGeoinvaze-layer-legend {
+	height: 0;
+	overflow: hidden;
+	transition: height .3s ease-in-out;
+}
+.tacrGeoinvaze-layer-controls > div.active .tacrGeoinvaze-layer-legend {
+	height: 4rem;
 }
 
 .tacrGeoinvaze-layer-title {
@@ -17,4 +26,58 @@
 .tacrGeoinvaze-layer-description {
 	font-size: $b1;
 	color: var(--base60);
+}
+
+
+.tacrGeoinvaze-actual-expansion .ptr-select-container {
+	display: inline-block;
+}
+
+// active button
+.tacrGeoinvaze .ptr-button.ghost.active {
+	background: var(--accent50);
+	color: var(--base10);
+}
+
+
+.tacrGeoinvaze-layer-legend > div {
+	padding: 1rem 0;
+	font-size: $b1;
+}
+.tacrGeoinvaze-layer-legend.point > div > div > span {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: .5rem;
+	width: .375rem;
+	height: .375rem;
+	border-radius: 999%;
+}
+.tacrGeoinvaze-layer-legend.discrete .tacrGeoinvaze-layer-legend-record > span {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: .5rem;
+	width: .5rem;
+	height: .5rem;
+}
+
+.tacrGeoinvaze-layer-legend-group {
+	display: flex;
+	flex-wrap: wrap;
+	//justify-content: space-between;
+	align-content: flex-start;
+}
+.tacrGeoinvaze-layer-legend-group .tacrGeoinvaze-layer-legend-record:not(:first-child) {
+	margin-left: 1rem;
+}
+
+.tacrGeoinvaze-layer-legend.continuous > div > span {
+	display: block;
+	height: .75rem;
+	background: linear-gradient(90deg, #008000 0%, #7FBF00 25%, #ff0 50%, #FF7F00 75%, #f00 100%);
+	width: 100%;
+	margin-top: .25rem;
+}
+.tacrGeoinvaze-layer-legend.continuous > div > div {
+	display: flex;
+	justify-content: space-between;
 }

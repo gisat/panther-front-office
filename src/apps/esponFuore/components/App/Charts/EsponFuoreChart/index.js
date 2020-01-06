@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
-import utils from "../../../../../../utils/utils";
 import wrapper from './presentation';
+import helpers from './helpers';
 import _ from "lodash";
 
 const useActiveMetadataKeys = {
@@ -19,7 +19,8 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 	return (state) => {
 		let chartConfiguation = Select.charts.getChartConfiguration(state, ownProps.chartKey, useActiveMetadataKeys);
-		let activeFilter = Select.selections.getActive(state);
+
+		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state);
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
@@ -44,24 +45,27 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 		let dataForChart = Select.charts.getDataForChart(state, filter, chartCfg.key);
 		let namesForChart = Select.charts.getNamesForChart(state, namesFilter, chartCfg.key);
+		let activeFilterData = activeFilter && activeFilter.data;
+
+		// cached helper
+		let completeData = helpers.getCompleteData(dataForChart, namesForChart, activeFilterData);
 
 		// TODO ensure periods
 		return {
 			attribute: Select.attributes.getActive(state),
-			data: dataForChart,
-			nameData: namesForChart,
-			filter: activeFilter && activeFilter.data,
+			data: completeData,
+			filter: activeFilterData,
 			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),
-			availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter)
+			availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, periodsFilter, chartCfg.key)
 		}
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onSelectionClear: () => {
+		onSelectionClear: (attributeKey) => {
 			// TODO clear specific selection
-			dispatch(Action.selections.clearActiveSelection());
+			dispatch(Action.specific.esponFuoreSelections.clearActiveAttributeFilterAndByAttributeKey(attributeKey));
 		},
 		onMount: () => {
 			dispatch(Action.charts.use(ownProps.chartKey, useActiveMetadataKeys));

@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
+import HoverContext from "../HoverHandler/context";
 import * as d3 from 'd3';
 
 import './style.scss';
+import {Prop} from "../../../apps/docs/components/ComponentPropsTable/ComponentPropsTable";
 
 class AxisLabel extends React.PureComponent {
+	static contextType = HoverContext;
 
 	static propTypes = {
 		classes: PropTypes.string,
@@ -16,7 +19,11 @@ class AxisLabel extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.number
 		]),
-		textAnchor: PropTypes.string
+		textAnchor: PropTypes.string,
+		originalDataKey: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		])
 	};
 
 
@@ -34,6 +41,11 @@ class AxisLabel extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (prevProps.text !== this.props.text) {
+			this.setState({
+				text: this.props.text
+			});
+		}
 		this.handleText(prevProps.maxWidth);
 	}
 
@@ -54,8 +66,16 @@ class AxisLabel extends React.PureComponent {
 	}
 
 	render() {
+		let highlighted = false;
+		if (this.props.originalDataKey && this.context && (this.context.hoveredItems || this.context.selectedItems)) {
+			let isHovered = _.indexOf(this.context.hoveredItems, this.props.originalDataKey) !== -1;
+			let isSelected = _.indexOf(this.context.selectedItems, this.props.originalDataKey) !== -1;
+			highlighted = isHovered || isSelected;
+		}
+
 		let classes = classnames(this.props.classes, {
-			small: this.props.maxHeight < 22
+			small: this.props.maxHeight < 20,
+			highlighted: highlighted
 		});
 
 		return (

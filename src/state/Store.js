@@ -3,8 +3,10 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // base types
+import _deprecatedSelectionsReducers from './_deprecatedSelections/reducers';
 import appReducers from './App/reducers';
 import areasReducers from './Areas/reducers';
+import areasRelationsReducers from './AreaRelations/reducers';
 import attributesReducers from './Attributes/reducers';
 import attributeDataReducers from './AttributeData/reducers';
 import attributeRelationsReducers from './AttributeRelations/reducers';
@@ -22,6 +24,7 @@ import scopesReducers from './Scopes/reducers';
 import screensReducers from './Screens/reducers';
 import selectionsReducers from './Selections/reducers';
 import snapshotsReducers from './Snapshots/reducers';
+import spatialDataReducers from './SpatialData/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from './SpatialDataSources/vector/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
@@ -40,8 +43,10 @@ import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
 
 // Redux store
 const Store = createStore(combineReducers({
+	_deprecatedSelections: _deprecatedSelectionsReducers(),
 	app: appReducers,
 	areas: areasReducers,
+	areaRelations: areasRelationsReducers,
 	attributes: attributesReducers,
 	attributeData: attributeDataReducers,
 	attributeRelations: attributeRelationsReducers,
@@ -60,6 +65,7 @@ const Store = createStore(combineReducers({
 	screens: screensReducers,
 	selections: selectionsReducers,
 	snapshots: snapshotsReducers,
+	spatialData: spatialDataReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialVectorDataSources: spatialVectorDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,

@@ -7,7 +7,9 @@ import presentation from "./presentation";
 
 const mapStateToProps = state => {
 	return {
-		activeCase: Select.cases.getActive(state)
+		activeCase: Select.cases.getActive(state),
+		activeLayerTemplateKey: Select.layerTemplates.getActiveKey(state),
+		activePeriodKey: Select.periods.getActiveKey(state),
 	}
 };
 

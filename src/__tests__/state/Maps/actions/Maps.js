@@ -187,7 +187,7 @@ describe('Maps Maps Actions', () => {
 				},
 			}
 		}];
-		store.dispatch(Action.maps.setMapWorldWindNavigator('map1', {
+		store.dispatch(Action.maps.deprecated_setMapWorldWindNavigator('map1', {
 			lookAtLocation: {
 				latitude: 11,
 				longitude: 12
@@ -205,7 +205,7 @@ describe('Maps Maps Actions', () => {
 		const expectedActions = [{
 			type: 'ERROR',
 		}];
-		store.dispatch(Action.maps.setMapWorldWindNavigator('mapXX', {
+		store.dispatch(Action.maps.deprecated_setMapWorldWindNavigator('mapXX', {
 			lookAtLocation: {
 				latitude: 11,
 				longitude: 12

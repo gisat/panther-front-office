@@ -1,0 +1,27 @@
+{
+  "key":"scale-example",
+  "data":{
+	"nameInternal":"",
+	"nameDisplay":"",
+	"description":"",
+	"source":"definition",
+	"nameGeoserver":"",
+	"definition":{
+	  "rules":[
+		{
+		  "styles":[
+			{
+			  "attributeKey": "22a43eb3-6552-476f-97a5-b47490519642",
+			  "attributeScale": {
+				"fill": {
+				  "inputInterval": [-10,0,10],
+				  "outputInterval": ["yellow", "lightgreen", "008ae5"]
+				}
+			  }
+			}
+		  ]
+		}
+	  ]
+	}
+  }
+}

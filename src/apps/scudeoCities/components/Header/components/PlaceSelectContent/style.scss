@@ -1,0 +1,58 @@
+@import '../../../../../../styles/variables';
+@import '../../../../styles/variables';
+
+.scudeoCities-place-select-content-places {
+	display: flex;
+}
+.scudeoCities-place-select-content-places > div {
+	flex: 0 25%;
+}
+
+.scudeoCities-place-select-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.scudeoCities-place-select-content > div {
+  //flex-basis: 50%;
+}
+.scudeoCities-place-select-content-info {
+  padding: 2rem;
+  flex: 0 16rem;
+}
+.scudeoCities-place-select-content-places {
+  flex: 1;
+  //background-color: var(--accent30);
+}
+
+.scudeoCities-place-select-content-intro {
+  height: 0;
+  overflow: hidden;
+}
+.scudeoCities-place-select-content.showIntro .scudeoCities-place-select-content-intro {
+  height: 14rem;
+}
+
+.scudeoCities-place-select-content-places > div:nth-child(2n) {
+  background: var(--accent35);
+}
+
+.scudeoCities-place-select-content-places > div > div:first-child {
+  height: m(5);
+  padding: m(1);
+  font-size: $b2;
+	color: #fff;
+}
+
+
+.scudeoCities-place-list .ptr-panther-select-item {
+	height: m(1+2/3);
+	padding: m(1/3);
+	border-bottom: 1px solid #fff4;
+	transition: background-color .3s ease-in-out;
+	cursor: pointer;
+	color: var(--accent90);
+}
+.scudeoCities-place-list .ptr-panther-select-item:hover {
+	background-color: #fff3;
+}

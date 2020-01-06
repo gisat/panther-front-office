@@ -1,0 +1,68 @@
+@import '../../../../../styles/variables';
+
+.esponFuore-export {
+	padding: m(1);
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.esponFuore-export-settings {
+	margin-bottom: m(1);
+}
+
+/* Checkbox */
+.esponFuore-export-rule label {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.esponFuore-export-rule label input {
+	margin-right: .35rem;
+}
+
+.esponFuore-export-rule.disabled label {
+	color: var(--base30);
+	cursor: auto;
+}
+
+.esponFuore-export-buttons {
+	padding-right: 1rem;
+	max-width: 15rem;
+}
+
+.esponFuore-export-buttons .loading-screen-content {
+	right: 0;
+	left: auto;
+}
+
+.esponFuore-export-buttons .loading-screen-content .a-loader-container {
+	width: 1.25rem;
+	height: 1.25rem;
+	font-size: 1.25rem;
+	transform: translate(-150%, -50%);
+}
+
+.esponFuore-export-buttons .a-loader-container i {
+	border-width: 2px;
+}
+
+.esponFuore-export-buttons .a-loader-container i.i1{
+	border-top-color: rgba(var(--base100rgb),.3);
+}
+.esponFuore-export-buttons .a-loader-container i.i2{
+	border-top-color: rgba(var(--base100rgb),.4);
+}
+.esponFuore-export-buttons .a-loader-container i.i3{
+	border-top-color: rgba(var(--base100rgb),.5);
+}
+.esponFuore-export-buttons .a-loader-container i.i4 {
+	border-top-color: rgba(var(--base100rgb),.6);
+}
+
+.esponFuore-export-error-message {
+	color: #ff5b5f;
+	font-size: $b1;
+	margin: m(2/3) 0;
+}

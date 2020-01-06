@@ -1,0 +1,19 @@
+urban_<YEAR>_coverage
+urban_<YEAR>_percentage
+
+green_<YEAR>_coverage
+green_<YEAR>_percentage
+
+informal_<YEAR>_coverage
+informal_<YEAR>_percentage
+
+// urban classes 10-60
+lcf<LEVEL>_<YEAR_<YEAR>_<LCFCLASS>_coverage
+lcf<LEVEL>_<YEAR_<YEAR>_<LCFCLASS>_percentage
+
+// green classes 70
+lcfg_<YEAR_<YEAR_<LCFCLASS>_coverage
+lcfg_<YEAR_<YEAR_<LCFCLASS>_percentage
+
+lulc_l<LEVEL_<YEAR_<LULCCLASS>_lulc_l<LEVEL>_<YEAR>_<LULCCLASS>_coverage
+lulc_l<LEVEL_<YEAR_<LULCCLASS>_lulc_l<LEVEL>_<YEAR>_<LULCCLASS>_percentage

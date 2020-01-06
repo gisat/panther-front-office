@@ -2,6 +2,7 @@ import _, {isEqual} from "lodash";
 import path from "path";
 import moment from 'moment';
 
+import config from '../../config';
 import request from './request';
 import commonHelpers from './helpers';
 import commonSelectors from './selectors';
@@ -11,7 +12,7 @@ import ActionTypes from "../../constants/ActionTypes";
 import Action from '../Action';
 import utils from '../../utils/utils';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = config.requestPageSize;
 const DEFAULT_CATEGORY_PATH = 'metadata';
 
 
@@ -273,7 +274,7 @@ function receiveIndexed(actionTypes, result, dataType, filter, order, start) {
 		return dispatch => {
 			// add data to store
 			if (result.data[dataType].length){
-				dispatch(actionAdd(actionTypes, result.data[dataType]));
+				dispatch(actionAdd(actionTypes, result.data[dataType], filter));
 			}
 
 			// add to index
@@ -442,10 +443,14 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 		} else {
 			// we don't have index
 			return dispatch(loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes, categoryPath)).then((response) => {
-				if (response && response.message){
+				// check success to make sure it's our error from BE and not anything broken in render chain
+				if (response && response.message && response.success === false){
 					// do nothing
 				} else {
-					return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
+					// remaining pages
+					if (length > PAGE_SIZE) {
+						return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
+					} // else already done
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
@@ -516,7 +521,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 			})
 			.catch(error => {
 				dispatch(actionGeneralError(error));
-				return error;
+				return error; //todo do we need to return this
 			});
 	};
 }
@@ -764,9 +769,9 @@ function action(actionTypes, type, payload) {
 	return {...payload, type: actionTypes};
 }
 
-function actionAdd(actionTypes, data) {
+function actionAdd(actionTypes, data, filter) {
 	if (!_.isArray(data)) data = [data];
-	return action(actionTypes, 'ADD', {data});
+	return action(actionTypes, 'ADD', {data, filter});
 }
 
 function actionAddBatch(actionTypes, data, key) {

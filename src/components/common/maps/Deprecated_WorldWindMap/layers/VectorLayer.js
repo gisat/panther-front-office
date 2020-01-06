@@ -104,7 +104,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 
 	_setFilter(renderable) {
 		if(this.filtered) {
-			const filtered = this.filtered ? !this.filtered.areas.includes(renderable.userProperties[this.spatialIdKey]) : true;
+			const filtered = this.filtered ? !this.filtered.filteredKeys.includes(renderable.userProperties[this.spatialIdKey]) : true;
 			//false if item not in filter areas
 			if(filtered !== renderable.filtered) {
 				renderable.filtered = filtered;
@@ -127,7 +127,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	}
 	_setAccent(renderable) {
 			if(this.accent) {
-				const accented = this.accent ? this.accent.areas.includes(renderable.userProperties[this.spatialIdKey]) : false;
+				const accented = this.accent ? this.accent.filteredKeys.includes(renderable.userProperties[this.spatialIdKey]) : false;
 				if(renderable.accented !== accented) {
 					renderable.accented = accented;
 					return true;

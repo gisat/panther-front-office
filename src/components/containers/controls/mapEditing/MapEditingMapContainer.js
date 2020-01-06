@@ -6,7 +6,7 @@ import MapEditingMapContainer from "../../../presentation/controls/mapEditing/Ma
 const mapStateToProps = (state, ownProps) => {
 	const relevantState = {
         activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state),
-        navigatorState: Select.maps.getNavigator(state),
+        navigatorState: Select.maps.getNavigator_deprecated(state),
         editedFeatures: Select.spatialDataSources.vector.noMemoGetEditedFeaturesBySourceKey(state, ownProps),
         selectedFeatures: Select.spatialDataSources.vector.noMemoGetSelectedFeaturesBySourceKey(state, ownProps),
         editedPolygonsInfo: Select.components.overlays.getEditedPolygonInfo(state)

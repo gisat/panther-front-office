@@ -36,6 +36,11 @@ export const esponFuoreActionTypesDefinitions = {
 				REGISTER: null
 			}
 		}
+	},
+	ESPON_FUORE_SELECTIONS: {
+		ADD: null,
+		REMOVE: null,
+		SET_ACTIVE_KEY: null
 	}
 };
 

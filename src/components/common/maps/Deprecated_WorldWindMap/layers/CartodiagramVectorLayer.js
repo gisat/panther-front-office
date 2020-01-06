@@ -27,25 +27,27 @@ class CartodiagramVectorLayer extends VectorLayer {
 	 */
 	setRenderables(renderablesData, defaultStyle, metadata) {
 
-		const attributeDataKey = metadata && metadata.attributeDataKey;
-		if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
-			this.orderFeaturesDescending(renderablesData, attributeDataKey);
+		if (renderablesData) {
+			const attributeDataKey = metadata && metadata.attributeDataKey;
+			if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
+				this.orderFeaturesDescending(renderablesData, attributeDataKey);
+			}
+
+			const parser = new WorldWind.GeoJSONParser(renderablesData);
+			const diagramParser = new diagramGeoJSONParser(renderablesData, metadata, 'volume', true, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS, this.attributeStatistics);
+
+			const shapeConfigurationCallback = (geometry, properties) => {
+				//add properties to renderable
+				return {userProperties: properties}
+			}
+
+			//loader for polygons
+			parser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
+
+			//loader for diagrams
+			diagramParser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
+			this.doRerender();
 		}
-
-		const parser = new WorldWind.GeoJSONParser(renderablesData);
-		const diagramParser = new diagramGeoJSONParser(renderablesData, metadata, 'volume', true, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS, this.attributeStatistics);
-
-		const shapeConfigurationCallback = (geometry, properties) => {
-			//add properties to renderable
-			return {userProperties: properties}
-		}
-
-		//loader for polygons
-		parser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
-		
-		//loader for diagrams
-		diagramParser.load(this._renderablesAddCallback.bind(this), shapeConfigurationCallback, this);
-		this.doRerender();
 	}
 }
 

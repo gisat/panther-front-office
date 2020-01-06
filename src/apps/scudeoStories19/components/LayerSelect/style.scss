@@ -1,0 +1,12 @@
+@import '../../../../styles/variables';
+
+/* Map layer select*/
+.scudeoStories19 .ptr-select-container.layers .ptr-select__value-container {
+	fill: var(--base50);
+}
+
+.scudeoStories19 .ptr-select-container.layers .ptr-select__single-value {
+	position: relative;
+	top: unset;
+	transform: none;
+}

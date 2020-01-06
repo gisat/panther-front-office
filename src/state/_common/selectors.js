@@ -13,7 +13,9 @@ const activeThemeKey = state => state.themes.activeKey;
  * @returns {Object}
  */
 const getAllByKey = (getSubstate) => {
-	return (state) => getSubstate(state).byKey;
+	return (state) => {
+		return getSubstate(state).byKey;
+	}
 };
 
 /**
@@ -240,7 +242,7 @@ const getIndexed = (getSubstate) => { //todo proper memoization && unify with ol
 };
 
 const getByKey = (getSubstate) => {
-	return createSelector(
+	return createCachedSelector(
 		[
 			getAllAsObject(getSubstate),
 			(state, key) => key
@@ -252,10 +254,29 @@ const getByKey = (getSubstate) => {
 				return null;
 			}
 		}
+	)((state, key) => key);
+};
+
+const getByKeysAsObject = (getSubstate) => {
+	return createCachedSelector(
+		[
+			getAllAsObject(getSubstate),
+			(state, keys) => keys,
+		],
+		(allData, keys) => {
+			if (keys && keys.length && allData && !_.isEmpty(allData)) {
+				let data = _.pick(allData, keys);
+				return _.isEmpty(data) ? null : data;
+			} else {
+				return null;
+			}
+		}
+	)(
+		(state, keys) => `${keys}`
 	);
 };
 
-// TODO test
+// TODO test + use getByKeysAsObject?
 const getByKeys = (getSubstate) => {
 	return createCachedSelector(
 		[
@@ -511,22 +532,32 @@ const getUsedKeys = (getSubstate) => {
 };
 
 const getIndexedDataUses = (getSubstate) => {
-	return (state) => getSubstate(state).inUse.indexes;
+	return (state) => {
+		if (getSubstate(state) && getSubstate(state).inUse) {
+			return getSubstate(state).inUse.indexes;
+		} else {
+			return null;
+		}
+	};
 };
 
 const getAllActiveKeys = createSelector(
 	[
-		state => state.scopes.activeKey,
-		state => state.places.activeKey,
-		state => state.places.activeKeys,
-		state => state.periods.activeKey,
-		state => state.periods.activeKeys,
-		state => state.attributes.activeKey,
+		state => state.scopes && state.scopes.activeKey,
+		state => state.cases && state.cases.activeKey,
+		state => state.scenarios && state.scenarios.activeKey,
+		state => state.places && state.places.activeKey,
+		state => state.places && state.places.activeKeys,
+		state => state.periods && state.periods.activeKey,
+		state => state.periods && state.periods.activeKeys,
+		state => state.attributes && state.attributes.activeKey,
+		state => state.layerTemplates && state.layerTemplates.activeKey,
+		state => state.areaTreeLevelKeys && state.areaTreeLevelKeys.activeKey,
 		state => state.specific && state.specific.apps,
 		state => state.app && state.app.key
 	],
-	(activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, apps, appKey) => {
-		let activeKeys = {activeScopeKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey};
+	(activeScopeKey,activeCaseKey,activeScenarioKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey, activeAreaTreeLevelKey, apps, appKey) => {
+		let activeKeys = {activeScopeKey,activeCaseKey,activeScenarioKey,activePlaceKey,activePlaceKeys,activePeriodKey,activePeriodKeys,activeAttributeKey, activeLayerTemplateKey, activeAreaTreeLevelKey};
 
 		// for BO usage
 		if (apps){
@@ -762,6 +793,7 @@ export default {
 	getByFilterOrder,
 	getBatchByFilterOrder,
 	getByKey,
+	getByKeysAsObject,
 	getByKeys,
 
 	getDataByKey,

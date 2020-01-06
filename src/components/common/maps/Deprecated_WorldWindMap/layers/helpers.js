@@ -10,6 +10,7 @@ import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
 import {removeItemByIndex, addItemToIndex, addItem} from '../../../../../utils/stateManagement';
 import {defaultVectorStyle} from "./utils/vectorStyle";
+import WmtsLayer from "../../WorldWindMap/layers/WmtsLayer";
 
 const {Location, Sector, Color, ShapeAttributes} = WorldWind;
 
@@ -106,6 +107,8 @@ function getLayerByType(layerData, type){
 				return getCartodiagramVectorLayer(layerData);
 			case "vector-relative":
 				return getCartogramVectorLayer(layerData);
+			case "wmts-new":
+				return new WmtsLayer(layerData);
 			default:
 				return null;
 		}

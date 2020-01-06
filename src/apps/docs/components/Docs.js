@@ -27,7 +27,7 @@ export const Page = ({children, path, parentPath, component, ...props}) => {
 export const Anchor = props => null;
 
 
-const Docs = ({path, component, location, children, ...props}) => {
+const Docs = ({component, location, children, ...props}) => {
 	
 	const processNode = (level, currentPath, parentPath, node, ...args) => {
 		let {children, label, path, colour, className, ...props} = node.props;
@@ -72,22 +72,22 @@ const Docs = ({path, component, location, children, ...props}) => {
 		}
 	};
 	
-	const tree = React.Children.map(children, processNode.bind(this, 1, location.pathname, path));
+	const tree = React.Children.map(children, processNode.bind(this, 1, location.pathname, "/"));
 
-	children = passParentPath(children, path);
+	children = passParentPath(children, "/");
 	
 	return (
 		<div className="ptr-docs ptr-light">
 			<div className="ptr-docs-nav">
 				<div className="ptr-docs-nav-header">
-					<span className="ptr-docs-nav-header-title"><NavLink to={path}>Panther docs</NavLink></span>
+					<span className="ptr-docs-nav-header-title"><NavLink to="/">Panther docs</NavLink></span>
 				</div>
 				<div className="ptr-docs-nav-tree">
 					{tree}
 				</div>
 			</div>
 			<div className="ptr-docs-content">
-				<Route exact path={path} component={component} />
+				<Route exact path="/" component={component} />
 				{children}
 			</div>
 		</div>

@@ -93,32 +93,24 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 		if (filterByActive.application){
 			if (activeKeys.activeApplicationKey){
 				fullFilter.applicationKey = activeKeys.activeApplicationKey;
-			} else {
-				return null;
 			}
 		}
 		if (filterByActive.case){
 			if (activeKeys.activeCaseKey){
-				fullFilter.activeCaseKey = activeKeys.activeCaseKey;
-			} else {
-				return null;
+				fullFilter.caseKey = activeKeys.activeCaseKey;
 			}
 		}
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
 				fullFilter.scopeKey = activeKeys.activeScopeKey;
-			} else {
-				return null;
 			}
 		}
-		// TODO add case, scenario, ...
+		// TODO add scenario, ...
 		if (filterByActive.place){
 			if (activeKeys.activePlaceKey){
 				fullFilter.placeKey = activeKeys.activePlaceKey;
 			} else if (activeKeys.activePlaceKeys){
 				fullFilter.placeKey = {in: activeKeys.activePlaceKeys};
-			} else {
-				return null;
 			}
 		}
 		if (filterByActive.period){
@@ -126,15 +118,16 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				fullFilter.periodKey = activeKeys.activePeriodKey;
 			} else if (activeKeys.activePeriodKeys){
 				fullFilter.periodKey = {in: activeKeys.activePeriodKeys};
-			} else {
-				return null;
 			}
 		}
 		if (filterByActive.attribute){
 			if (activeKeys.activeAttributeKey){
 				fullFilter.attributeKey = activeKeys.activeAttributeKey;
-			} else {
-				return null;
+			}
+		}
+		if (filterByActive.layerTemplate){
+			if (activeKeys.activeLayerTemplateKey){
+				fullFilter.layerTemplateKey = activeKeys.activeLayerTemplateKey;
 			}
 		}
 		return _.isEmpty(fullFilter) ? null : fullFilter;

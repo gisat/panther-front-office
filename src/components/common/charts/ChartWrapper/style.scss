@@ -3,7 +3,7 @@
 .ptr-chart-wrapper {
 	min-height: 10rem;
 	position: relative;
-	margin-bottom: m(1);
+	margin-bottom: m(2/3);
 	border-radius: .2rem;
 	width: 100%;
 	background: var(--base0);
@@ -56,7 +56,7 @@
 }
 
 .ptr-colored-label {
-  background: var(--base20);
+  background: var(--accent20);
   border-radius: .25rem;
   color: var(--accent50);
   display: flex;
@@ -64,6 +64,7 @@
   font-size: $b1;
   padding: 0 .2rem 0 .35rem;
   height: m(1);
+  margin-right: .5rem;
 }
 
 .ptr-colored-label-content {
@@ -72,7 +73,7 @@
 }
 
 .ptr-colored-label-content > div {
-  padding-top: .1rem;
+  white-space: nowrap;
 }
 
 .ptr-colored-label-content > .ptr-icon {
@@ -87,7 +88,7 @@
 
 .ptr-colored-label-clear {
   cursor: pointer;
-  margin-left: .5rem;
+  padding-left: .5rem;
   display: flex;
   align-items: center;
 }
@@ -108,7 +109,7 @@
 /* content */
 
 .ptr-chart-wrapper-content {
-	padding: 1rem 1.5rem 1rem .5rem;
+	padding: .5rem 1.5rem .5rem .75rem;
 }
 
 .ptr-chart-wrapper-content > div {
@@ -120,7 +121,7 @@
 	font-style: italic;
 	font-size: $b1;
 	color: var(--base80);
-	padding: .3rem;
+	padding: .3rem 0;
 }
 
 @media screen and (max-width: 70rem)  {

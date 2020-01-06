@@ -58,7 +58,7 @@ class ButtonsDoc extends React.PureComponent {
 						}, {
 							name: "icon",
 							type: "string",
-							description: (<>Go to <Link to="#content">Content section</Link> to see how to handle with icons or visit <Link to="/docs/components/atoms/icons">Icons</Link> documentation to choose the icon you need.</>)
+							description: (<>Go to <Link to="#content">Content section</Link> to see how to handle with icons or visit <Link to="/components/atoms/icons">Icons</Link> documentation to choose the icon you need.</>)
 						}, {
 							name: "inverted",
 							type: "boolean",

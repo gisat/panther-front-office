@@ -19,12 +19,14 @@ class PantherSelect extends React.PureComponent {
 		renderCurrent: PropTypes.func,
 		renderList: PropTypes.func,
 		currentClasses: PropTypes.string,
+		currentStyle: PropTypes.object,
 		listClasses: PropTypes.string,
 	};
 
 	static defaultProps = {
 		disabled: false,
-		currentDisabled: false
+		currentDisabled: false,
+		currentStyle: null
 	};
 
 	constructor(props) {
@@ -89,6 +91,7 @@ class PantherSelect extends React.PureComponent {
 					className={classNames("ptr-panther-select-current", this.props.currentClasses, {disabled: !!this.props.disabled})}
 					tabIndex={this.props.disabled || this.props.currentDisabled ? "-1" : "0"}
 					onClick={this.onClick}
+					style={this.props.currentStyle}
 				>
 					<div>{this.props.renderCurrent(this.props)}</div>
 					<div className="ptr-panther-select-current-icon"><Icon icon="triangle-down"/></div>

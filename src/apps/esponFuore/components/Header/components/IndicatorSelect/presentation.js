@@ -5,23 +5,50 @@ import PantherSelect, {PantherSelectItem} from "../../../../../../components/com
 import Input from "../../../../../../components/common/atoms/Input/Input";
 import Icon from "../../../../../../components/common/atoms/Icon";
 import IndicatorList from "./components/IndicatorList";
+import CategoryMenu from "./components/CategoryMenu";
 
 
 class IndicatorSelect extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+		
+		this.state = {
+			activeSubCategoryKey: null
+		};
 
 		this.renderCurrent = this.renderCurrent.bind(this);
+		this.selectSubCategory = this.selectSubCategory.bind(this);
+		this.resetActiveSubcategory = this.resetActiveSubcategory.bind(this);
 	}
 
 	componentDidMount() {
 		this.props.onMount();
 	}
+	
+	componentDidUpdate(prevProps) {
+		if (this.props.activeCategoryKey && this.props.activeCategoryKey !== prevProps.activeCategoryKey) {
+			this.selectSubCategory(null);
+		}
+	}
 
 	componentWillUnmount() {
 		this.props.onUnmount();
 	}
+	
+	selectSubCategory(key) {
+		if (this.state.activeSubCategoryKey !== key) {
+			this.setState({
+				activeSubCategoryKey: key
+			});
+			// this.props.onSelectSubCategory(key);
+		}
+	}
+
+	resetActiveSubcategory() {
+		this.selectSubCategory(null);
+	}
+
 
 	renderCurrent() {
 		const props = this.props;
@@ -51,7 +78,7 @@ class IndicatorSelect extends React.PureComponent {
 				className="esponFuore-indicator-select"
 				open={props.indicatorSelectOpen || !props.activeIndicator}
 				onSelectClick={() => {
-					props.indicatorSelectOpen ? props.closeIndicatorSelect() : props.openIndicatorSelect()
+					(props.indicatorSelectOpen && props.activeIndicator) ? props.closeIndicatorSelect() : props.openIndicatorSelect()
 				}}
 				onSelect={this.props.selectIndicator}
 				currentClasses="esponFuore-indicator-select-current"
@@ -64,25 +91,22 @@ class IndicatorSelect extends React.PureComponent {
 							<Input value={props.searchValue} onChange={props.onChangeSearch}><Icon icon="search"/></Input>
 						</div>
 						<div className="esponFuore-indicator-select-categories">
-							{props.categories && props.categories.map(category => {
-								let className = '';
-								if (category.key === activeCategoryKey) {
-									className = 'selected';
-								}
-								return (
-									<a
-										key={category.key}
-										onClick={props.selectCategory.bind(null, category.key)}
-										className={className}
-									>
-										{category.data.nameDisplay}
-									</a>
-								);
-							})}
+							<CategoryMenu
+								activeCategoryKey={activeCategoryKey}
+								categories={props.categories}
+								subCategoryTagKey={props.subCategoryTagKey}
+								selectCategory={props.selectCategory}
+								activeSubCategoryKey={this.state.activeSubCategoryKey}
+								selectSubCategory={this.selectSubCategory}
+							/>
 						</div>
 					</div>
-					<div className="esponFuore-indicator-select-indicators">
-						<IndicatorList categoryKey={activeCategoryKey}/>
+					<div className="esponFuore-indicator-select-indicators" onScroll={this.resetActiveSubcategory}>
+						<IndicatorList
+							categoryKey={activeCategoryKey}
+							activeSubCategoryKey={this.state.activeSubCategoryKey}
+							subCategoryTagKey={props.subCategoryTagKey}
+						/>
 					</div>
 				</div>
 			</PantherSelect>

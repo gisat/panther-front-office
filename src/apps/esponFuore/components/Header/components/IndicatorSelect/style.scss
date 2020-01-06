@@ -2,8 +2,8 @@
 
 .esponFuore-indicator-select-content {
 	display: flex;
-	padding: 3rem 2rem 3rem 3rem;
-	overflow-y: auto;
+	//padding: 3rem 2rem 3rem 3rem;
+	padding: 3rem 0 0 3rem;
 }
 .esponFuore-indicator-select-sidebar {
 	flex: 0 0 12rem;
@@ -13,6 +13,7 @@
 }
 .esponFuore-indicator-select-indicators {
 	flex: 1;
+	overflow-y: auto;
 }
 
 .esponFuore-indicator-select-search {
@@ -83,6 +84,15 @@
 	padding-left: .25rem;
 }
 
+.esponFuore-indicator-select-categories {
+	overflow-y: auto;
+}
+.esponFuore-indicator-select-categories > a.esponFuore-indicator-select-menu-subCategory {
+	padding-left: 1.5rem;
+	font-style: italic;
+	color: rgba(255,255,255,.7);
+}
+
 
 .esponFuore-indicator-select-categories > a {
 	display: block;
@@ -120,31 +130,66 @@
 
 .esponFuore-indicator-select-indicators {
 	padding-left: 3rem;
+}
+
+.esponFuore-indicator-list-subCategory:not(:first-child) {
+	margin-top: m(1);
+}
+.esponFuore-indicator-list-subCategory-header {
+	height: m(2);
+	font-weight: bold;
+	color: #fff;
+	font-size: $b2;
+	letter-spacing: .025rem;
+}
+
+.esponFuore-indicator-list-indicators {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
 }
-.esponFuore-indicator-select-indicators > div {
+.esponFuore-indicator-list-indicator {
 	width: 25rem;
 	height: 12rem;
 	margin: 0 1rem 1rem 0;
 	cursor: pointer;
 	background-size: cover;
 }
-.esponFuore-indicator-select-indicators > div > span {
-	display: block;
-	font-size: 1.309rem;
-	font-weight: bold;
-	line-height: 1.1;
-	padding: .5rem;
-	color: var(--accent80);
-	background-color: rgba(255, 255, 255, .75);
 
-	//color: #fff;
-	//background-color: rgba(var(--accent50rgb), 0.7);
-	//margin-top: .5rem;
+.esponFuore-indicator-card {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
 }
 
+.esponFuore-indicator-card > span {
+	position: absolute;
+	top: 0;
+	display: block;
+	font-size: $b2;
+	font-weight: bold;
+	line-height: 1.15;
+	padding: .5rem;
+	color: var(--accent80);
+	background-color: rgba(255, 255, 255, .8);
+	width: 100%;
+}
+
+.esponFuore-indicator-card > svg {
+	width: 500px;
+	height: 300px;
+}
+
+.esponFuore-indicator-card > svg circle,
+.esponFuore-indicator-card > svg path {
+	stroke-width: 1;
+	stroke: var(--base100);
+	stroke-opacity: .3;
+	fill: var(--base30);
+	fill-opacity: .85;
+	transition: fill .15s ease-in-out;
+}
 
 @media screen and (max-width: 75rem)  {
 	.esponFuore-indicator-select-sidebar {
@@ -156,6 +201,11 @@
 	.esponFuore-indicator-select-indicators > div {
 		width: 18rem;
 	}
+
+	.esponFuore-indicator-card > span {
+		font-size: $a1;
+	}
+
 	.esponFuore-indicator-select-current {
 		height: 4rem;
 	}

@@ -1,0 +1,161 @@
+@import '../../../styles/variables';
+@import './variables';
+
+//.ptr-light {
+//
+//	--accent0: #{$lightAccent0};
+//	--accent0rgb: #{$lightAccent0rgb};
+//	--accent05: #{$lightAccent05};
+//	--accent10: #{$lightAccent10};
+//	--accent15: #{$lightAccent15};
+//	--accent20: #{$lightAccent20};
+//	--accent25: #{$lightAccent25};
+//	--accent30: #{$lightAccent30};
+//	--accent35: #{$lightAccent35};
+//	--accent40: #{$lightAccent40};
+//	--accent45: #{$lightAccent45};
+//	--accent50: #{$lightAccent50};
+//	--accent50rgb: #{$lightAccent50rgb};
+//	--accent55: #{$lightAccent55};
+//	--accent60: #{$lightAccent60};
+//	--accent65: #{$lightAccent65};
+//	--accent70: #{$lightAccent70};
+//	--accent75: #{$lightAccent75};
+//	--accent80: #{$lightAccent80};
+//	--accent85: #{$lightAccent85};
+//	--accent90: #{$lightAccent90};
+//	--accent95: #{$lightAccent95};
+//	--accent100: #{$lightAccent100};
+//	--accent100rgb: #{$lightAccent100rgb};
+//}
+
+$headerHeight: m(3);
+$placeSelectWidth: 15rem;
+$titleWidth: 10rem;
+
+//.scudeoCities {
+//	display: flex;
+//	flex-direction: row;
+//}
+
+.scudeoCities-header {
+	width: 100%;
+	//position: absolute;
+	
+	display: flex;
+	height: $headerHeight;
+}
+
+.scudeoCities-content {
+	height: calc(100% - #{$headerHeight});
+}
+
+.scudeoCities-title {
+	position: relative;
+	z-index: 45;
+	font-size: $b2;
+	//color: var(--base0);
+	color: var(--base15);
+	width: $titleWidth;
+	padding: .51825rem 1rem;
+	background-color: var(--base80);
+}
+.scudeoCities-title > span {
+	@include positionCenterVertical;
+}
+.scudeoCities-place-select {
+	width: $placeSelectWidth;
+}
+.scudeoCities-place-select .ptr-panther-select-current {
+	height: 100%;
+	background-color: var(--accent50);
+}
+//.scudeoCities-title,
+//.scudeoCities-place-select .ptr-panther-select-current {
+//	background-color: var(--accent50);
+//}
+
+.scudeoCities-header-content {
+	flex: 1;
+	z-index: 40;
+	background-color: var(--base70);
+}
+.scudeoCities-header-content-link {
+	display: inline-block;
+	height: 100%;
+	width: 10rem;
+	position: relative;
+	
+	text-decoration: none;
+	transition: background-color .3s ease-in-out;
+}
+a.scudeoCities-header-content-link,
+a.scudeoCities-header-content-link:visited,
+a.scudeoCities-header-content-link:active {
+	color: #fff;
+}
+a.scudeoCities-header-content-link.active {
+	background-color: #fff;
+	color: #444;
+}
+a.scudeoCities-header-content-link:hover,
+a.scudeoCities-header-content-link:focus {
+	background-color: rgba(255,255,255,.2);
+}
+a.scudeoCities-header-content-link.active:hover,
+a.scudeoCities-header-content-link.active:focus {
+	background-color: var(--accent10);
+}
+.scudeoCities-header-content-link > span {
+	@include positionCenter;
+}
+
+
+.scudeoCities-header .ptr-panther-select-list {
+	padding-top: $headerHeight;
+}
+.scudeoCities-place-select-list.ptr-panther-select-list > div > div {
+	//height: 100%;
+	margin-left: $titleWidth;
+}
+.scudeoCities-place-select-overlay {
+	//height: 100%;
+	//background-color: var(--base10);
+	//background-color: var(--accent10);
+	display: inline-block;
+}
+
+.scudeoCities-place-select-overlay-header {
+	height: $headerHeight;
+	background-color: var(--base0);
+}
+.scudeoCities-place-select-content {
+	//height: calc(100% - #{m(4)});
+	display: flex;
+}
+
+.scudeoCities-place-list-place {
+	width: $placeSelectWidth;
+	height: $headerHeight;
+	
+	background-color: var(--accent80);
+	cursor: pointer;
+}
+.scudeoCities-place-value, .scudeoCities-place-list-place {
+	font-size: $a2;
+	padding: 1.05rem .5rem 0;
+	color: #fff;
+}
+
+
+.scudeoCities-sidebar {
+	padding-top: m(4);
+	overflow: hidden;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.scudeoCities-column-visualization > .ptr-adjustable-columns-content {
+	overflow: hidden;
+}

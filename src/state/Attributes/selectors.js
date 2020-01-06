@@ -8,6 +8,7 @@ const getSubstate = state => state.attributes;
 const getAttributes =  common.getAll(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
+const getAllAsObject = common.getAllAsObject(getSubstate);
 
 const getByKey = common.getByKey(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
@@ -25,6 +26,8 @@ export default {
 
 	getActive,
 	getActiveKey,
+
+	getAllAsObject,
 
 	getByKey,
 	getByKeys,

@@ -37,7 +37,7 @@ describe('#getFiltersForUseHelper', () => {
 			layer
 		};
 
-		expect(mapsSelector.getFiltersForUse(layer, activeKeys)).toEqual(expectedOutput)
+		expect(mapsSelector.getFiltersForUse_deprecated(layer, activeKeys)).toEqual(expectedOutput)
 	});
 
 	it('should return filter if no activeKeys was passed', () => {
@@ -64,7 +64,7 @@ describe('#getFiltersForUseHelper', () => {
 			layer
 		};
 
-		expect(mapsSelector.getFiltersForUse(layer)).toEqual(expectedOutput)
+		expect(mapsSelector.getFiltersForUse_deprecated(layer)).toEqual(expectedOutput)
 	});
 
 	it('should return filter if empty activeKeys was passed', () => {
@@ -92,6 +92,6 @@ describe('#getFiltersForUseHelper', () => {
 			layer
 		};
 
-		expect(mapsSelector.getFiltersForUse(layer, activeKeys)).toEqual(expectedOutput)
+		expect(mapsSelector.getFiltersForUse_deprecated(layer, activeKeys)).toEqual(expectedOutput)
 	});
 });
