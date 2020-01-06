@@ -74,10 +74,16 @@ class PointInfo extends React.PureComponent {
 	renderAttribute(data, index) {
 		let value = data.value;
 		if (typeof value === 'number') {
-			if (value && (value % 1) !== 0) {
-				value = value.toFixed(3);
+			value = Math.round(value*1000)/1000;
+
+			if (value < 9999) {
+				if (value && (value % 1) !== 0) {
+					value = value.toFixed(3);
+				}
+				value.toLocaleString();
+			} else {
+				value = "-";
 			}
-			value.toLocaleString();
 		}
 		if (data.nameInternal === "class") {
 
@@ -94,7 +100,7 @@ class PointInfo extends React.PureComponent {
 				<div key={index} className="szdcInsar19-point-attribute" title={data.description}>
 					<div>{data.name}</div>
 					<span>{value}</span>
-					<span>{data.unit ? data.unit : null}</span>
+					<span>{data.unit && value !== '-' ? data.unit : null}</span>
 				</div>
 			);
 
