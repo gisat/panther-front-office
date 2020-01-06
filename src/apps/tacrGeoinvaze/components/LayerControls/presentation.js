@@ -90,7 +90,7 @@ class LayerControls extends React.PureComponent {
 		if (props.isCrayfish) {
 			actualExpansionInsert = (
 				<div className={actualExpansionClassNames}>
-					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
+					<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
 					<div className="tacrGeoinvaze-layer-description">Mapa VÚV TGM</div>
 				</div>
 			);
@@ -101,11 +101,11 @@ class LayerControls extends React.PureComponent {
 				
 				actualExpansionInsert = (
 					<div className={actualExpansionClassNames}>
-						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
+						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
 						<div>
 							<ButtonSwitch onClick={this.switchToActual} ghost>
 								{latestPeriods.map(period => (
-									<Option active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
+									<Option key={period.key} active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
 								))}
 							</ButtonSwitch>
 							{/*<Select/>*/}
@@ -118,7 +118,7 @@ class LayerControls extends React.PureComponent {
 			} else {
 				actualExpansionInsert = (
 					<div className={actualExpansionClassNames}>
-						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření / Actual expansion</div>
+						<div className="tacrGeoinvaze-layer-title">Skutečné rozšíření</div>
 						<div>
 							(žádná data)
 						</div>
@@ -140,12 +140,12 @@ class LayerControls extends React.PureComponent {
 				<div className={classNames("tacrGeoinvaze-model-gis", {
 					active: gis1active || gis3active || gis10active
 				})}>
-					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření / Future expansion model</div>
+					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření &ndash; horizont</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option active={gis1active} value={"gis1"}>+ 1 rok</Option>
-							<Option active={gis3active} value={"gis3"}>+ 3 roky</Option>
-							<Option active={gis10active} value={"gis10"}>+ 10 let</Option>
+							<Option active={gis1active} value={"gis1"}>krátkodobý</Option>
+							<Option active={gis3active} value={"gis3"}>střednědobý</Option>
+							<Option active={gis10active} value={"gis10"}>dlouhodobý</Option>
 						</ButtonSwitch>
 					</div>
 					
@@ -163,12 +163,12 @@ class LayerControls extends React.PureComponent {
 				<div className={classNames("tacrGeoinvaze-model-biomod", {
 					active: gamActive || gbmActive || maxentActive
 				})}>
-					<div className="tacrGeoinvaze-layer-title">Model pravděpodobnosti rozšíření / Expansion probability model</div>
+					<div className="tacrGeoinvaze-layer-title">Model maximálního možného rozšíření</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option active={gamActive} value={"gam"}>gen. lineární</Option>
-							<Option active={gbmActive} value={"gbm"}>gradient boosting</Option>
-							<Option active={maxentActive} value={"maxent"}>maximum entropy</Option>
+							<Option active={gamActive} value={"gam"}>GAM</Option>
+							<Option active={gbmActive} value={"gbm"}>GBM</Option>
+							<Option active={maxentActive} value={"maxent"}>MAXENT</Option>
 						</ButtonSwitch>
 					</div>
 					<div className="tacrGeoinvaze-layer-legend continuous">

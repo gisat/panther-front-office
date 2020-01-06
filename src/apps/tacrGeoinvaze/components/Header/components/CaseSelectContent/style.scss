@@ -1,6 +1,29 @@
 @import '../../../../../../styles/variables';
 @import '../../../../styles/variables';
 
+.tacrGeoinvaze-case-select-content-content-wrapper {
+	background: #fff
+}
+
+.tacrGeoinvaze-case-select-content-header {
+	position: relative;
+	padding: m(2) m(2) 0 m(10 + 1/3);
+}
+.tacrGeoinvaze-case-select-content-header > svg {
+	position: absolute;
+	top: m(4/3);
+	left: 8.65rem;
+	width: m(3);
+	height: m(3);
+}
+.tacrGeoinvaze-case-select-content-header > svg path {
+	fill: var(--accent60);
+}
+.tacrGeoinvaze-case-select-content-header h1 {
+	color: var(--accent60);
+	font-weight: normal;
+}
+
 .tacrGeoinvaze-case-select-content-cases {
 	display: flex;
 }
@@ -20,12 +43,34 @@
   //flex-basis: 50%;
 }
 .tacrGeoinvaze-case-select-content-info {
-  padding: 2rem;
-  flex: 0 19rem;
+	padding: 2rem;
+	flex: 0 19rem;
 }
+.tacrGeoinvaze-case-select-content-intro {
+	display: flex;
+	overflow-x: hidden;
+}
+.tacrGeoinvaze-case-select-content-intro > div:first-child,
+.tacrGeoinvaze-case-select-content-content {
+	padding-left: 8rem;
+	flex-basis: 60rem;
+}
+.tacrGeoinvaze-case-select-content-logos {
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.tacrGeoinvaze-case-select-content-links {
+	padding-left: 7.3rem;
+}
+
+
 .tacrGeoinvaze-case-select-content-cases {
   flex: 1;
-  background-color: var(--accent30);
+  //background-color: var(--accent30);
+	background: linear-gradient(var(--accent75) 0, var(--accent65) m(5));
+	padding-bottom: m(4);
 }
 
 .tacrGeoinvaze-case-select-content-intro {
@@ -34,24 +79,24 @@
 	transition: height .3s ease-in-out;
 }
 .tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro {
-  height: 17rem;
+  height: 14rem;
 	position: relative;
 }
-.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro > div {
-	height: 100%;
-	padding-bottom: 1rem;
-	overflow-y: auto;
-}
-.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro::after {
-  content: " ";
-	display: block;
-	position: absolute;
-	right: 20px;
-	bottom: 0;
-	left: 0;
-	height: 3rem;
-	background: linear-gradient(0deg, var(--accent10) 20%, transparent 100%);;
-}
+//.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro > div {
+//	height: 100%;
+//	padding-bottom: 1rem;
+//	overflow-y: auto;
+//}
+//.tacrGeoinvaze-case-select-content.showIntro .tacrGeoinvaze-case-select-content-intro::after {
+//  content: " ";
+//	display: block;
+//	position: absolute;
+//	right: 20px;
+//	bottom: 0;
+//	left: 0;
+//	height: 3rem;
+//	background: linear-gradient(0deg, var(--accent10) 20%, transparent 100%);;
+//}
 
 .tacrGeoinvaze-case-select-content-link-home {
 	display: inline-block;
@@ -60,16 +105,18 @@
 	transition: width .3s ease-in-out;
 }
 .tacrGeoinvaze-case-select-content:not(.showIntro) .tacrGeoinvaze-case-select-content-link-home{
-	//width: 3.6rem;
-	width: 7.5rem;
+	width: 3.6rem;
+	//width: 7.5rem;
 }
 
-.tacrGeoinvaze-case-select-content-cases > div:nth-child(2n) {
-  background: var(--accent35);
+//.tacrGeoinvaze-case-select-content-cases > div:nth-child(2n) {
+//  background: var(--accent35);
+//}
+.tacrGeoinvaze-case-select-content-cases > div {
+	margin: 0 m(2/3);
 }
-
 .tacrGeoinvaze-case-select-content-cases > div > div:first-child {
-  height: m(5);
+  height: m(3);
   padding: m(1);
   font-size: $b2;
 	color: #fff;
@@ -77,15 +124,51 @@
 
 
 .tacrGeoinvaze-case-list .ptr-panther-select-item {
-	height: m(1+2/3);
-	padding: m(1/3);
-	border-bottom: 1px solid #fff4;
-	transition: background-color .3s ease-in-out;
+	//height: m(3);
+	height: m(4);
+	//border-bottom: 1px solid #fff4;
 	cursor: pointer;
-	color: var(--accent90);
+	color: var(--accent10);
+	margin-bottom: m(2/3);
+	box-shadow: 0 0 .25rem rgba(0,0,0,.3);
+	position: relative;
 }
-.tacrGeoinvaze-case-list .ptr-panther-select-item:hover {
-	background-color: #fff3;
+.tacrGeoinvaze-case-list .ptr-panther-select-item::after {
+	content: " ";
+	@include positionFill;
+	transition: background-color .3s ease-in-out;
+}
+.tacrGeoinvaze-case-list .ptr-panther-select-item:hover::after {
+	background-color: #fff2;
+}
+.tacrGeoinvaze-case-select-case {
+	height: 100%;
+	padding: m(1/3) m(1) m(1/3) 0;
+	background-size: cover;
+}
+.tacrGeoinvaze-case-select-case > div {
+	//display: block;
+	@include positionCenterVertical;
+	//width: 100%;
+	background: rgba(0,0,0,.55);
+	padding: m(1/3) m(1/2) m(1/3) m(1);
+	font-size: $a1;
+	line-height: 1.1;
+	transition: background .3s ease-in-out;
+}
+.tacrGeoinvaze-case-select-case > div > span {
+	display: block;
+	font-size: $b2;
+	letter-spacing: .04rem;
+}
+.tacrGeoinvaze-case-select-case > div > i {
+	font-style: italic;
+	font-size: $b1;
+	color: #fffc;
+	letter-spacing: .015rem;
+}
+.ptr-panther-select-item:hover .tacrGeoinvaze-case-select-case > div {
+	background: rgba(0,0,0,.75);
 }
 
 //.tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
@@ -101,21 +184,39 @@
 //	background: url("../../../../assets/temp_aquaticPlants.jpg") 40% 45%;
 //}
 
-.tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
-	background: url("../../../../assets/suchozver.jpg") 50% 40%;
-	background-size: cover;
+//.tacrGeoinvaze-case-select-terrestrialAnimals > div:first-child {
+//	background: url("../../../../assets/suchozver.jpg") 50% 40%;
+//	background-size: cover;
+//}
+//.tacrGeoinvaze-case-select-terrestrialPlants > div:first-child {
+//	background: url("../../../../assets/suchokytky.jpg") 25% 40%;
+//	background-size: cover;
+//}
+//.tacrGeoinvaze-case-select-aquaticAnimals > div:first-child {
+//	background: url("../../../../assets/mokrozver.jpg") 50% 55%;
+//	background-size: cover;
+//}
+//.tacrGeoinvaze-case-select-aquaticPlants > div:first-child {
+//	background: url("../../../../assets/mokrokytky.jpg") 20% 40%;
+//	background-size: cover;
+//}
+
+.tacrGeoinvaze-case-select-footer {
+	background: linear-gradient(rgba(0,0,0,.1) 0, transparent m(1));
+	padding: m(2) m(2) m(3) m(2);
+	color: var(--base65);
+	transition: color .3s ease-in-out;
 }
-.tacrGeoinvaze-case-select-terrestrialPlants > div:first-child {
-	background: url("../../../../assets/suchokytky.jpg") 25% 40%;
-	background-size: cover;
+.tacrGeoinvaze-case-select-footer:hover {
+	color: var(--base50);
 }
-.tacrGeoinvaze-case-select-aquaticAnimals > div:first-child {
-	background: url("../../../../assets/mokrozver.jpg") 50% 55%;
-	background-size: cover;
+.tacrGeoinvaze-case-select-footer > div:first-child {
+	display: flex;
+	//justify-content: space-evenly;
+	margin-bottom: m(1);
 }
-.tacrGeoinvaze-case-select-aquaticPlants > div:first-child {
-	background: url("../../../../assets/mokrokytky.jpg") 20% 40%;
-	background-size: cover;
+.tacrGeoinvaze-case-select-footer > div:first-child > div {
+	flex-grow: 1;
 }
 
 

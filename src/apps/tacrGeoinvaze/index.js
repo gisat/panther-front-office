@@ -41,7 +41,7 @@ export default (path, baseUrl) => {
 		key: 'tacrGeoinvaze',
 		data: {
 			backgroundLayer: {
-				layerTemplateKey: '2793f35f-5433-45e1-9f59-55aa99985fc2'
+				layerTemplateKey: '7fe2f005-b7db-408e-bdc9-a2f928a62ab7'
 			},
 			layers: [
 				{
@@ -60,10 +60,10 @@ export default (path, baseUrl) => {
 		data: {
 			view: {
 				center: {
-					lat: 50,
-					lon: 15
+					lat: 49.7,
+					lon: 15.5
 				},
-				boxRange: 1000000
+				boxRange: 525000
 			}
 		}
 	}));
@@ -81,8 +81,8 @@ export default (path, baseUrl) => {
 		<>
 			<Provider store={Store}>
 				<Helmet
-					titleTemplate="%s | Geoinvaze"
-					defaultTitle="Geoinvaze"
+					// titleTemplate="%s | Geoinvaze"
+					defaultTitle="Geoinformační portál biologických invazí"
 				/>
 				<AppContainer appKey="tacrGeoinvaze">
 					<ConnectedRouter history={history}>

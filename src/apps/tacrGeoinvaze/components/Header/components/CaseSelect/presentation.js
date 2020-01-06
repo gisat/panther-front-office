@@ -4,6 +4,8 @@ import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
 import CaseSelectContent from "../CaseSelectContent";
+import Logo from "../Logo";
+import CaseImage from "../../../CaseImage";
 
 class CaseSelect extends React.PureComponent {
 
@@ -24,15 +26,32 @@ class CaseSelect extends React.PureComponent {
 	selectCase(key) {
 		if (!this.props.activeCase || (key !== this.props.activeCase.key)) {
 			this.props.selectCase(key);
+		} else {
+			this.props.closeSelect();
 		}
 	}
 
 	renderCurrent() {
 		const activeCase = this.props.activeCase;
 		if (activeCase) {
+
+			let style = {};
+			if (CaseImage[activeCase.key]) {
+				style.backgroundImage =  `url(${CaseImage[activeCase.key]})` || null;
+			}
+
 			return (
-				<div className="tacrGeoinvaze-case-value" title={activeCase.data && activeCase.data.nameDisplay}>
-					{activeCase.data && activeCase.data.nameDisplay}
+				<div>
+					<div className="tacrGeoinvaze-title">
+						<Logo />
+						Geoinformační portál biologických invazí
+					</div>
+					<div className="tacrGeoinvaze-header-case-select" style={style}>
+						<div className="tacrGeoinvaze-case-value" title={activeCase.data && activeCase.data.nameDisplay}>
+								<span>{activeCase.data && activeCase.data.nameDisplay}</span>
+								<i>{activeCase.data && activeCase.data.nameInternal}</i>
+						</div>
+					</div>
 				</div>
 			);
 		} else {
@@ -59,12 +78,6 @@ class CaseSelect extends React.PureComponent {
 				listClasses="tacrGeoinvaze-case-select-list"
 			>
 				<div className="tacrGeoinvaze-case-select-overlay">
-					<div className="tacrGeoinvaze-case-select-overlay-header">
-						<div className="tacrGeoinvaze-header-space">
-							<div>Geoinformation portal for invasive species</div>
-							Development preview
-						</div>
-					</div>
 					<CaseSelectContent />
 				</div>
 			</PantherSelect>
