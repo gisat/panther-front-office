@@ -36,6 +36,7 @@ import LoubinecPopinavy from "./cases/LoubinecPopinavy";
 import LupinaMnoholista from "./cases/LupinaMnoholista";
 import NetykavkaZlaznata from "./cases/NetykavkaZlaznata";
 import SlunecniceTopinambur from "./cases/SlunecniceTopinambur";
+import SvidaVybezkata from "./cases/SvidaVybezkata";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -131,6 +132,9 @@ const CaseDetail = props => {
 			break;
 		case '239c8fd9-ee79-449d-87c1-e2f474ce6934':
 			component = <SlunecniceTopinambur/>;
+			break;
+		case '8fb79c32-ddad-4e83-9035-7dd81ed9fb82':
+			component = <SvidaVybezkata/>;
 			break;
 		case 'ed135671-9da6-495e-91ad-ff305f849b94':
 			component = <VodniMorAmericky/>;
