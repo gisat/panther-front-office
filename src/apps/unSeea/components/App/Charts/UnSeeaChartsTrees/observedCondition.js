@@ -19,25 +19,25 @@ export default [
 	// },
 	{
 		name: 'H',
-		color: '#CA4466',
+		color: '#850030',
 		getTooltip: getMeters,
 		title: 'Tree Height'
 	},
 	{
 		name: 'DBH',
-		color: '#CA4466',
+		color: '#c33d61',
 		getTooltip: getMeters,
 		title: 'Stem Diameter'
 	},
 	{
 		name: 'CAN_COV_M2',
-		color: '#CA4466',
+		color: '#f67a97',
 		getTooltip: getSquareMeters,
 		title: 'Canopy area'
 	},
 	{
 		name: 'LF_AR_M2',
-		color: '#CA4466',
+		color: '#ffc7e2',
 		getTooltip: getSquareMeters,
 		title: 'Leaf Area'
 	},

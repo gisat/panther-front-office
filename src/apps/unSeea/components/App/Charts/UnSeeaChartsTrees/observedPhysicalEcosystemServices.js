@@ -13,31 +13,31 @@ export default [
 	//zelena
 	{
 		name: 'CO_STOR_KG',
-		color: '#568038',
+		color: '#012300',
 		getTooltip: getKilograms,
 		title: 'Stored Carbon'
 	},
 	{
 		name: 'CO_SEQ_KG',
-		color: '#568038',
+		color: '#0b3500',
 		getTooltip: getKilogramsPerYear,
 		title: 'Sequestrated Carbon'
 	},
 	{
 		name: 'RUNOFF_M3',
-		color: '#568038',
+		color: '#1c4701',
 		getTooltip: getSquareMetersPerYear,
 		title: 'Sequestrated Carbon'
 	},
 	{
 		name: 'CO_AVO_KG',
-		color: '#568038',
+		color: '#2f5913',
 		getTooltip: getKilogramsPerYear,
 		title: 'Avoided carbon'
 	},
 	{
 		name: 'HE_KWH',
-		color: '#568038',
+		color: '#436d26',
 		getTooltip: getKilowattsPerYear,
 		title: 'Heating effects'
 	},
@@ -49,37 +49,37 @@ export default [
 	},
 	{
 		name: 'POL_CO_G',
-		color: '#568038',
+		color: '#6a944b',
 		getTooltip: getGramsPerYear,
 		title: 'CO removal'
 	},
 	{
 		name: 'POL_O3_G',
-		color: '#568038',
+		color: '#7ea95e',
 		getTooltip: getGramsPerYear,
 		title: 'O3 removal'
 	},
 	{
 		name: 'POL_NO2_G',
-		color: '#568038',
+		color: '#93be71',
 		getTooltip: getGramsPerYear,
 		title: 'NO2 removal'
 	},
 	{
 		name: 'POL_SO2_G',
-		color: '#568038',
+		color: '#a8d485',
 		getTooltip: getGramsPerYear,
 		title: 'SO2 removal'
 	},
 	{
 		name: 'POL_PM25_G',
-		color: '#568038',
+		color: '#bde99a',
 		getTooltip: getGramsPerYear,
 		title: 'PM2.5 removal'
 	},
 	{
 		name: 'VOC_G',
-		color: '#568038',
+		color: '#d5ffb1',
 		getTooltip: getGramsPerYear,
 		title: 'VOCs'
 	},
