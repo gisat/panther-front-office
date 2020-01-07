@@ -32,6 +32,7 @@ import KridlatkaJaponska from "./cases/KridlatkaJaponska";
 import KridlatkaCeska from "./cases/KridlatkaCeska";
 import KridlatkaSachalinska from "./cases/KridlatkaSachalinska";
 import LoubinecPetilisty from "./cases/LoubinecPetilisty";
+import LoubinecPopinavy from "./cases/LoubinecPopinavy";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -82,6 +83,9 @@ const CaseDetail = props => {
 			break;
 		case '4df5dd73-e05d-442d-88b9-909cbc752484':
 			component = <LoubinecPetilisty/>;
+			break;
+		case '0c2a25e7-9feb-4b54-bfcb-a5db7de4d700':
+			component = <LoubinecPopinavy/>;
 			break;
 		case '6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a':
 			component = <Muflon/>;
