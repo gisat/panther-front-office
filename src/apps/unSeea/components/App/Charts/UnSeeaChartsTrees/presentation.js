@@ -6,6 +6,7 @@ import AsterChart from "../../../../../../components/common/charts/AsterChart/As
 import HoverContext from "../../../../../../components/common/HoverHandler/context";
 import observedCondition from './observedCondition';
 import observedPhysicalEcosystemServices from './observedPhysicalEcosystemServices';
+import observedMonetaryAssetValues from './observedMonetaryAssetValues';
 
 
 class ChartPanel extends React.PureComponent {
@@ -74,26 +75,31 @@ class ChartPanel extends React.PureComponent {
 		// 	selectAsterData = this.transformDataForAsterChart(selectedAreaData);
 		// }
 
-		const {conditionIndicatorsStatistics, physicalEcosystemServicesIndicatorsStatistics, conditionIndicatorsIndicatorsData, physicalEcosystemServicesIndicatorsData, maximum} = this.props;
+		const {conditionIndicatorsStatistics, physicalEcosystemServicesIndicatorsStatistics, conditionIndicatorsIndicatorsData, physicalEcosystemServicesIndicatorsData, maximum, monetaryAssetValuesStatistics, monetaryAssetValuesData} = this.props;
 
 		let hoverAsterDataConditionIndicators
 		let hoverAsterDataPhysicalEcosystemServicesIndicators
+		let hoverAsterDataMonetaryAssetValuesData
 		if(this.context && this.context.hoveredItems) {
 			hoverAsterDataConditionIndicators = this.transformDataForAsterChart(conditionIndicatorsIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedCondition);
 			hoverAsterDataPhysicalEcosystemServicesIndicators = this.transformDataForAsterChart(physicalEcosystemServicesIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedPhysicalEcosystemServices);
+			hoverAsterDataMonetaryAssetValuesData = this.transformDataForAsterChart(monetaryAssetValuesData.find((d) => d[this.props.spatialIdKey] === this.context.hoveredItems[0]), observedMonetaryAssetValues);
 		}
 
 		let selectAsterDataConditionIndicators
 		let selectAsterDataPhysicalEcosystemServicesIndicators
+		let selectAsterDataMonetaryAssetValuesData
 		let data;
 		if(this.props.selectedArea) {
 			data = conditionIndicatorsIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea);
 			selectAsterDataConditionIndicators = this.transformDataForAsterChart(data, observedCondition);
 			selectAsterDataPhysicalEcosystemServicesIndicators = this.transformDataForAsterChart(physicalEcosystemServicesIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedPhysicalEcosystemServices);
+			selectAsterDataMonetaryAssetValuesData = this.transformDataForAsterChart(monetaryAssetValuesData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryAssetValues);
 		}
 
 		const physicalEcosystemServicesDescription = "Physical ecosystem services tree characteristics in percentage where 100% is mean for all data."
 		const conditionDescription = "Condition tree characteristics in percentage where 100% is mean for all data."
+		const monetaryAssetValuesDescription = "Monetary asset values in percentage where 100% is mean for all data."
 
 			return (
 					<div className="ptr-unseea-chart-panel">
@@ -137,6 +143,33 @@ class ChartPanel extends React.PureComponent {
 										key="aster-doc-basic-2"
 										// data={[]}
 										data={hoverAsterDataPhysicalEcosystemServicesIndicators.data}
+										keySourcePath="key"
+										nameSourcePath="name"
+										valueSourcePath="value.relative"
+										hoverValueSourcePath="value.absoluteTooltip"
+										colorSourcePath="color"
+										relative
+										grid={{
+											captions: true
+										}}
+										radials={{
+											captions: true
+										}}
+										forceMinimum={0}
+										forceMaximum={maximum}
+										legend
+									/>
+								</ChartWrapper>
+								<ChartWrapper
+									key={this.props.chartKey + "-wrapper-3"}
+									// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
+									title={`Species common name: ${data['SP_CO_NAME']}`}
+									subtitle={monetaryAssetValuesDescription}
+								>
+									<AsterChart
+										key="aster-doc-basic-3"
+										// data={[]}
+										data={hoverAsterDataMonetaryAssetValuesData.data}
 										keySourcePath="key"
 										nameSourcePath="name"
 										valueSourcePath="value.relative"
@@ -210,6 +243,34 @@ class ChartPanel extends React.PureComponent {
 								<AsterChart
 									key={`${selectAsterDataPhysicalEcosystemServicesIndicators.key}-aster-doc-basic-2`}
 									data={selectAsterDataPhysicalEcosystemServicesIndicators.data}
+
+									keySourcePath="key"
+									nameSourcePath="name"
+									valueSourcePath="value.relative"
+									hoverValueSourcePath="value.absoluteTooltip"
+									colorSourcePath="color"
+									relative
+									grid={{
+										captions: true
+									}}
+									radials={{
+										captions: true
+									}}
+									legend
+									forceMinimum={0}
+									forceMaximum={maximum}
+								/>
+							</ChartWrapper>
+							<ChartWrapper
+							key={selectAsterDataMonetaryAssetValuesData.key + "-wrapper-3"}
+							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
+							title={`Species common name: ${data['SP_CO_NAME']}`}
+							subtitle={monetaryAssetValuesDescription}
+							>
+							
+								<AsterChart
+									key={`${selectAsterDataMonetaryAssetValuesData.key}-aster-doc-basic-3`}
+									data={selectAsterDataMonetaryAssetValuesData.data}
 
 									keySourcePath="key"
 									nameSourcePath="name"

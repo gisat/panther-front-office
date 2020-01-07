@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 	onMount: () => {
 		// import(/* webpackChunkName: "BYMTreeDatabase_min" */ "../../../data/trees/BYMTreeDatabase_min.js").then((treesSpatialData) => {
 		// import(/* webpackChunkName: "BYMTreeDatabase_min" */ "../../../data/trees/BYMTreeDatabase_full.json").then((treesSpatialData) => {
-		import(/* webpackChunkName: "BYMTreeDatabase_min" */ "../../../data/trees/BYMTreeDatabase_cut.json").then((treesSpatialData) => {
+		import(/* webpackChunkName: "BYMTreeDatabase_min" */ "../../../data/trees/BYMTreeDatabase_cut_money.json").then((treesSpatialData) => {
 			const data = {
 				spatialDataSourceKey: ownProps.activeSpatialDataSourceKey,
 				spatialData: treesSpatialData.default

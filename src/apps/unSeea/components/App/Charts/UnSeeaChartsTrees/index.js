@@ -7,6 +7,7 @@ import {calculateDataStatistics, calculateData} from '../utils';
 import _ from "lodash";
 import observedCondition from './observedCondition';
 import observedPhysicalEcosystemServices from './observedPhysicalEcosystemServices';
+import observedMonetaryAssetValues from './observedMonetaryAssetValues';
 
 
 const useActiveMetadataKeys = {
@@ -118,16 +119,20 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 		const conditionIndicatorsStatistics = calculateDataStatistics(data, observedCondition);
 		const physicalEcosystemServicesIndicatorsStatistics = calculateDataStatistics(data, observedPhysicalEcosystemServices);
+		const monetaryAssetValuesStatistics = calculateDataStatistics(data, observedMonetaryAssetValues);
 		const conditionIndicatorsIndicatorsData = calculateData(data, observedCondition, conditionIndicatorsStatistics.observedDataStatistics);
 		const physicalEcosystemServicesIndicatorsData = calculateData(data, observedPhysicalEcosystemServices, physicalEcosystemServicesIndicatorsStatistics.observedDataStatistics);
+		const monetaryAssetValuesData = calculateData(data, observedMonetaryAssetValues, monetaryAssetValuesStatistics.observedDataStatistics);
 
 		return {
 			// statistics: sumStatistics,
 			// data: relativeData,
 			conditionIndicatorsStatistics,
 			physicalEcosystemServicesIndicatorsStatistics,
+			monetaryAssetValuesStatistics,
 			conditionIndicatorsIndicatorsData,
 			physicalEcosystemServicesIndicatorsData,
+			monetaryAssetValuesData,
 
 			selectedArea: selectedAreas[0],
 			// maximum: 100 * sumStatistics.max / sumStatistics.median,
