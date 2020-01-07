@@ -30,31 +30,31 @@ export default [
 	//zelena
 	{
 		name: 'G_ELEV',
-		color: '#568038',
+		color: '#052600',
 		// getTooltip: getGramsFromKilograms,
 		title: 'G elevation'
 	},
 	{
 		name: 'C_ELEV',
-		color: '#568038',
+		color: '#28520b',
 		// getTooltip: getGramsFromKilograms,
 		title: 'C elevation'
 	},
 	{
 		name: 'POLY_AREA',
-		color: '#568038',
+		color: '#578139',
 		// getTooltip: getGramsFromKilograms,
 		title: 'Area'
 	},
 	{
 		name: 'PERIMETER',
-		color: '#568038',
+		color: '#87b266',
 		// getTooltip: getMicrogramsFromGrams,
 		title: 'Perimeter'
 	},
 	{
 		name: 'MGBDIAM',
-		color: '#568038',
+		color: '#bae697',
 		// getTooltip: getMicrogramsFromGrams,
 		title: 'MGBDIAM'
 	},

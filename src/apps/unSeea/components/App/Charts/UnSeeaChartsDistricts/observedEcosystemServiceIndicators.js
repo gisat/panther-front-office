@@ -30,7 +30,7 @@ export default [
 	{
 		normalisedName: 'CO_STOR_KG_TP_MEAN_POP',
 		name: 'CO_STOR_KG_TP_MEAN',
-		color: '#568038',
+		color: '#1b4700',
 		getTooltip: getGramsFromKilograms,
 		title: 'Stored Carbon'
 	},
@@ -44,14 +44,14 @@ export default [
 	{
 		normalisedName: 'CO_AVO_KG_TP_MEAN_POP',
 		name: 'CO_AVO_KG_TP_MEAN',
-		color: '#568038',
+		color: '#92be71',
 		getTooltip: getGramsFromKilograms,
 		title: 'Avoided Runoff'
 	},
 	{
 		normalisedName: 'POL_REM_G_TP_MEAN_POP',
 		name: 'POL_REM_G_TP_MEAN',
-		color: '#568038',
+		color: '#d4ffb0',
 		getTooltip: getMicrogramsFromGrams,
 		title: 'Removed air pollution'
 	},

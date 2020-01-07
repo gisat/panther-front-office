@@ -57,35 +57,35 @@ export default [
 	{
 		normalisedName: 'CO_STO_N17_TP_MEAN_POP',
 		name: 'CO_STO_N17_TP_MEAN',
-		color: '#4974C6',
+		color: '#002062',
 		getTooltip: getGramsFromKilograms,
 		title: 'Stored Carbon'
 	},
 	{
 		normalisedName: 'CO_SEQ_N17_TP_MEAN_POP',
 		name: 'CO_SEQ_N17_TP_MEAN',
-		color: '#4974C6',
+		color: '#064b97',
 		getTooltip: getGramsFromKilograms,
 		title: 'Sequestrated Carbon'
 	},
 	{
 		normalisedName: 'CO_AVO_N17_TP_MEAN_POP',
 		name: 'CO_AVO_N17_TP_MEAN',
-		color: '#4974C6',
+		color: '#4b75c8',
 		getTooltip: getGramsFromKilograms,
 		title: 'Avoided runoff'
 	},
 	{
 		normalisedName: 'POL_RE_N17_TP_MEAN_POP',
 		name: 'POL_RE_N17_TP_MEAN',
-		color: '#4974C6',
+		color: '#7fa2fa',
 		getTooltip: getGramsFromKilograms,
 		title: 'Removed air pollution'
 	},
 	{
 		normalisedName: 'TOTBEN_N17_TP_MEAN_POP',
 		name: 'TOTBEN_N17_TP_MEAN',
-		color: '#4974C6',
+		color: '#b7d7ff',
 		getTooltip: getDollars,
 		title: 'Annual Benefits'
 	}
