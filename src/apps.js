@@ -103,6 +103,19 @@ export default [
 		})
 	},
 	/**
+	 * SZIF LPIS změnová řízení
+	 * tw: ???
+	 */
+	{
+		key: 'szifLpisZmenovaRizeni',
+		hostname: 'nope.gisat.cz',
+		path: null,
+		devPath: '/szifLpisZmenovaRizeni',
+		app: (path, baseUrl) => import(/* webpackChunkName: "szifLpisZmenovaRizeni" */'./apps/szifLpisZmenovaRizeni').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * Geoinvaze
 	 * tw: GEOINV
 	 */

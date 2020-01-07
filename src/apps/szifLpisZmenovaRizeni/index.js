@@ -1,0 +1,37 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route, Switch } from 'react-router';
+import Helmet from "react-helmet";
+
+import Action from '../../state/Action';
+import Store, {history} from './state/Store';
+
+// base styles need to be imported before all components
+import '../../styles/reset.css';
+import '../../styles/base.scss';
+import './styles/index.scss';
+
+import AppContainer from "../../components/common/AppContainer";
+
+export default (path, baseUrl) => {
+
+	// Load Current User
+	Store.dispatch(Action.users.apiLoadCurrentUser());
+
+	ReactDOM.render(
+		<>
+			<Provider store={Store}>
+				<Helmet
+					titleTemplate="%s | LPIS - Změnová řízení"
+					defaultTitle="LPIS - Změnová řízení"
+				/>
+				<AppContainer appKey="szifLpisZmenovaRizeni">
+					<div>LPIS změnová řízení</div>
+				</AppContainer>
+			</Provider>
+		</>, document.getElementById('ptr')
+	);
+
+}
