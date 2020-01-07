@@ -1,0 +1,105 @@
+@import '../../../styles/variables';
+@import './variables';
+
+.ptr-light {
+
+	--accent0: #{$lightAccent0};
+	--accent0rgb: #{$lightAccent0rgb};
+	--accent05: #{$lightAccent05};
+	--accent10: #{$lightAccent10};
+	--accent15: #{$lightAccent15};
+	--accent20: #{$lightAccent20};
+	--accent25: #{$lightAccent25};
+	--accent30: #{$lightAccent30};
+	--accent35: #{$lightAccent35};
+	--accent40: #{$lightAccent40};
+	--accent45: #{$lightAccent45};
+	--accent50: #{$lightAccent50};
+	--accent50rgb: #{$lightAccent50rgb};
+	--accent55: #{$lightAccent55};
+	--accent60: #{$lightAccent60};
+	--accent65: #{$lightAccent65};
+	--accent70: #{$lightAccent70};
+	--accent75: #{$lightAccent75};
+	--accent80: #{$lightAccent80};
+	--accent85: #{$lightAccent85};
+	--accent90: #{$lightAccent90};
+	--accent95: #{$lightAccent95};
+	--accent100: #{$lightAccent100};
+	--accent100rgb: #{$lightAccent100rgb};
+}
+
+.tacrGeoinvaze-header {
+	width: 100%;
+	position: absolute;
+	z-index: 1000;
+}
+.tacrGeoinvaze-title {
+	position: relative;
+	//z-index: 45;
+	font-size: $b2;
+	//color: var(--base0);
+	color: var(--accent25);
+	height: m(2);
+	width: 30rem;
+	padding: .51825rem 1rem .51825rem 3.75rem;
+	//background: var(--accent65) url("../assets/logo_invaznidruhy_v05_white.png") no-repeat .2rem 0;
+	//background-size: contain;
+}
+.tacrGeoinvaze-title > svg {
+	position: absolute;
+	left: .75rem;
+	top: .25rem;
+	width: 2.5rem;
+	height: 2.5rem;
+}
+.tacrGeoinvaze-title > svg path {
+	fill: var(--accent20);
+}
+.tacrGeoinvaze-case-select {
+	//height: m(2);
+	height: m(6);
+	width: 30rem;
+	background: linear-gradient(var(--accent75) 0%, var(--accent65) 100%);
+}
+.tacrGeoinvaze-case-select .ptr-panther-select-current {
+	height: 100%;
+	//background-color: var(--accent50);
+	z-index: auto;
+}
+//.tacrGeoinvaze-title,
+//.tacrGeoinvaze-case-select .ptr-panther-select-current {
+//	background-color: var(--accent50);
+//}
+
+.tacrGeoinvaze-header .ptr-panther-select-list {
+	padding-top: 0;
+}
+.tacrGeoinvaze-case-select-list.ptr-panther-select-list > div > div {
+	height: 100%;
+}
+.tacrGeoinvaze-case-select-overlay {
+	height: 100%;
+	background-color: var(--base90);
+	overflow-y: auto;
+}
+
+//.tacrGeoinvaze-case-select-overlay-header {
+//	height: m(4);
+//	background-color: var(--base0);
+//}
+//.tacrGeoinvaze-case-select-content {
+//	height: calc(100% - #{m(4)});
+//}
+
+.tacrGeoinvaze-sidebar {
+	padding-top: m(6);
+	overflow: hidden;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.tacrGeoinvaze-column-visualization > .ptr-adjustable-columns-content {
+	overflow: hidden;
+}
