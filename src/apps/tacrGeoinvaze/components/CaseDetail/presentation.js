@@ -38,6 +38,7 @@ import NetykavkaZlaznata from "./cases/NetykavkaZlaznata";
 import SlunecniceTopinambur from "./cases/SlunecniceTopinambur";
 import SvidaVybezkata from "./cases/SvidaVybezkata";
 import SruchaZelna from "./cases/SruchaZelna";
+import ZlatobylObrovsky from "./cases/ZatobylObrovsky";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -151,6 +152,9 @@ const CaseDetail = props => {
 			break;
 		case '82acfc6b-5ebc-49a2-813a-76f1a85ef66c':
 			component = <Zlatobyl/>;
+			break;
+		case 'ec4b6689-718a-420a-8378-6ac5d348f25e':
+			component = <ZlatobylObrovsky/>;
 			break;
 		default:
 			component = null;
