@@ -99,8 +99,10 @@ class ChartPanel extends React.PureComponent {
 			selectAsterDataMonetaryIndicators = this.transformDataForAsterChart(monetaryIndicatorsData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryIndicators);
 		}
 
-		const ecosystemServiceDescription = this.state.normalised ? "Ecosystem service values normalised by area on [1 km2]." : "Ecosystem service values in percentage by maximum."
-		const monetaryIndicatorsDescription = this.state.normalised ? "Monetary values normalised by population on [1 citizen]." : "Monetary values per districts in percentage by maximum."
+		const ecosystemServiceTitle = "Ecosystem service values";
+		const ecosystemServiceDescription = this.state.normalised ? "Values normalised by area on [1 km2]." : "Values in percentage by maximum.";
+		const monetaryIndicatorsTitle = "Monetary values";
+		const monetaryIndicatorsDescription = this.state.normalised ? "Values normalised by population on [1 citizen]." : "Values per districts in percentage by maximum.";
 		const activeMapSet = areas.find(a=>a.mapSetKey === activeMapSetKey);
 			return (
 					<div>
@@ -126,7 +128,7 @@ class ChartPanel extends React.PureComponent {
 									<div>
 										<ChartWrapper
 											key={this.props.chartKey + "-wrapper-1"}
-											title={hoverAsterDataEcosystemServiceIndicators.name}
+											title={`${ecosystemServiceTitle} - ${hoverAsterDataEcosystemServiceIndicators.name}`}
 											subtitle={ecosystemServiceDescription}
 										>
 											<AsterChart
@@ -152,7 +154,7 @@ class ChartPanel extends React.PureComponent {
 										</ChartWrapper>
 										<ChartWrapper
 											key={this.props.chartKey + "-wrapper-2"}
-											title={hoverAsterDataMonetaryIndicators.name}
+											title={`${monetaryIndicatorsTitle} - ${hoverAsterDataMonetaryIndicators.name}`}
 											subtitle={monetaryIndicatorsDescription}
 										>
 											<AsterChart
@@ -195,7 +197,7 @@ class ChartPanel extends React.PureComponent {
 							<div className="ptr-unseea-chart-column">
 									<ChartWrapper
 										key={selectAsterDataEcosystemServiceIndicators.key + "-wrapper-1"}
-										title={selectAsterDataEcosystemServiceIndicators.name}
+										title={`${ecosystemServiceTitle} - ${selectAsterDataEcosystemServiceIndicators.name}`}
 										subtitle={ecosystemServiceDescription}
 										>
 										<AsterChart
@@ -221,7 +223,7 @@ class ChartPanel extends React.PureComponent {
 									</ChartWrapper>
 									<ChartWrapper
 									key={selectAsterDataMonetaryIndicators.key + "-wrapper-2"}
-									title={selectAsterDataMonetaryIndicators.name}
+									title={`${monetaryIndicatorsTitle} - ${selectAsterDataMonetaryIndicators.name}`}
 									subtitle={monetaryIndicatorsDescription}
 									>
 									
