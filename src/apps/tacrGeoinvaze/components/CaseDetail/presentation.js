@@ -39,6 +39,7 @@ import SlunecniceTopinambur from "./cases/SlunecniceTopinambur";
 import SvidaVybezkata from "./cases/SvidaVybezkata";
 import SruchaZelna from "./cases/SruchaZelna";
 import ZlatobylObrovsky from "./cases/ZatobylObrovsky";
+import ZimolezKoziList from "./cases/ZimolezKoziList";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -149,6 +150,9 @@ const CaseDetail = props => {
 			break;
 		case 'd435f0a6-0b8f-454e-905e-85c4dbc22288':
 			component = <ZelvaNadherna/>;
+			break;
+		case 'b16e8b7c-7607-470f-9469-107990a3c973':
+			component = <ZimolezKoziList/>;
 			break;
 		case '82acfc6b-5ebc-49a2-813a-76f1a85ef66c':
 			component = <Zlatobyl/>;
