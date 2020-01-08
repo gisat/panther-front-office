@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 	};
 	
 	return {
-		cases: Select.cases.getIndexed(state, null, filter, order, 1, 20),
+		cases: Select.cases.getIndexed(state, null, filter, order, 1, 100),
 		activeCase: Select.cases.getActive(state)
 	}
 };
