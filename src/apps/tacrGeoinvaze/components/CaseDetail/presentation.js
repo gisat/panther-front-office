@@ -45,6 +45,7 @@ import BoroviceVejmutovka from "./cases/BoroviceVejmutovka";
 import DubCerveny from "./cases/DubCerveny";
 import JavorJasanolisty from "./cases/JavorJasanolisty";
 import JasanPensylvansky from "./cases/JasanPensylvansky";
+import PajasanZlaznaty from "./cases/PajasanZlaznaty";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -131,6 +132,9 @@ const CaseDetail = props => {
 			break;
 		case "edfdd933-86fe-4b08-ae20-cb77eeb6afbc":
 			component = <Ondatra/>;
+			break;
+		case "dcc2d2b8-4c4c-4e3b-b2d7-92a5121d783f":
+			component = <PajasanZlaznaty/>;
 			break;
 		case '2316b10f-b733-4e9b-958c-cc5bfd568735':
 			component = <Psik/>;
