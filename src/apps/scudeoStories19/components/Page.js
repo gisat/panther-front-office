@@ -3,6 +3,7 @@ import Helmet from "react-helmet";
 import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
 import { NavLink } from 'react-router-dom';
+import eo4sd_urban_logo from '../assets/eo4sd_urban_logo.png';
 
 export const Visualization = (props) => {
 	return (
@@ -27,7 +28,15 @@ export const Footer = (props) => {
 
 	return (
 		<div className="scudeoStories19-footer">
-			<div>&copy; <a href="http://gisat.cz/content/en" target="_blank">{"Gisat " + currentYear}</a></div>
+			<div>
+				<div className="scudeoStories19-footer-logo">
+					<a href="http://www.eo4sd-urban.info/" target="_blank"><img src={eo4sd_urban_logo}/></a>
+				</div>
+				<div>
+					<p>Prepared by the <a href="http://www.eo4sd-urban.info/" target="_blank">Earth Observation For Urban Sustainable Development (EO4SD Urban)</a> project supported by European Space Agency. Interactive maps and graphs supported by the <a href="https://urban-tep.eu/" target="_blank">Urban Thematic Exploitation Platform (UTEP)</a></p>
+					<p>&copy; <a href="http://gisat.cz/content/en" target="_blank">{"Gisat " + currentYear}</a></p>
+				</div>
+			</div>
 		</div>
 	);
 };

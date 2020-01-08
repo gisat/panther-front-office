@@ -15,6 +15,14 @@ export default (state = INITIAL_STATE, action) => {
 			return common.add(state, action);
 		case ActionTypes.STYLES.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.STYLES.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.STYLES.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
+		case ActionTypes.COMMON.DATA.SET_OUTDATED:
+			return common.dataSetOutdated(state, action);
+		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
+			return common.cleanupOnLogout(state, action);
 		default:
 			return state;
 	}

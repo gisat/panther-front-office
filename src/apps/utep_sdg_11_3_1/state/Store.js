@@ -6,6 +6,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
 // base types
+import _deprecatedSelectionsReducers from '../../../state/_deprecatedSelections/reducers';
 import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
 import attributeRelationsReducers from '../../../state/AttributeRelations/reducers';
@@ -24,7 +25,6 @@ import placesReducers from '../../../state/Places/reducers';
 import scenariosReducers from '../../../state/Scenarios/reducers';
 import scopesReducers from '../../../state/Scopes/reducers';
 import screensReducers from '../../../state/Screens/reducers';
-import selectionsReducers from '../../../state/Selections/reducers';
 import snapshotsReducers from '../../../state/Snapshots/reducers';
 import spatialDataSourcesReducers from '../../../state/SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from '../../../state/SpatialDataSources/vector/reducers';
@@ -45,6 +45,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Redux store
 export default createStore(combineReducers({
+	_deprecatedSelections: _deprecatedSelectionsReducers,
 	app: appReducers,
 	areas: areasReducers,
 	attributes: attributesReducers,
@@ -65,7 +66,6 @@ export default createStore(combineReducers({
 	scenarios: scenariosReducers,
 	scopes: scopesReducers,
 	screens: screensReducers,
-	selections: selectionsReducers,
 	snapshots: snapshotsReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialVectorDataSources: spatialVectorDataSourcesReducers,

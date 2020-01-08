@@ -1,0 +1,38 @@
+@import '../../../../styles/variables';
+
+.szdcInsar19-chart-container {
+	margin: m(2/3) m(1) m(2/3) m(1/3);
+	//display: flex;
+	//justify-content: center;
+}
+.szdcInsar19-chart-container > h4 {
+	margin-left: m(2/3);
+}
+.szdcInsar19-chart-container > h4 > span {
+	font-size: $b1;
+	font-weight: normal;
+	margin-left: m(1/3);
+}
+
+.szdcInsar19-chart-container .ptr-chart-container {
+	max-width: 35rem;
+}
+
+
+// grid styling
+.szdcInsar19-chart-container.track-time-serie .ptr-axis-baseline,
+.szdcInsar19-chart-container.track-time-serie .ptr-axis-border {
+	stroke: var(--base40);
+}
+
+.szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-x .ptr-axis-gridline,
+.szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-y .ptr-axis-gridline {
+	stroke-dasharray: 5;
+}
+
+.szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-x .ptr-axis-grid g:nth-child(3) .ptr-axis-gridline,.szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-x .ptr-axis-grid g:nth-child(7) .ptr-axis-gridline, .szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-x .ptr-axis-grid g:nth-child(11) .ptr-axis-gridline, .szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-x .ptr-axis-grid g:nth-child(15) .ptr-axis-gridline,.szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-y .ptr-axis-grid g:nth-child(3) .ptr-axis-gridline,.szdcInsar19-chart-container.track-time-serie .ptr-column-chart-axis-y .ptr-axis-grid g:nth-child(11) .ptr-axis-gridline {
+	stroke-dasharray: 4;
+	stroke-width: 2px;
+}
+
+

@@ -2,12 +2,105 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 import common from "../_common/selectors";
+import AttributeData from "../AttributeData/selectors";
 import AttributeRelations from "../AttributeRelations/selectors";
+import createCachedSelector from "re-reselect";
 
 const getSubstate = (state) => state.attributeDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getBatchByFilterOrder = common.getBatchByFilterOrder(getSubstate);
+const getByKey = common.getByKey(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
+
+const getFilteredDataSources = createCachedSelector(
+	[
+		getAllAsObject,
+		AttributeRelations.getFilteredDataSourceKeysWithFidColumn,
+		AttributeData.getAllAsObject,
+		(state, filter) => filter
+	],
+	(dataSources, dataSourcesWithFidColumn, attributeData, filter) => {
+		if (!_.isEmpty(dataSourcesWithFidColumn) && attributeData && dataSources) {
+			let finalDataSources = [];
+			_.forEach(dataSourcesWithFidColumn, dataSourceWithFidColumn => {
+				const key = dataSourceWithFidColumn.attributeDataSourceKey;
+				let finalDataSource = {
+					...dataSources[key]
+				};
+
+				const data = attributeData[key];
+				if (data && data.attributeData && data.attributeData.features) {
+					finalDataSource.data.features = data.attributeData.features.map(feature => {
+						return {
+							properties: {
+								[dataSourceWithFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName],
+								[dataSourceWithFidColumn.fidColumnName]: feature.properties[dataSourceWithFidColumn.fidColumnName]
+							}
+						};
+					});
+				}
+
+				finalDataSources.push({
+					dataSource: finalDataSource,
+					attributeKey: dataSourceWithFidColumn.attributeKey,
+					periodKey: dataSourceWithFidColumn.periodKey,
+					fidColumnName: dataSourceWithFidColumn.fidColumnName
+				});
+			});
+
+			return finalDataSources.length ? finalDataSources : null;
+
+		} else {
+			return null;
+		}
+	}
+)((state, filter) => JSON.stringify(filter));
+
+const getFilteredDataSourcesGroupedByLayerKey = createCachedSelector(
+	[
+		AttributeRelations.getFilteredDataSourceKeysWithFidColumnGroupedByLayerKey,
+		getAllAsObject,
+		AttributeData.getAllAsObject,
+		(state, layersWithFilter, layersState) => layersState
+	],
+	(dataSourcesDataByLayerKey, dataSources, attributeData, layersState) => {
+		if (dataSourcesDataByLayerKey && !_.isEmpty(dataSources)) {
+			let dataSourcesGroupedByLayerKey = {};
+			_.forIn(dataSourcesDataByLayerKey, (dataSourceKeysAndFidColumns, layerKey) => {
+				dataSourcesGroupedByLayerKey[layerKey] = [];
+				_.forEach(dataSourceKeysAndFidColumns, (dataSourceKeyAndFidColumn) => {
+					if (dataSources[dataSourceKeyAndFidColumn.attributeDataSourceKey]) {
+						let finalDataSource = {...dataSources[dataSourceKeyAndFidColumn.attributeDataSourceKey]};
+						const data = attributeData[dataSourceKeyAndFidColumn.attributeDataSourceKey];
+						if (data && data.attributeData && data.attributeData.features) {
+							finalDataSource.data.features = data.attributeData.features.map(feature => {
+								return {
+									properties: {
+										[dataSourceKeyAndFidColumn.attributeKey]: feature.properties[finalDataSource.data.columnName],
+										[dataSourceKeyAndFidColumn.fidColumnName]: feature.properties[dataSourceKeyAndFidColumn.fidColumnName]
+									}
+								};
+							});
+						}
+
+						dataSourcesGroupedByLayerKey[layerKey].push({
+							dataSource: finalDataSource,
+							attributeKey: dataSourceKeyAndFidColumn.attributeKey,
+							fidColumnName: dataSourceKeyAndFidColumn.fidColumnName
+						});
+					}
+				});
+			});
+
+			return dataSourcesGroupedByLayerKey;
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layersWithFilter, layersState) => {return JSON.stringify(layersState)}
+);
+
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -83,8 +176,13 @@ const getFilteredGroupedByLayerKey = createSelector(
 
 export default {
 	getSubstate,
+	getFilteredDataSources,
+	getFilteredDataSourcesGroupedByLayerKey,
+
+
 	getFiltered,
 	getBatchByFilterOrder,
 	getFilteredGroupedByLayerKey,
+	getByKey,
 	getByKeys,
 };

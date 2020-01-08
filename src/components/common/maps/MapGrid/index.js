@@ -133,7 +133,7 @@ class MapGrid extends React.PureComponent {
 				let rowNo = Math.ceil(index / columns);
 				let colNo = index % columns || columns;
 
-				let wrapperClasses = classNames("ptr-map-wrapper", "row"+rowNo, "col"+colNo);
+				let wrapperClasses = classNames("ptr-map-wrapper", "row"+rowNo, "col"+colNo, map.props.wrapperClasses);
 
 				return <div key={'map-wrapper-' + index} className={wrapperClasses} style={style}>{map}</div>
 			});

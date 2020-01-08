@@ -2,8 +2,8 @@ import React from 'react';
 import Fade from 'react-reveal/Fade';
 
 import LineChart from "../../../components/common/charts/LineChart/LineChart";
-import PresentationMapWithControls from "../../../components/common/maps/PresentationMapWithControls";
-import MapControls from "../../../components/common/maps/MapControls/presentation";
+import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
+import MapControls from "../../../components/common/maps/controls/MapControls/presentation";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
 import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
@@ -96,7 +96,7 @@ class App extends React.PureComponent {
 				>
 					<div className="insarBmwStory-visualizations">
 						<div className="insarBmwStory-map">
-							<PresentationMapWithControls
+							<Deprecated_PresentationMapWithControls
 								map={
 									<LeafletMap
 										mapKey="insarBmwStory-map1"
@@ -166,7 +166,7 @@ class App extends React.PureComponent {
 									</div>
 								</div>
 								<ZoneInfo data={this.state.features}/>
-							</PresentationMapWithControls>
+							</Deprecated_PresentationMapWithControls>
 						</div>
 
 						<div className="insarBmwStory-right-panel">
@@ -203,9 +203,13 @@ class App extends React.PureComponent {
 													xValuesSize={2.5}
 													xOptions={{
 														startingTick: 2,
-														tickStep: 5
+														tickStep: 5,
+														inputValueFormat: 'YYYY',
+														axisValueFormat: 'YYYY',
+														popupValueFormat: 'YYYY',
 													}}
-													xScale="yearBased"
+
+													xScaleType="time"
 
 													sorting={[["period", "asc"]]}
 												/>
@@ -247,9 +251,12 @@ class App extends React.PureComponent {
 													xValuesSize={2.5}
 													xOptions={{
 														startingTick: 2,
-														tickStep: 5
+														tickStep: 5,
+														inputValueFormat: 'YYYY',
+														axisValueFormat: 'YYYY',
+														popupValueFormat: 'YYYY',
 													}}
-													xScale="yearBased"
+													xScaleType="time"
 												/>
 											</ChartWrapper>
 										</Fade>

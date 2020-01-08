@@ -1,6 +1,7 @@
 import React from 'react';
 import mapUtils from "../../../utils/map";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
+import MapSet from "../../../components/common/maps/MapSet/presentation";
 
 const BASE_MAP_SIZE = 1400; // size of map container in px, for which the view is calibrated
 
@@ -11,12 +12,33 @@ class AdjustViewOnResizeLeafletWrapper extends React.PureComponent {
 
 		this.state = {
 			mapSizeRatio: 1,
+			view: null
 		};
 	}
 
 	componentDidMount() {
 		if (window) window.addEventListener('resize', this.resize.bind(this), {passive: true});
 		this.resize();
+
+		if (this.props.geometry) {
+			let self = this;
+			setTimeout(() => {
+				self.setState({
+					view: self.getView(self.props.geometry, true)
+				});
+			}, 50);
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.geometry !== prevProps.geometry) {
+			let self = this;
+			setTimeout(() => {
+				self.setState({
+					view: self.getView(self.props.geometry, true)
+				});
+			}, 50);
+		}
 	}
 
 	resize() {
@@ -44,7 +66,9 @@ class AdjustViewOnResizeLeafletWrapper extends React.PureComponent {
 				{
 					React.Children.map(this.props.children, child => {
 						if (child.props && child.props.map && child.props.map.type === LeafletMap) {
-							return React.cloneElement(child, {map: React.cloneElement(child.props.map, {view: this.getView(this.props.geometry, true)})});
+							return React.cloneElement(child, {map: React.cloneElement(child.props.map, {view: this.state.view})});
+						} else if (child.type === MapSet) {
+							return React.cloneElement(child, {view: this.state.view});
 						} else {
 							return child;
 						}

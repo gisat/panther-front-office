@@ -4,7 +4,7 @@ import L from 'leaflet';
 import viewHelpers from './viewHelpers';
 import layersHelpers from './layersHelpers';
 import utils from '../viewUtils';
-import {defaultMapView} from '../constants';
+import {defaultMapView} from '../../../../constants/Map';
 
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
@@ -47,8 +47,8 @@ class LeafletMap extends React.PureComponent {
 			.map(this.props.mapKey,{zoomAnimationThreshold: 2, zoomControl: false, attributionControl: false})
 			.setView([initialView.center.lat, initialView.center.lon], utils.getZoomLevelFromView(initialView));
 
-		this.backgroundLayer = L.layerGroup().addTo(this.map).setZIndex(0);
-		this.layers = L.layerGroup().addTo(this.map).setZIndex(1);
+		this.backgroundLayer = L.layerGroup().addTo(this.map);
+		this.layers = L.layerGroup().addTo(this.map);
 
 		this.map.on("zoomend", this.onZoomChange);
 		this.map.on("moveend", this.onMoveChange);
@@ -56,6 +56,19 @@ class LeafletMap extends React.PureComponent {
 		if (this.props.scale) {
 			L.control.scale().addTo(this.map);
 		}
+
+		// Hack for ugly 1px tile borders in Chrome
+		var originalInitTile = L.GridLayer.prototype._initTile;
+		L.GridLayer.include({
+			_initTile: function (tile) {
+				originalInitTile.call(this, tile);
+
+				var tileSize = this.getTileSize();
+
+				tile.style.width = tileSize.x + 1 + 'px';
+				tile.style.height = tileSize.y + 1 + 'px';
+			}
+		});
 
 		this.handleScrollWheelZoom();
 		this.updateBackgroundLayer();
@@ -107,7 +120,7 @@ class LeafletMap extends React.PureComponent {
 	updateBackgroundLayer() {
 		let backgroundLayer = null;
 		if (this.props.backgroundLayer) {
-			backgroundLayer = layersHelpers.getLayerByType(this.props.backgroundLayer, this.backgroundLayer);
+			backgroundLayer = layersHelpers.getLayerByType(this.props.backgroundLayer, this.backgroundLayer, 1);
 		}
 
 		this.setState({
@@ -120,7 +133,7 @@ class LeafletMap extends React.PureComponent {
 
 		if (this.props.layers) {
 			this.props.layers.forEach((layer) => {
-				layers.push(layersHelpers.getLayerByType(layer, this.layers));
+				layers.push(layersHelpers.getLayerByType(layer, this.layers, 2));
 			});
 		}
 
@@ -202,6 +215,7 @@ class LeafletMap extends React.PureComponent {
 			<div className="ptr-map ptr-leaflet-map" key={this.props.mapKey} id={this.props.mapKey} onClick={this.onClick}>
 				{this.state.backgroundLayer}
 				{this.state.layers}
+				{this.props.children}
 			</div>
 		);
 

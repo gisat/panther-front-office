@@ -2,6 +2,7 @@ import React from "react";
 
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
+import CaseImage from "../../../CaseImage";
 
 class CaseSelect extends React.PureComponent {
 
@@ -24,12 +25,23 @@ class CaseSelect extends React.PureComponent {
 			
 			<div className="tacrGeoinvaze-case-list">
 				{props.cases && props.cases.map((oneCase) => {
+
+					let style = {};
+					if (CaseImage[oneCase.key]) {
+						style.backgroundImage =  `url(${CaseImage[oneCase.key]})` || null;
+					}
+
 					return (
 						<PantherSelectItem
 							itemKey={oneCase.key}
 							key={oneCase.key}
 						>
-							{oneCase.data && oneCase.data.nameDisplay}
+							<div className="tacrGeoinvaze-case-select-case" style={style}>
+								<div>
+									<span>{oneCase.data && oneCase.data.nameDisplay}</span>
+									<i>{oneCase.data && oneCase.data.nameInternal}</i>
+								</div>
+							</div>
 						</PantherSelectItem>
 					);
 				})}

@@ -9,6 +9,7 @@ import { wrapHistory } from "oaf-react-router";
 // base types
 import appReducers from '../../../state/App/reducers';
 import areasReducers from '../../../state/Areas/reducers';
+import areaRelationsReducers from '../../../state/AreaRelations/reducers';
 import attributeRelationsReducers from '../../../state/AttributeRelations/reducers';
 import attributesReducers from '../../../state/Attributes/reducers';
 import attributeSetsReducers from '../../../state/AttributeSets/reducers';
@@ -28,6 +29,7 @@ import scopesReducers from '../../../state/Scopes/reducers';
 import screensReducers from '../../../state/Screens/reducers';
 import selectionsReducers from '../../../state/Selections/reducers';
 import snapshotsReducers from '../../../state/Snapshots/reducers';
+import spatialDataReducers from '../../../state/SpatialData/reducers';
 import spatialDataSourcesReducers from '../../../state/SpatialDataSources/reducers';
 import spatialVectorDataSourcesReducers from '../../../state/SpatialDataSources/vector/reducers';
 import spatialRelationsReducers from '../../../state/SpatialRelations/reducers';
@@ -58,6 +60,7 @@ export default history => {
 	return createStore(combineReducers({
 		app: appReducers,
 		areas: areasReducers,
+		areaRelations: areaRelationsReducers,
 		attributes: attributesReducers,
 		attributeRelations: attributeRelationsReducers,
 		attributeStatistics: attributeStatisticsReducers,
@@ -79,6 +82,7 @@ export default history => {
 		screens: screensReducers,
 		selections: selectionsReducers,
 		snapshots: snapshotsReducers,
+		spatialData: spatialDataReducers,
 		spatialDataSources: spatialDataSourcesReducers,
 		spatialVectorDataSources: spatialVectorDataSourcesReducers,
 		spatialRelations: spatialRelationsReducers,

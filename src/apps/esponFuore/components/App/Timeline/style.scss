@@ -33,7 +33,12 @@
 }
 
 .esponFuore-timeline-period.disabled {
-	pointer-events: none;
+	//pointer-events: none;
+	cursor: default;
 	color: var(--base35);
-	background: rgba(var(--base0rgb),.6);
+	background: rgba(var(--base0rgb),.5);
+}
+
+.esponFuore-timeline-period.active.unavailable {
+	color: rgba(var(--base0rgb),.5);
 }

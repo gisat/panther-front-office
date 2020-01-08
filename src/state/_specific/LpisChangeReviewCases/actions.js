@@ -157,7 +157,7 @@ function updateActiveCaseView() {
 				return view.key === activeCase.data.view_id;
 			});
 
-			let mapState = Select.maps.getNavigator(state);
+			let mapState = Select.maps.getNavigator_deprecated(state);
 			let mapsOverrides = Select.maps.getMapsOverrides(state);
 			let mapDefaults = Select.maps.getMapDefaults(state);
 

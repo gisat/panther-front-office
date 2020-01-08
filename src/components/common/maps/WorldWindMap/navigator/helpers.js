@@ -107,7 +107,8 @@ function getWorldWindNavigatorFromViewParams(view) {
 
 
 function getViewParamsFromWorldWindNavigator(navigator) {
-	let {lookAtLocation, range, ...view} = navigator;
+	let view = {};
+	let {lookAtLocation, range} = navigator;
 
 	if (range) {
 		view.boxRange = range;
@@ -121,6 +122,18 @@ function getViewParamsFromWorldWindNavigator(navigator) {
 		if (lookAtLocation.longitude) {
 			view.center.lon = lookAtLocation.longitude;
 		}
+	}
+
+	if (navigator.heading || navigator.heading === 0) {
+		view.heading = navigator.heading;
+	}
+
+	if (navigator.tilt || navigator.tilt === 0) {
+		view.tilt = navigator.tilt;
+	}
+
+	if (navigator.roll || navigator.roll === 0) {
+		view.roll = navigator.roll;
 	}
 
 	return view;

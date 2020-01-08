@@ -6,8 +6,7 @@ import AdjustableColumns from '../../../../components/common/atoms/AdjustableCol
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
-import MapTools from "../../../../components/common/maps/MapTools";
+import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 
 import ReactResizeDetector from 'react-resize-detector';
@@ -31,7 +30,7 @@ class TacrGeoinvazeApp extends React.PureComponent {
 
 		return (
 			<>
-				<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>
+				{/*<Helmet><title>{props.activeCase ? props.activeCase.data.nameDisplay : null}</title></Helmet>*/}
 				<Header
 					categories={props.categories}
 				/>

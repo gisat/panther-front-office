@@ -15,7 +15,7 @@ const useActiveMetadataKeys = {
 const mapStateToPropsFactory = (initialState, ownProps) => {
 
 	return (state) => {
-		let selectedFeatures = Select.selections.getActive(state);
+		let selectedFeatures = Select._deprecatedSelections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 
 		//FIXME - from context
@@ -24,7 +24,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			const filter = _.cloneDeep(layer.mergedFilter)
 			return {filter, data: layer.layer}
 		}) : null;
-		let layers = Select.maps.getLayers(state, layersData);
+		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		layers.forEach((l) => {
 			if(l.type === 'vector') {
 				l.spatialIdKey = ownProps.spatialIdKey

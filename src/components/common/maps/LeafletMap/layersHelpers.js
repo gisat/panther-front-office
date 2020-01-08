@@ -6,7 +6,7 @@ import VectorLayer from "./layers/VectorLayer";
 import WmsLayer from "./layers/WmsLayer";
 import WmtsLayer from "./layers/WmtsLayer";
 
-function getLayerByType(layer, group) {
+function getLayerByType(layer, group, zIndex) {
 	if (layer.type){
 		switch (layer.type) {
 			case 'wmts':
@@ -15,6 +15,7 @@ function getLayerByType(layer, group) {
 						key={layer.key}
 						data={layer}
 						group={group}
+						zIndex={zIndex}
 					/>
 				);
 			case 'wms':
@@ -23,6 +24,7 @@ function getLayerByType(layer, group) {
 						key={layer.key}
 						data={layer}
 						group={group}
+						zIndex={zIndex}
 					/>
 				);
 			case 'vector':
@@ -31,6 +33,7 @@ function getLayerByType(layer, group) {
 						key={layer.key}
 						data={layer}
 						group={group}
+						zIndex={zIndex}
 					/>
 				);
 			default:

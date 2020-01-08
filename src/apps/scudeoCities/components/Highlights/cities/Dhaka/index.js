@@ -1,8 +1,8 @@
 import React from "react";
 
-import PresentationMapWithControls from "../../../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
-import MapControls from "../../../../../../components/common/maps/MapControls/presentation";
+import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 
 let dodoma_au_level_3 = null;
@@ -95,7 +95,7 @@ class Dhaka extends React.PureComponent {
 					<>
 						<h2>World wind map + LULC (VHR) - Level 1</h2>
 						<div style={{height: 500}}>
-							<PresentationMapWithControls
+							<Deprecated_PresentationMapWithControls
 								map={
 									<WorldWindMap
 										backgroundLayer={stamenLite}
@@ -123,7 +123,7 @@ class Dhaka extends React.PureComponent {
 
 						<h2>Leaflet + Informal settlements aka Slums</h2>
 						<div style={{height: 500}}>
-							<PresentationMapWithControls
+							<Deprecated_PresentationMapWithControls
 								map={
 									<LeafletMap
 										mapKey='leaflet-slums'
@@ -152,7 +152,7 @@ class Dhaka extends React.PureComponent {
 
 						<h2>Leaflet - Dodoma</h2>
 						<div style={{height: 500}}>
-							<PresentationMapWithControls
+							<Deprecated_PresentationMapWithControls
 								map={
 									<LeafletMap
 										mapKey='leaflet-dodoma'

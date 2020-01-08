@@ -1,10 +1,8 @@
 import React from "react";
 
 import './style.scss';
-import ToolItem from "./components/ToolItem";
 import AreasToolItem from "./components/AreasToolItem";
-import LayersToolItem from "./components/LayersToolItem";
-import InformationToolItem from "./components/InformationToolItem";
+import DataExportToolItem from "./components/DataExportToolItem";
 import AppContext from '../../../../context';
 
 class Tools extends React.PureComponent {
@@ -23,26 +21,15 @@ class Tools extends React.PureComponent {
 					name="Areas filter"
 					icon="filter"
 					windowSetKey={this.context.windowSetKey}
+					disabled={this.props.disabled}
 				/>
-				{/*<LayersToolItem*/}
-					{/*itemKey="layers"*/}
-					{/*name="Layers"*/}
-					{/*icon="layers"*/}
-					{/*windowSetKey={this.context.windowSetKey}*/}
-				{/*/>*/}
-				{/*<InformationToolItem*/}
-					{/*disabled*/}
-					{/*itemKey="information"*/}
-					{/*name="Information"*/}
-					{/*icon="info"*/}
-					{/*windowSetKey={this.context.windowSetKey}*/}
-				{/*/>*/}
-				{/*<ToolItem*/}
-					{/*disabled*/}
-					{/*itemKey="share"*/}
-					{/*name="Share"*/}
-					{/*icon="share"*/}
-				{/*/>*/}
+				<DataExportToolItem
+					itemKey="export"
+					name="Data export"
+					icon="file-export"
+					windowSetKey={this.context.windowSetKey}
+					disabled={this.props.disabled}
+				/>
 			</div>
 		);
 	}

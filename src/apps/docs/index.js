@@ -32,6 +32,9 @@ import MapDoc from "./components/pages/components/maps/MapDoc";
 import MapSetDoc from "./components/pages/components/maps/MapSetDoc";
 import LeafletDoc from "./components/pages/components/maps/LeafletDoc";
 import HoverHandlerDoc from "./components/pages/components/commonFeatures/HoverHandlerDoc";
+import LayersDoc from "./components/pages/architecture/systemDataTypes/LayersDoc";
+import MapViewDoc from "./components/pages/architecture/systemDataTypes/MapViewDoc";
+import StyleDoc from "./components/pages/architecture/commonDataTypes/StyleDoc";
 
 
 export default (path, baseUrl) => {
@@ -56,8 +59,16 @@ export default (path, baseUrl) => {
 				<Docs component={Index}>
 					<Directory label="Architecture" path="architecture">
 						<Page label="Applications" path="applications"/>
-						<Page label="Common data types" path="commonDataTypes"/>
-						<Page label="Specific data types" path="specificDataTypes"/>
+						<Directory label="Store data types" path="storeDataTypes">
+							<Directory label="Common data types" path="common">
+								<Page label="Style" path="style" component={StyleDoc}/>
+							</Directory>
+							<Page label="Specific data types" path="specific"/>
+						</Directory>
+						<Directory label="System data types" path="systemDataTypes">
+							<Page label="Layers" path="layers" component={LayersDoc}/>
+							<Page label="Map view" path="mapView" component={MapViewDoc}/>
+						</Directory>
 					</Directory>
 					<Directory label="Design" path="design" component={Design}>
 						<Page label="Typography" path="typography" component={Typography} />
@@ -65,13 +76,15 @@ export default (path, baseUrl) => {
 					</Directory>
 					<Directory label="Components" path="components">
 						<Directory label="Maps" path="maps">
-							<Directory label="Map" path="map" component={MapDoc}>
+							<Page label="Map" path="map" component={MapDoc}/>
+							<Page label="Map set" path="mapSet" component={MapSetDoc}/>
+							<Directory label="Presentational" path="presentational">
 								<Page label="WebWorldWind" path="webWorldWind"/>
 								<Page label="Leaflet" path="leaflet" component={LeafletDoc}/>
 							</Directory>
-							<Page label="Map controls" path="mapControls"/>
-							<Page label="Map set" path="mapSet" component={MapSetDoc}/>
-							<Page label="GoToPlace" path="goToPlace"/>
+							<Directory label="Controls" path="controls">
+								<Page label="GoToPlace" path="goToPlace"/>
+							</Directory>
 						</Directory>
 						<Directory label="Visualizations" path="visualizations">
 							<Directory label="Cartesian charts" path="cartesianCharts" component={CartesianCharts}>

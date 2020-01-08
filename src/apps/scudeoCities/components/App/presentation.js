@@ -5,8 +5,7 @@ import _ from 'lodash';
 import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 // import MapControls from "../../../../components/common/maps/MapControls";
-import MapControlLegend from "../../../../components/common/maps/MapControlLegend";
-import MapTools from "../../../../components/common/maps/MapTools";
+import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 
 import ReactResizeDetector from 'react-resize-detector';
@@ -15,8 +14,8 @@ import Header from '../Header';
 import Highlights from "../Highlights";
 import Sidebar from "../Sidebar";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
-import MapControls from "../../../../components/common/maps/MapControls/presentation";
-import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
+import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 
 class App extends React.PureComponent {
 	
@@ -57,7 +56,7 @@ class App extends React.PureComponent {
 								// 	mapComponent: WorldWindMap
 								// },
 								render: () => (
-									<PresentationMapWithControls
+									<Deprecated_PresentationMapWithControls
 										map={(
 											<WorldWindMap
 												backgroundLayer={{

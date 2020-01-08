@@ -56,6 +56,7 @@ export default (WrappedChartComponent) => {
 			xGridlines: PropTypes.bool,
 			xValues: PropTypes.bool,
 			xLabel: PropTypes.bool,
+			xScaleType: PropTypes.string,
 			xTicks: PropTypes.bool,
 
 			yOptions: PropTypes.object,
@@ -63,7 +64,11 @@ export default (WrappedChartComponent) => {
 			yValues: PropTypes.bool,
 			yTicks: PropTypes.bool,
 			yLabel: PropTypes.bool,
+			yScaleType: PropTypes.bool,
 			withoutYbaseline: PropTypes.bool,
+
+			// TODO doc
+			border: PropTypes.bool,
 
 			diverging: PropTypes.oneOfType([
 				PropTypes.string,

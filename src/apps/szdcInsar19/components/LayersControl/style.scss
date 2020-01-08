@@ -1,0 +1,148 @@
+@import '../../../../styles/variables';
+
+.szdcInsar19-layers-control {
+	position: absolute;
+	right: .5rem;
+	bottom: 5rem;
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: .3rem;
+	z-index: 15;
+	box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Button */
+.szdcInsar19-layers-control > button:focus {
+	outline: none;
+}
+
+.szdcInsar19-layers-control > button {
+	padding: 0;
+	background: none;
+	border: 0;
+	user-select: none;
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	text-align: center;
+	font-size: 1.125rem;
+	color: var(--base50);
+	cursor: pointer;
+
+	transition:
+			color .2s ease-in-out,
+			background .2s ease-in-out;
+}
+
+
+.szdcInsar19-layers-control .hold-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: .3rem;
+}
+
+.szdcInsar19-layers-control .ptr-icon {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.szdcInsar19-layers-control .ptr-icon .line {
+	fill: var(--base50);
+}
+
+.szdcInsar19-layers-control .hold-button:hover {
+	background: rgba(255, 255, 255, 1);
+}
+
+.szdcInsar19-layers-control.open .hold-button .ptr-icon .line,
+.szdcInsar19-layers-control .hold-button:hover .ptr-icon .line {
+	fill: var(--accent50);
+}
+
+
+/* Menu */
+.szdcInsar19-layers-control-menu {
+	position: absolute;
+	bottom: 0;
+	border-radius: .25rem;
+	width: 0;
+	background: var(--base0);
+	transition: width .15s ease-in-out .15s, height .15s ease-in-out, border-radius 0s;
+	filter: drop-shadow(0 0 .2rem rgba(0,0,0,.2));
+}
+
+.szdcInsar19-layers-control-menu-content {
+	overflow: hidden;
+	height: 100%;
+}
+
+.szdcInsar19-layers-control-menu.open {
+	transition: width .15s ease-in-out, height .15s ease-in-out .15s, border-radius 0s ease-in-out .3s;
+}
+
+.szdcInsar19-layers-control-menu:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	border-bottom-color: transparent;
+	border-bottom-style: solid;
+	border-bottom-width: 0;
+	border-top-color: transparent;
+	border-top-style: solid;
+	border-top-width: 0;
+}
+
+.szdcInsar19-layers-control-menu.open:after {
+	border-bottom-width: 1rem;
+	border-top-width: 1rem;
+}
+
+/* Menu on left */
+.szdcInsar19-layers-control-menu.left {
+	right: calc(100% + 1.5rem);
+	border-bottom-right-radius: 0;
+}
+
+.szdcInsar19-layers-control-menu.left:not(.open) {
+	border-top-right-radius: 0;
+}
+
+.szdcInsar19-layers-control-menu.left:after {
+	border-left-color: var(--base0);
+	border-left-style: solid;
+	border-left-width: 0;
+	right: -1rem;
+	transition: border-bottom-width 0s ease-in-out .3s, border-top-width 0s ease-in-out .3s, border-left-width 0s ease-in-out .3s;
+}
+
+.szdcInsar19-layers-control-menu.left.open:after {
+	border-left-width: 1rem;
+	transition: border-bottom-width 0s, border-top-width 0s, border-left-width 0s;
+}
+
+/* Content */
+.szdcInsar19-layer-control {
+	padding: 0 m(1/3);
+	height: 2rem;
+	line-height: 2rem;
+	display: block;
+	transition: background .3s ease-in-out;
+}
+
+.szdcInsar19-layer-control input {
+	margin-right: .25rem;
+}
+
+.szdcInsar19-layer-control:first-child {
+	border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
+}
+
+.szdcInsar19-layer-control:last-child {
+	border-bottom-left-radius: .25rem;
+	border-bottom-right-radius: .25rem;
+}
+
+.szdcInsar19-layer-control:hover {
+	background: var(--base10);
+}

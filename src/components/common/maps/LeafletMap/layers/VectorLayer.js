@@ -16,7 +16,8 @@ class VectorLayer extends React.PureComponent {
 	// todo handle custom styles
 	static propTypes = {
 		data: PropTypes.object,
-		group: PropTypes.object
+		group: PropTypes.object,
+		zIndex: PropTypes.number
 	};
 
 	constructor(props) {
@@ -24,7 +25,8 @@ class VectorLayer extends React.PureComponent {
 
 		this.layer = L.geoJSON(props.data.options.features, {
 			style: this.getLayerStyle.bind(this),
-			onEachFeature: this.onEachFeature.bind(this)
+			onEachFeature: this.onEachFeature.bind(this),
+			zIndex: this.props.zIndex
 		});
 
 		props.group.addLayer(this.layer);

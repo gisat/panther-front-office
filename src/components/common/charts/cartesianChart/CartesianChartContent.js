@@ -38,6 +38,7 @@ class CartesianChartContent extends React.PureComponent {
 					label={props.yLabel}
 					labelSize={props.yLabelSize}
 					options={props.yOptions}
+					border={props.border}
 
 					diverging={props.diverging}
 					stacked={props.stacked}
@@ -49,6 +50,7 @@ class CartesianChartContent extends React.PureComponent {
 				<AxisX
 					data={props.contentData}
 					scale={props.xScale}
+					scaleType={props.xScaleType}
 
 					sourcePath={props.xSourcePath}
 					keySourcePath={props.keySourcePath}
@@ -63,10 +65,11 @@ class CartesianChartContent extends React.PureComponent {
 
 					ticks={props.xTicks && !props.aggregated}
 					gridlines={props.xGridlines && !props.aggregated}
-					withValues={props.xValues}
+					withValues={props.xValues && !props.aggregated}
 					label={props.xLabel}
 					labelSize={props.xLabelSize}
 					options={props.xOptions}
+					border={props.border}
 
 					diverging={props.diverging}
 

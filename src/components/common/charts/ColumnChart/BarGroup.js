@@ -236,7 +236,15 @@ class BarGroup extends React.PureComponent {
 					{attributeName ? <div className="ptr-popup-header">{attributeName}</div> : null}
 					{props.originalData.map(record => {
 						// TODO what if more values?
-						let value = record.positive.data[0].value || record.negative.data[0].value;
+						let positive = record.positive.data[0];
+						let negative = record.negative.data[0];
+						let value = null;
+						if (positive && (positive.value || positive.value === 0)) {
+							value = positive.value;
+						} else if (negative && (negative.value || negative.value === 0)) {
+							value = negative.value;
+						}
+
 						let valueString = value;
 						if ((value % 1) !== 0) {
 							valueString = valueString.toFixed(2);
@@ -245,7 +253,7 @@ class BarGroup extends React.PureComponent {
 						return (
 							<div key={record.name} className="ptr-popup-record-value-group">
 								{<span className="name">{record.name}:</span>}
-								{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
+								{valueString || valueString === 0 ? <span className="value">{valueString.toLocaleString()}</span> : null}
 								{units ? <span className="unit">{units}</span> : null}
 							</div>
 						);
@@ -258,10 +266,13 @@ class BarGroup extends React.PureComponent {
 			let columnName = props.data.name;
 			let color = props.highlightColor;
 
+			// change order
+			let positiveData = _.reverse(_.cloneDeep(data.positive.data));
+
 			return (
 				<>
 					<div className="ptr-popup-header">{columnName}</div>
-					{data.positive.data.map((record, index) => {
+					{positiveData.map((record, index) => {
 						return this.getPopupRecordGroup(record, attributeName, units, color, index)
 					})}
 					{data.negative.data.map((record, index) => {
@@ -292,12 +303,12 @@ class BarGroup extends React.PureComponent {
 
 		return (
 			<React.Fragment key={index}>
-				{valueString ? <div className="ptr-popup-record-group">
+				{(valueString || valueString === 0) ? <div className="ptr-popup-record-group">
 					<div className="ptr-popup-record-color" style={style}></div>
 					<div className="ptr-popup-record">
 						{attribute ? <div className="ptr-popup-record-attribute">{attribute}</div> : null}
 						<div className="ptr-popup-record-value-group">
-							{valueString ? <span className="value">{valueString.toLocaleString()}</span> : null}
+							{(valueString || valueString === 0) ? <span className="value">{valueString.toLocaleString()}</span> : null}
 							{attributeUnits ? <span className="unit">{attributeUnits}</span> : null}
 						</div>
 					</div>

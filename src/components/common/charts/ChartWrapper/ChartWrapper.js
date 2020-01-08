@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ReactResizeDetector from 'react-resize-detector';
-import _ from 'lodash';
-import * as d3 from 'd3';
-
-import Icon from '../../atoms/Icon';
+import domToImage from 'dom-to-image';
+import download from "downloadjs";
 
 import './style.scss';
 import Button from "../../atoms/Button";
@@ -18,17 +16,24 @@ class ChartWrapper extends React.PureComponent {
 	static propTypes = {
 		title: PropTypes.string,
 		subtitle: PropTypes.string,
-		statusBar: PropTypes.element,
+		statusBar: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.array
+		]),
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
-		loading: PropTypes.bool
+		loading: PropTypes.bool,
+		enableExport: PropTypes.bool,
+		wrapperKey: PropTypes.string
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			loadingStatus: this.props.loading ? 'open' : 'close'
-		}
+		};
+
+		this.export = this.export.bind(this);
 	}
 
 	componentDidMount() {
@@ -41,6 +46,19 @@ class ChartWrapper extends React.PureComponent {
 		if (this.props.onUnmount) {
 			this.props.onUnmount();
 		}
+	}
+
+	export() {
+		let menuButton = document.activeElement;
+		menuButton.style.visibility = "hidden";
+		let areaToExport = document.getElementById(this.props.wrapperKey);
+
+		setTimeout(()=>{
+			domToImage.toPng(areaToExport).then(function (dataUrl) {
+				menuButton.style.visibility = "visible";
+				download(dataUrl, 'chart.png');
+			});
+		}, 500);
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -67,10 +85,13 @@ class ChartWrapper extends React.PureComponent {
 			'with-subtitle': !!this.props.subtitle
 		});
 
-		const {children, ...propsWithoutChildren} = this.props;
+		let chartProps = {};
+		if (this.props.data) {
+			chartProps.data = this.props.data;
+		}
 
 		return (
-			<div className="ptr-chart-wrapper">
+			<div className="ptr-chart-wrapper" id={this.props.wrapperKey}>
 				{this.state.loadingStatus === 'open' ||  this.state.loadingStatus === 'closing' ? (
 					<div className="ptr-chart-wrapper-loader">
 						<Loader
@@ -91,25 +112,31 @@ class ChartWrapper extends React.PureComponent {
 								) : null}
 							</div>
 							<div className="ptr-chart-wrapper-tools">
-								{/*<div className="ptr-chart-wrapper-tool">*/}
-									{/*<Button icon="dots" invisible>*/}
-										{/*<Menu bottom left>*/}
-											{/*<MenuItem disabled>All periods</MenuItem>*/}
-										{/*</Menu>*/}
-									{/*</Button>*/}
-								{/*</div>*/}
+								{this.props.enableExport ? this.renderMenu() : null}
 							</div>
 						</div>
 						{this.props.statusBar ? (<div className="ptr-chart-wrapper-status-bar">{this.props.statusBar}</div>) : null}
 						<div className="ptr-chart-wrapper-content">
 							<ReactResizeDetector handleWidth handleHeight render={({width, height}) => {
 								let remWidth = width/utils.getRemSize();
-								return React.cloneElement(this.props.children, {...propsWithoutChildren, width: remWidth})
+								return React.cloneElement(this.props.children, {...chartProps, width: remWidth ? remWidth : null})
 							}}>
 							</ReactResizeDetector>
 						</div>
 					</>
 				) : null}
+			</div>
+		);
+	}
+
+	renderMenu() {
+		return (
+			<div className="ptr-chart-wrapper-tool">
+				<Button icon="dots" invisible onClick={()=>{}}>
+					<Menu bottom left>
+						{this.props.enableExport ? <MenuItem onClick={this.export}>Download as PNG</MenuItem> : null}
+					</Menu>
+				</Button>
 			</div>
 		);
 	}

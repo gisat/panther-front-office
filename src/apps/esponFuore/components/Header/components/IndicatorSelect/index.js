@@ -7,12 +7,13 @@ import utils from '../../../../../../utils/utils';
 
 import presentation from "./presentation";
 
-const filter = {application: true, scope: true};
+const filterByActive = {application: true, scope: true};
 let tagKey = null;
 
 const mapStateToProps = (state, ownProps) => {
 	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
 	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
+	let categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
 
 	// don't mutate selector input if it is not needed
 	if (!_.isEqual(tagKey,  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0])){
@@ -23,8 +24,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
-		categories: Select.tags.getIndexed(state, filter, null, null, 1, 20),
 		activeCategoryKey: Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeCategory'),
+		categories: Select.tags.getIndexed(state, filterByActive, categoryFilter, null, 1, 100),
 		indicators: Select.specific.esponFuoreIndicators.getAll(state),
 		activeIndicator,
 		activeIndicatorCategory
@@ -33,6 +34,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 	const componentId = 'esponFuore_IndicatorSelect_' + utils.randomString(6);
+	let categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
 
 	return dispatch => {
 		return {
@@ -46,7 +48,7 @@ const mapDispatchToPropsFactory = (dispatch, ownProps) => {
 				dispatch(Action.components.set('esponFuore_IndicatorSelect', 'searchValue', value))
 			},
 			onMount: () => {
-				dispatch(Action.tags.useIndexed({application: true, scope: true}, null, null, 1, 20, componentId));
+				dispatch(Action.tags.useIndexed(filterByActive, categoryFilter, null, 1, 100, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.tags.useIndexedClear(componentId));

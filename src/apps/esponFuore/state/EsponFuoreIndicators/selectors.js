@@ -6,6 +6,8 @@ import commonHelpers from "../../../../state/_common/helpers";
 
 const getSubstate = state => state.specific.esponFuoreIndicators;
 
+const getActive = common.getActive(getSubstate);
+
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
 
@@ -56,6 +58,7 @@ const getAllOrdered = createSelector(
 );
 
 export default {
+	getActive,
 	getAll,
 	getAllAsObject,
 	getAllOrdered,

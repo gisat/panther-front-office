@@ -50,7 +50,6 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.attributes.setActiveKey(null));
 				dispatch(Action.periods.setActiveKeys(null));
 				dispatch(Action.views.setActiveKeys(null));
-				dispatch(Action.selections.clearActiveSelection());
 			}
 		}
 	}

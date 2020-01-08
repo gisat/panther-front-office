@@ -5,9 +5,10 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
-import PresentationMapWithControls from "../../../../components/common/maps/PresentationMapWithControls";
+import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
-import MapControls from "../../../../components/common/maps/MapControls/presentation";
+import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
+import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
@@ -23,14 +24,27 @@ const backgroundLayer = {
 	}
 };
 
-const greenLayer = {
+const greenLayerSecondYear = {
 	name: 'Data layer',
 	key: 'slums',
 	type: 'wms',
 	options: {
 		url: 'https://urban-tep.eu/puma/geoserver/wms?',
 		params:{
-			layers: 'scudeo_lulc_green',
+			layers: 'scudeo_lulc_green_second_year',
+			styles: '',
+		},
+	}
+};
+
+const greenLayerFirstYear = {
+	name: 'Data layer',
+	key: 'slums',
+	type: 'wms',
+	options: {
+		url: 'https://urban-tep.eu/puma/geoserver/wms?',
+		params:{
+			layers: 'scudeo_lulc_green_first_year',
 			styles: '',
 		},
 	}
@@ -66,11 +80,11 @@ const getUrbanGreenAreasData = (properties, firstYear, lastYear) => {
 const transformDataset = (dataset) => {
 	return dataset.map((dataSet) => {
 		const area = conversions.toSquareKm(dataSet.data.features[0].properties.area);
-		const urban_fabric_coverage = conversions.toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`)));
+		const urban_fabric_coverage = conversions.toSquareKm(conversions.sum(dataSet.data.features, urbanFabricL3classes.map(c => `properties.lulc_l3_${dataSet.lastYear}_${c}_coverage`))) || 0;
 		const urban_fabric_share = urban_fabric_coverage / (area / 100);
 		const urban_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_coverage`]);
 		const urban_share = dataSet.data.features[0].properties[`urban_${dataSet.lastYear}_percentage`];
-		const green_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]);
+		const green_coverage = conversions.toSquareKm(dataSet.data.features[0].properties[`green_${dataSet.lastYear}_coverage`]) || 0;
 		const green_share = dataSet.data.features[0].properties[`green_${dataSet.lastYear}_percentage`];
 		const sport_leisure_facilities_share = dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_percentage`];
 		const sport_leisure_facilities_area = conversions.toSquareKm(dataSet.data.features[0].properties[`lulc_l4_${dataSet.lastYear}_14200_coverage`]);
@@ -133,18 +147,21 @@ class GreenAreas extends React.PureComponent {
 	}
 
 	render() {
-
-		let layers = null;
+		let firstYearGreenAreasDistributionLayers = null;
+		let lastYearGreenAreasDistributionLayers = null;
 		let sankeyGreenData = null;
 		let sankeyGreenDataEmpty = null;
 		let urbanGreenAres = null;
+		let urbanGreenAresDataEmpty = true;
 
 		if(this.state.city) {
-			layers = [greenLayer, this.state.vectorLayer];
+			firstYearGreenAreasDistributionLayers = [greenLayerFirstYear, this.state.vectorLayer];
+			lastYearGreenAreasDistributionLayers = [greenLayerSecondYear, this.state.vectorLayer];
 			sankeyGreenData = filterGreenAreaFlows(this.state.city.l4OverallFlowsCoverage);
 			sankeyGreenDataEmpty = sankeyGreenData.nodes.length === 0 && sankeyGreenData.links.length === 0
 
 			urbanGreenAres = getUrbanGreenAreasData(this.state.city.data.features[0].properties, this.state.city.firstYear, this.state.city.lastYear);
+			urbanGreenAresDataEmpty = urbanGreenAres.every((u) => u.value === null)
 		}
 
 		return (
@@ -376,33 +393,45 @@ class GreenAreas extends React.PureComponent {
 									>
 										<div className="scudeoStories19-map-container">
 											<AdjustViewOnResizeLeafletWrapper geometry={this.state.city.data}>
-												<PresentationMapWithControls
-													map={
-														<LeafletMap
-															mapKey="scudeoStories19-greenAreas-map-1"
-															scrollWheelZoom="afterClick"
-															backgroundLayer={backgroundLayer}
-															layers={layers}
-															scale
-														/>
-													}
-													controls={
-														<MapControls zoomOnly levelsBased/>
-													}
+											<MapSet
+													activeMapKey="scudeoStories19-green-areas-distribution-map-1"
+													backgroundLayer={backgroundLayer}
+													mapComponent={LeafletMap}
+													sync={{
+														boxRange: true,
+														center: true
+													}}
 												>
-													<div className="scudeoStories19-map-label">
-														{this.state.city.lastYear}
-													</div>
+													<PresentationMap
+														mapKey="scudeoStories19-green-areas-distribution-map-1"
+														scrollWheelZoom="afterClick"
+														layers={firstYearGreenAreasDistributionLayers}
+														scale
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.city.firstYear}
+														</div>
+													</PresentationMap>
+													<PresentationMap
+														mapKey="scudeoStories19-green-areas-distribution-map-2"
+														scrollWheelZoom="afterClick"
+														layers={lastYearGreenAreasDistributionLayers}
+													>
+														<div className="scudeoStories19-map-label">
+															{this.state.city.lastYear}
+														</div>
+													</PresentationMap>
+													<MapControls zoomOnly levelsBased/>
 													<div className="scudeoStories19-map-attribution ptr-dark">
 														© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attribution/#basemaps" target="_blank">CARTO</a>
 													</div>
-												</PresentationMapWithControls>
+												</MapSet>
 											</AdjustViewOnResizeLeafletWrapper>
 										</div>
 									</Visualization>
 								</Fade>
 
-
+									
 								<HoverHandler>
 									<Fade left distance="50px">
 										<Visualization
@@ -412,32 +441,32 @@ class GreenAreas extends React.PureComponent {
 										>
 											<Fade cascade>
 												<div className="scudeoStories19-chart-container">
-													<ColumnChart
-														key="green-areas-stacked-chart"
+													{!urbanGreenAresDataEmpty ? 
+														<ColumnChart
+															key="green-areas-stacked-chart"
 
-														data={urbanGreenAres}
-														keySourcePath="name"
-														nameSourcePath="name"
-														xSourcePath="name"
-														ySourcePath={'value'}
-														defaultColor="#42982e"
-														highlightColor="#39782b"
+															data={urbanGreenAres}
+															keySourcePath="name"
+															nameSourcePath="name"
+															xSourcePath="name"
+															ySourcePath={'value'}
+															defaultColor="#42982e"
+															highlightColor="#39782b"
 
-														xValuesSize={3}
+															xValuesSize={3}
 
-														yLabel
-														yOptions={{
-															name: "Area",
-															unit: "km2"
-														}}
+															yLabel
+															yOptions={{
+																name: "Area",
+																unit: "km2"
+															}}
 
-													/>
+													/> : <div className={'no-data'}>no data</div>}
 												</div>
 											</Fade>
 										</Visualization>
 									</Fade>
 								</HoverHandler>
-								{!sankeyGreenDataEmpty ?
 									<HoverHandler>
 										<Fade left distance="50px">
 											<Visualization
@@ -447,30 +476,32 @@ class GreenAreas extends React.PureComponent {
 											>
 												<Fade cascade>
 													<div className="scudeoStories19-chart-container">
-														<SankeyChart
-															hoverValueSourcePath="valueSize"
-															key="sankey-green-area-flows"
-															data={sankeyGreenData}
-															keySourcePath="key"
+														{!sankeyGreenDataEmpty ?
+															<SankeyChart
+																hoverValueSourcePath="valueSize"
+																key="sankey-green-area-flows"
+																data={sankeyGreenData}
+																keySourcePath="key"
 
-															nodeNameSourcePath="name"
-															nodeValueSourcePath="value"
-															nodeColorSourcePath="color"
+																nodeNameSourcePath="name"
+																nodeValueSourcePath="value"
+																nodeColorSourcePath="color"
 
-															linkNameSourcePath="name"
-															hoverValueSourcePath="value"
+																linkNameSourcePath="name"
+																hoverValueSourcePath="value"
 
-															maxWidth={50}
-															width={50}
-															height={40}
-															yOptions={{
-																unit: 'km2'
-															}}
-														/>
+																maxWidth={50}
+																width={50}
+																height={40}
+																yOptions={{
+																	unit: 'km2'
+																}}
+															/>
+														: <div className={'no-data'}>no data</div>}
 													</div>
 												</Fade>
 											</Visualization>
-										</Fade></HoverHandler> : null}
+										</Fade></HoverHandler>
 							</section>
 							<section>
 								<h2>Green Areas methodology</h2>
@@ -482,9 +513,10 @@ class GreenAreas extends React.PureComponent {
 								</p>
 								<h3>More resources</h3>
 								<ul>
-									<li><a href="#" target="_blank">Dhaka Use Case – EO green areas to city liveability improvement</a></li>
-									<li><a href="#" target="_blank">UN-Habitat (United Nations Human Settlement Programme). 2015. Global Public Space Toolkit: From Global Principles to Local Policies and Practice. Nairobi, Kenya: UN-Habitat.</a></li>
-									<li><a href="https://land.copernicus.eu/local/urban-atlas" target="_blank">Urban Atlas website</a></li>
+									<li><a href="https://blogs.worldbank.org/sustainablecities/quantifying-public-spaces-better-quality-urban-assets" target="_blank">Dhaka Use Case – EO green areas to city liveability improvement</a></li>
+									<li><a href="http://unhabitat.org/wp-content/uploads/2015/10/Global%20Public%20Space%20Toolkit.pdf" target="_blank">UN-Habitat (United Nations Human Settlement Programme). 2015. Global Public Space Toolkit: From Global Principles to Local Policies and Practice. Nairobi, Kenya: UN-Habitat.</a></li>
+									<li><a href="https://land.copernicus.eu/local/urban-atlas" target="_blank">EU Copernicus Land - Urban Atlas website</a></li>
+									<li><a href="https://unstats.un.org/sdgs/metadata/?Text=&Goal=&Target=11.7" target="_blank">UN SDG 11.7 Indicators - Public Spaces</a></li>
 								</ul>
 							</section>
 						</div>

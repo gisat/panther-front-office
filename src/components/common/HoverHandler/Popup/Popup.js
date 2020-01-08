@@ -34,6 +34,7 @@ class Popup extends React.PureComponent {
 			PropTypes.element,
 			PropTypes.object,
 		  ]),
+		  compressed: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -78,6 +79,7 @@ class Popup extends React.PureComponent {
 		} else {
 			//right corner on mouse position
 			style = getTooltipStyle()(posX, posY, width, height);
+
 		}
 
 		// let style = {
@@ -87,6 +89,7 @@ class Popup extends React.PureComponent {
 		// };
 
 		let classes = classnames("ptr-popup", {
+			'compressed': this.props.compressed
 		});
 
 		return (

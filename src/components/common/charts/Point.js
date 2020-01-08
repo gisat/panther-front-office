@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import * as d3 from 'd3';
-import chroma from 'chroma-js';
+import moment from 'moment';
 
 import HoverContext from "../HoverHandler/context";
 
@@ -18,7 +17,10 @@ class Point extends React.PureComponent {
 			PropTypes.number
 		]),
 		data: PropTypes.object,
-		name: PropTypes.string,
+		name: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 		x: PropTypes.number,
 		y: PropTypes.number,
 		r: PropTypes.number,
@@ -31,6 +33,8 @@ class Point extends React.PureComponent {
 		]),
 		highlighted: PropTypes.bool,
 
+		xScaleType: PropTypes.string,
+
 		xSourcePath: PropTypes.string,
 		ySourcePath: PropTypes.string,
 		zSourcePath: PropTypes.string,
@@ -39,7 +43,8 @@ class Point extends React.PureComponent {
 		zOptions: PropTypes.object,
 
 		standalone: PropTypes.bool,
-		siblings: PropTypes.array
+		siblings: PropTypes.array,
+		symbol: PropTypes.string
 	};
 
 	constructor(props) {
@@ -150,20 +155,57 @@ class Point extends React.PureComponent {
 			style.opacity = 1;
 		}
 
+		if (props.symbol === 'plus') {
+			return this.renderPlusSymbol(props.itemKey, props.x, props.y, this.state.radius, classes, style);
+		} else {
+			return (
+				<circle
+					onMouseOver={this.onMouseOver}
+					onMouseMove={this.onMouseMove}
+					onMouseOut={this.onMouseOut}
+					onClick={this.onClick}
+					className={classes}
+					key={props.itemKey}
+					cx={props.x}
+					cy={props.y}
+					r={this.state.radius}
+					style={style}
+				/>
+			)
+		}
+	}
+
+	renderPlusSymbol(key, x, y, radius, classes, style) {
+		classes += ' path';
+
+		let pathStyle = {};
+		if (this.props.color) {
+			pathStyle.stroke = this.props.color;
+		}
+
 		return (
-			<circle
+			<g
+				key={key}
+				style={style}
+				className={classes}
 				onMouseOver={this.onMouseOver}
 				onMouseMove={this.onMouseMove}
 				onMouseOut={this.onMouseOut}
 				onClick={this.onClick}
-				className={classes}
-				key={props.itemKey}
-				cx={props.x}
-				cy={props.y}
-				r={this.state.radius}
-				style={style}
-			/>
-		)
+				width={2*radius}
+				height={2*radius}
+			>
+				<circle
+					style={{opacity: 0}}
+					cx={x}
+					cy={y}
+					r={this.state.radius}
+				/>
+				<path
+					style={pathStyle}
+					d={`M${x},${y-radius} L${x},${y+radius} M${x-radius},${y} L${x+radius},${y}`}/>
+			</g>
+		);
 	}
 
 	getPopupContent() {
@@ -186,7 +228,21 @@ class Point extends React.PureComponent {
 		let zValue = _.get(props.data, props.zSourcePath);
 
 		let xValueString = xValue;
-		if (xValue && (xValue % 1) !== 0) {
+		if (props.xScaleType === "time") {
+			let time = moment(xValueString);
+			if (props.xOptions){
+				if (props.xOptions.timeValueLanguage) {
+					time = time.locale(props.xOptions.timeValueLanguage)
+				}
+
+				if (props.xOptions.popupValueFormat) {
+					time = time.format(props.xOptions.popupValueFormat);
+				} else {
+					time = time.format();
+				}
+			}
+			xValueString = time;
+		} else if (xValue && (xValue % 1) !== 0) {
 			xValueString = xValueString.toFixed(2);
 		}
 
@@ -214,7 +270,7 @@ class Point extends React.PureComponent {
 					<div className="ptr-popup-record">
 						{<div className="ptr-popup-record-attribute">{xName}</div> }
 						<div className="ptr-popup-record-value-group">
-							{xValueString ? <span className="value">{xValueString.toLocaleString()}</span> : null}
+							{xValueString || xValueString === 0 ? <span className="value">{xValueString.toLocaleString()}</span> : null}
 							{xUnits ? <span className="unit">{xUnits}</span> : null}
 						</div>
 					</div>
@@ -223,7 +279,7 @@ class Point extends React.PureComponent {
 					<div className="ptr-popup-record">
 						{<div className="ptr-popup-record-attribute">{yName}</div> }
 						<div className="ptr-popup-record-value-group">
-							{yValueString ? <span className="value">{yValueString.toLocaleString()}</span> : null}
+							{yValueString || yValueString === 0 ? <span className="value">{yValueString.toLocaleString()}</span> : null}
 							{yUnits ? <span className="unit">{yUnits}</span> : null}
 						</div>
 					</div>
@@ -233,7 +289,7 @@ class Point extends React.PureComponent {
 						<div className="ptr-popup-record">
 							{<div className="ptr-popup-record-attribute">{zName}</div> }
 							<div className="ptr-popup-record-value-group">
-								{zValueString ? <span className="value">{zValueString.toLocaleString()}</span> : null}
+								{zValueString || zValueString === 0 ? <span className="value">{zValueString.toLocaleString()}</span> : null}
 								{zUnits ? <span className="unit">{zUnits}</span> : null}
 							</div>
 						</div>

@@ -1,13 +1,68 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _ from 'lodash';
 
 import vectorSelectors from './vector/selectors';
 import common from "../_common/selectors";
+import AreaRelations from "../AreaRelations/selectors";
 import SpatialRelations from "../SpatialRelations/selectors";
+import SpatialData from "../SpatialData/selectors";
 
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getByKeys = common.getByKeys(getSubstate);
+
+const getFilteredSourcesGroupedByLayerKey = createCachedSelector(
+	[
+		getAllAsObject,
+		SpatialRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		AreaRelations.getFilteredDataSourceKeysGroupedByLayerKey,
+		SpatialData.getAllAsObject
+	],
+	(dataSources, spatialRelationsDataSourceKeysGroupedByLayerKey, areaRelationsDataSourceKeysGroupedByLayerKey,  spatialData) => {
+		let dataSourceKeysGroupedByLayerKey = {};
+		if (areaRelationsDataSourceKeysGroupedByLayerKey) {
+			dataSourceKeysGroupedByLayerKey = {...dataSourceKeysGroupedByLayerKey, ...areaRelationsDataSourceKeysGroupedByLayerKey};
+		}
+
+		if (spatialRelationsDataSourceKeysGroupedByLayerKey) {
+			dataSourceKeysGroupedByLayerKey = {...dataSourceKeysGroupedByLayerKey, ...spatialRelationsDataSourceKeysGroupedByLayerKey};
+		}
+
+		if (dataSourceKeysGroupedByLayerKey && !_.isEmpty(dataSources)) {
+			let dataSourcesGroupedByLayerKey = {};
+			_.forIn(dataSourceKeysGroupedByLayerKey, (dataSourceKeysAndFidColumns, layerKey) => {
+				dataSourcesGroupedByLayerKey[layerKey] = [];
+				_.forEach(dataSourceKeysAndFidColumns, (dataSourceKeyAndFidColumn) => {
+					if (dataSources[dataSourceKeyAndFidColumn.spatialDataSourceKey]) {
+						let finalDataSource = {...dataSources[dataSourceKeyAndFidColumn.spatialDataSourceKey]};
+
+						const data = spatialData[dataSourceKeyAndFidColumn.spatialDataSourceKey];
+						if (data && data.spatialData && data.spatialData.features) {
+							finalDataSource.data.features = data.spatialData.features;
+						}
+
+						dataSourcesGroupedByLayerKey[layerKey].push({
+							dataSource: finalDataSource,
+							fidColumnName: dataSourceKeyAndFidColumn.fidColumnName
+						});
+					}
+				});
+			});
+
+			return dataSourcesGroupedByLayerKey;
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layers) => JSON.stringify(layers)
+);
+
+
+/**************************************************
+ DEPRECATED
+ **************************************************/
 
 /**
  * Collect and prepare data sources grouped by layer key
@@ -70,8 +125,11 @@ const getFilteredData = createSelector(
 export default {
 	getSubstate,
 
+	getByKeys,
+	getFilteredSourcesGroupedByLayerKey,
+
+	// Deprecated
 	getFilteredGroupedByLayerKey,
 	getFilteredData,
-	getByKeys,
 	vector: vectorSelectors
 };

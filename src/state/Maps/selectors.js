@@ -1,16 +1,26 @@
 import {createSelector} from 'reselect';
 import createCachedSelector from "re-reselect";
 import _ from 'lodash';
-
-import mapUtils from '../../utils/map';
-
-import LayerTemplatesSelectors from '../LayerTemplates/selectors';
-import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
-import AttributeDataSelectors from '../AttributeData/selectors';
-import commonSelectors from "../_common/selectors";
-
+import * as path from "path";
 import config from "../../config/index";
 
+import mapUtils from '../../utils/map';
+import CacheFifo from "../../utils/CacheFifo";
+import mapHelpers from './helpers';
+
+import commonSelectors from "../_common/selectors";
+import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
+import AttributeDataSelectors from '../AttributeData/selectors';
+import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
+import AppSelectors from '../App/selectors';
+import {defaultMapView} from "../../constants/Map";
+import StylesSelectors from "../Styles/selectors";
+import SelectionsSelectors from "../Selections/selectors";
+
+let getBackgroundLayerCache = new CacheFifo(10);
+let getLayersCache = new CacheFifo(10);
+
+/* ===== Basic selectors ==================== */
 const getSubstate = state => state.maps;
 
 const getMapsAsObject = state => state.maps.maps;
@@ -45,7 +55,7 @@ const getMapSets = createSelector(
  * @param state {Object}
  * @param mapKey {string}
  */
-const getMapByKey = createSelector(
+const getMapByKey = createCachedSelector(
 	[getMapsAsObject,
 	(state, key) => key],
 	(maps, key) => {
@@ -55,33 +65,17 @@ const getMapByKey = createSelector(
 			return null;
 		}
 	}
-);
+)((state, key) => key);
 
-// TODO test
-const getMapByMetadata = createSelector(
-	[
-		getMaps,
-		(state, metadata) => metadata
-	],
-	(maps, metadata) => {
-		if (maps && metadata) {
-			let filtered =  _.filter(maps, (map) => {
-				if (map.data && map.data.metadataModifiers) {
-					return _.isMatch(map.data.metadataModifiers, metadata);
-				} else {
-					return false;
-				}
-			});
-			if (filtered && filtered.length) {
-				return filtered[0]; //TODO what if more maps are selected based on filter
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
+
+const getMapLayersByMapKey = createSelector(
+	[getMapByKey],
+	(map) => {
+		return map && map.data && map.data.layers || null;
 	}
 );
+
+
 
 /**
  * @param state {Object}
@@ -121,6 +115,10 @@ const getMapSetByMapKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param setKey {string}
+ */
 const getMapSetMapKeys = createSelector(
 	[getMapSetByKey],
 	(set) => {
@@ -132,25 +130,290 @@ const getMapSetMapKeys = createSelector(
 	}
 );
 
-// TODO deprecated
 /**
  * @param state {Object}
  * @param mapKey {string}
  */
-const getNavigator = createSelector(
-	[getMapByKey,
-	getMapSetByMapKey],
-	(map, set) => {
-		if (map) {
-			if (set) {
-				let mapNavigator = map.data && map.data.worldWindNavigator;
-				let mapSetNavigator = set.data && set.data.worldWindNavigator;
-				let navigator = {...mapSetNavigator, ...mapNavigator};
-				return !_.isEmpty(navigator) ? navigator : null;
-			} else {
-				let navigator = map.data && map.data.worldWindNavigator;
-				return navigator && !_.isEmpty(navigator) ? navigator : null;
+const getMapBackgroundLayerStateByMapKey = createSelector(
+	[
+		getMapByKey
+	],
+	(map) => {
+		if (map && map.data && map.data.backgroundLayer) {
+			return map.data.backgroundLayer;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapLayersStateByMapKey = createSelector(
+	[
+		getMapByKey
+	],
+	(map) => {
+		if (map && map.data && map.data.layers) {
+			return map.data.layers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapMetadataModifiersByMapKey = createSelector(
+	[
+		getMapByKey
+	],
+	(map) => {
+		if (map && map.data && map.data.metadataModifiers) {
+			return map.data.metadataModifiers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapFilterByActiveByMapKey = createSelector(
+	[
+		getMapByKey
+	],
+	(map) => {
+		if (map && map.data && map.data.filterByActive) {
+			return map.data.filterByActive;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapSetBackgroundLayerStateByMapKey = createSelector(
+	[
+		getMapSetByMapKey
+	],
+	(set) => {
+		if (set && set.data && set.data.backgroundLayer) {
+			return set.data.backgroundLayer;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapSetLayersStateByMapKey = createSelector(
+	[
+		getMapSetByMapKey
+	],
+	(set) => {
+		if (set && set.data && set.data.layers) {
+			return set.data.layers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapSetMetadataModifiersByMapKey = createSelector(
+	[
+		getMapSetByMapKey
+	],
+	(set) => {
+		if (set && set.data && set.data.metadataModifiers) {
+			return set.data.metadataModifiers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapSetFilterByActiveByMapKey = createSelector(
+	[
+		getMapSetByMapKey
+	],
+	(set) => {
+		if (set && set.data && set.data.filterByActive) {
+			return set.data.filterByActive;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapSetKey {string}
+ */
+const getMapSetLayersStateBySetKey = createSelector(
+	[
+		getMapSetByKey
+	],
+	(set) => {
+		if (set && set.data && set.data.layers) {
+			return set.data.layers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ * @param layerKey {string}
+ */
+const getMapLayerByMapKeyAndLayerKey = createSelector(
+	[getMapLayersStateByMapKey, (state, mapKey, layerKey) => layerKey],
+	(layers, layerKey) => {
+		if (layers && layerKey) {
+			return layers.find(l => l.key === layerKey)
+		} else {
+			return null;
+		}
+	}
+);
+
+
+
+
+
+/* ===== Combined selectors ==================== */
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getFilterByActiveByMapKey = createCachedSelector(
+	[
+		getMapFilterByActiveByMapKey,
+		getMapSetFilterByActiveByMapKey
+	],
+	(mapFilter, setFilter) => {
+		return (setFilter || mapFilter) && {...setFilter, ...mapFilter};
+	}
+)((state, mapKey) => mapKey);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getBackgroundLayerStateByMapKey = createCachedSelector(
+	[
+		getMapBackgroundLayerStateByMapKey,
+		getMapSetBackgroundLayerStateByMapKey,
+	],
+	(mapBackgroundLayer, setBackgroundLayer) => {
+		return mapBackgroundLayer || setBackgroundLayer;
+	}
+)(
+	(state, mapKey) => `${mapKey}`
+);
+
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getLayersStateByMapKey = createCachedSelector(
+	[
+		getMapLayersStateByMapKey,
+		getMapSetLayersStateByMapKey,
+		getMapMetadataModifiersByMapKey,
+		getMapSetMetadataModifiersByMapKey,
+		getFilterByActiveByMapKey
+	],
+	(mapLayers, setLayers, mapMetadataModifiers, setMetadataModifiers, mapFilterByActive) => {
+		if (mapLayers || setLayers) {
+			let layers = [...(setLayers || []), ...(mapLayers || [])];
+			let modifiers = {};
+			if (setMetadataModifiers) {
+				modifiers = setMetadataModifiers;
 			}
+			modifiers = {...modifiers, ...mapMetadataModifiers};
+
+			layers = layers.map(layer => {
+				let layerMetadataModifiers = layer.metadataModifiers ? {...modifiers, ...layer.metadataModifiers} : modifiers;
+				let layerFilterByActive = layer.filterByActive ? {...mapFilterByActive, ...layer.filterByActive} : mapFilterByActive;
+
+				return {...layer, metadataModifiers: layerMetadataModifiers, filterByActive: layerFilterByActive};
+			});
+
+			// TODO return error for duplicates?
+			return _.uniqBy(layers, 'key');
+		} else {
+			return null;
+		}
+	}
+)((state, mapKey) => mapKey);
+
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getAllLayersStateByMapKey = createSelector(
+	[
+		getBackgroundLayerStateByMapKey,
+		getLayersStateByMapKey
+	],
+	(backgroundLayer, layers) => {
+		if (layers || backgroundLayer) {
+			layers = layers || [];
+
+			if (backgroundLayer) {
+				// TODO do not create new object for background layer on change in layers
+				backgroundLayer = {...backgroundLayer, key: 'pantherBackgroundLayer'};
+				return [backgroundLayer, ...layers];
+			}
+
+			return layers;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * Get active map key for set. Either local, or global.
+ *
+ * @param state {Object}
+ * @param setKey {string}
+ */
+const getMapSetActiveMapKey = createSelector(
+	[
+		getActiveMapKey,
+		getMapSetByKey
+	],
+	(mapKey, set) => {
+		if (set) {
+			let mapKeyInSet = _.includes(set.maps, mapKey);
+			return set.activeMapKey || (mapKeyInSet && mapKey) || null;
 		} else {
 			return null;
 		}
@@ -170,12 +433,20 @@ const getView = createSelector(
 		if (map) {
 			if (set) {
 				let mapView = map.data && map.data.view;
+
+				// omit synced view params from map
+				if (set.sync && !_.isEmpty(set.sync)) {
+					mapView = _.omitBy(mapView, (viewValue, viewKey) => {
+						return set.sync[viewKey];
+					});
+				}
+
 				let mapSetView = set.data && set.data.view;
-				let view = mapUtils.mergeViews(mapSetView, mapView);
+				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
 				return !_.isEmpty(view) ? view : null;
 			} else {
 				let view = map.data && map.data.view;
-				return view && !_.isEmpty(view) ? view : null;
+				return mapUtils.mergeViews(defaultMapView, view);
 			}
 		} else {
 			return null;
@@ -185,72 +456,190 @@ const getView = createSelector(
 
 /**
  * @param state {Object}
- * @param mapKey {string}
+ * @param setKey {string}
  */
-const getMapLayersByMapKey = createSelector(
-	[getMapByKey],
-	(map) => {
+const getMapSetView = createSelector(
+	[
+		getMapSetByKey
+	],
+	(set) => {
+		if (set) {
+			let setView = set.data && set.data.view;
+			return mapUtils.mergeViews(defaultMapView, setView);
+		} else {
+			return null;
+		}
+	}
+);
+
+const getMapSetActiveMapView = createSelector(
+	[
+		getMapSetActiveMapKey,
+		getMapSetByKey,
+		getMapsAsObject
+	],
+	(mapKey, set, maps) => {
+		let map = maps[mapKey];
+
 		if (map) {
-			return map.data && map.data.layers || [];
+			if (set) {
+				let mapView = map.data && map.data.view;
+
+				// omit synced view params from map
+				if (set.sync && !_.isEmpty(set.sync)) {
+					mapView = _.omitBy(mapView, (viewValue, viewKey) => {
+						return set.sync[viewKey];
+					});
+				}
+
+				let mapSetView = set.data && set.data.view;
+				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
+				return !_.isEmpty(view) ? view : null;
+			} else {
+				let view = map.data && map.data.view;
+				return mapUtils.mergeViews(defaultMapView, view);
+			}
 		} else {
 			return null;
 		}
 	}
 );
 
-/**
- * @param state {Object}
- * @param mapKey {string}
- * @param layerKey {string}
- */
-const getMapLayerByMapKeyAndLayerKey = createSelector(
-	[getMapLayersByMapKey, (state, mapKey, layerKey) => layerKey],
-	(layers, layerKey) => {
-		if (layers && layerKey) {
-			return layers.find(l => l.key === layerKey)
-		} else {
-			return null;
-		}
-	}
-);
 
-const getBackgroundLayer = (state, mapKey) => {
-	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
+/* ===== Complex selectors ========================= */
+
+// TODO cache?
+const getBackgroundLayer = (state, layerState) => {
 	if (layerState) {
-		let layerKey = 'pantherBackgroundLayer';
+		if (layerState.type) {
+			// TODO helper
+			return layerState;
+		} else {
+			let layerKey = 'pantherBackgroundLayer';
+			// TODO valid approach to stringify parameter?
+			let layersWithFilter = mapHelpers.getBackgroundLayersWithFilter(state, JSON.stringify(layerState), layerKey);
+			let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
 
-		let layers = [{
-			// TODO
-			data: {
-				key: layerKey
-			},
-			filter: {
-				layerTemplateKey: layerState.layerTemplateKey
-			}
-		}];
+			if (dataSourcesByLayerKey && dataSourcesByLayerKey[layerKey]) {
 
-		let data = SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey(state, layers);
-		if (data && data[layerKey] && data[layerKey][0]) {
-			let layerData = data[layerKey][0].data;
-			let {attribution, nameInternal, type, ...options} = layerData;
+				// TODO experimental
+				let cacheKey = JSON.stringify(layersWithFilter);
+				let cache = getBackgroundLayerCache.findByKey(cacheKey);
+				let layerDataSources = dataSourcesByLayerKey[layerKey];
+				
+				if (cache && cache.layersWithFilter === layersWithFilter && cache.layerDataSources === layerDataSources) {
+					return cache.mapLayers;
+				} else {
+					let mapLayers =  _.map(dataSourcesByLayerKey[layerKey], (dataSourceWithFidColumn, index) => mapHelpers.prepareLayerByDataSourceType(layerKey, dataSourceWithFidColumn.dataSource, dataSourceWithFidColumn.fidColumnName, index));
 
-			// TODO data source strucutre
-			if (type === 'wmts') {
-				options.url = options.urls[0];
-			}
-			if (type === 'wms') {
-				let {url, ...params} = options;
-				options = {
-					params,
-					url
+					getBackgroundLayerCache.addOrUpdate({
+						cacheKey,
+						layersWithFilter,
+						layerDataSources,
+						mapLayers
+					});
+
+					return mapLayers;
 				}
 			}
+			else {
+				return null;
+			}
+		}
+	} else {
+		return null;
+	}
+};
 
-			return {
-				key: layerKey,
-				type,
-				options
-			};
+// TODO cache?
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ * @return {Array}
+ */
+const getMapBackgroundLayer = (state, mapKey) => {
+	let layerState = getBackgroundLayerStateByMapKey(state, mapKey);
+	return getBackgroundLayer(state, layerState);
+};
+
+
+// TODO caching is experimental
+const getLayers = (state, layersState) => {
+	// TODO valid approach to stringify parameter?
+	let layersWithFilter = mapHelpers.getLayersWithFilter(state, JSON.stringify(layersState));
+
+	if (layersWithFilter && layersWithFilter.length) {
+		let dataSourcesByLayerKey = SpatialDataSourcesSelectors.getFilteredSourcesGroupedByLayerKey(state, layersWithFilter);
+		let attributeDataSourcesByLayerKey = AttributeDataSourcesSelectors.getFilteredDataSourcesGroupedByLayerKey(state, layersWithFilter, layersState);
+		let stylesByLayerKey = StylesSelectors.getGroupedByLayerKey(state, layersState);
+		let selections = SelectionsSelectors.getAllAsObject(state);
+		
+		if (dataSourcesByLayerKey && !_.isEmpty(dataSourcesByLayerKey)) {
+			let mapLayers = [];
+
+			let cacheKey = JSON.stringify(layersWithFilter);
+			let cache = getLayersCache.findByKey(cacheKey);
+			
+			if (cache
+				&& cache.layersWithFilter === layersWithFilter
+				&& cache.dataSourcesByLayerKey === dataSourcesByLayerKey
+				&& cache.stylesByLayerKey === stylesByLayerKey
+				&& cache.attributeDataSourcesByLayerKey === attributeDataSourcesByLayerKey
+				&& cache.selections === selections
+			) {
+				return cache.mapLayers;
+			} else {
+				layersState.forEach((layerState) => {
+					let layerKey = layerState.key;
+					let dataSources = dataSourcesByLayerKey[layerKey];
+					let attributeDataSources = attributeDataSourcesByLayerKey && attributeDataSourcesByLayerKey[layerKey];
+					let style = stylesByLayerKey && stylesByLayerKey[layerKey];
+
+					if (dataSources && dataSources.length) {
+						dataSources.forEach((dataSourceWithFidColumn, index) => {
+							const dataSource = dataSourceWithFidColumn && dataSourceWithFidColumn.dataSource;
+							const fidColumnName = dataSourceWithFidColumn && dataSourceWithFidColumn.fidColumnName;
+
+							// TODO quick solution for geoinv
+							let currentApp = AppSelectors.getKey(state);
+							if (currentApp === 'tacrGeoinvaze') {
+								if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
+									mapLayers.push({
+										key: layerKey + '_' + dataSource.key,
+										layerKey: layerKey,
+										type: "wms",
+										options: {
+											url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
+											params: {
+												layers: dataSource.data.layerName
+											}
+										}
+									});
+								} else {
+									mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index));
+								}
+							}
+
+
+							else {
+								mapLayers.push(mapHelpers.prepareLayerByDataSourceType(layerKey, dataSource, fidColumnName, index, layerState, style, attributeDataSources, selections));
+							}
+						});
+					}
+				});
+
+				getLayersCache.addOrUpdate({
+					cacheKey,
+					layersWithFilter,
+					dataSourcesByLayerKey,
+					attributeDataSourcesByLayerKey,
+					mapLayers,
+					stylesByLayerKey,
+					selections
+				});
+
+				return mapLayers;
+			}
 		} else {
 			return null;
 		}
@@ -259,32 +648,101 @@ const getBackgroundLayer = (state, mapKey) => {
 	}
 };
 
+// TODO cache?
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ * @return {Array}
+ */
+const getMapLayers = (state, mapKey) => {
+	let layersState = getLayersStateByMapKey(state, mapKey);
+	return getLayers(state, layersState);
+};
 
 
-// TODO re-reselect?
-// TODO test
-const getFilterByActiveByMapKey = createSelector(
+
+
+
+
+
+
+
+
+/* ===============================================
+   Deprecated
+   =============================================== */
+
+const getMapByMetadata_deprecated = createSelector(
 	[
-		getMapSetByMapKey,
-		getMapByKey
+		getMaps,
+		(state, metadata) => metadata
 	],
-	(set, map) => {
-		return (set.data.filterByActive || map.data.filterByActive) && {...set.data.filterByActive, ...map.data.filterByActive};
+	(maps, metadata) => {
+		if (maps && metadata) {
+			let filtered =  _.filter(maps, (map) => {
+				if (map.data && map.data.metadataModifiers) {
+					return _.isMatch(map.data.metadataModifiers, metadata);
+				} else {
+					return false;
+				}
+			});
+			if (filtered && filtered.length) {
+				return filtered[0]; //TODO what if more maps are selected based on filter
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getNavigator_deprecated = createSelector(
+	[getMapByKey,
+		getMapSetByMapKey],
+	(map, set) => {
+		if (map) {
+			if (set) {
+				let mapNavigator = map.data && map.data.worldWindNavigator;
+				let mapSetNavigator = set.data && set.data.worldWindNavigator;
+				let navigator = {...mapSetNavigator, ...mapNavigator};
+				return !_.isEmpty(navigator) ? navigator : null;
+			} else {
+				let navigator = map.data && map.data.worldWindNavigator;
+				return navigator && !_.isEmpty(navigator) ? navigator : null;
+			}
+		} else {
+			return null;
+		}
+	}
+);
+
+const getMapSetNavigatorRange_deprecated = createSelector(
+	[
+		getMapSetByKey
+	],
+	(set) => {
+		if (set) {
+			return set.data && set.data.worldWindNavigator && set.data.worldWindNavigator.range;
+		} else {
+			return null;
+		}
 	}
 );
 
 
 
-/* TODO merge with template
-*  TODO test
-*/
 /**
  * Collect and prepare data for map component
  *
  * @param state {Object}
  * @param layers {Array} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
-const getLayers = createSelector(
+const getLayers_deprecated = createSelector(
 	[
 		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
 		AttributeDataSelectors.getFilteredGroupedByLayerKey,
@@ -303,44 +761,6 @@ const getLayers = createSelector(
 			return null;
 		}
 	}
-);
-
-const getMapBackgroundLayerStateByMapKey = createSelector(
-	[
-		getMapByKey
-	],
-	(map) => {
-		if (map && map.data && map.data.backgroundLayer) {
-			return map.data.backgroundLayer;
-		} else {
-			return null;
-		}
-	}
-);
-
-const getMapSetBackgroundLayerStateByMapKey = createSelector(
-	[
-		getMapSetByMapKey
-	],
-	(set) => {
-		if (set && set.data && set.data.backgroundLayer) {
-			return set.data.backgroundLayer;
-		} else {
-			return null;
-		}
-	}
-);
-
-const getBackgroundLayerStateByMapKey = createCachedSelector(
-	[
-		getMapBackgroundLayerStateByMapKey,
-		getMapSetBackgroundLayerStateByMapKey,
-	],
-	(mapBackgroundLayer, setBackgroundLayer) => {
-		return mapBackgroundLayer || setBackgroundLayer;
-	}
-)(
-	(state, mapKey) => `${mapKey}`
 );
 
 /**
@@ -368,67 +788,7 @@ const getBackgroundLayerStateByMapKey_deprecated = createSelector(
 		}
 
 		if (layerTemplate) {
-			return getFiltersForUse({...filter, layerTemplate: layerTemplate.layerTemplate, key: layerTemplate.key}, activeKeys)
-		} else {
-			return null;
-		}
-	}
-);
-
-// TODO re-reselect
-/**
- * @param state {Object}
- * @param mapKey {string}
- */
-const getLayersStateByMapKey = createSelector(
-	[
-		getMapByKey,
-		getMapSetByMapKey,
-		getFilterByActiveByMapKey
-	],
-	(map, set, mapFilterByActive) => {
-		let setLayers = (set && set.data && set.data.layers) || null;
-		let mapLayers = (map && map.data && map.data.layers) || null;
-
-		if (map && (mapLayers || setLayers)) {
-			let layers = [...(setLayers || []), ...(mapLayers || [])];
-			let modifiers = {};
-			if (set) {
-				modifiers = set.data.metadataModifiers;
-			}
-			modifiers = {...modifiers, ...map.data.metadataModifiers};
-
-			layers = layers.map(layer => {
-				let layerMetadataModifiers = layer.metadataModifiers ? {...modifiers, ...layer.metadataModifiers} : modifiers;
-				let layerFilterByActive = layer.filterByActive ? {...mapFilterByActive, ...layer.filterByActive} : mapFilterByActive;
-
-				return {...layer, metadataModifiers: layerMetadataModifiers, filterByActive: layerFilterByActive};
-			});
-
-			// TODO return error for duplicates?
-			return _.uniqBy(layers, 'key');
-		} else {
-			return null;
-		}
-	}
-);
-
-const getAllLayersStateByMapKey = createSelector(
-	[
-		getBackgroundLayerStateByMapKey,
-		getLayersStateByMapKey
-	],
-	(backgroundLayer, layers) => {
-		if (layers || backgroundLayer) {
-			layers = layers || [];
-
-			if (backgroundLayer) {
-				// TODO do not create new object for background layer on change in layers
-				backgroundLayer = {...backgroundLayer, key: 'pantherBackgroundLayer'};
-				return [backgroundLayer, ...layers];
-			}
-
-			return layers;
+			return getFiltersForUse_deprecated({...filter, layerTemplate: layerTemplate.layerTemplate, key: layerTemplate.key}, activeKeys)
 		} else {
 			return null;
 		}
@@ -460,7 +820,7 @@ const getLayersStateByMapKey_deprecated = createSelector(
 			modifiers = {...modifiers, ...map.data.metadataModifiers};
 
 			layers = layers.map(layer => {
-				return getFiltersForUse({...modifiers, ...layer}, activeKeys, useActiveMetadataKeys);
+				return getFiltersForUse_deprecated({...modifiers, ...layer}, activeKeys, useActiveMetadataKeys);
 			});
 
 			return layers;
@@ -485,7 +845,72 @@ const getAllLayersStateByMapKey_deprecated = createSelector(
 		const layersData = layersState ? layersState.map(getLayerState) : [];
 		return new Array(...layersData, ...backgroundLayerData);
 	}
-)
+);
+
+/**
+ * @param state {Object}
+ * @param mapSetKey {string}
+ * @returns {Array<Map> | null}
+ */
+const getMapsByMapSetKey_deprecated = createSelector(
+	[
+		getMapsAsObject,
+		getMapSetMapKeys
+	],
+	(maps, mapSetMapsKeys) => {
+		if (maps && !_.isEmpty(maps) && mapSetMapsKeys && !_.isEmpty(mapSetMapsKeys)) {
+			return mapSetMapsKeys.map(k => maps[k]);
+		} else {
+			return null;
+		}
+	}
+);
+
+
+const getLayersStateByMapSetKey_deprecated = createSelector(
+	[
+		getMapSetByKey,
+		getMapsByMapSetKey_deprecated,
+		commonSelectors.getAllActiveKeys,
+	],
+	(mapSet, maps, activeKeys) => {
+		const mapsLayersState = {};
+		let setLayers = (mapSet && mapSet.data && mapSet.data.layers) || null;
+
+		if (maps) {
+			maps.forEach((map) => {
+				let mapLayers = (map && map.data && map.data.layers) || null;
+				if (map && (mapLayers || setLayers)) {
+					let layers = [...(setLayers || []), ...(mapLayers || [])];
+					let modifiers = {};
+					if (mapSet) {
+						let a = mapSet.data.metadataModifiers;
+						modifiers = {...modifiers, ...mapSet.data.metadataModifiers};
+					}
+					modifiers = {...modifiers, ...map.data.metadataModifiers};
+
+					//TODO
+					//specific for FUORE
+					const useMetadata = {
+						scope: true,
+						attribute: true,
+						period: true,
+					}
+
+					layers = layers.map(layer => {
+						return getFiltersForUse_deprecated({...modifiers, ...layer}, activeKeys, useMetadata);
+					});
+
+					mapsLayersState[map.key] = layers;
+				}
+
+			});
+		}
+
+		return mapsLayersState;
+	}
+);
+
 
 // ----- helpers ------
 const getLayerState = (layer) => ({filter: layer.mergedFilter, data: layer.layer});
@@ -543,7 +968,7 @@ const getLayerConfiguration = (layer, spatialSourcesForLayer, attributeSourcesFo
  * @param useMetadata {Object}
  * @return {{filter, filterByActive, mergedFilter, layer}}
  */
-function getFiltersForUse(layer, activeKeys, useMetadata) {
+function getFiltersForUse_deprecated(layer, activeKeys, useMetadata) {
 	let filter = {};
 	let filterByActive = {};
 	let mergedFilter = {};
@@ -592,7 +1017,7 @@ function getFiltersForUse(layer, activeKeys, useMetadata) {
 	if (layer && layer.hasOwnProperty('layerTemplate')){
 		filter.layerTemplateKey = layer.layerTemplate;
 	}
-	
+
 	if (layer && layer.hasOwnProperty('attribute')){
 		filter.attributeKey = layer.attribute;
 	} else if(!useMetadata || (useMetadata && useMetadata.attribute)) {
@@ -612,127 +1037,48 @@ function getFiltersForUse(layer, activeKeys, useMetadata) {
 	}
 }
 
-
-/**
- * @param state {Object}
- * @param mapSetKey {string}
- * @returns {Array<Map> | null}
- */
-const getMapsByMapSetKey = createSelector(
-	[
-		getMapsAsObject,
-		getMapSetMapKeys
-	],
-	(maps, mapSetMapsKeys) => {
-		if (maps && !_.isEmpty(maps) && mapSetMapsKeys && !_.isEmpty(mapSetMapsKeys)) {
-			return mapSetMapsKeys.map(k => maps[k]);
-		} else {
-			return null;
-		}
-	}
-);
-
-
-const getLayerTemplatesKeysByMapSetKey = createSelector([
-	getMapsByMapSetKey,
-	getMapSetByKey,
-],
-(maps, mapSet) => {
-	const layerTemplates = new Set();
-
-	if(maps) {
-		maps.forEach((map) => {
-			if(map.data && map.data.layers && map.data.layers.length > 0) {
-				layerTemplates.add(...map.data.layers.map(l => l.layerTemplate))
-			}
-		})
-	}
-
-	if(mapSet && mapSet.data && mapSet.data.layers && mapSet.data.layers.length > 0) {
-		//if layers on mapSet
-		layerTemplates.add(...mapSet.data.layers.map(l => l.layerTemplate));
-	}
-	return  [...layerTemplates];
-})
-
-
-const getLayersStateByMapSetKey = createSelector(
-	[
-		getMapSetByKey,
-		getMapsByMapSetKey,
-		commonSelectors.getAllActiveKeys,
-	],
-	(mapSet, maps, activeKeys) => {
-		const mapsLayersState = {};
-		let setLayers = (mapSet && mapSet.data && mapSet.data.layers) || null;
-		
-		maps.forEach((map) => {
-			let mapLayers = (map && map.data && map.data.layers) || null;
-			if (map && (mapLayers || setLayers)) {
-				let layers = [...(setLayers || []), ...(mapLayers || [])];
-				let modifiers = {};
-				if (mapSet) {
-					let a = mapSet.data.metadataModifiers;
-					modifiers = {...modifiers, ...mapSet.data.metadataModifiers};
-				}
-				modifiers = {...modifiers, ...map.data.metadataModifiers};
-
-				//TODO
-				//specific for FUORE
-				const useMetadata = {
-					scope: true,
-					attribute: true,
-					period: true,
-				}
-
-				layers = layers.map(layer => {
-					return getFiltersForUse({...modifiers, ...layer}, activeKeys, useMetadata);
-				});
-
-				mapsLayersState[map.key] = layers;
-			}
-
-		});
-
-	return mapsLayersState;
-	}
-);
-
 export default {
 	getActiveMapKey,
 	getActiveSetKey,
-
 	getAllLayersStateByMapKey,
-	getAllLayersStateByMapKey_deprecated,
 
 	getBackgroundLayer,
+	getMapBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
-	getBackgroundLayerStateByMapKey_deprecated,
 
 	getFilterByActiveByMapKey,
-	getFiltersForUse, // TODO deprecated?
 
 	getLayers,
+	getMapLayers,
 	getLayersStateByMapKey,
-	getLayersStateByMapKey_deprecated,
-	getLayersStateByMapSetKey,
-	getLayerTemplatesKeysByMapSetKey,
 
 	getMapByKey,
-	getMapByMetadata,
+	getMapLayerByMapKeyAndLayerKey,
+	getMapLayersByMapKey,
+	getMapsAsObject,
+
+	getMapSetActiveMapKey,
+	getMapSetActiveMapView,
 	getMapSetByKey,
 	getMapSetByMapKey,
+	getMapSetLayersStateBySetKey,
 	getMapSetMapKeys,
+	getMapSetView,
 	getMapSets,
-
-	getMapLayersByMapKey, //TODO - test
-	getMapLayerByMapKeyAndLayerKey,
-	
-	getMapsAsObject,
 	getMapSetsAsObject,
 
-	getNavigator, // TODO deprecated
+	getSubstate,
+
 	getView,
 
-	getSubstate
+	// Deprecated
+	getAllLayersStateByMapKey_deprecated,
+	getBackgroundLayerStateByMapKey_deprecated,
+	getFiltersForUse_deprecated,
+	getLayers_deprecated,
+	getLayersStateByMapKey_deprecated,
+	getLayersStateByMapSetKey_deprecated,
+	getMapByMetadata_deprecated,
+	getMapSetNavigatorRange_deprecated,
+	getNavigator_deprecated
 };

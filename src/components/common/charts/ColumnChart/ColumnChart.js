@@ -17,7 +17,9 @@ class ColumnChart extends React.PureComponent {
 		animateChangeData: true,
 
 		minBarWidth: 3,
-		barGapRatio: 0.4,
+		barGapRatio: 0.35,
+
+		xScaleType: 'ordinal',
 
 		withoutYbaseline: true
 	};
@@ -160,7 +162,7 @@ class ColumnChart extends React.PureComponent {
 				}
 			}
 
-			if (positive.total || negative.total) {
+			if (positive.total || positive.total === 0 || negative.total || negative.total === 0) {
 				data.push({key, name, positive, negative});
 			}
 		});
@@ -190,11 +192,11 @@ class ColumnChart extends React.PureComponent {
 
 		let yValues = [];
 		_.forEach(data, record => {
-			if (record.positive.total) {
+			if (record.positive.total || record.positive.total === 0) {
 				yValues.push(record.positive.total);
 			}
 
-			if (record.negative.total) {
+			if (record.negative.total || record.negative.total === 0) {
 				yValues.push(record.negative.total);
 			}
 		});
@@ -203,12 +205,14 @@ class ColumnChart extends React.PureComponent {
 		min = _.min(yValues);
 
 		/* The min should be 0 by default if the minimal value is 0 or positive. Otherwise reduce the min by 5 % of the values range to ensure some height for the smallest bar. */
-		if (!props.diverging) {
-			if (min >= 0) {
-				min = 0;
-			} else {
-				min = min - Math.abs(max - min)*0.05;
-			}
+		if (min >= 0) {
+			min = 0;
+		} else {
+			min = min - Math.abs(max - min)*0.05;
+		}
+
+		if (this.props.diverging && max < 0) {
+			max = 0;
 		}
 
 		if (props.yOptions && (props.yOptions.min || props.yOptions.min === 0)) {
@@ -267,10 +271,10 @@ class ColumnChart extends React.PureComponent {
 			/* Aggregation needed? */
 			let barWidth = xScale.bandwidth();
 			/* gap ratio between bars */
-			if (barWidth < 15) {
+			if (barWidth < 17) {
 				xScale = xScale.padding(0.25);
 			}
-			if (barWidth < 12) {
+			if (barWidth < 14) {
 				xScale = xScale.padding(0.1);
 			}
 
@@ -296,12 +300,17 @@ class ColumnChart extends React.PureComponent {
 			}
 		}
 
+		let svgHeight = props.height;
+		if (aggregatedData.length) {
+			svgHeight = props.plotHeight + 20;
+		}
+
 		const chartClassNames = classnames('ptr-chart ptr-cartesian-chart ptr-column-chart', {
 			'ptr-chart-no-animation': !props.animateChangeData,
 		});
 
 		return (
-			<svg className={chartClassNames} height={props.height}>
+			<svg className={chartClassNames} height={svgHeight}>
 				{data ?
 					<CartesianChartContent
 						{...props}
@@ -342,7 +351,7 @@ class ColumnChart extends React.PureComponent {
 
 	renderAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth) {
 		return (
-			!this.props.diverging && !this.props.stacked ? (
+			this.props.diverging !== "double" && !this.props.stacked ? (
 			<>
 				{this.renderPath(data, xScale, yScale, yBaseValue, availableHeight, availableWidth)}
 				{this.renderBarsFromAggregated(data, units, xScale, yScale, yBaseValue, availableHeight, availableWidth)}

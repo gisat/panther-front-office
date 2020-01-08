@@ -7,6 +7,8 @@ import utils from '../../../../../../utils/utils';
 
 import presentation from "./presentation";
 
+let order = [["nameDisplay", "ascending"]];
+
 const mapStateToProps = (state, ownProps) => {
 	
 	let filter = {
@@ -16,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 	};
 	
 	return {
-		cases: Select.cases.getIndexed(state, null, filter, null, 1, 20),
+		cases: Select.cases.getIndexed(state, null, filter, order, 1, 20),
 		activeCase: Select.cases.getActive(state)
 	}
 };
@@ -35,7 +37,7 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onMount: () => {
 				// TODO order
-				dispatch(Action.cases.useIndexed(null, filter, null, 1, 20, componentId));
+				dispatch(Action.cases.useIndexed(null, filter, order, 1, 20, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.cases.useIndexedClear(componentId));

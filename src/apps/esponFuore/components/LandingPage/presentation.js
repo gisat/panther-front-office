@@ -25,7 +25,7 @@ class LandingPage extends React.PureComponent {
 								Also, the figures presented are currently under validation. Therefore, they should be considered as draft results of the project and may be further adjusted.</b></p>
 							<div className="esponFuore-landing-page-links">
 								<div className="bottom-link"><a href="https://www.espon.eu/functional-urban-areas-tool" target="_blank">Project information</a></div>
-								{/*<div className="bottom-link"><a href="#" target="_blank">Guidance materials</a></div>*/}
+								<div className="bottom-link disabled"><a href="#">Custom disaggregation</a></div>
 							</div>
 						</div>
 					</div>

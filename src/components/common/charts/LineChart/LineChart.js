@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import * as d3 from 'd3';
+import moment from 'moment';
 
 import '../style.scss';
 import utils from "../../../../utils/sort";
@@ -19,6 +20,7 @@ class LineChart extends React.PureComponent {
 		withPoints: true,
 
 		xGridlines: true,
+		xScaleType: 'ordinal',
 		withoutYbaseline: true
 	};
 
@@ -28,7 +30,8 @@ class LineChart extends React.PureComponent {
 		grayingThreshold: PropTypes.number,
 		withPoints: PropTypes.bool,
 
-		serieDataSourcePath: PropTypes.string.isRequired
+		serieDataSourcePath: PropTypes.string.isRequired,
+		pointNameSourcePath: PropTypes.string //in context of serie (for custom point name in popup) // TODO coplex solution for chart popups
 	};
 
 	constructor(props) {
@@ -77,33 +80,54 @@ class LineChart extends React.PureComponent {
 				yMaximum = props.yOptions.max;
 			}
 
+			let xMaximum = _.max(sortedUniqueXvalues);
+			let xMinimum = _.min(sortedUniqueXvalues);
+
+			if (props.xOptions && (props.xOptions.min || props.xOptions.min === 0)) {
+				xMinimum = props.xOptions.min;
+			}
+
+			if (props.xOptions && (props.xOptions.max || props.xOptions.max === 0)) {
+				xMaximum = props.xOptions.max;
+			}
+
 			yDomain = [yMinimum, yMaximum];
 
 			/* scales */
-			if (this.props.xScale === 'yearBased') {
-				let xMaximum = _.max(sortedUniqueXvalues);
-				let xMinimum = _.min(sortedUniqueXvalues);
-				sortedUniqueXvalues = [];
-				for (let i = xMinimum; i <= xMaximum; i++) {
-					sortedUniqueXvalues.push(i);
+			if (props.xScaleType === 'time') {
+				if (props.xOptions && props.xOptions.inputValueFormat) {
+					xMinimum = moment(`${xMinimum}`, props.xOptions.inputValueFormat).toDate();
+					xMaximum = moment(`${xMaximum}`, props.xOptions.inputValueFormat).toDate();
+				} else {
+					xMinimum = new Date(xMinimum);
+					xMaximum = new Date(xMaximum);
 				}
+
+				xDomain = [xMinimum, xMaximum];
+				xScale = d3
+					.scaleTime()
+					.domain(xDomain)
+					.range([0, props.innerPlotWidth]);
+			} else {
+				xDomain = sortedUniqueXvalues;
+				xScale = d3
+					.scaleBand()
+					.padding(0)
+					.domain(xDomain)
+					.range([0, props.innerPlotWidth]);
+
+				// adjust range
+				let extension = xScale.bandwidth()/2;
+				xScale.range([0-extension, props.innerPlotWidth + extension]);
 			}
 
-			xDomain = sortedUniqueXvalues;
-			xScale = d3
-				.scaleBand()
-				.padding(0)
-				.domain(xDomain)
-				.range([0, props.innerPlotWidth]);
+			yScale = d3.scaleLinear();
 
-			// adjust range
-			let extension = xScale.bandwidth()/2;
-			xScale.range([0-extension, props.innerPlotWidth + extension]);
+			if (this.props.yScaleType === 'logarithmic') {
+				yScale = d3.scaleLog();
+			}
 
-			yScale = d3
-				.scaleLinear()
-				.domain(yDomain)
-				.range([props.innerPlotHeight, 0]);
+			yScale.domain(yDomain).range([props.innerPlotHeight, 0]);
 
 			colors = d3
 				.scaleOrdinal(d3.schemeCategory10)
@@ -111,7 +135,7 @@ class LineChart extends React.PureComponent {
 
 			if (props.forceMode){
 				mode = props.forceMode;
-			} else if (data.length > props.aggregationThreshold) {
+			} else if (data.length > props.aggregationThreshold && props.xScaleType !== 'time') {
 				mode = 'aggregated';
 			} else if (data.length > props.grayingThreshold) {
 				mode = 'gray';
@@ -141,6 +165,7 @@ class LineChart extends React.PureComponent {
 						nameSourcePath={this.props.nameSourcePath}
 						colorSourcePath={this.props.colorSourcePath}
 						colorScale={colors}
+						showSelectedOnly={mode === 'gray'}
 					/>
 				) : null}
 			</>
@@ -148,7 +173,7 @@ class LineChart extends React.PureComponent {
 	}
 
 	renderLines(data, props, xScale, yScale, colors, mode) {
-		let leftOffset = xScale.bandwidth()/2;
+		let leftOffset = props.xScaleType !== 'time' ? xScale.bandwidth()/2 : 0;
 		let siblings = data.map((item) => _.get(item, props.keySourcePath));
 
 		return _.map(data, (item) => {
@@ -160,7 +185,18 @@ class LineChart extends React.PureComponent {
 			serie = this.props.sorting ? utils.sortByOrder(serie, props.sorting) : serie;
 
 			let coordinates = serie.map(record => {
-				let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+				let xValue = _.get(record, props.xSourcePath);
+				let x;
+				if (this.props.xScaleType === "time") {
+					if (props.xOptions && props.xOptions.inputValueFormat) {
+						x = xScale(moment(`${xValue}`, props.xOptions.inputValueFormat).toDate());
+					} else {
+						x = xScale(new Date(xValue));
+					}
+				} else {
+					x = xScale(xValue) + leftOffset;
+				}
+
 				let y = yScale(_.get(record, props.ySourcePath));
 				return {x,y, originalData: record};
 			});
@@ -180,16 +216,18 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					siblings={siblings}
 					gray={mode === 'gray'}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
+					xOptions={props.xOptions}
+					xScaleType={props.xScaleType}
 				/>
 			);
 		});
 	}
 
 	renderAggregated(data, props, xScale, yScale, colors) {
-		let leftOffset = xScale.bandwidth()/2;
+		let leftOffset = props.xScaleType !== 'time' ? xScale.bandwidth()/2 : 0;
 
 		let maxValues = {};
 		let minValues = {};
@@ -252,7 +290,7 @@ class LineChart extends React.PureComponent {
 		_.forIn(values, (values, key) => {
 			averageValuesForChart.push({
 				[props.xSourcePath]: key,
-				[props.ySourcePath]: (_.sum(values)/values.length).toFixed(2)
+				[props.ySourcePath]: _.sum(values)/values.length
 			});
 		});
 
@@ -282,7 +320,7 @@ class LineChart extends React.PureComponent {
 					defaultColor={"#777777"}
 					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 					gray
@@ -295,7 +333,7 @@ class LineChart extends React.PureComponent {
 					withPoints={this.props.withPoints}
 					defaultColor={this.props.defaultColor ? this.props.defaultColor : "#0088ff"}
 					highlightColor={this.props.highlightColor ? this.props.highlightColor : "#0077ff"}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 				/>
@@ -307,7 +345,7 @@ class LineChart extends React.PureComponent {
 					defaultColor={"#777777"}
 					highlightColor={"#555555"}
 					withPoints={this.props.withPoints}
-					pointNameSourcePath={props.xSourcePath}
+					pointNameSourcePath={props.pointNameSourcePath || props.xSourcePath}
 					pointValueSourcePath={props.ySourcePath}
 					yOptions={props.yOptions}
 					gray

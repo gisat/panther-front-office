@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from "re-reselect";
 import _, {isEmpty, cloneDeep} from 'lodash';
 import common from "../_common/selectors";
 
@@ -37,6 +38,43 @@ const getFilteredData = createSelector(
 		}
 	}
 );
+
+/**
+ * @returns {Object}
+ */
+const getFilteredDataSourceKeysGroupedByLayerKey = createCachedSelector(
+	[
+		getAll,
+		(state, layers) => layers
+	],
+	(relations, layers) => {
+		if (relations && relations.length) {
+			let filteredGroupedByLayerKey = {};
+
+			_.forEach(layers, (layer) => {
+				let filteredRelations = _.filter(relations, {'data': layer.filter});
+				if (filteredRelations.length) {
+					filteredGroupedByLayerKey[layer.key] = filteredRelations.map(relation => {
+						return {
+							spatialDataSourceKey: relation.data.spatialDataSourceKey,
+							fidColumnName: relation.data.fidColumnName
+						}
+					});
+				}
+			});
+			return !_.isEmpty(filteredGroupedByLayerKey) ? filteredGroupedByLayerKey : null;
+
+		} else {
+			return null;
+		}
+	}
+)(
+	(state, layers) => JSON.stringify(layers)
+);
+
+/********************************
+ DEPRECATED
+ ********************************/
 
 /**
  * Collect and prepare relations for given filters grouped by layer key
@@ -178,12 +216,17 @@ const getDataSourceRelationsForLayerKey = createSelector(
 );
 
 export default {
+	getSubstate,
+
 	getAllData,
+	getFilteredData,
+	getFilteredDataSourceKeysGroupedByLayerKey,
+
+
+	// Deprecated
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
 	getDataSourceRelationsGroupedByLayerKey: getFilteredDataGroupedByLayerKey,
 	getDataSourceRelationsForLayerKey,
-	getFilteredData,
-	getFilteredDataGroupedByLayerKey,
-	getSubstate
+	getFilteredDataGroupedByLayerKey
 };

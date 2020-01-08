@@ -4,7 +4,7 @@
 .ptr-charts-container {
 	display: flex;
 	flex-direction: column;
-	padding: m(1) m(1) m(2);
+	padding: m(1) m(2/3) m(4/3);
 	align-items: center;
 	background: var(--base15);
 	min-height: 100%;
@@ -61,10 +61,16 @@
 	stroke: var(--base30);
 }
 
+.ptr-axis-border {
+	stroke-width: 2px;
+	stroke-linecap: square;
+	stroke: var(--base30);
+}
+
 .ptr-axis-gridline {
 	stroke-width: 1px;
 	stroke-linecap: square;
-	stroke: var(--base25);
+	stroke: var(--base20);
 }
 
 .ptr-axis-label {
@@ -78,8 +84,22 @@
 	font-size: $b1;
 }
 
+.ptr-tick-caption.highlighted {
+	font-weight: bold;
+}
+
 .ptr-tick-caption.small {
 	font-size: $a0;
+}
+
+.ptr-axis-highlighted-area-edge {
+	stroke-width: 1px;
+	stroke: var(--accent30);
+}
+
+.ptr-axis-highlighted-area {
+	stroke-width: 0;
+	fill: var(--accent15);
 }
 
 /* Line chart */
@@ -113,6 +133,10 @@
 	stroke: var(--base0);
 	stroke-width: 1px;
 	stroke-opacity: 1;
+}
+
+.ptr-chart-point.standalone.path {
+	stroke: var(--accent50);
 }
 
 .ptr-line-chart-area {
@@ -151,7 +175,7 @@
 
 @media screen and (max-width: 70rem)  {
 	.ptr-charts-container {
-		padding: m(2/3) m(2/3) m(2);
+		padding: m(1/3) m(1/3) m(1);
 	}
 }
 
