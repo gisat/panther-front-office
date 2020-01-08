@@ -46,6 +46,7 @@ import DubCerveny from "./cases/DubCerveny";
 import JavorJasanolisty from "./cases/JavorJasanolisty";
 import JasanPensylvansky from "./cases/JasanPensylvansky";
 import PajasanZlaznaty from "./cases/PajasanZlaznaty";
+import TopolKanadsky from "./cases/TopolKanadsky";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -162,6 +163,9 @@ const CaseDetail = props => {
 			break;
 		case '8fb79c32-ddad-4e83-9035-7dd81ed9fb82':
 			component = <SvidaVybezkata/>;
+			break;
+		case '7063ce10-04a3-4cd4-8580-c5877a8b2f1c':
+			component = <TopolKanadsky/>;
 			break;
 		case 'ed135671-9da6-495e-91ad-ff305f849b94':
 			component = <VodniMorAmericky/>;
