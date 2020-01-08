@@ -48,8 +48,8 @@ const DubCerveny = props => (
 			<Resource>Dyderski, M. K., & Jagodziński, A. M. (2019). Seedling survival of Prunus serotina Ehrh., Quercus rubra L. and Robinia pseudoacacia L. in temperate forests of Western Poland. Forest Ecology and Management, 450, 117498. <a href="https://doi.org/10.1016/j.foreco.2019.117498" target="_blank">https://doi.org/10.1016/j.foreco.2019.117498</a></Resource>
 			<Resource>Hejný S., Slavík B. 1990. Květena České republiky. Svazek 2. Praha, Academia: 544 s.</Resource>
 			<Resource>Miltner S., Kupka I. 2016. Silvicultural potential of northern red oak and its regeneration – Review. Journal of Forest Science, 62: 145–152.</Resource>
-			<Resource><a href="www.botany.cz" target="_blank">www.botany.cz</a>; 2007-2019</Resource>
-			<Resource><a href="www.pladias.cz" target="_blank">www.pladias.cz</a>; 2014-2019</Resource>
+			<Resource><a href="http://www.botany.cz" target="_blank">www.botany.cz</a>; 2007-2019</Resource>
+			<Resource><a href="http://www.pladias.cz" target="_blank">www.pladias.cz</a>; 2014-2019</Resource>
 		</Resources>
 	</div>
 );
