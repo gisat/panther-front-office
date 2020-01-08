@@ -25,25 +25,28 @@ class CaseSelect extends React.PureComponent {
 			
 			<div className="tacrGeoinvaze-case-list">
 				{props.cases && props.cases.map((oneCase) => {
+					if (oneCase) {
+						let style = {};
+						if (CaseImage[oneCase.key]) {
+							style.backgroundImage =  `url(${CaseImage[oneCase.key]})` || null;
+						}
 
-					let style = {};
-					if (CaseImage[oneCase.key]) {
-						style.backgroundImage =  `url(${CaseImage[oneCase.key]})` || null;
-					}
-
-					return (
-						<PantherSelectItem
-							itemKey={oneCase.key}
-							key={oneCase.key}
-						>
-							<div className="tacrGeoinvaze-case-select-case" style={style}>
-								<div>
-									<span>{oneCase.data && oneCase.data.nameDisplay}</span>
-									<i>{oneCase.data && oneCase.data.nameInternal}</i>
+						return (
+							<PantherSelectItem
+								itemKey={oneCase.key}
+								key={oneCase.key}
+							>
+								<div className="tacrGeoinvaze-case-select-case" style={style}>
+									<div>
+										<span>{oneCase.data && oneCase.data.nameDisplay}</span>
+										<i>{oneCase.data && oneCase.data.nameInternal}</i>
+									</div>
 								</div>
-							</div>
-						</PantherSelectItem>
-					);
+							</PantherSelectItem>
+						);
+					} else {
+						return null;
+					}
 				})}
 			</div>
 
