@@ -100,9 +100,17 @@ class ChartPanel extends React.PureComponent {
 			selectAsterDataMonetaryAssetValuesData = this.transformDataForAsterChart(monetaryAssetValuesData.find((d) => d[this.props.spatialIdKey] === this.props.selectedArea), observedMonetaryAssetValues);
 		}
 
-		const physicalEcosystemServicesDescription = "Physical ecosystem services tree characteristics in percentage where 100% is mean for all data."
-		const conditionDescription = "Condition tree characteristics in percentage where 100% is mean for all data."
-		const monetaryAssetValuesDescription = "Monetary asset values in percentage where 100% is mean for all data."
+		const chartExplanation = "Values in percentage where 100% is maximum for whole data set."
+		const physicalEcosystemServicesDescription = `${chartExplanation}
+		Species common name: ${data['SP_CO_NAME']}`
+		const conditionDescription = `${chartExplanation}
+		Species common name: ${data['SP_CO_NAME']}`
+		const monetaryAssetValuesDescription = `${chartExplanation}
+		Species common name: ${data['SP_CO_NAME']}`
+		
+		const physicalEcosystemServicesTitle = "Physical ecosystem services tree characteristics"
+		const conditionTitle = "Condition tree characteristics"
+		const monetaryAssetValuesTitle = "Monetary asset values"
 
 			return (
 					<div className="ptr-unseea-chart-panel">
@@ -112,7 +120,7 @@ class ChartPanel extends React.PureComponent {
 									<ChartWrapper
 										key={this.props.chartKey + "-wrapper-1"}
 										// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
-										title={`Species common name: ${data['SP_CO_NAME']}`}
+										title={conditionTitle}
 										subtitle={conditionDescription}
 									>
 									<AsterChart
@@ -139,7 +147,7 @@ class ChartPanel extends React.PureComponent {
 								<ChartWrapper
 									key={this.props.chartKey + "-wrapper-2"}
 									// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
-									title={`Species common name: ${data['SP_CO_NAME']}`}
+									title={physicalEcosystemServicesTitle}
 									subtitle={physicalEcosystemServicesDescription}
 								>
 									<AsterChart
@@ -166,7 +174,7 @@ class ChartPanel extends React.PureComponent {
 								<ChartWrapper
 									key={this.props.chartKey + "-wrapper-3"}
 									// title={`Tree ID: ${this.context.hoveredItems[0]}, ${hoveredData['SP_CO_NAME']}`}
-									title={`Species common name: ${data['SP_CO_NAME']}`}
+									title={monetaryAssetValuesTitle}
 									subtitle={monetaryAssetValuesDescription}
 								>
 									<AsterChart
@@ -211,7 +219,9 @@ class ChartPanel extends React.PureComponent {
 							<ChartWrapper
 							key={selectAsterDataConditionIndicators.key + "-wrapper-1"}
 							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
-							title={`Species common name: ${data['SP_CO_NAME']}`}
+							// title={`Species common name: ${data['SP_CO_NAME']}`}
+							// subtitle={conditionDescription}
+							title={conditionTitle}
 							subtitle={conditionDescription}
 							>
 							
@@ -239,7 +249,7 @@ class ChartPanel extends React.PureComponent {
 							<ChartWrapper
 							key={selectAsterDataPhysicalEcosystemServicesIndicators.key + "-wrapper-2"}
 							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
-							title={`Species common name: ${data['SP_CO_NAME']}`}
+							title={physicalEcosystemServicesTitle}
 							subtitle={physicalEcosystemServicesDescription}
 							>
 							
@@ -267,7 +277,7 @@ class ChartPanel extends React.PureComponent {
 							<ChartWrapper
 							key={selectAsterDataMonetaryAssetValuesData.key + "-wrapper-3"}
 							// title={`Tree ID: ${selectedAreaData[this.props.spatialIdKey]}`}
-							title={`Species common name: ${data['SP_CO_NAME']}`}
+							title={monetaryAssetValuesTitle}
 							subtitle={monetaryAssetValuesDescription}
 							>
 							
