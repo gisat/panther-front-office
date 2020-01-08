@@ -19,7 +19,9 @@ class ChartPanel extends React.PureComponent {
 		conditionIndicatorsIndicatorsData: PropTypes.array,
 		physicalEcosystemServicesIndicatorsData: PropTypes.array,
 		spatialIdKey: PropTypes.string,
-		maximum: PropTypes.number,
+		conditionIndicatorsMaximum: PropTypes.number,
+		physicalEcosystemServicesMaximum: PropTypes.number,
+		monetaryAssetValuesMaximum: PropTypes.number,
 	};
 
 	transformDataForAsterChart(data = {}, filterObservedValues) {
@@ -30,7 +32,8 @@ class ChartPanel extends React.PureComponent {
 				transformedData.push({
 					key: `${data[this.props.spatialIdKey]}-${key}-${value.relative}`,
 					value: {
-						relative: value.relativeMedian,
+						// relative: value.relativeMedian,
+						relative: value.relativeMax,
 						absolute: value.absolute,
 						absoluteTooltip: typeof observedValue.getTooltip === 'function' ? observedValue.getTooltip(value.absolute) : value.absolute,
 						relativeNormalised: value.relativeNormalised,
@@ -75,7 +78,7 @@ class ChartPanel extends React.PureComponent {
 		// 	selectAsterData = this.transformDataForAsterChart(selectedAreaData);
 		// }
 
-		const {conditionIndicatorsStatistics, physicalEcosystemServicesIndicatorsStatistics, conditionIndicatorsIndicatorsData, physicalEcosystemServicesIndicatorsData, maximum, monetaryAssetValuesStatistics, monetaryAssetValuesData} = this.props;
+		const {conditionIndicatorsStatistics, physicalEcosystemServicesIndicatorsStatistics, conditionIndicatorsIndicatorsData, physicalEcosystemServicesIndicatorsData, monetaryAssetValuesStatistics, monetaryAssetValuesData, conditionIndicatorsMaximum, physicalEcosystemServicesMaximum, monetaryAssetValuesMaximum} = this.props;
 
 		let hoverAsterDataConditionIndicators
 		let hoverAsterDataPhysicalEcosystemServicesIndicators
@@ -129,7 +132,7 @@ class ChartPanel extends React.PureComponent {
 											captions: true
 										}}
 										forceMinimum={0}
-										forceMaximum={maximum}
+										forceMaximum={conditionIndicatorsMaximum}
 										legend
 									/>
 								</ChartWrapper>
@@ -156,7 +159,7 @@ class ChartPanel extends React.PureComponent {
 											captions: true
 										}}
 										forceMinimum={0}
-										forceMaximum={maximum}
+										forceMaximum={physicalEcosystemServicesMaximum}
 										legend
 									/>
 								</ChartWrapper>
@@ -183,7 +186,7 @@ class ChartPanel extends React.PureComponent {
 											captions: true
 										}}
 										forceMinimum={0}
-										forceMaximum={maximum}
+										forceMaximum={monetaryAssetValuesMaximum}
 										legend
 									/>
 								</ChartWrapper>
@@ -230,7 +233,7 @@ class ChartPanel extends React.PureComponent {
 									}}
 									legend
 									forceMinimum={0}
-									forceMaximum={maximum}
+									forceMaximum={conditionIndicatorsMaximum}
 								/>
 							</ChartWrapper>
 							<ChartWrapper
@@ -258,7 +261,7 @@ class ChartPanel extends React.PureComponent {
 									}}
 									legend
 									forceMinimum={0}
-									forceMaximum={maximum}
+									forceMaximum={physicalEcosystemServicesMaximum}
 								/>
 							</ChartWrapper>
 							<ChartWrapper
@@ -286,7 +289,7 @@ class ChartPanel extends React.PureComponent {
 									}}
 									legend
 									forceMinimum={0}
-									forceMaximum={maximum}
+									forceMaximum={monetaryAssetValuesMaximum}
 								/>
 							</ChartWrapper>
 						</div>

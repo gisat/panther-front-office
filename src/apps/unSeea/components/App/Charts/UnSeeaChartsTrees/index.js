@@ -135,9 +135,15 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 			monetaryAssetValuesData,
 
 			selectedArea: selectedAreas[0],
+			// conditionIndicatorsMaximum: conditionIndicatorsStatistics.sumStatistics ? conditionIndicatorsStatistics.sumStatistics.max / 100 / conditionIndicatorsStatistics.sumStatistics.median : null,
+			// physicalEcosystemServicesMaximum: physicalEcosystemServicesIndicatorsData.sumStatistics ? physicalEcosystemServicesIndicatorsData.sumStatistics.max / 100 / physicalEcosystemServicesIndicatorsData.sumStatistics.median : null,
+			// monetaryAssetValuesMaximum: monetaryAssetValuesStatistics.sumStatistics ? monetaryAssetValuesStatistics.sumStatistics.max / 100 / monetaryAssetValuesStatistics.sumStatistics.median : null,
+			conditionIndicatorsMaximum: 100,
+			physicalEcosystemServicesMaximum: 100,
+			monetaryAssetValuesMaximum: 100,
 			// maximum: 100 * sumStatistics.max / sumStatistics.median,
 			// maximum: 100,
-			maximum: 150,
+			// maximum: 150,
 		}
 	};
 };
