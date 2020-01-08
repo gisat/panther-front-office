@@ -32,7 +32,6 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	onHover(hoveredItems, options) {
-		
 		// TODO what is wrong with attributes? Just bad signal? Else try single layer
 
 		// TODO check popup coordinates -> if the same -> merge data / else -> overwrite
@@ -64,7 +63,7 @@ class HoverHandler extends React.PureComponent {
 			update.fidColumnName = options.popup.fidColumnName;
 		} else {
 			update.hoveredItems = [...this.state.hoveredItems, ...hoveredItems];
-			if (options.popup.data && options.popup.data.length) {
+			if (this.state.data && options.popup.data && options.popup.data.length) {
 				update.data = [...this.state.data, ...options.popup.data];
 				update.fidColumnName = options.popup.fidColumnName;
 			}
@@ -89,16 +88,16 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	render() {
-		const {children} = this.props;
-		const {popup, hoveredItems, popupContent, data} = this.state;
+		const {children, selectedItems} = this.props;
+		const {hoveredItems, popupContent, data, x, y} = this.state;
 		return (
 			<HoverContext.Provider value={{
-				hoveredItems: this.state.hoveredItems,
-				selectedItems: this.props.selectedItems,
+				hoveredItems: hoveredItems,
+				selectedItems: selectedItems,
 				onHover: this.onHover,
 				onHoverOut: this.onHoverOut,
-				x: this.state.x,
-				y: this.state.y
+				x: x,
+				y: y
 			}}>
 				<div ref={this.ref} style={{height: '100%',width: '100%'}}>
 					{children}
@@ -110,17 +109,16 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	renderPopup() {
-		const {getStyle, popupContentComponent} = this.props;
-		const {popup, data, hoveredItems, fidColumnName, popupContent} = this.state;
+		const {getStyle, popupContentComponent, compressedPopups} = this.props;
+		const {data, hoveredItems, fidColumnName, popupContent, x, y} = this.state;
 
 		return <Popup
-					x={popup.x}
-					y={popup.y}
-					// content={popup.content}
+					x={x}
+					y={y}
 					content={popupContentComponent ? React.createElement(popupContentComponent, {data: data, featureKeys: hoveredItems, fidColumnName: fidColumnName}) : popupContent}
 					getStyle={getStyle}
 					hoveredElemen={this.ref.current}
-					compressed={this.props.compressedPopups}
+					compressed={compressedPopups}
 				/>
 	}
 }
