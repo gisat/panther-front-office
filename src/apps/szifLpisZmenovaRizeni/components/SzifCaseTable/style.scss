@@ -1,20 +1,20 @@
 @import '../../../../styles/variables';
 
-.szifLpisZmenovaRizeni-case-table {
+.szifLpisZmenovaRizeni-table {
 	width: 100%;
 	height: 100%;
 	overflow-y: hidden;
 }
 
 // Header
-.szifLpisZmenovaRizeni-case-table-header {
+.szifLpisZmenovaRizeni-table-header {
 	display: flex;
 	height: 2rem;
 	background: var(--accent50);
 	padding: .3rem 16px .3rem .5rem;
 }
 
-.szifLpisZmenovaRizeni-case-table-header-item {
+.szifLpisZmenovaRizeni-table-header-item {
 	color: var(--accent15);
 	text-transform: uppercase;
 	white-space: nowrap;
@@ -24,43 +24,43 @@
 }
 
 // Body
-.szifLpisZmenovaRizeni-case-table-body {
+.szifLpisZmenovaRizeni-table-body {
 	height: calc(100% - 2rem);
 	overflow-y: scroll;
 }
 
 // Dimensions
-.szifLpisZmenovaRizeni-case-table-header-item:nth-child(1),
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(1) {
+.szifLpisZmenovaRizeni-table-header-item:nth-child(1),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(1) {
 	flex-basis: 17%;
 }
 
-.szifLpisZmenovaRizeni-case-table-header-item:nth-child(2),
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(2) {
+.szifLpisZmenovaRizeni-table-header-item:nth-child(2),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(2) {
 	flex-basis: 22%;
 }
 
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(2) {
+.szifLpisZmenovaRizeni-table-row-item:nth-child(2) {
 	font-weight: bold;
 }
 
-.szifLpisZmenovaRizeni-case-table-header-item:nth-child(3),
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(3) {
+.szifLpisZmenovaRizeni-table-header-item:nth-child(3),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(3) {
 	flex-basis: 12%;
 }
 
-.szifLpisZmenovaRizeni-case-table-header-item:nth-child(4),
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(4) {
+.szifLpisZmenovaRizeni-table-header-item:nth-child(4),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(4) {
 	flex-basis: 12%;
 }
 
-.szifLpisZmenovaRizeni-case-table-header-item:nth-child(5),
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(5) {
+.szifLpisZmenovaRizeni-table-header-item:nth-child(5),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(5) {
 	flex-basis: 12%;
 }
 
-.szifLpisZmenovaRizeni-case-table-header-item:nth-child(6),
-.szifLpisZmenovaRizeni-case-table-row-item:nth-child(6) {
+.szifLpisZmenovaRizeni-table-header-item:nth-child(6),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(6) {
 	min-width: 10rem;
 	width: 25%;
 	text-align: right;

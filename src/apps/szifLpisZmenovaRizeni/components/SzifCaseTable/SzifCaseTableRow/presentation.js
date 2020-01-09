@@ -30,20 +30,20 @@ class SzifCaseTableRow extends React.PureComponent {
 
 	render() {
 		const props = this.props;
-		const classes = classnames("szifLpisZmenovaRizeni-case-table-row", {
+		const classes = classnames("szifLpisZmenovaRizeni-table-row", {
 			open: this.state.expanded
 		});
 		const submitDate = moment(props.data.submitDate).format("DD. MM. YYYY");
 
 		return (
 			<div className={classes}>
-				<div className="szifLpisZmenovaRizeni-case-table-row-record">
-					<div className="szifLpisZmenovaRizeni-case-table-row-item">Status</div>
-					<div className="szifLpisZmenovaRizeni-case-table-row-item">{props.data.caseKey}</div>
-					<div className="szifLpisZmenovaRizeni-case-table-row-item">{submitDate}</div>
-					<div className="szifLpisZmenovaRizeni-case-table-row-item">{submitDate}</div>
-					<div className="szifLpisZmenovaRizeni-case-table-row-item">{submitDate}</div>
-					<div className="szifLpisZmenovaRizeni-case-table-row-item buttons">{this.renderButtons()}</div>
+				<div className="szifLpisZmenovaRizeni-table-row-record">
+					<div className="szifLpisZmenovaRizeni-table-row-item">Status</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{props.data.caseKey}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item buttons">{this.renderButtons()}</div>
 				</div>
 				{this.renderDetails()}
 			</div>
@@ -51,7 +51,7 @@ class SzifCaseTableRow extends React.PureComponent {
 	}
 
 	renderButtons() {
-		let expandButtonClasses = classnames("szifLpisZmenovaRizeni-case-table-row-expand", {
+		let expandButtonClasses = classnames("szifLpisZmenovaRizeni-table-row-expand", {
 			open: this.state.expanded
 		});
 
@@ -64,13 +64,26 @@ class SzifCaseTableRow extends React.PureComponent {
 	}
 
 	renderDetails() {
-		let classes = classnames("szifLpisZmenovaRizeni-case-table-row-details", {
+		const props = this.props;
+
+		let classes = classnames("szifLpisZmenovaRizeni-table-detail", {
 			open: this.state.expanded
 		});
 
 		return (
 			<div className={classes}>
-				<SzifCaseTableRowDetail/>
+				<SzifCaseTableRowDetail
+					caseKey={props.data.caseKey}
+					codeDpb={props.data.codeDpb}
+					codeJi={props.data.codeJi}
+					changeDescription={props.data.changeDescription}
+					changeDescriptionOther={props.data.changeDescriptionOther}
+					changeDescriptionPlace={props.data.changeDescriptionPlace}
+					evaluationResult={props.data.evaluationResult}
+					evaluationDescription={props.data.evaluationDescription}
+					evaluationDescriptionOther={props.data.evaluationDescriptionOther}
+					evaluationUsedSources={props.data.evaluationUsedSources}
+				/>
 			</div>
 		);
 	}
