@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import './style.scss';
 import Button from "../../../../../components/common/atoms/Button";
+import SzifCaseTableRowDetail from "../SzifCaseTableRowDetail/presentation";
 
 class SzifCaseTableRow extends React.PureComponent {
 	static propTypes = {
@@ -29,10 +30,13 @@ class SzifCaseTableRow extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+		const classes = classnames("szifLpisZmenovaRizeni-case-table-row", {
+			open: this.state.expanded
+		});
 		const submitDate = moment(props.data.submitDate).format("DD. MM. YYYY");
 
 		return (
-			<div className="szifLpisZmenovaRizeni-case-table-row">
+			<div className={classes}>
 				<div className="szifLpisZmenovaRizeni-case-table-row-record">
 					<div className="szifLpisZmenovaRizeni-case-table-row-item">Status</div>
 					<div className="szifLpisZmenovaRizeni-case-table-row-item">{props.data.caseKey}</div>
@@ -66,6 +70,7 @@ class SzifCaseTableRow extends React.PureComponent {
 
 		return (
 			<div className={classes}>
+				<SzifCaseTableRowDetail/>
 			</div>
 		);
 	}

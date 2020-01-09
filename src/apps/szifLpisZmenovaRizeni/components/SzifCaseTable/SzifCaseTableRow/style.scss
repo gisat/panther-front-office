@@ -6,6 +6,10 @@
 	transition: background .3s ease-in-out;
 }
 
+.szifLpisZmenovaRizeni-case-table-row.open {
+	background: var(--base05);
+}
+
 .szifLpisZmenovaRizeni-case-table-row:hover {
 	background: var(--base05);
 }
@@ -36,11 +40,11 @@
 
 // Details
 .szifLpisZmenovaRizeni-case-table-row-details {
-	background: var(--base05);
 	height: 0;
 	transition: height .5s ease-in-out;
+	overflow: hidden;
 }
 
 .szifLpisZmenovaRizeni-case-table-row-details.open {
-	height: 20rem;
+	height: 25rem;
 }
