@@ -14,6 +14,7 @@ import '../../styles/base.scss';
 import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
+import SzifCaseTable from "./components/SzifCaseTable";
 
 export default (path, baseUrl) => {
 
@@ -28,7 +29,7 @@ export default (path, baseUrl) => {
 					defaultTitle="LPIS - Změnová řízení"
 				/>
 				<AppContainer appKey="szifLpisZmenovaRizeni">
-					<div>LPIS změnová řízení</div>
+					<SzifCaseTable/>
 				</AppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')

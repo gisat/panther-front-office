@@ -1,0 +1,46 @@
+.szifLpisZmenovaRizeni-case-table-row {
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid var(--base20);
+	padding: 0 0 0 .5rem;
+	transition: background .3s ease-in-out;
+}
+
+.szifLpisZmenovaRizeni-case-table-row:hover {
+	background: var(--base05);
+}
+
+.szifLpisZmenovaRizeni-case-table-row-record {
+	display: flex;
+	align-items: center;
+}
+
+.szifLpisZmenovaRizeni-case-table-row-item {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: .3rem .5rem;
+}
+
+.szifLpisZmenovaRizeni-case-table-row-item .ptr-button:first-child {
+	margin-right: .5rem;
+}
+
+.szifLpisZmenovaRizeni-case-table-row-expand .ptr-icon {
+	transition: transform .5s ease-in-out;
+}
+
+.szifLpisZmenovaRizeni-case-table-row-expand.open .ptr-icon {
+	transform: rotate(180deg);
+}
+
+// Details
+.szifLpisZmenovaRizeni-case-table-row-details {
+	background: var(--base05);
+	height: 0;
+	transition: height .5s ease-in-out;
+}
+
+.szifLpisZmenovaRizeni-case-table-row-details.open {
+	height: 20rem;
+}
