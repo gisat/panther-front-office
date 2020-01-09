@@ -6,6 +6,7 @@ export const Context = createContext({
     getX: null,
     getTime: null,
     centerTime: null,
+    centerTimeUtc: null,
     getActiveLevel: null,
     dayWidth: null,
     maxDayWidth: null,
@@ -19,6 +20,8 @@ export const Context = createContext({
     onHover: null,
     vertical: null,
     periodLimitOnCenter: null,
+    selectMode: null,
+    moving: null,
 });
 
 export const ContextProvider = (props) => {

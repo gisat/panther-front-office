@@ -48,8 +48,8 @@ const Months = (props) => {
 
 Months.propTypes = {
     periodLimit: PropTypes.shape({
-		start: PropTypes.object,
-		end: PropTypes.object,
+		start: PropTypes.string,
+		end: PropTypes.string,
 	}).isRequired,
 	getX: PropTypes.func.isRequired,
 	dayWidth: PropTypes.number.isRequired,

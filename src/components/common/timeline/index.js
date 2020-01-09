@@ -38,12 +38,12 @@ class Timeline extends React.PureComponent {
 
 	static propTypes = {
 		period: PropTypes.shape({
-			start: PropTypes.object,
-			end: PropTypes.object
+			start: PropTypes.string,
+			end: PropTypes.string
 		}).isRequired,
 		periodLimit: PropTypes.shape({
-			start: PropTypes.object,
-			end: PropTypes.object
+			start: PropTypes.string,
+			end: PropTypes.string
 		}),
 		dayWidth: PropTypes.number,
 		centerTime: PropTypes.func,
@@ -62,6 +62,7 @@ class Timeline extends React.PureComponent {
 			level: PropTypes.string
 		})),										//ordered levels by higher level.end 
 		onChange: PropTypes.func,
+		selectMode: PropTypes.bool,					//whether change time while zoom 
 	};
 
 	static defaultProps = {
@@ -71,6 +72,7 @@ class Timeline extends React.PureComponent {
 		onClick: () => {},
 		width: 100,
 		height: 100,
+		selectMode: false,
 	}
 
 	constructor(props){
@@ -100,16 +102,16 @@ class Timeline extends React.PureComponent {
 		const {dayWidth, time, width, height, period} = this.props;
 		//if parent component set dayWidth
 		if(prevProps.dayWidth !== dayWidth && this.state.dayWidth !== dayWidth) {
-			this.updateContext({dayWidth: dayWidth})
+			this.updateContext({dayWidth, centerTime: time})
 		}
 	
 		//if parent component set time
-		if(prevProps.time !== time && this.state.centerTime !== time) {
+		if(prevProps.time && time && (prevProps.time.toString() !== time.toString()) && (this.state.centerTime.toString() !== time.toString())) {
 
 			const periodLimit = this.getPeriodLimitByTime(time);
 
 			//zoom to dayWidth
-			this.updateContext({periodLimit})
+			this.updateContext({periodLimit, centerTime: time})
 		}
 
 		//if parent component set time
@@ -145,8 +147,8 @@ class Timeline extends React.PureComponent {
 		}
 
 		const halfDays = allDays / 2;
-		const start = moment(setTime).subtract(moment.duration(halfDays * (60 * 60 * 24 * 1000), 'ms'));
-		const end = moment(setTime).add(moment.duration(halfDays * (60 * 60 * 24 * 1000), 'ms'));
+		const start = moment(setTime).subtract(moment.duration(halfDays * (60 * 60 * 24 * 1000), 'ms')).toDate().toString();
+		const end = moment(setTime).add(moment.duration(halfDays * (60 * 60 * 24 * 1000), 'ms')).toDate().toString();
 		return {
 			start,
 			end
@@ -194,8 +196,8 @@ class Timeline extends React.PureComponent {
 		const allDays = this.getXAxisWidth() / dayWidth;
 		const halfMouseDays = allDays / 2;
 
-		const start = moment(centerTime).subtract(moment.duration(halfMouseDays * (60 * 60 * 24 * 1000), 'ms'));
-		const end = moment(centerTime).add(moment.duration(halfMouseDays * (60 * 60 * 24 * 1000), 'ms'));
+		const start = moment(centerTime).subtract(moment.duration(halfMouseDays * (60 * 60 * 24 * 1000), 'ms')).toDate().toString();
+		const end = moment(centerTime).add(moment.duration(halfMouseDays * (60 * 60 * 24 * 1000), 'ms')).toDate().toString();
 		return {
 			start,
 			end
@@ -234,14 +236,19 @@ class Timeline extends React.PureComponent {
 				Object.assign(updateContext, {activeLevel: this.getActiveLevel(updateContext.dayWidth, levels).level})
 			}
 
-			if(updateContext.dayWidth && !options.centerTime) {
+			if(updateContext.dayWidth && !options.centerTime && !options.lockCenter) {
 				Object.assign(updateContext, {centerTime: this.getTime(this.getXAxisWidth() / 2, updateContext.dayWidth, updateContext.periodLimit.start).toDate()})
 			}
 
-			if(options.centerTime) {
+			if(options.centerTime && !updateContext.periodLimit) {
 				Object.assign(updateContext, {periodLimit: this.getPeriodLimitByTime(options.centerTime, this.getXAxisWidth(), period, updateContext.dayWidth)})
 			}
-			
+
+			if(updateContext.centerTime) {
+				const utcTime = new Date(updateContext.centerTime);
+				utcTime.setTime( utcTime.getTime() - utcTime.getTimezoneOffset()*60*1000 )
+				Object.assign(updateContext, {centerTimeUtc:utcTime.toUTCString()})
+			}
 			return updateContext
 		} else {
 			return {};
@@ -265,8 +272,8 @@ class Timeline extends React.PureComponent {
 	}
 
 	render() {
-		const {levels, period, onHover, onClick, vertical, children, periodLimitOnCenter} = this.props;
-		const {dayWidth, periodLimit, mouseX} = this.state;
+		const {levels, period, onHover, onClick, vertical, children, periodLimitOnCenter, selectMode} = this.props;
+		const {dayWidth, periodLimit, mouseX, moving} = this.state;
 
 		const maxDayWidth = this.getMaxDayWidth();
 		const activeDayWidth = dayWidth >= maxDayWidth ? maxDayWidth : dayWidth;
@@ -292,7 +299,9 @@ class Timeline extends React.PureComponent {
 				onClick,
 				onHover,
 				vertical,
-				periodLimitOnCenter
+				periodLimitOnCenter,
+				selectMode,
+				moving,
 				}}>
 				<TimelineContent>
 					{children}

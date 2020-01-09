@@ -29,7 +29,7 @@ const Minutes = (props) => {
 		
 		if(dayWidth > 20000) {
 			label = (
-				<Label label={minute.minute} vertical={vertical} x={x} height={height} className={'ptr-timeline-day-label'} />
+				<Label label={`${minute.hour} : ${minute.minute}`} vertical={vertical} x={x} height={height} className={'ptr-timeline-day-label'} />
 			);
 		}
 
@@ -44,8 +44,8 @@ const Minutes = (props) => {
 
 Minutes.propTypes = {
     periodLimit: PropTypes.shape({
-		start: PropTypes.object,
-		end: PropTypes.object,
+		start: PropTypes.string,
+		end: PropTypes.string,
 	}).isRequired,
 	getX: PropTypes.func.isRequired,
 	dayWidth: PropTypes.number.isRequired,

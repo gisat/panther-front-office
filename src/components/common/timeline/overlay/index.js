@@ -65,8 +65,8 @@ const Overlay = (props) => {
 
 Overlay.propTypes = {
     periodLimit: PropTypes.shape({
-		start: PropTypes.object,
-		end: PropTypes.object,
+		start: PropTypes.string,
+		end: PropTypes.string,
 	}),
 	getX: PropTypes.func,
 	overlays: PropTypes.array.isRequired,

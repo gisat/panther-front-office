@@ -11,12 +11,12 @@ class PeriodLimit extends React.PureComponent {
 
 	static propTypes = {
 		period: PropTypes.shape({
-			start: PropTypes.object,
-			end: PropTypes.object
+			start: PropTypes.string,
+			end: PropTypes.string
 		}),
 		periodLimit: PropTypes.shape({
-			start: PropTypes.object,
-			end: PropTypes.object
+			start: PropTypes.string,
+			end: PropTypes.string
 		}),
 		getX: PropTypes.func,
 		height: PropTypes.number,

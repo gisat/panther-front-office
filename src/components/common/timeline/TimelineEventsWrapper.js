@@ -192,7 +192,16 @@ class TimelineEventsWrapper extends React.PureComponent {
 		}
 	}
 
+	setMoving(moving = false) {
+		const {updateContext} = this.context;
+		updateContext({
+			moving: moving,
+		});
+
+	}
+
 	onPointerDown(clientX) {
+		this.setMoving(true);
 		this._drag = true;
 		this.trackingPoints = [];
 		this._lastX = clientX;
@@ -268,19 +277,19 @@ class TimelineEventsWrapper extends React.PureComponent {
 	}
 
 	onMouseMove(e) {
-		const {vertical} = this.context;
+		const {vertical, getTime, updateContext, onHover} = this.context;
 		const clientX = getPageXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 	
-		this.context.onHover({
+		onHover({
 			x: e.pageX,
 			y: e.pageY,
-			time: this.context.getTime(clientX),
+			time: getTime(clientX),
 			vertical: vertical
 		})
 		
-		this.context.updateContext({
+		updateContext({
 			mouseX: clientX,
-			mouseTime: this.context.getTime(clientX)
+			mouseTime: getTime(clientX).toDate()
 		});
 		
 		if(this._drag) {
@@ -299,7 +308,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 	 */
 	onDrag(dragInfo) {
 		const {dayWidth, period, periodLimit, width, updateContext, periodLimitOnCenter} = this.context;
-		const allDays = this.context.width / dayWidth;
+		const allDays = width / dayWidth;
 		const periodStart = moment(period.start);
     	const periodEnd = moment(period.end);
 		let periodLimitStart =  moment(periodLimit.start)
@@ -365,8 +374,8 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 		updateContext({
 			periodLimit: {
-				end: periodLimitEnd,
-				start: periodLimitStart
+				end: periodLimitEnd.toDate().toString(),
+				start: periodLimitStart.toDate().toString()
 			}
 		});
 	}
@@ -467,17 +476,19 @@ class TimelineEventsWrapper extends React.PureComponent {
   }
 
 	clearScroll() {
+		this.setMoving(false);
 		this.decelerating = false;
 	  }
 
 	onMouseLeave(e) {
+		const {onHover, updateContext} = this.context;
 		this._drag = false;
 		this._lastX = null;
 		this._mouseDownX = null;
 
-		this.context.onHover(null);
+		onHover(null);
 
-		this.context.updateContext({
+		updateContext({
 			mouseX: null,
 			mouseTime: null
 		});
@@ -502,12 +513,12 @@ class TimelineEventsWrapper extends React.PureComponent {
 			change = 1 + Math.abs(e.deltaY / (10 * 100));
 		}
 
-		let newWidth = dayWidth * change;
-		this.zoom(newWidth);
+		let newDayWidth = dayWidth * change;
+		this.zoom(newDayWidth);
 	}
 
 	onPinch(scale, point) {
-		const {vertical} = this.context;
+		const {vertical, dayWidth} = this.context;
 		let zoomX;
 		if(vertical) {
 			zoomX = point[1];
@@ -515,7 +526,6 @@ class TimelineEventsWrapper extends React.PureComponent {
 			zoomX = point[0];
 		}
 		
-		const {dayWidth} = this.context;
 		let change;
 		if (scale === 1) {
 			change = 1;
@@ -527,36 +537,48 @@ class TimelineEventsWrapper extends React.PureComponent {
 			change = 1 - scale / 10;
 		}
 
-		let newWidth = dayWidth * change;
-		this.zoom(newWidth, zoomX);
+		let newDayWidth = dayWidth * change;
+		this.zoom(newDayWidth, zoomX);
 	}
 
-	zoom(newWidth, x) {
-		const {mouseX, getTime, updateContext, period, periodLimit, periodLimitOnCenter} = this.context;
+	zoom(newDayWidth, x) {
+		const {mouseX, getTime, updateContext, period, periodLimit, periodLimitOnCenter, selectMode, maxDayWidth, minDayWidth, width} = this.context;
 		const zoomX = x || mouseX;
+		const centerX = width/2;
 		const mouseTime = zoomX ? getTime(zoomX) : getTime(mouseX);
-		let periodLimitStart =  moment(periodLimit.start)
-		let periodLimitEnd = moment(periodLimit.end)
+		const centerTime = getTime(centerX);
+		const periodLimitStart =  moment(periodLimit.start)
+		const periodLimitEnd = moment(periodLimit.end)
 
 		
-		if(newWidth > this.context.maxDayWidth) {
-			newWidth = this.context.maxDayWidth;
+		if(newDayWidth > maxDayWidth) {
+			newDayWidth = maxDayWidth;
 		}
 
 		//don't allow zoom out outside initial zoom
-		if (newWidth < this.context.minDayWidth) {
-			newWidth = this.context.minDayWidth;
+		if (newDayWidth < minDayWidth) {
+			newDayWidth = minDayWidth;
 		}
 
-		let beforeMouseDays = zoomX / newWidth;
-		let allDays = this.context.width / newWidth;
-
-		let start = moment(mouseTime).subtract(moment.duration(beforeMouseDays * (60 * 60 * 24 * 1000), 'ms'));
-		let end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
-
+		const allDays = width / newDayWidth;
+		let start;
+		let end;
+		let beforeMouseDays;
+		
+		
+		if(selectMode) {
+			beforeMouseDays = zoomX / newDayWidth;
+			start = moment(mouseTime).subtract(moment.duration(beforeMouseDays * (60 * 60 * 24 * 1000), 'ms'));
+			end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
+		} else {
+			beforeMouseDays = centerX / newDayWidth;
+			start = moment(centerTime).subtract(moment.duration(beforeMouseDays * (60 * 60 * 24 * 1000), 'ms'));
+			end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
+		}
+		
+		const center = moment(start).add(moment.duration((allDays / 2) * (60 * 60 * 24 * 1000), 'ms'));
+		
 		//Don't allow zoom center out of period
-		let center = moment(start).add(moment.duration((allDays / 2) * (60 * 60 * 24 * 1000), 'ms'));
-
 		if(periodLimitOnCenter) {
 			if(center.isBefore(period.start)) {
 				const diff = period.start.diff(center, 'ms');
@@ -586,9 +608,12 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 		updateContext({
 			periodLimit: {
-				start: start,
-				end: end
-			}
+				start: start.toDate().toString(),
+				end: end.toDate().toString()
+			},
+			//Its possible, that center for new limit is not same as current centerTime because rounding. New center time is usualy lower by one second.
+			//this option lock modify select time on zoom when periodLimitOnCenter is set to true.
+			lockCenter: periodLimitOnCenter,
 		});
 	}
 
