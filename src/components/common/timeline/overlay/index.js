@@ -8,9 +8,9 @@ import moment from 'moment';
 import './style.css';
 
 const Overlay = (props) => {
-	const {periodLimit, overlays, getX, vertical} = props;
-	const periodStart = moment(periodLimit.start);
-	const periodEnd = moment(periodLimit.end);
+	const {period, overlays, getX, vertical} = props;
+	const periodStart = moment(period.start);
+	const periodEnd = moment(period.end);
 	
 	const overlaysCfg = getOverlays(periodStart, periodEnd, overlays);
 
@@ -64,7 +64,7 @@ const Overlay = (props) => {
 
 
 Overlay.propTypes = {
-    periodLimit: PropTypes.shape({
+    period: PropTypes.shape({
 		start: PropTypes.string,
 		end: PropTypes.string,
 	}),

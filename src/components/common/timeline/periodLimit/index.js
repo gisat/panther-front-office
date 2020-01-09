@@ -10,11 +10,11 @@ import './style.css';
 class PeriodLimit extends React.PureComponent {
 
 	static propTypes = {
-		period: PropTypes.shape({
+		periodLimit: PropTypes.shape({
 			start: PropTypes.string,
 			end: PropTypes.string
 		}),
-		periodLimit: PropTypes.shape({
+		period: PropTypes.shape({
 			start: PropTypes.string,
 			end: PropTypes.string
 		}),
@@ -28,11 +28,11 @@ class PeriodLimit extends React.PureComponent {
 	};
 
 	render() {
-		const {period, periodLimit, getX, height, vertical} = this.props;
-		const periodStart = moment(period.start);
-        const periodEnd = moment(period.end);
-		const periodLimitStart = moment(periodLimit.start);
-        const periodLimitEnd = moment(periodLimit.end);
+		const {periodLimit, period, getX, height, vertical} = this.props;
+		const periodStart = moment(periodLimit.start);
+        const periodEnd = moment(periodLimit.end);
+		const periodLimitStart = moment(period.start);
+        const periodLimitEnd = moment(period.end);
         
 		const periodLimitCfg = getPeriodLimits(periodStart, periodEnd, periodLimitStart, periodLimitEnd);
 		const periodLimitsElms = _.map(periodLimitCfg, limit => {
@@ -47,7 +47,7 @@ class PeriodLimit extends React.PureComponent {
 			return (
 				<g
 					key={`${limit.key}`}
-					className={classNames("ptr-timeline-period-limit")}
+					className={classNames("ptr-timeline-periodLimit-limit")}
 				>
 					<rect
 						x={x}

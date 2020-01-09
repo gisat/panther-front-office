@@ -11,9 +11,9 @@ import MonthDash from '../months/MonthDash';
 import YearDash from '../years/YearDash';
 
 const Days = (props) => {
-	const {periodLimit, getX, dayWidth, height, vertical} = props;
-	const periodStart = moment(periodLimit.start);
-	const periodEnd = moment(periodLimit.end);
+	const {period, getX, dayWidth, height, vertical} = props;
+	const periodStart = moment(period.start);
+	const periodEnd = moment(period.end);
 	const daysCfg = getDays(periodStart, periodEnd);
 	const monthsCfg = getMonths(periodStart, periodEnd);
 	const yearsCfg = getYears(periodStart, periodEnd);
@@ -67,7 +67,7 @@ const Days = (props) => {
 
 
 Days.propTypes = {
-    periodLimit: PropTypes.shape({
+    period: PropTypes.shape({
 		start: PropTypes.string,
 		end: PropTypes.string,
 	}).isRequired,

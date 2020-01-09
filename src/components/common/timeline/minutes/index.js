@@ -9,9 +9,9 @@ import HourDash from '../hours/HourDash';
 import './style.css';
 
 const Minutes = (props) => {
-	const {periodLimit, getX, dayWidth, height, vertical} = props;
-	const periodStart = moment(periodLimit.start);
-	const periodEnd = moment(periodLimit.end);
+	const {period, getX, dayWidth, height, vertical} = props;
+	const periodStart = moment(period.start);
+	const periodEnd = moment(period.end);
 	const hoursCfg = getHours(periodStart, periodEnd);
 	const minutesCfg = getMinutes(periodStart, periodEnd);
 
@@ -43,7 +43,7 @@ const Minutes = (props) => {
 }
 
 Minutes.propTypes = {
-    periodLimit: PropTypes.shape({
+    period: PropTypes.shape({
 		start: PropTypes.string,
 		end: PropTypes.string,
 	}).isRequired,

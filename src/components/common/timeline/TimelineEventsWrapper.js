@@ -300,23 +300,23 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 
 	/**
-	 * When the user drags the timeline, if it is still permitted, it updates the available and visible period and
+	 * When the user drags the timeline, if it is still permitted, it updates the available and visible periodLimit and
 	 * therefore redraws the information.
 	 * @param dragInfo {Object}
 	 * @param dragInfo.distance {Number} Amount of pixels to move in given direction
 	 * @param dragInfo.direction {String} Either past or future. Based on this.
 	 */
 	onDrag(dragInfo) {
-		const {dayWidth, period, periodLimit, width, updateContext, periodLimitOnCenter} = this.context;
+		const {dayWidth, periodLimit, period, width, updateContext, periodLimitOnCenter} = this.context;
 		const allDays = width / dayWidth;
-		const periodStart = moment(period.start);
-    	const periodEnd = moment(period.end);
-		let periodLimitStart =  moment(periodLimit.start)
-		let periodLimitEnd = moment(periodLimit.end)
+		const periodStart = moment(periodLimit.start);
+    	const periodEnd = moment(periodLimit.end);
+		let periodLimitStart =  moment(period.start)
+		let periodLimitEnd = moment(period.end)
 		
 		//center time
 		const halfDays = allDays / 2;
-		let periodLimitCenter = moment(periodLimit.end).subtract(halfDays * (60 * 60 * 24 * 1000), 'ms')
+		let periodLimitCenter = moment(period.end).subtract(halfDays * (60 * 60 * 24 * 1000), 'ms')
 
     	// Either add  to start and end.
 		let daysChange = Math.abs(dragInfo.distance) / dayWidth;
@@ -327,15 +327,15 @@ class TimelineEventsWrapper extends React.PureComponent {
 				periodLimitCenter.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
 				
 				if(periodLimitCenter.isBefore(periodStart)) {
-					//use last period limit
-					periodLimitStart = moment(periodLimit.start);
-					periodLimitEnd = moment(periodLimit.end);
+					//use last periodLimit limit
+					periodLimitStart = moment(period.start);
+					periodLimitEnd = moment(period.end);
 				}
 			} else {
 				if(periodLimitStart.isBefore(periodStart)) {
-					//use last period limit
-					periodLimitStart = moment(periodLimit.start);
-					periodLimitEnd = moment(periodLimit.end);
+					//use last periodLimit limit
+					periodLimitStart = moment(period.start);
+					periodLimitEnd = moment(period.end);
 				}
 			}
 			
@@ -346,15 +346,15 @@ class TimelineEventsWrapper extends React.PureComponent {
 
 			if(periodLimitOnCenter) {
 				if(periodLimitCenter.isAfter(periodEnd)) {
-					//use last period limit
-					periodLimitStart = moment(periodLimit.start);
-					periodLimitEnd = moment(periodLimit.end);
+					//use last periodLimit limit
+					periodLimitStart = moment(period.start);
+					periodLimitEnd = moment(period.end);
 				}
 			} else {
 				if(periodLimitEnd.isAfter(periodEnd)) {
-					//use last period limit
-					periodLimitStart = moment(periodLimit.start);
-					periodLimitEnd = moment(periodLimit.end);
+					//use last periodLimit limit
+					periodLimitStart = moment(period.start);
+					periodLimitEnd = moment(period.end);
 				}
 			}
 		}
@@ -373,7 +373,7 @@ class TimelineEventsWrapper extends React.PureComponent {
 		}
 
 		updateContext({
-			periodLimit: {
+			period: {
 				end: periodLimitEnd.toDate().toString(),
 				start: periodLimitStart.toDate().toString()
 			}
@@ -542,13 +542,13 @@ class TimelineEventsWrapper extends React.PureComponent {
 	}
 
 	zoom(newDayWidth, x) {
-		const {mouseX, getTime, updateContext, period, periodLimit, periodLimitOnCenter, selectMode, maxDayWidth, minDayWidth, width} = this.context;
+		const {mouseX, getTime, updateContext, periodLimit, period, periodLimitOnCenter, selectMode, maxDayWidth, minDayWidth, width} = this.context;
 		const zoomX = x || mouseX;
 		const centerX = width/2;
 		const mouseTime = zoomX ? getTime(zoomX) : getTime(mouseX);
 		const centerTime = getTime(centerX);
-		const periodLimitStart =  moment(periodLimit.start)
-		const periodLimitEnd = moment(periodLimit.end)
+		const periodLimitStart =  moment(period.start)
+		const periodLimitEnd = moment(period.end)
 
 		
 		if(newDayWidth > maxDayWidth) {
@@ -578,36 +578,36 @@ class TimelineEventsWrapper extends React.PureComponent {
 		
 		const center = moment(start).add(moment.duration((allDays / 2) * (60 * 60 * 24 * 1000), 'ms'));
 		
-		//Don't allow zoom center out of period
+		//Don't allow zoom center out of periodLimit
 		if(periodLimitOnCenter) {
-			if(center.isBefore(period.start)) {
-				const diff = moment(period.start).diff(center, 'ms');
+			if(center.isBefore(periodLimit.start)) {
+				const diff = moment(periodLimit.start).diff(center, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 
-			if(center.isAfter(period.end)) {
-				const diff = moment(period.end).diff(center, 'ms');
+			if(center.isAfter(periodLimit.end)) {
+				const diff = moment(periodLimit.end).diff(center, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 		} else {
-			//Don`t allow show date out of period
-			if(start.isBefore(period.start)) {
-				const diff = moment(period.start).diff(periodLimitStart, 'ms');
+			//Don`t allow show date out of periodLimit
+			if(start.isBefore(periodLimit.start)) {
+				const diff = moment(periodLimit.start).diff(periodLimitStart, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 
-			if(end.isAfter(period.end)) {
-				const diff = moment(period.end).diff(periodLimitEnd, 'ms');
+			if(end.isAfter(periodLimit.end)) {
+				const diff = moment(periodLimit.end).diff(periodLimitEnd, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 		}
 
 		updateContext({
-			periodLimit: {
+			period: {
 				start: start.toDate().toString(),
 				end: end.toDate().toString()
 			},

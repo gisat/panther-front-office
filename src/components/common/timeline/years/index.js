@@ -10,9 +10,9 @@ import _ from 'lodash';
 import moment from 'moment';
 
 export const Years = (props) => {
-	const {periodLimit, getX, dayWidth, height, vertical} = props;
-	const periodStart = moment(periodLimit.start);
-	const periodEnd = moment(periodLimit.end);
+	const {period, getX, dayWidth, height, vertical} = props;
+	const periodStart = moment(period.start);
+	const periodEnd = moment(period.end);
 	const yearsCfg = getYears(periodStart, periodEnd);
 	
 	const years = _.map(yearsCfg, year => {
@@ -45,7 +45,7 @@ export const Years = (props) => {
 }
 
 Years.propTypes = {
-    periodLimit: PropTypes.shape({
+    period: PropTypes.shape({
 		start: PropTypes.string,
 		end: PropTypes.string,
 	}).isRequired,

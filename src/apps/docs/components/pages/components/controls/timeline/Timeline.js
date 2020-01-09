@@ -94,7 +94,7 @@ class TimelineDoc extends React.PureComponent {
 
 	render() {
 
-		const period = {
+		const periodLimit = {
 			start: '2010',
 			end: '2025'
 		}
@@ -127,11 +127,11 @@ class TimelineDoc extends React.PureComponent {
 			<Page title="Timeline">
 
 				<p>
-					Timeline is a container for svg content. User can drill by zoom into small scale or gets an overview of the whole period. Timeline is prepared for vertical or horizontal view.
+					Timeline is a container for svg content. User can drill by zoom into small scale or gets an overview of the whole periodLimit. Timeline is prepared for vertical or horizontal view.
 				</p>
 
 				<p>
-					The main idea is, that container has defined period with start and end. Container calculate dayWidth in px as container width (height) / visible period. Passed children content gets dayWidth and visible period in props. DayWidth could be modified by zoom/pinch or programmatically.
+					The main idea is, that container has defined periodLimit with start and end. Container calculate dayWidth in px as container width (height) / visible period. Passed children content gets dayWidth and visible period in props. DayWidth could be modified by zoom/pinch or programmatically.
 				</p>
 
 				<h2 id="props">Common props</h2>
@@ -139,10 +139,10 @@ class TimelineDoc extends React.PureComponent {
 					content={
 						[
 							{
-								name: "period",
+								name: "periodLimit",
 								type: "object",
 								required: true,
-								description: "Time bounds for timeline. Move in timeline is restricted by period. If dayWidth or periodLimit not defined, period is set as initial periodLimit.",
+								description: "Time bounds for timeline. Move in timeline is restricted by periodLimit. If dayWidth or periodLimit not defined, periodLimit is set as initial period.",
 								objectPropsDescription: [
 									{
 										name: "start",
@@ -155,10 +155,10 @@ class TimelineDoc extends React.PureComponent {
 									}]
 							},
 							{
-								name: "periodLimit",
+								name: "period",
 								type: "object",
 								required: false,
-								description: "Time bounds for actual view. Must be inside period. PeriodLimit defines dayWidth. Used only in constructor. If component gets onMount in props periodLimit and dayWidth, new dayWidth is calculated from periodLimit.",
+								description: "Time bounds for actual view. Must be inside periodLimit. Period defines dayWidth. Used only in constructor. If component gets onMount in props periodLimit and dayWidth, new dayWidth is calculated from periodLimit.",
 								objectPropsDescription: [
 									{
 										name: "start",
@@ -221,13 +221,19 @@ class TimelineDoc extends React.PureComponent {
 								required: false,
 								description: "Callback on change timeline state."
 							},
-							
 							{
 								name: "periodLimitOnCenter",
 								type: "bool",
 								required: false,
 								default: 'false',
 								description: "Whether limit periodLimit on start/end of element or in center of element."
+							},
+							{
+								name: "selectMode",
+								type: "bool",
+								required: false,
+								default: 'false',
+								description: "If true, zoom follows cursor. If false, zoom to center."
 							},
 					]
 					}
@@ -240,15 +246,15 @@ class TimelineDoc extends React.PureComponent {
 					<SyntaxHighlighter language="jsx">
 {
 `
-const period = {
-	start: moment(2010, 'YYYY'),
-	end: moment(2025, 'YYYY')
+const periodLimit = {
+	start: '2010',
+	end: '2025')
 }
 
 const width = 1000;
 
 <Timeline 
-	period={period}
+	periodLimit={periodLimit}
 	onChange={(timelineState) => {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	>
@@ -257,7 +263,7 @@ const width = 1000;
 </Timeline>`}
 					</SyntaxHighlighter>
 						<Timeline 
-							period={period}
+							periodLimit={periodLimit}
 							onChange= {(timelineState) => {console.log("onChange", timelineState)}}
 							onClick= {(evt) => console.log("onClick", evt)}
 							>
@@ -282,9 +288,9 @@ const LEVELS=[
 	}
 ];
 
-const period = {
-	start: moment(2010, 'YYYY'),
-	end: moment(2025, 'YYYY')
+const periodLimit = {
+	start: '2010',
+	end: '2025'
 }
 
 const Levels = (props) => {
@@ -299,7 +305,7 @@ const Levels = (props) => {
 };
 
 <Timeline 
-	period={period}
+	periodLimit={periodLimit}
 	onChange={(timelineState) => {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	levels={LEVELS}
@@ -311,7 +317,7 @@ const Levels = (props) => {
 `}
 					</SyntaxHighlighter>
 						<Timeline 
-							period={period}
+							periodLimit={periodLimit}
 							onChange={(timelineState) => {console.log("onChange", timelineState)}}
 							onClick={(evt) => console.log("onClick", evt)}
 							levels={LEVELS}
@@ -337,9 +343,9 @@ const LEVELS=[
 		end:20
 	}
 ];
-const period = {
-	start: moment(2010, 'YYYY'),
-	end: moment(2025, 'YYYY')
+const periodLimit = {
+	start: '2010',
+	end: '2025'
 }
 const Levels = (props) => {
 	const {activeLevel} = props;
@@ -352,7 +358,7 @@ const Levels = (props) => {
 	return React.createElement(Months, {...props, key: 'month'});
 };
 <Timeline
-	period={period}
+	periodLimit={periodLimit}
 	onChange={(timelineState) => {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	vertical={true}
@@ -367,7 +373,7 @@ const Levels = (props) => {
 
 					<div style={{height:'400px',width:'70px'}}>
 						<Timeline
-							period={period}
+							periodLimit={periodLimit}
 							onChange={(timelineState) => {console.log("onChange", timelineState)}}
 							onClick={(evt) => console.log("onClick", evt)}
 							vertical={true}
@@ -387,9 +393,9 @@ const Levels = (props) => {
 					<SyntaxHighlighter language="jsx">
 {
 `
-const period = {
-	start: moment(2010, 'YYYY'),
-	end: moment(2025, 'YYYY')
+const periodLimit = {
+	start: '2010',
+	end: '2025'
 }
 
 const getHoverContent = (x, time) => {
@@ -416,7 +422,7 @@ const getHorizontalTootlipStyle = () => {
 <HoverHandler getStyle={getHorizontalTootlipStyle()}>
 	<TimeLineHover getHoverContent={getHoverContent}>
 		<Timeline
-			period={period}
+			periodLimit={periodLimit}
 			onChange={(timelineState) => {console.log("onChange", timelineState)}}
 			onClick={(evt) => console.log("onClick", evt)}
 			vertical={false}
@@ -435,7 +441,7 @@ const getHorizontalTootlipStyle = () => {
 						<HoverHandler getStyle={this.getHorizontalTootlipStyle()}>
 							<TimeLineHover getHoverContent={this.getHoverContent}>
 								<Timeline
-									period={period}
+									periodLimit={periodLimit}
 									onChange={(timelineState) => {console.log("onChange", timelineState)}}
 									onClick={(evt) => console.log("onClick", evt)}
 									vertical={false}
@@ -460,11 +466,13 @@ const getHorizontalTootlipStyle = () => {
 						<HoverHandler getStyle={this.getVerticalTootlipStyle()}>
 							<TimeLineHover getHoverContent={this.getHoverContent}>
 								<Timeline
-									period={period}
+									periodLimit={periodLimit}
 									onChange={(timelineState) => {console.log("onChange", timelineState)}}
 									onClick={(evt) => console.log("onClick", evt)}
 									vertical={true}
 									levels={LEVELS}
+									// periodLimitOnCenter={true}
+									// selectMode={true}
 									>
 										<Picker key="picker"/>
 										<Mouse mouseBufferWidth={20} key="mouse"/>

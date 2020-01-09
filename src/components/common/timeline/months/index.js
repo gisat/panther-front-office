@@ -10,9 +10,9 @@ import map from 'lodash/map';
 import moment from 'moment';
 
 const Months = (props) => {
-	const {periodLimit, getX, dayWidth, height, vertical} = props;
-	const periodStart = moment(periodLimit.start);
-	const periodEnd = moment(periodLimit.end);
+	const {period, getX, dayWidth, height, vertical} = props;
+	const periodStart = moment(period.start);
+	const periodEnd = moment(period.end);
 	const monthsCfg = getMonths(periodStart, periodEnd);
 	const yearsCfg = getYears(periodStart, periodEnd);
 
@@ -47,7 +47,7 @@ const Months = (props) => {
 
 
 Months.propTypes = {
-    periodLimit: PropTypes.shape({
+    period: PropTypes.shape({
 		start: PropTypes.string,
 		end: PropTypes.string,
 	}).isRequired,

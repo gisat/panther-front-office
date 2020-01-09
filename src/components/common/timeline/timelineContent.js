@@ -10,7 +10,7 @@ class TimelineContent extends React.PureComponent {
 	static contextType = TimeLineContext;
 
 	render() {
-		const {period, height, width,dayWidth, periodLimit, mouseX, vertical, activeLevel} = this.context;
+		const {periodLimit, height, width,dayWidth, period, mouseX, vertical, activeLevel} = this.context;
 		const {children} = this.props;
 
 		const elementWidth = vertical ? height : width;
@@ -24,8 +24,8 @@ class TimelineContent extends React.PureComponent {
 	
 				childrenWithProps.push(React.cloneElement(child, {
 					...propsWithoutChildren,
-					periodLimit: periodLimit,
 					period: period,
+					periodLimit: periodLimit,
 					getX: (dayWidth) => this.context.getX(dayWidth),
 					height: height,
 					width: width,
