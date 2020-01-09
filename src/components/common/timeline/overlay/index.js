@@ -8,7 +8,7 @@ import moment from 'moment';
 import './style.css';
 
 const Overlay = (props) => {
-	const {period, overlays, getX, vertical} = props;
+	const {period, overlays, getX, vertical, onClick} = props;
 	const periodStart = moment(period.start);
 	const periodEnd = moment(period.end);
 	
@@ -25,6 +25,13 @@ const Overlay = (props) => {
 		const yR = vertical ? start : overlay.top;
 		const eHeight = vertical ? diff : overlay.height;
 		const width = vertical ? overlay.height : diff;
+
+		const onOverlayClick = () => {
+			if(typeof onClick === 'function') {
+				onClick(overlay);
+			}
+		};
+
 
 		//TODO - solve label in vertical
 		if(overlay.label && !vertical) {
@@ -49,6 +56,7 @@ const Overlay = (props) => {
 					y={yR}
 					height={eHeight}
 					fill={overlay.backgound}
+					onClick={onOverlayClick}
 				/>
 				{label}
 			</g>

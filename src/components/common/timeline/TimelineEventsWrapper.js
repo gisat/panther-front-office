@@ -277,13 +277,14 @@ class TimelineEventsWrapper extends React.PureComponent {
 	}
 
 	onMouseMove(e) {
-		const {vertical, getTime, updateContext, onHover} = this.context;
+		const {vertical, getTime, updateContext, onHover, dayWidth} = this.context;
 		const clientX = getPageXFromEvent(e, vertical, this.node.current.getBoundingClientRect());
 	
 		onHover({
 			x: e.pageX,
 			y: e.pageY,
 			time: getTime(clientX),
+			dayWidth,
 			vertical: vertical
 		})
 		

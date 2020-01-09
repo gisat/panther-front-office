@@ -16,7 +16,7 @@ class TimelineHover extends React.PureComponent {
 				popup: {
 					x: evt.x,
 					y: evt.y,
-					content: this.props.getHoverContent(evt.x, evt.time) || null
+					content: this.props.getHoverContent(evt.x, evt.time, evt) || null
 				}
 			})
 		} else {
