@@ -95,9 +95,11 @@ class TimelineDoc extends React.PureComponent {
 	render() {
 
 		const period = {
-			start: moment(2010, 'YYYY'),
-			end: moment(2025, 'YYYY')
+			start: '2010',
+			end: '2025'
 		}
+
+
 
 		const LEVELS=[
 			{

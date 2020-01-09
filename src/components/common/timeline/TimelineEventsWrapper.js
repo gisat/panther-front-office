@@ -581,26 +581,26 @@ class TimelineEventsWrapper extends React.PureComponent {
 		//Don't allow zoom center out of period
 		if(periodLimitOnCenter) {
 			if(center.isBefore(period.start)) {
-				const diff = period.start.diff(center, 'ms');
+				const diff = moment(period.start).diff(center, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 
 			if(center.isAfter(period.end)) {
-				const diff = period.end.diff(center, 'ms');
+				const diff = moment(period.end).diff(center, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 		} else {
 			//Don`t allow show date out of period
 			if(start.isBefore(period.start)) {
-				const diff = period.start.diff(periodLimitStart, 'ms');
+				const diff = moment(period.start).diff(periodLimitStart, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
 
 			if(end.isAfter(period.end)) {
-				const diff = period.end.diff(periodLimitEnd, 'ms');
+				const diff = moment(period.end).diff(periodLimitEnd, 'ms');
 				start.add(diff, 'ms')
 				end.add(diff, 'ms')
 			}
