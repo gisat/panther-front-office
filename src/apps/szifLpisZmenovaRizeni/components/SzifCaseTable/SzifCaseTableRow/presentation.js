@@ -36,7 +36,7 @@ class SzifCaseTableRow extends React.PureComponent {
 		const submitDate = moment(props.data.submitDate).format("DD. MM. YYYY");
 
 		return (
-			<div className={classes}>
+			<div className={classes} key={props.data.caseKey}>
 				<div className="szifLpisZmenovaRizeni-table-row-record">
 					<div className="szifLpisZmenovaRizeni-table-row-item">Status</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{props.data.caseKey}</div>

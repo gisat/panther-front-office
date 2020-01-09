@@ -38,6 +38,7 @@ import tagsReducers from '../../../state/Tags/reducers';
 import usersReducers from '../../../state/Users/reducers';
 import viewsReducers from '../../../state/Views/reducers';
 import windowsReducers from '../../../state/Windows/reducers';
+import lpisChangeCasesReducers from "./LpisChangeCases/reducers";
 
 export const history = createBrowserHistory();
 
@@ -48,6 +49,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // Redux store
 export default createStore(combineReducers({
+	specific: combineReducers({
+		lpisChangeCases: lpisChangeCasesReducers,
+	}),
 	app: appReducers,
 	areas: areasReducers,
 	areaRelations: areaRelations,

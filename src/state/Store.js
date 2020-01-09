@@ -74,10 +74,11 @@ const Store = createStore(combineReducers({
 	users: usersReducers,
 	views: viewsReducers,
 	windowsReducers: windowsReducers,
-	specific: combineReducers({
-		lpisChangeReviewCases: lpisChangeReviewCasesReducers,
-		lpisCheckCases: lpisCheckCasesReducers,
-	})
+	// TODO still needed?
+	// specific: combineReducers({
+	// 	lpisChangeReviewCases: lpisChangeReviewCasesReducers,
+	// 	lpisCheckCases: lpisCheckCasesReducers,
+	// })
 }), applyMiddleware(thunk, logger));
 
 

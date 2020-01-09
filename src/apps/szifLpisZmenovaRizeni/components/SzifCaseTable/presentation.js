@@ -10,6 +10,10 @@ class SzifCaseTable extends React.PureComponent {
 		cases: PropTypes.array
 	};
 
+	componentDidMount() {
+		this.props.onMount();
+	}
+
 	render() {
 		return (
 			<div className="szifLpisZmenovaRizeni-table">
@@ -22,7 +26,7 @@ class SzifCaseTable extends React.PureComponent {
 					<div className="szifLpisZmenovaRizeni-table-header-item buttons"></div>
 				</div>
 				<div className="szifLpisZmenovaRizeni-table-body">
-					{this.props.cases.map(reviewCase => {
+					{this.props.cases && this.props.cases.map(reviewCase => {
 						return this.renderRow(reviewCase);
 					})}
 				</div>
@@ -33,6 +37,7 @@ class SzifCaseTable extends React.PureComponent {
 	renderRow(caseData) {
 		return (
 			<SzifCaseTableRow
+				key={caseData.data.caseKey}
 				data={caseData.data}
 			/>
 		);

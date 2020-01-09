@@ -67,7 +67,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		return (
 			<div className="szifLpisZmenovaRizeni-table-detail-item">
 				<div>{title}</div>
-				<div>{values.map(value => <div>{value}</div>)}</div>
+				<div>{values.map((value, index) => <div key={index}>{value}</div>)}</div>
 			</div>
 		);
 	}

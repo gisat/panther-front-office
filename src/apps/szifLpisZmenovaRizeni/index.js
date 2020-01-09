@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
-import Action from '../../state/Action';
+import Action from './state/Action';
 import Store, {history} from './state/Store';
 
 // base styles need to be imported before all components

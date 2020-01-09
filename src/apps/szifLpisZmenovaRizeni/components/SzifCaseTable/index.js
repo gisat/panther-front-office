@@ -1,20 +1,29 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Action from '../../../../state/Action';
-import Select from '../../../../state/Select';
+import Action from '../../state/Action';
+import Select from '../../state/Select';
 
 import presentation from "./presentation";
-import mockCases from "../../data/mock-cases";
+import utils from "../../../../utils/utils";
+
+const order = [['submitDate', 'descending']];
 
 const mapStateToProps = state => {
 	return {
-		cases: mockCases.data
+		cases: Select.specific.lpisChangeCases.getIndexed(state, null, null, order, 1, 1000)
 	}
 };
 
-const mapDispatchToProps = state => {
-	return {
+const mapDispatchToPropsFactory = () => {
+	const componentId = 'SzifCaseTable' + utils.randomString(6);
+
+	return (dispatch) => {
+		return {
+			onMount: () => {
+				dispatch(Action.specific.lpisChangeCases.useIndexed(null, null, order, 1, 1000, componentId));
+			}
+		}
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(presentation);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(presentation);
