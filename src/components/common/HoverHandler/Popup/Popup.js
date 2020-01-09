@@ -46,10 +46,11 @@ class Popup extends React.PureComponent {
 	render() {
 		let posX = this.props.x;
 		let posY = this.props.y;
-		// let maxX = window.innerWidth;
-		// let maxY = window.innerHeight + window.pageYOffset;
-		// let minY = window.pageYOffset;
-
+		let maxX = window.innerWidth;
+		let maxY = window.innerHeight + window.pageYOffset;
+		let minY = window.pageYOffset;
+		const maxWidth = maxX - 20;
+		const maxHeight = (maxY - minY) - 20;
 		// let x = this.props.x + 15;
 		// let y = this.props.y + 20;
 
@@ -80,6 +81,14 @@ class Popup extends React.PureComponent {
 			//right corner on mouse position
 			style = getTooltipStyle()(posX, posY, width, height);
 
+		}
+
+		if (this.props.compressed || (height > maxHeight)) {	
+			width = 500;	
+		}	
+
+		if (width > maxWidth) {	
+			width = maxWidth;	
 		}
 
 		// let style = {
