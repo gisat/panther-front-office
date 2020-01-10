@@ -139,6 +139,19 @@ export default [
 		})
 	},
 	/**
+	 * TAČR Agritas
+	 * tw: AGRIBF
+	 */
+	{
+		key: 'tacrAgritas',
+		hostname: 'nope.gisat.cz',
+		path: null,
+		devPath: '/tacrAgritas',
+		app: (path, baseUrl) => import(/* webpackChunkName: "tacrAgritas" */'./apps/tacrAgritas').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * UTEP Visualisation & Analytics Center
 	 */
 	{
