@@ -1,4 +1,10 @@
 .ptr-timeline-overlay rect{
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.ptr-timeline-overlay text{
+    pointer-events: all;
     cursor: pointer;
 }
 
@@ -15,17 +21,7 @@
 	width: 20px;
 	flex-grow: 0;
 }
-/* .ptr-timeline-tooltip-layer > div:first-child::before {
-	content: ' ';
-	position: absolute;
-	top: 6px;
-	left: 0;
-	display: block;
-	width: 5px;
-	height: 5px;
-	border-radius: 2px;
-	background: #6594e2;
-} */
+
 .ptr-timeline-tooltip-layer.active > div:first-child::before {
 	background: #cc0044;
 }

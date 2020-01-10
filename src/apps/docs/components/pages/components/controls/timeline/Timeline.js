@@ -23,7 +23,7 @@ import TimeLineHover from '../../../../../../../components/common/timeline/TimeL
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import {getTootlipPosition} from "../../../../../../../components/common/HoverHandler/position";
 
-import {getIntersectionOverlays} from '../../../../../../../components/common/timeline/utils/overlays';
+import {getIntersectionOverlays, overlap} from '../../../../../../../components/common/timeline/utils/overlays';
 import moment from 'moment';
 
 const TOOLTIP_PADDING = 5;
@@ -68,8 +68,20 @@ const overlays = [
 		classes: 'overlay4',
 		height: 10,
 		top: 75,
+	},
+	{
+		key: 'overlay5',
+		start: '2015-01-01 00:01',
+		end: '2015-01-01 00:01',
+		backdroundColor: 'rgba(255, 69, 69, 0.7)',
+		label: 'label5',
+		hideLabel: true,
+		classes: 'overlay5',
+		height: 5,
+		top: 50,
 	}
 ]
+const MOUSEBUFFERWIDTH = 10;
 class TimelineDoc extends React.PureComponent {
 	getHoverContent(x, time) {
 		return (
@@ -79,7 +91,7 @@ class TimelineDoc extends React.PureComponent {
 		)
 	}
 	getOverlaysHoverContent(x, time, evt) {
-		const intersectionOverlays = getIntersectionOverlays(time, overlays);
+		const intersectionOverlays = getIntersectionOverlays(time, overlays, MOUSEBUFFERWIDTH, evt.dayWidth);
 		intersectionOverlays.sort((a,b) => a.top - b.top);
 		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
 			return <div key={overlay.key} className={'ptr-timeline-tooltip-layer'}>
@@ -537,7 +549,7 @@ const getHorizontalTootlipStyle = () => {
 									contentHeight={100}
 									selectMode={true}
 									>
-										<Mouse mouseBufferWidth={20} key="mouse"/>
+										<Mouse mouseBufferWidth={MOUSEBUFFERWIDTH} key="mouse"/>
 										<Levels key="levels"/>
 										<Overlay overlays={overlays} onClick={this.onOverlayClick}/>
 								</Timeline> 

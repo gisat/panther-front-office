@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 import './style.css';
 
+const MIN_OVERLAY_WIDTH = 5 //in pixels
+
 const Overlay = (props) => {
 	const {period, overlays, getX, vertical, onClick} = props;
 	const periodStart = moment(period.start);
@@ -19,8 +21,9 @@ const Overlay = (props) => {
 		const end = getX(overlay.end);
 		let label = null
 		
-		const diff = end-start > 2 ? end-start : 2;
-		const x = vertical ? overlay.top : start;
+		const MIN_WIDTH_MODE = end-start > MIN_OVERLAY_WIDTH ? false : true;
+		const diff = MIN_WIDTH_MODE ? MIN_OVERLAY_WIDTH : end-start;
+		const x = vertical ? overlay.top : (MIN_WIDTH_MODE ? start - diff / 2 : start);
 		const yL = vertical ? start : (overlay.top + overlay.height - 2);
 		const yR = vertical ? start : overlay.top;
 		const eHeight = vertical ? diff : overlay.height;
@@ -34,7 +37,7 @@ const Overlay = (props) => {
 
 
 		//TODO - solve label in vertical
-		if(overlay.label && !vertical) {
+		if(!overlay.hideLabel && overlay.label && !vertical) {
 			label = (
 				<text
 					x={x}
@@ -54,6 +57,8 @@ const Overlay = (props) => {
 					x={x}
 					width={width}
 					y={yR}
+					rx={eHeight/2}
+					ry={eHeight/2}
 					height={eHeight}
 					fill={overlay.backgound}
 					onClick={onOverlayClick}
