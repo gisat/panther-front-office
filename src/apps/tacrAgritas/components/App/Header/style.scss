@@ -1,0 +1,17 @@
+.tacrAgritas-header {
+	background: var(--base10);
+}
+
+.tacrAgritas-fixed-header {
+	background: red;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 0;
+	transition: height .3s ease-in-out;
+}
+
+.tacrAgritas-fixed-header.open {
+	height: 3rem;
+}
