@@ -8,6 +8,10 @@ import { wrapHistory } from "oaf-react-router";
 
 // base types
 import appReducers from '../../../state/App/reducers';
+import casesReducers from '../../../state/Cases/reducers';
+import periodsReducers from '../../../state/Periods/reducers';
+import placesReducers from '../../../state/Places/reducers';
+import scopesReducers from '../../../state/Scopes/reducers';
 
 export const createHistory = (options) => {
 	let history = createBrowserHistory(options);
@@ -28,6 +32,10 @@ export default history => {
 	}
 	return createStore(combineReducers({
 		app: appReducers,
+		cases: casesReducers,
+		periods: periodsReducers,
+		places: placesReducers,
 		router: connectRouter(history),
+		scopes: scopesReducers
 	}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));
 }

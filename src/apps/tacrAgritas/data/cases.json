@@ -1,0 +1,35 @@
+{
+  "data": [
+	{
+	  "key": "OZIM",
+	  "data": {
+		"nameDisplay": "ozimé obiloviny"
+	  }
+	}, {
+	  "key": "JARN",
+	  "data": {
+		"nameDisplay": "jarní obiloviny"
+	  }
+	}, {
+	  "key": "REPK",
+	  "data": {
+		"nameDisplay": "řepka"
+	  }
+	}, {
+	  "key": "PICN",
+	  "data": {
+		"nameDisplay": "pícniny"
+	  }
+	}, {
+	  "key": "CUKR",
+	  "data": {
+		"nameDisplay": "cukrovka"
+	  }
+	}, {
+	  "key": "KUKR",
+	  "data": {
+		"nameDisplay": "kukuřice"
+	  }
+	}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "data": [
+	{
+	  "key": "biofyzika",
+	  "data": {
+		"nameDisplay": "Biofyzikální monitoring"
+	  }
+	},{
+	  "key": "produktivita",
+	  "data": {
+		"nameDisplay": "Fenologie a produktivita"
+	  }
+	},{
+	  "key": "historie",
+	  "data": {
+		"nameDisplay": "Dlouhodobý normál"
+	  }
+	}
+  ]
+}

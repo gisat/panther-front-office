@@ -1,0 +1,25 @@
+{
+  "data": [
+	{
+	  "key": "PodebradskaBlata",
+	  "data": {
+		"nameDisplay": "Poděbradská blata"
+	  }
+	},{
+	  "key": "Lupofyt",
+	  "data": {
+		"nameDisplay": "Lupofyt"
+	  }
+	},{
+	  "key": "Stratov",
+	  "data": {
+		"nameDisplay": "Stratov"
+	  }
+	},{
+	  "key": "Agrossyn",
+	  "data": {
+		"nameDisplay": "Agrossyn"
+	  }
+	}
+  ]
+}
