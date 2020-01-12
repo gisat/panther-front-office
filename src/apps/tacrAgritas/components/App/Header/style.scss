@@ -1,9 +1,89 @@
+@import '../../../styles/variables';
+
 .tacrAgritas-header {
-	background: var(--base10);
+	background-image: url('../../../assets/img/wheat.jpg');
+	background-size: cover;
+	background-position-y: center;
 }
 
+.tacrAgritas-header-content {
+	max-width: 70rem;
+	margin: 0 auto;
+	padding: m(2) m(1);
+}
+
+.tacrAgritas-title {
+	font-size: $b4;
+	color: var(--base85);
+}
+
+/* Selection */
+.tacrAgritas-selections {
+	margin-top: m(2);
+}
+
+.tacrAgritas-header-select-container {
+	margin: m(1) 0;
+	max-width: 25rem;
+}
+
+.tacrAgritas-header-select-label {
+	color: var(--base55);
+	font-size: $a1;
+	padding: 0 .25rem;
+}
+
+.tacrAgritas-header-select-value {
+	color: var(--base75);
+	font-size: $b2;
+	font-weight: bold;
+	padding: 0 .25rem;
+}
+
+.tacrAgritas-header-select-value::first-letter {
+	text-transform: uppercase;
+}
+
+.tacrAgritas-header-select.ptr-select-container .ptr-select__control {
+	border: 0;
+	border-radius: 0;
+	background: rgba(255,255,255,.5);
+	height: 4.5rem;
+}
+
+.tacrAgritas-header-select.ptr-select-container .ptr-select__indicators {
+	height: 4.5rem;
+}
+
+.tacrAgritas-header-select.ptr-select-container .ptr-select__single-value::first-letter {
+	text-transform: uppercase;
+}
+
+.tacrAgritas-header-select.ptr-select-container .ptr-select__indicator-separator {
+	display: none;
+}
+
+/* menu */
+.tacrAgritas .ptr-select__menu {
+	margin-top: .1rem;
+}
+
+.tacrAgritas .ptr-select__menu .ptr-select__menu-list {
+	background-color: var(--base0)
+}
+
+.tacrAgritas .ptr-select__menu .tacrAgritas-header-select-label {
+	display: none;
+}
+
+.tacrAgritas .ptr-select__menu .tacrAgritas-header-select-value {
+	font-weight: normal;
+	font-size: $a1;
+}
+
+/* Fixed header */
 .tacrAgritas-fixed-header {
-	background: red;
+	background: var(--accent90);
 	position: fixed;
 	top: 0;
 	left: 0;

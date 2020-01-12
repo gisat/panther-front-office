@@ -9,16 +9,27 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		case: Select.cases.getActive(state),
+		cases: Select.cases.getAll(state),
+		activeCase: Select.cases.getActive(state),
 		place: Select.places.getActive(state),
-		period: Select.periods.getActive(state),
-		scope: Select.scopes.getActive(state)
+		periods: Select.periods.getAll(state),
+		activePeriod: Select.periods.getActive(state),
+		scopes: Select.scopes.getAll(state),
+		activeScope: Select.scopes.getActive(state)
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-
+		onCaseChange: (key) => {
+			dispatch(Action.cases.setActiveKey(key));
+		},
+		onPeriodChange: (key) => {
+			dispatch(Action.periods.setActiveKey(key));
+		},
+		onScopeChange: (key) => {
+			dispatch(Action.scopes.setActiveKey(key));
+		}
 	}
 };
 

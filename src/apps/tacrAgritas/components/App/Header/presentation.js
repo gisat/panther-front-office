@@ -3,15 +3,19 @@ import React from 'react';
 import classnames from 'classnames';
 
 import './style.scss';
+import Select from "../../../../../components/common/atoms/Select/Select";
 
 const BUFFER = 30;
 
 class Header extends React.PureComponent {
 	static propTypes = {
-		case: PropTypes.object,
-		period: PropTypes.object,
+		cases: PropTypes.array,
+		activeCase: PropTypes.object,
+		periods: PropTypes.array,
+		activePeriod: PropTypes.object,
 		place: PropTypes.object,
-		scope: PropTypes.object
+		scopes: PropTypes.array,
+		activeScope: PropTypes.object
 	};
 
 	constructor(props) {
@@ -22,6 +26,10 @@ class Header extends React.PureComponent {
 		this.state = {
 			fixedHeaderOpen: false
 		};
+
+		this.onCaseChange = this.onCaseChange.bind(this);
+		this.onPeriodChange = this.onPeriodChange.bind(this);
+		this.onScopeChange = this.onScopeChange.bind(this);
 
 		window.addEventListener("scroll", this.onWindowScroll.bind(this));
 	}
@@ -38,6 +46,18 @@ class Header extends React.PureComponent {
 		}
 	}
 
+	onCaseChange(model) {
+		this.props.onCaseChange(model.key);
+	}
+
+	onPeriodChange(model) {
+		this.props.onPeriodChange(model.key);
+	}
+
+	onScopeChange(model) {
+		this.props.onScopeChange(model.key);
+	}
+
 	render() {
 		const props = this.props;
 
@@ -48,8 +68,10 @@ class Header extends React.PureComponent {
 		return (
 			<>
 				<div className="tacrAgritas-header" ref={this.ref}>
-					{props.place ? this.renderTitle() : null}
-					{props.case && props.scope && props.period ? this.renderSelections() : null}
+					<div className="tacrAgritas-header-content">
+						{props.place ? this.renderTitle() : null}
+						{props.cases && props.scopes && props.periods ? this.renderSelections() : null}
+					</div>
 				</div>
 				<div className={classes}>
 
@@ -60,9 +82,9 @@ class Header extends React.PureComponent {
 
 	renderTitle() {
 		return (
-			<div className="tacrAgritas-title">
+			<h1 className="tacrAgritas-title">
 				{this.props.place.data.nameDisplay}
-			</div>
+			</h1>
 		);
 	}
 
@@ -71,9 +93,34 @@ class Header extends React.PureComponent {
 
 		return (
 			<div className="tacrAgritas-selections">
-				<div>{props.scope.data.namDisplay}</div>
-				<div>{props.period.data.nameDisplay}</div>
-				<div>{props.case.data.nameDisplay}</div>
+				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.activeScope, this.onScopeChange) : null}
+				{props.periods ? this.renderSelection("Sezóna", this.props.periods, this.props.activePeriod, this.onPeriodChange) : null}
+				{props.cases ? this.renderSelection("Plodiny", this.props.cases, this.props.activeCase, this.onCaseChange) : null}
+			</div>
+		);
+	}
+
+	renderSelection(label, options, value, onChange) {
+		return (
+			<div className="tacrAgritas-header-select-container">
+				<Select
+					formatOptionLabel={this.formatOptionLabel.bind(this, label)}
+					className="tacrAgritas-header-select"
+					value={value}
+					optionLabel="data.nameDisplay"
+					optionValue="key"
+					options={options}
+					onChange={onChange}
+				/>
+			</div>
+		);
+	}
+
+	formatOptionLabel(label, option) {
+		return (
+			<div>
+				<div className="tacrAgritas-header-select-label">{label}</div>
+				<div className="tacrAgritas-header-select-value">{option.data.nameDisplay}</div>
 			</div>
 		);
 	}
