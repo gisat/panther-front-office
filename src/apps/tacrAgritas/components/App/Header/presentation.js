@@ -74,7 +74,10 @@ class Header extends React.PureComponent {
 					</div>
 				</div>
 				<div className={classes}>
-
+					<div className="tacrAgritas-fixed-header-content">
+						{props.place ? this.renderTitle() : null}
+						{props.cases && props.scopes && props.periods ? this.renderSelections() : null}
+					</div>
 				</div>
 			</>
 		);
