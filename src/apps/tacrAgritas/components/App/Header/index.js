@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import Action from '../../../../../state/Action';
-import Select from '../../../../../state/Select';
+import Action from '../../../state/Action';
+import Select from '../../../state/Select';
 
 import presentation from "./presentation";
 
@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
 		cases: Select.cases.getAll(state),
 		activeCase: Select.cases.getActive(state),
 		place: Select.places.getActive(state),
-		periods: Select.periods.getAll(state),
+		periods: Select.specific.tacrAgritas.getPeriodsForActiveScope(state),
 		activePeriod: Select.periods.getActive(state),
 		scopes: Select.scopes.getAll(state),
 		activeScope: Select.scopes.getActive(state)
@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.periods.setActiveKey(key));
 		},
 		onScopeChange: (key) => {
-			dispatch(Action.scopes.setActiveKey(key));
+			dispatch(Action.specific.tacrAgritas.setActiveScope(key));
 		}
 	}
 };
