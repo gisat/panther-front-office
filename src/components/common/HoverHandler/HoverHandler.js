@@ -41,7 +41,7 @@ class HoverHandler extends React.PureComponent {
 		let coordChanged = false;
 
 		// for older versions compatibility
-		if (options && options.popup && options.popup.content) {
+		if (options && options.popup && (options.popup.content || options.popup.content === null)) {
 			update.popupContent = options.popup.content;
 		}
 
@@ -68,7 +68,7 @@ class HoverHandler extends React.PureComponent {
 				update.fidColumnName = options.popup.fidColumnName;
 			}
 		}
-
+		
 		if (!_.isEmpty(update)) {
 			if (update.hoveredItems && update.hoveredItems.length) {
 				this.setState(update);

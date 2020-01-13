@@ -12,7 +12,7 @@ class TimelineHover extends React.PureComponent {
 
 	onHover(evt) {
 		if(evt) {
-			this.context.onHover('timeline', {
+			this.context.onHover(['timeline'], {
 				popup: {
 					x: evt.x,
 					y: evt.y,

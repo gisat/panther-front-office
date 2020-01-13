@@ -39,3 +39,13 @@ export const getIntersectionOverlays = (time, overlays = [], MOUSEBUFFERWIDTH = 
         return overlap(interval1, interval2);
     })
 }
+
+export const getIntersectionLayers = (time, layers = [], MOUSEBUFFERWIDTH = 0, dayWidth = 1) => {
+    const overlays = layers.map((l) => {
+        l.start = l.period.start;
+        l.end = l.period.end;
+        return l;
+    })
+    const intersection = getIntersectionOverlays(time, overlays, MOUSEBUFFERWIDTH, dayWidth).map(i => i.layerKey);
+    return layers.filter(l => intersection.includes(l.layerKey));
+}

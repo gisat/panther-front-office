@@ -278,7 +278,7 @@ class Timeline extends React.PureComponent {
 		const maxDayWidth = this.getMaxDayWidth();
 		const activeDayWidth = dayWidth >= maxDayWidth ? maxDayWidth : dayWidth;
 		const activeLevel = this.getActiveLevel(activeDayWidth, levels).level;
-		const minDayWidth = this.getDayWidthForPeriod(periodLimit, this.getXAxisWidth())
+		const minDayWidth = this.getDayWidthForPeriod(periodLimit, this.getXAxisWidth());
 		return (
 			<ContextProvider value={{
 				updateContext: this.updateContext,

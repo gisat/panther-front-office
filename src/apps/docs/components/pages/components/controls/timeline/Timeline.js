@@ -96,7 +96,7 @@ class TimelineDoc extends React.PureComponent {
 		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
 			return <div key={overlay.key} className={'ptr-timeline-tooltip-layer'}>
 				<div>
-					<span class="dot" style={{'backgroundColor': overlay.backdroundColor}}></span>
+					<span className="dot" style={{'backgroundColor': overlay.backdroundColor}}></span>
 				</div>
 				<div>{overlay.label}</div>
 			</div>
