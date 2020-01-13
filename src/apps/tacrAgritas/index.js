@@ -15,6 +15,7 @@ import './styles/index.scss';
 
 
 // metadata
+import app from './data/app.json';
 import cases from './data/cases.json';
 import periods from './data/periods.json';
 import places from './data/places.json';
@@ -27,6 +28,7 @@ export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
+	Store.dispatch(Action.app.add(app.data.configurations[0].data.data));
 	Store.dispatch(Action.cases.add(cases.data));
 	Store.dispatch(Action.periods.add(periods.data));
 	Store.dispatch(Action.places.add(places.data));
