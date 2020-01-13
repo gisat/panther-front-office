@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import './style.scss';
 import Select from "../../../../../components/common/atoms/Select/Select";
+import Icon from "../../../../../components/common/atoms/Icon";
 
 const BUFFER = 30;
 
@@ -96,18 +97,18 @@ class Header extends React.PureComponent {
 
 		return (
 			<div className="tacrAgritas-selections">
-				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.activeScope, this.onScopeChange) : null}
-				{props.periods ? this.renderSelection("Sezóna", this.props.periods, this.props.activePeriod, this.onPeriodChange) : null}
-				{props.cases ? this.renderSelection("Plodiny", this.props.cases, this.props.activeCase, this.onCaseChange) : null}
+				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.activeScope, this.onScopeChange, "monitor") : null}
+				{props.periods ? this.renderSelection("Sezóna", this.props.periods, this.props.activePeriod, this.onPeriodChange, "calendar") : null}
+				{props.cases ? this.renderSelection("Plodiny", this.props.cases, this.props.activeCase, this.onCaseChange, "crop") : null}
 			</div>
 		);
 	}
 
-	renderSelection(label, options, value, onChange) {
+	renderSelection(label, options, value, onChange, icon) {
 		return (
 			<div className="tacrAgritas-header-select-container">
 				<Select
-					formatOptionLabel={this.formatOptionLabel.bind(this, label)}
+					formatOptionLabel={this.formatOptionLabel.bind(this, label, icon)}
 					className="tacrAgritas-header-select"
 					value={value}
 					optionLabel="data.nameDisplay"
@@ -119,10 +120,13 @@ class Header extends React.PureComponent {
 		);
 	}
 
-	formatOptionLabel(label, option) {
+	formatOptionLabel(label, icon, option) {
 		return (
-			<div>
-				<div className="tacrAgritas-header-select-label">{label}</div>
+			<div className="tacrAgritas-header-select-value-container">
+				<div className="tacrAgritas-header-select-label">
+					<Icon icon={icon}/>
+					<div>{label}</div>
+				</div>
 				<div className="tacrAgritas-header-select-value">{option.data.nameDisplay}</div>
 			</div>
 		);
