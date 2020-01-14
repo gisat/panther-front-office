@@ -116,10 +116,16 @@ class MapSet extends React.PureComponent {
 		mapViews[mapKey] = mapUtils.mergeViews(this.state.mapViews[mapKey], update);
 
 		if (syncUpdate && !_.isEmpty(syncUpdate)) {
+			const mergedView = mapUtils.mergeViews(this.state.view, syncUpdate);
+
 			this.setState({
-				view: mapUtils.mergeViews(this.state.view, syncUpdate),
+				view: mergedView,
 				mapViews
 			});
+
+			if (this.props.onViewChange) {
+				this.props.onViewChange(mergedView);
+			}
 		} else {
 			this.setState({
 				mapViews
