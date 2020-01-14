@@ -5,9 +5,9 @@ import Biofyzika from "./Biofyzika/presentation";
 
 class App extends React.PureComponent {
 	static propTypes = {
-		data: PropTypes.object,
+		data: PropTypes.array,
 		activePeriodKey: PropTypes.string,
-		activeScope: PropTypes.number
+		activeScope: PropTypes.object
 	};
 
 	constructor(props) {

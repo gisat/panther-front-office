@@ -7,7 +7,7 @@ import HoverHandler from "../../../../../components/common/HoverHandler/HoverHan
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
-		data: PropTypes.object,
+		data: PropTypes.array,
 		activePeriodKey: PropTypes.string
 	};
 
