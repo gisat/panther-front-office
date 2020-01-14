@@ -45,22 +45,27 @@ class Biofyzika extends React.PureComponent {
 			<>
 				<div className="tacrAgritas-section">
 					<h1>{props.scope && props.scope.data.nameDisplay}</h1>
-					{dataForCharts && dataForCharts.chlorophyll ? this.renderChart(dataForCharts, "chlorophyll") : null}
+					<h2>Obsah chlorofylu</h2>
+					{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
+					<h2>Obsah vody</h2>
+					{dataForCharts && dataForCharts.water ? this.renderWaterChart(dataForCharts) : null}
+					<h2>Index listové plochy</h2>
+					{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
 				</div>
 			</>
 		);
 	}
 
-	renderChart(data, serialDataPath) {
+	renderChlorophyllChart(data) {
 		return (
 			<HoverHandler>
 				<LineChart
-					key={serialDataPath}
+					key="chlorophyll"
 
 					data={[data]}
 					keySourcePath="ID_DPB"
 					nameSourcePath="NKOD_DPB"
-					serieDataSourcePath={serialDataPath}
+					serieDataSourcePath="chlorophyll"
 					xSourcePath="date"
 					ySourcePath="value"
 
@@ -78,10 +83,88 @@ class Biofyzika extends React.PureComponent {
 					}}
 
 					yLabel
-					yValuesSize={2.5}
+					yValuesSize={3}
 					yOptions={{
 						unit: "μg/cm2",
-						name: "Chlorofyl"
+						name: "Obsah chlorofylu"
+					}}
+					withoutYbaseline={false}
+
+				/>
+			</HoverHandler>
+		);
+	}
+
+	renderWaterChart(data) {
+		return (
+			<HoverHandler>
+				<LineChart
+					key="water"
+
+					data={[data]}
+					keySourcePath="ID_DPB"
+					nameSourcePath="NKOD_DPB"
+					serieDataSourcePath="water"
+					xSourcePath="date"
+					ySourcePath="value"
+
+					isSerie
+					pointRadius={3}
+
+					xScaleType="time"
+					xValuesSize={4}
+					xOptions={{
+						name: "Time",
+						axisValueFormat: "MMMM",
+						popupValueFormat: "D. MMMM YYYY",
+						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
+					}}
+
+					yLabel
+					yValuesSize={3}
+					yOptions={{
+						unit: "cm",
+						name: "Obsah vody"
+					}}
+					withoutYbaseline={false}
+
+				/>
+			</HoverHandler>
+		);
+	}
+
+	renderLeafsChart(data) {
+		return (
+			<HoverHandler>
+				<LineChart
+					key="leafs"
+
+					data={[data]}
+					keySourcePath="ID_DPB"
+					nameSourcePath="NKOD_DPB"
+					serieDataSourcePath="leafs"
+					xSourcePath="date"
+					ySourcePath="value"
+
+					isSerie
+					pointRadius={3}
+
+					xScaleType="time"
+					xValuesSize={4}
+					xOptions={{
+						name: "Time",
+						axisValueFormat: "MMMM",
+						popupValueFormat: "D. MMMM YYYY",
+						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
+					}}
+
+					yLabel
+					yValuesSize={3}
+					yOptions={{
+						unit: "m2/m2",
+						name: "Index listové plochy"
 					}}
 					withoutYbaseline={false}
 
