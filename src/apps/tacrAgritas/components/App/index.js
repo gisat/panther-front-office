@@ -10,7 +10,7 @@ import presentation from "./presentation";
 const mapStateToProps = (state, ownProps) => {
 	return {
 		activeScopeKey: Select.scopes.getActiveKey(state),
-		data: Select.specific.tacrAgritasData.getActive(state)
+		data: Select.specific.tacrAgritasData.getFeaturesForActiveMetadata(state)
 	}
 };
 
