@@ -13,9 +13,9 @@ function request (url, method, query, payload) {
 	}).then(
 		response => {
 			let contentType = response.headers.get('Content-type');
-			if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+			if (response.ok) {
 				return response.json().then(body => {
-					if (body.data) {
+					if (body) {
 						return body;
 					} else {
 						throw new Error('no data returned');
