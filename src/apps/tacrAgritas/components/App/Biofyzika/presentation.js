@@ -6,6 +6,16 @@ import LineChart from "../../../../../components/common/charts/LineChart/LineCha
 import HoverHandler from "../../../../../components/common/HoverHandler/HoverHandler";
 
 import "./style.scss";
+import MapSetPresentation, {PresentationMap} from "../../../../../components/common/maps/MapSet/presentation";
+import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
+import MapControlsPresentation from "../../../../../components/common/maps/controls/MapControls/presentation";
+
+const wikimedia = {
+	type: 'worldwind',
+	options: {
+		layer: 'wikimedia'
+	}
+};
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
@@ -17,8 +27,13 @@ class Biofyzika extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			activeDpb: props.data && props.data[0]
-		}
+			activeDpb: props.data && props.data[0],
+			mapView: {
+				boxRange: 1000
+			}
+		};
+
+		this.onMapViewChange = this.onMapViewChange.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -31,6 +46,12 @@ class Biofyzika extends React.PureComponent {
 				});
 			}
 		}
+	}
+
+	onMapViewChange(view) {
+		this.setState({
+			mapView: view
+		})
 	}
 
 	render() {
@@ -46,13 +67,45 @@ class Biofyzika extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<h1>{props.scope && props.scope.data.nameDisplay}</h1>
 					<h2>Obsah chlorofylu</h2>
+					{this.renderMapSet('map-set-1')}
 					{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
 					<h2>Obsah vody</h2>
+					{this.renderMapSet('map-set-2')}
 					{dataForCharts && dataForCharts.water ? this.renderWaterChart(dataForCharts) : null}
 					<h2>Index listové plochy</h2>
+					{this.renderMapSet('map-set-3')}
 					{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
 				</div>
 			</>
+		);
+	}
+
+	renderMapSet(key) {
+		return (
+			<div style={{height: 500, width: "100%", marginBottom: "3rem"}}>
+				<MapSetPresentation
+					activeMapKey={key}
+					mapComponent={WorldWindMap}
+					view={this.state.mapView}
+					onViewChange={this.onMapViewChange}
+					sync={{
+						boxRange: true,
+						center: true,
+						tilt: true,
+						heading: true,
+						roll: true
+					}}
+					backgroundLayer={wikimedia}
+				>
+					<PresentationMap
+						mapKey='map-1'
+					/>
+					<PresentationMap
+						mapKey='map-2'
+					/>
+					<MapControlsPresentation zoomOnly/>
+				</MapSetPresentation>
+			</div>
 		);
 	}
 
