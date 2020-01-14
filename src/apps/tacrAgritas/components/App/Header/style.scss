@@ -251,6 +251,7 @@
 		font-size: $b2;
 	}
 	.tacrAgritas-fixed-header .tacrAgritas-selections {
+		margin-right: .5rem;
 	}
 
 	.tacrAgritas-fixed-header .tacrAgritas-header-select-container {
@@ -262,6 +263,12 @@
 	}
 
 	.tacrAgritas .ptr-select__menu {
-		min-width: 12rem;
+		min-width: 10rem;
+	}
+}
+
+@media screen and (max-width: 45rem) {
+	.tacrAgritas-title {
+		display: none;
 	}
 }

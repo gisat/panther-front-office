@@ -5,6 +5,8 @@ import moment from "moment";
 import LineChart from "../../../../../components/common/charts/LineChart/LineChart";
 import HoverHandler from "../../../../../components/common/HoverHandler/HoverHandler";
 
+import "./style.scss";
+
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
@@ -40,10 +42,12 @@ class Biofyzika extends React.PureComponent {
 		}
 
 		return (
-			<div>
-				<h2>{props.scope && props.scope.data.nameDisplay}</h2>
-				{dataForCharts && dataForCharts.chlorophyll ? this.renderChart(dataForCharts, "chlorophyll") : null}
-			</div>
+			<>
+				<div className="tacrAgritas-section">
+					<h1>{props.scope && props.scope.data.nameDisplay}</h1>
+					{dataForCharts && dataForCharts.chlorophyll ? this.renderChart(dataForCharts, "chlorophyll") : null}
+				</div>
+			</>
 		);
 	}
 
@@ -68,7 +72,9 @@ class Biofyzika extends React.PureComponent {
 					xOptions={{
 						name: "Time",
 						axisValueFormat: "MMMM",
-						popupValueFormat: "D. MMMM YYYY"
+						popupValueFormat: "D. MMMM YYYY",
+						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
 					}}
 
 					yLabel

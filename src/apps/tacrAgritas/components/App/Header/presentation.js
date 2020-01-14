@@ -7,7 +7,7 @@ import './style.scss';
 import Select from "../../../../../components/common/atoms/Select/Select";
 import Icon from "../../../../../components/common/atoms/Icon";
 
-const BUFFER = 30;
+const BUFFER = 100;
 
 class Header extends React.PureComponent {
 	static propTypes = {
