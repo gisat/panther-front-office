@@ -4,13 +4,16 @@ import Select from "./Select";
 import _ from 'lodash';
 
 const setActiveScope = (key) => (dispatch, getState) => {
-	const scopeHasPeriod = CommonSelect.app.getConfiguration(getState(), 'scopeHasPeriods');
 	const activePeriodKey = CommonSelect.periods.getActiveKey(getState());
-	const periodsForScope = scopeHasPeriod[key];
+	const periodModelsForScope = Select.specific.tacrAgritas.getPeriodsForScope(getState(), key);
 
-	// if active period is not defined for given scope
-	if (!_.includes(periodsForScope, activePeriodKey)) {
-		dispatch(CommonAction.periods.setActiveKey(periodsForScope[periodsForScope.length - 1]));
+	if (periodModelsForScope) {
+		const periodKeys = periodModelsForScope.map(model => model.key);
+
+		// if active period is not defined for given scope
+		if (!_.includes(periodKeys, activePeriodKey)) {
+			dispatch(CommonAction.periods.setActiveKey(periodKeys[periodKeys.length - 1]));
+		}
 	}
 
 	dispatch(CommonAction.scopes.setActiveKey(key));

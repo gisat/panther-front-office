@@ -95,6 +95,10 @@
 	font-size: $a1;
 }
 
+.tacrAgritas .ptr-select__menu .tacrAgritas-header-select-value-container.disabled .tacrAgritas-header-select-value {
+	color: var(--base30);
+}
+
 /* Fixed header */
 .tacrAgritas-fixed-header {
 	background: var(--accent90);

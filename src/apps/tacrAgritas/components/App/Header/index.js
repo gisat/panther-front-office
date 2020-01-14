@@ -12,10 +12,14 @@ const mapStateToProps = (state, ownProps) => {
 		cases: Select.cases.getAll(state),
 		activeCase: Select.cases.getActive(state),
 		place: Select.places.getActive(state),
-		periods: Select.specific.tacrAgritas.getPeriodsForActiveScope(state),
+
+		periods: Select.periods.getAll(state),
+		availablePeriods: Select.specific.tacrAgritas.getPeriodsForActiveScope(state),
 		activePeriod: Select.periods.getActive(state),
+
 		scopes: Select.scopes.getAll(state),
-		activeScope: Select.scopes.getActive(state)
+		availableScopes: Select.specific.tacrAgritas.getScopesForActivePlace(state),
+		activeScope: Select.scopes.getActive(state),
 	}
 };
 

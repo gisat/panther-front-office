@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
+import _ from 'lodash';
 
 import './style.scss';
 import Select from "../../../../../components/common/atoms/Select/Select";
@@ -14,9 +15,11 @@ class Header extends React.PureComponent {
 		activeCase: PropTypes.object,
 		periods: PropTypes.array,
 		activePeriod: PropTypes.object,
+		availablePeriods: PropTypes.array,
 		place: PropTypes.object,
 		scopes: PropTypes.array,
-		activeScope: PropTypes.object
+		activeScope: PropTypes.object,
+		availableScopes: PropTypes.array
 	};
 
 	constructor(props) {
@@ -97,14 +100,24 @@ class Header extends React.PureComponent {
 
 		return (
 			<div className="tacrAgritas-selections">
-				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.activeScope, this.onScopeChange, "monitor") : null}
-				{props.periods ? this.renderSelection("Sezóna", this.props.periods, this.props.activePeriod, this.onPeriodChange, "calendar") : null}
-				{props.cases ? this.renderSelection("Plodiny", this.props.cases, this.props.activeCase, this.onCaseChange, "crop") : null}
+				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.availableScopes, this.props.activeScope, this.onScopeChange, "monitor") : null}
+				{props.periods ? this.renderSelection("Sezóna", this.props.periods, this.props.availablePeriods, this.props.activePeriod, this.onPeriodChange, "calendar") : null}
+				{props.cases ? this.renderSelection("Plodiny", this.props.cases, this.props.cases, this.props.activeCase, this.onCaseChange, "crop") : null}
 			</div>
 		);
 	}
 
-	renderSelection(label, options, value, onChange, icon) {
+	renderSelection(label, options, availableOptions, value, onChange, icon) {
+		let finalOptions = [];
+		options.forEach(option => {
+			let available = !!_.find(availableOptions, (availableOption) => availableOption.key === option.key);
+			finalOptions.push({
+				...option,
+				isDisabled: !available
+			});
+		});
+
+
 		return (
 			<div className="tacrAgritas-header-select-container">
 				<Select
@@ -113,7 +126,7 @@ class Header extends React.PureComponent {
 					value={value}
 					optionLabel="data.nameDisplay"
 					optionValue="key"
-					options={options}
+					options={finalOptions}
 					onChange={onChange}
 				/>
 			</div>
@@ -121,8 +134,12 @@ class Header extends React.PureComponent {
 	}
 
 	formatOptionLabel(label, icon, option) {
+		let classes = classnames("tacrAgritas-header-select-value-container", {
+			disabled: option.isDisabled
+		});
+
 		return (
-			<div className="tacrAgritas-header-select-value-container">
+			<div className={classes}>
 				<div className="tacrAgritas-header-select-label">
 					<Icon icon={icon}/>
 					<div>{label}</div>

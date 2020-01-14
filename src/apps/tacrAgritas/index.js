@@ -21,6 +21,8 @@ import periods from './data/periods.json';
 import places from './data/places.json';
 import scopes from './data/scopes.json';
 
+import config from '../../config';
+import utils from "./utils";
 import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
 
@@ -28,45 +30,89 @@ export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
-	Store.dispatch(Action.app.add(app.data.configurations[0].data.data));
-	Store.dispatch(Action.cases.add(cases.data));
-	Store.dispatch(Action.periods.add(periods.data));
-	Store.dispatch(Action.places.add(places.data));
-	Store.dispatch(Action.scopes.add(scopes.data));
+	const appConfigUrl = config.tacrAgritasDataRepositoryUrl + 'config.json';
 
-	Store.dispatch(Action.cases.setActiveKey('OZIM'));
-	Store.dispatch(Action.periods.setActiveKey('2019'));
-	Store.dispatch(Action.scopes.setActiveKey('biofyzika'));
+	utils.request(appConfigUrl, "GET", null, null).then((config) => {
+		if (config && config.data) {
+			const d = config.data;
 
-	const pages = places.data.map(place => place.key);
+			if (d.configurations) {
 
-	ReactDOM.render(
-		<>
-			<Provider store={Store}>
-				<Helmet
-					titleTemplate="%s | AGRITAS"
-					defaultTitle="AGRITAS"
-				/>
-				<AppContainer appKey="tacrAgritas">
-					<ConnectedRouter history={history}>
-						<Switch>
-							{pages.map(key =>
-								<Route
-									key={key}
-									path={"/" + key}
-									render={(props) => (<App placeKey={key}/>)}
-								/>
-							)}
+				// TODO replace mock with rel data
+				// const data = d.configurations[0].data.data;
+				const data = {
+					"resources": {
+						"Agrossyn": {
+							"biofyzika": {
+								"2016": "AGROSSYN_LPIS2016_BIOFYZIKA_epsg4326.geojson",
+								"2017": "AGROSSYN_LPIS2017_BIOFYZIKA_epsg4326.geojson",
+								"2018": "AGROSSYN_LPIS2018_BIOFYZIKA_epsg4326.geojson",
+								"2019": "AGROSSYN_LPIS2019_BIOFYZIKA_epsg4326.geojson"
+							},
+							"produktivita": {
+								"2017": "AGROSSYN_LPIS2016_BIOFYZIKA_epsg4326.geojson",
+								"2018": "AGROSSYN_LPIS2019_BIOFYZIKA_epsg4326.geojson"
+							}
+						}
+					}
+				};
 
-							{/* default path */}
-							<Route exact path="/" render={() => (
-								<Redirect to={"/" + pages[0]}/>
-							)}/>
-						</Switch>
-					</ConnectedRouter>
-				</AppContainer>
-			</Provider>
-		</>, document.getElementById('ptr')
-	);
+				Store.dispatch(Action.app.add(data));
+			}
+			if (d.cases) {
+				Store.dispatch(Action.cases.add(d.cases));
+			}
+			if (d.scopes) {
+				Store.dispatch(Action.scopes.add(d.scopes));
+			}
+			if (d.periods) {
+				Store.dispatch(Action.periods.add(d.periods));
+			}
+			if (d.places) {
+				Store.dispatch(Action.places.add(d.places));
+			}
+			if (d.activeCaseKey) {
+				Store.dispatch(Action.cases.setActiveKey(d.activeCaseKey));
+			}
+			if (d.activePeriodKey) {
+				Store.dispatch(Action.periods.setActiveKey(d.activePeriodKey));
+			}
+			if (d.activeScopeKey) {
+				Store.dispatch(Action.scopes.setActiveKey(d.activeScopeKey));
+			}
 
+			const pages = d.places.map(place => place.key);
+			ReactDOM.render(
+				<>
+					<Provider store={Store}>
+						<Helmet
+							titleTemplate="%s | AGRITAS"
+							defaultTitle="AGRITAS"
+						/>
+						<AppContainer appKey="tacrAgritas">
+							<ConnectedRouter history={history}>
+								<Switch>
+									{pages.map(key =>
+										<Route
+											key={key}
+											path={"/" + key}
+											render={(props) => (<App placeKey={key}/>)}
+										/>
+									)}
+
+									{/* default path */}
+									<Route exact path="/" render={() => (
+										<Redirect to={"/" + pages[0]}/>
+									)}/>
+								</Switch>
+							</ConnectedRouter>
+						</AppContainer>
+					</Provider>
+				</>, document.getElementById('ptr')
+			);
+
+		} else {
+			throw new Error("No data in config!");
+		}
+	});
 }
