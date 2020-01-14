@@ -30,9 +30,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		onPeriodChange: (key) => {
 			dispatch(Action.periods.setActiveKey(key));
+			dispatch(Action.specific.tacrAgritas.changeAppView());
 		},
 		onScopeChange: (key) => {
 			dispatch(Action.specific.tacrAgritas.setActiveScope(key));
+			dispatch(Action.specific.tacrAgritas.changeAppView());
 		}
 	}
 };
