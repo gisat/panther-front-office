@@ -13,14 +13,6 @@ import '../../styles/reset.css';
 import '../../styles/base.scss';
 import './styles/index.scss';
 
-
-// metadata
-import app from './data/app.json';
-import cases from './data/cases.json';
-import periods from './data/periods.json';
-import places from './data/places.json';
-import scopes from './data/scopes.json';
-
 import config from '../../config';
 import utils from "./utils";
 import AppContainer from "../../components/common/AppContainer/presentation";
