@@ -2,6 +2,8 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import CommonSelect from "../../../state/Select";
 
+import tacrAgritasData from "./Data/selectors";
+
 // helpers
 const getPeriodsForScopeCombiner = (periods, activePlaceKey, activeScopeKey, resources) => {
 	if (periods && activePlaceKey && activeScopeKey && resources) {
@@ -60,6 +62,7 @@ export default {
 			getPeriodsForScope,
 			getPeriodsForActiveScope,
 			getScopesForActivePlace
-		}
+		},
+		tacrAgritasData
 	}
 }

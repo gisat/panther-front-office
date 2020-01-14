@@ -6,7 +6,7 @@ import {Redirect, Route, Switch} from 'react-router';
 import Helmet from "react-helmet";
 import createStore, {createHistory} from "../tacrAgritas/state/Store";
 
-import Action from '../../state/Action';
+import Action from './state/Action';
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
