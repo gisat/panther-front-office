@@ -1,21 +1,121 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import _ from 'lodash';
+import moment from "moment";
+import LineChart from "../../../../../components/common/charts/LineChart/LineChart";
+import HoverHandler from "../../../../../components/common/HoverHandler/HoverHandler";
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
-		data: PropTypes.object
+		data: PropTypes.object,
+		activePeriodKey: PropTypes.string
 	};
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			activeDpb: props.data && props.data[0]
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		const props = this.props;
+		if (props.data) {
+			let exists = _.find(props.data, (feature) => feature === this.state.activeDpb);
+			if (!exists) {
+				this.setState({
+					activeDpb: props.data[0]
+				});
+			}
+		}
 	}
 
 	render() {
 		const props = this.props;
+		let dataForCharts = null;
+
+		if (this.state.activeDpb) {
+			dataForCharts = this.prepareDataForCharts();
+		}
 
 		return (
-			<div>Biofyzika aaa</div>
+			<div>
+				<h2>{props.scope && props.scope.data.nameDisplay}</h2>
+				{dataForCharts && dataForCharts.chlorophyll ? this.renderChart(dataForCharts, "chlorophyll") : null}
+			</div>
 		);
+	}
+
+	renderChart(data, serialDataPath) {
+		return (
+			<HoverHandler>
+				<LineChart
+					key={serialDataPath}
+
+					data={[data]}
+					keySourcePath="ID_DPB"
+					nameSourcePath="NKOD_DPB"
+					serieDataSourcePath={serialDataPath}
+					xSourcePath="date"
+					ySourcePath="value"
+
+					isSerie
+					pointRadius={3}
+
+					xScaleType="time"
+					xValuesSize={4}
+					xOptions={{
+						name: "Time",
+						axisValueFormat: "MMMM",
+						popupValueFormat: "D. MMMM YYYY"
+					}}
+
+					yLabel
+					yValuesSize={2.5}
+					yOptions={{
+						unit: "μg/cm2",
+						name: "Chlorofyl"
+					}}
+					withoutYbaseline={false}
+
+				/>
+			</HoverHandler>
+		);
+	}
+
+	prepareDataForCharts() {
+		let chlorophyll = [];
+		let water = [];
+		let leafs = [];
+		_.forIn(this.state.activeDpb.properties, (value, key) => {
+			let attribute = key.split("_")[0];
+
+			if (attribute.length === 5) {
+				const attributeCode = attribute.substring(0,1);
+				const dateCode = attribute.substring(1,5);
+				const dateCodeNumber = Number(attribute.substring(1,5));
+
+				if (!_.isNaN(dateCodeNumber)) {
+					const day = dateCode.substring(2,4);
+					const month = dateCode.substring(0,2);
+					const date = moment(`${this.props.activePeriodKey}-${month}-${day}`).toISOString();
+					const record = {date, value};
+
+					if (value) {
+						if (attributeCode === "C") {
+							chlorophyll.push(record);
+						} else if (attributeCode === "W") {
+							water.push(record);
+						} else if (attributeCode === "L") {
+							leafs.push(record);
+						}
+					}
+				}
+			}
+		});
+
+		return {...this.state.activeDpb.properties, chlorophyll, water, leafs};
 	}
 }
 

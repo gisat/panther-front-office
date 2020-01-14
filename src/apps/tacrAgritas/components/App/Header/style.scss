@@ -110,6 +110,7 @@
 	transition: height .3s ease-in-out;
 	overflow: hidden;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.5);
+	z-index: 9999;
 }
 
 .tacrAgritas-fixed-header.open {
