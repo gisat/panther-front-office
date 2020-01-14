@@ -5,56 +5,59 @@ import {withResizeDetector} from 'react-resize-detector';
 
 import Timeline from '../timeline';
 import Overlay from '../timeline/overlay';
+import MapTimelineLegend from './MapTimelineLegend'
+import utils from "../../../utils/utils";
+import './style.scss';
 
 const CONTROLS_WIDTH = 0;
 
-export const LEVELS = [
-	{
-		end: 1,
-		level: 'year',
-	},
-	{
-		end: 10,
-		level: 'month',
-	},
-	{
-		end: 250,
-		level: 'day',
-	},
-	{
-		end: 15000,
-		level: 'hour',
-	},
-	{
-		end: 70000,
-		level: 'minute',
-	}
-]
-
 const getOverlaysCfg = (layers) => {
+	//let maxWidth = self.ref.current.offsetWidth/utils.getRemSize();
+	const LINEHEIGHT = 1;
+	const ROWHEIGHT = 0.6 //in rem
+	let PADDING = (LINEHEIGHT - ROWHEIGHT) / 2;
 	layers.sort((a, b) => a.zIndex-b.zIndex);
 
-	let lastZIndex = 0;
-	let top = 0;
-	return layers.map((layerCfg) => {
+	let lastZIndex = layers[0].zIndex;
+	let top = PADDING;
+	return layers.reduce((acc, layerCfg) => {
 		if(lastZIndex !== layerCfg.zIndex) {
 			lastZIndex = layerCfg.zIndex;
-			top = top + 7;
+			//todo rem
+			top = LINEHEIGHT + PADDING;
 		}
 
-		return {
+		if(layerCfg && layerCfg.period && layerCfg.period.length) {
+			const cfgs = layerCfg.period.map((period, index) => {
+				const cfg = {
+					key: `${layerCfg.layerKey}-${index}`,
+					start: moment(period.start),
+					end: moment(period.end),
+					backdroundColor: layerCfg.color,
+					hideLabel: true,
+					// classes: 'overlay5',
+					height: ROWHEIGHT * utils.getRemSize(),
+					top: top * utils.getRemSize(),
+				}
+				return cfg
+			});
+			return [...acc, ...cfgs];
+		} else {
+			const cfg = {
+				key: layerCfg.layerKey,
+				start: moment(layerCfg.period.start),
+				end: moment(layerCfg.period.end),
+				backdroundColor: layerCfg.color,
+				label: layerCfg.title,
+				hideLabel: true,
+				// classes: 'overlay5',
+				height: ROWHEIGHT * utils.getRemSize(),
+				top: top * utils.getRemSize(),
+			}
 
-			key: layerCfg.layerKey,
-			start: moment(layerCfg.period.start),
-			end: moment(layerCfg.period.end),
-			backdroundColor: layerCfg.color,
-			label: layerCfg.title,
-			hideLabel: true,
-			// classes: 'overlay5',
-			height: 5,
-			top: top,
+			return [...acc, cfg]
 		}
-	})
+	}, [])
 }
 
 class MapTimeline extends React.PureComponent {
@@ -70,7 +73,7 @@ class MapTimeline extends React.PureComponent {
 		}),
 		dayWidth: PropTypes.number,
 		centerTime: PropTypes.func,
-		contentHeight: PropTypes.number,
+		contentHeight: PropTypes.number, //Default contentHeight is calculated fron layers count
 		width: PropTypes.number,
 		height: PropTypes.number,
 		
@@ -87,40 +90,51 @@ class MapTimeline extends React.PureComponent {
 		onChange: PropTypes.func,
 		onLayerClick: PropTypes.func,
 		selectMode: PropTypes.bool,					//whether change time while zoom 
+		//MapTimeline specific
+		layers: PropTypes.array,					//which layers display in timeline
+		legend: PropTypes.bool,					//Display legend part on left side in horizontal view
 	};
 
 	static defaultProps = {
 		dayWidth: 1.5,
-		levels: LEVELS,
 		onHover: () => {},
 		onClick: () => {},
 		onLayerClick: () => {},
 		width: 100,
 		height: 100,
 		selectMode: false,
+		vertical: false,
 	}
 
 	render() {
-		const {levels, periodLimit, onHover, onClick, onChange, vertical, children, periodLimitOnCenter, selectMode, contentHeight, onLayerClick, layers} = this.props;
+		const {levels, periodLimit, onHover, onClick, onChange, vertical, children, periodLimitOnCenter, selectMode, contentHeight, onLayerClick, layers, legend} = this.props;
 
 		const overlays = getOverlaysCfg(layers);
+		const contentHeightByLayers = (layers.length + 1) * utils.getRemSize();
 		const childArray = React.Children.toArray(children)
 		childArray.push(<Overlay key={'layers'} overlays={overlays} onClick={this.onOverlayClick}/>);
 
 		return (
-			<Timeline
-				periodLimit={periodLimit}
-				periodLimitOnCenter={periodLimitOnCenter}
-				onChange={onChange}
-				onHover={onHover}
-				onClick={onClick}
-				vertical={vertical}
-				levels={levels}
-				contentHeight={contentHeight}
-				selectMode={selectMode}
-				>
-				{childArray}
-			</Timeline>
+			<div className={'ptr-maptimeline'}>
+				{
+					legend && !vertical ? <MapTimelineLegend layers={levels} /> : null
+				}
+				<div style={{display: 'flex', flex: '1 1 auto'}}>
+					<Timeline
+						periodLimit={periodLimit}
+						periodLimitOnCenter={periodLimitOnCenter}
+						onChange={onChange}
+						onHover={onHover}
+						onClick={onClick}
+						vertical={vertical}
+						levels={levels}
+						contentHeight={contentHeight || contentHeightByLayers}
+						selectMode={selectMode}
+						>
+						{childArray}
+					</Timeline>
+				</div>
+			</div>
 		);
 
 	}

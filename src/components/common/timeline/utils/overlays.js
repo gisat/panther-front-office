@@ -30,7 +30,6 @@ export const getIntersectionOverlays = (time, overlays = [], MOUSEBUFFERWIDTH = 
     }
 
     return overlays.filter(overlay => {
-        // return moment(time).isBetween(moment(overlay.start), moment(overlay.end), null, '[]');
         const interval2 = [
             moment(overlay.start),
             moment(overlay.end)
@@ -41,11 +40,44 @@ export const getIntersectionOverlays = (time, overlays = [], MOUSEBUFFERWIDTH = 
 }
 
 export const getIntersectionLayers = (time, layers = [], MOUSEBUFFERWIDTH = 0, dayWidth = 1) => {
-    const overlays = layers.map((l) => {
-        l.start = l.period.start;
-        l.end = l.period.end;
-        return l;
-    })
-    const intersection = getIntersectionOverlays(time, overlays, MOUSEBUFFERWIDTH, dayWidth).map(i => i.layerKey);
-    return layers.filter(l => intersection.includes(l.layerKey));
+    const overlays = layers.reduce((acc, l) => {
+        if(l.period && l.period.length) {
+            const cfgs =l.period.map((period, index) => {
+                return {
+                    layerTemplateKey: l.layerTemplateKey,
+                    period: true,
+                    index: index,
+                    start: period.start,
+                    end: period.end
+                }
+            })
+            return [...acc, ...cfgs];
+
+        } else {
+            const cfg = {
+                layerTemplateKey: l.layerTemplateKey,
+                period: false,
+                start: l.period.start,
+                end: l.period.end
+            }
+            return [...acc, cfg];
+        }
+    }, []);
+
+    const intersection = getIntersectionOverlays(time, overlays, MOUSEBUFFERWIDTH, dayWidth);
+
+    return layers.reduce((acc, layer) => {
+        const intersectionOverlays = intersection.filter((i) => i.layerTemplateKey === layer.layerTemplateKey);
+        if(intersectionOverlays && intersectionOverlays.length) {
+            if(intersectionOverlays[0].period) {
+                const intersectionPeriodsIndexes = intersectionOverlays.map(i => i.index);
+                const layerWithPeriods = {...layer, period: layer.period.filter((p,i) => intersectionPeriodsIndexes.includes(i))};
+                return [...acc, layerWithPeriods];
+            } else {
+                return [...acc, layer];
+            }
+        } else {
+            return acc;
+        }
+    },[]);
 }

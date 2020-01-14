@@ -1,0 +1,15 @@
+@import "../../../styles/_variables.scss";
+
+.ptr-maptimeline{
+    display: flex;
+}
+
+.ptr-maptimelinelegend{
+    display: flex;
+    flex-flow: column;
+    line-height: $a1;
+    font-size: $a1;
+}
+.ptr-maptimelinelegend span{
+    padding: 0 $a1;
+}

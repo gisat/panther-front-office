@@ -30,9 +30,9 @@ const TOOLTIP_PADDING = 5;
 
 const layers = [
 	{
-		layerKey: "szdcInsar19_track_totalDisplacement_5b145ea8-d38d-4955-838a-efc3498eb5fb",
+		layerTemplateKey: "szdcInsar19_track_totalDisplacement_5b145ea8-d38d-4955-838a-efc3498eb5fb",
 		period: {
-			start: "2015-06-01",
+			start: "2015-06-01 12:00",
 			end: "2015-08-02"
 		},
 		color: 'rgba(255, 0, 0, 0.7)',
@@ -42,75 +42,49 @@ const layers = [
 		zIndex: 3,
 	},
 	{
-		layerKey: "yyyyy11",
-		period: {
-			start: "2015-06-01 12:00",
-			end: "2015-06-01 12:00"
-		},
+		layerTemplateKey: "yyyyy11",
+		period: [
+			{
+				start: "2015-06-01 12:00",
+				end: "2015-06-01 12:00"
+			},
+			{
+				start: "2015-06-01 14:00",
+				end: "2015-06-01 14:00"
+			},
+			{
+				start: "2015-08-01 14:00",
+				end: "2015-08-01 14:00"
+			},
+		],
 		color: 'rgba(0, 237, 3, 0.7)',
 		active: true,
+		activePeriodIndex: 2, 
 		title: 'Sentinel',
-		info: '2015-06-01 12:00',
 		zIndex: 2,
-	},
-	{
-		layerKey: "yyyyy22",
-		period: {
-			start: "2015-06-01 14:00",
-			end: "2015-06-01 14:00"
-		},
-		color: 'rgba(0, 237, 3, 0.7)',
-		active: false,
-		title: 'Sentinel',
-		info: '2015-06-01 14:00',
-		zIndex: 2,
-	},
-	{
-		key: "xxxx33",
-		layerKey: "yyyyy33",
-		period: {
-			start: "2015-08-01 14:00",
-			end: "2015-08-01 14:00"
-		},
-		color: 'rgba(0, 237, 3, 0.7)',
-		active: false,
-		title: 'Sentinel',
-		info: '2015-08-01 14:00',
-		zIndex: 2,
-	},
-	
+	}
 ]
 const MOUSEBUFFERWIDTH = 10;
 class TimelineDoc extends React.PureComponent {
 	getOverlaysHoverContent(x, time, evt) {
-		const intersectionOverlays = getIntersectionLayers(time, layers, MOUSEBUFFERWIDTH, evt.dayWidth);
+		const intersectionOverlays = getIntersectionLayers(time, layers, MOUSEBUFFERWIDTH, evt.dayWidth);		
 		intersectionOverlays.sort((a,b) => a.top - b.top);
 
-		const merged = intersectionOverlays.reduce((acc, val) => {
-			//if accumulator includes value with same title, then rise coumt by one
-			const included = acc.find(v => v.title === val.title);
-			if(included) {
-				included.count = included.count + 1;
-				return acc;
-			} else {
-				val.count = 1;
-				return [...acc, val];
-			}
-		}, [])
-
-		const intersectionOverlaysElms = merged.map(overlay => {
+		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
+			const periodCount = overlay.period && overlay.period.length;
+			const info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
 			return <div key={overlay.key} className={'ptr-timeline-tooltip-layer'}>
 				<div>
 					<span class="dot" style={{'backgroundColor': overlay.color}}></span>
 				</div>
 				<div>{overlay.title}</div>
 				<div>
-				{overlay.count !== 1 ? overlay.count : overlay.info}
+					{info}
 				</div>
 			</div>
 		})
 
-		if(merged.length > 0) {
+		if(intersectionOverlays.length > 0) {
 			return (
 				<div>
 					{/* time: {` ${time.format("YYYY MM D H:mm:ss")}`} */}
@@ -319,9 +293,9 @@ class TimelineDoc extends React.PureComponent {
 									onClick={(evt) => console.log("onClick", evt)}
 									vertical={false}
 									levels={LEVELS}
-									contentHeight={100}
 									selectMode={true}
 									layers={layers}
+									legend={true}
 									>
 										<Mouse mouseBufferWidth={MOUSEBUFFERWIDTH} key="mouse"/>
 										<Levels key="levels"/>
