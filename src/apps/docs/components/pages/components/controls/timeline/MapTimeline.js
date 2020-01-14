@@ -75,9 +75,9 @@ class TimelineDoc extends React.PureComponent {
 		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
 			const periodCount = overlay.period && overlay.period.length;
 			const info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
-			return <div key={overlay.key} className={'ptr-timeline-tooltip-layer'}>
+			return <div key={overlay.layerTemplateKey} className={'ptr-timeline-tooltip-layer'}>
 				<div>
-					<span class="dot" style={{'backgroundColor': overlay.color}}></span>
+					<span className="dot" style={{'backgroundColor': overlay.color}}></span>
 				</div>
 				<div>{overlay.title}</div>
 				<div>

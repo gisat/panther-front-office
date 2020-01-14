@@ -11,15 +11,12 @@ class MapTimelineLegand extends React.PureComponent {
 
 	render() {
 		const {layers} = this.props;
-
+		const layersElms = layers.map(layer => {
+			return <span key={layer.layerTemplateKey} className={'ptr-maptimeline-legenditem'} title={`${layer.title} ${layer.info}`}>{layer.title}</span>
+		})
 		return (
 			<div className={'ptr-maptimelinelegend'}>
-                <span>
-                    Sentinel
-                </span>
-                <span>
-                    ortofoto
-                </span>
+                {layersElms}
 			</div>
 		);
 

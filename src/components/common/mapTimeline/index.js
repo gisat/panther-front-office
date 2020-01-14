@@ -119,7 +119,7 @@ class MapTimeline extends React.PureComponent {
 		return (
 			<div className={'ptr-maptimeline'}>
 				{
-					legend && !vertical ? <MapTimelineLegend layers={levels} /> : null
+					legend && !vertical ? <MapTimelineLegend layers={layers} /> : null
 				}
 				<div style={{display: 'flex', flex: '1 1 auto'}}>
 					<Timeline
