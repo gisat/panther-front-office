@@ -12,7 +12,6 @@ import './style.scss';
 const CONTROLS_WIDTH = 0;
 
 const getOverlaysCfg = (layers) => {
-	//let maxWidth = self.ref.current.offsetWidth/utils.getRemSize();
 	const LINEHEIGHT = 1;
 	const ROWHEIGHT = 0.6 //in rem
 	let PADDING = (LINEHEIGHT - ROWHEIGHT) / 2;
@@ -30,10 +29,12 @@ const getOverlaysCfg = (layers) => {
 		if(layerCfg && layerCfg.period && layerCfg.period.length) {
 			const cfgs = layerCfg.period.map((period, index) => {
 				const cfg = {
-					key: `${layerCfg.layerKey}-${index}`,
+					key: `${layerCfg.layerTemplateKey}-${index}`,
+					layerTemplateKey: layerCfg.layerTemplateKey,
+					periodIndex: index,
 					start: moment(period.start),
 					end: moment(period.end),
-					backdroundColor: layerCfg.color,
+					backdroundColor: layerCfg.active && layerCfg.activePeriodIndex === index ? layerCfg.activeColor : layerCfg.color,
 					hideLabel: true,
 					// classes: 'overlay5',
 					height: ROWHEIGHT * utils.getRemSize(),
@@ -44,10 +45,11 @@ const getOverlaysCfg = (layers) => {
 			return [...acc, ...cfgs];
 		} else {
 			const cfg = {
-				key: layerCfg.layerKey,
+				key: layerCfg.layerTemplateKey,
+				layerTemplateKey: layerCfg.layerTemplateKey,
 				start: moment(layerCfg.period.start),
 				end: moment(layerCfg.period.end),
-				backdroundColor: layerCfg.color,
+				backdroundColor: layerCfg.active ? layerCfg.activeColor : layerCfg.color,
 				label: layerCfg.title,
 				hideLabel: true,
 				// classes: 'overlay5',
@@ -88,9 +90,9 @@ class MapTimeline extends React.PureComponent {
 			level: PropTypes.string
 		})),										//ordered levels by higher level.end 
 		onChange: PropTypes.func,
-		onLayerClick: PropTypes.func,
 		selectMode: PropTypes.bool,					//whether change time while zoom 
 		//MapTimeline specific
+		onLayerClick: PropTypes.func,
 		layers: PropTypes.array,					//which layers display in timeline
 		legend: PropTypes.bool,					//Display legend part on left side in horizontal view
 	};
@@ -112,7 +114,7 @@ class MapTimeline extends React.PureComponent {
 		const overlays = getOverlaysCfg(layers);
 		const contentHeightByLayers = (layers.length + 1) * utils.getRemSize();
 		const childArray = React.Children.toArray(children)
-		childArray.push(<Overlay key={'layers'} overlays={overlays} onClick={this.onOverlayClick}/>);
+		childArray.push(<Overlay key={'layers'} overlays={overlays} onClick={onLayerClick}/>);
 
 		return (
 			<div className={'ptr-maptimeline'}>

@@ -36,7 +36,8 @@ const layers = [
 			end: "2015-08-02"
 		},
 		color: 'rgba(255, 0, 0, 0.7)',
-		active: true,
+		activeColor: 'rgba(255, 0, 100, 0.5)',
+		active: false,
 		title: 'Ortofoto 2016',
 		info: 'západ',
 		zIndex: 3,
@@ -58,6 +59,7 @@ const layers = [
 			},
 		],
 		color: 'rgba(0, 237, 3, 0.7)',
+		activeColor: 'rgba(0, 200, 100, 0.5)',
 		active: true,
 		activePeriodIndex: 2, 
 		title: 'Sentinel',
@@ -97,8 +99,8 @@ class TimelineDoc extends React.PureComponent {
 		
 	}
 
-	onOverlayClick = (layers) => {
-		console.log(layers);
+	onLayerClick = (layers) => {
+		console.log("xxx", layers);
 	}
 
 	getHorizontalTootlipStyle() {
@@ -296,6 +298,7 @@ class TimelineDoc extends React.PureComponent {
 									selectMode={true}
 									layers={layers}
 									legend={true}
+									onLayerClick={this.onLayerClick}
 									>
 										<Mouse mouseBufferWidth={MOUSEBUFFERWIDTH} key="mouse"/>
 										<Levels key="levels"/>

@@ -31,7 +31,8 @@ const Overlay = (props) => {
 
 		const onOverlayClick = () => {
 			if(typeof onClick === 'function') {
-				onClick(overlay);
+				const clickOverlay = overlays.find(o => o.key === overlay.key);
+				onClick(clickOverlay);
 			}
 		};
 
