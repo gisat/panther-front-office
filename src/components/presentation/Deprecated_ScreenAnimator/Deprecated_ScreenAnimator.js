@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import utils from '../../../utils/utils';
 import _ from 'lodash';
 
-import './ScreenAnimator.css';
+import './Deprecated_ScreenAnimator.css';
 
-class ScreenAnimator extends React.PureComponent {
+class Deprecated_ScreenAnimator extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -57,4 +57,4 @@ class ScreenAnimator extends React.PureComponent {
 
 }
 
-export default ScreenAnimator;
+export default Deprecated_ScreenAnimator;
