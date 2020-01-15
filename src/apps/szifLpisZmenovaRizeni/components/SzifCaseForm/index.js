@@ -8,6 +8,7 @@ import utils from "../../../../utils/utils";
 
 const mapStateToProps = state => {
 	return {
+		data: {}
 	}
 };
 
@@ -17,6 +18,9 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
+			},
+			updateEdited: () => {
+
 			}
 		}
 	}

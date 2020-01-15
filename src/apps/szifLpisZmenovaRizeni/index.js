@@ -7,6 +7,8 @@ import Helmet from "react-helmet";
 
 import Action from './state/Action';
 import Store, {history} from './state/Store';
+import i18n from '../../i18n';
+import utils from '../../utils/utils';
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
@@ -18,8 +20,11 @@ import SzifCaseTable from "./components/SzifCaseTable";
 import SzifCaseForm from "./components/SzifCaseForm";
 import User from '../../components/common/controls/User';
 import ScreenAnimator from '../../components/presentation/ScreenAnimator/ScreenAnimator';
-import i18n from '../../i18n';
 
+
+const cz = {};
+// override and extend locales in namespaces
+utils.addI18nResources('common', {cz});
 
 export default (path, baseUrl) => {
 
@@ -38,8 +43,8 @@ export default (path, baseUrl) => {
 				<AppContainer appKey="szifLpisZmenovaRizeni" loginRequired>
 					<User/>
 						<ScreenAnimator
+							// activeScreenKey={'szifCaseForm'}
 							activeScreenKey={'szifCaseForm'}
-							// activeScreenKey={'szifCaseTable'}
 						>
 							<SzifCaseTable screenKey="szifCaseTable" />
 							<SzifCaseForm screenKey="szifCaseForm"/>
