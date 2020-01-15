@@ -64,12 +64,12 @@
 }
 
 .szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text .ptr-icon .line {
-	fill: rgba(var(--base0rgb), .5);
+	fill: rgba(var(--base0rgb), .7);
 	transition: fill .3s ease-in-out;
 }
 
 .szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text:hover .ptr-icon .line {
-	fill: rgba(var(--base0rgb), .75);
+	fill: rgba(var(--base0rgb), .85);
 }
 
 .szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text.focus .ptr-icon .line {
