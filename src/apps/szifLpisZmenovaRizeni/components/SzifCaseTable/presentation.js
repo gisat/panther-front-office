@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import './style.scss';
 import SzifCaseTableRow from "./SzifCaseTableRow/presentation";
@@ -9,8 +8,14 @@ import Button from "../../../../components/common/atoms/Button";
 class SzifCaseTable extends React.PureComponent {
 	static propTypes = {
 		cases: PropTypes.array,
-		// changeActiveScreen: PropTypes.fun
+		switchScreen: PropTypes.func
 	};
+
+	constructor(props) {
+		super(props);
+
+		this.switchScreen = props.switchScreen.bind(this, 'szifCaseForm');
+	}
 
 	componentDidMount() {
 		this.props.onMount();
@@ -18,9 +23,9 @@ class SzifCaseTable extends React.PureComponent {
 
 	render() {
 		return (
-			<>
+			<div className="szifLpisZmenovaRizeni-table-container">
 				<div>
-					<Button onClick={() => {}}>Vytvořit řízení</Button>
+					<Button onClick={this.switchScreen}>Vytvořit řízení</Button>
 				</div>
 				<div className="szifLpisZmenovaRizeni-table">
 					<div className="szifLpisZmenovaRizeni-table-header">
@@ -37,7 +42,7 @@ class SzifCaseTable extends React.PureComponent {
 						})}
 					</div>
 				</div>
-			</>
+			</div>
 		);
 	}
 	

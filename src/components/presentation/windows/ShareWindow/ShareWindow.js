@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ScreenAnimator from "../../ScreenAnimator/ScreenAnimator";
+import ScreenAnimator from "../../Deprecated_ScreenAnimator/Deprecated_ScreenAnimator";
 import Window from "../../../containers/Window";
 import ShareForm from "../../../containers/controls/share/ShareForm";
 

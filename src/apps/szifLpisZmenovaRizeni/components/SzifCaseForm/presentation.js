@@ -15,6 +15,10 @@ class SzifCaseForm extends React.PureComponent {
 		activeNewEditedCase: PropTypes.object,
 	};
 
+	constructor(props) {
+		super(props);
+		this.switchScreen = props.switchScreen.bind(this, 'szifCaseTable');
+	}
 	onChange(key, value) {
 		this.props.updateEdited(key, value);
 	}
@@ -62,6 +66,7 @@ class SzifCaseForm extends React.PureComponent {
 						>{'Uložit'}</Button>
 					</div>
 				</div>
+				<Button onClick={this.switchScreen}>Zpět</Button>
 			</div>
 		);
 	}

@@ -1,5 +1,11 @@
 @import '../../../../styles/variables';
 
+.szifLpisZmenovaRizeni-table-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
 .szifLpisZmenovaRizeni-table {
 	width: 100%;
 	height: 100%;

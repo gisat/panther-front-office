@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ScreenAnimator from "../../../presentation/ScreenAnimator/ScreenAnimator";
+import ScreenAnimator from "../../../presentation/Deprecated_ScreenAnimator/Deprecated_ScreenAnimator";
 import ChangeReviewsList from './ChangeReviewsList';
 import ChangeReviewForm from './ChangeReviewForm';
 

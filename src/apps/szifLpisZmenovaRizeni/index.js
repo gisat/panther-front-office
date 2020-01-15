@@ -19,7 +19,7 @@ import AppContainer from "../../components/common/AppContainer";
 import SzifCaseTable from "./components/SzifCaseTable";
 import SzifCaseForm from "./components/SzifCaseForm";
 import User from '../../components/common/controls/User';
-import ScreenAnimator from '../../components/presentation/ScreenAnimator/ScreenAnimator';
+import ScreenAnimator from '../../components/common/ScreenAnimator/presentation';
 
 
 const cz = {};
