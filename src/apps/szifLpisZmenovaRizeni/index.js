@@ -33,7 +33,7 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | LPIS - Změnová řízení"
 					defaultTitle="LPIS - Změnová řízení"
 				/>
-				<AppContainer appKey="szifLpisZmenovaRizeni">
+				<AppContainer appKey="szifLpisZmenovaRizeni" loginRequired>
 					<User/>
 					<SzifCaseTable/>
 				</AppContainer>
