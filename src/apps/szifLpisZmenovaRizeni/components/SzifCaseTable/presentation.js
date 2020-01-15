@@ -4,10 +4,12 @@ import moment from 'moment';
 
 import './style.scss';
 import SzifCaseTableRow from "./SzifCaseTableRow/presentation";
+import Button from "../../../../components/common/atoms/Button";
 
 class SzifCaseTable extends React.PureComponent {
 	static propTypes = {
-		cases: PropTypes.array
+		cases: PropTypes.array,
+		// changeActiveScreen: PropTypes.fun
 	};
 
 	componentDidMount() {
@@ -16,21 +18,26 @@ class SzifCaseTable extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="szifLpisZmenovaRizeni-table">
-				<div className="szifLpisZmenovaRizeni-table-header">
-					<div className="szifLpisZmenovaRizeni-table-header-item">Status</div>
-					<div className="szifLpisZmenovaRizeni-table-header-item">Název řízení</div>
-					<div className="szifLpisZmenovaRizeni-table-header-item">Podáno</div>
-					<div className="szifLpisZmenovaRizeni-table-header-item">Změněno</div>
-					<div className="szifLpisZmenovaRizeni-table-header-item">Uzavřeno</div>
-					<div className="szifLpisZmenovaRizeni-table-header-item buttons"></div>
+			<>
+				<div>
+					<Button onClick={() => {}}>Vytvořit řízení</Button>
 				</div>
-				<div className="szifLpisZmenovaRizeni-table-body">
-					{this.props.cases && this.props.cases.map(reviewCase => {
-						return this.renderRow(reviewCase);
-					})}
+				<div className="szifLpisZmenovaRizeni-table">
+					<div className="szifLpisZmenovaRizeni-table-header">
+						<div className="szifLpisZmenovaRizeni-table-header-item">Status</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item">Název řízení</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item">Podáno</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item">Změněno</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item">Uzavřeno</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item buttons"></div>
+					</div>
+					<div className="szifLpisZmenovaRizeni-table-body">
+						{this.props.cases && this.props.cases.map(reviewCase => {
+							return this.renderRow(reviewCase);
+						})}
+					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 	

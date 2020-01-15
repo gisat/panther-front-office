@@ -15,7 +15,9 @@ import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
 import SzifCaseTable from "./components/SzifCaseTable";
+import SzifCaseForm from "./components/SzifCaseForm";
 import User from '../../components/common/controls/User';
+import ScreenAnimator from '../../components/presentation/ScreenAnimator/ScreenAnimator';
 import i18n from '../../i18n';
 
 
@@ -35,7 +37,16 @@ export default (path, baseUrl) => {
 				/>
 				<AppContainer appKey="szifLpisZmenovaRizeni" loginRequired>
 					<User/>
-					<SzifCaseTable/>
+						<ScreenAnimator
+							activeScreenKey={'szifCaseForm'}
+							// activeScreenKey={'szifCaseTable'}
+						>
+							<SzifCaseTable screenKey="szifCaseTable" />
+							<SzifCaseForm screenKey="szifCaseForm"/>
+						</ScreenAnimator>
+					{/* <div>
+						<SzifCaseView />
+					</div> */}
 				</AppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
