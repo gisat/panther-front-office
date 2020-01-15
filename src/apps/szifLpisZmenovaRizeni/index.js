@@ -15,8 +15,13 @@ import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
 import SzifCaseTable from "./components/SzifCaseTable";
+import User from '../../components/common/controls/User';
+import i18n from '../../i18n';
+
 
 export default (path, baseUrl) => {
+
+	i18n.changeLanguage('cz');
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
@@ -29,6 +34,7 @@ export default (path, baseUrl) => {
 					defaultTitle="LPIS - Změnová řízení"
 				/>
 				<AppContainer appKey="szifLpisZmenovaRizeni">
+					<User/>
 					<SzifCaseTable/>
 				</AppContainer>
 			</Provider>
