@@ -28,3 +28,8 @@
 	--accent100: #{$lightAccent100};
 	--accent100rgb: #{$lightAccent100rgb};
 }
+
+#ptr-app.szifLpisZmenovaRizeni{
+	display: flex;
+    flex-flow: column;
+}
