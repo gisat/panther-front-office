@@ -11,6 +11,11 @@ class SzifCaseForm extends React.PureComponent {
 		// changeActiveScreen: PropTypes.fun
 	};
 
+	constructor(props) {
+		super(props);
+		this.switchScreen = props.switchScreen.bind(this, 'szifCaseTable');
+	}
+
 	componentDidMount() {
 		// this.props.onMount();
 	}
@@ -19,7 +24,7 @@ class SzifCaseForm extends React.PureComponent {
 		return (
 			<div className="szifLpisZmenovaRizeni-szifCaseForm">
 				form
-				<Button onClick={() => {}}>Zpět</Button>
+				<Button onClick={this.switchScreen}>Zpět</Button>
 			</div>
 		);
 	}

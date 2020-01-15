@@ -17,7 +17,7 @@ import AppContainer from "../../components/common/AppContainer";
 import SzifCaseTable from "./components/SzifCaseTable";
 import SzifCaseForm from "./components/SzifCaseForm";
 import User from '../../components/common/controls/User';
-import ScreenAnimator from '../../components/presentation/Deprecated_ScreenAnimator/Deprecated_ScreenAnimator';
+import ScreenAnimator from '../../components/common/ScreenAnimator/presentation';
 import i18n from '../../i18n';
 
 
