@@ -41,14 +41,16 @@ export default (path, baseUrl) => {
 					defaultTitle="LPIS - Změnová řízení"
 				/>
 				<AppContainer appKey="szifLpisZmenovaRizeni" loginRequired>
-					<User/>
-						<ScreenAnimator
-							// activeScreenKey={'szifCaseForm'}
-							activeScreenKey={'szifCaseForm'}
-						>
-							<SzifCaseTable screenKey="szifCaseTable" />
-							<SzifCaseForm screenKey="szifCaseForm"/>
-						</ScreenAnimator>
+					<div className="szifLpisZmenovaRizeni-user">
+						<User inverted/>
+					</div>
+					<ScreenAnimator
+						// activeScreenKey={'szifCaseForm'}
+						activeScreenKey={'szifCaseTable'}
+					>
+						<SzifCaseTable screenKey="szifCaseTable" />
+						<SzifCaseForm screenKey="szifCaseForm"/>
+					</ScreenAnimator>
 					{/* <div>
 						<SzifCaseView />
 					</div> */}

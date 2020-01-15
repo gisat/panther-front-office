@@ -23,9 +23,14 @@ class SzifCaseTable extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="szifLpisZmenovaRizeni-table-container">
-				<div>
-					<Button onClick={this.switchScreen}>Vytvořit řízení</Button>
+			<div className="szifLpisZmenovaRizeni-cases">
+				<div className="szifLpisZmenovaRizeni-cases-header">
+					<h1 className="szifLpisZmenovaRizeni-cases-title">Změnová řízení</h1>
+					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
+						<div>
+							<Button icon="plus" inverted ghost onClick={this.switchScreen}>Vytvořit řízení</Button>
+						</div>
+					</div>
 				</div>
 				<div className="szifLpisZmenovaRizeni-table">
 					<div className="szifLpisZmenovaRizeni-table-header">

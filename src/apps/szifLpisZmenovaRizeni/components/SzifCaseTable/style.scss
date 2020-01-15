@@ -1,11 +1,43 @@
 @import '../../../../styles/variables';
 
-.szifLpisZmenovaRizeni-table-container {
+.szifLpisZmenovaRizeni-cases {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
+// header
+.szifLpisZmenovaRizeni-cases-header {
+	background: var(--accent60);
+	display: flex;
+}
+
+.szifLpisZmenovaRizeni-cases-title {
+	margin: 0 m(2/3) m(2/3);
+	font-weight: normal;
+	font-size: $a3;
+	color: var(--accent0);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools-container {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin: 0 m(2/3);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools {
+
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools > div{
+	margin-left: m(2/3);
+}
+
+
+
+// table
 .szifLpisZmenovaRizeni-table {
 	width: 100%;
 	height: 100%;
@@ -16,12 +48,12 @@
 .szifLpisZmenovaRizeni-table-header {
 	display: flex;
 	height: 2rem;
-	background: var(--accent50);
+	background: var(--accent60);
 	padding: .3rem 16px .3rem .5rem;
 }
 
 .szifLpisZmenovaRizeni-table-header-item {
-	color: var(--accent15);
+	color: var(--accent0);
 	text-transform: uppercase;
 	white-space: nowrap;
 	overflow: hidden;
