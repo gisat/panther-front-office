@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import './style.scss';
 import SzifCaseTableRow from "./SzifCaseTableRow/presentation";
 import Button from "../../../../components/common/atoms/Button";
+import Icon from "../../../../components/common/atoms/Icon";
+import InputText from "../../../../components/common/atoms/Input/Input";
 
 class SzifCaseTable extends React.PureComponent {
 	static propTypes = {
@@ -27,7 +29,15 @@ class SzifCaseTable extends React.PureComponent {
 				<div className="szifLpisZmenovaRizeni-cases-header">
 					<h1 className="szifLpisZmenovaRizeni-cases-title">Změnová řízení</h1>
 					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
-						<div>
+						<div className="szifLpisZmenovaRizeni-cases-header-tools">
+							<InputText
+								placeholder="Vyhledat"
+								transparent
+								onChange={()=>{}}
+								value=""
+							>
+								<Icon icon="search"/>
+							</InputText>
 							<Button icon="plus" inverted ghost onClick={this.switchScreen}>Vytvořit řízení</Button>
 						</div>
 					</div>
