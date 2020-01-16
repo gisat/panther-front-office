@@ -16,10 +16,9 @@ import '../../styles/base.scss';
 import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
-import SzifCaseTable from "./components/SzifCaseTable";
-import SzifCaseForm from "./components/SzifCaseForm";
-import User from '../../components/common/controls/User';
-import ScreenAnimator from '../../components/common/ScreenAnimator/presentation';
+import SzifCaseList from "./components/SzifCaseList";
+import SzifMapView from "./components/SzifMapView";
+import ScreenAnimator from "../../components/common/ScreenAnimator";
 
 
 const cz = {};
@@ -41,18 +40,13 @@ export default (path, baseUrl) => {
 					defaultTitle="LPIS - Změnová řízení"
 				/>
 				<AppContainer appKey="szifLpisZmenovaRizeni" loginRequired>
-					<div className="szifLpisZmenovaRizeni-user">
-						<User inverted/>
-					</div>
 					<ScreenAnimator
-						activeScreenKey={'szifCaseTable'}
+						screenAnimatorKey='szifScreenAnimator'
+						activeScreenKey='szifCaseList'
 					>
-						<SzifCaseTable screenKey="szifCaseTable" />
-						<SzifCaseForm screenKey="szifCaseForm"/>
+						<SzifCaseList screenKey="szifCaseList"/>
+						<SzifMapView screenKey="szifMapView"/>
 					</ScreenAnimator>
-					{/* <div>
-						<SzifCaseView />
-					</div> */}
 				</AppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')

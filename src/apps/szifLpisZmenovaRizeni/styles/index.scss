@@ -31,7 +31,13 @@
 
 #ptr-app.szifLpisZmenovaRizeni{
 	display: flex;
-    flex-flow: column;
+    flex-direction: column;
+}
+
+.szifLpisZmenovaRizeni-case-list {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .szifLpisZmenovaRizeni-user {

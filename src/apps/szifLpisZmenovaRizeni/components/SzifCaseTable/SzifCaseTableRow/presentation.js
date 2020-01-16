@@ -11,7 +11,8 @@ class SzifCaseTableRow extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
 		highlightedCaseKey: PropTypes.string,
-		highlightedChangeDescription: PropTypes.string
+		highlightedChangeDescription: PropTypes.string,
+		switchScreen: PropTypes.func
 	};
 
 	constructor(props) {
@@ -59,7 +60,7 @@ class SzifCaseTableRow extends React.PureComponent {
 
 		return (
 			<>
-				<Button ghost onClick={() => {}}>Zobrazit</Button>
+				<Button ghost onClick={this.props.switchScreen}>Zobrazit</Button>
 				<Button className={expandButtonClasses} invisible icon="expand-row" onClick={this.onExpandButtonClick}/>
 			</>
 		);

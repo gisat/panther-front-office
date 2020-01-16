@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
-import SzifCaseTableRow from "./SzifCaseTableRow/presentation";
+import SzifCaseTableRow from "./SzifCaseTableRow";
 import Button from "../../../../components/common/atoms/Button";
 import Icon from "../../../../components/common/atoms/Icon";
 import InputText from "../../../../components/common/atoms/Input/Input";
