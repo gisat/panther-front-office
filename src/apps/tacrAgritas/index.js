@@ -14,6 +14,7 @@ import '../../styles/base.scss';
 import './styles/index.scss';
 
 import config from '../../config';
+import mockConfig from './mockConfig.json';
 import utils from "./utils";
 import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
@@ -26,29 +27,12 @@ export default (path, baseUrl) => {
 
 	utils.request(appConfigUrl, "GET", null, null).then((config) => {
 		if (config && config.data) {
-			const d = config.data;
+			// const d = config.data;
+			// TODO replace mock with real data
+			const d = mockConfig.data;
 
 			if (d.configurations) {
-
-				// TODO replace mock with rel data
-				// const data = d.configurations[0].data.data;
-				const data = {
-					"resources": {
-						"Agrossyn": {
-							"biofyzika": {
-								"2016": "AGROSSYN_LPIS2016_BIOFYZIKA_epsg4326.geojson",
-								"2017": "AGROSSYN_LPIS2017_BIOFYZIKA_epsg4326.geojson",
-								"2018": "AGROSSYN_LPIS2018_BIOFYZIKA_epsg4326.geojson",
-								"2019": "AGROSSYN_LPIS2019_BIOFYZIKA_epsg4326.geojson"
-							},
-							"produktivita": {
-								"2017": "AGROSSYN_LPIS2016_BIOFYZIKA_epsg4326.geojson",
-								"2018": "AGROSSYN_LPIS2019_BIOFYZIKA_epsg4326.geojson"
-							}
-						}
-					}
-				};
-
+				const data = d.configurations[0].data.data;
 				Store.dispatch(Action.app.add(data));
 			}
 			if (d.cases) {

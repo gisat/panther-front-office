@@ -10,11 +10,13 @@ import MapSetPresentation, {PresentationMap} from "../../../../../components/com
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../../components/common/maps/controls/MapControls/presentation";
 import MapResources from "../../../constants/MapResources";
-import LeafletMap from "../../../../../components/common/maps/LeafletMap/presentation";
+import mapUtils from "../../../../../utils/map";
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
+		place: PropTypes.object,
+		scope: PropTypes.object,
 		activePeriodKey: PropTypes.string
 	};
 
@@ -41,6 +43,13 @@ class Biofyzika extends React.PureComponent {
 				});
 			}
 		}
+
+		if (prevProps.place !== this.props.place) {
+			if (this.props.place.data.bbox) {
+				const mapView = mapUtils.getViewFromBoundingBox(this.props.place.data.bbox, true);
+				this.setState({mapView});
+			}
+		}
 	}
 
 	onMapViewChange(view) {
@@ -51,10 +60,26 @@ class Biofyzika extends React.PureComponent {
 
 	render() {
 		const props = this.props;
+
 		let dataForCharts = null;
+		let mapLayers = [];
 
 		if (this.state.activeDpb) {
 			dataForCharts = this.prepareDataForCharts();
+		}
+
+		if (this.props.data) {
+			mapLayers = [
+				{
+					key: "test",
+					type: "vector",
+					opacity: 0.7,
+
+					options: {
+						features: props.data
+					}
+				}
+			];
 		}
 
 		return (
@@ -62,7 +87,7 @@ class Biofyzika extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<h1>{props.scope && props.scope.data.nameDisplay}</h1>
 					<h2>Obsah chlorofylu</h2>
-					{this.renderMapSet('map-set-1')}
+					{this.renderMapSet('map-set-1', mapLayers)}
 					{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
 					<h2>Obsah vody</h2>
 					{this.renderMapSet('map-set-2')}
@@ -75,12 +100,12 @@ class Biofyzika extends React.PureComponent {
 		);
 	}
 
-	renderMapSet(key) {
+	renderMapSet(key, layers) {
 		return (
 			<div style={{height: 500, width: "100%", marginBottom: "3rem"}}>
 				<MapSetPresentation
 					activeMapKey={key+'map-1'}
-					mapComponent={LeafletMap}
+					mapComponent={WorldWindMap}
 					view={this.state.mapView}
 					onViewChange={this.onMapViewChange}
 					sync={{
@@ -90,6 +115,7 @@ class Biofyzika extends React.PureComponent {
 						heading: true,
 						roll: true
 					}}
+					layers={layers}
 					backgroundLayer={MapResources.cartoDbVoyagerLight}
 				>
 					<PresentationMap
