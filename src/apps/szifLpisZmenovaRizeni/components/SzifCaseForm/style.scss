@@ -1,5 +1,21 @@
+@import '../../../../styles/variables';
+
 .szifLpisZmenovaRizeni-szifCaseForm{
     width: 100%;
     height: 100%;
     overflow: auto;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.szifLpisZmenovaRizeni-szifCaseForm>div{
+    margin: 0 5rem;
+    max-width: 50rem;
+    display: flex;
+    flex-flow: column;
+    padding: 2rem 0;
+}
+
+.ptr-change-review-form-buttons .ptr-button{
+    margin-right: m(2/3);
 }
