@@ -39,6 +39,7 @@ import usersReducers from '../../../state/Users/reducers';
 import viewsReducers from '../../../state/Views/reducers';
 import windowsReducers from '../../../state/Windows/reducers';
 import lpisChangeCasesReducers from "./LpisChangeCases/reducers";
+import lpisChangeCasesEdited from "./LpisChangeCasesEdited/reducers";
 
 export const history = createBrowserHistory();
 
@@ -51,6 +52,7 @@ if (process.env.NODE_ENV === 'development') {
 export default createStore(combineReducers({
 	specific: combineReducers({
 		lpisChangeCases: lpisChangeCasesReducers,
+		lpisChangeCasesEdited: lpisChangeCasesEdited,
 	}),
 	app: appReducers,
 	areas: areasReducers,

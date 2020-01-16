@@ -33,6 +33,11 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 				REGISTER: null
 			}
 		}
+	},
+	LPIS_CHANGE_CASES_EDITED: {
+		CLEAR_EDITED_CASE: null,
+		EDIT_ACTIVE_EDITED_CASE: null,
+		CREATE_NEW_ACTIVE_EDITED_CASE: null,
 	}
 };
 
