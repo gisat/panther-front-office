@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		switchScreen: () => {
 			dispatch(Action.specific.lpisChangeCases.setActiveKey(ownProps.metadataKey));
 			dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifMapView'));
+		},
+		showMap: () => {
+			dispatch(Action.specific.szifLpisZmenovaRizeni.applyView(ownProps.data.viewKey));
 		}
 	}
 };

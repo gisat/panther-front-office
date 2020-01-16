@@ -23,12 +23,18 @@ class SzifCaseTableRow extends React.PureComponent {
 		};
 
 		this.onExpandButtonClick = this.onExpandButtonClick.bind(this);
+		this.onShowMapButtonClick = this.onShowMapButtonClick.bind(this);
 	}
 
 	onExpandButtonClick() {
 		this.setState({
 			expanded: !this.state.expanded
 		})
+	}
+
+	onShowMapButtonClick() {
+		this.props.switchScreen();
+		this.props.showMap();
 	}
 
 	render() {
@@ -60,7 +66,7 @@ class SzifCaseTableRow extends React.PureComponent {
 
 		return (
 			<>
-				<Button ghost onClick={this.props.switchScreen}>Zobrazit</Button>
+				<Button ghost onClick={this.onShowMapButtonClick}>Zobrazit</Button>
 				<Button className={expandButtonClasses} invisible icon="expand-row" onClick={this.onExpandButtonClick}/>
 			</>
 		);

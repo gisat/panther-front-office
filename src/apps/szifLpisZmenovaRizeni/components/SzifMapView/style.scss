@@ -3,4 +3,6 @@
 	background-color: red;
 	width: 100%;
 	overflow: auto;
+	display: flex;
+	flex-direction: column;
 }

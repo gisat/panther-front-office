@@ -32,6 +32,65 @@ export default (path, baseUrl) => {
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
+	// Add default view
+	Store.dispatch(Action.views.add({
+		key: '3bb594c3-dd3a-4ac7-992c-af8b50b6091b',
+		data: {
+			state: {
+				maps: {
+					"activeSetKey": 'szifLpisZmenovaRizeni-map-set',
+					"maps": {
+						"szifLpisZmenovaRizeni-map-1": {
+							"key": "szifLpisZmenovaRizeni-map-1",
+							"name": null,
+							"data": {}
+						},
+						"szifLpisZmenovaRizeni-map-2": {
+							"key": "szifLpisZmenovaRizeni-map-2",
+							"name": null,
+							"data": {}
+						}
+					},
+					"sets": {
+						"szifLpisZmenovaRizeni-map-set": {
+							"key": "szifLpisZmenovaRizeni-map-set",
+							"maps": [
+								"szifLpisZmenovaRizeni-map-1",
+								"szifLpisZmenovaRizeni-map-2"
+							],
+							"sync": {
+								"center": true,
+								"roll": true,
+								"range": true,
+								"tilt": true,
+								"heading": true,
+								"boxRange": true
+							},
+							"data": {
+								"backgroundLayer": {
+									"type": "worldwind",
+									"options": {
+										"layer": "wikimedia"
+									}
+								},
+								"view": {
+									"center": {
+										"lat": 50,
+										"lon": 15
+									},
+									"boxRange": 1000000
+								}
+							},
+							"activeMapKey": "szifLpisZmenovaRizeni-map-1"
+						}
+					}
+				}
+			}
+		}
+	}));
+
+	Store.dispatch(Action.views.setActiveKey('3bb594c3-dd3a-4ac7-992c-af8b50b6091b'));
+
 	ReactDOM.render(
 		<>
 			<Provider store={Store}>
