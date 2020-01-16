@@ -9,13 +9,8 @@ import "./style.scss";
 import MapSetPresentation, {PresentationMap} from "../../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../../components/common/maps/controls/MapControls/presentation";
-
-const wikimedia = {
-	type: 'worldwind',
-	options: {
-		layer: 'wikimedia'
-	}
-};
+import MapResources from "../../../constants/MapResources";
+import LeafletMap from "../../../../../components/common/maps/LeafletMap/presentation";
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
@@ -84,8 +79,8 @@ class Biofyzika extends React.PureComponent {
 		return (
 			<div style={{height: 500, width: "100%", marginBottom: "3rem"}}>
 				<MapSetPresentation
-					activeMapKey={key}
-					mapComponent={WorldWindMap}
+					activeMapKey={key+'map-1'}
+					mapComponent={LeafletMap}
 					view={this.state.mapView}
 					onViewChange={this.onMapViewChange}
 					sync={{
@@ -95,15 +90,15 @@ class Biofyzika extends React.PureComponent {
 						heading: true,
 						roll: true
 					}}
-					backgroundLayer={wikimedia}
+					backgroundLayer={MapResources.cartoDbVoyagerLight}
 				>
 					<PresentationMap
-						mapKey='map-1'
+						mapKey={key+'map-1'}
 					/>
 					<PresentationMap
-						mapKey='map-2'
+						mapKey={key+'map-2'}
 					/>
-					<MapControlsPresentation zoomOnly/>
+					<MapControlsPresentation zoomOnly levelsBased/>
 				</MapSetPresentation>
 			</div>
 		);
