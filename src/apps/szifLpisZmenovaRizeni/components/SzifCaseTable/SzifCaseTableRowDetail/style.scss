@@ -20,6 +20,11 @@
 	margin-right: 3rem;
 }
 
+.szifLpisZmenovaRizeni-table-detail-item.highlighted i {
+	background: yellow;
+	font-weight: inherit;
+}
+
 .szifLpisZmenovaRizeni-table-detail-item > div:first-child {
 	font-size: $b1;
 	color: var(--base70);

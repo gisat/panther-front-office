@@ -9,7 +9,10 @@ import SzifCaseTableRowDetail from "../SzifCaseTableRowDetail/presentation";
 
 class SzifCaseTableRow extends React.PureComponent {
 	static propTypes = {
-		data: PropTypes.object
+		data: PropTypes.object,
+		highlightedCaseKey: PropTypes.string,
+		highlightedChangeDescription: PropTypes.string,
+		switchScreen: PropTypes.func
 	};
 
 	constructor(props) {
@@ -39,7 +42,7 @@ class SzifCaseTableRow extends React.PureComponent {
 			<div className={classes} key={props.data.caseKey}>
 				<div className="szifLpisZmenovaRizeni-table-row-record">
 					<div className="szifLpisZmenovaRizeni-table-row-item">Status</div>
-					<div className="szifLpisZmenovaRizeni-table-row-item">{props.data.caseKey}</div>
+					{this.renderCaseKey()}
 					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
@@ -57,9 +60,17 @@ class SzifCaseTableRow extends React.PureComponent {
 
 		return (
 			<>
-				<Button onClick={() => {}}>Zobrazit</Button>
+				<Button ghost onClick={this.props.switchScreen}>Zobrazit</Button>
 				<Button className={expandButtonClasses} invisible icon="expand-row" onClick={this.onExpandButtonClick}/>
 			</>
+		);
+	}
+
+	renderCaseKey(){
+		return this.props.highlightedCaseKey ? (
+			<div dangerouslySetInnerHTML={{__html: this.props.highlightedCaseKey}} className="szifLpisZmenovaRizeni-table-row-item highlighted"></div>
+		) : (
+			<div className="szifLpisZmenovaRizeni-table-row-item">{this.props.data.caseKey}</div>
 		);
 	}
 
@@ -77,6 +88,7 @@ class SzifCaseTableRow extends React.PureComponent {
 					codeDpb={props.data.codeDpb}
 					codeJi={props.data.codeJi}
 					changeDescription={props.data.changeDescription}
+					highlightedChangeDescription={props.highlightedChangeDescription}
 					changeDescriptionOther={props.data.changeDescriptionOther}
 					changeDescriptionPlace={props.data.changeDescriptionPlace}
 					evaluationResult={props.data.evaluationResult}

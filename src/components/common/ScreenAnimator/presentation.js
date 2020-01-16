@@ -57,11 +57,10 @@ class ScreenAnimator extends React.PureComponent {
 				const left = index > 0 ? 100/(index+1) : 0;
 				children.push(
 					<div style={{width: 100/screenCount + '%', left: left + '%'}}>
-						{React.cloneElement(child, {...child.props, switchScreen: this.switchScreen})}
+						{React.cloneElement(child, {...child.props, switchScreen: (this.props.onSwitchScreen || this.switchScreen)})}
 					</div>
 				);
 			}
-
 		});
 
 		return (

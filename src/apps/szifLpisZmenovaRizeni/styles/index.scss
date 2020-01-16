@@ -31,5 +31,24 @@
 
 #ptr-app.szifLpisZmenovaRizeni{
 	display: flex;
-    flex-flow: column;
+    flex-direction: column;
+}
+
+.szifLpisZmenovaRizeni-case-list {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.szifLpisZmenovaRizeni-user {
+	background-color: var(--accent60);
+	padding: 0 m(1/3);
+}
+
+.szifLpisZmenovaRizeni-user .ptr-user-name {
+	color: var(--accent35);
+}
+
+.szifLpisZmenovaRizeni-user .ptr-button > .ptr-icon .line {
+	fill: var(--accent35);
 }

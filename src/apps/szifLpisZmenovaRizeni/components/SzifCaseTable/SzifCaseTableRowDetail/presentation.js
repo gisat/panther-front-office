@@ -11,6 +11,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		codeDpb: PropTypes.string,
 		codeJi: PropTypes.string,
 		changeDescription: PropTypes.string,
+		highlightedChangeDescription: PropTypes.string,
 		changeDescriptionOther: PropTypes.string,
 		changeDescriptionPlace: PropTypes.string,
 		evaluationResult: PropTypes.string,
@@ -37,7 +38,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 				<div className="szifLpisZmenovaRizeni-table-detail-descriptions">
 					<div>
 						<h4>Ohlášení územní změny</h4>
-						{props.changeDescription ? this.renderItem("Popis důvodu pro aktualizaci LPIS", props.changeDescription) : null}
+						{props.changeDescription ? this.renderChangeDescription() : null}
 						{props.changeDescriptionPlace ? this.renderItem("Určení místa změny v terénu", props.changeDescriptionPlace) : null}
 						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther) : null}
 					</div>
@@ -48,6 +49,20 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 						{props.evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", props.evaluationUsedSources, "sources") : null}
 					</div>
 				</div>
+			</div>
+		);
+	}
+
+	renderChangeDescription() {
+		return this.props.highlightedChangeDescription ? (
+			<div className="szifLpisZmenovaRizeni-table-detail-item highlighted">
+				<div>{"Popis důvodu pro aktualizaci LPIS"}</div>
+				<div dangerouslySetInnerHTML={{__html: this.props.highlightedChangeDescription}}></div>
+			</div>
+		) : (
+			<div className="szifLpisZmenovaRizeni-table-detail-item">
+				<div>{"Popis důvodu pro aktualizaci LPIS"}</div>
+				<div>{this.props.changeDescription}</div>
 			</div>
 		);
 	}

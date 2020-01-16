@@ -2,8 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
-import SzifCaseTableRow from "./SzifCaseTableRow/presentation";
+import SzifCaseTableRow from "./SzifCaseTableRow";
 import Button from "../../../../components/common/atoms/Button";
+import Icon from "../../../../components/common/atoms/Icon";
+import InputText from "../../../../components/common/atoms/Input/Input";
+import fuzzysort from "fuzzysort";
+
+const SEARCHABLE_CASE_KEYS = ['caseKey', 'changeDescription'];
+const SEARCHABLE_CASE_KEYS_SOURCES = ['data.caseKey', 'data.changeDescription'];
+const SEARCHING_RESULTS_LIMIT = 20;
+const SEARCHING_SCORE_THRESHOLD = -10000;
+
+function search(searchString, cases){
+	let results = fuzzysort.go(searchString, cases, {
+		threshold: SEARCHING_SCORE_THRESHOLD,
+		limit: SEARCHING_RESULTS_LIMIT,
+		keys: SEARCHABLE_CASE_KEYS_SOURCES
+	});
+
+	let records = [];
+	results.forEach(result => {
+		let record = {...result.obj};
+		result.forEach((rec, i) => {
+			let highlighted = fuzzysort.highlight(rec, '<i>', '</i>');
+			if (highlighted){
+				record[SEARCHABLE_CASE_KEYS[i] + '_highlighted'] = highlighted;
+			}
+		});
+		records.push(record);
+	});
+
+	return records;
+}
 
 class SzifCaseTable extends React.PureComponent {
 	static propTypes = {
@@ -14,6 +44,12 @@ class SzifCaseTable extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			filteredCases: null,
+			searchString: null,
+		};
+
+		this.onSearchChange = this.onSearchChange.bind(this);
 		this.switchScreen = props.switchScreen.bind(this, 'szifCaseForm');
 	}
 
@@ -21,11 +57,38 @@ class SzifCaseTable extends React.PureComponent {
 		this.props.onMount();
 	}
 
+	onSearchChange(searchString) {
+		let filteredCases = [...this.props.cases];
+		if (searchString && searchString !== "") {
+			filteredCases = search(searchString, filteredCases);
+		}
+
+		this.setState({
+			filteredCases,
+			searchString
+		});
+	}
+
 	render() {
+		const cases = this.state.filteredCases || this.props.cases;
+
 		return (
-			<div className="szifLpisZmenovaRizeni-table-container">
-				<div>
-					<Button onClick={this.switchScreen}>Vytvořit řízení</Button>
+			<div className="szifLpisZmenovaRizeni-cases">
+				<div className="szifLpisZmenovaRizeni-cases-header">
+					<h1 className="szifLpisZmenovaRizeni-cases-title">Změnová řízení</h1>
+					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
+						<div className="szifLpisZmenovaRizeni-cases-header-tools">
+							<InputText
+								placeholder="Vyhledat"
+								transparent
+								onChange={this.onSearchChange}
+								value={this.state.searchString}
+							>
+								<Icon icon="search"/>
+							</InputText>
+							<Button icon="plus" inverted ghost onClick={this.switchScreen}>Vytvořit řízení</Button>
+						</div>
+					</div>
 				</div>
 				<div className="szifLpisZmenovaRizeni-table">
 					<div className="szifLpisZmenovaRizeni-table-header">
@@ -37,7 +100,7 @@ class SzifCaseTable extends React.PureComponent {
 						<div className="szifLpisZmenovaRizeni-table-header-item buttons"></div>
 					</div>
 					<div className="szifLpisZmenovaRizeni-table-body">
-						{this.props.cases && this.props.cases.map(reviewCase => {
+						{cases && cases.map(reviewCase => {
 							return this.renderRow(reviewCase);
 						})}
 					</div>
@@ -49,8 +112,11 @@ class SzifCaseTable extends React.PureComponent {
 	renderRow(caseData) {
 		return (
 			<SzifCaseTableRow
-				key={caseData.data.caseKey}
+				key={caseData.key}
+				metadataKey={caseData.key}
 				data={caseData.data}
+				highlightedCaseKey={caseData.caseKey_highlighted}
+				highlightedChangeDescription={caseData.changeDescription_highlighted}
 			/>
 		);
 	}

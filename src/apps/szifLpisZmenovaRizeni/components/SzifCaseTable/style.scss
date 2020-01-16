@@ -1,11 +1,83 @@
 @import '../../../../styles/variables';
 
-.szifLpisZmenovaRizeni-table-container {
+.szifLpisZmenovaRizeni-cases {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
+// header
+.szifLpisZmenovaRizeni-cases-header {
+	background: var(--accent60);
+	display: flex;
+}
+
+.szifLpisZmenovaRizeni-cases-title {
+	margin: 0 m(2/3) m(2/3);
+	font-weight: normal;
+	font-size: $a3;
+	color: var(--accent0);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools-container {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin: 0 m(2/3);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools {
+	display: flex;
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-button {
+	margin-left: m(2/3);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text {
+	border: 0;
+	background-color: rgba(var(--base0rgb), .2);
+	min-width: 13rem;
+	transition: background-color .3s ease-in-out;
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text input {
+	color: var(--base0);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text:hover {
+	background-color: rgba(var(--base0rgb), .3);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text.focus {
+	background-color: rgba(var(--base0rgb), .4);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text input::placeholder {
+	color: rgba(var(--base0rgb), .5);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text .ptr-icon {
+	width: 1.35rem;
+	margin-right: .25rem;
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text .ptr-icon .line {
+	fill: rgba(var(--base0rgb), .7);
+	transition: fill .3s ease-in-out;
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text:hover .ptr-icon .line {
+	fill: rgba(var(--base0rgb), .85);
+}
+
+.szifLpisZmenovaRizeni-cases-header-tools .ptr-input-text.focus .ptr-icon .line {
+	fill: rgba(var(--base0rgb), 1);
+}
+
+
+// table
 .szifLpisZmenovaRizeni-table {
 	width: 100%;
 	height: 100%;
@@ -16,12 +88,12 @@
 .szifLpisZmenovaRizeni-table-header {
 	display: flex;
 	height: 2rem;
-	background: var(--accent50);
+	background: var(--accent60);
 	padding: .3rem 16px .3rem .5rem;
 }
 
 .szifLpisZmenovaRizeni-table-header-item {
-	color: var(--accent15);
+	color: var(--accent0);
 	text-transform: uppercase;
 	white-space: nowrap;
 	overflow: hidden;

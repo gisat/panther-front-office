@@ -34,6 +34,11 @@
 	padding: .3rem .5rem;
 }
 
+.szifLpisZmenovaRizeni-table-row-item.highlighted > i {
+	background: yellow;
+	font-weight: inherit;
+}
+
 .szifLpisZmenovaRizeni-table-row-item .ptr-button:first-child {
 	margin-right: .5rem;
 }
