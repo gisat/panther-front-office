@@ -152,7 +152,7 @@ class Biofyzika extends React.PureComponent {
 					<PresentationMap
 						mapKey={key+'map-2'}
 					/>
-					<MapControlsPresentation zoomOnly levelsBased/>
+					<MapControlsPresentation zoomOnly/>
 				</MapSetPresentation>
 			</div>
 		);

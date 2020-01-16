@@ -100,7 +100,7 @@ class Header extends React.PureComponent {
 
 		return (
 			<div className="tacrAgritas-selections">
-				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.availableScopes, this.props.activeScope, this.onScopeChange, "monitor") : null}
+				{props.scopes ? this.renderSelection("Monitoring", this.props.scopes, this.props.availableScopes, this.props.activeScope, this.onScopeChange, "monitoring") : null}
 				{props.periods ? this.renderSelection("Sezóna", this.props.periods, this.props.availablePeriods, this.props.activePeriod, this.onPeriodChange, "calendar") : null}
 				{props.cases ? this.renderSelection("Plodiny", this.props.cases, this.props.cases, this.props.activeCase, this.onCaseChange, "crop") : null}
 			</div>
