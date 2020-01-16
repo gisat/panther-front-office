@@ -2,6 +2,7 @@ import React from 'react';
 import Header from "./Header";
 import PropTypes from "prop-types";
 import Biofyzika from "./Biofyzika/presentation";
+import Helmet from "react-helmet";
 
 class App extends React.PureComponent {
 	static propTypes = {
@@ -24,6 +25,9 @@ class App extends React.PureComponent {
 
 		return (
 			<>
+				<Helmet
+					title={this.props.activePlace && this.props.activePlace.data.nameDisplay}
+				/>
 				<Header/>
 				<div className="tacrAgritas-content">
 					{props.activeScope ? this.renderMonitoring(props.activeScope) : null}
