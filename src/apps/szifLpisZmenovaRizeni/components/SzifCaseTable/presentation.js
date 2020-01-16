@@ -113,6 +113,7 @@ class SzifCaseTable extends React.PureComponent {
 		return (
 			<SzifCaseTableRow
 				key={caseData.key}
+				metadataKey={caseData.key}
 				data={caseData.data}
 				highlightedCaseKey={caseData.caseKey_highlighted}
 				highlightedChangeDescription={caseData.changeDescription_highlighted}

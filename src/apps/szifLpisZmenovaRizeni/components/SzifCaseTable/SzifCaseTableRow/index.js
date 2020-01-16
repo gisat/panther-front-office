@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		switchScreen: () => {
+			dispatch(Action.specific.lpisChangeCases.setActiveKey(ownProps.metadataKey));
 			dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifMapView'));
 		}
 	}

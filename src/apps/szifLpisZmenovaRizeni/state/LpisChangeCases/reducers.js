@@ -28,6 +28,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.clearIndex(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.MARK_DELETED:
 			return common.markDeleted(state, action);
+		case ActionTypes.LPIS_CHANGE_CASES.SET_ACTIVE_KEY:
+			return common.setActive(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.USE.KEYS.REGISTER:
 			return common.useKeysRegister(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.USE.KEYS.CLEAR:
