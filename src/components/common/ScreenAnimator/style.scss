@@ -10,8 +10,11 @@
 	top: 0;
 	left: 0;
 	height: 100%;
+}
+.ptr-screen-container.animate {
 	transition: left .3s ease-in-out;
 }
+
 .ptr-screen-container > div {
 	height: 100%;
 	position: relative;
