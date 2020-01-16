@@ -45,7 +45,6 @@ export default (path, baseUrl) => {
 						<User inverted/>
 					</div>
 					<ScreenAnimator
-						// activeScreenKey={'szifCaseForm'}
 						activeScreenKey={'szifCaseTable'}
 					>
 						<SzifCaseTable screenKey="szifCaseTable" />

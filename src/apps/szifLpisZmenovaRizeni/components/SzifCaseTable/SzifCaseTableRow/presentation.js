@@ -59,7 +59,7 @@ class SzifCaseTableRow extends React.PureComponent {
 
 		return (
 			<>
-				<Button onClick={() => {}}>Zobrazit</Button>
+				<Button ghost onClick={() => {}}>Zobrazit</Button>
 				<Button className={expandButtonClasses} invisible icon="expand-row" onClick={this.onExpandButtonClick}/>
 			</>
 		);
