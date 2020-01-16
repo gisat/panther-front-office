@@ -12,6 +12,33 @@ import MapControlsPresentation from "../../../../../components/common/maps/contr
 import MapResources from "../../../constants/MapResources";
 import mapUtils from "../../../../../utils/map";
 
+// TODO styles to config
+
+const style = {
+	"key":"test",
+	"data":{
+		"nameDisplay":"",
+		"source":"definition",
+		"definition":{
+			"rules":[
+				{
+					"styles":[
+						{
+							"attributeKey": "VYMERA",
+							"attributeScale": {
+								"fill": {
+									"inputInterval": [0,20,100],
+									"outputInterval": ["yellow", "lightgreen", "008ae5"]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	}
+};
+
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
@@ -76,7 +103,8 @@ class Biofyzika extends React.PureComponent {
 					opacity: 0.7,
 
 					options: {
-						features: props.data
+						features: props.data,
+						style: style.data.definition
 					}
 				}
 			];
