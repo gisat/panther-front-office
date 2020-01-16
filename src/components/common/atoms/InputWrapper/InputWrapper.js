@@ -19,7 +19,7 @@ class InputWrapper extends React.PureComponent {
 		divInsteadOfLabel: PropTypes.bool,
 		disabled: PropTypes.bool,
 		label: PropTypes.string,
-		required: PropTypes.bool
+		required: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
 	};
 
 	render() {
@@ -37,7 +37,7 @@ class InputWrapper extends React.PureComponent {
 			return child;
 		});
 
-		let required = this.props.required ? (<div className="ptr-input-wrapper-required">{t('requiredFieldLabel')}</div>) : null;
+		let required = this.props.required ? (<div className="ptr-input-wrapper-required">{this.props.required.length ? this.props.required : t('requiredFieldLabel')}</div>) : null;
 
 		return this.props.divInsteadOfLabel ? (
 			<div className={classes}>
