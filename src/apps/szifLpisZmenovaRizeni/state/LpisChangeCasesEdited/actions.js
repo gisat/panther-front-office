@@ -1,5 +1,8 @@
+import path from "path";
 import ActionTypes from '../../constants/ActionTypes';
+import LpisChangeCasesActions from '../LpisChangeCases/actions';
 import Select from '../Select';
+import config from "../../../../config/index";
 
 // ============ creators ===========
 
@@ -14,17 +17,17 @@ function createNewActiveEditedCase(key) {
 function createLpisCase() {
 	return (dispatch, getState) => {
 		const state = getState();
-		// const url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
-		const url = 'http://192.168.2.206:8963/backend/rest/specific'
+		const url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/specific');
 		const activeNewEditedCase = Select.specific.lpisChangeCasesEdited.getActiveEditedCase(state);
 
 		const formData = new FormData();
 
 		const data = {
 			key: activeNewEditedCase.key,
-			status: 'created',
 			data: activeNewEditedCase.data,
 		};
+
+		data.data.status = 'created';
 
 		Object.keys(activeNewEditedCase.files).forEach((fileKey) => {
 			const isGeometryBefore = activeNewEditedCase.data.geometryBefore && activeNewEditedCase.data.geometryBefore.identifier === fileKey;
@@ -32,8 +35,8 @@ function createLpisCase() {
 			const geometryType = isGeometryBefore ? 'geometryBefore' : isGeometryAfter ? 'geometryAfter' : null;
 			if(geometryType) {
 				const file = activeNewEditedCase.files[fileKey];
-				data.data[geometryType] = `${'attachement'}:${file.name}`;
-				formData.append(`attachements`,file);
+				data.data[geometryType] = `${'attachment'}:${file.name}`;
+				formData.append(`attachments`,file);
 			}
 		});
 
@@ -59,6 +62,8 @@ function createLpisCase() {
 				return response.json();
 			}
 		}).then((responseContent) => {
+			//reload cases? 
+			// dispatch(LpisChangeCasesActions.actionClearIndex(null, null))
 			// dispatch(actionAdd)
 			// dispatch(_storeResponseContent(responseContent));
 		});

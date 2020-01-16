@@ -8,7 +8,7 @@ import utils from "../../../../utils/utils";
 
 const mapStateToProps = state => {
 	return {
-		data: {}
+		activeEditedCase: Select.specific.lpisChangeCasesEdited.getActiveEditedCase(state),
 	}
 };
 
@@ -17,10 +17,22 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch) => {
 		return {
-			onMount: () => {
+			onMount: (caseKey) => {
+				if(!caseKey) {
+					dispatch(Action.specific.lpisChangeCasesEdited.createNewActiveEditedCase());
+				}
 			},
-			updateEdited: () => {
-
+			createLpisCase:() => {
+				dispatch(Action.specific.lpisChangeCasesEdited.createLpisCase());
+			},
+			createNewActiveEditedCase: () => {
+				dispatch(Action.specific.lpisChangeCasesEdited.createNewActiveEditedCase());
+			},
+			editActiveEditedCase: (column, value, file) => {
+				dispatch(Action.specific.lpisChangeCasesEdited.editActiveEditedCase(column, value, file));
+			},
+			clearActiveEditedCase: () => {
+				dispatch(Action.specific.lpisChangeCasesEdited.clearActiveEditedCase());
 			}
 		}
 	}

@@ -18,9 +18,8 @@ const INITIAL_STATE = {
 function clearEditedCase(state, action) {
 	let editedCase = _.find(state.editedCases, {key: action.key});
 	let editedCases = _.reject(state.editedCases, {key: action.key});
-	editedCase = {...editedCase, data: {}};
-	editedCases = {...editedCases, editedCase};
-	return {...state, editedCases: editedCases};
+	editedCase = {...editedCase, data: {}, files: {}};
+	return {...state, editedCases: [...editedCases, editedCase]};
 }
 
 function editActiveEditedCase(state, action) {
