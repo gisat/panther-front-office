@@ -19,3 +19,10 @@
 .ptr-change-review-form-buttons .ptr-button{
     margin-right: m(2/3);
 }
+
+.ptr-files > div{
+    margin-right: 1rem;
+    &:not(:last-child) {
+        cursor: default;
+    }
+}

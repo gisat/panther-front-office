@@ -25,18 +25,24 @@ function createLpisCase() {
 		const data = {
 			key: activeNewEditedCase.key,
 			data: activeNewEditedCase.data,
+			attachments: []
 		};
 
+		delete data.data.attachment;
 		data.data.status = 'created';
 
 		Object.keys(activeNewEditedCase.files).forEach((fileKey) => {
-			const isGeometryBefore = activeNewEditedCase.data.geometryBefore && activeNewEditedCase.data.geometryBefore.identifier === fileKey;
-			const isGeometryAfter = activeNewEditedCase.data.geometryAfter && activeNewEditedCase.data.geometryAfter.identifier === fileKey;
+			const isGeometryBefore = activeNewEditedCase.data.geometryBefore && activeNewEditedCase.data.geometryBefore.identifiers[0] === fileKey;
+			const isGeometryAfter = activeNewEditedCase.data.geometryAfter && activeNewEditedCase.data.geometryAfter.identifiers[0] === fileKey;
 			const geometryType = isGeometryBefore ? 'geometryBefore' : isGeometryAfter ? 'geometryAfter' : null;
+			const file = activeNewEditedCase.files[fileKey];
 			if(geometryType) {
-				const file = activeNewEditedCase.files[fileKey];
-				data.data[geometryType] = `${'attachment'}:${file.name}`;
-				formData.append(`attachments`,file);
+				data.data[geometryType] = `${'attachment'}:${fileKey}`;
+				formData.append(fileKey, file);
+			} else {
+				//if file is not geometry and should be saved
+				data.attachments.push(fileKey);
+				formData.append(fileKey, file);
 			}
 		});
 
@@ -69,12 +75,12 @@ function createLpisCase() {
 	};
 }
 
-function editActiveEditedCase(column, value, file) {
+function editActiveEditedCase(column, value, files) {
 	return {
 		type: ActionTypes.LPIS_CHANGE_CASES_EDITED.EDIT_ACTIVE_EDITED_CASE,
 		column: column,
 		value: value,
-		file: file
+		files
 	}
 }
 

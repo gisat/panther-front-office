@@ -28,9 +28,16 @@ function editActiveEditedCase(state, action) {
 	state.editedCases.forEach((editedCase) => {
 		if (editedCase.key === state.activeNewEditedCaseKey) {
 			let files = {...editedCase.files};
-			if (action.column && action.column.toLowerCase().includes(`geometry`) && editedCase.data[action.column] && action.file) {
-				let oldGeometryFileIdentifier = editedCase.data[action.column].identifier;
-				delete files[oldGeometryFileIdentifier];
+			const newFiles = action.files && action.files.reduce((acc, file) => {
+				acc[file.identifier] = file.file
+				return acc;
+			}, {});
+			//If colmn already includes file.
+			if(newFiles && editedCase.data[action.column] && editedCase.data[action.column].identifiers){
+				let oldGeometryFileIdentifiers = editedCase.data[action.column].identifiers;
+				oldGeometryFileIdentifiers.forEach((i) => {
+					delete files[i];
+				})
 			}
 
 			let futureEditedCase = {...editedCase};
@@ -43,7 +50,7 @@ function editActiveEditedCase(state, action) {
 				futureEditedCase.data[action.column] = action.value;
 			}
 
-			futureEditedCase.files = (action.file ? {...files, [action.file.identifier]: action.file.file} : futureEditedCase.files);
+			futureEditedCase.files = (action.files ? {...files, ...newFiles} : futureEditedCase.files);
 
 			if (!futureEditedCase.files || !Object.keys(futureEditedCase.files).length) {
 				delete futureEditedCase.files;

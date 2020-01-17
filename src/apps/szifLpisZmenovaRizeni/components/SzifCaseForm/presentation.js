@@ -40,7 +40,7 @@ class SzifCaseForm extends React.PureComponent {
 		super(props);
 		this.switchScreen = props.switchScreen.bind(this, 'szifCaseTable');
 		this.onChange = this.onChange.bind(this);
-		this.onFormChange = this.onFormChange.bind(this);
+		this.onFileInputChanged = this.onFileInputChanged.bind(this);
 		this.onClickSendAndCreateNewOne = this.onClickSendAndCreateNewOne.bind(this);
 		this.onClickSendAndReturnBack = this.onClickSendAndReturnBack.bind(this);
 		this.onClickClear = this.onClickClear.bind(this);
@@ -78,31 +78,29 @@ class SzifCaseForm extends React.PureComponent {
 		this.props.editActiveEditedCase(key, value);
 	}
 
-	onFormChange(event) {
+	onFileInputChanged(event) {
 		const key = event.target.name;
-		const value = event.target.value;
 		const files = event.target.files;
+		this.updateFiles(key, files);
+	}
 
-		if (key.toLowerCase().includes(`geometry`)) {
+	updateFiles(key, newFiles) {
+		const files = [...newFiles].map((file) => {
 			const uuid = utils.guid();
-			this.props.editActiveEditedCase(
-				key,
-				{
-					type: "file",
+			return {
 					identifier: uuid,
-					name: files[0].name,
-				},
-				{
-					identifier: uuid,
-					file: files[0]
-				}
-			);
-		} else {
-			this.props.editActiveEditedCase(
-				key,
-				value
-			);
-		}
+					file: file,
+			}
+		})
+
+		this.props.editActiveEditedCase(
+			key,
+			{
+				identifiers: files.map((f) => f.identifier),
+				names: files.map((f) => f.file.name),
+			},
+			files
+		);	
 	}
 
 	validateForm() {
@@ -150,9 +148,11 @@ class SzifCaseForm extends React.PureComponent {
 		const formData = activeEditedCase && activeEditedCase.data;
 		const files = activeEditedCase && activeEditedCase.files;
 
-		const geometryBeforeName = formData && formData.geometryBefore && files && files[formData.geometryBefore.identifier] ? files[formData.geometryBefore.identifier].name : "Vyberte soubor...";
-		const geometryAfterName = formData && formData.geometryAfter && files && files[formData.geometryAfter.identifier] ? files[formData.geometryAfter.identifier].name : "Vyberte soubor...";
-
+		const geometryBeforeName = formData && formData.geometryBefore && formData.geometryBefore.names ? formData.geometryBefore.names[0] : "Vyberte soubor...";
+		const geometryAfterName = formData && formData.geometryAfter && formData.geometryAfter.names ? formData.geometryAfter.names[0] : "Vyberte soubor...";
+		const attachmentsNamesElms = formData && formData.attachment && formData.attachment.names && formData.attachment.names.length > 0 ? formData && formData.attachment && formData.attachment.names.map((name) => {
+			return <div key={name} className={'ptr-button ghost'}><div className={'ptr-button-caption'}>{name}</div></div>
+		}) : null;
 		return (
 			<div className="szifLpisZmenovaRizeni-szifCaseForm">
 				<div>
@@ -229,7 +229,7 @@ class SzifCaseForm extends React.PureComponent {
 							<InputFile
 								accept=".zip"
 								inputId="geometryBefore"
-								onChange={this.onFormChange}
+								onChange={this.onFileInputChanged}
 								name="geometryBefore"
 							>
 									<Button
@@ -245,7 +245,7 @@ class SzifCaseForm extends React.PureComponent {
 							<InputFile
 								accept=".zip"
 								inputId="geometryAfter"
-								onChange={this.onFormChange}
+								onChange={this.onFileInputChanged}
 								name="geometryAfter"
 							>
 									<Button
@@ -253,6 +253,27 @@ class SzifCaseForm extends React.PureComponent {
 										ghost
 									>
 										{geometryAfterName}
+									</Button>
+							</InputFile>
+						</label>
+					</InputWrapper>
+					<InputWrapper
+								divInsteadOfLabel
+								info={<p>Volitelné přílohy</p>}
+							>
+						<div className={'ptr-files'}>{attachmentsNamesElms} {attachmentsNamesElms ? <Button onClick={() => {this.updateFiles('attachment', [])}}>Odstranit soubory</Button> : null}</div>
+						<label>
+							<InputFile
+								multiple
+								inputId="attachment"
+								onChange={this.onFileInputChanged}
+								name="attachment"
+							>
+									<Button
+										icon="upload"
+										ghost
+									>
+										{"Vyberte soubory"}
 									</Button>
 							</InputFile>
 						</label>

@@ -9,6 +9,7 @@ import './style.css';
 class InputFile extends React.PureComponent {
 
 	static propTypes = {
+		multiple: PropTypes.bool,
 		accept: PropTypes.string,
 		buttonText: PropTypes.string,
 		inputId: PropTypes.string,
@@ -46,6 +47,7 @@ class InputFile extends React.PureComponent {
 		return (
 			<div className={classes}>
 				<input
+					multiple={this.props.multiple}
 					accept={this.props.accept}
 					onChange={this.onChange}
 					type="file" name={this.props.name}
