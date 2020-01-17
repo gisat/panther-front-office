@@ -8,7 +8,7 @@ class App extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
 		activePeriodKey: PropTypes.string,
-		activePlace: PropTypes.object,
+		activePlaceView: PropTypes.object,
 		activeScope: PropTypes.object
 	};
 
@@ -55,7 +55,7 @@ class App extends React.PureComponent {
 				return (
 					<Biofyzika
 						data={this.props.data}
-						place={this.props.activePlace}
+						placeView={this.props.activePlaceView}
 						activePeriodKey={this.props.activePeriodKey}
 						scope={scope}
 					/>

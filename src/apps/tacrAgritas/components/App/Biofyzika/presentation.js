@@ -42,7 +42,7 @@ const style = {
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
-		place: PropTypes.object,
+		placeView: PropTypes.object,
 		scope: PropTypes.object,
 		activePeriodKey: PropTypes.string
 	};
@@ -52,12 +52,16 @@ class Biofyzika extends React.PureComponent {
 
 		this.state = {
 			activeDpb: props.data && props.data[0],
-			mapView: {
-				boxRange: 1000
-			}
+			mapView: props.activePlaceView
 		};
 
 		this.onMapViewChange = this.onMapViewChange.bind(this);
+	}
+
+	componentDidMount() {
+		if (this.props.placeView) {
+			this.setState({mapView: this.props.placeView});
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -71,11 +75,8 @@ class Biofyzika extends React.PureComponent {
 			}
 		}
 
-		if (prevProps.place !== this.props.place) {
-			if (this.props.place.data.bbox) {
-				const mapView = mapUtils.getViewFromBoundingBox(this.props.place.data.bbox, true);
-				this.setState({mapView});
-			}
+		if (!this.state.mapView && this.props.placeView) {
+			this.setState({mapView: this.props.placeView});
 		}
 	}
 
