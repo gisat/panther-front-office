@@ -39,6 +39,18 @@ const style = {
 	}
 };
 
+const hoveredStyleDefinition = {
+	"rules":[
+		{
+			"styles": [
+				{
+					"outlineColor": "#ff00ff"
+				}
+			]
+		}
+	]
+};
+
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
@@ -107,6 +119,9 @@ class Biofyzika extends React.PureComponent {
 					options: {
 						features: props.data,
 						style: style.data.definition,
+						hovered: {
+							style: hoveredStyleDefinition
+						},
 						fidColumnName: 'ID_DPB'
 					}
 				}
