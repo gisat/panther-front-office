@@ -31,6 +31,23 @@ import KomuleDavidova from "./cases/KomuleDavidova";
 import KridlatkaJaponska from "./cases/KridlatkaJaponska";
 import KridlatkaCeska from "./cases/KridlatkaCeska";
 import KridlatkaSachalinska from "./cases/KridlatkaSachalinska";
+import LoubinecPetilisty from "./cases/LoubinecPetilisty";
+import LoubinecPopinavy from "./cases/LoubinecPopinavy";
+import LupinaMnoholista from "./cases/LupinaMnoholista";
+import NetykavkaZlaznata from "./cases/NetykavkaZlaznata";
+import SlunecniceTopinambur from "./cases/SlunecniceTopinambur";
+import SvidaVybezkata from "./cases/SvidaVybezkata";
+import SruchaZelna from "./cases/SruchaZelna";
+import ZlatobylObrovsky from "./cases/ZatobylObrovsky";
+import ZimolezKoziList from "./cases/ZimolezKoziList";
+import ZanovecMechyrnik from "./cases/ZanovecMechyrnik";
+import BoroviceVejmutovka from "./cases/BoroviceVejmutovka";
+import DubCerveny from "./cases/DubCerveny";
+import JavorJasanolisty from "./cases/JavorJasanolisty";
+import JasanPensylvansky from "./cases/JasanPensylvansky";
+import PajasanZlaznaty from "./cases/PajasanZlaznaty";
+import TopolKanadsky from "./cases/TopolKanadsky";
+import TrnovnikAkat from "./cases/TrnovnikAkat";
 
 const CaseDetail = props => {
 	const caseKey = props.activeCase && props.activeCase.key;
@@ -48,6 +65,18 @@ const CaseDetail = props => {
 			break;
 		case  '58778990-b620-4765-bbfb-b4a727f6574d':
 			component = <Bolsevnik/>;
+			break;
+		case '3e9a7970-9b1f-4cc5-99f8-93f0a091b53b':
+			component = <BoroviceVejmutovka/>;
+			break;
+		case '5e3a1bb6-fddb-472c-a77f-1bf339aa726f':
+			component = <DubCerveny/>;
+			break;
+		case 'da298627-95e4-4b8e-8b65-1dd46fa1346f':
+			component = <JasanPensylvansky/>;
+			break;
+		case '775cf11e-22ad-4e07-865c-fae608863ea2':
+			component = <JavorJasanolisty/>;
 			break;
 		case '933cace6-cc31-49fc-9f0d-3f52ad4bb328':
 			component = <Jelen/>;
@@ -79,11 +108,23 @@ const CaseDetail = props => {
 		case '87ce0a75-6769-405b-be0d-805eb116ac71':
 			component = <KustovniceCizi/>;
 			break;
+		case '4df5dd73-e05d-442d-88b9-909cbc752484':
+			component = <LoubinecPetilisty/>;
+			break;
+		case '0c2a25e7-9feb-4b54-bfcb-a5db7de4d700':
+			component = <LoubinecPopinavy/>;
+			break;
+		case '5d6b862d-2c3e-4ec0-8b9c-0b21dec0d52a':
+			component = <LupinaMnoholista/>;
+			break;
 		case '6e0c18ad-c8fd-4f32-bcd5-f04c33167a9a':
 			component = <Muflon/>;
 			break;
 		case '06f0aacf-09e8-499e-bba6-d472e8d54d7e':
 			component = <Myval/>;
+			break;
+		case '843ddf31-2030-445d-ad6c-9d4bf99e384f':
+			component = <NetykavkaZlaznata/>;
 			break;
 		case "dc301b57-6a6d-4f37-90a0-f98f71600b81":
 			component = <Norek/>;
@@ -93,6 +134,9 @@ const CaseDetail = props => {
 			break;
 		case "edfdd933-86fe-4b08-ae20-cb77eeb6afbc":
 			component = <Ondatra/>;
+			break;
+		case "dcc2d2b8-4c4c-4e3b-b2d7-92a5121d783f":
+			component = <PajasanZlaznaty/>;
 			break;
 		case '2316b10f-b733-4e9b-958c-cc5bfd568735':
 			component = <Psik/>;
@@ -112,17 +156,41 @@ const CaseDetail = props => {
 		case '102385c0-5a76-4b98-b429-a1aa42abb8d3':
 			component = <SlavickaMnohotvarna/>;
 			break;
+		case '239c8fd9-ee79-449d-87c1-e2f474ce6934':
+			component = <SlunecniceTopinambur/>;
+			break;
+		case '9bc07567-997c-4c47-8c51-dc225b96ae37':
+			component = <SruchaZelna/>;
+			break;
+		case '8fb79c32-ddad-4e83-9035-7dd81ed9fb82':
+			component = <SvidaVybezkata/>;
+			break;
+		case '7063ce10-04a3-4cd4-8580-c5877a8b2f1c':
+			component = <TopolKanadsky/>;
+			break;
+		case '44fdbffe-c75a-4437-b647-ac1508361ac7':
+			component = <TrnovnikAkat/>;
+			break;
 		case 'ed135671-9da6-495e-91ad-ff305f849b94':
 			component = <VodniMorAmericky/>;
 			break;
 		case 'ae694a84-4fda-400b-bf26-b78b4484b516':
 			component = <VodniMorKanadsky/>;
 			break;
+		case 'eee60ad0-b8d5-4074-a2b5-c532f7ec5065':
+			component = <ZanovecMechyrnik/>;
+			break;
 		case 'd435f0a6-0b8f-454e-905e-85c4dbc22288':
 			component = <ZelvaNadherna/>;
 			break;
+		case 'b16e8b7c-7607-470f-9469-107990a3c973':
+			component = <ZimolezKoziList/>;
+			break;
 		case '82acfc6b-5ebc-49a2-813a-76f1a85ef66c':
 			component = <Zlatobyl/>;
+			break;
+		case 'ec4b6689-718a-420a-8378-6ac5d348f25e':
+			component = <ZlatobylObrovsky/>;
 			break;
 		default:
 			component = null;
