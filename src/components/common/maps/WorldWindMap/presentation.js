@@ -241,6 +241,8 @@ class WorldWindMap extends React.PureComponent {
 			const data = renderables.map(renderable => {return {data: renderable.userObject.userProperties}});
 			const featureKeys = data.map(renderable => renderable.data[layerPantherProps.fidColumnName]);
 			this.onLayerHover(layerPantherProps.layerKey, featureKeys, event.pageX, event.pageY, <div>{featureKeys.join(",")}</div>, data, layerPantherProps.fidColumnName);
+		} else if (this.context && this.context.onHoverOut){
+			this.context.onHoverOut();
 		}
 	}
 
