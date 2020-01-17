@@ -14,6 +14,8 @@ import mapUtils from "../../../../../utils/map";
 
 // TODO styles to config
 
+const fidColumnName = 'ID_DPB';
+
 const style = {
 	"key":"test",
 	"data":{
@@ -51,6 +53,18 @@ const hoveredStyleDefinition = {
 	]
 };
 
+const selectedStyleDefinition = {
+	"rules":[
+		{
+			"styles": [
+				{
+					"outlineColor": "#00ffff"
+				}
+			]
+		}
+	]
+};
+
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
@@ -63,11 +77,12 @@ class Biofyzika extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			activeDpb: props.data && props.data[0],
+			activeDpbKey: props.data && props.data[0].properties[fidColumnName],
 			mapView: props.activePlaceView
 		};
 
 		this.onMapViewChange = this.onMapViewChange.bind(this);
+		this.onMapClick = this.onMapClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -79,10 +94,10 @@ class Biofyzika extends React.PureComponent {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const props = this.props;
 		if (props.data) {
-			let exists = _.find(props.data, (feature) => feature === this.state.activeDpb);
+			let exists = _.find(props.data, (feature) => feature.properties[fidColumnName] === this.state.activeDpbKey);
 			if (!exists) {
 				this.setState({
-					activeDpb: props.data[0]
+					activeDpbKey: props.data[0].properties[fidColumnName]
 				});
 			}
 		}
@@ -98,13 +113,19 @@ class Biofyzika extends React.PureComponent {
 		})
 	}
 
+	onMapClick(mapKey, layerKey, fids) {
+		this.setState({
+			activeDpbKey: fids[0]
+		})
+	}
+
 	render() {
 		const props = this.props;
 
 		let dataForCharts = null;
 		let mapLayers = [];
 
-		if (this.state.activeDpb) {
+		if (this.state.activeDpbKey) {
 			dataForCharts = this.prepareDataForCharts();
 		}
 
@@ -122,7 +143,13 @@ class Biofyzika extends React.PureComponent {
 						hovered: {
 							style: hoveredStyleDefinition
 						},
-						fidColumnName: 'ID_DPB'
+						selected: {
+							'test': {
+								style: selectedStyleDefinition,
+								keys: [this.state.activeDpbKey],
+							}
+						},
+						fidColumnName
 					}
 				}
 			];
@@ -167,9 +194,11 @@ class Biofyzika extends React.PureComponent {
 					>
 						<PresentationMap
 							mapKey={key+'map-1'}
+							onLayerClick={this.onMapClick}
 						/>
 						<PresentationMap
 							mapKey={key+'map-2'}
+							onLayerClick={this.onMapClick}
 						/>
 						<MapControlsPresentation zoomOnly/>
 					</MapSetPresentation>
@@ -299,34 +328,41 @@ class Biofyzika extends React.PureComponent {
 		let chlorophyll = [];
 		let water = [];
 		let leafs = [];
-		_.forIn(this.state.activeDpb.properties, (value, key) => {
-			let attribute = key.split("_")[0];
 
-			if (attribute.length === 5) {
-				const attributeCode = attribute.substring(0,1);
-				const dateCode = attribute.substring(1,5);
-				const dateCodeNumber = Number(attribute.substring(1,5));
+		let feature = _.find(this.props.data, (feature) => feature.properties[fidColumnName] === this.state.activeDpbKey);
 
-				if (!_.isNaN(dateCodeNumber)) {
-					const day = dateCode.substring(2,4);
-					const month = dateCode.substring(0,2);
-					const date = moment(`${this.props.activePeriodKey}-${month}-${day}`).toISOString();
-					const record = {date, value};
+		if (feature) {
+			_.forIn(feature.properties, (value, key) => {
+				let attribute = key.split("_")[0];
 
-					if (value) {
-						if (attributeCode === "C") {
-							chlorophyll.push(record);
-						} else if (attributeCode === "W") {
-							water.push(record);
-						} else if (attributeCode === "L") {
-							leafs.push(record);
+				if (attribute.length === 5) {
+					const attributeCode = attribute.substring(0,1);
+					const dateCode = attribute.substring(1,5);
+					const dateCodeNumber = Number(attribute.substring(1,5));
+
+					if (!_.isNaN(dateCodeNumber)) {
+						const day = dateCode.substring(2,4);
+						const month = dateCode.substring(0,2);
+						const date = moment(`${this.props.activePeriodKey}-${month}-${day}`).toISOString();
+						const record = {date, value};
+
+						if (value) {
+							if (attributeCode === "C") {
+								chlorophyll.push(record);
+							} else if (attributeCode === "W") {
+								water.push(record);
+							} else if (attributeCode === "L") {
+								leafs.push(record);
+							}
 						}
 					}
 				}
-			}
-		});
+			});
 
-		return {...this.state.activeDpb.properties, chlorophyll, water, leafs};
+			return {...feature.properties, chlorophyll, water, leafs};
+		} else {
+			return null;
+		}
 	}
 }
 

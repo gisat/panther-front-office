@@ -10,14 +10,8 @@
 			"resources": {
 			  "Agrossyn": {
 				"biofyzika": {
-				  "2016": "AGROSSYN_LPIS2016_BIOFYZIKA_epsg4326.geojson",
 				  "2017": "AGROSSYN_LPIS2017_BIOFYZIKA_epsg4326.geojson",
-				  "2018": "AGROSSYN_LPIS2018_BIOFYZIKA_epsg4326.geojson",
-				  "2019": "AGROSSYN_LPIS2019_BIOFYZIKA_epsg4326.geojson"
-				},
-				"produktivita": {
-				  "2017": "AGROSSYN_LPIS2016_BIOFYZIKA_epsg4326.geojson",
-				  "2018": "AGROSSYN_LPIS2019_BIOFYZIKA_epsg4326.geojson"
+				  "2018": "AGROSSYN_LPIS2018_BIOFYZIKA_epsg4326.geojson"
 				}
 			  }
 			}
@@ -26,7 +20,7 @@
 	  }
 	],
 	"activeScopeKey": "biofyzika",
-	"activePeriodKey": "2019",
+	"activePeriodKey": "2018",
 	"activeCaseKey": "OZIM",
 	"scopes": [
 	  {
