@@ -6,6 +6,7 @@ import Button from "../../../../components/common/atoms/Button";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../components/common/maps/controls/MapControls/presentation";
 import MapSet from "../../../../components/common/maps/MapSet";
+import SzifCaseHeader from "../SzifCaseHeader/index";
 
 class SzifMapView extends React.PureComponent {
 	static propTypes = {
@@ -20,9 +21,10 @@ class SzifMapView extends React.PureComponent {
 	render() {
 		return (
 			<div className="szifLpisZmenovaRizeni-map-view">
-				<div>
+				{/* <div>
 					<Button onClick={this.props.switchScreen}>Zpět</Button>
-				</div>
+				</div> */}
+				<SzifCaseHeader switchScreen={this.props.switchScreen}/>
 				<div style={{height: '100%'}}>
 					<MapSet
 						stateMapSetKey="szifLpisZmenovaRizeni-map-set"

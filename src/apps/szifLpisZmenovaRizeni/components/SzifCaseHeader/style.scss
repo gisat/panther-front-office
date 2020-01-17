@@ -1,0 +1,256 @@
+@import '../../../../styles/variables';
+
+#dromasLpisChangeReviewHeader {
+	position: relative;
+	z-index: 10100;
+
+	width: 100%;
+	height: 115px;
+
+	display: flex;
+
+	color: #ddd;
+
+	background: #212635;
+}
+
+#dromasLpisChangeReviewHeader .ptr-dromasLpisChangeReviewHeader-expandable-content-container span,
+#dromasLpisChangeReviewHeader .ptr-dromasLpisChangeReviewHeader-expandable-content-container p {
+	color: #ddd;
+}
+
+#dromasLpisChangeReviewHeader > div {
+	/*flex-grow: 1;*/
+}
+#dromasLpisChangeReviewHeader-back {
+	width: 2.5rem;
+}
+#dromasLpisChangeReviewHeader-back > div {
+	padding: .3rem .4rem;
+}
+#dromasLpisChangeReviewHeader-case {
+	/*width: 30%;*/
+	min-width: 15rem;
+	flex-grow: 1;
+	flex-basis: 15rem;
+	/*background: #906;*/
+}
+#dromasLpisChangeReviewHeader-review {
+	/*width: 30%;*/
+	min-width: 15rem;
+	flex-grow: 1;
+	flex-basis: 15rem;
+	/*background: #6e8;*/
+}
+#dromasLpisChangeReviewHeader-actions {
+	/*width: 20%;*/
+	width: 21rem;
+	flex-shrink: 0;
+	/*background: #f7a;*/
+}
+#dromasLpisChangeReviewHeader-tools {
+	/*width: 20%;*/
+	width: 16rem;
+	flex-shrink: 0;
+	color: #222;
+	/*background: #f6f3e2;*/
+	background: #fffdf7;
+}
+
+#dromasLpisChangeReviewHeader > div {
+	display: flex;
+	flex-direction: column;
+}
+.ptr-dromasLpisChangeReviewHeader-topBar {
+	font-size: $a1;
+	height: 2.2rem;
+	flex-grow: 0;
+	padding: .1rem .5rem;
+
+	display: flex;
+	align-items: center;
+
+	box-sizing: border-box; /* todo remove when redundant */
+}
+.ptr-dromasLpisChangeReviewHeader-content {
+	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
+}
+#dromasLpisChangeReviewHeader > div > div {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.ptr-dromasLpisChangeReviewHeader-heading {
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: .02em;
+}
+
+
+/* ============ case ========================= */
+.ptr-dromasLpisChangeReviewHeader-topBar.case {
+	justify-content: space-between;
+}
+.ptr-dromasLpisChangeReviewHeader-caseKey {
+	font-weight: 700;
+	letter-spacing: .02em;
+	color: #ff325a;
+}
+
+
+/* ============ review ======================= */
+.ptr-dromasLpisChangeReviewHeader-topBar.review {
+	justify-content: space-between;
+}
+
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select.inverted .Select  {
+	border-color: rgba(255,255,255,.3);
+	min-width: 10rem;
+}
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select.inverted .Select .Select-control {
+	background-color: transparent;
+}
+
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-control,
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-control .Select-value,
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-placeholder,
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-input {
+	height: 1.6rem;
+	line-height: 1.6rem;
+}
+
+
+/* ============ user actions ================== */
+.ptr-dromasLpisChangeReviewHeader-topBar.userActions {
+	justify-content: space-between;
+}
+
+#dromasLpisChangeReviewHeader-actions .ptr-dromasLpisChangeReviewHeader-content {
+	padding: 0 .5rem .5rem .5rem;
+}
+
+#dromasLpisChangeReviewHeader-actions .ptr-dromasLpisChangeReviewHeader-content > div > div {
+	margin-bottom: .3rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-button-nextCase {
+	display: inline-block;
+	font-size: .6875rem;
+	line-height: .75rem;
+	width: 5.2rem;
+	padding: .03rem .1rem .03rem .5rem;
+	color: #aaa;
+	border-left: 1px solid rgba(255,255,255,.1);
+	margin-left: .3rem;
+}
+
+
+/* ============ map tools ===================== */
+.ptr-dromasLpisChangeReviewHeader-topBar.mapTools {
+	padding-right: .5rem;
+}
+.ptr-dromasLpisChangeReviewHeader-map-info {
+	display: flex;
+	align-items: center;
+	flex: 1;
+}
+.ptr-dromasLpisChangeReviewHeader-map-name {
+	line-height: 1.5rem;
+	font-size: .9375rem;
+	padding: .25rem .5rem;
+	color: rgba(255,50,90,1);
+}
+.ptr-maps-grid-icon rect {
+	fill: #aaa;
+	stroke-width: 0;
+}
+.ptr-maps-grid-icon rect.selected {
+	fill: rgba(255,50,90,1);
+}
+
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles {
+	padding: .5rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
+	display: flex;
+	align-items: center;
+	line-height: 1.25rem;
+}
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles span {
+	padding: 0 .15rem;
+}
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles span.disabled {
+	color: #aaa;
+}
+
+.ptr-dromasLpisChangeReview-toggle-legend {
+	width: 1em;
+	height: 1em;
+	border: 2px solid;
+	margin: 0 .2rem 0 .3rem;
+	transform: skewX(-15deg);
+}
+.ptr-dromasLpisChangeReview-toggle-legend.current {
+	border-color: #f00;
+}
+.ptr-dromasLpisChangeReview-toggle-legend.proposed {
+	border-color: rgb(243,205,25);
+}
+
+.ptr-dromasLpisChangeReviewHeader-status,
+.ptr-dromasLpisChangeReviewHeader-conclusion-status {
+	padding: .2rem .5rem;
+	border-radius: .2rem;
+	color: #222;
+}
+.ptr-dromasLpisChangeReviewHeader-conclusion-status {
+	margin-left: .75rem;
+}
+
+/* ============ expandable content ============ */
+
+.ptr-dromasLpisChangeReviewHeader-expandable-content {
+	position: relative;
+	background: #212635;
+	overflow: hidden;
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content {
+	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
+
+	transition:
+		height .3s ease-in-out;
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content.expanded {
+	height: calc(100vh - 2.2rem); /* topBar height */ /* normally overriden by JS inline */
+	max-height: calc(100vh - 2.2rem);
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content-control {
+	position: absolute;
+	bottom: .5rem;
+	right: .5rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-expandable-content-container > div:first-child {
+	padding: 0 .5rem 2.5rem .5rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-expandable-content .ptr-expand-row-button {
+	background: #484b56c2;
+}
+
+
+#dromasLpisChangeReviewHeader p {
+	font-size: .875rem;
+	margin-bottom: 1rem;
+}
+.ptr-dromasLpisChangeReviewHeader-property {
+	color: rgb(181, 190, 201);
+}
+
+
+#dromasLpisChangeReviewHeader .ptr-editable-text {
+	font-size: 0.875rem;
+	line-height: 1.4;
+}
