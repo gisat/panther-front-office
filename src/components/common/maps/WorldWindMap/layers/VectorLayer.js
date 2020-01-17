@@ -2,10 +2,11 @@ import WorldWind from 'webworldwind-esa';
 import mapStyles, {DEFAULT_SIZE} from "../../../../../utils/mapStyles";
 import _ from 'lodash';
 
-const STYLE = {
-	interiorColor: WorldWind.Color.TRANSPARENT,
-	outlineColor: new WorldWind.Color(.35,.35,.35,1),
-	outlineWidth: 2
+let DEFAULT_SELECTED_STYLE = {
+	outlineWidth: 3,
+	outlineColor: "#ff0000",
+	outlineOpacity: 1,
+	fillOpacity: 0,
 };
 
 /**
@@ -68,11 +69,7 @@ class VectorLayer extends WorldWind.RenderableLayer {
 					interiorColor: new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity)
 				};
 
-				this.applyRenderableDefaultStyle(renderable);
-
-				renderable.attributes.outlineWidth = style.outlineWidth;
-				renderable.attributes.outlineColor = new WorldWind.Color(outlineRgb.r/255, outlineRgb.g/256, outlineRgb.b/256, style.outlineOpacity);
-				renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
+				this.applyStyles(renderable);
 			});
 		};
 
@@ -88,9 +85,18 @@ class VectorLayer extends WorldWind.RenderableLayer {
 			if (_.includes(fids, key)) {
 				this.applyHoveredStyle(renderable);
 			} else {
-				this.applyRenderableDefaultStyle(renderable);
+				this.applyStyles(renderable);
 			}
 		});
+	}
+
+	applyStyles(renderable) {
+		this.applyRenderableDefaultStyle(renderable);
+
+		let selectionStyle = this.getSelectionStyle(renderable);
+		if (selectionStyle) {
+			this.applySelectedStyle(renderable,selectionStyle)
+		}
 	}
 
 	applyRenderableDefaultStyle(renderable) {
@@ -102,7 +108,7 @@ class VectorLayer extends WorldWind.RenderableLayer {
 	applyHoveredStyle(renderable) {
 		let style = {
 			outlineWidth: 3,
-			outlineColor: "#ff0000",
+			outlineColor: "#ffaaaa",
 			outlineOpacity: 1,
 			fillOpacity: 0,
 		};
@@ -111,6 +117,15 @@ class VectorLayer extends WorldWind.RenderableLayer {
 			style = {...style, ...mapStyles.getStyleObject(null, this.pantherProps.hovered.style, true)};
 		}
 
+		this.setRenderableStyle(renderable, style);
+	}
+
+	applySelectedStyle(renderable, definition) {
+		const style = {...DEFAULT_SELECTED_STYLE, ...mapStyles.getStyleObject(null, definition, true)};
+		this.setRenderableStyle(renderable, style);
+	}
+
+	setRenderableStyle(renderable, style) {
 		let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
 
 		renderable.attributes.outlineWidth = style.outlineWidth;
@@ -119,6 +134,23 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		if (style.fill) {
 			let fillRgb = mapStyles.hexToRgb(style.fill);
 			renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
+		}
+	}
+
+	getSelectionStyle(renderable) {
+		if (this.pantherProps.selected) {
+			const featureKey = renderable.userProperties[this.pantherProps.fidColumnName];
+			let style = null;
+
+			_.forIn(this.pantherProps.selected, (selection, key) => {
+				if (selection.keys && _.includes(selection.keys, featureKey)) {
+					style = selection.style || DEFAULT_SELECTED_STYLE;
+				}
+			});
+
+			return style;
+		} else {
+			return null;
 		}
 	}
 }
