@@ -100,12 +100,14 @@ class Biofyzika extends React.PureComponent {
 			mapLayers = [
 				{
 					key: "test",
+					layerKey: "test",
 					type: "vector",
 					opacity: 0.7,
 
 					options: {
 						features: props.data,
-						style: style.data.definition
+						style: style.data.definition,
+						fidColumnName: 'ID_DPB'
 					}
 				}
 			];
@@ -132,29 +134,31 @@ class Biofyzika extends React.PureComponent {
 	renderMapSet(key, layers) {
 		return (
 			<div style={{height: 500, width: "100%", marginBottom: "3rem"}}>
-				<MapSetPresentation
-					activeMapKey={key+'map-1'}
-					mapComponent={WorldWindMap}
-					view={this.state.mapView}
-					onViewChange={this.onMapViewChange}
-					sync={{
-						boxRange: true,
-						center: true,
-						tilt: true,
-						heading: true,
-						roll: true
-					}}
-					layers={layers}
-					backgroundLayer={MapResources.cartoDbVoyagerLight}
-				>
-					<PresentationMap
-						mapKey={key+'map-1'}
-					/>
-					<PresentationMap
-						mapKey={key+'map-2'}
-					/>
-					<MapControlsPresentation zoomOnly/>
-				</MapSetPresentation>
+				<HoverHandler>
+					<MapSetPresentation
+						activeMapKey={key+'map-1'}
+						mapComponent={WorldWindMap}
+						view={this.state.mapView}
+						onViewChange={this.onMapViewChange}
+						sync={{
+							boxRange: true,
+							center: true,
+							tilt: true,
+							heading: true,
+							roll: true
+						}}
+						layers={layers}
+						backgroundLayer={MapResources.cartoDbVoyagerLight}
+					>
+						<PresentationMap
+							mapKey={key+'map-1'}
+						/>
+						<PresentationMap
+							mapKey={key+'map-2'}
+						/>
+						<MapControlsPresentation zoomOnly/>
+					</MapSetPresentation>
+				</HoverHandler>
 			</div>
 		);
 	}
