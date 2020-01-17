@@ -100,8 +100,26 @@ class VectorLayer extends WorldWind.RenderableLayer {
 	}
 
 	applyHoveredStyle(renderable) {
-		renderable.attributes.outlineWidth = 3;
-		renderable.attributes.outlineColor = new WorldWind.Color(1, 0, 0, 1);
+		let style = {
+			outlineWidth: 3,
+			outlineColor: "#ff0000",
+			outlineOpacity: 1,
+			fillOpacity: 0,
+		};
+
+		if (this.pantherProps.hovered && this.pantherProps.hovered.style) {
+			style = {...style, ...mapStyles.getStyleObject(null, this.pantherProps.hovered.style, true)};
+		}
+
+		let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
+
+		renderable.attributes.outlineWidth = style.outlineWidth;
+		renderable.attributes.outlineColor = new WorldWind.Color(outlineRgb.r/255, outlineRgb.g/256, outlineRgb.b/256, style.outlineOpacity);
+
+		if (style.fill) {
+			let fillRgb = mapStyles.hexToRgb(style.fill);
+			renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
+		}
 	}
 }
 
