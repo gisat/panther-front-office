@@ -62,10 +62,9 @@ function createLpisCase() {
 				return response.json();
 			}
 		}).then((responseContent) => {
-			//reload cases? 
-			// dispatch(LpisChangeCasesActions.actionClearIndex(null, null))
-			// dispatch(actionAdd)
-			// dispatch(_storeResponseContent(responseContent));
+			//TODO - not sure by this solution
+			//clear index for LpisChangeCases
+			dispatch(LpisChangeCasesActions.clearIndex(null, [['submitDate', 'descending']]))
 		});
 	};
 }

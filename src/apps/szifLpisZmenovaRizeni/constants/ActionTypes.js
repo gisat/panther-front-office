@@ -15,7 +15,8 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 		},
 		INDEX: {
 			ADD: null,
-			CLEAR_ALL: null
+			CLEAR_ALL: null,
+			CLEAR_INDEX: null,
 		},
 		LOAD: {
 			ERROR: null,
