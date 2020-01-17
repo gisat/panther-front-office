@@ -1,0 +1,7 @@
+.ptr-timeline-picker > rect {
+	fill: rgba(253, 65, 8, 0.349);
+}
+.ptr-timeline-picker > line {
+	stroke-width: 1;
+	stroke: rgb(224, 0, 0);
+}
