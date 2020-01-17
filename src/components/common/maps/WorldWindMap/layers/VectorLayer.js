@@ -1,5 +1,6 @@
 import WorldWind from 'webworldwind-esa';
-import mapStyles from "../../../../../utils/mapStyles";
+import mapStyles, {DEFAULT_SIZE} from "../../../../../utils/mapStyles";
+import _ from 'lodash';
 
 const STYLE = {
 	interiorColor: WorldWind.Color.TRANSPARENT,
@@ -23,9 +24,20 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		super(name);
 
 		this.opacity = layer.opacity || 1;
-		this.style = layer.options && layer.options.style;
 
-		this.addFeatures(layer.options.features || []);
+		this.pantherProps = {
+			features: options.features || [],
+			fidColumnName: options.fidColumnName,
+			hovered: {...options.hovered},
+			selected: {...options.selected},
+			key: layer.key,
+			layerKey: layer.layerKey,
+			onHover: options.onHover,
+			onClick: options.onClick,
+			style: options.style
+		};
+
+		this.addFeatures(this.pantherProps.features);
 	};
 
 	/**;
@@ -40,7 +52,7 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		const parser = new WorldWind.GeoJSONParser(geojson);
 
 		const shapeConfigurationCallback = (geometry, properties) => {
-			let style = mapStyles.getStyleObject(properties, this.style);
+			let style = mapStyles.getStyleObject(properties, this.pantherProps.style);
 			return {userProperties: {...properties, style}}
 		};
 
@@ -50,6 +62,14 @@ class VectorLayer extends WorldWind.RenderableLayer {
 				let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
 				let fillRgb = mapStyles.hexToRgb(style.fill);
 
+				renderable.userProperties.worldWindDefaultStyle = {
+					outlineWidth: style.outlineWidth,
+					outlineColor: new WorldWind.Color(outlineRgb.r / 255, outlineRgb.g / 256, outlineRgb.b / 256, style.outlineOpacity),
+					interiorColor: new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity)
+				};
+
+				this.applyRenderableDefaultStyle(renderable);
+
 				renderable.attributes.outlineWidth = style.outlineWidth;
 				renderable.attributes.outlineColor = new WorldWind.Color(outlineRgb.r/255, outlineRgb.g/256, outlineRgb.b/256, style.outlineOpacity);
 				renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
@@ -57,6 +77,31 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		};
 
 		parser.load(renderablesAddCallback, shapeConfigurationCallback, this);
+	}
+
+	/**
+	 * @param fids {Array}
+	 */
+	updateHoveredFeatures(fids) {
+		this.renderables.forEach(renderable => {
+			const key = renderable.userProperties[this.pantherProps.fidColumnName];
+			if (_.includes(fids, key)) {
+				this.applyHoveredStyle(renderable);
+			} else {
+				this.applyRenderableDefaultStyle(renderable);
+			}
+		});
+	}
+
+	applyRenderableDefaultStyle(renderable) {
+		renderable.attributes.outlineWidth = renderable.userProperties.worldWindDefaultStyle.outlineWidth;
+		renderable.attributes.outlineColor = renderable.userProperties.worldWindDefaultStyle.outlineColor;
+		renderable.attributes.interiorColor = renderable.userProperties.worldWindDefaultStyle.interiorColor;
+	}
+
+	applyHoveredStyle(renderable) {
+		renderable.attributes.outlineWidth = 3;
+		renderable.attributes.outlineColor = new WorldWind.Color(1, 0, 0, 1);
 	}
 }
 
