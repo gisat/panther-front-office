@@ -12,8 +12,9 @@ class CyclicPickController {
 	 * @param {String[]} events An array with the events that this controller will react to.
 	 * @param {Function} cb A callback function to call with the current highlighted renderables.
 	 */
-	constructor(wwd, events, cb) {
+	constructor(wwd, events, cb, enableClick) {
 		this.mouseDown = false;
+		this.enableClick = enableClick;
 		this.eventListener = this.eventListener.bind(this, wwd, cb);
 
 		events.forEach(event => {
@@ -34,7 +35,7 @@ class CyclicPickController {
 				this.onMouseMove(wwd, cb, event, false);
 				return;
 			case 'mousedown':
-				this.onMouseDown();
+				this.onMouseDown(wwd, cb, event);
 				return;
 			case 'touchend':
 				this.onTouchEnd();
@@ -81,8 +82,12 @@ class CyclicPickController {
 			cb([], event);
 		}
 	}
-	onMouseDown() {
-		this.mouseDown = true;
+	onMouseDown(wwd, cb, event) {
+		if (!this.enableClick) {
+			this.mouseDown = true;
+		} else {
+			this.onMouseMove(wwd, cb, event, false);
+		}
 	}
 	onMouseUp() {
 		this.mouseDown = false;

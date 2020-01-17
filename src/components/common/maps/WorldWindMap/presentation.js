@@ -64,7 +64,7 @@ class WorldWindMap extends React.PureComponent {
 			this.wwd.eventListeners.wheel.listeners = [this.onZoomLevelsBased.bind(this)];
 		}
 
-		new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.onWorldWindHover);
+		new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.onWorldWindHover, true);
 		this.updateNavigator(defaultMapView);
 		this.updateLayers();
 
@@ -240,7 +240,13 @@ class WorldWindMap extends React.PureComponent {
 			// TODO chceck if data should be returned in data property
 			const data = renderables.map(renderable => {return {data: renderable.userObject.userProperties}});
 			const featureKeys = data.map(renderable => renderable.data[layerPantherProps.fidColumnName]);
-			this.onLayerHover(layerPantherProps.layerKey, featureKeys, event.pageX, event.pageY, <div>{featureKeys.join(",")}</div>, data, layerPantherProps.fidColumnName);
+
+			// TODO add support for touch events
+			if (event.type === 'mousedown') {
+				this.onLayerClick(layerPantherProps.layerKey, featureKeys);
+			} else {
+				this.onLayerHover(layerPantherProps.layerKey, featureKeys, event.pageX, event.pageY, <div>{featureKeys.join(",")}</div>, data, layerPantherProps.fidColumnName);
+			}
 		} else if (this.context && this.context.onHoverOut){
 			this.context.onHoverOut();
 		}
