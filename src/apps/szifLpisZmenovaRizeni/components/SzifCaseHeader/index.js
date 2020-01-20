@@ -4,15 +4,18 @@ import Action from "../../state/Action";
 import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
+	const mapSetKey = Select.maps.getActiveSetKey(state);
+	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
+	const activeMapView = Select.maps.getMapSetActiveMapView(state, mapSetKey);
+	const maps = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
+
 	return {
 		activeMap: Select.maps.getActiveMapKey(state),
 		// mapsContainer: Select.components.getMapsContainer(state),
 		mapsContainer: {columns: 3, rows: 2},
-		// mapsCount: Select.maps.getMapsCount(state),
-		mapsCount: 4,
+		mapsCount: maps.length,
 		case: Select.specific.lpisChangeCases.getActive(state),
-		// selectedMapOrder: Select.maps.getActiveMapOrder(state),
-		selectedMapOrder: 1,
+		selectedMapOrder: maps.indexOf(activeMapKey),
 		// userApprovedEvaluation: Select.specific.lpisChangeReviewCases.getUserApprovedEvaluationOfActiveCase(state),
 		// userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
 		// userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),

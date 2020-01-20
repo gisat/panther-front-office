@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 import ExpandableContent from "./ExpandableContent";
 import ReviewForm from './ReviewForm';
-// import UISelect from "../../../presentation/atoms/UISelect/UISelect";
 import UISelect from "../../../../components/common/atoms/Select/Select";
 import {evaluationConclusions} from "../../../../constants/LpisCaseStatuses";
 import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
