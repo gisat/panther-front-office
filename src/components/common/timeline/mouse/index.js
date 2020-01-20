@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './style.css'
 
 const Mouse = (props) => {
+	//nekdy na overlay se nenastaví mouseX
 	const {mouseX, mouseBufferWidth, height, vertical} = props;
 	if (mouseX) {
 		const x = vertical ? 0 : mouseX - mouseBufferWidth;

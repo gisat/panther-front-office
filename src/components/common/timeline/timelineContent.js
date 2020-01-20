@@ -18,24 +18,22 @@ class TimelineContent extends React.PureComponent {
 		const transform = vertical ? `scale(-1,1) translate(-${height},0)` : '';
 
 		const childrenWithProps = [];
-		if(children && children.length > 0) {
-			children.forEach(child => {
-				const {children, ...propsWithoutChildren} = this.props;
-	
-				childrenWithProps.push(React.cloneElement(child, {
-					...propsWithoutChildren,
-					period: period,
-					periodLimit: periodLimit,
-					getX: (dayWidth) => this.context.getX(dayWidth),
-					height: height,
-					width: width,
-					dayWidth: dayWidth,
-					vertical: vertical,
-					mouseX: mouseX,
-					activeLevel: activeLevel,
-				}))
-			})
-		}
+		React.Children.forEach(children, child => {
+			const {childrens, ...propsWithoutChildren} = this.props;
+
+			childrenWithProps.push(React.cloneElement(child, {
+				...propsWithoutChildren,
+				period: period,
+				periodLimit: periodLimit,
+				getX: (dayWidth) => this.context.getX(dayWidth),
+				height: height,
+				width: width,
+				dayWidth: dayWidth,
+				vertical: vertical,
+				mouseX: mouseX,
+				activeLevel: activeLevel,
+			}))
+		})
 
 		return (
 				<TimelineEventsWrapper>

@@ -43,7 +43,7 @@ class Popup extends React.PureComponent {
 		this.ref = React.createRef();
 	}
 
-	render() {
+	getStyle() {
 		let posX = this.props.x;
 		let posY = this.props.y;
 		let maxX = window.innerWidth;
@@ -51,29 +51,12 @@ class Popup extends React.PureComponent {
 		let minY = window.pageYOffset;
 		const maxWidth = maxX - 20;
 		const maxHeight = (maxY - minY) - 20;
-		// let x = this.props.x + 15;
-		// let y = this.props.y + 20;
 
-		let width = this.ref.current && this.ref.current.offsetWidth ? this.ref.current.offsetWidth : WIDTH;
-		let height = this.ref.current && this.ref.current.offsetHeight ? this.ref.current.offsetHeight : HEIGHT;
+		const element = this.ref.current && this.ref.current.children[0];
+		let width = element && element.offsetWidth ? element.offsetWidth : WIDTH;
+		let height = element && element.offsetHeight ? element.offsetHeight : HEIGHT;
 
 		let style = null;
-		// positioning
-		// if ((x + width) > (maxX - 20)) {
-		// 	x = this.props.x - width - 10;
-		// }
-
-		// if (x < 0) {
-		// 	x = 0;
-		// }
-
-		// if ((y + height) > (maxY - 20)) {
-		// 	y = this.props.y - height - 10;
-		// }
-
-		// if (y < minY && minY < maxY - height) {
-		// 	y = maxY - height;
-		// }
 
 		if(typeof this.props.getStyle === 'function' && this.props.hoveredElemen) {
 			style = this.props.getStyle()(posX, posY, width, height, this.props.hoveredElemen);
@@ -90,20 +73,33 @@ class Popup extends React.PureComponent {
 		if (width > maxWidth) {	
 			width = maxWidth;	
 		}
+		return style;
+	}
 
-		// let style = {
-		// 	top: y,
-		// 	left: x,
-		// 	width
-		// };
+	componentDidMount() {
+		// autofocus the input on mount
+		if(true && this.ref && this.ref.current) {
+			const style = this.getStyle();
+			this.ref.current.style = style;
+		}
+	}
+
+	render() {
+		const style = this.getStyle();
 
 		let classes = classnames("ptr-popup", {
 			'compressed': this.props.compressed
 		});
 
+		if(this.ref && !this.ref.current) {
+			style.display = 'none';
+		}
+
 		return (
-			<div style={style} className={classes} ref={this.ref}>
-				{this.props.content ? React.cloneElement(this.props.content) : this.props.children}
+			<div ref={this.ref} className={classes}>
+				<div style={style} className={classes}>
+					{this.props.content ? React.cloneElement(this.props.content) : this.props.children}
+				</div>
 			</div>
 		);
 	}

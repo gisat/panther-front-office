@@ -6,6 +6,7 @@ import Page, {
 	LightDarkBlock,
 	SyntaxHighlighter
 } from "../../../../Page";
+import './timeline.css';
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
 // import serie_10 from "../../../../mockData/scatterChart/serie_10";
 
@@ -16,12 +17,13 @@ import Picker from "../../../../../../../components/common/timeline/centerPicker
 import Mouse from "../../../../../../../components/common/timeline/mouse";
 import Years from '../../../../../../../components/common/timeline/years';
 import Months from '../../../../../../../components/common/timeline/months';
+import Overlay from '../../../../../../../components/common/timeline/overlay';
 
 import TimeLineHover from '../../../../../../../components/common/timeline/TimeLineHover';
 import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
 import {getTootlipPosition} from "../../../../../../../components/common/HoverHandler/position";
 
-import period from '../../../../../../../utils/period';
+import {getIntersectionOverlays, overlap} from '../../../../../../../components/common/timeline/utils/overlays';
 import moment from 'moment';
 
 const TOOLTIP_PADDING = 5;
@@ -56,8 +58,30 @@ const overlays = [
 		classes: 'overlay3',
 		height: 10,
 		top: 20,
+	},
+	{
+		key: 'overlay4',
+		start: moment(2010, 'YYYY'),
+		end: moment(2025, 'YYYY'),
+		backdroundColor: 'rgba(255, 69, 69, 0.7)',
+		label: 'label4',
+		classes: 'overlay4',
+		height: 10,
+		top: 75,
+	},
+	{
+		key: 'overlay5',
+		start: '2015-01-01 00:01',
+		end: '2015-01-01 00:01',
+		backdroundColor: 'rgba(255, 69, 69, 0.7)',
+		label: 'label5',
+		hideLabel: true,
+		classes: 'overlay5',
+		height: 5,
+		top: 50,
 	}
 ]
+const MOUSEBUFFERWIDTH = 10;
 class TimelineDoc extends React.PureComponent {
 	getHoverContent(x, time) {
 		return (
@@ -65,6 +89,29 @@ class TimelineDoc extends React.PureComponent {
 				time: {` ${time.format("YYYY MM D H:mm:ss")}`}
 			</div>
 		)
+	}
+	getOverlaysHoverContent(x, time, evt) {
+		const intersectionOverlays = getIntersectionOverlays(time, overlays, MOUSEBUFFERWIDTH, evt.dayWidth);
+		intersectionOverlays.sort((a,b) => a.top - b.top);
+		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
+			return <div key={overlay.key} className={'ptr-timeline-tooltip-layer'}>
+				<div>
+					<span className="dot" style={{'backgroundColor': overlay.backdroundColor}}></span>
+				</div>
+				<div>{overlay.label}</div>
+			</div>
+		})
+		
+		return (
+			<div>
+				time: {` ${time.format("YYYY MM D H:mm:ss")}`}
+				{intersectionOverlaysElms}
+			</div>
+		)
+	}
+
+	onOverlayClick = (overlays) => {
+		console.log(overlays);
 	}
 
 	getHorizontalTootlipStyle() {
@@ -481,6 +528,35 @@ const getHorizontalTootlipStyle = () => {
 							</TimeLineHover>
 						</HoverHandler>
 					</div>
+
+
+					<h3>
+						Overlays
+					</h3>
+					<p>
+						
+					</p>
+
+					<div>
+						<HoverHandler getStyle={this.getHorizontalTootlipStyle()}>
+							<TimeLineHover getHoverContent={this.getOverlaysHoverContent}>
+								<Timeline
+									periodLimit={periodLimit}
+									onChange={(timelineState) => {console.log("onChange", timelineState)}}
+									onClick={(evt) => console.log("onClick", evt)}
+									vertical={false}
+									levels={LEVELS}
+									contentHeight={100}
+									selectMode={true}
+									>
+										<Mouse mouseBufferWidth={MOUSEBUFFERWIDTH} key="mouse"/>
+										<Levels key="levels"/>
+										<Overlay overlays={overlays} onClick={this.onOverlayClick}/>
+								</Timeline> 
+							</TimeLineHover>
+						</HoverHandler>
+					</div>
+
 			</Page>
 		);
 	}

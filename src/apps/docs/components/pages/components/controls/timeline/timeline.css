@@ -1,0 +1,39 @@
+.ptr-timeline-overlay rect{
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.ptr-timeline-overlay text{
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.ptr-timeline-tooltip-layer {
+	margin: 2px 0;
+	display: flex;
+	width: 100%;
+}
+.ptr-timeline-tooltip-layer > div {
+	flex-grow: 1;
+}
+.ptr-timeline-tooltip-layer > div:first-child {
+	position: relative;
+	width: 20px;
+	flex-grow: 0;
+}
+
+.ptr-timeline-tooltip-layer.active > div:first-child::before {
+	background: #cc0044;
+}
+.ptr-timeline-tooltip-layer-periods {
+	color: #666;
+	text-align: right;
+}
+
+.ptr-timeline-tooltip-layer span.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }

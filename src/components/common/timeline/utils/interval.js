@@ -144,6 +144,7 @@ export const getOverlays = (periodStart, periodEnd, overlays) => {
             overlaysCfg.push(
                 {
                     label: overlay.label,
+                    hideLabel: overlay.hideLabel,
                     key: overlay.key,
                     classes: overlay.classes,
                     height: overlay.height,
