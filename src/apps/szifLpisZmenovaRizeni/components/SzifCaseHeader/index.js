@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 	const maps = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
 
 	return {
-		activeMap: Select.maps.getActiveMapKey(state),
+		activeMap: Select.maps.getMapByKey(state, activeMapKey),
 		// mapsContainer: Select.components.getMapsContainer(state),
 		mapsContainer: {columns: 3, rows: 2},
 		mapsCount: maps.length,
