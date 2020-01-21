@@ -262,6 +262,7 @@ class Timeline extends React.PureComponent {
 	}
 
 	getXAxisWidth() {
+		//fix ReactResizeDetector. 
 		const {width, height, vertical} = this.props;
 		return vertical ? height : width;
 	}

@@ -29,7 +29,7 @@ class MapTools extends React.PureComponent {
 		let geometryBefore = this.props.case && this.props.case.data && this.props.case.data.geometryBefore;
 
 		return (
-			<div>
+			<div style={{minWidth: '25rem', display: 'flex'}}>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar mapTools">
 					<div className="ptr-dromasLpisChangeReviewHeader-map-info">
 						<MapsGridIcon
