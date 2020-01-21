@@ -8,6 +8,7 @@ class SzifCaseFooter extends React.PureComponent {
 	static propTypes = {
 		activeMap: PropTypes.object,
 		addMap: PropTypes.func,
+		borderOverlays: PropTypes.object,
 		case: PropTypes.object,
 		mapsContainer: PropTypes.object,
 		mapsCount: PropTypes.number,
@@ -24,6 +25,8 @@ class SzifCaseFooter extends React.PureComponent {
 		return (
 			<div style={{width: '100%',display: 'flex'}}>
 				<MapTools
+					showAfter={this.props.borderOverlays && this.props.borderOverlays.after}
+					showBefore={this.props.borderOverlays && this.props.borderOverlays.before}
 					case={this.props.case}
 					userGroup={this.props.userGroup}
 					map={this.props.activeMap}

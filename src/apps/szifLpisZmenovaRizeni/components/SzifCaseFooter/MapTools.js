@@ -9,6 +9,8 @@ class MapTools extends React.PureComponent {
 	static propTypes = {
 		addMap: PropTypes.func,
 		case: PropTypes.object,
+		showAfter: PropTypes.bool,
+		showBefore: PropTypes.bool,
 		map: PropTypes.object,
 		mapsContainer: PropTypes.object,
 		mapsCount: PropTypes.number,
@@ -17,14 +19,14 @@ class MapTools extends React.PureComponent {
 	};
 
 	onToggleGeometry(key, e) {
-		let geometryAfter = this.props.case && this.props.case.data && this.props.case.data.geometryAfter;
-		let geometryBefore = this.props.case && this.props.case.data && this.props.case.data.geometryBefore;
-		let showBefore = (key === 'before') ? e.target.checked : !!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore);
-		let showAfter = (key === 'after') ? e.target.checked : !!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter);
-		this.props.toggleGeometries(this.props.activeView, this.props.map.key, geometryBefore, geometryAfter);
+		const {showAfter, showBefore} = this.props;
+		const newShowBefore = (key === 'before') ? e.target.checked : showBefore;
+		const newShowAfter = (key === 'after') ? e.target.checked : showAfter;
+		this.props.toggleGeometries(this.props.map.key, newShowBefore, newShowAfter);
 	}
 
 	render() {
+		const {showAfter, showBefore} = this.props;
 		let geometryAfter = this.props.case && this.props.case.data && this.props.case.data.geometryAfter;
 		let geometryBefore = this.props.case && this.props.case.data && this.props.case.data.geometryBefore;
 
@@ -49,7 +51,7 @@ class MapTools extends React.PureComponent {
 							<input
 								disabled={!geometryBefore}
 								type="checkbox"
-								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore)}
+								checked={showBefore}
 								onChange={this.onToggleGeometry.bind(this, 'before')}
 							/>
 							<span className="ptr-dromasLpisChangeReview-toggle-legend current" />
@@ -59,7 +61,7 @@ class MapTools extends React.PureComponent {
 							<input
 								disabled={!geometryAfter}
 								type="checkbox"
-								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter)}
+								checked={showAfter}
 								onChange={this.onToggleGeometry.bind(this, 'after')}
 							/>
 							<span className="ptr-dromasLpisChangeReview-toggle-legend proposed" />
