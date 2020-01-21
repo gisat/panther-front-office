@@ -1,3 +1,4 @@
+import * as turf from '@turf/turf'
 import CommonAction from '../../../state/Action';
 import Select from '../state/Select';
 
@@ -12,6 +13,7 @@ const applyView = (viewKey) => (dispatch, getState) => {
 		viewKey = Select.views.getActiveKey(getState());
 		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
 			dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlays());	
+			dispatch(szifLpisZmenovaRizeni.setInitMapBorderView());	
 		});	
 	} else {
 		//get view
@@ -19,9 +21,36 @@ const applyView = (viewKey) => (dispatch, getState) => {
 	}
 };
 
+const setInitMapBorderView = () => (dispatch, getState) => {
+	const state = getState();
+	const mapSetKey = Select.maps.getActiveSetKey(state);
+	const activeCase = Select.specific.lpisChangeCases.getActive(state);
+	const geometries = []
+	if(activeCase.data.geometryBefore) {
+		geometries.push(JSON.parse(activeCase.data.geometryBefore));
+	};
+	if(activeCase.data.geometryAfter) {
+		geometries.push(JSON.parse(activeCase.data.geometryAfter));
+	};
+	const merged = geometries.length > 1 ? turf.union(...geometries) : geometries[0];
+	const bboxMerged = turf.bbox(merged);
+	const bboxMergedPolygon = turf.bboxPolygon(bboxMerged);
+	const bbox = turf.buffer(bboxMergedPolygon, 100, {units: 'meters'});
+	const bufferBbox = turf.bbox(bbox);
+	const center = turf.centerOfMass(bbox);
+	const horizontalLine = turf.lineString([[bufferBbox[0], bufferBbox[1]], [bufferBbox[0], bufferBbox[3]]]);
+	const horizontalLength = turf.length(horizontalLine);
+	const verticalLine = turf.lineString([[bufferBbox[0], bufferBbox[1]], [bufferBbox[2], bufferBbox[1]]]);
+	const verticalLength = turf.length(verticalLine);
+	const range = Math.max(verticalLength, horizontalLength);
+
+	dispatch(CommonAction.maps.updateSetView(mapSetKey, {center: {lon: center.geometry.coordinates[0], lat: center.geometry.coordinates[1]}, boxRange: range * 1000}))
+}
+
 //sync maps state with borders overlays component state
 const setInitMapOnBorderOverlays = () => (dispatch, getState) => {
-	const maps = Select.maps.getMapsAsObject(getState());
+	const state = getState();
+	const maps = Select.maps.getMapsAsObject(state);
 	for (const [key, value] of Object.entries(maps)) {
 		const mapsBorderOverlays = {
 			before: false,
@@ -118,6 +147,7 @@ const updateMap = () => (dispatch, getState) => {
 }
 
 szifLpisZmenovaRizeni['applyView'] = applyView;
+szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlays'] = setInitMapOnBorderOverlays;
 szifLpisZmenovaRizeni['updateMap'] = updateMap;
 
