@@ -94,27 +94,6 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 				height={height}
 				className="ptr-au-attribute-frequency-graph"
 			>
-				<Months
-					background
-					period={this.props.period}
-					getX={this.props.getX}
-					height={height}
-					dayWidth={this.props.dayWidth}
-				/>
-				<Days
-					background
-					period={this.props.period}
-					getX={this.props.getX}
-					height={height}
-					dayWidth={this.props.dayWidth}
-				/>
-				<Years
-					background
-					period={this.props.period}
-					getX={this.props.getX}
-					height={height}
-					dayWidth={this.props.dayWidth}
-				/>
 				<HorizontalLines
 					width={this.props.width}
 					height={height}
@@ -129,18 +108,6 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 					data={FAKE_DATA}
 					height={height}
 					buffer={GRAPH_BUFFER}
-				/>
-				<Mouse
-					mouseBufferWidth={this.props.mouseBufferWidth}
-					mouseX={this.props.mouseX}
-					height={height}
-				/>
-				<OutOfScopeOverlays
-					dayWidth={this.props.dayWidth}
-					getX={this.props.getX}
-					period={this.props.period}
-					dataPeriod={this.props.dataPeriod}
-					height={height}
 				/>
 
 			</svg>

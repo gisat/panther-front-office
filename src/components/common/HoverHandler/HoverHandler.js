@@ -6,8 +6,8 @@ import HoverContext from './context';
 import Popup from "./Popup/Popup";
 
 class HoverHandler extends React.PureComponent {
-
 	static propTypes = {
+		getStyle: PropTypes.func,
 		selectedItems: PropTypes.array,
 		compressedPopups: PropTypes.bool,
 		popupContentComponent: PropTypes.oneOfType([
@@ -18,6 +18,7 @@ class HoverHandler extends React.PureComponent {
 
 	constructor(props){
 		super(props);
+		this.ref = React.createRef();
 		this.state = {
 			hoveredItems: [],
 			popupContent: null,
@@ -40,7 +41,7 @@ class HoverHandler extends React.PureComponent {
 		let coordChanged = false;
 
 		// for older versions compatibility
-		if (options && options.popup && options.popup.content) {
+		if (options && options.popup && (options.popup.content || options.popup.content === null)) {
 			update.popupContent = options.popup.content;
 		}
 
@@ -62,12 +63,12 @@ class HoverHandler extends React.PureComponent {
 			update.fidColumnName = options.popup.fidColumnName;
 		} else {
 			update.hoveredItems = [...this.state.hoveredItems, ...hoveredItems];
-			if (options.popup.data && options.popup.data.length) {
+			if (this.state.data && options.popup.data && options.popup.data.length) {
 				update.data = [...this.state.data, ...options.popup.data];
 				update.fidColumnName = options.popup.fidColumnName;
 			}
 		}
-
+		
 		if (!_.isEmpty(update)) {
 			if (update.hoveredItems && update.hoveredItems.length) {
 				this.setState(update);
@@ -87,28 +88,38 @@ class HoverHandler extends React.PureComponent {
 	}
 
 	render() {
+		const {children, selectedItems} = this.props;
+		const {hoveredItems, popupContent, data, x, y} = this.state;
 		return (
 			<HoverContext.Provider value={{
-				hoveredItems: this.state.hoveredItems,
-				selectedItems: this.props.selectedItems,
+				hoveredItems: hoveredItems,
+				selectedItems: selectedItems,
 				onHover: this.onHover,
 				onHoverOut: this.onHoverOut,
-				x: this.state.x,
-				y: this.state.y
+				x: x,
+				y: y
 			}}>
-				{this.props.children}
-				{this.state.popupContent || this.state.data ? this.renderPopup() : null}
+				<div ref={this.ref} style={{height: '100%',width: '100%'}}>
+					{children}
+					{/* {popup ? this.renderPopup() : null} */}
+					{popupContent || data ? this.renderPopup() : null}
+				</div>
 			</HoverContext.Provider>
 		);
 	}
 
 	renderPopup() {
+		const {getStyle, popupContentComponent, compressedPopups} = this.props;
+		const {data, hoveredItems, fidColumnName, popupContent, x, y} = this.state;
+
 		return <Popup
-			x={this.state.x}
-			y={this.state.y}
-			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.data, featureKeys: this.state.hoveredItems, fidColumnName: this.state.fidColumnName}) : this.state.popupContent}
-			compressed={this.props.compressedPopups}
-		/>
+					x={x}
+					y={y}
+					content={popupContentComponent ? React.createElement(popupContentComponent, {data: data, featureKeys: hoveredItems, fidColumnName: fidColumnName}) : popupContent}
+					getStyle={getStyle}
+					hoveredElemen={this.ref.current}
+					compressed={compressedPopups}
+				/>
 	}
 }
 

@@ -5,6 +5,11 @@ import config from './config';
 import apps from './apps';
 
 import {initialize as initializeGTag} from './utils/gtag';
+import {forceSetPassiveEvents} from './utils/events';
+
+//Fix for passive events
+forceSetPassiveEvents();
+
 
 const devIndex = (hostname) => import(/* webpackChunkName: "devIndex" */'./apps/_devIndex').then(module => {
 	module.default(hostname);
