@@ -9,20 +9,10 @@ import lpisChangeCasesEdited from './LpisChangeCasesEdited/actions';
 const applyView = (viewKey) => (dispatch, getState) => {
 	//apply default view
 	if (!viewKey) {
-		const state = getState();
-		viewKey = Select.views.getActiveKey(state);
-		const view = cloneDeep(Select.views.getDataByKey(state, viewKey));
-
-		//todo -> set map center
-		const newViewKey = utils.uuid();
-		dispatch(CommonAction.views.add(
-			{
-				key: newViewKey,
-				data: view,
-			}
-		))
-		dispatch(CommonAction.views.setActiveKey(newViewKey));
-		dispatch(CommonAction.views.apply(newViewKey, CommonAction));		
+		viewKey = Select.views.getActiveKey(getState());
+		dispatch(CommonAction.views.apply(viewKey, CommonAction));	
+	} else {
+		dispatch(CommonAction.views.apply(viewKey, CommonAction));		
 	}
 };
 

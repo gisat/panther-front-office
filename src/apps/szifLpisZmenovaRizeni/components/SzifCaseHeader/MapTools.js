@@ -17,9 +17,11 @@ class MapTools extends React.PureComponent {
 	};
 
 	onToggleGeometry(key, e) {
+		let geometryAfter = this.props.case && this.props.case.data && this.props.case.data.geometryAfter;
+		let geometryBefore = this.props.case && this.props.case.data && this.props.case.data.geometryBefore;
 		let showBefore = (key === 'before') ? e.target.checked : !!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore);
 		let showAfter = (key === 'after') ? e.target.checked : !!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter);
-		this.props.toggleGeometries(this.props.map.key, showBefore, showAfter);
+		this.props.toggleGeometries(this.props.activeView, this.props.map.key, geometryBefore, geometryAfter);
 	}
 
 	render() {
