@@ -31,8 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				after: !!geometryAfter,
 			}
 
-			dispatch(Action.components.update('szifZmenovaRizeni_BorderOverlays', {[mapKey]: mapsBorderOverlays}));			
+			dispatch(Action.components.update('szifZmenovaRizeni_BorderOverlays', {[mapKey]: mapsBorderOverlays}));
 			// sync map with component szifZmenovaRizeni_BorderOverlays
+			dispatch(Action.specific.szifLpisZmenovaRizeni.updateMap());
 		},
 	}
 };
