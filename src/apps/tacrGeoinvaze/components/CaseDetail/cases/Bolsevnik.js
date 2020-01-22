@@ -19,7 +19,9 @@ import image from "../../../assets/caseDetails/bolsevnik-velkolepy.jpg";
 
 const Bolsevnik = props => (
 	<div>
-		<Title name="Bolševník velkolepý" nameSynonyms="" latinName="Heracleum mantegazzianum" latinNameSynonyms="Heracleum speciosum"/>
+		<Title name="Bolševník velkolepý" nameSynonyms="" latinName="Heracleum mantegazzianum" latinNameSynonyms={
+			<>Heracleum asperum <em>M. Bieb</em>/ Heracleum caucasicum <em>Steven</em>/ Heracleum circassicum <em>Mandenova</em>/ Heracleum giganteum <em>Hornem.</em>/ Heracleum grossheimii <em>Mandenova</em>/ Heracleum lehmannianum <em>Bunge</em>/ Heracleum panaces <em>Willd. ex Steven</em>/ Heracleum persicum <em>Desf. ex Fischer</em>/ Heracleum sibiricum <em>Sphalm</em>/ Heracleum speciosum <em>Weinm.</em>/ Heracleum stevenii <em>Manden.</em>/ Heracleum tauricum <em>Steven</em>/ Heracleum villosum <em>Fischer ex Sprengel</em></>
+		}/>
 		<Summary>
 			<OriginalArea text="Západní části Kavkazu"/>
 			<SecondaryArea text="Česká republika, Irsko, Velká Británie, Skandinávie, Německo, Holandsko, Belgie, Francie, Švýcarsko, Itálie, Rakousko, Slovensko, Maďarsko, část Ruska a Severní Amerika"/>

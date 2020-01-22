@@ -19,7 +19,7 @@ import image from "../../../assets/caseDetails/dub-cerveny.jpg";
 
 const DubCerveny = props => (
 	<div>
-		<Title name="Dub červený" nameSynonyms="" latinName="Quercus rubra" latinNameSynonyms="Erythrobalanus rubra /Quercus borealis"/>
+		<Title name="Dub červený" nameSynonyms="" latinName="Quercus rubra" latinNameSynonyms="Erythrobalanus rubra/Quercus borealis"/>
 		<Summary>
 			<OriginalArea text="Severní Amerika, po celém kontinentu"/>
 			<SecondaryArea text="Evropa, Asie"/>
