@@ -46,10 +46,10 @@ const Ondatra = props => (
 		</InvasivePotential>
 		<Resources>
 			<Resource>Anděra M., Červený J., 2003: Červený seznam savců České republiky. Příroda,22: 139-149.</Resource>
-			<Resource>Anděra M., Beneš B., 2001: Atlas rozšíření savců v České republice. Předběžná verze IV. Hlodavci (Rodentia) - část křečkovití (Cricetidae), hrabošovití (Arvicolidae), plchovitíí (Glyriidae). Národní muzeum, Praha, 156 pp.</Resource>
+			<Resource>Anděra M., Beneš B., 2001: Atlas rozšíření savců v České republice. Předběžná verze IV. Hlodavci (<i>Rodentia</i>) - část křečkovití (<i>Cricetidae</i>), hrabošovití (<i>Arvicolidae</i>), plchovití (<i>Glyriidae</i>). Národní muzeum, Praha, 156 pp.</Resource>
 			<Resource>Anděra M., Gaisler J., 2019: Savci České republiky: rozšíření, ekologie ochrana. 2. upravené vydání. Academia Praha, 286 str.</Resource>
 			<Resource>Foit J., Křižanová I., 2010: Neobvyklé potravní chování ondatry pižmové. Živa 58(2): 91</Resource>
-			<Resource>Hanák P.,1980: Rozšíření, rozmnožování, věková struktura a kvalita kožek jihočeské populace ondatry pižmové (Ondatra zibethicus L. 1766). Kandidátská disertační práce, Ústav pro výzkum obratlovců, AV ČR Brno, 154 pp.</Resource>
+			<Resource>Hanák P.,1980: Rozšíření, rozmnožování, věková struktura a kvalita kožek jihočeské populace ondatry pižmové (<i>Ondatra zibethicus</i> L. 1766). Kandidátská disertační práce, Ústav pro výzkum obratlovců, AV ČR Brno, 154 pp.</Resource>
 			<Resource>Mlíkovský J., Stýblo P. (eds.), 2006: Nepůvodní druhy fauny a flóry ČR. ČSOP Praha, 496 pp.</Resource>
 		</Resources>
 	</div>
