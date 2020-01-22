@@ -33,6 +33,7 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
 	// Add default view
+	const indexKey = '3bb594c3-dd3a-4ac7-992c-af8b50b6091b';
 	Store.dispatch(Action.views.add({
 		key: '3bb594c3-dd3a-4ac7-992c-af8b50b6091b',
 		data: {
@@ -88,6 +89,17 @@ export default (path, baseUrl) => {
 			}
 		}
 	}));
+
+	const index = {
+		filter: null,
+		order: ["submitDate", "descending"],
+		count: 1,
+		changedOn: new Date().toISOString(),
+		start: 0
+	}
+	Store.dispatch(Action.views.addIndex(index.filter, index.order, index.count, index.start, [], index.changedOn))
+									// ( result.data[dataType], result.changes && result.changes[dataType])
+
 
 	Store.dispatch(Action.views.setActiveKey('3bb594c3-dd3a-4ac7-992c-af8b50b6091b'));
 

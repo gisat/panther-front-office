@@ -888,6 +888,7 @@ const getCreatePayload = (datatype, key = utils.uuid(), applicationKey) => {
 
 export default {
 	add: creator(actionAdd),
+	addIndex: creator(actionAddIndex),
 	addBatch: creator(actionAddBatch),
 	addBatchIndex: creator(actionAddBatchIndex),
 	action,

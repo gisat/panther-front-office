@@ -51,7 +51,7 @@ class MapTools extends React.PureComponent {
 							<input
 								disabled={!geometryBefore}
 								type="checkbox"
-								checked={showBefore}
+								checked={!!showBefore}
 								onChange={this.onToggleGeometry.bind(this, 'before')}
 							/>
 							<span className="ptr-dromasLpisChangeReview-toggle-legend current" />
@@ -61,7 +61,7 @@ class MapTools extends React.PureComponent {
 							<input
 								disabled={!geometryAfter}
 								type="checkbox"
-								checked={showAfter}
+								checked={!!showAfter}
 								onChange={this.onToggleGeometry.bind(this, 'after')}
 							/>
 							<span className="ptr-dromasLpisChangeReview-toggle-legend proposed" />

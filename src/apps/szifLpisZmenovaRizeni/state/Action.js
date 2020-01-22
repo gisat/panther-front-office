@@ -1,23 +1,39 @@
 import * as turf from '@turf/turf'
 import CommonAction from '../../../state/Action';
 import Select from '../state/Select';
+import utils from '../../../utils/utils';
 
 import lpisChangeCases from './LpisChangeCases/actions';
 import lpisChangeCasesEdited from './LpisChangeCasesEdited/actions';
 
 const szifLpisZmenovaRizeni = {};
 
-const applyView = (viewKey) => (dispatch, getState) => {
+
+const getViewState = (state) => {
+	const maps = Select.maps.getSubstate(state);
+	const szifZmenovaRizeni_BorderOverlays = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_BorderOverlays');
+	return {
+		maps: maps,
+		components: {
+			szifZmenovaRizeni_BorderOverlays
+		}
+	}
+}
+
+const applyView = (viewKey) => async (dispatch, getState) => {
 	//apply default view
 	if (!viewKey) {
 		viewKey = Select.views.getActiveKey(getState());
 		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
 			dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlays());	
 			dispatch(szifLpisZmenovaRizeni.setInitMapBorderView());	
-		});	
+		});
 	} else {
 		//get view
-		dispatch(CommonAction.views.apply(viewKey, CommonAction));		
+		await dispatch(CommonAction.views.useKeys([viewKey]));
+		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
+			dispatch(szifLpisZmenovaRizeni.updateMap());	
+		});
 	}
 };
 
@@ -43,7 +59,6 @@ const setInitMapBorderView = () => (dispatch, getState) => {
 	const verticalLine = turf.lineString([[bufferBbox[0], bufferBbox[1]], [bufferBbox[2], bufferBbox[1]]]);
 	const verticalLength = turf.length(verticalLine);
 	const range = Math.max(verticalLength, horizontalLength);
-
 	dispatch(CommonAction.maps.updateSetView(mapSetKey, {center: {lon: center.geometry.coordinates[0], lat: center.geometry.coordinates[1]}, boxRange: range * 1000}))
 }
 
@@ -91,6 +106,27 @@ const getSpatialRelation = (spatialDataSourceKey, spatialRelationKey, layerTempl
 				scopeKey: null
 			}
 	}
+}
+
+const saveView = () => async (dispatch, getState) => {
+	const state = getState();
+	const activeCase = Select.specific.lpisChangeCases.getActive(state);
+	const activeCaseKey = activeCase.key;
+	//if case has no viewKey linked yet, create and link new view
+	if(!activeCase.data.viewKey) {
+		const newViewKey = utils.uuid();
+		//create view
+		await dispatch(CommonAction.views.create(newViewKey ,'szifLpisZmenovaRizeni'));
+		//link new view to case
+		dispatch(lpisChangeCases.updateEdited(activeCaseKey, 'viewKey', newViewKey));
+		await dispatch(lpisChangeCases.saveEdited(activeCaseKey));
+	}
+	const updateActiveCase = Select.specific.lpisChangeCases.getActive(getState());
+	const viewState = getViewState(getState());
+	//update view
+	dispatch(CommonAction.views.updateEdited(updateActiveCase.data.viewKey, 'state', viewState));
+	//save view
+	await dispatch(CommonAction.views.saveEdited(updateActiveCase.data.viewKey));
 }
 
 const updateMap = () => (dispatch, getState) => {
@@ -150,6 +186,7 @@ szifLpisZmenovaRizeni['applyView'] = applyView;
 szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlays'] = setInitMapOnBorderOverlays;
 szifLpisZmenovaRizeni['updateMap'] = updateMap;
+szifLpisZmenovaRizeni['saveView'] = saveView;
 
 export default {
 	...CommonAction,

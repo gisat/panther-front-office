@@ -17,9 +17,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		editActiveCase: (property, value) => {dispatch(Action.specific.lpisChangeReviewCases.editActiveCase(property, value))},
+		editActiveCase: (property, value) => {
+			dispatch(Action.specific.lpisChangeReviewCases.editActiveCase(property, value))
+		},
 		saveEvaluation: () => {
-			dispatch(Action.specific.lpisChangeReviewCases.userActionSaveEvaluation());
+			dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
+			// dispatch(Action.specific.szifLpisZmenovaRizeni.saveEveluation());
 		},
 		saveAndApproveEvaluation: () => {
 			dispatch(Action.specific.lpisChangeReviewCases.userActionSaveAndApproveEvaluation())
