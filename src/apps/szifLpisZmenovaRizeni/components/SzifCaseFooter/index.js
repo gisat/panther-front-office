@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 			dispatch(Action.components.update('szifZmenovaRizeni_BorderOverlays', {[mapKey]: mapsBorderOverlays}));
 			// sync map with component szifZmenovaRizeni_BorderOverlays
-			dispatch(Action.specific.szifLpisZmenovaRizeni.updateMap());
+			dispatch(Action.specific.szifLpisZmenovaRizeni.updateMap(mapKey));
 		},
 	}
 };

@@ -13,7 +13,7 @@ const getViewState = (state) => {
 	const maps = Select.maps.getSubstate(state);
 	const szifZmenovaRizeni_BorderOverlays = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_BorderOverlays');
 	return {
-		maps: maps,
+		maps: maps, //remove borders layers from maps?
 		components: {
 			szifZmenovaRizeni_BorderOverlays
 		}
@@ -32,7 +32,11 @@ const applyView = (viewKey) => async (dispatch, getState) => {
 		//get view
 		await dispatch(CommonAction.views.useKeys([viewKey]));
 		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
-			dispatch(szifLpisZmenovaRizeni.updateMap());	
+			//for each map
+			const maps = Select.maps.getMapsAsObject(getState());
+			for (const [key, value] of Object.entries(maps)) {
+				dispatch(szifLpisZmenovaRizeni.updateMap(key));
+			}
 		});
 	}
 };
@@ -129,10 +133,8 @@ const saveView = () => async (dispatch, getState) => {
 	await dispatch(CommonAction.views.saveEdited(updateActiveCase.data.viewKey));
 }
 
-const updateMap = () => (dispatch, getState) => {
+const updateMap = (activeMapKey) => (dispatch, getState) => {
 	const state = getState();
-	const mapSetKey = Select.maps.getActiveSetKey(state);
-	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const activeMapBorderState = Select.components.get(state, 'szifZmenovaRizeni_BorderOverlays', activeMapKey);
 
 	const spatialDataSourceKey = '7f829c40-cf7f-4099-ac93-a5c9a430f836';
