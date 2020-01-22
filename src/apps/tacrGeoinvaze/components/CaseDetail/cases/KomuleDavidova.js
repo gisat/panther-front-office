@@ -31,7 +31,7 @@ const KomuleDavidova = props => (
 			copyright="Foto: Kateřina Berchová-Bímová"
 		/>
 		<TextBlock>
-			<p>Komule Davidova (Summer lilac) je 3 až 5 m vysoký keř. Listy jsou vstřícné, krátce řapíkaté, vejčitě kopinaté, pilovité a na rubu jemně plstnaté. Dosahují délky 15 až 25 cm. Hrozny vonných květů 10 až 25 cm dlouhé vyrůstají z letorostů. Botanické druhy mají lila fialovou barvu květů, kultivary od bílé po tmavě fialovou. Keř kvete od července do října. Plodem je tobolka. V našich podmínkách je citlivá na mráz.</p>
+			<p>Komule Davidova je 3 až 5 m vysoký keř. Listy jsou vstřícné, krátce řapíkaté, vejčitě kopinaté, pilovité a na rubu jemně plstnaté. Dosahují délky 15 až 25 cm. Hrozny vonných květů 10 až 25 cm dlouhé vyrůstají z letorostů. Botanické druhy mají lila fialovou barvu květů, kultivary od bílé po tmavě fialovou. Keř kvete od července do října. Plodem je tobolka. V našich podmínkách je citlivá na mráz.</p>
 			<h5>Ekologie a způsob šíření</h5>
 			<p>V původním areálu roste na horských křovinatých svazích, v pásmu od 800 do 3000 m n. m. Vyžaduje tedy přiměřeně vlhkou, propustnou půdu.  Ve střední Evropě ho najdeme na říčních štěrkopískových náplavech. Dřevina se používá zejména jako okrasná pro své květy, které lákají svou vůní hmyz, především motýly (v noci lišaje).</p>
 		</TextBlock>

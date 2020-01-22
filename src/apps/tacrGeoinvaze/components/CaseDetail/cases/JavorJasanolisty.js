@@ -19,7 +19,7 @@ import image from "../../../assets/caseDetails/javor-jasanolisty.jpg";
 
 const JavorJasanolisty = props => (
 	<div>
-		<Title name="Javor jasanolistý" nameSynonyms="pájavec jasanolistý " latinName="Acer negundo" latinNameSynonyms="Acer californicum var. texanum/Acer fauriei/Acer fraxinifolium/Acer fraxinifolium/Acer lobatum /Acer nuttallii/Acer trifoliatum/Acer violaceum/Negundo aceroides var. violaceum/Negundo aceroides subsp. violaceus /Negundo fraxinifolium var. crispum/Negundo fraxinifolium var. violaceum/Negundo negundo/Negundo texanum/Rulac negundo"/>
+		<Title name="Javor jasanolistý" nameSynonyms="pájavec jasanolistý " latinName="Acer negundo" latinNameSynonyms={<>Acer californicum <em>var.</em> texanum/Acer fauriei/Acer fraxinifolium/Acer fraxinifolium/Acer lobatum /Acer nuttallii/Acer trifoliatum/Acer violaceum/Negundo aceroides <em>var.</em> violaceum/Negundo aceroides <em>subsp.</em> violaceus /Negundo fraxinifolium <em>var.</em> crispum/Negundo fraxinifolium <em>var.</em> violaceum/Negundo negundo/Negundo texanum/Rulac negundo</>}/>
 		<Summary>
 			<OriginalArea text="Severní Amerika, po celém kontinentu"/>
 			<SecondaryArea text="Jižní Amerika, Evropa, Asie"/>
@@ -31,7 +31,7 @@ const JavorJasanolisty = props => (
 			copyright="Foto: Zdroj wikimedia"
 		/>
 		<TextBlock>
-			<p>Javor jasanolistý je 10-20 (maximálně 25) m vysoký strom nízkým rozložitým habitem a řídkou mezernatou korunou. Borka kmene je mělce podélně zbrázděná, letorosty šedé až šedozelené, ojíněné. Listy jsou vstřícné, asi 7–15 cm dlouhé, lichozpeřené složené z 5-7 krátce řapíkatých lístků. Lístky jsou zašpičatělé, po obvodu nepravidelně ostře zubaté (někdy téměř celokrajné), světle zelené barvy. Listová plocha je velmi tenká, proto listy působí převislým dojmem. Kvete před olistění nebo současně s rašícími lístky, plodem je nažka. Typický pro javorovec je ostrý úhel, který svírají křídla nažek. Plody tvoří výrazné hrozny světle hnědé barvy. </p>
+			<p>Javor jasanolistý je 10—20 (maximálně 25) m vysoký strom nízkým rozložitým habitem a řídkou mezernatou korunou. Borka kmene je mělce podélně zbrázděná, letorosty šedé až šedozelené, ojíněné. Listy jsou vstřícné, asi 7—15 cm dlouhé, lichozpeřené složené z 5—7 krátce řapíkatých lístků. Lístky jsou zašpičatělé, po obvodu nepravidelně ostře zubaté (někdy téměř celokrajné), světle zelené barvy. Listová plocha je velmi tenká, proto listy působí převislým dojmem. Kvete před olistění nebo současně s rašícími lístky, plodem je nažka. Typický pro javor je ostrý úhel, který svírají křídla nažek. Plody tvoří výrazné hrozny světle hnědé barvy. </p>
 			<h5>Ekologie a způsob šíření</h5>
 			<p>Javor jasanolistý je běžně pěstován v parcích a alejích, odkud velmi často zplaňuje na neudržované a opuštěné plochy (např. nehospodařená pole a louky). Zde pak vytváří husté porosty mladých jedinců. Je nadán vysokou mírou kořenové a kmenové výmladnosti. Vzhledem k tomu že jde o krátkověkou dřevinu, kvete v nízkém věku (okolo 10 let) a vytváří ohromné množství snadno šiřitelných nažek s vysokou mírou klíčivosti. Ve volné přírodě roste kromě opuštěných ploch také na okraji lesních porostů v nižších až středních polohách. Invazně se chová v lužních lesích, kde vytváří husté až neproniknutelné nižší stromové patro, zejména v jaseninách a tvrdých luzích. Díky výmladnosti je schopen vysoké míry regenerace. V přírodních biotopech lze považovat za velmi nebezpečný invazní druh.</p>
 		</TextBlock>

@@ -31,7 +31,7 @@ const KlejichaHedvabna = props => (
 			copyright="Foto: Paša Pokorná"
 		/>
 		<TextBlock>
-			<p>Klejicha hedvábná (Common milkweed) je jedovatá bylina, která po poranění silně roní bílou šťávu. Má dlouhý, plazivý a dužnatý oddenek tlustý 2-3cm.  Jedná se o 1 až 2metry vysokou bylinu s přímým, nevětveným hustě chlupatým stonkem s centrální dutinou. Listy jsou vstřícné, tmavozelené na líci, šedozelené na rubu. Rostlina kvete v červnu až srpnu nafialovělými 5tičetnými květy se složitou stavbou, uspořádaných v úžlabní lichookolík. Plodem je podlouhle vejčitý měchýřek s množstvím semen. Semena mají nápadný bílý chmýr. Oddenek obsahuje mezi jinými toxický glykosid asclepiadin.</p>
+			<p>Klejicha hedvábná je jedovatá bylina, která po poranění silně roní bílou šťávu. Má dlouhý, plazivý a dužnatý oddenek tlustý 2—3cm.  Jedná se o 1 až 2 metry vysokou bylinu s přímým, nevětveným hustě chlupatým stonkem s centrální dutinou. Listy jsou vstřícné, tmavozelené na líci, šedozelené na rubu. Rostlina kvete v červnu až srpnu nafialovělými 5četnými květy se složitou stavbou, uspořádaných v úžlabní lichookolík. Plodem je podlouhle vejčitý měchýřek s množstvím semen. Semena mají nápadný bílý chmýr. Oddenek obsahuje mezi jinými toxický glykosid asclepiadin.</p>
 			<h5>Ekologie a způsob šíření</h5>
 			<p>Jedná se o vytrvalou teplomilnou rostlinu, která zplaňuje na železničních náspech, v příkopech, někde už i v polních kulturách. Občas je pěstována v zahrádkách pro její nápadnou vůni. Rozmnožuje se generativně, ale zejména vegetativně oddenky. Roste na půdách lehkých a vysýchavých. Vážné problémy působí v teplejších oblastech, např. v Maďarsku, kde invaduje přírodní biotopy písčin a je velmi obtížně odstranitelná.</p>
 		</TextBlock>

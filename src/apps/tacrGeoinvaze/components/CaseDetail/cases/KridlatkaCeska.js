@@ -19,7 +19,7 @@ import image from "../../../assets/caseDetails/kridlatka-ceska.jpg";
 
 const KridlatkaCeska = props => (
 	<div>
-		<Title name="Křídlatka česká" nameSynonyms="" latinName="Reynoutria ×bohemica" latinNameSynonyms="Fallopia ×bohemica"/>
+		<Title name="Křídlatka česká" nameSynonyms="" latinName="Reynoutria bohemica" latinNameSynonyms="Fallopia bohemica"/>
 		<Summary>
 			<OriginalArea text="Severní Japonsko, hybrid pravděpodobně vzniká opakovaně křížením rodičovských druhů v jejich sekundárních areálech"/>
 			<SecondaryArea text="Evropa (invazní), S. Amerika (invazní), pravděpodobně všude tam, kde se vyskytují rodičovské druhy"/>
@@ -46,10 +46,10 @@ const KridlatkaCeska = props => (
 		</InvasivePotential>
 		<Resources>
 			<Resource>Bailey J. P., Bímová K. & Mandák B. (2006): Asexual spread versus sexual reproduction and evolution in Japanese Knotweed s.l. sets the stage for the “Battle of the Clones” – Biological invasions (DOI 10.1007/s10530-008-9381-4).</Resource>
-			<Resource>Bailey J. P., Bímová K. & Mandák B. (2007): The potential role of polyploidy and hybridisation in the further evolution of the highly invasive Fallopia taxa in Europe. Ecological Research 22: 920–928.</Resource>
+			<Resource>Bailey J. P., Bímová K. & Mandák B. (2007): The potential role of polyploidy and hybridisation in the further evolution of the highly invasive <i>Fallopia</i> taxa in Europe. Ecological Research 22: 920–928.</Resource>
 			<Resource>Berchová-Bímová K., Soltysiak J., Vach M. (2014): Role of different taxa and cytotypes in heavy metals absorption in knotweeds (Fallopia), Scientia agriculturae bohemica, 45, 2014 (1): 11–18.</Resource>
-			<Resource>Berchová-Bímová, K. & Mandák, B. (2008): Všechno zlé je k něčemu dobré: evoluce křídlatek (Fallopia) v sekundárním areálu rozšíření. Zprávy České botanické společnosti.: 43(Mat. 23), 121-140. ISSN 1212-3323.</Resource>
-			<Resource>Bímová K., Mandák B. & Kašparová I. (2004): How does Reynoutria invasion fit the various theories of invasibility? – Journal of Vegetation Science 15: 495–504.</Resource>
+			<Resource>Berchová-Bímová, K. & Mandák, B. (2008): Všechno zlé je k něčemu dobré: evoluce křídlatek (<i>Fallopia</i>) v sekundárním areálu rozšíření. Zprávy České botanické společnosti.: 43(Mat. 23), 121-140. ISSN 1212-3323.</Resource>
+			<Resource>Bímová K., Mandák B. & Kašparová I. (2004): How does <i>Reynoutria</i> invasion fit the various theories of invasibility? – Journal of Vegetation Science 15: 495–504.</Resource>
 		</Resources>
 	</div>
 );

@@ -20,7 +20,7 @@ import image2 from "../../../assets/caseDetails/loubinec-popinavy-2.jpg";
 
 const LoubinecPopinavy = props => (
 	<div>
-		<Title name="Loubinec popínavý" nameSynonyms="přísavník křovištní/psí víno" latinName="Parthenocissus inserta" latinNameSynonyms="Parthenocitis inserta/Ampelopsis inserta/Parthenocissus quinquefolia/Ampelopsis quinquefolia var. vitacea/Parthenocissus vitacea/Vitis inserta/Parthenocissus inserta/Parthenocissus quinquefolia/Vitis vitacea/Parthenocissus quinquefolia var. vitacea/Psedera vitacea"/>
+		<Title name="Loubinec popínavý" nameSynonyms="přísavník křovištní/psí víno" latinName="Parthenocissus inserta" latinNameSynonyms={<>Parthenocitis inserta/Ampelopsis inserta/Parthenocissus quinquefolia/Ampelopsis quinquefolia <em>var.</em> vitacea/Parthenocissus vitacea/Vitis inserta/Parthenocissus inserta/Parthenocissus quinquefolia/Vitis vitacea/Parthenocissus quinquefolia <em>var.</em> vitacea/Psedera vitacea</>}/>
 		<Summary>
 			<OriginalArea text="Severní Amerika"/>
 			<SecondaryArea text="střední Evropa, Asie (invazní), Austrálie"/>
