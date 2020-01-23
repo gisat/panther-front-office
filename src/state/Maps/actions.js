@@ -739,7 +739,7 @@ function use(mapKey, backgroundLayer, layers) {
 
 
 				/* Ensure spatial relations or area relations */
-				if (layer.layerTemplateKey || layer.areaTreeLevelKey || mergedFilter.layerTemplateKey) {
+				if (layer.layerTemplateKey || layer.areaTreeLevelKey || (mergedFilter && mergedFilter.layerTemplateKey)) {
 					let action, select;
 					if (layer.layerTemplateKey || mergedFilter.layerTemplateKey) {
 						action = Action.spatialRelations;

@@ -13,10 +13,12 @@ const szifLpisZmenovaRizeni = {};
 const getViewState = (state) => {
 	const maps = Select.maps.getSubstate(state);
 	const szifZmenovaRizeni_BorderOverlays = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_BorderOverlays');
+	const szifZmenovaRizeni_ActiveLayers = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_ActiveLayers');
 	return {
 		maps: maps, //remove borders layers from maps?
 		components: {
-			szifZmenovaRizeni_BorderOverlays
+			szifZmenovaRizeni_BorderOverlays,
+			szifZmenovaRizeni_ActiveLayers,
 		}
 	}
 }
@@ -27,12 +29,24 @@ const applyView = (viewKey) => async (dispatch, getState) => {
 		viewKey = Select.views.getActiveKey(getState());
 		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
 			dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlays());	
+			dispatch(szifLpisZmenovaRizeni.setInitMapActiveLayers());	
 			dispatch(szifLpisZmenovaRizeni.setInitMapBorderView());	
 		});
 	} else {
 		//get view
 		await dispatch(CommonAction.views.useKeys([viewKey]));
 		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
+			//check if all components applyed
+			const szifZmenovaRizeni_ActiveLayers = Select.components.getDataByComponentKey(getState(), 'szifZmenovaRizeni_ActiveLayers');
+			if(!szifZmenovaRizeni_ActiveLayers) {
+				dispatch(szifLpisZmenovaRizeni.setInitMapActiveLayers());	
+			}
+
+			const szifZmenovaRizeni_BorderOverlays = Select.components.getDataByComponentKey(getState(), 'szifZmenovaRizeni_BorderOverlays');
+			if(!szifZmenovaRizeni_BorderOverlays) {
+				dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlays());	
+			}
+
 			//for each map
 			const maps = Select.maps.getMapsAsObject(getState());
 			for (const [key, value] of Object.entries(maps)) {
@@ -80,7 +94,17 @@ const setInitMapOnBorderOverlays = () => (dispatch, getState) => {
 	}
 };
 
-const getStatialDataSource = (spatialDataSourceKey, geometry, name) => {
+//sync maps state with borders overlays component state
+const setInitMapActiveLayers = () => (dispatch, getState) => {
+	const state = getState();
+	const maps = Select.maps.getMapsAsObject(state);
+	for (const [key, value] of Object.entries(maps)) {
+		const activeLayers = []
+		dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', key, activeLayers));
+	}
+};
+
+const getVectorSpatialDataSource = (spatialDataSourceKey, geometry, name) => {
 	return {
 		key: spatialDataSourceKey,
 		data: {
@@ -98,6 +122,21 @@ const getStatialDataSource = (spatialDataSourceKey, geometry, name) => {
 	}
 }
 
+const getRasterSpatialDataSource = (spatialDataSourceKey, name) => {
+	return {
+		key: spatialDataSourceKey,
+		data: {
+			"nameInternal": name,
+			"attribution": null,
+			"type": "wms",
+			"tableName": null,
+			"url": 'http://45.56.96.184:8080/geoserver/lpis/wms',
+			layers: 'lpis:s2_previews_imagemosaic_2017,lpis:s2_previews_imagemosaic_2018',
+			time: '2017-04-01',
+		}
+	}
+}
+
 const getSpatialRelation = (spatialDataSourceKey, spatialRelationKey, layerTemplateKey) => {
 	return {
 			key: spatialRelationKey,
@@ -109,6 +148,24 @@ const getSpatialRelation = (spatialDataSourceKey, spatialRelationKey, layerTempl
 				placeKey: null,
 				scenarioKey: null,
 				scopeKey: null
+			}
+	}
+}
+
+const getLayerConfig = (layer, dispatch) => {
+	const spatialDataSource = getRasterSpatialDataSource(layer.key, 'sentinel');
+	dispatch(CommonAction.spatialDataSources.add(spatialDataSource));
+	
+	const spatialRelation = getSpatialRelation(layer.key, `rel-${layer.key}`, `lt-${layer.key}`);
+	dispatch(CommonAction.spatialRelations.add(spatialRelation));
+
+	return {
+			key: `${layer.key}`,
+			layerTemplateKey: `lt-${layer.key}`,
+			name: 'sentinel',
+			options: {},
+			filterByActive: {
+				layerTemplate: `lt-${layer.key}`
 			}
 	}
 }
@@ -134,7 +191,26 @@ const saveView = () => async (dispatch, getState) => {
 	await dispatch(CommonAction.views.saveEdited(updateActiveCase.data.viewKey));
 }
 
+const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
+	const activeLayers = Select.components.get(getState(), 'szifZmenovaRizeni_ActiveLayers', mapKey);
+
+	const layerActive = activeLayers.some((l) => l.key === layer.key);
+	let updatedLayers = [];
+	if(layerActive) {
+		updatedLayers = [...activeLayers.filter(l => l.key !== layer.key)];
+	} else {
+		//remove all sentinel layers before add new one
+		updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), layer];
+	}
+
+	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', mapKey, updatedLayers));
+	dispatch(szifLpisZmenovaRizeni.updateMap(mapKey));
+};
+
 const updateMap = (activeMapKey) => (dispatch, getState) => {
+
+	////// Sync overlays to map part
+
 	const state = getState();
 	const activeMapBorderState = Select.components.get(state, 'szifZmenovaRizeni_BorderOverlays', activeMapKey);
 
@@ -150,7 +226,7 @@ const updateMap = (activeMapKey) => (dispatch, getState) => {
 	const layers = [];
 
 	if(activeMapBorderState.before) {
-		const spatialDataSource = getStatialDataSource(spatialDataSourceKey, JSON.parse(geometryBefore), 'geometryBefore');
+		const spatialDataSource = getVectorSpatialDataSource(spatialDataSourceKey, JSON.parse(geometryBefore), 'geometryBefore');
 		dispatch(CommonAction.spatialDataSources.add(spatialDataSource));
 		
 		const spatialRelation = getSpatialRelation(spatialDataSourceKey, spatialRelationKey, beforeLayerTemplateKey);
@@ -159,14 +235,18 @@ const updateMap = (activeMapKey) => (dispatch, getState) => {
 		layers.push(
 			{
 				key: beforeLayerTemplateKey,
+				layerTemplateKey: beforeLayerTemplateKey,
 				name: 'geometryBefore',
 				options: {},
+				filterByActive: {
+					layerTemplate: beforeLayerTemplateKey
+				}
 			}
 		)
 	}
 
 	if(activeMapBorderState.after) {
-		const spatialDataSource = getStatialDataSource(spatialDataSourceKey, JSON.parse(geometryAfter), 'geometryAfter');
+		const spatialDataSource = getVectorSpatialDataSource(spatialDataSourceKey, JSON.parse(geometryAfter), 'geometryAfter');
 		dispatch(CommonAction.spatialDataSources.add(spatialDataSource));
 
 		const spatialRelation = getSpatialRelation(spatialDataSourceKey, spatialRelationKey, afterLayerTemplateKey);
@@ -175,12 +255,27 @@ const updateMap = (activeMapKey) => (dispatch, getState) => {
 		layers.push(
 			{
 				key: afterLayerTemplateKey,
+				layerTemplateKey: afterLayerTemplateKey,
 				name: 'geometryBefore',
 				options: {},
+				filterByActive: {
+					layerTemplate: afterLayerTemplateKey
+				}
 			}
 		)
 	}
+	////// END Sync overlays to map part
 	
+	////// Sync active layers to map part
+	const activeLayers = Select.components.get(state, 'szifZmenovaRizeni_ActiveLayers', activeMapKey);
+	
+	activeLayers.forEach((layer) => {
+		layers.push(getLayerConfig(layer, dispatch));
+	})
+
+
+	////// END Sync active layers to map part
+	debugger
 	dispatch(CommonAction.maps.setMapLayers(activeMapKey, layers));
 	
 }
@@ -188,8 +283,10 @@ const updateMap = (activeMapKey) => (dispatch, getState) => {
 szifLpisZmenovaRizeni['applyView'] = applyView;
 szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlays'] = setInitMapOnBorderOverlays;
+szifLpisZmenovaRizeni['setInitMapActiveLayers'] = setInitMapActiveLayers;
 szifLpisZmenovaRizeni['updateMap'] = updateMap;
 szifLpisZmenovaRizeni['saveView'] = saveView;
+szifLpisZmenovaRizeni['toggleLayer'] = toggleLayer;
 
 export default {
 	...CommonAction,

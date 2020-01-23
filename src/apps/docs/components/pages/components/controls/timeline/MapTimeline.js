@@ -61,7 +61,9 @@ const layers = [
 		color: 'rgba(0, 237, 3, 0.7)',
 		activeColor: 'rgba(0, 200, 100, 0.5)',
 		active: true,
-		activePeriodIndex: 2, 
+		options: {
+			activePeriodIndex: 2,
+		},
 		title: 'Sentinel',
 		zIndex: 2,
 	}

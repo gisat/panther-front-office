@@ -11,6 +11,23 @@ import './style.scss';
 
 const CONTROLS_WIDTH = 0;
 
+const getOverlayCfg = (options) => {
+	const otherOptions = options.options || {};
+	return {
+		key: options.key,
+		layerTemplateKey: options.layerTemplateKey,
+		start: moment(options.period.start),
+		end: moment(options.period.end),
+		backdroundColor: options.backdroundColor,
+		hideLabel: options.hideLabel,
+		height: options.height,
+		top: options.top,
+		options: {
+			...otherOptions
+		}
+	}
+}
+
 const getOverlaysCfg = (layers) => {
 	const LINEHEIGHT = 1;
 	const ROWHEIGHT = 0.6 //in rem
@@ -27,35 +44,39 @@ const getOverlaysCfg = (layers) => {
 		}
 
 		if(layerCfg && layerCfg.period && layerCfg.period.length) {
+			const otherOptions = layerCfg.options || {};
 			const cfgs = layerCfg.period.map((period, index) => {
-				const cfg = {
+				return getOverlayCfg({
 					key: `${layerCfg.layerTemplateKey}-${index}`,
 					layerTemplateKey: layerCfg.layerTemplateKey,
-					periodIndex: index,
-					start: moment(period.start),
-					end: moment(period.end),
-					backdroundColor: layerCfg.active && layerCfg.activePeriodIndex === index ? layerCfg.activeColor : layerCfg.color,
+					period: period,
+					backdroundColor: layerCfg.active && otherOptions.activePeriodIndex === index ? layerCfg.activeColor : layerCfg.color,
 					hideLabel: true,
-					// classes: 'overlay5',
 					height: ROWHEIGHT * utils.getRemSize(),
 					top: top * utils.getRemSize(),
-				}
-				return cfg
+					options: {
+						...otherOptions,
+						periodIndex: index,
+					}
+				})
 			});
 			return [...acc, ...cfgs];
 		} else {
-			const cfg = {
+			const otherOptions = layerCfg.options || {};
+			const cfg = getOverlayCfg({
 				key: layerCfg.layerTemplateKey,
 				layerTemplateKey: layerCfg.layerTemplateKey,
-				start: moment(layerCfg.period.start),
-				end: moment(layerCfg.period.end),
+				period: layerCfg.period,
 				backdroundColor: layerCfg.active ? layerCfg.activeColor : layerCfg.color,
 				label: layerCfg.title,
 				hideLabel: true,
-				// classes: 'overlay5',
 				height: ROWHEIGHT * utils.getRemSize(),
 				top: top * utils.getRemSize(),
-			}
+				options: {
+					// classes: 'overlay5',
+					...otherOptions,
+				}
+			})
 
 			return [...acc, cfg]
 		}

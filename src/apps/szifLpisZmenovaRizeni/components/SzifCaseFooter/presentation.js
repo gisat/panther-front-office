@@ -36,7 +36,7 @@ class SzifCaseFooter extends React.PureComponent {
 					selectedMapOrder={this.props.selectedMapOrder}
 					toggleGeometries={this.props.toggleGeometries}
 				/>
-				<Timeline />
+				<Timeline mapKey={this.props.activeMap && this.props.activeMap.key}/>
 			</div>
 		);
 	}

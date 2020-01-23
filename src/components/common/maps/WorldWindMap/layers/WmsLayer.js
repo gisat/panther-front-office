@@ -31,8 +31,8 @@ class WmsLayer extends WorldWind.WmsLayer {
 			styleNames: styles,
 			version: version || "1.3.0",
 		};
-
-		super(worldWindOptions);
+		const time = !_.isEmpty(params) && params.time || null; 
+		super(worldWindOptions, time);
 
 		this.key = key;
 		this.attributions = options.attributions;
