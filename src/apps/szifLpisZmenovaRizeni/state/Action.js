@@ -122,7 +122,7 @@ const getVectorSpatialDataSource = (spatialDataSourceKey, geometry, name) => {
 	}
 }
 
-const getRasterSpatialDataSource = (spatialDataSourceKey, name) => {
+const getRasterSpatialDataSource = (spatialDataSourceKey, name, time) => {
 	return {
 		key: spatialDataSourceKey,
 		data: {
@@ -132,7 +132,7 @@ const getRasterSpatialDataSource = (spatialDataSourceKey, name) => {
 			"tableName": null,
 			"url": 'http://45.56.96.184:8080/geoserver/lpis/wms',
 			layers: 'lpis:s2_previews_imagemosaic_2017,lpis:s2_previews_imagemosaic_2018',
-			time: '2017-04-01',
+			time: time,
 		}
 	}
 }
@@ -153,7 +153,7 @@ const getSpatialRelation = (spatialDataSourceKey, spatialRelationKey, layerTempl
 }
 
 const getLayerConfig = (layer, dispatch) => {
-	const spatialDataSource = getRasterSpatialDataSource(layer.key, 'sentinel');
+	const spatialDataSource = getRasterSpatialDataSource(layer.key,  'sentinel', layer.start.format("YYYY-MM-DD"));
 	dispatch(CommonAction.spatialDataSources.add(spatialDataSource));
 	
 	const spatialRelation = getSpatialRelation(layer.key, `rel-${layer.key}`, `lt-${layer.key}`);
@@ -273,9 +273,7 @@ const updateMap = (activeMapKey) => (dispatch, getState) => {
 		layers.push(getLayerConfig(layer, dispatch));
 	})
 
-
 	////// END Sync active layers to map part
-	debugger
 	dispatch(CommonAction.maps.setMapLayers(activeMapKey, layers));
 	
 }
