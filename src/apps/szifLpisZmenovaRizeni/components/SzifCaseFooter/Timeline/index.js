@@ -52,12 +52,16 @@ const periodLimit = {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		layers: layers,
-		periodLimit: periodLimit
+		periodLimit: periodLimit,
+		dates: Select.specific.lpisChangeDates.getDatesForActiveCase(state),
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		onMount: () => {
+			dispatch(Action.specific.lpisChangeDates.ensureDatesForActiveCase());
+		},
 		onLayerClick: (layers) => {
 			console.log('onLayerClick', layers);
 			

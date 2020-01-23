@@ -40,6 +40,7 @@ import viewsReducers from '../../../state/Views/reducers';
 import windowsReducers from '../../../state/Windows/reducers';
 import lpisChangeCasesReducers from "./LpisChangeCases/reducers";
 import lpisChangeCasesEdited from "./LpisChangeCasesEdited/reducers";
+import lpisChangeDates from "./LpisChangeDates/reducers";
 
 export const history = createBrowserHistory();
 
@@ -53,6 +54,7 @@ export default createStore(combineReducers({
 	specific: combineReducers({
 		lpisChangeCases: lpisChangeCasesReducers,
 		lpisChangeCasesEdited: lpisChangeCasesEdited,
+		lpisChangeDates: lpisChangeDates,
 	}),
 	app: appReducers,
 	areas: areasReducers,

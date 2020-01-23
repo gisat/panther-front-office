@@ -5,6 +5,7 @@ import utils from '../../../utils/utils';
 
 import lpisChangeCases from './LpisChangeCases/actions';
 import lpisChangeCasesEdited from './LpisChangeCasesEdited/actions';
+import lpisChangeDates from './LpisChangeDates/actions';
 
 const szifLpisZmenovaRizeni = {};
 
@@ -195,6 +196,7 @@ export default {
 	specific: {
 		lpisChangeCases,
 		lpisChangeCasesEdited,
+		lpisChangeDates,
 		szifLpisZmenovaRizeni
 	}
 }

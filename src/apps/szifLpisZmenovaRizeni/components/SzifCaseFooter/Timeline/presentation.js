@@ -38,12 +38,18 @@ class SzifTimeline extends React.PureComponent {
 	static propTypes = {
 		layers: PropTypes.array,
 		periodLimit: PropTypes.object,
-		onLayerClick: PropTypes.func
+		onLayerClick: PropTypes.func,
+		onMount: PropTypes.func,
 	};
 
 	constructor(props) {
 		super(props);
 		this.getOverlaysHoverContent = this.getOverlaysHoverContent.bind(this);
+	}
+
+	componentDidMount() {
+		const {onMount} = this.props;
+		onMount();
 	}
 
 	getOverlaysHoverContent(x, time, evt) {
