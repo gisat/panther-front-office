@@ -129,8 +129,8 @@ class SzifCaseForm extends React.PureComponent {
 			return false;
 		}
 		if (!files || (!data.geometryBefore && !data.geometryAfter) || (
-			(data.geometryBefore && !files[data.geometryBefore.identifier]) ||
-				(data.geometryAfter && !files[data.geometryAfter.identifier])
+			(data.geometryBefore && !files[data.geometryBefore.identifiers[0]]) ||
+				(data.geometryAfter && !files[data.geometryAfter.identifiers[0]])
 			)
 		){
 			window.alert(`Nahrajte alespoň jeden ze souborů: ${fields["geometryBefore"]} nebo ${fields["geometryAfter"]}`);
