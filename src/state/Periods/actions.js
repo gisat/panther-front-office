@@ -5,6 +5,7 @@ import Select from "../Select";
 
 // ============ creators ===========
 
+const add = common.add(ActionTypes.PERIODS);
 const create = common.create(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 const deleteItem = common.delete(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 const saveEdited = common.saveEdited(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
@@ -36,6 +37,7 @@ function setActiveKeys(keys) {
 // ============ export ===========
 
 export default {
+	add,
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,

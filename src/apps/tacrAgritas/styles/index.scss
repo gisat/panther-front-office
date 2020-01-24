@@ -1,0 +1,45 @@
+@import '../../../styles/variables';
+@import './variables';
+
+.ptr-light {
+
+	--accent0: #{$lightAccent0};
+	--accent0rgb: #{$lightAccent0rgb};
+	--accent05: #{$lightAccent05};
+	--accent10: #{$lightAccent10};
+	--accent15: #{$lightAccent15};
+	--accent20: #{$lightAccent20};
+	--accent25: #{$lightAccent25};
+	--accent30: #{$lightAccent30};
+	--accent35: #{$lightAccent35};
+	--accent40: #{$lightAccent40};
+	--accent45: #{$lightAccent45};
+	--accent50: #{$lightAccent50};
+	--accent50rgb: #{$lightAccent50rgb};
+	--accent55: #{$lightAccent55};
+	--accent60: #{$lightAccent60};
+	--accent65: #{$lightAccent65};
+	--accent70: #{$lightAccent70};
+	--accent75: #{$lightAccent75};
+	--accent80: #{$lightAccent80};
+	--accent85: #{$lightAccent85};
+	--accent90: #{$lightAccent90};
+	--accent95: #{$lightAccent95};
+	--accent100: #{$lightAccent100};
+	--accent100rgb: #{$lightAccent100rgb};
+}
+
+.tacrAgritas-section {
+	max-width: 70rem;
+	margin: 0 auto;
+	padding: m(2) m(1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tacrAgritas-map-set-container {
+	height: 500px;
+	width: 100%;
+	margin-bottom: 3rem
+}

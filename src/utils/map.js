@@ -147,6 +147,30 @@ function getBoxRangeFromBoundingBox(bbox, latitude) {
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
 }
 
+// TODO naive for now
+function getViewFromBoundingBox(bbox, reflectLatitude) {
+	if (_.isArray(bbox)) {
+		bbox = {
+			minLat: bbox[1],
+			minLon: bbox[0],
+			maxLat: bbox[3],
+			maxLon: bbox[2]
+		}
+	}
+
+	const center = {
+		lat: (bbox.maxLat + bbox.minLat)/2,
+		lon: (bbox.maxLon + bbox.minLon)/2
+	};
+
+	const boxRange = getBoxRangeFromBoundingBox(bbox, reflectLatitude ? center.lat : null);
+
+	return {
+		center,
+		boxRange
+	}
+}
+
 /**
  * @param geometry {Object} geojson geometry
  * @param reflectLatitude {boolean}
@@ -225,6 +249,7 @@ function resetHeading(heading, callback, increment) {
 export default {
 	ensureViewIntegrity: ensureViewIntegrity,
 	getLocationFromPlaceString,
+	getViewFromBoundingBox,
 	getViewFromGeometry,
 	mergeLayers,
 	mergeViews,

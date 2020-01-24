@@ -59,6 +59,7 @@ function updateStateFromView(data) {
 // ============ export ===========
 
 export default {
+	add,
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,
