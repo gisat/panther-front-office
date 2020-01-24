@@ -10,60 +10,29 @@ import MapSetPresentation, {PresentationMap} from "../../../../../components/com
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../../components/common/maps/controls/MapControls/presentation";
 import MapResources from "../../../constants/MapResources";
-import mapUtils from "../../../../../utils/map";
 
-// TODO styles to config
+import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../../utils";
+import {fidColumnName} from "../../../constants/MapResources";
 
-const fidColumnName = 'ID_DPB';
+const chlorophyllOutlinesStyle = utils.fillStyleTemplate(
+	{
+		"outlineWidth": 2,
+		"outlineColor": "#888888",
+		"fillOpacity": 0
+	}
+);
 
-const style = {
-	"key":"test",
-	"data":{
-		"nameDisplay":"",
-		"source":"definition",
-		"definition":{
-			"rules":[
-				{
-					"styles":[
-						{
-							"attributeKey": "VYMERA",
-							"attributeScale": {
-								"fill": {
-									"inputInterval": [0,20,100],
-									"outputInterval": ["yellow", "lightgreen", "008ae5"]
-								}
-							}
-						}
-					]
-				}
-			]
+const chlorophyllChoroplethStyle = utils.fillStyleTemplate(
+	{
+		"attributeKey": "VYMERA",
+		"attributeScale": {
+			"fill": {
+				"inputInterval": [0,20,100],
+				"outputInterval": ["yellow", "lightgreen", "008ae5"]
+			}
 		}
 	}
-};
-
-const hoveredStyleDefinition = {
-	"rules":[
-		{
-			"styles": [
-				{
-					"outlineColor": "#ff00ff"
-				}
-			]
-		}
-	]
-};
-
-const selectedStyleDefinition = {
-	"rules":[
-		{
-			"styles": [
-				{
-					"outlineColor": "#00ffff"
-				}
-			]
-		}
-	]
-};
+);
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
@@ -97,7 +66,7 @@ class Biofyzika extends React.PureComponent {
 			let exists = _.find(props.data, (feature) => feature.properties[fidColumnName] === this.state.activeDpbKey);
 			if (!exists) {
 				this.setState({
-					activeDpbKey: props.data[0].properties[fidColumnName]
+					activeDpbKey: props.data && props.data[0] && props.data[0].properties[fidColumnName]
 				});
 			}
 		}
@@ -123,48 +92,30 @@ class Biofyzika extends React.PureComponent {
 		const props = this.props;
 
 		let dataForCharts = null;
-		let mapLayers = [];
+		let chlorophyllFirstMapLayers, chlorophyllSecondMapLayers = [];
 
 		if (this.state.activeDpbKey) {
 			dataForCharts = this.prepareDataForCharts();
 		}
 
 		if (this.props.data) {
-			mapLayers = [
-				{
-					key: "test",
-					layerKey: "test",
-					type: "vector",
-					opacity: 0.7,
-
-					options: {
-						features: props.data,
-						style: style.data.definition,
-						hovered: {
-							style: hoveredStyleDefinition
-						},
-						selected: {
-							'test': {
-								style: selectedStyleDefinition,
-								keys: [this.state.activeDpbKey],
-							}
-						},
-						fidColumnName
-					}
-				}
-			];
+			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllOutlinesStyle);
+			chlorophyllSecondMapLayers = this.getMapLayers(chlorophyllChoroplethStyle);
 		}
 
 		return (
 			<>
 				<div className="tacrAgritas-section">
 					<h1>{props.scope && props.scope.data.nameDisplay}</h1>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					<h2>Obsah chlorofylu</h2>
-					{this.renderMapSet('map-set-1', mapLayers)}
+					{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers)}
 					{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					<h2>Obsah vody</h2>
 					{this.renderMapSet('map-set-2')}
 					{dataForCharts && dataForCharts.water ? this.renderWaterChart(dataForCharts) : null}
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					<h2>Index listové plochy</h2>
 					{this.renderMapSet('map-set-3')}
 					{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
@@ -173,12 +124,12 @@ class Biofyzika extends React.PureComponent {
 		);
 	}
 
-	renderMapSet(key, layers) {
+	renderMapSet(key, firstMapLayers, secondMapLayers) {
 		return (
-			<div style={{height: 500, width: "100%", marginBottom: "3rem"}}>
+			<div className="tacrAgritas-map-set-container">
 				<HoverHandler>
 					<MapSetPresentation
-						activeMapKey={key+'map-1'}
+						activeMapKey={key}
 						mapComponent={WorldWindMap}
 						view={this.state.mapView}
 						onViewChange={this.onMapViewChange}
@@ -189,15 +140,16 @@ class Biofyzika extends React.PureComponent {
 							heading: true,
 							roll: true
 						}}
-						layers={layers}
 						backgroundLayer={MapResources.cartoDbVoyagerLight}
 					>
 						<PresentationMap
-							mapKey={key+'map-1'}
+							mapKey={key+'-map-1'}
+							layers={firstMapLayers}
 							onLayerClick={this.onMapClick}
 						/>
 						<PresentationMap
-							mapKey={key+'map-2'}
+							mapKey={key+'-map-2'}
+							layers={secondMapLayers}
 							onLayerClick={this.onMapClick}
 						/>
 						<MapControlsPresentation zoomOnly/>
@@ -322,6 +274,32 @@ class Biofyzika extends React.PureComponent {
 				/>
 			</HoverHandler>
 		);
+	}
+
+	getMapLayers(style) {
+		return [
+			{
+				key: "test",
+				layerKey: "test",
+				type: "vector",
+				opacity: 0.7,
+
+				options: {
+					features: this.props.data,
+					style: style.data.definition,
+					hovered: {
+						style: hoveredStyleDefinition
+					},
+					selected: {
+						'test': {
+							style: selectedStyleDefinition,
+							keys: [this.state.activeDpbKey],
+						}
+					},
+					fidColumnName
+				}
+			}
+		]
 	}
 
 	prepareDataForCharts() {

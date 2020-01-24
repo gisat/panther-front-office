@@ -18,3 +18,5 @@ export default {
 	cartoDbLight,
 	cartoDbVoyagerLight
 }
+
+export const fidColumnName = 'ID_DPB';

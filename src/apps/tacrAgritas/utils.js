@@ -1,6 +1,23 @@
 import queryString from "query-string";
 import fetch from "isomorphic-fetch";
 
+function fillStyleTemplate(style) {
+	return {
+		"key":"test",
+		"data":{
+			"nameDisplay":"",
+			"source":"definition",
+			"definition":{
+				"rules":[
+					{
+						"styles":[style]
+					}
+				]
+			}
+		}
+	}
+}
+
 function request (url, method, query, payload) {
 
 	if (query) {
@@ -32,5 +49,30 @@ function request (url, method, query, payload) {
 }
 
 export default {
+	fillStyleTemplate,
 	request
 }
+
+export const hoveredStyleDefinition = {
+	"rules":[
+		{
+			"styles": [
+				{
+					"outlineColor": "#ff00ff"
+				}
+			]
+		}
+	]
+};
+
+export const selectedStyleDefinition = {
+	"rules":[
+		{
+			"styles": [
+				{
+					"outlineColor": "#00ffff"
+				}
+			]
+		}
+	]
+};
