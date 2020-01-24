@@ -60,10 +60,27 @@ const ensureDatesForActiveCase = () => (dispatch, getState) => {
 		return dispatch(loadDatesForActiveCase());
 	}
 }
+
+const actionUpdate = (data) => {
+	return {
+		type: ActionTypes.LPIS_CHANGE_DATES.UPDATE,
+		data
+	}
+};
+
+function updateStateFromView(data) {
+	return dispatch => {
+		if (data) {
+			dispatch(actionUpdate(data));
+		}
+	};
+}
+
 // ============ export ===========
 
 export default {
 	ensureDatesForActiveCase,
 	getDates,
 	loadDatesForActiveCase,
+	updateStateFromView,
 }

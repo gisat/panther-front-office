@@ -11,6 +11,8 @@ const szifLpisZmenovaRizeni = {};
 
 
 const getViewState = (state) => {
+	const activeCase = Select.specific.lpisChangeCases.getActive(state);
+	const activeCaseKey = activeCase.key;
 	const maps = Select.maps.getSubstate(state);
 	const szifZmenovaRizeni_BorderOverlays = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_BorderOverlays');
 	const szifZmenovaRizeni_ActiveLayers = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_ActiveLayers');
@@ -19,6 +21,13 @@ const getViewState = (state) => {
 		components: {
 			szifZmenovaRizeni_BorderOverlays,
 			szifZmenovaRizeni_ActiveLayers,
+		},
+		specific: {
+			lpisChangeDates: {
+				dates: {
+					[activeCaseKey]: Select.specific.lpisChangeDates.getDatesForActiveCase(state)
+				}
+			}
 		}
 	}
 }
@@ -27,15 +36,32 @@ const applyView = (viewKey) => async (dispatch, getState) => {
 	//apply default view
 	if (!viewKey) {
 		viewKey = Select.views.getActiveKey(getState());
-		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
+		dispatch(CommonAction.views.apply(viewKey, {
+			...CommonAction,
+			specific: {
+				lpisChangeCases,
+				lpisChangeCasesEdited,
+				lpisChangeDates,
+				szifLpisZmenovaRizeni
+			}
+		})).then(() => {
 			dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlays());	
 			dispatch(szifLpisZmenovaRizeni.setInitMapActiveLayers());	
 			dispatch(szifLpisZmenovaRizeni.setInitMapBorderView());	
+			//dispatch view applied?
 		});
 	} else {
 		//get view
 		await dispatch(CommonAction.views.useKeys([viewKey]));
-		dispatch(CommonAction.views.apply(viewKey, CommonAction)).then(() => {
+		dispatch(CommonAction.views.apply(viewKey, {
+			...CommonAction,
+			specific: {
+				lpisChangeCases,
+				lpisChangeCasesEdited,
+				lpisChangeDates,
+				szifLpisZmenovaRizeni
+			}
+		})).then(() => {
 			//check if all components applyed
 			const szifZmenovaRizeni_ActiveLayers = Select.components.getDataByComponentKey(getState(), 'szifZmenovaRizeni_ActiveLayers');
 			if(!szifZmenovaRizeni_ActiveLayers) {
@@ -52,6 +78,7 @@ const applyView = (viewKey) => async (dispatch, getState) => {
 			for (const [key, value] of Object.entries(maps)) {
 				dispatch(szifLpisZmenovaRizeni.updateMap(key));
 			}
+			//dispatch view applied?
 		});
 	}
 };

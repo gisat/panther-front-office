@@ -32,6 +32,13 @@ const apply = (key, actions) => {
 				_.each(actions, (storeActions, key) => {
 					if (storeActions.hasOwnProperty('updateStateFromView') && data.state[key]) {
 						actionCreators.push(storeActions.updateStateFromView(data.state[key]));
+					}else if(key === 'specific' && data.state.specific) {
+						//apply view on specific actions
+						for (const [specificKey, action] of Object.entries(storeActions)) {
+							if (action.hasOwnProperty('updateStateFromView') && data.state.specific[specificKey]) {
+							   actionCreators.push(action.updateStateFromView(data.state.specific[specificKey]));
+						   }
+						}
 					}
 				});
 

@@ -42,6 +42,7 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 	},
 	LPIS_CHANGE_DATES: {
 		SAVE_DATES: null,
+		UPDATE: null,
 	},
 };
 
