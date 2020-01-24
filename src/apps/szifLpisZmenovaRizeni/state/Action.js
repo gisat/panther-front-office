@@ -153,7 +153,7 @@ const getSpatialRelation = (spatialDataSourceKey, spatialRelationKey, layerTempl
 }
 
 const getLayerConfig = (layer, dispatch) => {
-	const spatialDataSource = getRasterSpatialDataSource(layer.key,  'sentinel', layer.start.format("YYYY-MM-DD"));
+	const spatialDataSource = getRasterSpatialDataSource(layer.key,  'sentinel', layer.time);
 	dispatch(CommonAction.spatialDataSources.add(spatialDataSource));
 	
 	const spatialRelation = getSpatialRelation(layer.key, `rel-${layer.key}`, `lt-${layer.key}`);
@@ -200,7 +200,13 @@ const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
 		updatedLayers = [...activeLayers.filter(l => l.key !== layer.key)];
 	} else {
 		//remove all sentinel layers before add new one
-		updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), layer];
+		const sentinelLayer = {
+			key: layer.key,
+			layerTemplateKey: layer.layerTemplateKey,
+			time: layer.start.format("YYYY-MM-DD"), 
+			options: layer.options,
+		}
+		updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), sentinelLayer];
 	}
 
 	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', mapKey, updatedLayers));
