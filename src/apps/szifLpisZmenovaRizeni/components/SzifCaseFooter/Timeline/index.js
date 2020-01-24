@@ -62,9 +62,9 @@ const getLayers = (dates = [], activeIndex) => {
 		color: 'rgba(0, 237, 3, 0.7)',
 		activeColor: 'rgba(255, 0, 0, 0.5)',
 		active: true,
-		activePeriodIndex: activeIndex,
 		title: 'Sentinel',
 		options: {
+			activePeriodIndex: activeIndex,
 			type: 'sentinel'
 		},
 		zIndex: 3,
@@ -76,12 +76,11 @@ const mapStateToProps = (state, ownProps) => {
 	const dates = Select.specific.lpisChangeDates.getDatesForActiveCase(state);
 	const activeLayers = Select.components.get(state, 'szifZmenovaRizeni_ActiveLayers', ownProps.mapKey) || [];
 	const activeSentinelLayer = activeLayers.find((layer) => {
-		return layer.type === 'sentinel'
+		return layer.options.type === 'sentinel'
 	});
-	const activeSentinelIndex = activeSentinelLayer ? activeSentinelLayer.index : null;
+	const activeSentinelIndex = activeSentinelLayer ? activeSentinelLayer.options.periodIndex : null;
 	return {
 		layers: getLayers(dates, activeSentinelIndex),
-		activeLayers: activeLayers,
 		periodLimit: periodLimit,
 	}
 };
