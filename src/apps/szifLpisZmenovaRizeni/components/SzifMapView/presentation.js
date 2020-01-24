@@ -15,6 +15,8 @@ class SzifMapView extends React.PureComponent {
 		activeMapKey: PropTypes.string,
 		backgroundLayer: PropTypes.object,
 		maps: PropTypes.array,
+		mapSetKey: PropTypes.string,
+		onViewChange: PropTypes.func,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
 		view: PropTypes.object,
@@ -22,6 +24,7 @@ class SzifMapView extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+		this.onViewChange = this.onViewChange.bind(this);
 	}
 
 	renderMaps() {
@@ -33,6 +36,11 @@ class SzifMapView extends React.PureComponent {
 					layers={map.layers}
 					/>
 		})
+	}
+
+	onViewChange(view) {
+		const {onViewChange, mapSetKey} = this.props;
+		onViewChange(mapSetKey, view);
 	}
 	render() {
 		const {activeMapKey, backgroundLayer, view} = this.props;
@@ -55,6 +63,7 @@ class SzifMapView extends React.PureComponent {
 							center: true
 						}}
 						backgroundLayer={backgroundLayer}
+						onViewChange={this.onViewChange}
 					>	
 						{maps}
 						<MapControlsPresentation zoomOnly/>

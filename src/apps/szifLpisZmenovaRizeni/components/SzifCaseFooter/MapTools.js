@@ -22,7 +22,7 @@ class MapTools extends React.PureComponent {
 		const {showAfter, showBefore} = this.props;
 		const newShowBefore = (key === 'before') ? e.target.checked : showBefore;
 		const newShowAfter = (key === 'after') ? e.target.checked : showAfter;
-		this.props.toggleGeometries(this.props.map.key, newShowBefore, newShowAfter);
+		this.props.toggleGeometries(this.props.mapKey, newShowBefore, newShowAfter);
 	}
 
 	render() {
@@ -39,7 +39,7 @@ class MapTools extends React.PureComponent {
 							rows={this.props.mapsContainer.rows}
 							selected={this.props.selectedMapOrder}
 						/>
-						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.map ? ("Mapa " + (this.props.selectedMapOrder + 1)) : ""}</div>
+						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapKey ? ("Mapa " + (this.props.selectedMapOrder + 1)) : ""}</div>
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
 						{this.renderMapAddButton()}

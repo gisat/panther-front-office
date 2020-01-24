@@ -17,7 +17,10 @@ const getViewState = (state) => {
 	const szifZmenovaRizeni_BorderOverlays = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_BorderOverlays');
 	const szifZmenovaRizeni_ActiveLayers = Select.components.getDataByComponentKey(state, 'szifZmenovaRizeni_ActiveLayers');
 	return {
-		maps: maps, //remove borders layers from maps?
+		maps: {
+			sets: maps.sets,
+			activeSetKey: maps.activeSetKey,
+		}, //remove borders layers from maps?
 		components: {
 			szifZmenovaRizeni_BorderOverlays,
 			szifZmenovaRizeni_ActiveLayers,

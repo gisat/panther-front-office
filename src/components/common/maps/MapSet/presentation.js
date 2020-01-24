@@ -31,6 +31,7 @@ class MapSet extends React.PureComponent {
 		mapSetKey: PropTypes.string,
 		maps: PropTypes.array,
 		mapComponent: PropTypes.func,
+		onViewChange: PropTypes.func,
 		view: PropTypes.object,
 		stateMapSetKey: PropTypes.string,
 		sync: PropTypes.object

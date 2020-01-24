@@ -5,29 +5,19 @@ import Action from "../../state/Action";
 import presentation from './presentation';
 
 const borderStyle = {
-	"key":"szdc-zonal-classification-example",
-	"data":{
-	"nameInternal":"",
-	"nameDisplay":"",
-	"description":"",
-	"source":"definition",
-	"nameGeoserver":"",
-	"definition":{
-	  "rules":[
+	"rules":[
 		{
 		  "styles":[
 			{
 				// fill: '',
 				fillOpacity: 0,
 				// outlineColor:
-				outlineWidth: 3,
-				outlineOpacity: 0.5,
+				outlineWidth: 2,
+				outlineOpacity: 0.8,
 			}
 		  ]
 		}
 	  ]
-	}
-  }
 }
 
 const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time) => {
@@ -106,7 +96,10 @@ const mapStateToProps = (state, ownProps) => {
 	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const mapsKeys = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
 	const maps = mapsKeys.map((mapKey) => {
-		const map = Select.maps.getMapByKey(state, mapKey);
+		// const map = Select.maps.getMapByKey(state, mapKey);
+		const map = {
+			key: mapKey
+		};
 		map.layers = getMapLayers(state, mapKey);
 		return map;
 	});
@@ -115,6 +108,7 @@ const mapStateToProps = (state, ownProps) => {
 		activeMapKey,
 		backgroundLayer: mapSet && mapSet.data && mapSet.data.backgroundLayer,
 		maps: maps,
+		mapSetKey,
 		view: mapSet && mapSet.data && mapSet.data.view
 	}
 };
@@ -123,6 +117,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		switchScreen: () => {
 			dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifCaseList'));
+		},
+		onViewChange: (setKey, view) => {
+			//save view
+			console.log(view);
+			
+			dispatch(Action.maps.setSetView(setKey, view));
+			// dispatch(Action.maps.('szifScreenAnimator', 'activeScreenKey', 'szifCaseList'));
 		}
 	}
 };

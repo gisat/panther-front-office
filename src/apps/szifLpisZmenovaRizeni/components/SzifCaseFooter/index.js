@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const maps = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
 	return {
-		activeMap: Select.maps.getMapByKey(state, activeMapKey),
+		activeMapKey,
 		borderOverlays: Select.components.get(state, 'szifZmenovaRizeni_BorderOverlays', activeMapKey),
 		mapsContainer: {columns: 3, rows: 2},
 		// mapsContainer: Select.components.getMapsContainer(state),

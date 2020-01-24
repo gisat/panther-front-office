@@ -6,8 +6,8 @@ import Timeline from './Timeline';
 
 class SzifCaseFooter extends React.PureComponent {
 	static propTypes = {
-		activeMap: PropTypes.object,
 		addMap: PropTypes.func,
+		activeMapKey: PropTypes.string,
 		borderOverlays: PropTypes.object,
 		case: PropTypes.object,
 		mapsContainer: PropTypes.object,
@@ -29,14 +29,14 @@ class SzifCaseFooter extends React.PureComponent {
 					showBefore={this.props.borderOverlays && this.props.borderOverlays.before}
 					case={this.props.case}
 					userGroup={this.props.userGroup}
-					map={this.props.activeMap}
+					mapKey={this.props.activeMapKey}
 					addMap={this.props.addMap}
 					mapsContainer={this.props.mapsContainer}
 					mapsCount={this.props.mapsCount}
 					selectedMapOrder={this.props.selectedMapOrder}
 					toggleGeometries={this.props.toggleGeometries}
 				/>
-				<Timeline mapKey={this.props.activeMap && this.props.activeMap.key}/>
+				<Timeline mapKey={this.props.activeMapKey}/>
 			</div>
 		);
 	}
