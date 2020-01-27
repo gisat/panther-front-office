@@ -26,8 +26,6 @@ export const LineChartPopup = props => {
 		dateTo = momentTimeTo;
 	}
 
-	console.log(props);
-
 	return (
 		<>
 			<div className="ptr-popup-header">

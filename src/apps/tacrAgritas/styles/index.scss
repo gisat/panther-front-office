@@ -30,19 +30,88 @@
 }
 
 .tacrAgritas-section {
+	width: 100%;
+	padding: m(1) m(1) m(2);
+}
+
+.tacrAgritas-section > div {
 	max-width: 70rem;
 	margin: 0 auto;
-	padding: m(2) m(1);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
+.tacrAgritas-section:first-child {
+	padding-top: m(3);
+}
+
+.tacrAgritas-section:last-child {
+	padding-bottom: m(3);
+}
+
+.tacrAgritas-section:nth-child(even) {
+	background: var(--accent05);
+}
+
+.tacrAgritas-section h1,
+.tacrAgritas-section h2 {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tacrAgritas-section h1 {
+	padding-bottom: .5rem;
+}
+
+.tacrAgritas-section h2 {
+	padding-bottom: .35rem;
+}
+
+.tacrAgritas-section h1:before,
+.tacrAgritas-section h2:before {
+	content: "";
+	position: absolute;
+	width: 50%;
+	bottom: 0;
+	background-color: var(--accent40);
+}
+
+.tacrAgritas-section h1:before {
+	height: .3rem;
+}
+
+.tacrAgritas-section h2:before {
+	height: .2rem;
+}
+
+// map
+
 .tacrAgritas-map-set-container {
 	height: 500px;
 	width: 100%;
-	margin-bottom: 3rem
+	margin: m(1) 0 m(2);
+	box-shadow: 0 0 7px 0 rgba(0,0,0,.3);
 }
+
+.tacrAgritas .ptr-map-grid .ptr-map {
+	border: 1px solid #bbbbbb;
+}
+
+.tacrAgritas .ptr-map-grid :not(.col1) > .ptr-map {
+	border-left: 0;
+}
+
+// chart
+
+.tacrAgritas .ptr-chart-container {
+	margin: m(1) 0 m(2);
+	max-width: 50rem;
+}
+
+// footer
 
 .tacrAgritas-footer {
 	background: var(--accent80);

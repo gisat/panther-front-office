@@ -58,7 +58,8 @@ export const hoveredStyleDefinition = {
 		{
 			"styles": [
 				{
-					"outlineColor": "#ff00ff"
+					"outlineColor": "#ff66b3",
+					"outlineWidth": 4
 				}
 			]
 		}
@@ -70,7 +71,8 @@ export const selectedStyleDefinition = {
 		{
 			"styles": [
 				{
-					"outlineColor": "#00ffff"
+					"outlineColor": "#ff00ff",
+					"outlineWidth": 4
 				}
 			]
 		}
