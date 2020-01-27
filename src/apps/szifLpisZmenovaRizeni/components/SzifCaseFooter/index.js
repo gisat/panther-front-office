@@ -9,6 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const maps = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
 	return {
+		mapSetKey,
 		activeMapKey,
 		borderOverlays: Select.components.get(state, 'szifZmenovaRizeni_BorderOverlays', activeMapKey),
 		mapsContainer: {columns: 3, rows: 2},
@@ -22,8 +23,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		addMap: ()=>{
-			// window.Stores.notify('mapsContainer#addMap');
+		addMap: (setKey, mapKey)=>{
+			dispatch(Action.specific.szifLpisZmenovaRizeni.setInitMapOnBorderOverlaysToMapKey(mapKey));
+			dispatch(Action.specific.szifLpisZmenovaRizeni.setInitMapActiveLayersToMapKey(mapKey));
+			dispatch(Action.maps.addMapToSet(setKey, mapKey));
 		},
 		toggleGeometries: (mapKey, geometryBefore, geometryAfter) => {
 			const mapsBorderOverlays = {

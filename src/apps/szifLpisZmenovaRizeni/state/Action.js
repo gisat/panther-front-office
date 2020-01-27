@@ -109,28 +109,36 @@ const setInitMapBorderView = () => (dispatch, getState) => {
 	const verticalLength = turf.length(verticalLine);
 	const range = Math.max(verticalLength, horizontalLength);
 	dispatch(CommonAction.maps.updateSetView(mapSetKey, {center: {lon: center.geometry.coordinates[0], lat: center.geometry.coordinates[1]}, boxRange: range * 1000}))
-}
+};
 
 //sync maps state with borders overlays component state
+const setInitMapOnBorderOverlaysToMapKey = (mapKey) => (dispatch, getState) => {
+	const mapsBorderOverlays = {
+		before: false,
+		after: false,
+	}
+	dispatch(CommonAction.components.set('szifZmenovaRizeni_BorderOverlays', mapKey, mapsBorderOverlays));
+};
+
 const setInitMapOnBorderOverlays = () => (dispatch, getState) => {
 	const state = getState();
 	const maps = Select.maps.getMapsAsObject(state);
 	for (const [key, value] of Object.entries(maps)) {
-		const mapsBorderOverlays = {
-			before: false,
-			after: false,
-		}
-		dispatch(CommonAction.components.set('szifZmenovaRizeni_BorderOverlays', key, mapsBorderOverlays));
+		dispatch(setInitMapOnBorderOverlaysToMapKey(key));
 	}
 };
 
 //sync maps state with borders overlays component state
+const setInitMapActiveLayersToMapKey = (mapKey) => (dispatch, getState) => {
+	const activeLayers = []
+	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', mapKey, activeLayers));
+};
+
 const setInitMapActiveLayers = () => (dispatch, getState) => {
 	const state = getState();
 	const maps = Select.maps.getMapsAsObject(state);
 	for (const [key, value] of Object.entries(maps)) {
-		const activeLayers = []
-		dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', key, activeLayers));
+		dispatch(setInitMapActiveLayersToMapKey(key));
 	}
 };
 
@@ -249,7 +257,9 @@ const updateMap = (activeMapKey) => (dispatch, getState) => {
 
 szifLpisZmenovaRizeni['applyView'] = applyView;
 szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
+szifLpisZmenovaRizeni['setInitMapOnBorderOverlaysToMapKey'] = setInitMapOnBorderOverlaysToMapKey;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlays'] = setInitMapOnBorderOverlays;
+szifLpisZmenovaRizeni['setInitMapActiveLayersToMapKey'] = setInitMapActiveLayersToMapKey;
 szifLpisZmenovaRizeni['setInitMapActiveLayers'] = setInitMapActiveLayers;
 szifLpisZmenovaRizeni['updateMap'] = updateMap;
 szifLpisZmenovaRizeni['saveView'] = saveView;

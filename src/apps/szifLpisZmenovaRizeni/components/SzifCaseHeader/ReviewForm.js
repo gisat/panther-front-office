@@ -45,7 +45,7 @@ class ReviewForm extends React.PureComponent {
 	render() {
 		if (this.props.case) {
 			if (
-				(this.props.case && this.props.case.data.status === LpisCaseStatuses.CREATED.database)
+				(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
 				&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
 			) {
 				return (
@@ -73,8 +73,7 @@ class ReviewForm extends React.PureComponent {
 						</label>
 					</div>
 				);
-			// } else if (this.props.case.status !== LpisCaseStatuses.EVALUATION_CREATED) {
-			} else if (true) {
+			} else if (this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() !== LpisCaseStatuses.EVALUATION_CREATED) {
 
 				let otherInsert, userInsert;
 

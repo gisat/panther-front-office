@@ -12,6 +12,7 @@ class SzifCaseFooter extends React.PureComponent {
 		case: PropTypes.object,
 		mapsContainer: PropTypes.object,
 		mapsCount: PropTypes.number,
+		mapSetKey: PropTypes.string,
 		selectedMapOrder: PropTypes.number,
 		userGroup: PropTypes.string,
 		toggleGeometries: PropTypes.func,
@@ -33,6 +34,7 @@ class SzifCaseFooter extends React.PureComponent {
 					addMap={this.props.addMap}
 					mapsContainer={this.props.mapsContainer}
 					mapsCount={this.props.mapsCount}
+					mapSetKey={this.props.mapSetKey}
 					selectedMapOrder={this.props.selectedMapOrder}
 					toggleGeometries={this.props.toggleGeometries}
 				/>

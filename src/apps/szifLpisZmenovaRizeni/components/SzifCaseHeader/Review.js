@@ -32,7 +32,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		let conclusionInsert, conclusionSelectInsert;
 
 		if (
-			(this.props.case && this.props.case.data.status === LpisCaseStatuses.CREATED.database)
+			(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
 			&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
 		) {
 			conclusionSelectInsert = (

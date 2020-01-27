@@ -14,6 +14,7 @@ class MapTools extends React.PureComponent {
 		map: PropTypes.object,
 		mapsContainer: PropTypes.object,
 		mapsCount: PropTypes.number,
+		mapSetKey: PropTypes.string,
 		selectedMapOrder: PropTypes.number,
 		toggleGeometries: PropTypes.func
 	};
@@ -34,11 +35,11 @@ class MapTools extends React.PureComponent {
 			<div style={{minWidth: '25rem', display: 'flex'}}>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar mapTools">
 					<div className="ptr-dromasLpisChangeReviewHeader-map-info">
-						<MapsGridIcon
+						{/* <MapsGridIcon
 							columns={this.props.mapsContainer.columns}
 							rows={this.props.mapsContainer.rows}
 							selected={this.props.selectedMapOrder}
-						/>
+						/> */}
 						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapKey ? ("Mapa " + (this.props.selectedMapOrder + 1)) : ""}</div>
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
@@ -75,7 +76,7 @@ class MapTools extends React.PureComponent {
 
 	renderMapAddButton() {
 		if (
-			(this.props.case && this.props.case.status === LpisCaseStatuses.CREATED.database)
+			(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
 			&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
 		) {
 			return (
@@ -83,7 +84,7 @@ class MapTools extends React.PureComponent {
 					disabled={this.props.mapsCount > 11}
 					ghost
 					icon="plus"
-					onClick={this.props.addMap}
+					onClick={() => {this.props.addMap(this.props.mapSetKey, `szifLpisZmenovaRizeni-map-${this.props.mapsCount + 1}`)}}
 					small
 				/>
 			);
