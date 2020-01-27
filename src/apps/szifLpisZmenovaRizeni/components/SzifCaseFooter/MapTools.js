@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from "../../../../components/common/atoms/Button";
 import MapsGridIcon from "../../../../components/presentation/atoms/MapsGridIcon";
-import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
+import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 
 class MapTools extends React.PureComponent {
 

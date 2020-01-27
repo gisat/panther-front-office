@@ -5,9 +5,9 @@ import _ from 'lodash';
 
 import ExpandableContent from "./ExpandableContent";
 import ReviewForm from './ReviewForm';
-import UISelect from "../../../../components/common/atoms/Select/Select";
-import {evaluationConclusions} from "../../../../constants/LpisCaseStatuses";
-import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
+import Select from "../../../../components/common/atoms/Select/Select";
+import {evaluationConclusions} from "../../constants/LpisCaseStatuses";
+import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
@@ -25,7 +25,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	}
 
 	onChangeResult(value) {
-		this.props.editActiveCase(`evaluation_result`, value.value);
+		this.props.editActiveCase(this.props.case.key, `evaluationResult`, value.value);
 	}
 
 	render() {
@@ -40,10 +40,14 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
 		) {
 			conclusionSelectInsert = (
-				<UISelect
+				<Select
+					className={"ptr-dromasLpisChangeReview-conclusion"}
 					clearable={false}
-					inverted
+					// inverted
 					options={evaluationConclusions}
+					optionLabel = 'label'
+					optionValue = 'value'
+
 					value={data.evaluationResult}
 					placeholder="závěr"
 					onChange={this.onChangeResult}
@@ -70,7 +74,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						<span className='ptr-dromasLpisChangeReviewHeader-heading'>Vyhodnocení</span>
 						{conclusionInsert}
 					</div>
-					<div>
+					<div className={'ptr-dromasLpisChangeReviewHeader-conclusion-select'}>
 						{conclusionSelectInsert}
 					</div>
 				</div>

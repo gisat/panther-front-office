@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
+import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 
 import User from "../../../../components/common/controls/User";
 import Button from "../../../../components/common/atoms/Button";
