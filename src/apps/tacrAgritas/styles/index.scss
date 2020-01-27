@@ -87,8 +87,7 @@
 	height: .2rem;
 }
 
-// map
-
+/* Map */
 .tacrAgritas-map-set-container {
 	height: 500px;
 	width: 100%;
@@ -102,6 +101,30 @@
 
 .tacrAgritas .ptr-map-grid :not(.col1) > .ptr-map {
 	border-left: 0;
+}
+
+// map info
+.tacrAgritas-map-info {
+	position: absolute;
+	left: 1px;
+	bottom: 1px;
+	background-color: rgba(255,255,255,.75);
+	color: var(--base80);
+	font-size: $b1;
+	padding: .25rem .5rem;
+}
+
+.tacrAgritas-map-info-selected {
+	display: flex;
+	align-items: center;
+}
+
+.tacrAgritas-map-info-selected-icon {
+	width: .8rem;
+	height: .8rem;
+	border-width: 3px;
+	border-style: solid;
+	margin-right: .3rem;
 }
 
 // chart

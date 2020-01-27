@@ -12,8 +12,9 @@ import MapControlsPresentation from "../../../../../components/common/maps/contr
 import MapResources from "../../../constants/MapResources";
 
 import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../../utils";
-import {fidColumnName} from "../../../constants/MapResources";
+import {fidColumnName, nameColumnName, climRegionColumnName} from "../../../constants/MapResources";
 import {LineChartPopup} from "../../LineChartPopup";
+import {MapInfo} from "../../MapInfo";
 
 const chlorophyllOutlinesStyle = utils.fillStyleTemplate(
 	{
@@ -31,7 +32,34 @@ const chlorophyllChoroplethStyle = utils.fillStyleTemplate(
 				"inputInterval": [0,20,100],
 				"outputInterval": ["yellow", "lightgreen", "008ae5"]
 			}
-		}
+		},
+		"attributeClasses":[
+			{
+				"interval": [-9999, 5],
+				"intervalBounds": [true, false],
+				"fill": "#ffdab1"
+			},
+			{
+				"interval": [5, 10],
+				"intervalBounds": [true, false],
+				"fill": "#ffb561"
+			},
+			{
+				"interval": [10, 20],
+				"intervalBounds": [true, false],
+				"fill": "#d48422"
+			},
+			{
+				"interval": [20, 30],
+				"intervalBounds": [true, false],
+				"fill": "#89571c"
+			},
+			{
+				"interval": [30, 99999],
+				"intervalBounds": [true, false],
+				"fill": "#513515"
+			}
+		]
 	}
 );
 
@@ -64,7 +92,7 @@ class Biofyzika extends React.PureComponent {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const props = this.props;
 		if (props.data) {
-			let exists = _.find(props.data, (feature) => feature.properties[fidColumnName] === this.state.activeDpbKey);
+			let exists = this.getSelectedAreaData();
 			if (!exists) {
 				this.setState({
 					activeDpbKey: props.data && props.data[0] && props.data[0].properties[fidColumnName]
@@ -140,6 +168,8 @@ class Biofyzika extends React.PureComponent {
 	}
 
 	renderMapSet(key, firstMapLayers, secondMapLayers) {
+		const selectedArea = this.getSelectedAreaData();
+
 		return (
 			<div className="tacrAgritas-map-set-container">
 				<HoverHandler>
@@ -168,6 +198,10 @@ class Biofyzika extends React.PureComponent {
 							onLayerClick={this.onMapClick}
 						/>
 						<MapControlsPresentation zoomOnly/>
+						<MapInfo
+							selectedAreaName={selectedArea && selectedArea.properties[nameColumnName]}
+							selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
+						/>
 					</MapSetPresentation>
 				</HoverHandler>
 			</div>
@@ -267,8 +301,8 @@ class Biofyzika extends React.PureComponent {
 					key="leafs"
 
 					data={[data]}
-					keySourcePath="ID_DPB"
-					nameSourcePath="NKOD_DPB"
+					keySourcePath={fidColumnName}
+					nameSourcePath={nameColumnName}
 					serieDataSourcePath="leafs"
 					xSourcePath="date"
 					ySourcePath="value"
@@ -331,7 +365,7 @@ class Biofyzika extends React.PureComponent {
 		let water = [];
 		let leafs = [];
 
-		let feature = _.find(this.props.data, (feature) => feature.properties[fidColumnName] === this.state.activeDpbKey);
+		let feature = this.getSelectedAreaData();
 
 		if (feature) {
 			_.forIn(feature.properties, (value, key) => {
@@ -368,10 +402,14 @@ class Biofyzika extends React.PureComponent {
 				}
 			});
 
-			return {...feature.properties, chlorophyll, water, leafs, color: "#ffa842"};
+			return {...feature.properties, chlorophyll, water, leafs, color: "#ff00ff"};
 		} else {
 			return null;
 		}
+	}
+
+	getSelectedAreaData() {
+		return _.find(this.props.data, (feature) => feature.properties[fidColumnName] === this.state.activeDpbKey);
 	}
 }
 

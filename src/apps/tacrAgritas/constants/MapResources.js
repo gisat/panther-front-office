@@ -20,3 +20,5 @@ export default {
 }
 
 export const fidColumnName = 'ID_DPB';
+export const nameColumnName = 'NKOD_DPB';
+export const climRegionColumnName = 'CLIM_LABEL';
