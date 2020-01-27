@@ -13,6 +13,7 @@ import MapResources from "../../../constants/MapResources";
 
 import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../../utils";
 import {fidColumnName} from "../../../constants/MapResources";
+import {LineChartPopup} from "../../LineChartPopup";
 
 const chlorophyllOutlinesStyle = utils.fillStyleTemplate(
 	{
@@ -161,7 +162,9 @@ class Biofyzika extends React.PureComponent {
 
 	renderChlorophyllChart(data) {
 		return (
-			<HoverHandler>
+			<HoverHandler
+				popupContentComponent={LineChartPopup}
+			>
 				<LineChart
 					key="chlorophyll"
 
@@ -200,7 +203,9 @@ class Biofyzika extends React.PureComponent {
 
 	renderWaterChart(data) {
 		return (
-			<HoverHandler>
+			<HoverHandler
+				popupContentComponent={LineChartPopup}
+			>
 				<LineChart
 					key="water"
 
@@ -239,7 +244,9 @@ class Biofyzika extends React.PureComponent {
 
 	renderLeafsChart(data) {
 		return (
-			<HoverHandler>
+			<HoverHandler
+				popupContentComponent={LineChartPopup}
+			>
 				<LineChart
 					key="leafs"
 
@@ -311,7 +318,8 @@ class Biofyzika extends React.PureComponent {
 
 		if (feature) {
 			_.forIn(feature.properties, (value, key) => {
-				let attribute = key.split("_")[0];
+				let attributeParts = key.split("_");
+				let attribute = attributeParts[0];
 
 				if (attribute.length === 5) {
 					const attributeCode = attribute.substring(0,1);
@@ -322,7 +330,13 @@ class Biofyzika extends React.PureComponent {
 						const day = dateCode.substring(2,4);
 						const month = dateCode.substring(0,2);
 						const date = moment(`${this.props.activePeriodKey}-${month}-${day}`).toISOString();
-						const record = {date, value};
+
+						const dateEndCode = attributeParts[1];
+						const dayEnd = dateEndCode.substring(2,4);
+						const monthEnd = dateEndCode.substring(0,2);
+						const dateEnd = moment(`${this.props.activePeriodKey}-${monthEnd}-${dayEnd}`).toISOString();
+
+						const record = {date, dateEnd, value};
 
 						if (value) {
 							if (attributeCode === "C") {
