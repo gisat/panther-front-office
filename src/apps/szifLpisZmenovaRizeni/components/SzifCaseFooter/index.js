@@ -23,10 +23,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		addMap: (setKey, mapKey)=>{
-			dispatch(Action.specific.szifLpisZmenovaRizeni.setInitMapOnBorderOverlaysToMapKey(mapKey));
-			dispatch(Action.specific.szifLpisZmenovaRizeni.setInitMapActiveLayersToMapKey(mapKey));
-			dispatch(Action.maps.addMapToSet(setKey, mapKey));
+		addMap: ()=>{
+			dispatch(Action.specific.szifLpisZmenovaRizeni.addMap());
 		},
 		toggleGeometries: (mapKey, geometryBefore, geometryAfter) => {
 			const mapsBorderOverlays = {

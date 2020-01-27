@@ -84,7 +84,7 @@ class MapTools extends React.PureComponent {
 					disabled={this.props.mapsCount > 11}
 					ghost
 					icon="plus"
-					onClick={() => {this.props.addMap(this.props.mapSetKey, `szifLpisZmenovaRizeni-map-${this.props.mapsCount + 1}`)}}
+					onClick={() => {this.props.addMap()}}
 					small
 				/>
 			);

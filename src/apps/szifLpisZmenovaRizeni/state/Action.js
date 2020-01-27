@@ -76,11 +76,6 @@ const applyView = (viewKey) => async (dispatch, getState) => {
 				dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlays());	
 			}
 
-			//for each map
-			const maps = Select.maps.getMapsAsObject(getState());
-			for (const [key, value] of Object.entries(maps)) {
-				dispatch(szifLpisZmenovaRizeni.updateMap(key));
-			}
 			//dispatch view applied?
 		});
 	}
@@ -248,11 +243,19 @@ const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
 	}
 
 	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', mapKey, updatedLayers));
-	dispatch(szifLpisZmenovaRizeni.updateMap(mapKey));
 };
 
-const updateMap = (activeMapKey) => (dispatch, getState) => {
-
+const addMap = () => (dispatch, getState) => {
+	const state = getState();
+	const mapSetKey = Select.maps.getActiveSetKey(state);
+	const mapKeys = Select.maps.getMapSetMapKeys(state, mapSetKey);
+	mapKeys.sort();
+	const lastMapKey = mapKeys[mapKeys.length - 1];
+	const lastMapNumber = Number.parseInt(lastMapKey.match(/[\d+]/g).join(''));
+	const mapKey = `szifLpisZmenovaRizeni-map-${lastMapNumber + 1}`;
+	dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlaysToMapKey(mapKey));
+	dispatch(szifLpisZmenovaRizeni.setInitMapActiveLayersToMapKey(mapKey));
+	dispatch(CommonAction.maps.addMapToSet(mapSetKey, mapKey));
 }
 
 szifLpisZmenovaRizeni['applyView'] = applyView;
@@ -261,9 +264,9 @@ szifLpisZmenovaRizeni['setInitMapOnBorderOverlaysToMapKey'] = setInitMapOnBorder
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlays'] = setInitMapOnBorderOverlays;
 szifLpisZmenovaRizeni['setInitMapActiveLayersToMapKey'] = setInitMapActiveLayersToMapKey;
 szifLpisZmenovaRizeni['setInitMapActiveLayers'] = setInitMapActiveLayers;
-szifLpisZmenovaRizeni['updateMap'] = updateMap;
 szifLpisZmenovaRizeni['saveView'] = saveView;
 szifLpisZmenovaRizeni['toggleLayer'] = toggleLayer;
+szifLpisZmenovaRizeni['addMap'] = addMap;
 
 export default {
 	...CommonAction,
