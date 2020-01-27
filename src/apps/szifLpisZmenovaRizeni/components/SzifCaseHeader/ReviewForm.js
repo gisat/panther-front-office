@@ -21,37 +21,32 @@ class ReviewForm extends React.PureComponent {
 
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeOther = this.onChangeOther.bind(this);
-		this.getValueForProperty = this.getValueForProperty.bind(this);
 	}
 
 	onChangeDescription(value) {
-		this.props.editActiveCase(`evaluation_description`, value);
+		this.props.editActiveCase(this.props.case.key, `evaluationDescription`, value);
 	}
 
 	onChangeOther(value) {
-		this.props.editActiveCase(`evaluation_description_other`, value);
-	}
-
-	getValueForProperty(property) {
-		if(this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty(property)) {
-			return this.props.caseEdited.data[property];
-		} else if(this.props.case && this.props.case.data.hasOwnProperty(property)) {
-			return this.props.case.data[property];
-		} else {
-			return "";
-		}
+		this.props.editActiveCase(this.props.case.key, `evaluationDescriptionOther`, value);
 	}
 
 	render() {
+		
 		if (this.props.case) {
+			let data = {...this.props.case.data};
+			if (this.props.caseEdited) {
+				data = {...data, ...this.props.caseEdited}
+			}
+
 			if (
-				(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
+				(data.status && data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
 				&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
 			) {
 				return (
 					<div>
 						<EditableText
-							value={this.getValueForProperty(`evaluation_description`)}
+							value={data['evaluationDescription']}
 							disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 							editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 							onChange={this.onChangeDescription}
@@ -62,7 +57,7 @@ class ReviewForm extends React.PureComponent {
 						<label>
 							<span>Další komentář</span>
 							<EditableText
-								value={this.getValueForProperty(`evaluation_description_other`)}
+								value={data[`evaluationDescriptionOther`]}
 								disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 								editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 								onChange={this.onChangeOther}
@@ -73,15 +68,15 @@ class ReviewForm extends React.PureComponent {
 						</label>
 					</div>
 				);
-			} else if (this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() !== LpisCaseStatuses.EVALUATION_CREATED) {
+			} else if (data.status && data.status.toUpperCase() !== LpisCaseStatuses.EVALUATION_CREATED) {
 
 				let otherInsert, userInsert;
 
-				if (this.getValueForProperty(`evaluation_description_other`)) {
+				if (data[`evaluationDescriptionOther`]) {
 					otherInsert = (
 						<div>
 							<div className='ptr-dromasLpisChangeReviewHeader-property'>Další komentář</div>
-							{utils.renderParagraphWithSeparatedLines(this.getValueForProperty(`evaluation_description_other`))}
+							{utils.renderParagraphWithSeparatedLines(data[`evaluationDescriptionOther`])}
 						</div>
 					);
 				}
@@ -98,7 +93,7 @@ class ReviewForm extends React.PureComponent {
 
 				return (
 					<div>
-						{utils.renderParagraphWithSeparatedLines(this.getValueForProperty(`evaluation_description`))}
+						{utils.renderParagraphWithSeparatedLines(data[`evaluationDescription`])}
 						{otherInsert}
 						{userInsert}
 					</div>

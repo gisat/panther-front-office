@@ -14,7 +14,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		userApprovedEvaluation: PropTypes.object,
 		userGroup: PropTypes.string,
 		editActiveCase: PropTypes.func,
-		activeCaseEdited: PropTypes.object
+		activeCaseEdited: PropTypes.object,
+		caseEdited: PropTypes.object,
 	};
 
 	constructor(props) {
@@ -28,8 +29,11 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	}
 
 	render() {
-
 		let conclusionInsert, conclusionSelectInsert;
+		let data = {...this.props.case.data};
+		if (this.props.caseEdited) {
+			data = {...data, ...this.props.caseEdited}
+		}
 
 		if (
 			(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
@@ -40,7 +44,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					clearable={false}
 					inverted
 					options={evaluationConclusions}
-					value={this.props.caseEdited && this.props.caseEdited.data.evaluationResult || this.props.case && this.props.case.data.evaluationResult}
+					value={data.evaluationResult}
 					placeholder="závěr"
 					onChange={this.onChangeResult}
 				/>

@@ -63,7 +63,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatAdmins-created">
 					<div>
-						<Button inverted onClick={this.props.saveEvaluation}>
+						<Button inverted onClick={() => this.props.saveEvaluation(this.props.case.key)}>
 							Uložit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
@@ -112,7 +112,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatUsers-created">
 					<div>
-						<Button primary onClick={this.props.saveEvaluation}>
+						<Button primary onClick={() => this.props.saveEvaluation(this.props.case.key)}>
 							Uložit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>

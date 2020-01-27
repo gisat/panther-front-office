@@ -4,12 +4,14 @@ import Action from "../../state/Action";
 import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
+	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	return {
-		case: Select.specific.lpisChangeCases.getActive(state),
+		case: activeCase,
 		// userApprovedEvaluation: Select.specific.lpisChangeReviewCases.getUserApprovedEvaluationOfActiveCase(state),
 		// userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
 		// userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
 		userGroup: 'gisatAdmins',
+		activeCaseEdited: Select.specific.lpisChangeCases.getEditedDataByKey(state, activeCase.key),
 		// activeCaseEdited: Select.specific.lpisChangeReviewCases.getActiveCaseEdited(state),
 		// nextCaseKey: Select.specific.lpisChangeReviewCases.getNextActiveCaseKey(state)
 	};
@@ -17,12 +19,14 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		editActiveCase: (property, value) => {
-			dispatch(Action.specific.lpisChangeReviewCases.editActiveCase(property, value))
+		editActiveCase: (modelKey, property, value) => {
+			debugger
+			// dispatch(Action.specific.lpisChangeCases.updateEdited(property, value))
+			dispatch(Action.specific.lpisChangeCases.updateEdited(modelKey, property, value))
 		},
-		saveEvaluation: () => {
+		saveEvaluation: (caseKes) => {
 			dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
-			// dispatch(Action.specific.szifLpisZmenovaRizeni.saveEveluation());
+			dispatch(Action.specific.lpisChangeCases.saveEdited(caseKes));
 		},
 		saveAndApproveEvaluation: () => {
 			dispatch(Action.specific.lpisChangeReviewCases.userActionSaveAndApproveEvaluation())
