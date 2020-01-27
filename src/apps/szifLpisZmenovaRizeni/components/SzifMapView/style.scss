@@ -5,3 +5,63 @@
 	display: flex;
 	flex-direction: column;
 }
+
+// .szifLpisZmenovaRizeni-map
+
+.szifLpisZmenovaRizeni-map.active:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    pointer-events: none;
+	border: 2px solid rgb(255, 50, 90);
+};
+
+.map-window-tools {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+}
+
+.ptr-map-set-maps .szifLpisZmenovaRizeni-map.active .close-map-button {
+    border-right: 1px solid rgba(189,192,197,.7);
+}
+
+.ptr-map-set-maps .szifLpisZmenovaRizeni-map.active .close-map-button, .ptr-map-set-maps .szifLpisZmenovaRizeni-map.active .layer-info-label, .ptr-map-set-maps .szifLpisZmenovaRizeni-map.active .map-name-label {
+    background: rgb(255, 50, 90);
+    color: rgb(209, 211, 215);
+    -webkit-transition: none;
+    transition: none;
+}
+
+.close-map-button {
+    background: rgba(33,38,53,.9);
+    color: rgb(189, 192, 197);
+    border-right: 1px solid rgb(106, 110, 120);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    z-index: 1;
+    -webkit-transition: background .3s ease-in-out;
+    transition: background .3s ease-in-out;
+}
+
+.layer-info-label, .map-name-label {
+    z-index: 1;
+    color: rgb(189, 192, 197);
+    background: rgba(33,38,53,.9);
+    font-weight: 500;
+    font-size: .9rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    padding: 0 .5rem;
+    -webkit-transition: background .3s ease-in-out;
+    transition: background .3s ease-in-out;
+}

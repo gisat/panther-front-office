@@ -28,9 +28,14 @@ class MapSet extends React.PureComponent {
 	static propTypes = {
 		activeMapKey: PropTypes.string,
 		activeMapView: PropTypes.object,
+		customMapWrapper: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.func,
+		]),
 		mapSetKey: PropTypes.string,
 		maps: PropTypes.array,
 		mapComponent: PropTypes.func,
+		onMapClick: PropTypes.func,
 		onViewChange: PropTypes.func,
 		view: PropTypes.object,
 		stateMapSetKey: PropTypes.string,
@@ -72,6 +77,10 @@ class MapSet extends React.PureComponent {
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const props = this.props;
+		if (props.activeMapKey !== prevProps.activeMapKey) {
+			this.setState({activeMapKey: props.activeMapKey});
+		}
+
 		if (!props.stateMapSetKey) {
 			if (prevProps.view !== props.view) {
 				let mapViews = _.mapValues(this.state.mapViews, view => {
@@ -140,6 +149,7 @@ class MapSet extends React.PureComponent {
 	 * @param view
 	 */
 	onMapClick(key, view) {
+		const {onMapClick} = this.props;
 		if (this.state.mapViews[key]) {
 			this.setState({activeMapKey: key});
 		} else {
@@ -147,6 +157,10 @@ class MapSet extends React.PureComponent {
 			mapViews[key] = view;
 
 			this.setState({activeMapKey: key, mapViews});
+		}
+
+		if(typeof onMapClick === 'function') {
+			onMapClick(key, view);
 		}
 	}
 
@@ -211,9 +225,10 @@ class MapSet extends React.PureComponent {
 			}
 		} else {
 			React.Children.map(this.props.children, (child,index) => {
-				let {view, layers, backgroundLayer, mapKey, ...restProps} = child.props;
+				let {view, layers, backgroundLayer, label, mapKey, ...restProps} = child.props;
 				let props = {
 					...restProps,
+					label,
 					key: index,
 					view: mapUtils.mergeViews(this.state.view, view, this.state.mapViews[mapKey]),
 					backgroundLayer: backgroundLayer || this.props.backgroundLayer,
@@ -237,7 +252,7 @@ class MapSet extends React.PureComponent {
 			});
 		}
 
-		return (<MapGrid>{maps}</MapGrid>);
+		return (<MapGrid customWrapper={this.props.customMapWrapper}>{maps}</MapGrid>);
 	}
 }
 

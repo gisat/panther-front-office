@@ -95,12 +95,13 @@ const mapStateToProps = (state, ownProps) => {
 	const mapSet = Select.maps.getMapSetByKey(state, mapSetKey);
 	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const mapsKeys = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
-	const maps = mapsKeys.map((mapKey) => {
+	const maps = mapsKeys.map((mapKey, index) => {
 		// const map = Select.maps.getMapByKey(state, mapKey);
 		const map = {
-			key: mapKey
+			key: mapKey,
 		};
 		map.layers = getMapLayers(state, mapKey);
+		map.label = `Mapa ${index + 1}`;
 		return map;
 	});
 
@@ -118,12 +119,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		switchScreen: () => {
 			dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifCaseList'));
 		},
+		setActiveMapKey: (setKey, mapKey) => {
+			dispatch(Action.maps.setMapSetActiveMapKey(mapKey));
+		},
 		onViewChange: (setKey, view) => {
-			//save view
-			console.log(view);
-			
 			dispatch(Action.maps.setSetView(setKey, view));
-			// dispatch(Action.maps.('szifScreenAnimator', 'activeScreenKey', 'szifCaseList'));
 		}
 	}
 };

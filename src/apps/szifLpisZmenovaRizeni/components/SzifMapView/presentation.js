@@ -9,6 +9,7 @@ import MapControlsPresentation from "../../../../components/common/maps/controls
 import MapSet from "../../../../components/common/maps/MapSet";
 import SzifCaseFooter from "../SzifCaseFooter";
 import SzifCaseHeader from "../SzifCaseHeader/index";
+import MapWrapper from "./MapWrapper";
 
 class SzifMapView extends React.PureComponent {
 	static propTypes = {
@@ -19,6 +20,7 @@ class SzifMapView extends React.PureComponent {
 		onViewChange: PropTypes.func,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
+		setActiveMapKey: PropTypes.func,
 		view: PropTypes.object,
 	};
 
@@ -27,14 +29,15 @@ class SzifMapView extends React.PureComponent {
 		this.onViewChange = this.onViewChange.bind(this);
 	}
 
-	renderMaps() {
+	renderMaps(activeMapKey) {
 		const {maps} = this.props; 
 		return maps.map((map) => {
 			return <PresentationMap
-					key={map.key}
-					mapKey={map.key}
-					layers={map.layers}
-					/>
+						key={map.key}
+						mapKey={map.key}
+						layers={map.layers}
+						label={map.label}
+						/>
 		})
 	}
 
@@ -43,18 +46,15 @@ class SzifMapView extends React.PureComponent {
 		onViewChange(mapSetKey, view);
 	}
 	render() {
-		const {activeMapKey, backgroundLayer, view} = this.props;
-		const maps = this.renderMaps();
+		const {activeMapKey, backgroundLayer, view, setActiveMapKey, mapSetKey} = this.props;
+		const maps = this.renderMaps(activeMapKey);
 		return (
 			<div className="szifLpisZmenovaRizeni-map-view">
 				<SzifCaseHeader switchScreen={this.props.switchScreen}/>
 				<div style={{display: 'flex',height: '100%',flexFlow: 'column'}}>
-					{/* <MapSet
-						stateMapSetKey="szifLpisZmenovaRizeni-map-set"
-						mapComponent={WorldWindMap}
-					>
-					</MapSet> */}
 					<MapSetPresentation
+						customMapWrapper={MapWrapper}
+						onMapClick={(mapKey, view) => setActiveMapKey(mapSetKey, mapKey, view)}
 						activeMapKey={activeMapKey}
 						mapComponent={WorldWindMap}
 						view={view}
