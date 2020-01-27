@@ -43,3 +43,15 @@
 	width: 100%;
 	margin-bottom: 3rem
 }
+
+.tacrAgritas-footer {
+	background: var(--accent80);
+}
+
+.tacrAgritas-footer > div {
+	max-width: 70rem;
+	margin: 0 auto;
+	text-align: center;
+	padding: m(1);
+	color: var(--accent30);
+}
