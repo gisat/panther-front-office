@@ -14,6 +14,7 @@ import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionC
 import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../../utils";
 import {LineChartPopup} from "../../LineChartPopup";
 import {MapInfo} from "../../MapInfo";
+import {MapLegend} from "../../MapLegend";
 import {MapPopup} from "../../MapPopup";
 import Select from "../../../../../components/common/atoms/Select/Select";
 
@@ -203,6 +204,7 @@ class Biofyzika extends React.PureComponent {
 
 		let dataForCharts = null;
 		let chlorophyllAttribute = "C" + this.state.selectedMapPeriod.key;
+		let chlorophyllStyle = getChlorophyllChoroplethStyle(chlorophyllAttribute);
 		let chlorophyllFirstMapLayers, chlorophyllSecondMapLayers = [];
 
 		if (this.state.activeDpbKey) {
@@ -210,7 +212,7 @@ class Biofyzika extends React.PureComponent {
 		}
 
 		if (this.props.data) {
-			chlorophyllFirstMapLayers = this.getMapLayers(getChlorophyllChoroplethStyle(chlorophyllAttribute));
+			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle);
 			chlorophyllSecondMapLayers = this.getMapLayers(chlorophyllOutlinesStyle);
 		}
 
@@ -226,6 +228,12 @@ class Biofyzika extends React.PureComponent {
 					<div>
 						<h2>Obsah chlorofylu</h2>
 						{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute, "μg/cm2")}
+						<MapLegend
+							style={chlorophyllStyle}
+							name={"Obsah chlorofylu"}
+							unit={"μg/cm2"}
+							noData
+						/>
 						{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					</div>

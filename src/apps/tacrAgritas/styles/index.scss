@@ -91,7 +91,7 @@
 .tacrAgritas-map-set-container {
 	height: 35rem;
 	width: 100%;
-	margin: m(1) 0 m(2);
+	margin: m(1) 0 m(2/3);
 	box-shadow: 0 0 7px 0 rgba(0,0,0,.3);
 }
 
@@ -176,11 +176,49 @@
 }
 
 .tacrAgritas-map-info-selected-icon {
-	width: .8rem;
-	height: .8rem;
+	width: 1rem;
+	height: 1rem;
 	border-width: 3px;
 	border-style: solid;
 	margin-right: .3rem;
+}
+
+// map legend
+.tacrAgritas-map-legend {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	font-size: $b1;
+	margin-bottom: m(2);
+	color: var(--base80);
+}
+
+.tacrAgritas-map-legend-title {
+	margin-right: .75rem;
+}
+
+.tacrAgritas-map-legend-attribute {
+	font-size: $a1;
+	margin-right: .15rem;
+}
+
+
+.tacrAgritas-map-legend-content {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tacrAgritas-map-legend-item {
+	display: flex;
+	align-items: center;
+	margin-right: .75rem;
+}
+
+.tacrAgritas-map-legend-symbol {
+	width: .8rem;
+	height: .8rem;
+	margin-right: .25rem;
+	border: 1px solid var(--base40);
 }
 
 // chart
