@@ -7,6 +7,9 @@ import Biofyzika from "./Biofyzika";
 import Historie from "./Historie";
 import Produktivita from "./Produktivita";
 
+import logoGisat from "../../assets/img/gisat_logo.png";
+import logoCzechGlobe from "../../assets/img/czechglobe_logo.png";
+
 class App extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
@@ -77,6 +80,17 @@ class App extends React.PureComponent {
 	renderFooter() {
 		return (
 			<div className="tacrAgritas-footer">
+				<p>Vývoj tohoto mapového portálu a metodiky pro kvantitativní odhad hodnot biofyzikálních charakteristik porostů zemědělských plodin byl podpořen Technologickou Agenturou České Republiky (TA ČR) v rámci projektu TH02030248 "Využití družicových dat Copernicus pro efektivní monitoring stavu a managementu vybraných rostlinných agrosystémů".</p>
+				<div className="tacrAgritas-footer-consortium">
+					<div className="tacrAgritas-footer-member">
+						<a href="http://gisat.cz" target="_blank"><img src={logoGisat}/></a>
+						<div>Gisat s.r.o.<br/>Milady Horákové 547/57 <br/>Praha 7, Holešovice, 170 00</div>
+					</div>
+					<div className="tacrAgritas-footer-member">
+						<a href="http://www.czechglobe.cz/cs/" target="_blank"><img src={logoCzechGlobe}/></a>
+						<div>Ústav výzkumu globální změny AV ČR v.v.i.<br/>Bělidla 986/4a<br/>Brno, 603 00</div>
+					</div>
+				</div>
 				<div>{`© Gisat ${new Date().getFullYear()}`}</div>
 			</div>
 		);

@@ -53,7 +53,7 @@ const getChoroplethStyle = (attributeKey) => {
 					"fill": "#91bfdb"
 				},
 				{
-					"interval": [150,250],
+					"interval": [150,300],
 					"intervalBounds": [true, false],
 					"fill": "#4575b4"
 				}
