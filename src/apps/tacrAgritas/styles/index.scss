@@ -29,6 +29,8 @@
 	--accent100rgb: #{$lightAccent100rgb};
 }
 
+/* Sections */
+
 .tacrAgritas-section {
 	width: 100%;
 	padding: m(1) m(1) m(2);
@@ -55,11 +57,13 @@
 }
 
 .tacrAgritas-section h1,
-.tacrAgritas-section h2 {
+.tacrAgritas-section h2,
+.tacrAgritas-section h3 {
 	display: flex;
 	position: relative;
 	flex-direction: column;
 	align-items: center;
+	text-align: center;
 }
 
 .tacrAgritas-section h1 {
@@ -68,6 +72,10 @@
 
 .tacrAgritas-section h2 {
 	padding-bottom: .35rem;
+}
+
+.tacrAgritas-section h3 {
+	padding-bottom: .30rem;
 }
 
 .tacrAgritas-section h1:before,
@@ -86,6 +94,30 @@
 .tacrAgritas-section h2:before {
 	height: .2rem;
 }
+
+// methodology
+.tacrAgritas-section.methodology {
+	background: var(--accent60);
+}
+
+.tacrAgritas-section.methodology p {
+	color: var(--accent20);
+}
+
+.tacrAgritas-section.methodology h3 {
+	color: var(--accent10);
+	margin-bottom: m(1);
+}
+
+.tacrAgritas-section.methodology h3:before {
+	content: "";
+	position: absolute;
+	width: 7rem;
+	height: .15rem;
+	bottom: 0;
+	background-color: var(--accent30);
+}
+
 
 /* Map */
 .tacrAgritas-map-set-container {

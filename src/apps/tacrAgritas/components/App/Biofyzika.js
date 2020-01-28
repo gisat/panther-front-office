@@ -279,6 +279,7 @@ class Biofyzika extends React.PureComponent {
 						{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
 					</div>
 				</div>
+				{this.renderMethodology()}
 			</>
 		);
 	}
@@ -486,6 +487,23 @@ class Biofyzika extends React.PureComponent {
 						Časový vývoj indexu listové plochy (m<sup>2</sup>/m<sup>2</sup>) pro vybraný zemědělský pozemek.
 					</p>
 				</HoverHandler>
+			</div>
+		);
+	}
+
+	renderMethodology() {
+		return (
+			<div className="tacrAgritas-section methodology">
+				<div>
+					<h3>Kvantitativní odhad biofyzikálních charakteristik porostů zemědělských plodin</h3>
+					<p>Kvantitativní odhad hlavních biofyzikálních parametrů je založen na obecné skutečnosti, že biofyzikální parametry ovlivňují spektrální charakteristiky porostů sledované pomocí družicových dat. Vzájemný funkční vztah mezi spektrální signaturou a biofyzikálními parametry porostů je v případě našich produktů řešen metodou aplikace modelu přenosu záření PROSAIL (radiative transfer model). Tento koncept je založen na využití matematického modelu popisujícího přenos záření při jeho interakci s povrchem (vegetací). Výstupem modelu je simulace spektrální signatury porostu pro danou kombinaci biofyzikálních (a jiných) parametrů. Kromě vlastních biofyzikálních charakteristik porostů (jako jsou například obsahy listových pigmentů, vody a sušiny, index listové plochy aj.) bere model v potaz parametry popisující strukturu porostu (např. orientaci listoví v prostoru), vliv geometrie pořízení obrazových dat (např. poloha Slunce, směr pohledu senzoru apod.) a vliv spektrálních charakteristik půdy. Hlavní výhodou využití konceptu modelu přenosu záření je skutečnost, že pomocí něj můžeme nasimulovat spektrální signatury porostů pro velké rozsahy hodnot jednotlivých vstupních parametrů, jejichž pokrytí reálným pozemním vzorkováním by bylo prakticky nerealizovatelné. Ačkoliv je model přenosu záření založen na obecných fyzikálních zákonech, je nejprve nutné jej parametrizovat („zkalibrovat“) tak, aby výsledné simulace byly realistické. V případě našich produktů je optimalizace použitého modelu provedena specificky pro každou zájmovou plodinu. Tím je zajištěn nejlepší možný soulad modelovaných hodnot s realitou.</p>
+					<p>
+						Vlastní odhad jednotlivých biofyzikálních parametrů je následně realizován s využitím nástrojů tzv. strojového učení (machine learning) jejichž „učení“ probíhá pomocí databáze nasimulovaných spektrálních signatur jednotlivých plodin, po němž je algoritmus aplikován na reálná data Sentinel-2. Finálním výstupem výše popsaného procesu je kvantitativní odhad tří hlavní biofyzikálních parametrů porostů: obsah chlorofylu (C<sub>ab</sub>) vyjádřený v μg/cm<sup>2</sup>, obsah vody (C<sub>w</sub>) vyjádřený jako tzv. Equivalent Water Thickness (tloušťka vrstvy, která by vznikla rozprostřením veškeré obsažené vody po ploše listu) v cm a index listové plochy (LAI), který je bezrozměrnou jednotkou a vyjadřuje podíl plochy listoví porostu vůči jednotkové ploše povrchu.
+					</p>
+					<p>
+						Kromě základního výstupu zobrazujícího odhadované hodnoty jednotlivých parametrů v původních fyzikálních jednotkách je současně vytvořena i mapa tzv. management zón, sdružujících vždy části porostu s podobnými vlastnostmi. Oproti obdobným řešením založeným na analýze jednoduchých vegetačních indexů (např. NDVI) je zde výhoda především v tom, že případné rozdíly v charakteru porostu v dílčích částech pozemku je možné přesněji specifikovat. Zařazení do určité management zóny zohledňuje aktuálně pěstovanou plodinu, klimatický region, do kterého daný pozemek spadá, a datum, ke němž je výsledek analýzy vztažen. Rozsahy hodnot jednotlivých parametrů jsou pro dílčí management zóny odvozeny ze statistické analýzy 4333 zemědělských pozemků z let 2016 – 2019 a představují kvantily (Q<sub>0.25</sub>, Q<sub>0.50</sub> a Q<sub>0.75</sub>) hodnot daného biofyzikálního parametru pro danou plodinu, klimatický region a datum. Zóna 1 tak představuje hodnoty spadající mezi 25 % nejnižších hodnot pro danou plodinu, klimatický region a čas, zatímco zóna 4 analogicky zahrnuje hodnoty spadající mezi 25 % nejvyšších hodnot pro danou plodinu, klimatický region a čas.
+					</p>
+				</div>
 			</div>
 		);
 	}
