@@ -12,16 +12,13 @@ const mapStateToProps = (state, ownProps) => {
 		// userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
 		userGroup: 'gisatAdmins',
 		activeCaseEdited: Select.specific.lpisChangeCases.getEditedDataByKey(state, activeCase.key),
-		// activeCaseEdited: Select.specific.lpisChangeReviewCases.getActiveCaseEdited(state),
-		// nextCaseKey: Select.specific.lpisChangeReviewCases.getNextActiveCaseKey(state)
+		nextCaseKey: Select.specific.lpisChangeCases.getNextCaseKey(state, activeCase.key)
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		editActiveCase: (modelKey, property, value) => {
-			debugger
-			// dispatch(Action.specific.lpisChangeCases.updateEdited(property, value))
 			dispatch(Action.specific.lpisChangeCases.updateEdited(modelKey, property, value))
 		},
 		saveEvaluation: (caseKes) => {
@@ -33,12 +30,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.specific.szifLpisZmenovaRizeni.saveAndApproveEvaluation());
 		},
 		approveEvaluation: () => {
+			//TODO
 			dispatch(Action.specific.lpisChangeReviewCases.userActionApproveEvaluation())
 		},
 		rejectEvaluation: () => {
+			//TODO
 			dispatch(Action.specific.lpisChangeReviewCases.userActionRejectEvaluation())
 		},
 		closeEvaluation: () => {
+			//TODO
 			dispatch(Action.specific.lpisChangeReviewCases.userActionCloseEvaluation())
 		},
 	};
