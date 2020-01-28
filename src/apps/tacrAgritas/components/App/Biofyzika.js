@@ -8,7 +8,7 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../components/common/maps/controls/MapControls/presentation";
-import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName} from "../../constants/MapResources";
+import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName, mapPeriodOptions, outlinesStyle} from "../../constants/MapResources";
 
 import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../utils";
 import {LineChartPopup} from "../LineChartPopup";
@@ -16,90 +16,6 @@ import {MapInfo} from "../MapInfo";
 import {MapLegend} from "../MapLegend";
 import {MapPopup} from "../MapPopup";
 import Select from "../../../../components/common/atoms/Select/Select";
-
-const mapPeriodOptions = [
-	{
-		key: "0301_0310",
-		label: "1. - 10. března"
-	}, {
-		key: "0311_0320",
-		label: "11. - 20. března"
-	}, {
-		key: "0321_0331",
-		label: "21. - 31. března"
-	}, {
-		key: "0401_0410",
-		label: "1. - 10. dubna"
-	}, {
-		key: "0411_0420",
-		label: "11. - 20. dubna"
-	}, {
-		key: "0421_0430",
-		label: "21. - 30. dubna"
-	}, {
-		key: "0501_0510",
-		label: "1. - 10. května"
-	}, {
-		key: "0511_0520",
-		label: "11. - 20. května"
-	}, {
-		key: "0521_0531",
-		label: "21. - 31. května"
-	}, {
-		key: "0601_0610",
-		label: "1. - 10. června"
-	}, {
-		key: "0611_0620",
-		label: "11. - 20. června"
-	}, {
-		key: "0621_0630",
-		label: "21. - 30. června"
-	}, {
-		key: "0701_0710",
-		label: "1. - 10. července"
-	}, {
-		key: "0711_0720",
-		label: "11. - 20. července"
-	}, {
-		key: "0721_0731",
-		label: "21. - 31. července"
-	}, {
-		key: "0801_0810",
-		label: "1. - 10. srpna"
-	}, {
-		key: "0811_0820",
-		label: "11. - 20. srpna"
-	}, {
-		key: "0821_0831",
-		label: "21. - 31. srpna"
-	}, {
-		key: "0901_0910",
-		label: "1. - 10. září"
-	}, {
-		key: "0911_0920",
-		label: "11. - 20. září"
-	}, {
-		key: "0921_0930",
-		label: "21. - 30. září"
-	}, {
-		key: "1001_1010",
-		label: "1. - 10. října"
-	}, {
-		key: "1011_1020",
-		label: "11. - 20. října"
-	}, {
-		key: "1021_1031",
-		label: "21. - 31. října"
-	}
-];
-
-const outlinesStyle = utils.fillStyleTemplate(
-	{
-		"outlineWidth": 2,
-		"outlineColor": "#888888",
-		"fillOpacity": 0
-	}
-);
 
 const getChlorophyllChoroplethStyle = (attributeKey) => {
 	return utils.fillStyleTemplate(
