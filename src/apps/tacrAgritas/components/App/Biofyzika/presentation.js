@@ -30,6 +30,66 @@ const mapPeriodOptions = [
 	}, {
 		key: "0401_0410",
 		label: "1. - 10. dubna"
+	}, {
+		key: "0411_0420",
+		label: "11. - 20. dubna"
+	}, {
+		key: "0421_0430",
+		label: "21. - 30. dubna"
+	}, {
+		key: "0501_0510",
+		label: "1. - 10. května"
+	}, {
+		key: "0511_0520",
+		label: "11. - 20. května"
+	}, {
+		key: "0521_0531",
+		label: "21. - 31. května"
+	}, {
+		key: "0601_0610",
+		label: "1. - 10. června"
+	}, {
+		key: "0611_0620",
+		label: "11. - 20. června"
+	}, {
+		key: "0621_0630",
+		label: "21. - 30. června"
+	}, {
+		key: "0701_0710",
+		label: "1. - 10. července"
+	}, {
+		key: "0711_0720",
+		label: "11. - 20. července"
+	}, {
+		key: "0721_0731",
+		label: "21. - 31. července"
+	}, {
+		key: "0801_0810",
+		label: "1. - 10. srpna"
+	}, {
+		key: "0811_0820",
+		label: "11. - 20. srpna"
+	}, {
+		key: "0821_0831",
+		label: "21. - 31. srpna"
+	}, {
+		key: "0901_0910",
+		label: "1. - 10. září"
+	}, {
+		key: "0911_0920",
+		label: "11. - 20. září"
+	}, {
+		key: "0921_0930",
+		label: "21. - 30. září"
+	}, {
+		key: "1001_1010",
+		label: "1. - 10. října"
+	}, {
+		key: "1011_1020",
+		label: "11. - 20. října"
+	}, {
+		key: "1021_1031",
+		label: "21. - 31. října"
 	}
 ];
 
@@ -233,7 +293,7 @@ class Biofyzika extends React.PureComponent {
 							selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
 						/>
 						<Select
-							className="tacrAgritas-map-period-select"
+							className="tacrAgritas-map-label"
 							value={this.state.selectedMapPeriod}
 							optionLabel="label"
 							optionValue="key"
