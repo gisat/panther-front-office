@@ -94,7 +94,7 @@ const mapPeriodOptions = [
 	}
 ];
 
-const chlorophyllOutlinesStyle = utils.fillStyleTemplate(
+const outlinesStyle = utils.fillStyleTemplate(
 	{
 		"outlineWidth": 2,
 		"outlineColor": "#888888",
@@ -129,6 +129,76 @@ const getChlorophyllChoroplethStyle = (attributeKey) => {
 				},
 				{
 					"interval": [60,100],
+					"intervalBounds": [true, false],
+					"fill": "#513515"
+				}
+			]
+		}
+	)
+};
+
+const getWaterChoroplethStyle = (attributeKey) => {
+	return utils.fillStyleTemplate(
+		{
+			attributeKey,
+			"attributeClasses":[
+				{
+					"interval": [0,0.015],
+					"intervalBounds": [false, false],
+					"fill": "#ffdab1"
+				},
+				{
+					"interval": [0.015,0.030],
+					"intervalBounds": [true, false],
+					"fill": "#ffb561"
+				},
+				{
+					"interval": [0.030,0.045],
+					"intervalBounds": [true, false],
+					"fill": "#d48422"
+				},
+				{
+					"interval": [0.045,0.060],
+					"intervalBounds": [true, false],
+					"fill": "#89571c"
+				},
+				{
+					"interval": [0.060,0.1],
+					"intervalBounds": [true, false],
+					"fill": "#513515"
+				}
+			]
+		}
+	)
+};
+
+const getLeafsChoroplethStyle = (attributeKey) => {
+	return utils.fillStyleTemplate(
+		{
+			attributeKey,
+			"attributeClasses":[
+				{
+					"interval": [0,2],
+					"intervalBounds": [false, false],
+					"fill": "#ffdab1"
+				},
+				{
+					"interval": [2,4],
+					"intervalBounds": [true, false],
+					"fill": "#ffb561"
+				},
+				{
+					"interval": [4,6],
+					"intervalBounds": [true, false],
+					"fill": "#d48422"
+				},
+				{
+					"interval": [6,8],
+					"intervalBounds": [true, false],
+					"fill": "#89571c"
+				},
+				{
+					"interval": [8,15],
 					"intervalBounds": [true, false],
 					"fill": "#513515"
 				}
@@ -203,9 +273,19 @@ class Biofyzika extends React.PureComponent {
 		const props = this.props;
 
 		let dataForCharts = null;
+
 		let chlorophyllAttribute = "C" + this.state.selectedMapPeriod.key;
 		let chlorophyllStyle = getChlorophyllChoroplethStyle(chlorophyllAttribute);
+
+		let waterAttribute = "W" + this.state.selectedMapPeriod.key;
+		let waterStyle = getWaterChoroplethStyle(waterAttribute);
+
+		let leafsAttribute = "L" + this.state.selectedMapPeriod.key;
+		let leafsStyle = getLeafsChoroplethStyle(leafsAttribute);
+
 		let chlorophyllFirstMapLayers, chlorophyllSecondMapLayers = [];
+		let waterFirstMapLayers, waterSecondMapLayers = [];
+		let leafsFirstMapLayers, leafsSecondMapLayers = [];
 
 		if (this.state.activeDpbKey) {
 			dataForCharts = this.prepareDataForCharts();
@@ -213,7 +293,13 @@ class Biofyzika extends React.PureComponent {
 
 		if (this.props.data) {
 			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle);
-			chlorophyllSecondMapLayers = this.getMapLayers(chlorophyllOutlinesStyle);
+			chlorophyllSecondMapLayers = this.getMapLayers(outlinesStyle);
+
+			waterFirstMapLayers = this.getMapLayers(waterStyle);
+			waterSecondMapLayers = this.getMapLayers(outlinesStyle);
+
+			leafsFirstMapLayers = this.getMapLayers(leafsStyle);
+			leafsSecondMapLayers = this.getMapLayers(outlinesStyle);
 		}
 
 		return (
@@ -241,7 +327,13 @@ class Biofyzika extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<div>
 						<h2>Obsah vody</h2>
-						{this.renderMapSet('map-set-2')}
+						{this.renderMapSet('map-set-2', waterFirstMapLayers, waterSecondMapLayers, waterAttribute, "cm")}
+						<MapLegend
+							style={waterStyle}
+							name={"Obsah vody"}
+							unit={"cm"}
+							noData
+						/>
 						{dataForCharts && dataForCharts.water ? this.renderWaterChart(dataForCharts) : null}
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					</div>
@@ -249,7 +341,13 @@ class Biofyzika extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<div>
 						<h2>Index listové plochy</h2>
-						{this.renderMapSet('map-set-3')}
+						{this.renderMapSet('map-set-3', leafsFirstMapLayers, leafsSecondMapLayers, leafsAttribute, "m2/m2")}
+						<MapLegend
+							style={leafsStyle}
+							name={"Index listové plochy"}
+							unit={"m2/m2"}
+							noData
+						/>
 						{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
 					</div>
 				</div>
@@ -360,10 +458,13 @@ class Biofyzika extends React.PureComponent {
 	}
 
 	renderWaterChart(data) {
+		const selectedArea = this.getSelectedAreaData();
+
 		return (
 			<HoverHandler
 				popupContentComponent={LineChartPopup}
 			>
+				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
 				<LineChart
 					key="water"
 
@@ -402,10 +503,13 @@ class Biofyzika extends React.PureComponent {
 	}
 
 	renderLeafsChart(data) {
+		const selectedArea = this.getSelectedAreaData();
+
 		return (
 			<HoverHandler
 				popupContentComponent={LineChartPopup}
 			>
+				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
 				<LineChart
 					key="leafs"
 
