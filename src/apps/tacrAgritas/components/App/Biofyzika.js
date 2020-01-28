@@ -222,12 +222,17 @@ class Biofyzika extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<div>
 						<h1>{props.scope && props.scope.data.nameDisplay}</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
+						<p>Biofyzikální monitoring představuje vizualizaci výsledků kvantitativního odhadu hodnot vybraných biofyzikálních charakteristik porostů zemědělských plodin: <b>obsahu chlorofylu (C<sub>ab</sub>), obsahu vody (C<sub>w</sub>) a indexu listové plochy (LAI)</b>. Vlastní výpočet těchto parametrů je založeno na zpracování družicových dat Sentinel-2. Výsledné hodnoty jednotlivých parametrů jsou potom agregovány vždy po 10-denních časových obdobích (vždy 1. – 10., 11. -  20. a 21. – 30./31. dne v daném měsíci). Z úrovně družicových snímků jsou pak hodnoty dílčích biofyzikálních charakteristik dále prostorově agregovány na úroveň jednotlivých zemědělských pozemků. Získané odhady biofyzikálních charakteristik jsou následně použity pro vymezení tzv. management zón v rámci monitorovaných zemědělských pozemků. Tato zonace je pak založena na srovnání aktuálně zjištěných hodnot daného parametru s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky. </p>
 					</div>
 				</div>
 				<div className="tacrAgritas-section">
 					<div>
 						<h2>Obsah chlorofylu</h2>
+						<p>Vrstva „obsah chlorofylu“ vyjadřuje obsah fotosynteticky aktivních pigmentů v listoví vegetace přepočtený na listovou plochu (μg/cm<sup>2</sup>). Množství listových pigmentů velmi těsně souvisí s celkovou fotosyntetickou aktivitou rostlin, která je pak dále navázána na výživu porostu (například dusíkem).</p>
+						<p>Obsah chlorofylu je tedy jednou ze základních vstupů pro tvorbu map pro variabilní aplikace (např. aplikace hnojiv během produkčního a kvalitativního hnojení). Při sledování časové řady obsahu chlorofylu je pak možné i zhodnotit dopady provedených agrotechnických opatření (opět zejména hnojení, případně aplikace POR). V průběhu dozrávání (obilniny, řepka apod.) dochází v důsledku celkového prosýchání porostů k přirozenému úbytku obsahu chlorofylu. Díky tomu je možné sledovat nejen aktuální stav zralosti porostů, ale také případné selektivní dozrávání porostu v rámci jednoho pozemku. Hodnoty obsahu chlorofylu se u zdravých porostů pohybují nejčastěji v rozmezí mezi 20 – 60 μg/cm<sup>2</sup>. U zralých/suchých porostů pak obsah chlorofylu klesá zpravidla pod 10 μg/cm<sup>2</sup>.</p>
+						<p className="tacrAgritas-component-description">
+							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu obsahu chlorofylu v absolutní hodnotě (μg/cm<sup>2</sup>), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot obsahu chlorofylu a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
+						</p>
 						{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute, "μg/cm2")}
 						<MapLegend
 							style={chlorophyllStyle}
@@ -236,12 +241,17 @@ class Biofyzika extends React.PureComponent {
 							noData
 						/>
 						{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					</div>
 				</div>
 				<div className="tacrAgritas-section">
 					<div>
 						<h2>Obsah vody</h2>
+						<p>
+							Obsah vody je v tomto případě vyjádřen v podobě tzv. Equivalent Water Thickness (EWT) popisující tloušťku vrstvičky vody, které by se vytvořila, pokud bychom veškerou vodu obsaženou v listoví vyseparovali a rovnoměrně rozprostřeli po ploše listu. Množství vody je tedy vyjádřeno v centimetrech (cm). Obsah vody je obecně velmi dynamický parametr popisující aktuální zásobenost rostlin vodou. Díky tomu je možné pomocí této datové vrstvy sledovat případné ohrožení rostlin nedostatkem vody (např. vlivem sucha). Podobně jako v případě obsahu chlorofylu klesá přirozeně obsah vody v průběhu dozrávání (obilniny, řepka apod.). Proto je možné datovou vrstvu využít i pro sledování selektivního dozrávání plodin. Obdobným způsobem je pak možné sledovat například přítomnost různých anomálií (např. podmáčených ploch apod.). Hodnoty obsahu vody se u „čerstvé“ zelené vegetace pohybují nejčastěji v rozmezí 0.0100 – 0.0550 cm, u suchých, zrajících porostů se pak zpravidla obsah vody pohybuje v rozmezí 0.0005 – 0.0100 cm.
+						</p>
+						<p className="tacrAgritas-component-description">
+							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu obsahu vody v absolutní hodnotě (cm), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot obsahu vody a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
+						</p>
 						{this.renderMapSet('map-set-2', waterFirstMapLayers, waterSecondMapLayers, waterAttribute, "cm")}
 						<MapLegend
 							style={waterStyle}
@@ -250,17 +260,20 @@ class Biofyzika extends React.PureComponent {
 							noData
 						/>
 						{dataForCharts && dataForCharts.water ? this.renderWaterChart(dataForCharts) : null}
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					</div>
 				</div>
 				<div className="tacrAgritas-section">
 					<div>
 						<h2>Index listové plochy</h2>
+						<p>Index listové plochy (LAI) je definován jako jednostranná plocha listoví vegetace vztažená na jednotkovou plochou povrchu. Jedná se tedy o bezrozměrnou veličinu (resp. její jednotkou by byly m<sup>2</sup>/m<sup>2</sup>). LAI je důležitým parametrem k určování mnoha dalších biologických a fyzikálních procesů souvisejících s vegetací neboť de facto popisuje plochu, na níž dochází k příjmu slunečního záření a dalších látek ze zemské atmosféry. Pomocí hodnot indexu listové plochy lze sledovat především zapojenost porostu a nárůst množství biomasy v čase, čehož lze využít při přípravě podkladů pro variabilní aplikace hnojiv při produkčním a kvalitativním hnojení, a následně též pro sledování jejich dopadů. Hodnoty indexu listové plochy se mohou pro různé plodiny a různá stádia vývoje těchto plodin poměrně výrazně lišit.</p>
+						<p className="tacrAgritas-component-description">
+							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu indexu listové plochy v absolutní hodnotě (m<sup>2</sup>/m<sup>2</sup>), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot indexu listové plochy a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
+						</p>
 						{this.renderMapSet('map-set-3', leafsFirstMapLayers, leafsSecondMapLayers, leafsAttribute, "m2/m2")}
 						<MapLegend
 							style={leafsStyle}
 							name={"Index listové plochy"}
-							unit={"m2/m2"}
+							unit={<>m<sup>2</sup>/m<sup>2</sup></>}
 							noData
 						/>
 						{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
@@ -331,44 +344,49 @@ class Biofyzika extends React.PureComponent {
 		const selectedArea = this.getSelectedAreaData();
 
 		return (
-			<HoverHandler
-				popupContentComponent={LineChartPopup}
-			>
-				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
-				<LineChart
-					key="chlorophyll"
+			<div className="tacrAgritas-chart-wrapper">
+				<HoverHandler
+					popupContentComponent={LineChartPopup}
+				>
+					<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
+					<LineChart
+						key="chlorophyll"
 
-					data={[data]}
-					keySourcePath="ID_DPB"
-					nameSourcePath="NKOD_DPB"
-					serieDataSourcePath="chlorophyll"
-					xSourcePath="date"
-					ySourcePath="value"
-					colorSourcePath="color"
+						data={[data]}
+						keySourcePath="ID_DPB"
+						nameSourcePath="NKOD_DPB"
+						serieDataSourcePath="chlorophyll"
+						xSourcePath="date"
+						ySourcePath="value"
+						colorSourcePath="color"
 
-					isSerie
-					pointRadius={3}
+						isSerie
+						pointRadius={3}
 
-					xScaleType="time"
-					xValuesSize={4}
-					xOptions={{
-						name: "Time",
-						axisValueFormat: "MMMM",
-						popupValueFormat: "D. MMMM YYYY",
-						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
-						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
-					}}
+						xScaleType="time"
+						xValuesSize={4}
+						xOptions={{
+							name: "Time",
+							axisValueFormat: "MMMM",
+							popupValueFormat: "D. MMMM YYYY",
+							min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+							max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
+						}}
 
-					yLabel
-					yValuesSize={3}
-					yOptions={{
-						unit: "μg/cm2",
-						name: "Obsah chlorofylu"
-					}}
-					withoutYbaseline={false}
+						yLabel
+						yValuesSize={3}
+						yOptions={{
+							unit: "μg/cm2",
+							name: "Obsah chlorofylu"
+						}}
+						withoutYbaseline={false}
 
-				/>
-			</HoverHandler>
+					/>
+					<p className="tacrAgritas-component-description">
+						Časový vývoj obsahu chlorofylu (μg/cm<sup>2</sup>) pro vybraný zemědělský pozemek.
+					</p>
+				</HoverHandler>
+			</div>
 		);
 	}
 
@@ -376,44 +394,49 @@ class Biofyzika extends React.PureComponent {
 		const selectedArea = this.getSelectedAreaData();
 
 		return (
-			<HoverHandler
-				popupContentComponent={LineChartPopup}
-			>
-				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
-				<LineChart
-					key="water"
+			<div className="tacrAgritas-chart-wrapper">
+				<HoverHandler
+					popupContentComponent={LineChartPopup}
+				>
+					<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
+					<LineChart
+						key="water"
 
-					data={[data]}
-					keySourcePath="ID_DPB"
-					nameSourcePath="NKOD_DPB"
-					serieDataSourcePath="water"
-					xSourcePath="date"
-					ySourcePath="value"
-					colorSourcePath="color"
+						data={[data]}
+						keySourcePath="ID_DPB"
+						nameSourcePath="NKOD_DPB"
+						serieDataSourcePath="water"
+						xSourcePath="date"
+						ySourcePath="value"
+						colorSourcePath="color"
 
-					isSerie
-					pointRadius={3}
+						isSerie
+						pointRadius={3}
 
-					xScaleType="time"
-					xValuesSize={4}
-					xOptions={{
-						name: "Time",
-						axisValueFormat: "MMMM",
-						popupValueFormat: "D. MMMM YYYY",
-						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
-						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
-					}}
+						xScaleType="time"
+						xValuesSize={4}
+						xOptions={{
+							name: "Time",
+							axisValueFormat: "MMMM",
+							popupValueFormat: "D. MMMM YYYY",
+							min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+							max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
+						}}
 
-					yLabel
-					yValuesSize={3}
-					yOptions={{
-						unit: "cm",
-						name: "Obsah vody"
-					}}
-					withoutYbaseline={false}
+						yLabel
+						yValuesSize={3}
+						yOptions={{
+							unit: "cm",
+							name: "Obsah vody"
+						}}
+						withoutYbaseline={false}
 
-				/>
-			</HoverHandler>
+					/>
+					<p className="tacrAgritas-component-description">
+						Časový vývoj obsahu vody (cm) pro vybraný zemědělský pozemek.
+					</p>
+				</HoverHandler>
+			</div>
 		);
 	}
 
@@ -421,44 +444,49 @@ class Biofyzika extends React.PureComponent {
 		const selectedArea = this.getSelectedAreaData();
 
 		return (
-			<HoverHandler
+			<div className="tacrAgritas-chart-wrapper">
+				<HoverHandler
 				popupContentComponent={LineChartPopup}
-			>
+				>
 				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
-				<LineChart
-					key="leafs"
+					<LineChart
+						key="leafs"
 
-					data={[data]}
-					keySourcePath={fidColumnName}
-					nameSourcePath={nameColumnName}
-					serieDataSourcePath="leafs"
-					xSourcePath="date"
-					ySourcePath="value"
-					colorSourcePath="color"
+						data={[data]}
+						keySourcePath={fidColumnName}
+						nameSourcePath={nameColumnName}
+						serieDataSourcePath="leafs"
+						xSourcePath="date"
+						ySourcePath="value"
+						colorSourcePath="color"
 
-					isSerie
-					pointRadius={3}
+						isSerie
+						pointRadius={3}
 
-					xScaleType="time"
-					xValuesSize={4}
-					xOptions={{
-						name: "Time",
-						axisValueFormat: "MMMM",
-						popupValueFormat: "D. MMMM YYYY",
-						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
-						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
-					}}
+						xScaleType="time"
+						xValuesSize={4}
+						xOptions={{
+							name: "Time",
+							axisValueFormat: "MMMM",
+							popupValueFormat: "D. MMMM YYYY",
+							min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+							max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
+						}}
 
-					yLabel
-					yValuesSize={3}
-					yOptions={{
-						unit: "m2/m2",
-						name: "Index listové plochy"
-					}}
-					withoutYbaseline={false}
+						yLabel
+						yValuesSize={3}
+						yOptions={{
+							unit: "m2/m2",
+							name: "Index listové plochy"
+						}}
+						withoutYbaseline={false}
 
-				/>
-			</HoverHandler>
+					/>
+					<p className="tacrAgritas-component-description">
+						Časový vývoj indexu listové plochy (m<sup>2</sup>/m<sup>2</sup>) pro vybraný zemědělský pozemek.
+					</p>
+				</HoverHandler>
+			</div>
 		);
 	}
 

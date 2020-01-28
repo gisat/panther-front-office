@@ -103,6 +103,11 @@
 	border-left: 0;
 }
 
+.tacrAgritas-component-description {
+	font-size: $b1;
+	font-style: italic;
+}
+
 // map period select
 .tacrAgritas .tacrAgritas-map-label {
 	position: absolute;
@@ -232,8 +237,17 @@
 }
 
 .tacrAgritas .ptr-chart-container {
-	margin: m(1) 0 m(2);
+	margin: m(1);
+	width: 100%;
+}
+
+.tacrAgritas-chart-wrapper {
+	width: 100%;
 	max-width: 50rem;
+	margin: m(1) 0 m(2);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 // footer
