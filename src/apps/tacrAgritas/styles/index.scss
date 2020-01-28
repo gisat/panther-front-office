@@ -222,6 +222,14 @@
 }
 
 // chart
+.tacrAgritas-chart-title {
+	color: var(--base80);
+	margin: 0;
+}
+
+.tacrAgritas-chart-title em {
+	font-weight: bold;
+}
 
 .tacrAgritas .ptr-chart-container {
 	margin: m(1) 0 m(2);

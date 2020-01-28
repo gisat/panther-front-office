@@ -315,10 +315,13 @@ class Biofyzika extends React.PureComponent {
 	}
 
 	renderChlorophyllChart(data) {
+		const selectedArea = this.getSelectedAreaData();
+
 		return (
 			<HoverHandler
 				popupContentComponent={LineChartPopup}
 			>
+				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
 				<LineChart
 					key="chlorophyll"
 
