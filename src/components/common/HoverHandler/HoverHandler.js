@@ -106,9 +106,18 @@ class HoverHandler extends React.PureComponent {
 		return <Popup
 			x={this.state.x}
 			y={this.state.y}
-			content={this.props.popupContentComponent ? React.createElement(this.props.popupContentComponent, {data: this.state.data, featureKeys: this.state.hoveredItems, fidColumnName: this.state.fidColumnName}) : this.state.popupContent}
+			content={this.props.popupContentComponent ? this.renderPopupContent() : this.state.popupContent}
 			compressed={this.props.compressedPopups}
 		/>
+	}
+
+	renderPopupContent() {
+		const comp = this.props.popupContentComponent;
+		if (React.isValidElement(comp)) {
+			return React.cloneElement(comp, {data: this.state.data, featureKeys: this.state.hoveredItems, fidColumnName: this.state.fidColumnName})
+		} else {
+			return React.createElement(comp, {data: this.state.data, featureKeys: this.state.hoveredItems, fidColumnName: this.state.fidColumnName})
+		}
 	}
 }
 
