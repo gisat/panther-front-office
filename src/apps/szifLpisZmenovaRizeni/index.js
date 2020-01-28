@@ -29,6 +29,8 @@ export default (path, baseUrl) => {
 
 	i18n.changeLanguage('cz');
 
+	Store.dispatch(Action.app.loadConfiguration());
+
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
