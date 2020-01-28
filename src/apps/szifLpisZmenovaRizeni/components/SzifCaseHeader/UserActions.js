@@ -63,13 +63,13 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatAdmins-created">
 					<div>
-						<Button inverted onClick={() => this.props.saveEvaluation(this.props.case.key)}>
+						<Button inverted onClick={() => this.props.saveEvaluation(this.props.case.key, this.props.nextCaseKey)}>
 							Uložit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
 					</div>
 					<div>
-						<Button inverted onClick={this.props.saveAndApproveEvaluation}>
+						<Button inverted onClick={() => this.props.saveAndApproveEvaluation(this.props.nextCaseKey)}>
 							Uložit a schválit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
@@ -80,13 +80,13 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatAdmins-evaluationCreated">
 					<div>
-						<Button primary onClick={this.props.approveEvaluation}>
+						<Button primary onClick={() => this.props.approveEvaluation(this.props.nextCaseKey)}>
 							Schválit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
 					</div>
 					<div>
-						<Button inverted onClick={this.props.rejectEvaluation}>
+						<Button inverted onClick={() => this.props.rejectEvaluation(this.props.nextCaseKey)}>
 							Vrátit k vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
@@ -97,7 +97,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatAdmins-evaluationApproved">
 					<div>
-						<Button inverted onClick={this.props.rejectEvaluation}>
+						<Button inverted onClick={() => this.props.rejectEvaluation(this.props.nextCaseKey)}>
 							Vrátit k vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
@@ -112,7 +112,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatUsers-created">
 					<div>
-						<Button primary onClick={() => this.props.saveEvaluation(this.props.case.key)}>
+						<Button primary onClick={() => this.props.saveEvaluation(this.props.case.key, this.props.nextCaseKey)}>
 							Uložit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>

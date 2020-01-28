@@ -29,7 +29,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		approveEvaluation: PropTypes.func,
 		rejectEvaluation: PropTypes.func,
 		closeEvaluation: PropTypes.func,
-		nextCaseKey: PropTypes.number
+		nextCaseKey: PropTypes.string
 	};
 
 	render() {

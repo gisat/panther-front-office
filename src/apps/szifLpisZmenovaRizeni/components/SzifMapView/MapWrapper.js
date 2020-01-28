@@ -10,7 +10,7 @@ const presentation = (props) => {
     return (<div className={`szifLpisZmenovaRizeni-map ${props.classes}`} style={props.style}>
         <div className="map-window-tools">
             {/* visible for all */}
-            <div title="Remove map" className="close-map-button" onClick={() => props.onCloseClick && props.onCloseClick(props.mapKey)}>
+            <div title="Remove map" className="close-map-button" onClick={() => props.onCloseClick && props.onCloseClick(props.setKey, props.mapKey)}>
                 <i className="close-map-icon">✕</i>
             </div>
             <div className="layer-info-label">
@@ -22,14 +22,14 @@ const presentation = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    // const setKey = Select.maps.getActiveSetKey(state);
-	return {}
+    const setKey = Select.maps.getActiveSetKey(state);
+	return {setKey}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onCloseClick: (mapKey) => {
-            dispatch(Action.maps.removeMapKeyFromSet(mapKey));
+		onCloseClick: (setKey, mapKey) => {
+            dispatch(Action.specific.szifLpisZmenovaRizeni.removeMap(mapKey));
 		},
 	}
 };

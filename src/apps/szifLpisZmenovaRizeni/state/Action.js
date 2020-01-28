@@ -271,7 +271,7 @@ const addMap = () => (dispatch, getState) => {
 const removeMap = (mapKey) => (dispatch, getState) => {
 	const state = getState();
 	const mapSetKey = Select.maps.getActiveSetKey(state);
-	const activeMapKey = Select.maps.getActiveMapKey(state);
+	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const mapKeys = Select.maps.getMapSetMapKeys(state, mapSetKey);
 	const mapKeysWithoutRemoved = mapKeys.filter((k) => k!==mapKey);
 	//if active, set active first map
@@ -315,9 +315,44 @@ function saveAndApproveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		dispatch(editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+	}
+}
+
+function rejectEvaluation() {
+	return async (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+	
+		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.CREATED.database));
+	}
+}
+
+function closeEvaluation() {
+	return async (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+	
+		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.CLOSED.database));
+	}
+}
+
+function approveEvaluation() {
+	return async (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+	
+		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+	}
+}
+
+function saveCaseStatus(activeCaseKey, status) {
+	return async (dispatch, getState) => {	
+		dispatch(editActiveCaseStatus(status));
 		await dispatch(lpisChangeCases.saveEdited(activeCaseKey));
-		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
@@ -333,6 +368,10 @@ szifLpisZmenovaRizeni['addMap'] = addMap;
 szifLpisZmenovaRizeni['removeMap'] = removeMap;
 szifLpisZmenovaRizeni['editActiveCaseStatus'] = editActiveCaseStatus;
 szifLpisZmenovaRizeni['saveAndApproveEvaluation'] = saveAndApproveEvaluation;
+szifLpisZmenovaRizeni['rejectEvaluation'] = rejectEvaluation;
+szifLpisZmenovaRizeni['closeEvaluation'] = closeEvaluation;
+szifLpisZmenovaRizeni['approveEvaluation'] = approveEvaluation;
+szifLpisZmenovaRizeni['redirectToNextViewFromActiveView'] = redirectToNextViewFromActiveView;
 
 export default {
 	...CommonAction,

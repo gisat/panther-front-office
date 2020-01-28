@@ -7,8 +7,11 @@ const mapStateToProps = (state, ownProps) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	return {
 		case: activeCase,
+		//FIXME
 		// userApprovedEvaluation: Select.specific.lpisChangeReviewCases.getUserApprovedEvaluationOfActiveCase(state),
+		//FIXME
 		// userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
+		//FIXME - 
 		// userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
 		userGroup: 'gisatAdmins',
 		activeCaseEdited: Select.specific.lpisChangeCases.getEditedDataByKey(state, activeCase.key),
@@ -21,25 +24,37 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		editActiveCase: (modelKey, property, value) => {
 			dispatch(Action.specific.lpisChangeCases.updateEdited(modelKey, property, value))
 		},
-		saveEvaluation: (caseKes) => {
+		saveEvaluation: (caseKey, nextCaseKey) => {
 			//TODO - save view and case only if edited
 			dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
-			dispatch(Action.specific.lpisChangeCases.saveEdited(caseKes));
+			dispatch(Action.specific.lpisChangeCases.saveEdited(caseKey));
+			if(nextCaseKey) {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+			}
 		},
-		saveAndApproveEvaluation: () => {
+		saveAndApproveEvaluation: (nextCaseKey) => {
 			dispatch(Action.specific.szifLpisZmenovaRizeni.saveAndApproveEvaluation());
+			if(nextCaseKey) {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+			}
 		},
-		approveEvaluation: () => {
-			//TODO
-			dispatch(Action.specific.lpisChangeReviewCases.userActionApproveEvaluation())
+		approveEvaluation: (nextCaseKey) => {
+			dispatch(Action.specific.szifLpisZmenovaRizeni.approveEvaluation())
+			if(nextCaseKey) {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+			}
 		},
-		rejectEvaluation: () => {
-			//TODO
-			dispatch(Action.specific.lpisChangeReviewCases.userActionRejectEvaluation())
+		rejectEvaluation: (nextCaseKey) => {
+			dispatch(Action.specific.szifLpisZmenovaRizeni.rejectEvaluation())
+			if(nextCaseKey) {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+			}
 		},
-		closeEvaluation: () => {
-			//TODO
-			dispatch(Action.specific.lpisChangeReviewCases.userActionCloseEvaluation())
+		closeEvaluation: (nextCaseKey) => {
+			dispatch(Action.specific.szifLpisZmenovaRizeni.closeEvaluation())
+			if(nextCaseKey) {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+			}
 		},
 	};
 };

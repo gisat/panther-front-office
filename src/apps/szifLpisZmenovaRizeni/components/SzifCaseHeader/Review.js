@@ -14,7 +14,6 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		userApprovedEvaluation: PropTypes.object,
 		userGroup: PropTypes.string,
 		editActiveCase: PropTypes.func,
-		activeCaseEdited: PropTypes.object,
 		caseEdited: PropTypes.object,
 	};
 
