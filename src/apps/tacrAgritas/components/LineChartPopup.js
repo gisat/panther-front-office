@@ -31,6 +31,9 @@ export const LineChartPopup = props => {
 			<div className="ptr-popup-header">
 				{"DPB: " + data.name}
 			</div>
+			<div className="ptr-popup-header">
+				{"DPB: " + data.name}
+			</div>
 			{(data.value || data.value === 0) ? (
 				<div className="ptr-popup-record-group">
 					<div className="ptr-popup-record">

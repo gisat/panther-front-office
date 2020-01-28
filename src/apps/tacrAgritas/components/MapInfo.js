@@ -12,8 +12,11 @@ export const MapInfo = props => {
 		<div className="tacrAgritas-map-info">
 			<div className="tacrAgritas-map-info-selected">
 				<div className="tacrAgritas-map-info-selected-icon" style={selectedAreaStyle}></div>
-				<div className="tacrAgritas-map-info-selected-text">Vybraný půdní blok: <b>{props.selectedAreaName}/4</b> (klimatický region {props.selectedAreaClimRegion})</div>
+				<div className="tacrAgritas-map-info-selected-text">
+					Vybraný půdní blok: <b>{props.selectedAreaName}</b></div>
 			</div>
+			<div>Aktuálně pěstovaná plodina: <b>{props.cropName}</b></div>
+			<div>Klimatický region: <b> {props.selectedAreaClimRegion}</b></div>
 		</div>
 	);
 };

@@ -9,12 +9,29 @@ import "./style.scss";
 import MapSetPresentation, {PresentationMap} from "../../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../../components/common/maps/controls/MapControls/presentation";
-import MapResources from "../../../constants/MapResources";
+import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName} from "../../../constants/MapResources";
 
 import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../../utils";
-import {fidColumnName, nameColumnName, climRegionColumnName} from "../../../constants/MapResources";
 import {LineChartPopup} from "../../LineChartPopup";
 import {MapInfo} from "../../MapInfo";
+import {MapPopup} from "../../MapPopup";
+import Select from "../../../../../components/common/atoms/Select/Select";
+
+const mapPeriodOptions = [
+	{
+		key: "0301_0310",
+		label: "1. - 10. března"
+	}, {
+		key: "0311_0320",
+		label: "11. - 20. března"
+	}, {
+		key: "0321_0331",
+		label: "21. - 31. března"
+	}, {
+		key: "0401_0410",
+		label: "1. - 10. dubna"
+	}
+];
 
 const chlorophyllOutlinesStyle = utils.fillStyleTemplate(
 	{
@@ -24,44 +41,40 @@ const chlorophyllOutlinesStyle = utils.fillStyleTemplate(
 	}
 );
 
-const chlorophyllChoroplethStyle = utils.fillStyleTemplate(
+const getChlorophyllChoroplethStyle = (attributeKey) => {
+	return utils.fillStyleTemplate(
 	{
-		"attributeKey": "VYMERA",
-		"attributeScale": {
-			"fill": {
-				"inputInterval": [0,20,100],
-				"outputInterval": ["yellow", "lightgreen", "008ae5"]
-			}
-		},
-		"attributeClasses":[
-			{
-				"interval": [-9999, 5],
-				"intervalBounds": [true, false],
-				"fill": "#ffdab1"
-			},
-			{
-				"interval": [5, 10],
-				"intervalBounds": [true, false],
-				"fill": "#ffb561"
-			},
-			{
-				"interval": [10, 20],
-				"intervalBounds": [true, false],
-				"fill": "#d48422"
-			},
-			{
-				"interval": [20, 30],
-				"intervalBounds": [true, false],
-				"fill": "#89571c"
-			},
-			{
-				"interval": [30, 99999],
-				"intervalBounds": [true, false],
-				"fill": "#513515"
-			}
-		]
-	}
-);
+			attributeKey,
+			"attributeClasses":[
+				{
+					"interval": [0,15],
+					"intervalBounds": [false, false],
+					"fill": "#ffdab1"
+				},
+				{
+					"interval": [15,30],
+					"intervalBounds": [true, false],
+					"fill": "#ffb561"
+				},
+				{
+					"interval": [30,45],
+					"intervalBounds": [true, false],
+					"fill": "#d48422"
+				},
+				{
+					"interval": [45,60],
+					"intervalBounds": [true, false],
+					"fill": "#89571c"
+				},
+				{
+					"interval": [60,100],
+					"intervalBounds": [true, false],
+					"fill": "#513515"
+				}
+			]
+		}
+	)
+};
 
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
@@ -76,11 +89,13 @@ class Biofyzika extends React.PureComponent {
 
 		this.state = {
 			activeDpbKey: props.data && props.data[0].properties[fidColumnName],
-			mapView: props.activePlaceView
+			mapView: props.activePlaceView,
+			selectedMapPeriod: mapPeriodOptions[3]
 		};
 
 		this.onMapViewChange = this.onMapViewChange.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
+		this.onMapPeriodChange = this.onMapPeriodChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -117,10 +132,17 @@ class Biofyzika extends React.PureComponent {
 		})
 	}
 
+	onMapPeriodChange(option) {
+		this.setState({
+			selectedMapPeriod: option
+		});
+	}
+
 	render() {
 		const props = this.props;
 
 		let dataForCharts = null;
+		let chlorophyllAttribute = "C" + this.state.selectedMapPeriod.key;
 		let chlorophyllFirstMapLayers, chlorophyllSecondMapLayers = [];
 
 		if (this.state.activeDpbKey) {
@@ -129,7 +151,7 @@ class Biofyzika extends React.PureComponent {
 
 		if (this.props.data) {
 			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllOutlinesStyle);
-			chlorophyllSecondMapLayers = this.getMapLayers(chlorophyllChoroplethStyle);
+			chlorophyllSecondMapLayers = this.getMapLayers(getChlorophyllChoroplethStyle(chlorophyllAttribute));
 		}
 
 		return (
@@ -143,7 +165,7 @@ class Biofyzika extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<div>
 						<h2>Obsah chlorofylu</h2>
-						{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers)}
+						{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute)}
 						{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
 					</div>
@@ -167,12 +189,14 @@ class Biofyzika extends React.PureComponent {
 		);
 	}
 
-	renderMapSet(key, firstMapLayers, secondMapLayers) {
+	renderMapSet(key, firstMapLayers, secondMapLayers, valueColumnName) {
 		const selectedArea = this.getSelectedAreaData();
 
 		return (
 			<div className="tacrAgritas-map-set-container">
-				<HoverHandler>
+				<HoverHandler
+					popupContentComponent={<MapPopup valueColumnName={valueColumnName}/>}
+				>
 					<MapSetPresentation
 						activeMapKey={key}
 						mapComponent={WorldWindMap}
@@ -199,8 +223,17 @@ class Biofyzika extends React.PureComponent {
 						/>
 						<MapControlsPresentation zoomOnly/>
 						<MapInfo
+							cropName={selectedArea && selectedArea.properties[cropColumnName]}
 							selectedAreaName={selectedArea && selectedArea.properties[nameColumnName]}
 							selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
+						/>
+						<Select
+							className="tacrAgritas-map-period-select"
+							value={this.state.selectedMapPeriod}
+							optionLabel="label"
+							optionValue="key"
+							options={mapPeriodOptions}
+							onChange={this.onMapPeriodChange}
 						/>
 					</MapSetPresentation>
 				</HoverHandler>

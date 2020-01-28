@@ -89,7 +89,7 @@
 
 /* Map */
 .tacrAgritas-map-set-container {
-	height: 500px;
+	height: 35rem;
 	width: 100%;
 	margin: m(1) 0 m(2);
 	box-shadow: 0 0 7px 0 rgba(0,0,0,.3);
@@ -112,6 +112,13 @@
 	color: var(--base80);
 	font-size: $b1;
 	padding: .25rem .5rem;
+	display: flex;
+	flex-wrap: wrap;
+	max-width: calc(100% - 3rem);
+}
+
+.tacrAgritas-map-info > div:not(:last-child) {
+	margin-right: m(1);
 }
 
 .tacrAgritas-map-info-selected {
@@ -125,6 +132,13 @@
 	border-width: 3px;
 	border-style: solid;
 	margin-right: .3rem;
+}
+
+.tacrAgritas .tacrAgritas-map-period-select {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	min-width: 15rem;
 }
 
 // chart
