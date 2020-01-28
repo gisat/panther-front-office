@@ -258,6 +258,19 @@ const addMap = () => (dispatch, getState) => {
 	dispatch(CommonAction.maps.addMapToSet(mapSetKey, mapKey));
 }
 
+const removeMap = (mapKey) => (dispatch, getState) => {
+	const state = getState();
+	const mapSetKey = Select.maps.getActiveSetKey(state);
+	const activeMapKey = Select.maps.getActiveMapKey(state);
+	const mapKeys = Select.maps.getMapSetMapKeys(state, mapSetKey);
+	const mapKeysWithoutRemoved = mapKeys.filter((k) => k!==mapKey);
+	//if active, set active first map
+	if(activeMapKey === mapKey) {
+		dispatch(CommonAction.maps.setMapSetActiveMapKey(mapKeysWithoutRemoved[0]));
+	}
+	dispatch(CommonAction.maps.removeMapKeyFromSet(mapSetKey, mapKey));
+}
+
 szifLpisZmenovaRizeni['applyView'] = applyView;
 szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlaysToMapKey'] = setInitMapOnBorderOverlaysToMapKey;
@@ -267,6 +280,7 @@ szifLpisZmenovaRizeni['setInitMapActiveLayers'] = setInitMapActiveLayers;
 szifLpisZmenovaRizeni['saveView'] = saveView;
 szifLpisZmenovaRizeni['toggleLayer'] = toggleLayer;
 szifLpisZmenovaRizeni['addMap'] = addMap;
+szifLpisZmenovaRizeni['removeMap'] = removeMap;
 
 export default {
 	...CommonAction,
