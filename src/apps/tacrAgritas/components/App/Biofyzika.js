@@ -2,21 +2,20 @@ import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
 import moment from "moment";
-import LineChart from "../../../../../components/common/charts/LineChart/LineChart";
-import HoverHandler from "../../../../../components/common/HoverHandler/HoverHandler";
+import LineChart from "../../../../components/common/charts/LineChart/LineChart";
+import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 
-import "./style.scss";
-import MapSetPresentation, {PresentationMap} from "../../../../../components/common/maps/MapSet/presentation";
-import WorldWindMap from "../../../../../components/common/maps/WorldWindMap/presentation";
-import MapControlsPresentation from "../../../../../components/common/maps/controls/MapControls/presentation";
-import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName} from "../../../constants/MapResources";
+import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
+import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
+import MapControlsPresentation from "../../../../components/common/maps/controls/MapControls/presentation";
+import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName} from "../../constants/MapResources";
 
-import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../../utils";
-import {LineChartPopup} from "../../LineChartPopup";
-import {MapInfo} from "../../MapInfo";
-import {MapLegend} from "../../MapLegend";
-import {MapPopup} from "../../MapPopup";
-import Select from "../../../../../components/common/atoms/Select/Select";
+import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../utils";
+import {LineChartPopup} from "../LineChartPopup";
+import {MapInfo} from "../MapInfo";
+import {MapLegend} from "../MapLegend";
+import {MapPopup} from "../MapPopup";
+import Select from "../../../../components/common/atoms/Select/Select";
 
 const mapPeriodOptions = [
 	{

@@ -1,8 +1,11 @@
 import React from 'react';
 import Header from "./Header";
 import PropTypes from "prop-types";
-import Biofyzika from "./Biofyzika/presentation";
 import Helmet from "react-helmet";
+
+import Biofyzika from "./Biofyzika";
+import Historie from "./Historie";
+import Produktivita from "./Produktivita";
 
 class App extends React.PureComponent {
 	static propTypes = {
@@ -49,9 +52,23 @@ class App extends React.PureComponent {
 					/>
 				);
 			case 'produktivita':
-				return <div>Produktivita</div>;
+				return (
+					<Produktivita
+						data={this.props.data}
+						placeView={this.props.activePlaceView}
+						activePeriodKey={this.props.activePeriodKey}
+						scope={scope}
+					/>
+				);
 			case 'historie':
-				return <div>Historie</div>;
+				return (
+					<Historie
+						data={this.props.data}
+						placeView={this.props.activePlaceView}
+						activePeriodKey={this.props.activePeriodKey}
+						scope={scope}
+					/>
+				);
 			default:
 				return null;
 		}
