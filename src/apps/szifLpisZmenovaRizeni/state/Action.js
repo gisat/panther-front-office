@@ -7,6 +7,8 @@ import lpisChangeCases from './LpisChangeCases/actions';
 import lpisChangeCasesEdited from './LpisChangeCasesEdited/actions';
 import lpisChangeDates from './LpisChangeDates/actions';
 
+import LpisCaseStatuses from "../constants/LpisCaseStatuses";
+
 const szifLpisZmenovaRizeni = {};
 
 
@@ -87,10 +89,18 @@ const setInitMapBorderView = () => (dispatch, getState) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const geometries = []
 	if(activeCase.data.geometryBefore) {
-		geometries.push(JSON.parse(activeCase.data.geometryBefore));
+		geometries.push({
+			"type": "Feature",
+			"properties": {},
+			"geometry": JSON.parse(activeCase.data.geometryBefore)
+		});
 	};
 	if(activeCase.data.geometryAfter) {
-		geometries.push(JSON.parse(activeCase.data.geometryAfter));
+		geometries.push({
+			"type": "Feature",
+			"properties": {},
+			"geometry": JSON.parse(activeCase.data.geometryAfter)
+		});
 	};
 	const merged = geometries.length > 1 ? turf.union(...geometries) : geometries[0];
 	const bboxMerged = turf.bbox(merged);
@@ -271,6 +281,46 @@ const removeMap = (mapKey) => (dispatch, getState) => {
 	dispatch(CommonAction.maps.removeMapKeyFromSet(mapSetKey, mapKey));
 }
 
+const editActiveCaseStatus = (status) => (dispatch, getState) => {
+	const state = getState();
+	const activeCase = Select.specific.lpisChangeCases.getActive(state);
+	const activeCaseKey = activeCase && activeCase.key;
+	if(status && activeCaseKey) {
+		dispatch(lpisChangeCases.updateEdited(activeCaseKey, 'status', status));
+	}
+}
+
+function redirectToNextViewFromActiveView() {
+	return (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+
+		//FIXME !!!clear edited...
+		// is it necessary???
+
+		const nextCaseKey = Select.specific.lpisChangeCases.getNextCaseKey(state, activeCaseKey);
+		const nextCase = Select.specific.lpisChangeCases.getDataByKey(state, nextCaseKey);
+		if(nextCaseKey && nextCase) {
+			const viewKey = nextCase.viewKey;
+			dispatch(lpisChangeCases.setActiveKey(nextCaseKey));
+			dispatch(szifLpisZmenovaRizeni.applyView(viewKey));
+		}
+	}
+};
+
+function saveAndApproveEvaluation() {
+	return async (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+	
+		dispatch(editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		await dispatch(lpisChangeCases.saveEdited(activeCaseKey));
+		dispatch(redirectToNextViewFromActiveView());
+	}
+}
+
 szifLpisZmenovaRizeni['applyView'] = applyView;
 szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlaysToMapKey'] = setInitMapOnBorderOverlaysToMapKey;
@@ -281,6 +331,8 @@ szifLpisZmenovaRizeni['saveView'] = saveView;
 szifLpisZmenovaRizeni['toggleLayer'] = toggleLayer;
 szifLpisZmenovaRizeni['addMap'] = addMap;
 szifLpisZmenovaRizeni['removeMap'] = removeMap;
+szifLpisZmenovaRizeni['editActiveCaseStatus'] = editActiveCaseStatus;
+szifLpisZmenovaRizeni['saveAndApproveEvaluation'] = saveAndApproveEvaluation;
 
 export default {
 	...CommonAction,

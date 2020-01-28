@@ -48,7 +48,7 @@ const getMapLayers = (state, mapKey) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const geometryBefore = activeCase.data.geometryBefore;
 	const geometryAfter = activeCase.data.geometryAfter;
-	if(activeMapBorderState.before) {
+	if(activeMapBorderState && activeMapBorderState.before) {
 		layers.push(
 			{
 				key: 'before',
@@ -62,7 +62,7 @@ const getMapLayers = (state, mapKey) => {
 		)
 	}
 
-	if(activeMapBorderState.after) {
+	if(activeMapBorderState && activeMapBorderState.after) {
 		layers.push(
 			{
 				key: 'after',
@@ -82,9 +82,11 @@ const getMapLayers = (state, mapKey) => {
 	////// Sync active layers to map part
 	const activeLayers = Select.components.get(state, 'szifZmenovaRizeni_ActiveLayers', mapKey);
 	
-	activeLayers.forEach((layer) => {
-		layers.push(getLayerConfig(layer));
-	})
+	if(activeLayers && activeLayers.length > 0) {
+		activeLayers.forEach((layer) => {
+			layers.push(getLayerConfig(layer));
+		})
+	}
 
 	////// END Sync active layers to map part
 	return layers;

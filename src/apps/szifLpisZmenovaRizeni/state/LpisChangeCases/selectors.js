@@ -7,10 +7,28 @@ const getActive = common.getActive(getSubstate);
 const getIndexed = common.getIndexed(getSubstate);
 const getDataByKey = common.getDataByKey(getSubstate);
 const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
+const getUsedKeys = common.getUsedKeys(getSubstate);
+const getAllAsObject = common.getAllAsObject(getSubstate);
+
+const getNextCaseKey = createSelector([
+	getAllAsObject,
+		(state, key) => key,
+	],
+	(allCases, key) => {
+		console.log(allCases, key);
+		const allCasesKeys = Object.keys(allCases);
+		const keyIndex = allCasesKeys.indexOf(key);
+		const nextIndex = keyIndex + 1;
+		const nextKey = allCasesKeys.length >= nextIndex ? allCasesKeys[nextIndex] : null;
+		return nextKey;
+	}
+);
+
 export default {
-	getSubstate,
+	getActive,
 	getDataByKey,
 	getEditedDataByKey,
-	getActive,
-	getIndexed
+	getIndexed,
+	getNextCaseKey,
+	getSubstate,
 };

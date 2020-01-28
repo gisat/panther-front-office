@@ -25,11 +25,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.specific.lpisChangeCases.updateEdited(modelKey, property, value))
 		},
 		saveEvaluation: (caseKes) => {
+			//TODO - save view and case only if edited
 			dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
 			dispatch(Action.specific.lpisChangeCases.saveEdited(caseKes));
 		},
 		saveAndApproveEvaluation: () => {
-			dispatch(Action.specific.lpisChangeReviewCases.userActionSaveAndApproveEvaluation())
+			dispatch(Action.specific.szifLpisZmenovaRizeni.saveAndApproveEvaluation());
 		},
 		approveEvaluation: () => {
 			dispatch(Action.specific.lpisChangeReviewCases.userActionApproveEvaluation())
