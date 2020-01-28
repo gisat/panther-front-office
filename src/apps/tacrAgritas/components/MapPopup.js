@@ -10,9 +10,18 @@ export const MapPopup = props => {
 	const value = data && data[props.valueColumnName];
 
 	return (
-		<div className="tacrAgritas-map-popup-content">
-			<div>{dpb}</div>
-			<div>{value}</div>
-		</div>
+		<>
+			<div className="ptr-popup-header">
+				{"DPB: " + dpb}
+			</div>
+			<div className="ptr-popup-record-group">
+				<div className="ptr-popup-record">
+					<div className="ptr-popup-record-value-group">
+						{<span className="value">{value}</span>}
+						{<span className="unit">{props.unit}</span>}
+					</div>
+				</div>
+			</div>
+		</>
 	);
 };
