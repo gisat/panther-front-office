@@ -22,6 +22,8 @@ import {LineChartPopup} from "../LineChartPopup";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 import Fade from "react-reveal/Fade";
 
+import image1 from "../../assets/img/dlouhodoby_normal_figure1.png";
+
 
 const getChoroplethStyle = (attributeKey) => {
 	return utils.fillStyleTemplate(
@@ -149,19 +151,30 @@ class Historie extends React.PureComponent {
 				<div className="tacrAgritas-section">
 					<div>
 						<h1>{props.scope && props.scope.data.nameDisplay}</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
+						<div className="tacrAgritas-section-subtitle">Srovnání aktuálního stavu zemědělský porostů s dlouhodobým normálem (1985 - 2015)</div>
+						<p>Srovnání aktuálního stavu s dlouhodobým normálem je založeno na zpracování dlouhodobé časové řady družicových dat Landsat, obsahující přibližně 8500 scén pořízených v průběhu období 1985 – 2015. Analýzou těchto družicových snímků byly stanoveny tzv. normálové křivky popisující obvyklý časový vývoj hodnot vegetačního indexu NDVI pro různé zemědělské plodiny za daných klimatických podmínek. Aktuální hodnoty vegetačního indexu NDVI (zjištěné pomocí družicových dat pořízených v průběhu aktuální vegetační sezóny) jsou potom srovnávány s hodnotou dlouhodobého normálu (pro danou plodinu, termín a klimatický region). Výsledek je vyjádřen jako procentuální podíl aktuální hodnoty ku hodnotě dlouhodobého normálu (tj. 100 % = aktuální hodnota je právě rovna hodnotě dlouhodobého normálu pro danou plodinu, termín a klimatický region). Srovnání aktuálního stavu s dlouhodobým normálem je pak realizováno průběžně vždy 2x do měsíce (1. – 15. a 16. – 30./31. dne v daném měsíci). Výsledky jsou v tomto případě agregovány na úroveň jednotlivých zemědělských pozemků.</p>
 
 						{this.renderMapSet('map-set-historie', mapLayers, attribute, "%")}
 						<MapLegend
 							style={mapChoroplethStyle}
-							name={"Aktuální hodnota vs. dlouhodobý normál"}
+							name={"Aktuální hodnota NDVI vs. dlouhodobý normál"}
 							unit={"%"}
 							noData
 						/>
 						{dataForCharts ? this.renderChart(dataForCharts) : null}
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu pharetra nisl, in egestas ipsum. Nunc feugiat enim ante, vulputate tristique nunc accumsan at. Nam rutrum gravida magna. Phasellus vitae efficitur nisi, aliquet laoreet massa. Nullam dolor lacus, semper eget egestas a, mattis id augue. Curabitur non urna a eros mattis sodales. Cras eu lacus ligula. Vestibulum efficitur dolor sagittis justo faucibus fermentum. Nulla tempor aliquam iaculis. Nam ultricies, est venenatis tincidunt tempus, diam neque accumsan eros, a convallis libero erat non urna. Aenean molestie ut nisi sed convallis. Proin blandit placerat risus, eu cursus ligula sagittis et. Proin auctor semper tortor, eu sagittis nulla sagittis eu. Proin ac elementum velit. Sed non nisl eu dui tincidunt sollicitudin id quis ante. Nulla sed imperdiet nunc, quis faucibus felis.</p>
+						<p>Určení referenčních normálových křivek vegetačního indexu NDVI pro jednotlivé zemědělské plodiny a klimatické regiony bylo založeno na zpracování kompletního archivu družicových dat Landsat pro Českou republiku. Toto zpracování zahrnovalo celkem přibližně 8500 scén pořízených v období mezi roky 1985 – 2015. V první fázi zpracování byly na podkladě těchto scén vytvořeny plodinové mapy pro všechny vegetační sezóny uvedeného období 1985 – 2015. Provádění analýzy časového průběhu hodnot vegetačního indexu specificky pro jednotlivé plodiny je zcela klíčové, vzhledem k odlišnostem v časovém vývoji jednotlivých plodin (např. ozimé obiloviny ve srovnání s cukrovkou apod.). Ze sérií družicových dat byly následně pro jednotlivé kombinace plodina – klimatický region extrahovány temporální profily indexu NDVI (popisující vývoj hodnot tohoto indexu v čase). Tyto křivky pak byly převedeny do jednotného časového měřítka (uvažována byla agregace dat do 15-denních intervalů). Z dílčích křivek potom byla vygenerována tzv. normálová křivka popisující z dlouhodobého hlediska obvyklý průběh hodnot indexu NDVI pro danou plodinu a klimatický region. Klimatické regiony, uvažované v rámci této analýzy, vycházejí z regionalizace používané v systému bonitovaných půdně-ekologických jednotek (BPEJ).</p>
+						<p>V další fázi jsou hodnoty NDVI průběžně extrahovány z družicových dat pořízených v průběhu aktuální vegetační sezóny (opět vždy v 15-denních monitorovacích oknech). Aby byla maximalizována pravděpodobnost, že analyzovaný pozemek bude v rámci daného monitorovacích období zachycen bez oblačnosti, jsou pro sledování aktuálních hodnot indexu NDVI využívána nejen družicová data Landsat, ale současně i Sentinel-2. S ohledem na poněkud odlišné radiometrické charakteristiky senzorů OLI (Landsat-8) a MSI (Sentinel-2) je v tomto případě ovšem nutné na data Sentinel-2 nejprve aplikovat proces radiometrické harmonizace, díky němuž jsou hodnoty indexu NDVI odvozené z dat Sentinel-2 a Landsat-8 navzájem srovnatelné. Aktuální hodnoty indexu NDVI jsou v následujícím kroku srovnávány s hodnotou odvozenou z normálové křivky pro danou plodinu a daný klimatický region. Výsledný mapový produkt tak vyjadřuje procentuální úroveň aktuální hodnoty indexu NDVI vůči normálové hodnotě (100 %). Srovnání aktuálního vývoje s dlouhodobým normálem je možné pro jednotlivé zemědělské parcely vyjádřit rovněž v podobě grafu zobrazujícím průběh aktuální temporální křivky indexu NDVI a jeho srovnání s průběhem křivky normálové.</p>
+						<p>V další fázi jsou hodnoty NDVI průběžně extrahovány z družicových dat pořízených v průběhu aktuální vegetační sezóny (opět vždy v 15-denních monitorovacích oknech). Aby byla maximalizována pravděpodobnost, že analyzovaný pozemek bude v rámci daného monitorovacích období zachycen bez oblačnosti, jsou pro sledování aktuálních hodnot indexu NDVI využívána nejen družicová data Landsat, ale současně i Sentinel-2. S ohledem na poněkud odlišné radiometrické charakteristiky senzorů OLI (Landsat-8) a MSI (Sentinel-2) je v tomto případě ovšem nutné na data Sentinel-2 nejprve aplikovat proces radiometrické harmonizace, díky němuž jsou hodnoty indexu NDVI odvozené z dat Sentinel-2 a Landsat-8 navzájem srovnatelné. Aktuální hodnoty indexu NDVI jsou v následujícím kroku srovnávány s hodnotou odvozenou z normálové křivky pro danou plodinu a daný klimatický region. Výsledný mapový produkt tak vyjadřuje procentuální úroveň aktuální hodnoty indexu NDVI vůči normálové hodnotě (100 %). Srovnání aktuálního vývoje s dlouhodobým normálem je možné pro jednotlivé zemědělské parcely vyjádřit rovněž v podobě grafu zobrazujícím průběh aktuální temporální křivky indexu NDVI a jeho srovnání s průběhem křivky normálové.</p>
 					</div>
 				</div>
+				<Fade left distance="50px">
+					<div className="tacrAgritas-image">
+						<img src={image1}/>
+						<p className="tacrAgritas-component-description">
+							Ukázka srovnání aktuálního stavu porostu ozimé pšenice (A) a jarního ječmene (B) vzhledem k dlouhodobému normálu (1985 - 2015). Po rychlém nárůstu na počátku vegetační sezóny, který byl dán zejména neobvykle teplým počasím v dubnu (vývoj některých plodin byl urychlen o 30 – 40 dní), začal vlivem nastupujícího sucha stav porostů v polovině května stagnovat a v průběhu června klesl až k podprůměrným hodnotám.
+						</p>
+					</div>
+				</Fade>
 			</>
 		);
 	}
@@ -223,44 +236,45 @@ class Historie extends React.PureComponent {
 		const selectedArea = this.getSelectedAreaData();
 
 		return (
-			<HoverHandler
-				popupContentComponent={LineChartPopup}
-			>
-				<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
-				<LineChart
-					key="history"
+			<div className="tacrAgritas-chart-wrapper">
+				<HoverHandler
+					popupContentComponent={LineChartPopup}
+				>
+					<div className="tacrAgritas-chart-title">Půdní blok<em> {selectedArea && selectedArea.properties[nameColumnName]}</em></div>
+					<LineChart
+						key="history"
 
-					data={data}
-					keySourcePath="key"
-					nameSourcePath="name"
-					serieDataSourcePath="data"
-					xSourcePath="date"
-					ySourcePath="value"
-					colorSourcePath="color"
+						data={data}
+						keySourcePath="key"
+						nameSourcePath="name"
+						serieDataSourcePath="data"
+						xSourcePath="date"
+						ySourcePath="value"
+						colorSourcePath="color"
 
-					isSerie
-					pointRadius={3}
+						isSerie
+						pointRadius={3}
 
-					xScaleType="time"
-					xValuesSize={4}
-					xOptions={{
-						name: "Time",
-						axisValueFormat: "MMMM",
-						popupValueFormat: "D. MMMM YYYY",
-						min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
-						max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
-					}}
+						xScaleType="time"
+						xValuesSize={4}
+						xOptions={{
+							name: "Time",
+							axisValueFormat: "MMMM",
+							popupValueFormat: "D. MMMM YYYY",
+							min: `${this.props.activePeriodKey}-02-28T00:00:00.000Z`,
+							max: `${this.props.activePeriodKey}-11-01T00:00:00.000Z`,
+						}}
 
-					yLabel
-					yValuesSize={3}
-					yOptions={{
-						unit: "???",
-						name: "???"
-					}}
-					withoutYbaseline={false}
-					legend
-				/>
-			</HoverHandler>
+						yLabel
+						yValuesSize={3}
+						yOptions={{
+							name: "NDVI"
+						}}
+						withoutYbaseline={false}
+						legend
+					/>
+				</HoverHandler>
+			</div>
 		);
 	}
 
