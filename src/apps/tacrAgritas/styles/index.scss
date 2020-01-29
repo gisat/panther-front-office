@@ -133,6 +133,11 @@
 	box-shadow: 0 0 7px 0 rgba(0,0,0,.3);
 }
 
+.tacrAgritas-map-set-container.single-map {
+	max-width: 55rem;
+	width: 100%;
+}
+
 .tacrAgritas .ptr-map-grid .ptr-map {
 	border: 1px solid #bbbbbb;
 }
@@ -230,7 +235,7 @@
 .tacrAgritas-map-legend {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: baseline;
+	align-items: center;
 	font-size: $b1;
 	margin-bottom: m(2);
 	color: var(--base80);
@@ -241,7 +246,6 @@
 }
 
 .tacrAgritas-map-legend-attribute {
-	font-size: $a1;
 	margin-right: .15rem;
 }
 

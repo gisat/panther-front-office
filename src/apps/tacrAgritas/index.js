@@ -45,7 +45,32 @@ export default (path, baseUrl) => {
 				Store.dispatch(Action.periods.add(d.periods));
 			}
 			if (d.places) {
-				Store.dispatch(Action.places.add(d.places));
+				// TODO move to config
+				// Store.dispatch(Action.places.add(d.places));
+				Store.dispatch(Action.places.add([
+					{
+						"key": "PodebradskaBlata",
+						"data": {
+							"nameDisplay": "Poděbradská blata"
+						}
+					},{
+						"key": "Lupofyt",
+						"data": {
+							"nameDisplay": "Lupofyt"
+						}
+					},{
+						"key": "Stratov",
+						"data": {
+							"nameDisplay": "Stratov"
+						}
+					},{
+						"key": "Agrossyn",
+						"data": {
+							"nameDisplay": "Agrossyn",
+							"bbox": [14.39,50.17,14.46,50.25]
+						}
+					}
+				]));
 			}
 			if (d.activeCaseKey) {
 				Store.dispatch(Action.cases.setActiveKey(d.activeCaseKey));

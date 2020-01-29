@@ -33,32 +33,37 @@ const getChoroplethStyle = (attributeKey) => {
 				{
 					"interval": [0,50],
 					"intervalBounds": [false, false],
-					"fill": "#d73027"
+					"fill": "#ff0000"
 				},
 				{
-					"interval": [50,80],
+					"interval": [50,70],
 					"intervalBounds": [true, false],
-					"fill": "#fc8d59"
+					"fill": "#ff8888"
 				},
 				{
-					"interval": [80,100],
+					"interval": [70,90],
 					"intervalBounds": [true, false],
-					"fill": "#fee090"
+					"fill": "#ffaa00"
 				},
 				{
-					"interval": [100,120],
+					"interval": [90,110],
 					"intervalBounds": [true, false],
-					"fill": "#e0f3f8"
+					"fill": "#ffff00"
 				},
 				{
-					"interval": [120,150],
+					"interval": [110,130],
 					"intervalBounds": [true, false],
-					"fill": "#91bfdb"
+					"fill": "#b0e000"
+				},
+				{
+					"interval": [130,150],
+					"intervalBounds": [true, false],
+					"fill": "#6fc400"
 				},
 				{
 					"interval": [150,300],
 					"intervalBounds": [true, false],
-					"fill": "#4575b4"
+					"fill": "#38a800"
 				}
 			]
 		}
@@ -184,7 +189,7 @@ class Historie extends React.PureComponent {
 
 		return (
 			<Fade left distance="50px">
-				<div className="tacrAgritas-map-set-container">
+				<div className="tacrAgritas-map-set-container single-map">
 					<HoverHandler
 						popupContentComponent={
 							<MapPopup
