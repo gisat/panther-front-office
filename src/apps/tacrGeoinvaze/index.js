@@ -76,6 +76,7 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
 
+	path = path || '';
 
 	ReactDOM.render(
 		<>
