@@ -1,7 +1,9 @@
 import * as turf from '@turf/turf'
+import path from "path";
 import CommonAction from '../../../state/Action';
 import Select from '../state/Select';
 import utils from '../../../utils/utils';
+import config from "../../../config/index";
 
 import lpisChangeCases from './LpisChangeCases/actions';
 import lpisChangeCasesEdited from './LpisChangeCasesEdited/actions';
@@ -356,6 +358,36 @@ function saveCaseStatus(activeCaseKey, status) {
 	}
 }
 
+function reloadLeftCases() {
+	return async (dispatch, getState) => {	
+		const url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/specific/filtered/lpisChangeCases');
+		const data = {
+			"filter": null,
+			"offset": 0,
+			"order": [
+				["submitDate", "descending"]
+			],
+			"limit": 1
+		};
+	
+		return fetch(url, {
+			method: 'POST',
+			// credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		}).then(response => {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then((responseContent) => {
+			dispatch(CommonAction.components.set('szifZmenovaRizeni_CaseCounter', 'weekCaseCount', responseContent.other.lpisChangeCase.weekCaseCount));
+		});
+	}
+}
+
 szifLpisZmenovaRizeni['applyView'] = applyView;
 szifLpisZmenovaRizeni['setInitMapBorderView'] = setInitMapBorderView;
 szifLpisZmenovaRizeni['setInitMapOnBorderOverlaysToMapKey'] = setInitMapOnBorderOverlaysToMapKey;
@@ -372,6 +404,7 @@ szifLpisZmenovaRizeni['rejectEvaluation'] = rejectEvaluation;
 szifLpisZmenovaRizeni['closeEvaluation'] = closeEvaluation;
 szifLpisZmenovaRizeni['approveEvaluation'] = approveEvaluation;
 szifLpisZmenovaRizeni['redirectToNextViewFromActiveView'] = redirectToNextViewFromActiveView;
+szifLpisZmenovaRizeni['reloadLeftCases'] = reloadLeftCases;
 
 export default {
 	...CommonAction,

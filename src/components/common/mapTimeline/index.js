@@ -31,6 +31,7 @@ const getOverlayCfg = (options) => {
 const getOverlaysCfg = (layers) => {
 	const LINEHEIGHT = 1;
 	const ROWHEIGHT = 0.6 //in rem
+	let line = 0;
 	let PADDING = (LINEHEIGHT - ROWHEIGHT) / 2;
 	layers.sort((a, b) => a.zIndex-b.zIndex);
 
@@ -38,9 +39,10 @@ const getOverlaysCfg = (layers) => {
 	let top = PADDING;
 	return layers.reduce((acc, layerCfg) => {
 		if(lastZIndex !== layerCfg.zIndex) {
+			line = line + 1;
 			lastZIndex = layerCfg.zIndex;
 			//todo rem
-			top = LINEHEIGHT + PADDING;
+			top = (line * LINEHEIGHT) + PADDING;
 		}
 
 		if(layerCfg && layerCfg.period && layerCfg.period.length) {

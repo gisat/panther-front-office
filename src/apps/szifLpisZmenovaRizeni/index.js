@@ -29,6 +29,61 @@ export default (path, baseUrl) => {
 
 	i18n.changeLanguage('cz');
 
+	Store.dispatch(Action.app.setLocalConfiguration('period', {start: '2017', end: '2020'}));
+	Store.dispatch(Action.app.setLocalConfiguration('defaultLayers', [
+		{
+				key: 'ortofoto_akt',
+				title: 'Ortofoto aktuální',
+				period: {start:'2017',end:'2020'},
+				type: "wms",
+				options: {
+					"url": 'http://eagri.cz/public/app/wms/plpis.fcgi',
+					params: {
+						layers: 'ILPIS_RASTRY',
+					}
+				}
+		},
+		{
+				key: 'ortofoto_2017',
+				title: 'Ortofoto 2017',
+				period: {start:'2017',end:'2018'},
+				type: "wms",
+				options: {
+					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
+					params: {
+						layers: 'ORTOFOTO_AKT_ZAPAD',
+						time: '2017',		
+					}
+				}
+		},
+		{
+				key: 'ortofoto_2018',
+				title: 'Ortofoto 2018',
+				period: {start:'2018',end:'2019'},
+				type: "wms",
+				options: {
+					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
+					params: {
+						layers: 'ORTOFOTO_AKT_VYCHOD',
+						time: '2018',		
+					}
+				}
+		},
+		{
+				key: 'ortofoto_2019',
+				title: 'Ortofoto 2019',
+				period: {start:'2019',end:'2020'},
+				type: "wms",
+				options: {
+					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
+					params: {
+						layers: 'ORTOFOTO_AKT_ZAPAD',
+						time: '2019',		
+					}
+				}
+		}
+	]));
+	Store.dispatch(Action.specific.szifLpisZmenovaRizeni.reloadLeftCases());
 	Store.dispatch(Action.app.loadConfiguration());
 
 	// Load Current User

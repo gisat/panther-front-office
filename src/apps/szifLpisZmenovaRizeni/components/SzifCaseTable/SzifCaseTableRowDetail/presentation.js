@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classnames from 'classnames';
+import {evaluationConclusions} from "../../../../../constants/LpisCaseStatuses";
+import User from "../../../../../components/common/atoms/User";
 
 import './style.scss';
 
 class SzifCaseTableRowDetail extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.string,
+		caseSubmit: PropTypes.object,
+		caseChange: PropTypes.object,
 		codeDpb: PropTypes.string,
 		codeJi: PropTypes.string,
 		changeDescription: PropTypes.string,
@@ -17,7 +21,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		evaluationResult: PropTypes.string,
 		evaluationDescription: PropTypes.string,
 		evaluationDescriptionOther: PropTypes.string,
-		evaluationUsedSources: PropTypes.string
+		evaluationUsedSources: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -25,15 +29,16 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 	}
 
 	render() {
+		const {caseChange, caseSubmit} = this.props;
 		const props = this.props;
-
+		const evaluationResultValue = props.evaluationResult ? evaluationConclusions.find(c => c.value === props.evaluationResult.toUpperCase()).label : null;
 		return (
 			<div>
 				<div className="szifLpisZmenovaRizeni-table-detail-top-bar">
 					{props.codeDpb ? this.renderItem("Kód DPB", props.codeDpb) : null}
 					{props.codeJi ? this.renderItem("Kód JI", props.codeJi) : null}
-					{this.renderItem("Zadal", "Mirek ze SZIFu")}
-					{this.renderItem("Poslední změna", "Lucka z Gisatu")}
+					{caseSubmit ? this.renderItem("Zadal", <User userKey={caseSubmit.userId}/>) : null}
+					{caseChange ? this.renderItem("Poslední změna", <User userKey={caseChange.userId}/>) : null}
 				</div>
 				<div className="szifLpisZmenovaRizeni-table-detail-descriptions">
 					<div>
@@ -44,7 +49,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 					</div>
 					<div>
 						<h4>Výsledek vyhodnocení družicových dat</h4>
-						{props.evaluationResult ? this.renderItem("Závěr vyhodnocení", props.evaluationResult) : null}
+						{props.evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
 						{props.evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", props.evaluationDescription) : null}
 						{props.evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", props.evaluationUsedSources, "sources") : null}
 					</div>

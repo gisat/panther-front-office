@@ -45,9 +45,27 @@ const layers = [
 
 
 const periodLimit = {
-	start: '2014',
+	start: '2017',
 	end: '2020'
 };
+
+const getBaseLayers = (baseLayersCfg = [], activeLayers) => {
+	return baseLayersCfg.map((layerCfg, index) => {
+		return {
+			layerTemplateKey: layerCfg.key,
+			period: layerCfg.period,
+			color: 'rgba(0, 237, 3, 0.7)',
+			activeColor: 'rgba(255, 0, 0, 0.5)',
+			active: false,
+			title: layerCfg.title,
+			options: {
+				// activePeriodIndex: activeIndex,
+				type: 'baselayer'
+			},
+			zIndex: index + 1,
+		}
+	})
+}
 
 const getLayers = (dates = [], activeIndex) => {
 	const ownLayers = [...layers];
@@ -67,7 +85,7 @@ const getLayers = (dates = [], activeIndex) => {
 			activePeriodIndex: activeIndex,
 			type: 'sentinel'
 		},
-		zIndex: 3,
+		zIndex: 10,
 	})
 	return ownLayers
 }
@@ -79,8 +97,11 @@ const mapStateToProps = (state, ownProps) => {
 		return layer.options.type === 'sentinel'
 	});
 	const activeSentinelIndex = activeSentinelLayer ? activeSentinelLayer.options.periodIndex : null;
+	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
+	const baseLayersCfg = defaultLayers|| [];
+	const layers = [...getLayers(dates, activeSentinelIndex), ...getBaseLayers(baseLayersCfg, activeLayers)];
 	return {
-		layers: getLayers(dates, activeSentinelIndex),
+		layers,
 		periodLimit: periodLimit,
 	}
 };

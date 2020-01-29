@@ -29,6 +29,13 @@
 
 .szifLpisZmenovaRizeni-cases-header-tools {
 	display: flex;
+	align-items: center;
+
+	.szifLpisZmenovaRizeni-cases-header-item{
+		margin-left: m(1);
+		color: var(--accent0);
+		margin-bottom: 0px;
+	}
 }
 
 .szifLpisZmenovaRizeni-cases-header-tools .ptr-button {
@@ -142,4 +149,23 @@
 	min-width: 10rem;
 	width: 25%;
 	text-align: right;
+}
+
+.ptr-button-create-case{
+	display:'flex';
+
+	.small{
+		font-size: $a0;
+		margin-left: m(1);
+	}
+
+	& > .ptr-icon {
+		display: inline-block;
+		width: 1.25rem;
+		height: 1.25rem;
+		margin: calc(.375rem - 1px) 0.25rem;
+		& .line {
+			fill: currentColor;
+		}
+	}
 }

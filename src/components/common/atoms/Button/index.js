@@ -100,6 +100,8 @@ class Button extends React.PureComponent {
 						className: classNames(child.props.className, 'ptr-button-menu')
 					};
 					return React.cloneElement(child, props, child.props.children);
+				} else if (React.isValidElement(child)) {
+					return React.cloneElement(child);
 				} else {
 					hasContent = true;
 					return child;

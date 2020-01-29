@@ -9,8 +9,10 @@ import utils from "../../../../utils/utils";
 const order = [['submitDate', 'descending']];
 
 const mapStateToProps = state => {
+	const casesLeft = Select.components.get(state, 'szifZmenovaRizeni_CaseCounter', 'weekCaseCount');
 	return {
-		cases: Select.specific.lpisChangeCases.getIndexed(state, null, null, order, 1, 1000)
+		cases: Select.specific.lpisChangeCases.getIndexed(state, null, null, order, 1, 1000),
+		casesLeft,
 	}
 };
 
@@ -21,6 +23,7 @@ const mapDispatchToPropsFactory = () => {
 		return {
 			onMount: () => {
 				dispatch(Action.specific.lpisChangeCases.useIndexed(null, null, order, 1, 1000, componentId));
+				dispatch(Action.specific.szifLpisZmenovaRizeni.reloadLeftCases());
 			}
 		}
 	}
