@@ -109,8 +109,16 @@ export default [
 	{
 		key: 'tacrGeoinvazeBackOffice',
 		backOffice: true,
-		hostname: 'panther.gisat.cz',
-		path: '/ptr3-beta/geoinvaze/backoffice',
+		urls: [
+			{
+				hostname: "panther.gisat.cz",
+				path: "/ptr3-beta/geoinvaze/backoffice"
+			},
+			{
+				hostname: "geoinvaze.czu.cz",
+				path: "/backoffice"
+			}
+		],
 		devPath: '/tacrGeoinvazeBackOffice',
 		app: (path, baseUrl) => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
 			module.default(path, baseUrl, 'tacrGeoinvaze');
@@ -118,8 +126,16 @@ export default [
 	},
 	{
 		key: 'tacrGeoinvaze',
-		hostname: 'panther.gisat.cz',
-		path: '/ptr3-beta/geoinvaze',
+		urls: [
+			{
+				hostname: "panther.gisat.cz",
+				path: "/ptr3-beta/geoinvaze"
+			},
+			{
+				hostname: "geoinvaze.czu.cz",
+				path: null
+			}
+		],
 		devPath: '/tacrGeoinvaze',
 		app: (path, baseUrl) => import(/* webpackChunkName: "tacrGeoinvaze" */'./apps/tacrGeoinvaze').then(module => {
 			module.default(path, baseUrl);
