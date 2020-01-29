@@ -59,7 +59,13 @@ class SzifTimeline extends React.PureComponent {
 
 		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
 			const periodCount = overlay.period && overlay.period.length;
-			const info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
+			let info;
+			if(overlay.options.type === 'baselayer') {
+				// info = overlay.title;
+				info = '';
+			} else if(overlay.options.type === 'sentinel') {
+				info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
+			}
 			return <div key={overlay.layerTemplateKey} className={'ptr-timeline-tooltip-layer'}>
 				<div>
 					<span className="dot" style={{'backgroundColor': overlay.color}}></span>

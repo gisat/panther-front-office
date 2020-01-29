@@ -38,6 +38,7 @@ const getLayerConfig = (layer) => {
 	if(layer && layer.options && layer.options.type && layer.options.type === 'sentinel') {
 		return getSentinelRasterSpatialDataSource(layer.key,  'sentinel', layer.time);
 	}
+	//todo get config for base layers
 }
 
 const getMapLayers = (state, mapKey) => {
