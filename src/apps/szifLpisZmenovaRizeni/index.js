@@ -29,6 +29,8 @@ export default (path, baseUrl) => {
 
 	i18n.changeLanguage('cz');
 
+	// Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
+	Store.dispatch(Action.specific.szifLpisZmenovaRizeni.reloadLeftCases());
 	Store.dispatch(Action.app.loadConfiguration());
 
 	// Load Current User

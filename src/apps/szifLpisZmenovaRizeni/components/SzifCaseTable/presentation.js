@@ -70,6 +70,7 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	render() {
+		const {casesLeft} = this.props;
 		const cases = this.state.filteredCases || this.props.cases;
 
 		return (
@@ -86,7 +87,19 @@ class SzifCaseTable extends React.PureComponent {
 							>
 								<Icon icon="search"/>
 							</InputText>
-							<Button icon="plus" inverted ghost onClick={this.switchScreen}>Vytvořit řízení</Button>
+							{
+								casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreen} title={`Tento týden je možné vytvořit ještě ${casesLeft} řízení.`}>
+								<div className={'ptr-button-create-case'}>
+									<Icon icon="plus" inverted/>
+									<div className={'ptr-button-caption'}>
+										Vytvořit řízení 
+										<span className={'small'}>
+											zbývá {casesLeft}
+										</span>
+									</div>
+								</div>
+							</Button> : <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>
+							}
 						</div>
 					</div>
 				</div>
