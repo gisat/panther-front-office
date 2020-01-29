@@ -34,11 +34,28 @@ const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time) =>
 	}
 }
 
+const getWMSRasterSpatialDataSource = (layer) => {
+	debugger
+	return {
+			key: layer.key,
+			type: "wms",
+			options: {
+				"url": layer.options.url,
+				params: {
+					...layer.options.params
+				}
+			}
+	}
+}
+
 const getLayerConfig = (layer) => {
 	if(layer && layer.options && layer.options.type && layer.options.type === 'sentinel') {
 		return getSentinelRasterSpatialDataSource(layer.key,  'sentinel', layer.time);
 	}
-	//todo get config for base layers
+
+	if(layer && layer.options && layer.options.type && layer.options.type === 'wms') {
+		return getWMSRasterSpatialDataSource(layer);
+	}
 }
 
 const getMapLayers = (state, mapKey) => {

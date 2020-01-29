@@ -4,63 +4,23 @@ import Action from "../../../state/Action";
 
 import presentation from './presentation';
 
-const layers = [
-	// {
-	// 	layerTemplateKey: "szdcInsar19_track_totalDisplacement_5b145ea8-d38d-4955-838a-efc3498eb5fb",
-	// 	period: {
-	// 		start: "2015-06-01 12:00",
-	// 		end: "2015-08-02"
-	// 	},
-	// 	color: 'rgba(255, 0, 0, 0.7)',
-	// 	activeColor: 'rgba(255, 0, 100, 0.5)',
-	// 	active: false,
-	// 	title: 'Ortofoto 2016',
-	// 	info: 'západ',
-	// 	zIndex: 3,
-	// },
-	// {
-	// 	layerTemplateKey: "yyyyy11",
-	// 	period: [
-	// 		{
-	// 			start: "2015-06-01 12:00",
-	// 			end: "2015-06-01 12:00"
-	// 		},
-	// 		{
-	// 			start: "2015-06-01 14:00",
-	// 			end: "2015-06-01 14:00"
-	// 		},
-	// 		{
-	// 			start: "2015-08-01 14:00",
-	// 			end: "2015-08-01 14:00"
-	// 		},
-	// 	],
-	// 	color: 'rgba(0, 237, 3, 0.7)',
-	// 	activeColor: 'rgba(0, 200, 100, 0.5)',
-	// 	active: true,
-	// 	activePeriodIndex: 2, 
-	// 	title: 'Sentinel',
-	// 	zIndex: 2,
-	// }
-];
-
-
 const periodLimit = {
 	start: '2017',
 	end: '2020'
 };
 
-const getBaseLayers = (baseLayersCfg = [], activeLayers) => {
+const getBaseLayers = (baseLayersCfg = [], activeWmsKey) => {
 	return baseLayersCfg.map((layerCfg, index) => {
 		return {
 			layerTemplateKey: layerCfg.key,
 			period: layerCfg.period,
 			color: 'rgba(0, 237, 3, 0.7)',
 			activeColor: 'rgba(255, 0, 0, 0.5)',
-			active: false,
+			active: layerCfg.key === activeWmsKey,
 			title: layerCfg.title,
 			options: {
-				// activePeriodIndex: activeIndex,
-				type: 'baselayer'
+				type: 'baselayer',
+				...layerCfg.options
 			},
 			zIndex: index + 1,
 		}
@@ -68,7 +28,7 @@ const getBaseLayers = (baseLayersCfg = [], activeLayers) => {
 }
 
 const getLayers = (dates = [], activeIndex) => {
-	const ownLayers = [...layers];
+	const ownLayers = [];
 	ownLayers.push({
 		layerTemplateKey: "periods",
 		period: dates.map((date) => {
@@ -96,10 +56,14 @@ const mapStateToProps = (state, ownProps) => {
 	const activeSentinelLayer = activeLayers.find((layer) => {
 		return layer.options.type === 'sentinel'
 	});
+	const activeWmsLayer = activeLayers.find((layer) => {
+		return layer.options.type === 'wms'
+	});
 	const activeSentinelIndex = activeSentinelLayer ? activeSentinelLayer.options.periodIndex : null;
+	const activeWmsKey = activeWmsLayer ? activeWmsLayer.key : null;
 	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
 	const baseLayersCfg = defaultLayers|| [];
-	const layers = [...getLayers(dates, activeSentinelIndex), ...getBaseLayers(baseLayersCfg, activeLayers)];
+	const layers = [...getLayers(dates, activeSentinelIndex), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
 	return {
 		layers,
 		periodLimit: periodLimit,

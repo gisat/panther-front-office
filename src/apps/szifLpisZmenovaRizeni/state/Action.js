@@ -244,14 +244,24 @@ const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
 	if(layerActive) {
 		updatedLayers = [...activeLayers.filter(l => l.key !== layer.key)];
 	} else {
-		//remove all sentinel layers before add new one
-		const sentinelLayer = {
-			key: layer.key,
-			layerTemplateKey: layer.layerTemplateKey,
-			time: layer.start.format("YYYY-MM-DD"), 
-			options: layer.options,
+		if(layer.options.type === 'sentinel') {
+			//remove all sentinel layers before add new one
+			const sentinelLayer = {
+				key: layer.key,
+				layerTemplateKey: layer.layerTemplateKey,
+				time: layer.start.format("YYYY-MM-DD"), 
+				options: layer.options,
+			}
+			updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), sentinelLayer];
+		} else {
+			const baseLayer = {
+				key: layer.key,
+				layerTemplateKey: layer.layerTemplateKey,
+				time: layer.start.format("YYYY-MM-DD"), 
+				options: layer.options,
+			}
+			updatedLayers = [...activeLayers.filter(l => l.options.type !== 'wms'), baseLayer];
 		}
-		updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), sentinelLayer];
 	}
 
 	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', mapKey, updatedLayers));

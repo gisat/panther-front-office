@@ -37,6 +37,7 @@ export default (path, baseUrl) => {
 				period: {start:'2017',end:'2020'},
 				type: "wms",
 				options: {
+					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/plpis.fcgi',
 					params: {
 						layers: 'ILPIS_RASTRY',
@@ -49,6 +50,7 @@ export default (path, baseUrl) => {
 				period: {start:'2017',end:'2018'},
 				type: "wms",
 				options: {
+					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
 					params: {
 						layers: 'ORTOFOTO_AKT_ZAPAD',
@@ -62,6 +64,7 @@ export default (path, baseUrl) => {
 				period: {start:'2018',end:'2019'},
 				type: "wms",
 				options: {
+					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
 					params: {
 						layers: 'ORTOFOTO_AKT_VYCHOD',
@@ -75,6 +78,7 @@ export default (path, baseUrl) => {
 				period: {start:'2019',end:'2020'},
 				type: "wms",
 				options: {
+					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
 					params: {
 						layers: 'ORTOFOTO_AKT_ZAPAD',
