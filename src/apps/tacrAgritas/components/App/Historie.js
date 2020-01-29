@@ -20,6 +20,7 @@ import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../util
 import moment from "moment";
 import {LineChartPopup} from "../LineChartPopup";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
+import Fade from "react-reveal/Fade";
 
 
 const getChoroplethStyle = (attributeKey) => {
@@ -169,50 +170,52 @@ class Historie extends React.PureComponent {
 		const selectedArea = this.getSelectedAreaData();
 
 		return (
-			<div className="tacrAgritas-map-set-container">
-				<HoverHandler
-					popupContentComponent={
-						<MapPopup
-							valueColumnName={valueColumnName}
-							unit={unit}
-						/>
-					}>
-					<MapSetPresentation
-						activeMapKey={key}
-						mapComponent={WorldWindMap}
-						view={this.state.mapView}
-						onViewChange={this.onMapViewChange}
-						sync={{
-							boxRange: true,
-							center: true,
-							tilt: true,
-							heading: true,
-							roll: true
-						}}
-						backgroundLayer={MapResources.cartoDbVoyagerLight}
-					>
-						<PresentationMap
-							mapKey={key+'-map-1'}
-							layers={layers}
-							onLayerClick={this.onMapClick}
-						/>
-						<MapControlsPresentation zoomOnly/>
-						<MapInfo
-							cropName={selectedArea && selectedArea.properties[cropColumnName]}
-							selectedAreaName={selectedArea && selectedArea.properties[nameColumnName]}
-							selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
-						/>
-						<Select
-							className="tacrAgritas-map-label"
-							value={this.state.selectedMapPeriod}
-							optionLabel="label"
-							optionValue="key"
-							options={mapPeriodOptionsHistorie}
-							onChange={this.onMapPeriodChange}
-						/>
-					</MapSetPresentation>
-				</HoverHandler>
-			</div>
+			<Fade left distance="50px">
+				<div className="tacrAgritas-map-set-container">
+					<HoverHandler
+						popupContentComponent={
+							<MapPopup
+								valueColumnName={valueColumnName}
+								unit={unit}
+							/>
+						}>
+						<MapSetPresentation
+							activeMapKey={key}
+							mapComponent={WorldWindMap}
+							view={this.state.mapView}
+							onViewChange={this.onMapViewChange}
+							sync={{
+								boxRange: true,
+								center: true,
+								tilt: true,
+								heading: true,
+								roll: true
+							}}
+							backgroundLayer={MapResources.cartoDbVoyagerLight}
+						>
+							<PresentationMap
+								mapKey={key+'-map-1'}
+								layers={layers}
+								onLayerClick={this.onMapClick}
+							/>
+							<MapControlsPresentation zoomOnly/>
+							<MapInfo
+								cropName={selectedArea && selectedArea.properties[cropColumnName]}
+								selectedAreaName={selectedArea && selectedArea.properties[nameColumnName]}
+								selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
+							/>
+							<Select
+								className="tacrAgritas-map-label"
+								value={this.state.selectedMapPeriod}
+								optionLabel="label"
+								optionValue="key"
+								options={mapPeriodOptionsHistorie}
+								onChange={this.onMapPeriodChange}
+							/>
+						</MapSetPresentation>
+					</HoverHandler>
+				</div>
+			</Fade>
 		);
 	}
 

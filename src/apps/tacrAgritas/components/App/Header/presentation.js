@@ -6,6 +6,7 @@ import _ from 'lodash';
 import './style.scss';
 import Select from "../../../../../components/common/atoms/Select/Select";
 import Icon from "../../../../../components/common/atoms/Icon";
+import Fade from "react-reveal/Fade";
 
 const BUFFER = 100;
 
@@ -72,10 +73,12 @@ class Header extends React.PureComponent {
 		return (
 			<>
 				<div className="tacrAgritas-header" ref={this.ref}>
-					<div className="tacrAgritas-header-content">
-						{props.place ? this.renderTitle() : null}
-						{props.cases && props.scopes && props.periods ? this.renderSelections() : null}
-					</div>
+					<Fade cascade left distance="50px" duration={500}>
+						<div className="tacrAgritas-header-content">
+							{props.place ? this.renderTitle() : null}
+							{props.cases && props.scopes && props.periods ? this.renderSelections() : null}
+						</div>
+					</Fade>
 				</div>
 				<div className={classes}>
 					<div className="tacrAgritas-fixed-header-content">

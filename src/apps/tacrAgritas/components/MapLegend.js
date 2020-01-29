@@ -14,8 +14,8 @@ export const MapLegend = props => {
 			</div>
 			{classes ? (
 				<div className="tacrAgritas-map-legend-content">
-					{classes.map(legendClass =>
-						<div className="tacrAgritas-map-legend-item">
+					{classes.map((legendClass, index) =>
+						<div className="tacrAgritas-map-legend-item" key={index}>
 							<div className="tacrAgritas-map-legend-symbol" style={{background: legendClass.fill}}></div>
 							<div className="tacrAgritas-map-legend-text">
 								{`${legendClass.interval[0]} - ${legendClass.interval[1]}`}
