@@ -12,7 +12,12 @@ class SzifCaseTableRow extends React.PureComponent {
 		data: PropTypes.object,
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
-		switchScreen: PropTypes.func
+		switchScreen: PropTypes.func,
+		caseSubmit: PropTypes.object,
+		caseChange: PropTypes.object,
+		caseEnd: PropTypes.object,
+		caseStatus: PropTypes.string,
+		caseChanges: PropTypes.array,
 	};
 
 	constructor(props) {
@@ -38,20 +43,22 @@ class SzifCaseTableRow extends React.PureComponent {
 	}
 
 	render() {
-		const props = this.props;
+		const {caseSubmit,caseChange,caseChanges,caseEnd,data,caseStatus} = this.props;
 		const classes = classnames("szifLpisZmenovaRizeni-table-row", {
 			open: this.state.expanded
 		});
-		const submitDate = moment(props.data.submitDate).format("DD. MM. YYYY");
+		const submitDate = caseSubmit ? moment(caseSubmit.changed).format("DD. MM. YYYY") : '-';
+		const changeDate = caseChange ? moment(caseChange.changed).format("DD. MM. YYYY") : '-';
+		const endDate = caseEnd ? moment(caseEnd.changed).format("DD. MM. YYYY") : '-';
 
 		return (
-			<div className={classes} key={props.data.caseKey}>
+			<div className={classes} key={data.caseKey}>
 				<div className="szifLpisZmenovaRizeni-table-row-record">
-					<div className="szifLpisZmenovaRizeni-table-row-item">Status</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{caseStatus}</div>
 					{this.renderCaseKey()}
 					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
-					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
-					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{changeDate}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{endDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item buttons">{this.renderButtons()}</div>
 				</div>
 				{this.renderDetails()}
