@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classnames from 'classnames';
-
+import {evaluationConclusions} from "../../../../../constants/LpisCaseStatuses";
 import User from "../../../../../components/common/atoms/User";
 
 import './style.scss';
@@ -31,7 +31,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 	render() {
 		const {caseChange, caseSubmit} = this.props;
 		const props = this.props;
-
+		const evaluationResultValue = props.evaluationResult ? evaluationConclusions.find(c => c.value === props.evaluationResult.toUpperCase()).label : null;
 		return (
 			<div>
 				<div className="szifLpisZmenovaRizeni-table-detail-top-bar">
@@ -49,7 +49,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 					</div>
 					<div>
 						<h4>Výsledek vyhodnocení družicových dat</h4>
-						{props.evaluationResult ? this.renderItem("Závěr vyhodnocení", props.evaluationResult) : null}
+						{props.evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
 						{props.evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", props.evaluationDescription) : null}
 						{props.evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", props.evaluationUsedSources, "sources") : null}
 					</div>
