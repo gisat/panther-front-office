@@ -108,8 +108,12 @@ export default [
 	 */
 	{
 		key: 'szifLpisZmenovaRizeni',
-		hostname: 'nope.gisat.cz',
-		path: null,
+		urls: [
+			{
+				hostname: 'lpisup.gisat.cz',
+				path: null
+			}
+		],
 		devPath: '/szifLpisZmenovaRizeni',
 		app: (path, baseUrl) => import(/* webpackChunkName: "szifLpisZmenovaRizeni" */'./apps/szifLpisZmenovaRizeni').then(module => {
 			module.default(path, baseUrl);
