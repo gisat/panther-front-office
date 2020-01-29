@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import classnames from 'classnames';
 
+import User from "../../../../../components/common/atoms/User";
+
 import './style.scss';
 
 class SzifCaseTableRowDetail extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.string,
+		caseSubmit: PropTypes.object,
+		caseChange: PropTypes.object,
 		codeDpb: PropTypes.string,
 		codeJi: PropTypes.string,
 		changeDescription: PropTypes.string,
@@ -17,7 +21,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		evaluationResult: PropTypes.string,
 		evaluationDescription: PropTypes.string,
 		evaluationDescriptionOther: PropTypes.string,
-		evaluationUsedSources: PropTypes.string
+		evaluationUsedSources: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -25,6 +29,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 	}
 
 	render() {
+		const {caseChange, caseSubmit} = this.props;
 		const props = this.props;
 
 		return (
@@ -32,8 +37,8 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 				<div className="szifLpisZmenovaRizeni-table-detail-top-bar">
 					{props.codeDpb ? this.renderItem("Kód DPB", props.codeDpb) : null}
 					{props.codeJi ? this.renderItem("Kód JI", props.codeJi) : null}
-					{this.renderItem("Zadal", "Mirek ze SZIFu")}
-					{this.renderItem("Poslední změna", "Lucka z Gisatu")}
+					{caseSubmit ? this.renderItem("Zadal", <User userKey={caseSubmit.userId}/>) : null}
+					{caseChange ? this.renderItem("Poslední změna", <User userKey={caseChange.userId}/>) : null}
 				</div>
 				<div className="szifLpisZmenovaRizeni-table-detail-descriptions">
 					<div>
