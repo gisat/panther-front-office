@@ -282,7 +282,20 @@
 	align-items: center;
 }
 
-// footer
+/* images */
+.tacrAgritas-image {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin: m(1) 0;
+}
+
+.tacrAgritas-image img {
+	margin-bottom: m(2/3);
+	box-shadow: 0 0 7px 0 rgba(0,0,0,.3);
+}
+
+/* footer */
 
 .tacrAgritas-footer {
 	background: var(--base20);
