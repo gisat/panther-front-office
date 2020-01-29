@@ -25,27 +25,52 @@ const getChlorophyllChoroplethStyle = (attributeKey) => {
 				{
 					"interval": [0,15],
 					"intervalBounds": [false, false],
-					"fill": "#ffdab1"
+					"fill": "#ba1414"
 				},
 				{
-					"interval": [15,30],
+					"interval": [15,20],
 					"intervalBounds": [true, false],
-					"fill": "#ffb561"
+					"fill": "#d14e30"
 				},
 				{
-					"interval": [30,45],
+					"interval": [20,25],
 					"intervalBounds": [true, false],
-					"fill": "#d48422"
+					"fill": "#e37d52"
 				},
 				{
-					"interval": [45,60],
+					"interval": [25,30],
 					"intervalBounds": [true, false],
-					"fill": "#89571c"
+					"fill": "#f2ae79"
 				},
 				{
-					"interval": [60,100],
+					"interval": [30,35],
 					"intervalBounds": [true, false],
-					"fill": "#513515"
+					"fill": "#fce4a7"
+				},
+				{
+					"interval": [35,40],
+					"intervalBounds": [true, false],
+					"fill": "#e9f5ae"
+				},
+				{
+					"interval": [40,45],
+					"intervalBounds": [true, false],
+					"fill": "#b9db86"
+				},
+				{
+					"interval": [45,50],
+					"intervalBounds": [true, false],
+					"fill": "#8cc263"
+				},
+				{
+					"interval": [50,55],
+					"intervalBounds": [true, false],
+					"fill": "#61ab41"
+				},
+				{
+					"interval": [60,70],
+					"intervalBounds": [true, false],
+					"fill": "#369121"
 				}
 			]
 		}
@@ -58,29 +83,54 @@ const getWaterChoroplethStyle = (attributeKey) => {
 			attributeKey,
 			"attributeClasses":[
 				{
-					"interval": [0,0.015],
+					"interval": [0,0.010],
 					"intervalBounds": [false, false],
-					"fill": "#ffdab1"
+					"fill": "#d62f27"
 				},
 				{
-					"interval": [0.015,0.030],
+					"interval": [0.010,0.015],
 					"intervalBounds": [true, false],
-					"fill": "#ffb561"
+					"fill": "#e66043"
 				},
 				{
-					"interval": [0.030,0.045],
+					"interval": [0.015,0.020],
 					"intervalBounds": [true, false],
-					"fill": "#d48422"
+					"fill": "#f28d61"
 				},
 				{
-					"interval": [0.045,0.060],
+					"interval": [0.020,0.025],
 					"intervalBounds": [true, false],
-					"fill": "#89571c"
+					"fill": "#fab984"
 				},
 				{
-					"interval": [0.060,0.1],
+					"interval": [0.025,0.030],
 					"intervalBounds": [true, false],
-					"fill": "#513515"
+					"fill": "#ffe9ad"
+				},
+				{
+					"interval": [0.030,0.035],
+					"intervalBounds": [true, false],
+					"fill": "#e9edbe"
+				},
+				{
+					"interval": [0.035,0.040],
+					"intervalBounds": [true, false],
+					"fill": "#c0ccbe"
+				},
+				{
+					"interval": [0.040,0.045],
+					"intervalBounds": [true, false],
+					"fill": "#99aebd"
+				},
+				{
+					"interval": [0.045,0.050],
+					"intervalBounds": [true, false],
+					"fill": "#6e8fb8"
+				},
+				{
+					"interval": [0.050,0.060],
+					"intervalBounds": [true, false],
+					"fill": "#4575b5"
 				}
 			]
 		}
@@ -93,29 +143,54 @@ const getLeafsChoroplethStyle = (attributeKey) => {
 			attributeKey,
 			"attributeClasses":[
 				{
-					"interval": [0,2],
+					"interval": [0,1],
 					"intervalBounds": [false, false],
-					"fill": "#ffdab1"
+					"fill": "#61150d"
 				},
 				{
-					"interval": [2,4],
+					"interval": [1,1.5],
 					"intervalBounds": [true, false],
-					"fill": "#ffb561"
+					"fill": "#7a391b"
 				},
 				{
-					"interval": [4,6],
+					"interval": [1.5,2],
 					"intervalBounds": [true, false],
-					"fill": "#d48422"
+					"fill": "#915d2c"
 				},
 				{
-					"interval": [6,8],
+					"interval": [2,2.5],
 					"intervalBounds": [true, false],
-					"fill": "#89571c"
+					"fill": "#a88640"
 				},
 				{
-					"interval": [8,15],
+					"interval": [2.5,3],
 					"intervalBounds": [true, false],
-					"fill": "#513515"
+					"fill": "#c2b659"
+				},
+				{
+					"interval": [3,3.5],
+					"intervalBounds": [true, false],
+					"fill": "#b5bd5b"
+				},
+				{
+					"interval": [3.5,4],
+					"intervalBounds": [true, false],
+					"fill": "#849c44"
+				},
+				{
+					"interval": [4,4.5],
+					"intervalBounds": [true, false],
+					"fill": "#5b7d31"
+				},
+				{
+					"interval": [4.5,5],
+					"intervalBounds": [true, false],
+					"fill": "#356120"
+				},
+				{
+					"interval": [5,15],
+					"intervalBounds": [true, false],
+					"fill": "#104510"
 				}
 			]
 		}
