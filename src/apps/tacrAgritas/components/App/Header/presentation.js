@@ -73,7 +73,7 @@ class Header extends React.PureComponent {
 		return (
 			<>
 				<div className="tacrAgritas-header" ref={this.ref}>
-					<Fade cascade left distance="50px" duration={500}>
+					<Fade cascade left distance="50px" duration={500} delay={200}>
 						<div className="tacrAgritas-header-content">
 							{props.place ? this.renderTitle() : null}
 							{props.cases && props.scopes && props.periods ? this.renderSelections() : null}
