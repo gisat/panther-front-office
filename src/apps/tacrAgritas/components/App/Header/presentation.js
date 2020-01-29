@@ -93,7 +93,7 @@ class Header extends React.PureComponent {
 	renderTitle() {
 		return (
 			<h1 className="tacrAgritas-title">
-				{this.props.place.data.nameDisplay}
+				Farma {this.props.place.data.nameDisplay}
 			</h1>
 		);
 	}

@@ -78,7 +78,7 @@ export default (path, baseUrl) => {
 
 									{/* default path */}
 									<Route exact path="/" render={() => (
-										<Redirect to={"/" + pages[0]}/>
+										<Redirect to={"/" + pages[3]}/>
 									)}/>
 								</Switch>
 							</ConnectedRouter>
