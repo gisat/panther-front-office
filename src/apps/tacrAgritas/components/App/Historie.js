@@ -6,8 +6,10 @@ import MapResources, {
 	cropColumnName,
 	fidColumnName,
 	mapPeriodOptionsHistorie,
-	nameColumnName, outlinesStyle
+	nameColumnName
 } from "../../constants/MapResources";
+
+import {outlinesStyle, hoveredStyleDefinition, selectedStyleDefinition} from "../../constants/MapStyles";
 import {MapLegend} from "../MapLegend";
 import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
 import {MapPopup} from "../MapPopup";
@@ -16,7 +18,7 @@ import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presen
 import MapControlsPresentation from "../../../../components/common/maps/controls/MapControls/presentation";
 import {MapInfo} from "../MapInfo";
 import Select from "../../../../components/common/atoms/Select/Select";
-import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../utils";
+import utils from "../../utils";
 import moment from "moment";
 import {LineChartPopup} from "../LineChartPopup";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
