@@ -20,15 +20,16 @@ const borderStyle = {
 	  ]
 }
 
-const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time) => {
+const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time, layer) => {
 	return {
 			key: spatialDataSourceKey,
 			type: "wms",
 			options: {
-				"url": 'http://panther.gisat.cz/geoserver/wms',
+				url: layer.options.url,
 				params: {
-					layers: 'geonode:szif_sentinel2_2019_12_10_2017,geonode:szif_sentinel2_2019_12_10_2018,geonode:szif_sentinel2_2019_12_10_2019_without_06',
-					time: time,		
+					...layer.options.params,
+					layers: layer.options.layers,
+					time: layer.time,
 				}
 			}
 	}
@@ -50,7 +51,7 @@ const getWMSRasterSpatialDataSource = (layer) => {
 
 const getLayerConfig = (layer) => {
 	if(layer && layer.options && layer.options.type && layer.options.type === 'sentinel') {
-		return getSentinelRasterSpatialDataSource(layer.key,  'sentinel', layer.time);
+		return getSentinelRasterSpatialDataSource(layer.key,  'sentinel', layer.time, layer);
 	}
 
 	if(layer && layer.options && layer.options.type && layer.options.type === 'wms') {

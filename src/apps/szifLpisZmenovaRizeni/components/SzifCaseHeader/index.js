@@ -28,8 +28,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			//TODO - save view and case only if edited
 			const prom1 = dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
 			const prom2 = dispatch(Action.specific.lpisChangeCases.saveEdited(caseKey));
-			Promise.all([prom1, prom2]).then(function(values) {
-				debugger
+			Promise.all([prom1, prom2]).then(() => {
 				if(nextCaseKey) {
 					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
 				}

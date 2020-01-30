@@ -27,10 +27,10 @@ const getBaseLayers = (baseLayersCfg = [], activeWmsKey) => {
 	})
 }
 
-const getLayers = (dates = [], activeIndex) => {
+const getSentinelLayers = (dates = [], activeIndex, zIndex, layerTemplateKey, title) => {
 	const ownLayers = [];
 	ownLayers.push({
-		layerTemplateKey: "periods",
+		layerTemplateKey,
 		period: dates.map((date) => {
 			return {
 				start: date,
@@ -40,12 +40,14 @@ const getLayers = (dates = [], activeIndex) => {
 		color: 'rgba(0, 237, 3, 0.7)',
 		activeColor: 'rgba(255, 0, 0, 0.5)',
 		active: true,
-		title: 'Sentinel',
+		title,
 		options: {
 			activePeriodIndex: activeIndex,
-			type: 'sentinel'
+			type: 'sentinel',
+			url: 'http://panther.gisat.cz/geoserver/wms',
+			layers: 'geonode:szif_sentinel2_2019_12_10_2017,geonode:szif_sentinel2_2019_12_10_2018,geonode:szif_sentinel2_2019_12_10_2019_without_06',
 		},
-		zIndex: 10,
+		zIndex,
 	})
 	return ownLayers
 }
@@ -53,17 +55,24 @@ const getLayers = (dates = [], activeIndex) => {
 const mapStateToProps = (state, ownProps) => {
 	const dates = Select.specific.lpisChangeDates.getDatesForActiveCase(state);
 	const activeLayers = Select.components.get(state, 'szifZmenovaRizeni_ActiveLayers', ownProps.mapKey) || [];
-	const activeSentinelLayer = activeLayers.find((layer) => {
-		return layer.options.type === 'sentinel'
+	
+	const activeSentinel1Layer = activeLayers.find((layer) => {
+		return layer.layerTemplateKey === 'sentinel1' && layer.options.type === 'sentinel'
+	});
+
+
+	const activeSentinel2Layer = activeLayers.find((layer) => {
+		return layer.layerTemplateKey === 'sentinel2' && layer.options.type === 'sentinel'
 	});
 	const activeWmsLayer = activeLayers.find((layer) => {
 		return layer.options.type === 'wms'
 	});
-	const activeSentinelIndex = activeSentinelLayer ? activeSentinelLayer.options.periodIndex : null;
+	const activeSentinel1Index = activeSentinel1Layer ? activeSentinel1Layer.options.periodIndex : null;
+	const activeSentinel2Index = activeSentinel2Layer ? activeSentinel2Layer.options.periodIndex : null;
 	const activeWmsKey = activeWmsLayer ? activeWmsLayer.key : null;
 	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
 	const baseLayersCfg = defaultLayers|| [];
-	const layers = [...getLayers(dates, activeSentinelIndex), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
+	const layers = [...getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel col.'), ...getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel inv.'), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
 	return {
 		layers,
 		periodLimit: periodLimit,
