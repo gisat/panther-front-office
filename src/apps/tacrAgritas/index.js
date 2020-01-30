@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import {Redirect, Route, Switch} from 'react-router';
 import Helmet from "react-helmet";
+import Favicon from 'react-favicon';
 import createStore, {createHistory} from "../tacrAgritas/state/Store";
 
 import Action from './state/Action';
@@ -18,6 +19,7 @@ import mockConfig from './mockConfig.json';
 import utils from "./utils";
 import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
+import favicon from './assets/favicon.ico';
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
@@ -85,10 +87,11 @@ export default (path, baseUrl) => {
 			const pages = d.places.map(place => place.key);
 			ReactDOM.render(
 				<>
+					<Favicon url={favicon}/>
 					<Provider store={Store}>
 						<Helmet
-							titleTemplate="%s | AGRITAS"
-							defaultTitle="AGRITAS"
+							titleTemplate="%s | AGRITAS portál"
+							defaultTitle="AGRITAS portál"
 						/>
 						<AppContainer appKey="tacrAgritas">
 							<ConnectedRouter history={history}>
