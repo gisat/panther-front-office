@@ -10,9 +10,13 @@ const order = [['submitDate', 'descending']];
 
 const mapStateToProps = state => {
 	const casesLeft = Select.components.get(state, 'szifZmenovaRizeni_CaseCounter', 'weekCaseCountLeft');
+	const userRole = Select.specific.lpisZmenovaRizeni.getActiveUserAppRole(state);
+	const activeUserCanAddCase = Select.specific.lpisZmenovaRizeni.activeUserCanAddCase(state);
 	return {
 		cases: Select.specific.lpisChangeCases.getIndexed(state, null, null, order, 1, 1000),
 		casesLeft,
+		userRole,
+		activeUserCanAddCase,
 	}
 };
 

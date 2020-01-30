@@ -38,7 +38,8 @@ function search(searchString, cases){
 class SzifCaseTable extends React.PureComponent {
 	static propTypes = {
 		cases: PropTypes.array,
-		switchScreen: PropTypes.func
+		switchScreen: PropTypes.func,
+		activeUserCanAddCase: PropTypes.bool,
 	};
 
 	constructor(props) {
@@ -70,7 +71,7 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	render() {
-		const {casesLeft} = this.props;
+		const {casesLeft, activeUserCanAddCase} = this.props;
 		const cases = this.state.filteredCases || this.props.cases;
 
 		return (
@@ -87,8 +88,8 @@ class SzifCaseTable extends React.PureComponent {
 							>
 								<Icon icon="search"/>
 							</InputText>
-							{
-								casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreen} title={`Tento týden je možné vytvořit ještě ${casesLeft} řízení.`}>
+							{activeUserCanAddCase ?
+								(casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreen} title={`Tento týden je možné vytvořit ještě ${casesLeft} řízení.`}>
 								<div className={'ptr-button-create-case'}>
 									<Icon icon="plus" inverted/>
 									<div className={'ptr-button-caption'}>
@@ -98,7 +99,7 @@ class SzifCaseTable extends React.PureComponent {
 										</span>
 									</div>
 								</div>
-							</Button> : <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>
+							</Button> : <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>) : (casesLeft && casesLeft > 0 ? <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Tento týden je možné vytvořit ještě {casesLeft} řízení.</p> : <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>)
 							}
 						</div>
 					</div>
