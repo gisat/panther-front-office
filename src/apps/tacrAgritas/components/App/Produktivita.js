@@ -181,7 +181,55 @@ class Produktivita extends React.PureComponent {
 								<div>Délka senescenční fáze vegetační sezóny vyjádřená ve dnech (doba od vrcholu do konce vegetační sezóny) </div>
 							</div>
 
-							...TODO
+							<div className="tacrAgritas-fenology-list-item">
+								<div>LOS_TOT (E)</div>
+								<div>Celková délka vegetační sezóny vyjádřená ve dnech (doba od začátku do konce vegetační sezóny)</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>BASE_GRW (F)</div>
+								<div>Báze začátku vegetační sezóny – počáteční stav (hodnota minima před začátkem vegetační sezóny)</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>BASE_SEN (G)</div>
+								<div>Báze konce vegetační sezóny – koncový stav (hodnota minima po konci vegetační sezóny) </div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>CLIMAX_DOY (H)</div>
+								<div>Datum dosažení sezónního maxima vyjádřené v DOY</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>CLIMAX_VI (I)</div>
+								<div>Hodnota vegetačního indexu v termínu maxima</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>AMPLITUDE (J)</div>
+								<div>Sezónní amplituda hodnot vegetačního indexu</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>GRW_DOY (K)</div>
+								<div>Termín dosažení maximální rychlosti nárůstu hodnoty vegetačního indexu vyjádřený v DOY</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>GRW_RATE (L)</div>
+								<div>Maximální rychlost nárůstu hodnoty vegetačního indexu</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>SEN_DOY (M)</div>
+								<div>Termín dosažení maximální rychlosti poklesu hodnoty vegetačního indexu vyjádřený v DOY</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>SEN_RATE (N)</div>
+								<div>Maximální rychlost poklesu hodnoty vegetačního indexu</div>
+							</div>
 
 							<Fade left distance="50px">
 								<div className="tacrAgritas-image">
@@ -192,8 +240,38 @@ class Produktivita extends React.PureComponent {
 						</div>
 
 						<h2>Popis produkčních charakteristik</h2>
+						<div className="tacrAgritas-fenology-list">
 
-						...TODO
+							<div className="tacrAgritas-fenology-list-item">
+								<div>LINT_GRW (O)</div>
+								<div>Indikátor hrubé produkce v růstové fázi vegetační sezóny</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>LINT_SEN (P)</div>
+								<div>Indikátor hrubé produkce v senescenční fázi vegetační sezóny</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>LINT_TOT (Q)</div>
+								<div>Indikátor hrubé produkce za vegetační sezónu</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>SINT_GRW (R)</div>
+								<div>Indikátor čisté produkce v růstové fázi vegetační sezóny</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>SINT_SEN (S)</div>
+								<div>Indikátor čisté produkce v senescenční fázi vegetační sezóny</div>
+							</div>
+
+							<div className="tacrAgritas-fenology-list-item">
+								<div>SINT_TOT (T)</div>
+								<div>Indikátor čisté produkce za vegetační sezónu</div>
+							</div>
+						</div>
 
 						<Fade left distance="50px">
 							<div className="tacrAgritas-image">
