@@ -144,8 +144,12 @@ export default [
 	 */
 	{
 		key: 'tacrAgritas',
-		hostname: 'nope.gisat.cz',
-		path: null,
+		urls: [
+			{
+				hostname: "project.gisat.cz",
+				path: "/agritas"
+			}
+		],
 		devPath: '/tacrAgritas',
 		app: (path, baseUrl) => import(/* webpackChunkName: "tacrAgritas" */'./apps/tacrAgritas').then(module => {
 			module.default(path, baseUrl);
