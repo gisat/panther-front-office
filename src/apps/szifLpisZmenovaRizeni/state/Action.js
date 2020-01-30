@@ -393,7 +393,7 @@ function reloadLeftCases() {
 				return response.json();
 			}
 		}).then((responseContent) => {
-			dispatch(CommonAction.components.set('szifZmenovaRizeni_CaseCounter', 'weekCaseCount', responseContent.other.lpisChangeCase.weekCaseCount));
+			dispatch(CommonAction.components.set('szifZmenovaRizeni_CaseCounter', 'weekCaseCountLeft', responseContent.other.lpisChangeCase.weekCaseCountLeft));
 		});
 	}
 }
