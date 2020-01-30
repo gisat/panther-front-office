@@ -43,7 +43,7 @@
 .ptr-hbar-infographic-bar-rail {
 	width: 100%;
 	height: .5rem;
-	background: var(--base10);
+	background: var(--base15);
 	position: relative;
 }
 
@@ -57,10 +57,11 @@
 .ptr-hbar-infographic-mean {
 	height: calc(100% + 4px);
 	width: 3px;
-	background: var(--base90);
+	background: var(--accent80);
 	position: absolute;
 	left: 0;
-	top: -2px;
+	top: 0;
+	margin-top: -2px;
 }
 
 // bottom

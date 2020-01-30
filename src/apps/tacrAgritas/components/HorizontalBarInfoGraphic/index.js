@@ -61,7 +61,7 @@ class HorizontalBarInfoGraphic extends React.PureComponent {
 				<div className="ptr-hbar-infographic-bar-box">
 					<div className="ptr-hbar-infographic-bar-rail">
 						<div className="ptr-hbar-infographic-bar" style={{width: this.state.barWidth}}></div>
-						<div title={props.mean} className="ptr-hbar-infographic-mean" style={{left: this.state.meanLeft}}></div>
+						<div title={"Medián: " + props.mean} className="ptr-hbar-infographic-mean" style={{left: this.state.meanLeft}}></div>
 					</div>
 				</div>
 				<div className="ptr-hbar-infographic-bottom">
