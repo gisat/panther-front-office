@@ -3,37 +3,79 @@
 .ptr-hbar-infographic-item {
 	margin-bottom: m(1/3);
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 }
 
-.ptr-hbar-infographic-item-name {
-	min-width: 40%;
-	padding-right: 1rem;
+// top
+.ptr-hbar-infographic-top {
+	display: flex;
+	align-items: flex-end;
 }
 
-.ptr-hbar-infographic-item-title {
+.ptr-hbar-infographic-name {
+	color: var(--base65);
+	padding-right: m(1);
+	padding-bottom: .15rem;
+	display: flex;
+}
+
+.ptr-hbar-infographic-title {
 	padding-right: .25rem;
-	font-weight: bold;
-	color: var(--base80);
 }
 
-.ptr-hbar-infographic-item-unit {
+.ptr-hbar-infographic-unit {
 	color: var(--base50);
 }
 
-.ptr-hbar-infographic-item-bar-box {
-	min-width: 60%;
+.ptr-hbar-infographic-value {
+	flex: 1;
+	text-align: right;
+	font-size: $b2;
+	font-weight: bold;
+	color: var(--accent55);
 }
 
-.ptr-hbar-infographic-item-bar-rail {
+// bar
+.ptr-hbar-infographic-bar-box {
 	width: 100%;
-	height: .75rem;
+}
+
+.ptr-hbar-infographic-bar-rail {
+	width: 100%;
+	height: .5rem;
 	background: var(--base10);
 	position: relative;
 }
 
-.ptr-hbar-infographic-item-bar {
+.ptr-hbar-infographic-bar {
 	height: 100%;
-	width: 50%;
+	width: 0;
 	background: var(--accent50);
+	transition: width .7s ease-in-out;
+}
+
+.ptr-hbar-infographic-mean {
+	height: calc(100% + 4px);
+	width: 3px;
+	background: var(--base90);
+	position: absolute;
+	left: 0;
+	top: -2px;
+}
+
+// bottom
+.ptr-hbar-infographic-bottom {
+	display: flex;
+	margin-top: .15rem;
+}
+
+.ptr-hbar-infographic-min,
+.ptr-hbar-infographic-max {
+	font-size: $b1;
+	color: var(--base45);
+}
+
+.ptr-hbar-infographic-max {
+	flex-grow: 1;
+	text-align: right;
 }

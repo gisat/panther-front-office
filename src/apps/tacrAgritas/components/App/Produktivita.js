@@ -214,7 +214,7 @@ class Produktivita extends React.PureComponent {
 					return (
 						<HorizontalBarInfoGraphic
 							key={index}
-							name={item.name}
+							name={item.longName}
 							unit={item.unit}
 							min={item.min}
 							max={item.max}
@@ -261,21 +261,25 @@ class Produktivita extends React.PureComponent {
 	getDataForChart() {
 		const selectedAreaData = this.getSelectedAreaData();
 
-		return fenologyOptions.map(option => {
-			let attributeValues = this.props.data.map(item => {
-				return item.properties[option.key];
+		if (selectedAreaData) {
+			return fenologyOptions.map(option => {
+				let attributeValues = this.props.data.map(item => {
+					return item.properties[option.key];
+				});
+
+				let sortedValues = _.sortBy(attributeValues);
+
+				return {
+					...option,
+					min: sortedValues[0],
+					max: sortedValues[sortedValues.length -1],
+					mean: sortedValues[Math.floor(sortedValues.length/2)],
+					currentValue: selectedAreaData.properties[option.key]
+				}
 			});
-
-			let sortedValues = _.sortBy(attributeValues);
-
-			return {
-				...option,
-				min: sortedValues[0],
-				max: sortedValues[sortedValues.length -1],
-				mean: sortedValues[Math.floor(sortedValues.length/2)],
-				currentValue: selectedAreaData.properties[option.key]
-			}
-		});
+		} else {
+			return null;
+		}
 	}
 }
 
