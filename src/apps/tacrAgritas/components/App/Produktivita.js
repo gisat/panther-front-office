@@ -181,7 +181,7 @@ class Produktivita extends React.PureComponent {
 								<div>Délka senescenční fáze vegetační sezóny vyjádřená ve dnech (doba od vrcholu do konce vegetační sezóny) </div>
 							</div>
 
-							// TODO
+							...TODO
 
 							<Fade left distance="50px">
 								<div className="tacrAgritas-image">
@@ -193,7 +193,7 @@ class Produktivita extends React.PureComponent {
 
 						<h2>Popis produkčních charakteristik</h2>
 
-						TODO
+						...TODO
 
 						<Fade left distance="50px">
 							<div className="tacrAgritas-image">
