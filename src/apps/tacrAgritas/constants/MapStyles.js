@@ -29,7 +29,7 @@ export const selectedStyleDefinition = {
 export const outlinesStyle = utils.fillStyleTemplate(
 	{
 		"outlineWidth": 2,
-		"outlineColor": "#888888",
+		"outlineColor": "#000000",
 		"fillOpacity": 0
 	}
 );

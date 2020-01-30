@@ -122,7 +122,7 @@ class Produktivita extends React.PureComponent {
 										mapComponent={WorldWindMap}
 										view={this.state.mapView}
 										onViewChange={this.onMapViewChange}
-										backgroundLayer={MapResources.cartoDbVoyagerLight}
+										backgroundLayer={MapResources.cartoDbLight}
 									>
 										<PresentationMap
 											mapKey={'map-1'}

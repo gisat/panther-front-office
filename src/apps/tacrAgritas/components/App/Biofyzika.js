@@ -24,6 +24,7 @@ import image2 from "../../assets/img/biofyzika_figure2.png";
 import image3 from "../../assets/img/biofyzika_figure3.png";
 import image4 from "../../assets/img/biofyzika_figure4.png";
 import image5 from "../../assets/img/biofyzika_figure5.png";
+import config from "../../../../config";
 
 const getChlorophyllChoroplethStyle = (attributeKey) => {
 	return utils.fillStyleTemplate(
@@ -76,7 +77,7 @@ const getChlorophyllChoroplethStyle = (attributeKey) => {
 					"fill": "#61ab41"
 				},
 				{
-					"interval": [60,70],
+					"interval": [55,100],
 					"intervalBounds": [true, false],
 					"fill": "#369121"
 				}
@@ -289,15 +290,16 @@ class Biofyzika extends React.PureComponent {
 			dataForCharts = this.prepareDataForCharts();
 		}
 
+		// TODO dynamic raster layers
 		if (this.props.data) {
-			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle);
-			chlorophyllSecondMapLayers = this.getMapLayers(outlinesStyle);
+			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle, "AG_20180401_20180410_cab");
+			chlorophyllSecondMapLayers = this.getMapLayers(outlinesStyle, "AG_20180401_20180410_cab_zonace");
 
-			waterFirstMapLayers = this.getMapLayers(waterStyle);
-			waterSecondMapLayers = this.getMapLayers(outlinesStyle);
+			waterFirstMapLayers = this.getMapLayers(waterStyle, "AG_20180401_20180410_cw");
+			waterSecondMapLayers = this.getMapLayers(outlinesStyle, "AG_20180401_20180410_cw_zonace");
 
-			leafsFirstMapLayers = this.getMapLayers(leafsStyle);
-			leafsSecondMapLayers = this.getMapLayers(outlinesStyle);
+			leafsFirstMapLayers = this.getMapLayers(leafsStyle, "AG_20180401_20180410_lai");
+			leafsSecondMapLayers = this.getMapLayers(outlinesStyle, "AG_20180401_20180410_lai_zonace");
 		}
 
 		return (
@@ -393,7 +395,7 @@ class Biofyzika extends React.PureComponent {
 								heading: true,
 								roll: true
 							}}
-							backgroundLayer={MapResources.cartoDbVoyagerLight}
+							backgroundLayer={MapResources.cartoDbLight}
 						>
 							<PresentationMap
 								mapKey={key+'-map-1'}
@@ -614,13 +616,24 @@ class Biofyzika extends React.PureComponent {
 		);
 	}
 
-	getMapLayers(style) {
+	getMapLayers(style, wmsLayer) {
 		return [
 			{
+				key: "wms",
+				type: "wms",
+				opacity: 1,
+
+				options: {
+					url: config.tacrAgritasGeoserverWmsUrl,
+					params: {
+						layers: wmsLayer
+					}
+				}
+			}, {
 				key: "test",
 				layerKey: "test",
 				type: "vector",
-				opacity: 0.7,
+				opacity: 1,
 
 				options: {
 					features: this.props.data,

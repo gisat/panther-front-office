@@ -211,7 +211,7 @@ class Historie extends React.PureComponent {
 								heading: true,
 								roll: true
 							}}
-							backgroundLayer={MapResources.cartoDbVoyagerLight}
+							backgroundLayer={MapResources.cartoDbLight}
 						>
 							<PresentationMap
 								mapKey={key+'-map-1'}
