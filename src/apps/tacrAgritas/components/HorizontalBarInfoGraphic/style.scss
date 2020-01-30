@@ -17,6 +17,7 @@
 	padding-right: m(1);
 	padding-bottom: .15rem;
 	display: flex;
+	align-items: flex-end;
 }
 
 .ptr-hbar-infographic-title {
@@ -25,6 +26,7 @@
 
 .ptr-hbar-infographic-unit {
 	color: var(--base50);
+	font-size: $b1;
 }
 
 .ptr-hbar-infographic-value {

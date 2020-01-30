@@ -53,6 +53,7 @@ class HorizontalBarInfoGraphic extends React.PureComponent {
 				<div className="ptr-hbar-infographic-top">
 					<div className="ptr-hbar-infographic-name">
 						<div className="ptr-hbar-infographic-title">{props.name}</div>
+						<div className="ptr-hbar-infographic-unit">{props.unit}</div>
 					</div>
 					<div className="ptr-hbar-infographic-value">
 						{props.value}
@@ -65,8 +66,8 @@ class HorizontalBarInfoGraphic extends React.PureComponent {
 					</div>
 				</div>
 				<div className="ptr-hbar-infographic-bottom">
-					<div className="ptr-hbar-infographic-min">{props.min} {props.unit}</div>
-					<div className="ptr-hbar-infographic-max">{props.max} {props.unit}</div>
+					<div className="ptr-hbar-infographic-min">{props.min}</div>
+					<div className="ptr-hbar-infographic-max">{props.max}</div>
 				</div>
 			</div>
 		);
