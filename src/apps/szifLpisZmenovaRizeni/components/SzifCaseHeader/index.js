@@ -36,28 +36,32 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			  });
 		},
 		saveAndApproveEvaluation: (nextCaseKey) => {
-			dispatch(Action.specific.szifLpisZmenovaRizeni.saveAndApproveEvaluation());
-			if(nextCaseKey) {
-				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
-			}
+			dispatch(Action.specific.szifLpisZmenovaRizeni.saveAndApproveEvaluation()).then(() => {
+				if(nextCaseKey) {
+					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+				}
+			})
 		},
 		approveEvaluation: (nextCaseKey) => {
-			dispatch(Action.specific.szifLpisZmenovaRizeni.approveEvaluation())
-			if(nextCaseKey) {
-				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
-			}
+			dispatch(Action.specific.szifLpisZmenovaRizeni.approveEvaluation()).then(() => {
+				if(nextCaseKey) {
+					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+				}
+			})
 		},
 		rejectEvaluation: (nextCaseKey) => {
-			dispatch(Action.specific.szifLpisZmenovaRizeni.rejectEvaluation())
-			if(nextCaseKey) {
-				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
-			}
+			dispatch(Action.specific.szifLpisZmenovaRizeni.rejectEvaluation()).then(() => {
+				if(nextCaseKey) {
+					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+				}
+			})
 		},
 		closeEvaluation: (nextCaseKey) => {
-			dispatch(Action.specific.szifLpisZmenovaRizeni.closeEvaluation())
-			if(nextCaseKey) {
-				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
-			}
+			dispatch(Action.specific.szifLpisZmenovaRizeni.closeEvaluation()).then(() => {
+				if(nextCaseKey) {
+					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
+				}
+			})
 		},
 	};
 };
