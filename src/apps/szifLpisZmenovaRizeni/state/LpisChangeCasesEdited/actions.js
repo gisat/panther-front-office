@@ -24,7 +24,7 @@ function createLpisCase() {
 
 		const data = {
 			key: activeNewEditedCase.key,
-			data: activeNewEditedCase.data,
+			data: {...activeNewEditedCase.data},
 			attachments: []
 		};
 

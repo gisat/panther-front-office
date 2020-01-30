@@ -231,6 +231,7 @@ class SzifCaseForm extends React.PureComponent {
 								inputId="geometryBefore"
 								onChange={this.onFileInputChanged}
 								name="geometryBefore"
+								key={geometryBeforeName}
 							>
 									<Button
 										icon="upload"
@@ -247,6 +248,7 @@ class SzifCaseForm extends React.PureComponent {
 								inputId="geometryAfter"
 								onChange={this.onFileInputChanged}
 								name="geometryAfter"
+								key={geometryAfterName}
 							>
 									<Button
 										icon="upload"
@@ -268,6 +270,8 @@ class SzifCaseForm extends React.PureComponent {
 								inputId="attachment"
 								onChange={this.onFileInputChanged}
 								name="attachment"
+								key={attachmentsNamesElms}
+								
 							>
 									<Button
 										icon="upload"
