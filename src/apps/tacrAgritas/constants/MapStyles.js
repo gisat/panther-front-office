@@ -198,6 +198,64 @@ export const style_LOS_GRW = utils.fillStyleTemplate(
 	}
 );
 
+export const style_LOS_TOT = utils.fillStyleTemplate(
+	{
+		attributeKey: "LOS_TOT",
+		attributeClasses:[
+			{
+				"interval": [0,60],
+				"intervalBounds": [false, true],
+				"fill": "#709959"
+			},
+			{
+				"interval": [61,75],
+				"intervalBounds": [true, true],
+				"fill": "#a9bf78"
+			},
+			{
+				"interval": [76,90],
+				"intervalBounds": [true, true],
+				"fill": "#e7e89b"
+			},
+			{
+				"interval": [91,105],
+				"intervalBounds": [true, true],
+				"fill": "#f2e599"
+			},
+			{
+				"interval": [106,120],
+				"intervalBounds": [true, true],
+				"fill": "#f2d58d"
+			},
+			{
+				"interval": [121,135],
+				"intervalBounds": [true, true],
+				"fill": "#e6bb83"
+			},
+			{
+				"interval": [136,150],
+				"intervalBounds": [true, true],
+				"fill": "#d19f82"
+			},
+			{
+				"interval": [151,165],
+				"intervalBounds": [true, true],
+				"fill": "#c99389"
+			},
+			{
+				"interval": [166,180],
+				"intervalBounds": [true, true],
+				"fill": "#e6bec9"
+			},
+			{
+				"interval": [180,365],
+				"intervalBounds": [true, true],
+				"fill": "#fff2ff"
+			}
+		]
+	}
+);
+
 export const style_LOS_SEN = utils.fillStyleTemplate(
 	{
 		attributeKey: "LOS_SEN",
@@ -241,6 +299,54 @@ export const style_LOS_SEN = utils.fillStyleTemplate(
 				"interval": [101,365],
 				"intervalBounds": [true, true],
 				"fill": "#fff2ff"
+			}
+		]
+	}
+);
+
+export const style_BASE_GRW = utils.fillStyleTemplate(
+	{
+		attributeKey: "BASE_GRW",
+		attributeClasses:[
+			{
+				"interval": [0,2000],
+				"intervalBounds": [false, true],
+				"fill": "#61150d"
+			},
+			{
+				"interval": [2000,2500],
+				"intervalBounds": [false, true],
+				"fill": "#80421f"
+			},
+			{
+				"interval": [2500,3000],
+				"intervalBounds": [false, true],
+				"fill": "#9e7337"
+			},
+			{
+				"interval": [3000,3500],
+				"intervalBounds": [false, true],
+				"fill": "#bdad55"
+			},
+			{
+				"interval": [3500,4000],
+				"intervalBounds": [false, true],
+				"fill": "#aeb858"
+			},
+			{
+				"interval": [4000,4500],
+				"intervalBounds": [false, true],
+				"fill": "#708c3b"
+			},
+			{
+				"interval": [4500,5000],
+				"intervalBounds": [false, true],
+				"fill": "#3f6925"
+			},
+			{
+				"interval": [5000,10000],
+				"intervalBounds": [false, true],
+				"fill": "#104510"
 			}
 		]
 	}

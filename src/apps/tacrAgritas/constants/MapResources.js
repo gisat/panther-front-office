@@ -1,5 +1,5 @@
 import utils from "../utils";
-import {style_EOS, style_LOS_GRW, style_LOS_SEN, style_SOS} from "./MapStyles";
+import {style_BASE_GRW, style_EOS, style_LOS_GRW, style_LOS_SEN, style_LOS_TOT, style_SOS} from "./MapStyles";
 
 const cartoDbLight = {
 	key: 'cartoDbBasemap',
@@ -185,13 +185,13 @@ export const fenologyOptions = [
 		name: "Celková délka vegetační sezóny",
 		longName: "Celková délka vegetační sezóny (LOS_TOT)",
 		unit: "dny",
-		style: null
+		style: style_LOS_TOT
 	}, {
 		key: "BASE_GRW",
 		name: "Počáteční úroveň (baseline) růstové fáze ",
 		longName: "Počáteční úroveň (baseline) růstové fáze (BASE_GRW)",
 		unit: "NDVI",
-		style: null
+		style: style_BASE_GRW
 	}, {
 		key: "BASE_SEN",
 		name: "Koncová úroveň (baseline) senescenční fáze",
