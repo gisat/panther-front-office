@@ -180,12 +180,101 @@ export const fenologyOptions = [
 		longName: "Délka senescenční fáze (LOS_SEN)",
 		unit: "dny",
 		style: style_LOS_SEN
+	}, {
+		key: "LOS_TOT",
+		name: "Celková délka vegetační sezóny",
+		longName: "Celková délka vegetační sezóny (LOS_TOT)",
+		unit: "dny",
+		style: null
+	}, {
+		key: "BASE_GRW",
+		name: "Počáteční úroveň (baseline) růstové fáze ",
+		longName: "Počáteční úroveň (baseline) růstové fáze (BASE_GRW)",
+		unit: "NDVI",
+		style: null
+	}, {
+		key: "BASE_SEN",
+		name: "Koncová úroveň (baseline) senescenční fáze",
+		longName: "Koncová úroveň (baseline) senescenční fáze (BASE_SEN)",
+		unit: "NDVI",
+		style: null
+	}, {
+		key: "CLIMAX_DOY",
+		name: "Datum maxima vegetační sezóny",
+		longName: "Datum maxima vegetační sezóny (CLIM_DOY)",
+		unit: "DOY",
+		style: null
+	}, {
+		key: "CLIMAX_VI",
+		name: "Maximální dosažená hodnota NDVI",
+		longName: "Maximální dosažená hodnota NDVI (CLIMAX_VI)",
+		unit: "MDVI",
+		style: null
+	}, {
+		key: "AMPLITUDE",
+		name: "Sezónní amplituda NDVI",
+		longName: "Sezónní amplituda NDVI (AMPLITUDE)",
+		unit: "NDVI",
+		style: null
+	}, {
+		key: "GRW_DOY",
+		name: "Datum maximální rychlosti nárůstu NDVI v růstové fázi",
+		longName: "Datum maximální rychlosti nárůstu NDVI v růstové fázi (GRW_DOY)",
+		unit: "DOY",
+		style: null
+	}, {
+		key: "GRW_RATE",
+		name: "Hodnota maximální rychlosti nárůstu NDVI v růstové fázi",
+		longName: "Hodnota maximální rychlosti nárůstu NDVI v růstové fázi (GRW_RATE)",
+		unit: "",
+		style: null
+	}, {
+		key: "SEN_DOY",
+		name: "Datum maximální rychlosti poklesu NDVI v senescenční fázi",
+		longName: "Datum maximální rychlosti poklesu NDVI v senescenční fázi (SEN_DOY)",
+		unit: "DOY",
+		style: null
+	}, {
+		key: "SEN_RATE",
+		name: "Hodnota maximální rychlosti pokledu NDVI v senescenční fázi",
+		longName: "Hodnota maximální rychlosti pokledu NDVI v senescenční fázi (SEN_RATE)",
+		unit: "",
+		style: null
+	}, {
+		key: "LINT_GRW",
+		name: "Gross productivity růstové fáze",
+		longName: "Gross productivity růstové fáze (LINT_GRW)",
+		unit: "",
+		style: null
+	}, {
+		key: "LINT_SEN",
+		name: "Gross productivity senescenční fáze",
+		longName: "Gross productivity senescenční fáze (LINT_SEN)",
+		unit: "",
+		style: null
+	}, {
+		key: "LINT_TOT",
+		name: "Gross productivity - celková",
+		longName: "Gross productivity - celková (LINT_TOT)",
+		unit: "",
+		style: null
+	}, {
+		key: "SINT_GRW",
+		name: "Net productivity růstové fáze",
+		longName: "Net productivity růstové fáze (SINT_GRW)",
+		unit: "",
+		style: null
+	}, {
+		key: "SINT_SEN",
+		name: "Net productivity senescenční fáze",
+		longName: "Net productivity senescenční fáze (SINT_SEN)",
+		unit: "",
+		style: null
+	}, {
+		key: "SINT_TOT",
+		name: "Net productivity - celková",
+		longName: "Net productivity - celková (SINT_TOT)",
+		unit: "",
+		style: null
 	}
-
-	// {
-	// 	key: "",
-	// 	name: "",
-	// 	unit: "",
-	// 	style: ""
-	// }
 ];

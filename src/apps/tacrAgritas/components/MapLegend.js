@@ -10,7 +10,7 @@ export const MapLegend = props => {
 		<div className="tacrAgritas-map-legend">
 			<div className="tacrAgritas-map-legend-title">
 				<span className="tacrAgritas-map-legend-attribute">{props.name}</span>
-				<span>({props.unit}):</span>
+				{props.unit && props.unit.length ? (<span>({props.unit}):</span>) : null}
 			</div>
 			{classes ? (
 				<div className="tacrAgritas-map-legend-content">

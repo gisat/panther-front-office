@@ -52,8 +52,7 @@ class HorizontalBarInfoGraphic extends React.PureComponent {
 			<div className="ptr-hbar-infographic-item">
 				<div className="ptr-hbar-infographic-top">
 					<div className="ptr-hbar-infographic-name">
-						<div className="ptr-hbar-infographic-title">{props.name}</div>
-						<div className="ptr-hbar-infographic-unit">{props.unit}</div>
+						<div className="ptr-hbar-infographic-title">{props.name} <i>{props.unit}</i></div>
 					</div>
 					<div className="ptr-hbar-infographic-value">
 						{props.value}

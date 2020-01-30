@@ -320,7 +320,7 @@ class Produktivita extends React.PureComponent {
 
 				options: {
 					features: this.props.data,
-					style: style.data.definition,
+					style: style && style.data.definition,
 					hovered: {
 						style: hoveredStyleDefinition
 					},
