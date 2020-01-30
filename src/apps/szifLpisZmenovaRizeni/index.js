@@ -87,6 +87,8 @@ export default (path, baseUrl) => {
 				}
 		}
 	]));
+
+	Store.dispatch(Action.app.setKey('szifLpisZmenovaRizeni'));
 	Store.dispatch(Action.specific.szifLpisZmenovaRizeni.reloadLeftCases());
 	Store.dispatch(Action.app.loadConfiguration());
 
