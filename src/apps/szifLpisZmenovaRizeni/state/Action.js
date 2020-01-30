@@ -252,7 +252,9 @@ const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
 				time: layer.start.format("YYYY-MM-DD"), 
 				options: layer.options,
 			}
-			updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), sentinelLayer];
+			// clear previous wms layers
+			// updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), sentinelLayer];
+			updatedLayers = [sentinelLayer];
 		} else {
 			const baseLayer = {
 				key: layer.key,
@@ -260,7 +262,9 @@ const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
 				time: layer.start.format("YYYY-MM-DD"), 
 				options: layer.options,
 			}
-			updatedLayers = [...activeLayers.filter(l => l.options.type !== 'wms'), baseLayer];
+			// clear previous wms layers
+			// updatedLayers = [...activeLayers.filter(l => l.options.type !== 'wms'), baseLayer];
+			updatedLayers = [baseLayer];
 		}
 	}
 
