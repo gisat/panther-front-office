@@ -9,7 +9,7 @@ import Button from "../../../../components/common/atoms/Button";
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
-		userGroup: PropTypes.string,
+		userGroups: PropTypes.array,
 		saveEvaluation: PropTypes.func,
 		saveAndApproveEvaluation: PropTypes.func,
 		approveEvaluation: PropTypes.func,
@@ -35,15 +35,13 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	}
 
 	renderButtons(changeReviewCase) {
-		if(this.props.userGroup && changeReviewCase) {
-			switch (this.props.userGroup) {
-				case `gisatAdmins`:
-					return this.renderButtonsForGisatAdmins(changeReviewCase);
-				case `gisatUsers`:
-					return this.renderButtonsForGisatUsers(changeReviewCase);
-				case `szifAdmins`:
-				case `szifUsers`:
-					return this.renderButtonsForSzifs(changeReviewCase);
+		if(this.props.userGroups && changeReviewCase) {
+			if(this.props.userGroups.includes('gisatAdmins')) {
+				return this.renderButtonsForGisatAdmins(changeReviewCase);
+			} else if(this.props.userGroups.includes('gisatUsers')) {
+				return this.renderButtonsForGisatUsers(changeReviewCase);
+			} else if(this.props.userGroups.includes('szifAdmins') || this.props.userGroups.includes('szifUsers')) {
+				return this.renderButtonsForSzifs(changeReviewCase);
 			}
 		} else {
 			return null;
@@ -141,7 +139,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		if (changeReviewCase) {			
 			let status = LpisCaseStatuses[changeReviewCase.data.status.toUpperCase()];
 			let caption, colour;
-			if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
+			if (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins')) {
 				caption = status.gisatName;
 				colour = status.gisatColour || status.colour;
 			} else {

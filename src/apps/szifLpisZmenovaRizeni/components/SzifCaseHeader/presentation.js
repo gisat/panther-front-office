@@ -14,7 +14,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		case: PropTypes.object,
 		userApprovedEvaluation: PropTypes.object,
 		userCreatedCase: PropTypes.object,
-		userGroup: PropTypes.string,
+		userGroups: PropTypes.array,
 		editActiveCase: PropTypes.func,
 		activeCaseEdited: PropTypes.object,
 		saveEvaluation: PropTypes.func,
@@ -42,7 +42,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<Review
 						case={this.props.case}
 						userApprovedEvaluation={this.props.userApprovedEvaluation}
-						userGroup={this.props.userGroup}
+						userGroups={this.props.userGroups}
 						editActiveCase={this.props.editActiveCase}
 						caseEdited={this.props.activeCaseEdited}
 					/>
@@ -50,7 +50,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div id="dromasLpisChangeReviewHeader-actions">
 					<UserActions
 						case={this.props.case}
-						userGroup={this.props.userGroup}
+						userGroups={this.props.userGroups}
 						saveEvaluation={this.props.saveEvaluation}
 						saveAndApproveEvaluation={this.props.saveAndApproveEvaluation}
 						approveEvaluation={this.props.approveEvaluation}

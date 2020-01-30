@@ -3,16 +3,16 @@ import {createSelector} from 'reselect';
 import UsersSelectors from '../../../../state/Users/selectors';
 import AppSelectors from '../../../../state/App/selectors';
 
-const getPermissionGroupByUserId = createSelector([
+const getGroupByGroupId = createSelector([
 		AppSelectors.getCompleteConfiguration,
-		(state, userId) => userId,
+		(state, groupId) => groupId,
 	],
-	(configuration, userId) => {
-		if(!configuration || (!userId && userId !== 0)) {
+	(configuration, groupId) => {
+		if(!configuration || (!groupId && groupId !== 0)) {
 			return undefined;
 		}
 		for(const [group, id] of Object.entries(configuration.permissionGroups)) {
-			if(userId === id) {
+			if(groupId === id) {
 				return group;
 			}
 		}
@@ -21,19 +21,19 @@ const getPermissionGroupByUserId = createSelector([
 		return undefined;
 });
 
-const getActiveUserAppRole = (state) => {
+const getActiveUserGroups = (state) => {
 	const user = UsersSelectors.getActiveUser(state);
-	const userLpisGroup = getPermissionGroupByUserId(state, user.key);
-	return userLpisGroup;
+	const userLpisGroups = user.groups.map(groupId => getGroupByGroupId(state, groupId)).filter(g => g);
+	return userLpisGroups;
 }
 
 const activeUserCanAddCase = (state) => {
-	const role = getActiveUserAppRole(state);
+	const groups = getActiveUserGroups(state);
 	const authorityRoles = ['szifUsers', 'szifAdmins'] // gisatUsers, gisatAdmins
-	return authorityRoles.includes(role);
+	return authorityRoles.some((role => groups.includes(role)));
 };
 
 export default {
-	getActiveUserAppRole,
+	getActiveUserGroups,
 	activeUserCanAddCase,
 };

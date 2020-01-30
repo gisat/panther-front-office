@@ -36,7 +36,6 @@ const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time, la
 }
 
 const getWMSRasterSpatialDataSource = (layer) => {
-	debugger
 	return {
 			key: layer.key,
 			type: "wms",

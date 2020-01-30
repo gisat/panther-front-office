@@ -12,7 +12,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
 		userApprovedEvaluation: PropTypes.object,
-		userGroup: PropTypes.string,
+		userGroups: PropTypes.array,
 		editActiveCase: PropTypes.func,
 		caseEdited: PropTypes.object,
 	};
@@ -36,7 +36,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 		if (
 			(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
-			&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
+			&& (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'))
 		) {
 			conclusionSelectInsert = (
 				<Select
