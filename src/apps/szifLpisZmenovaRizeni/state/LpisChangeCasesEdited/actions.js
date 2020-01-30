@@ -1,6 +1,7 @@
 import path from "path";
 import ActionTypes from '../../constants/ActionTypes';
 import LpisChangeCasesActions from '../LpisChangeCases/actions';
+import LpisCaseStatuses from '../../constants/LpisCaseStatuses';
 import Select from '../Select';
 import config from "../../../../config/index";
 
@@ -29,7 +30,7 @@ function createLpisCase() {
 		};
 
 		delete data.data.attachment;
-		data.data.status = 'created';
+		data.data.status = LpisCaseStatuses.CREATED.database;
 
 		Object.keys(activeNewEditedCase.files).forEach((fileKey) => {
 			const isGeometryBefore = activeNewEditedCase.data.geometryBefore && activeNewEditedCase.data.geometryBefore.identifiers[0] === fileKey;

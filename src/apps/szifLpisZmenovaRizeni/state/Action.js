@@ -275,10 +275,15 @@ const addMap = () => (dispatch, getState) => {
 	const state = getState();
 	const mapSetKey = Select.maps.getActiveSetKey(state);
 	const mapKeys = Select.maps.getMapSetMapKeys(state, mapSetKey);
-	mapKeys.sort();
-	const lastMapKey = mapKeys[mapKeys.length - 1];
-	const lastMapNumber = Number.parseInt(lastMapKey.match(/[\d+]/g).join(''));
-	const mapKey = `szifLpisZmenovaRizeni-map-${lastMapNumber + 1}`;
+	let mapKey;
+	if(mapKeys) {
+		mapKeys.sort();
+		const lastMapKey = mapKeys[mapKeys.length - 1];
+		const lastMapNumber = Number.parseInt(lastMapKey.match(/[\d+]/g).join(''));
+		mapKey = `szifLpisZmenovaRizeni-map-${lastMapNumber + 1}`;
+	} else {
+		mapKey = `szifLpisZmenovaRizeni-map-1`;
+	}
 	dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlaysToMapKey(mapKey));
 	dispatch(szifLpisZmenovaRizeni.setInitMapActiveLayersToMapKey(mapKey));
 	dispatch(CommonAction.maps.addMapToSet(mapSetKey, mapKey));
