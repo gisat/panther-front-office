@@ -1,7 +1,5 @@
 import React from "react";
-import moment from "moment";
-
-import {selectedStyleDefinition} from "../utils";
+import {selectedStyleDefinition} from "../constants/MapStyles";
 
 export const MapInfo = props => {
 	const selectedAreaStyle = {

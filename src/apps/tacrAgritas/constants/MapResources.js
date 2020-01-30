@@ -1,4 +1,5 @@
 import utils from "../utils";
+import {style_SOS} from "./MapStyles";
 
 const cartoDbLight = {
 	key: 'cartoDbBasemap',
@@ -154,10 +155,31 @@ export const mapPeriodOptionsHistorie = [
 	}
 ];
 
-export const outlinesStyle = utils.fillStyleTemplate(
+export const fenologyOptions = [
 	{
-		"outlineWidth": 2,
-		"outlineColor": "#888888",
-		"fillOpacity": 0
+		key: "SOS",
+		name: "Datum začátku vegetační sezóny",
+		longName: "Datum začátku vegetační sezóny (SOS)",
+		unit: "DOY",
+		style: style_SOS
+	},{
+		key: "EOS",
+		name: "Datum konce vegetační sezóny",
+		longName: "Datum konce vegetační sezóny (EOS)",
+		unit: "DOY",
+		style: style_SOS //TODO
+	},{
+		key: "LOS_GRW",
+		name: "Délka růstové fáze",
+		longName: "Délka růstové fáze (LOS_GRW)",
+		unit: "dny",
+		style: style_SOS //TODO
 	}
-);
+
+	// {
+	// 	key: "",
+	// 	name: "",
+	// 	unit: "",
+	// 	style: ""
+	// }
+];

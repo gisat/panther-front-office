@@ -52,29 +52,3 @@ export default {
 	fillStyleTemplate,
 	request
 }
-
-export const hoveredStyleDefinition = {
-	"rules":[
-		{
-			"styles": [
-				{
-					"outlineColor": "#ff66b3",
-					"outlineWidth": 4
-				}
-			]
-		}
-	]
-};
-
-export const selectedStyleDefinition = {
-	"rules":[
-		{
-			"styles": [
-				{
-					"outlineColor": "#ff00ff",
-					"outlineWidth": 4
-				}
-			]
-		}
-	]
-};

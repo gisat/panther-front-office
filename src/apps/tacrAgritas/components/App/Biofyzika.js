@@ -8,9 +8,10 @@ import HoverHandler from "../../../../components/common/HoverHandler/HoverHandle
 import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../components/common/maps/controls/MapControls/presentation";
-import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName, mapPeriodOptions, outlinesStyle} from "../../constants/MapResources";
+import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName, mapPeriodOptions} from "../../constants/MapResources";
+import {outlinesStyle, hoveredStyleDefinition, selectedStyleDefinition} from "../../constants/MapStyles";
 
-import utils, {hoveredStyleDefinition, selectedStyleDefinition} from "../../utils";
+import utils from "../../utils";
 import {LineChartPopup} from "../LineChartPopup";
 import {MapInfo} from "../MapInfo";
 import {MapLegend} from "../MapLegend";
