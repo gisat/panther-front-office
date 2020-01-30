@@ -61,6 +61,7 @@ class Header extends React.PureComponent {
 
 	onScopeChange(model) {
 		this.props.onScopeChange(model.key);
+		window.scrollTo(0,0);
 	}
 
 	render() {
