@@ -265,7 +265,8 @@ const setMapView = (state, mapKey, view = INITIAL_VIEW) => {
 };
 
 const updateMapView = (state, mapKey, updates) => {
-	const mergedView = {...state.maps[mapKey].data.view, ...updates};
+	const stateView = state.maps[mapKey] && state.maps[mapKey].data && state.maps[mapKey].data.view ? state.maps[mapKey].data.view : {};
+	const mergedView = {...stateView, ...updates};
 	return {
 		...state,
 		maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: {...state.maps[mapKey].data, view: mergedView}}}
