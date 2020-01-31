@@ -41,7 +41,7 @@ class Header extends React.PureComponent {
 
 	onWindowScroll(e) {
 		const position = e.currentTarget.scrollY;
-		const introHeight = this.ref && this.ref.current.offsetHeight;
+		const introHeight = this.ref && this.ref.current && this.ref.current.offsetHeight;
 		const shouldOpenFixedHeader = position > (introHeight - BUFFER);
 
 		if (shouldOpenFixedHeader !== this.state.fixedHeaderOpen) {

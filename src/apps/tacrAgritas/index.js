@@ -107,7 +107,7 @@ export default (path, baseUrl) => {
 									)}
 
 									{/* default path */}
-									<Route exact path="/" render={() => (
+									<Route path="/" render={() => (
 										<PageIndex places={d.places}/>
 									)}/>
 								</Switch>
