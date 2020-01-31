@@ -25,11 +25,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		switchScreen: () => {
-			dispatch(Action.specific.lpisChangeCases.setActiveKey(ownProps.metadataKey));
+			// dispatch(Action.specific.lpisChangeCases.setActiveKey(ownProps.metadataKey));
 			dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifMapView'));
 		},
 		showMap: () => {
-			dispatch(Action.specific.szifLpisZmenovaRizeni.applyView(ownProps.data.viewKey));
+			dispatch(Action.specific.szifLpisZmenovaRizeni.applyView(ownProps.data.viewKey)).then(() => {
+				dispatch(Action.specific.lpisChangeCases.setActiveKey(ownProps.metadataKey));
+			});
 		}
 	}
 };

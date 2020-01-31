@@ -34,7 +34,8 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 				CLEAR: null,
 				REGISTER: null
 			}
-		}
+		},
+		UPDATE: null,
 	},
 	LPIS_CHANGE_CASES_EDITED: {
 		CLEAR_EDITED_CASE: null,

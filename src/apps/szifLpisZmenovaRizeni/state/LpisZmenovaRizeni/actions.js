@@ -38,6 +38,9 @@ const getViewState = (state) => {
 				dates: {
 					[activeCaseKey]: Select.specific.lpisChangeDates.getDatesForActiveCase(state)
 				}
+			},
+			LpisChangeCases: {
+				activeKey: Select.lpisChangeCase.getActiveKey(state),
 			}
 		}
 	}
@@ -328,8 +331,9 @@ function redirectToNextViewFromActiveView() {
 		const nextCase = Select.specific.lpisChangeCases.getDataByKey(state, nextCaseKey);
 		if(nextCaseKey && nextCase) {
 			const viewKey = nextCase.viewKey;
-			dispatch(lpisChangeCases.setActiveKey(nextCaseKey));
-			dispatch(szifLpisZmenovaRizeni.applyView(viewKey));
+			dispatch(szifLpisZmenovaRizeni.applyView(viewKey)).then(() => {
+				dispatch(lpisChangeCases.setActiveKey(nextCaseKey));
+			});
 		}
 	}
 };

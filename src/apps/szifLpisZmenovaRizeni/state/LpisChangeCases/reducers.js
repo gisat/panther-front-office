@@ -6,6 +6,11 @@ const INITIAL_STATE = {
 	...DEFAULT_INITIAL_STATE
 };
 
+
+const update = (state, data) => {
+	return {...state, ...data};
+};
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LPIS_CHANGE_CASES.ADD:
@@ -36,9 +41,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.useKeysClear(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.USE.INDEXED.REGISTER:
 			return common.registerUseIndexed(state, action);
+		case ActionTypes.LPIS_CHANGE_CASES.UPDATE:
+			return update(state, action.data);
 		case ActionTypes.LPIS_CHANGE_CASES.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
-
 		case ActionTypes.COMMON.DATA.SET_OUTDATED:
 			return common.dataSetOutdated(state, action);
 		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:

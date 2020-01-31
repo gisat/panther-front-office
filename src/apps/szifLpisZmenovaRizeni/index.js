@@ -17,7 +17,7 @@ import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
 import SzifCaseList from "./components/SzifCaseList";
-import SzifMapView from "./components/SzifMapView";
+import SzifMapViewWrapper from "./components/SzifMapViewWrapper";
 import ScreenAnimator from "../../components/common/ScreenAnimator";
 
 
@@ -186,7 +186,7 @@ export default (path, baseUrl) => {
 						activeScreenKey='szifCaseList'
 					>
 						<SzifCaseList screenKey="szifCaseList"/>
-						<SzifMapView screenKey="szifMapView"/>
+						<SzifMapViewWrapper screenKey="szifMapView"/>
 					</ScreenAnimator>
 				</AppContainer>
 			</Provider>

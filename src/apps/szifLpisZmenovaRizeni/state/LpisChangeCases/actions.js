@@ -19,13 +19,27 @@ const clearIndex = common.clearIndex(ActionTypes.LPIS_CHANGE_CASES);
 const refreshUses = (filterByActive, filter, order, start, length, componentId) => (dispatch, getState) => {
 	const state = getState();
 	const indexed = Select.specific.lpisChangeCases.getIndexed(state, filterByActive, filter, order, start, length)
-	console.log(indexed);
 	
 	if(indexed) {
 		dispatch(clearIndex(null, order));
 	}
 	dispatch(useIndexed(null, null, order, 1, 1000, componentId));
 	dispatch(ActionSzifLpisZmenovaRizeni.reloadLeftCases());
+}
+
+const actionUpdate = (data) => {
+	return {
+		type: ActionTypes.LPIS_CHANGE_CASES.UPDATE,
+		data
+	}
+};
+
+function updateStateFromView(data) {
+	return dispatch => {
+		if (data) {
+			dispatch(actionUpdate(data));
+		}
+	};
 }
 // ============ export ===========
 
@@ -38,4 +52,5 @@ export default {
 	clearIndex,
 	saveEdited,
 	updateEdited,
+	updateStateFromView,
 }
