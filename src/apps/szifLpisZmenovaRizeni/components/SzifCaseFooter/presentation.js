@@ -14,7 +14,7 @@ class SzifCaseFooter extends React.PureComponent {
 		mapsCount: PropTypes.number,
 		mapSetKey: PropTypes.string,
 		selectedMapOrder: PropTypes.number,
-		userGroup: PropTypes.string,
+		userGroups: PropTypes.array,
 		toggleGeometries: PropTypes.func,
 	};
 
@@ -29,7 +29,7 @@ class SzifCaseFooter extends React.PureComponent {
 					showAfter={this.props.borderOverlays && this.props.borderOverlays.after}
 					showBefore={this.props.borderOverlays && this.props.borderOverlays.before}
 					case={this.props.case}
-					userGroup={this.props.userGroup}
+					userGroups={this.props.userGroups}
 					mapKey={this.props.activeMapKey}
 					addMap={this.props.addMap}
 					mapsContainer={this.props.mapsContainer}

@@ -8,6 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 	const mapSetKey = Select.maps.getActiveSetKey(state);
 	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
 	const maps = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
+	const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
 	return {
 		mapSetKey,
 		activeMapKey,
@@ -17,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 		mapsCount: maps.length,
 		case: Select.specific.lpisChangeCases.getActive(state),
 		selectedMapOrder: maps.indexOf(activeMapKey),
-		userGroup: 'gisatAdmins',
+		userGroups,
 	};
 };
 

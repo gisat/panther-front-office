@@ -84,7 +84,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 							caseEdited={this.props.caseEdited}
 							editActiveCase={this.props.editActiveCase}
 							userApprovedEvaluation={this.props.userApprovedEvaluation}
-							userGroup={this.props.userGroup}
+							userGroups={this.props.userGroups}
 						/>
 					</ExpandableContent>
 				</div>

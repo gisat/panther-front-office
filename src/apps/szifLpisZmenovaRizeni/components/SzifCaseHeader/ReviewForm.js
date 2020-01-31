@@ -8,7 +8,7 @@ class ReviewForm extends React.PureComponent {
 
 	static propTypes = {
 		userApprovedEvaluation: PropTypes.object,
-		userGroup: PropTypes.string,
+		userGroups: PropTypes.string,
 		onFocusInput: PropTypes.any,
 		onBlurInput: PropTypes.any,
 		caseEdited: PropTypes.object,
@@ -41,14 +41,14 @@ class ReviewForm extends React.PureComponent {
 
 			if (
 				(data.status && data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
-				&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
+				&& (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'))
 			) {
 				return (
 					<div>
 						<EditableText
 							value={data['evaluationDescription']}
-							disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
-							editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
+							disabled={!(this.props.userGroups && this.props.userGroups.some(g => g.toLowerCase().includes("gisat")))}
+							editing={(this.props.userGroups && this.props.userGroups.some(g => g.toLowerCase().includes("gisat")))}
 							onChange={this.onChangeDescription}
 							onFocus={this.props.onFocusInput}
 							onBlur={this.props.onBlurInput}
@@ -58,8 +58,8 @@ class ReviewForm extends React.PureComponent {
 							<span>Další komentář</span>
 							<EditableText
 								value={data[`evaluationDescriptionOther`]}
-								disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
-								editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
+								disabled={!(this.props.userGroups && this.props.userGroups.some(g => g.toLowerCase().includes("gisat")))}
+								editing={(this.props.userGroups && this.props.userGroups.some(g => g.toLowerCase().includes("gisat")))}
 								onChange={this.onChangeOther}
 								onFocus={this.props.onFocusInput}
 								onBlur={this.props.onBlurInput}

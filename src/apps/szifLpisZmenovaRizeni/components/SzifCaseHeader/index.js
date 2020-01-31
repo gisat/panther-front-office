@@ -12,8 +12,6 @@ const mapStateToProps = (state, ownProps) => {
 		// userApprovedEvaluation: Select.specific.lpisChangeReviewCases.getUserApprovedEvaluationOfActiveCase(state),
 		//FIXME
 		// userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
-		//FIXME - 
-		// userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
 		userGroups,
 		activeCaseEdited: Select.specific.lpisChangeCases.getEditedDataByKey(state, activeCase.key),
 		nextCaseKey: Select.specific.lpisChangeCases.getNextCaseKey(state, activeCase.key)
