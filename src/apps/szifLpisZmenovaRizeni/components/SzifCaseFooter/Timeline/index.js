@@ -74,7 +74,7 @@ const mapStateToProps = (state, ownProps) => {
 	const activeWmsKey = activeWmsLayer ? activeWmsLayer.key : null;
 	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
 	const baseLayersCfg = defaultLayers|| [];
-	const layers = [...getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel col.'), ...getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel inv.'), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
+	const layers = [...getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel'), ...getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel infračervený'), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
 	return {
 		layers,
 		periodLimit: periodLimit,
