@@ -75,10 +75,10 @@ class MapTools extends React.PureComponent {
 	}
 
 	renderMapAddButton() {
-		if (
-			(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
-			&& (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'))
-		) {
+		// if (
+		// 	(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
+		// 	&& (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'))
+		// ) {
 			return (
 				<Button
 					disabled={this.props.mapsCount > 11}
@@ -89,7 +89,7 @@ class MapTools extends React.PureComponent {
 				/>
 			);
 		}
-	}
+	// }
 
 }
 
