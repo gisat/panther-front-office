@@ -19,6 +19,7 @@ import utils from "./utils";
 import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
 import favicon from './assets/favicon.ico';
+import {PageIndex} from "./components/PageIndex";
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
@@ -48,30 +49,36 @@ export default (path, baseUrl) => {
 			if (d.places) {
 				// TODO move to config
 				// Store.dispatch(Action.places.add(d.places));
-				Store.dispatch(Action.places.add([
+				d.places = [
+					{
+						"key": "Agrossyn",
+						"data": {
+							"nameDisplay": "Agrossyn",
+							"description": "Klíčany (Praha - Východ)",
+							"bbox": [14.39,50.17,14.46,50.25]
+						}
+					},
 					{
 						"key": "PodebradskaBlata",
 						"data": {
-							"nameDisplay": "Poděbradská blata"
+							"nameDisplay": "Poděbradská blata",
+							"description": "Pátek (Nymburk)"
 						}
 					},{
 						"key": "Lupofyt",
 						"data": {
-							"nameDisplay": "Lupofyt"
+							"nameDisplay": "Lupofyt",
+							"description": "Chrášťany (Praha - Západ)"
 						}
 					},{
 						"key": "Stratov",
 						"data": {
-							"nameDisplay": "Stratov"
-						}
-					},{
-						"key": "Agrossyn",
-						"data": {
-							"nameDisplay": "Agrossyn",
-							"bbox": [14.39,50.17,14.46,50.25]
+							"nameDisplay": "Stratov",
+							"description": "Stratov (Nymburk)"
 						}
 					}
-				]));
+				];
+				Store.dispatch(Action.places.add(d.places));
 			}
 			if (d.activeCaseKey) {
 				Store.dispatch(Action.cases.setActiveKey(d.activeCaseKey));
@@ -101,7 +108,7 @@ export default (path, baseUrl) => {
 
 									{/* default path */}
 									<Route exact path="/" render={() => (
-										<Redirect to={"/" + pages[3]}/>
+										<PageIndex places={d.places}/>
 									)}/>
 								</Switch>
 							</ConnectedRouter>
