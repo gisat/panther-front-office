@@ -60,9 +60,8 @@ class SzifTimeline extends React.PureComponent {
 		const intersectionOverlaysElms = intersectionOverlays.map(overlay => {
 			const periodCount = overlay.period && overlay.period.length;
 			let info;
-			if(overlay.options.type === 'baselayer') {
-				// info = overlay.title;
-				info = '';
+			if(overlay.options.type === 'wms') {
+				info = overlay.info || '';
 			} else if(overlay.options.type === 'sentinel') {
 				info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
 			}

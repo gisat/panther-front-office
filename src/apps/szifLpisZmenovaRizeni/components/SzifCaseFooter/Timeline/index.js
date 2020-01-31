@@ -18,11 +18,13 @@ const getBaseLayers = (baseLayersCfg = [], activeWmsKey) => {
 			activeColor: 'rgba(255, 0, 0, 0.5)',
 			active: layerCfg.key === activeWmsKey,
 			title: layerCfg.title,
+			info: layerCfg.info,
 			options: {
 				type: 'baselayer',
+				info: layerCfg.info,
 				...layerCfg.options
 			},
-			zIndex: index + 1,
+			zIndex: layerCfg.zIndex,
 		}
 	})
 }

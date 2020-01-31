@@ -36,6 +36,7 @@ export default (path, baseUrl) => {
 				title: 'Ortofoto aktuální',
 				period: {start:'2017',end:'2020'},
 				type: "wms",
+				zIndex: 1,
 				options: {
 					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/plpis.fcgi',
@@ -46,9 +47,11 @@ export default (path, baseUrl) => {
 		},
 		{
 				key: 'ortofoto_2017',
-				title: 'Ortofoto 2017',
+				title: 'Ortofoto historická',
+				info: '2017',
 				period: {start:'2017',end:'2018'},
 				type: "wms",
+				zIndex: 2,
 				options: {
 					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
@@ -60,9 +63,11 @@ export default (path, baseUrl) => {
 		},
 		{
 				key: 'ortofoto_2018',
-				title: 'Ortofoto 2018',
+				info: '2018',
+				title: 'Ortofoto historická',
 				period: {start:'2018',end:'2019'},
 				type: "wms",
+				zIndex: 2,
 				options: {
 					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
@@ -74,9 +79,11 @@ export default (path, baseUrl) => {
 		},
 		{
 				key: 'ortofoto_2019',
-				title: 'Ortofoto 2019',
+				info: '2019',
+				title: 'Ortofoto historická',
 				period: {start:'2019',end:'2020'},
 				type: "wms",
+				zIndex: 2,
 				options: {
 					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
