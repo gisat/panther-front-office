@@ -80,7 +80,7 @@ class SzifCaseTableRow extends React.PureComponent {
 		const isGisat = this.props.userGroups && (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'));
 		
 		if ( !hasCreatedStatus || isGisat) {
-			userShowButton = true
+			displayShowButton = true
 		}
 		return (
 			<>
