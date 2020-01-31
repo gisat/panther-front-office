@@ -11,9 +11,21 @@ class MapTimelineLegand extends React.PureComponent {
 
 	render() {
 		const {layers} = this.props;
-		const layersElms = layers.map(layer => {
-			return <span key={layer.layerTemplateKey} className={'ptr-maptimeline-legenditem'} title={`${layer.title} ${layer.info}`}>{layer.title}</span>
-		})
+
+		layers.sort((a, b) => a.zIndex-b.zIndex);
+
+		//merge layers on same level
+		let lastZIndex = -1;
+		const layersElms = layers.reduce((acc, layer) => {
+			if (lastZIndex < layer.zIndex) {
+				lastZIndex = layer.zIndex;
+				// return [...acc, <span key={layer.layerTemplateKey} className={'ptr-maptimeline-legenditem'} title={`${layer.title} ${layer.info}`}>{layer.title}</span>];
+				//version without info
+				return [...acc, <span key={layer.layerTemplateKey} className={'ptr-maptimeline-legenditem'} title={`${layer.title}`}>{layer.title}</span>];
+			} else {
+				return acc;
+			}
+		}, [])
 		return (
 			<div className={'ptr-maptimelinelegend'}>
                 {layersElms}
