@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import {Redirect, Route, Switch} from 'react-router';
-import Helmet from "react-helmet";
 import Favicon from 'react-favicon';
 import createStore, {createHistory} from "../tacrAgritas/state/Store";
 
@@ -89,10 +88,6 @@ export default (path, baseUrl) => {
 				<>
 					<Favicon url={favicon}/>
 					<Provider store={Store}>
-						<Helmet
-							titleTemplate="%s | AGRITAS portál"
-							defaultTitle="AGRITAS portál"
-						/>
 						<AppContainer appKey="tacrAgritas">
 							<ConnectedRouter history={history}>
 								<Switch>

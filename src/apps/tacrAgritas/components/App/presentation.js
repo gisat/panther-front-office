@@ -32,8 +32,11 @@ class App extends React.PureComponent {
 		return (
 			<>
 				<Helmet
-					title={this.props.activePlace && this.props.activePlace.data.nameDisplay}
-				/>
+					titleTemplate="%s | AGRITAS portál"
+					defaultTitle="AGRITAS portál"
+				>
+					{this.props.activePlace && this.props.activePlace.data.nameDisplay ? <title>{this.props.activePlace.data.nameDisplay}</title> : null}
+				</Helmet>
 				<Header/>
 				<div className="tacrAgritas-content">
 					{props.activeScope ? this.renderMonitoring(props.activeScope) : null}
