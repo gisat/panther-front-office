@@ -17,7 +17,6 @@ const getNextCaseKey = createSelector([
 		(state, key) => key,
 	],
 	(allCases, key) => {
-		console.log(allCases, key);
 		const allCasesKeys = Object.keys(allCases);
 		const keyIndex = allCasesKeys.indexOf(key);
 		const nextIndex = keyIndex + 1;

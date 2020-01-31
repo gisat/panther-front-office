@@ -8,7 +8,7 @@ class ReviewForm extends React.PureComponent {
 
 	static propTypes = {
 		userApprovedEvaluation: PropTypes.object,
-		userGroups: PropTypes.string,
+		userGroups: PropTypes.array,
 		onFocusInput: PropTypes.any,
 		onBlurInput: PropTypes.any,
 		caseEdited: PropTypes.object,

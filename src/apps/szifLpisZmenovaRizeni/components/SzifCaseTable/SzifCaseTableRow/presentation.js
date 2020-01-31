@@ -7,6 +7,8 @@ import './style.scss';
 import Button from "../../../../../components/common/atoms/Button";
 import SzifCaseTableRowDetail from "../SzifCaseTableRowDetail/presentation";
 
+import LpisCaseStatuses from "../../../constants/LpisCaseStatuses";
+
 class SzifCaseTableRow extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
@@ -71,9 +73,18 @@ class SzifCaseTableRow extends React.PureComponent {
 			open: this.state.expanded
 		});
 
+		const showButton = <Button ghost onClick={this.onShowMapButtonClick}>Zobrazit</Button>;
+		let displayShowButton = false
+		const status = this.props.case && this.props.case.status && this.props.case.status.toUpperCase();
+		const hasCreatedStatus = status === LpisCaseStatuses.CREATED.database || status === LpisCaseStatuses.EVALUATION_CREATED.database;
+		const isGisat = this.props.userGroups && (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'));
+		
+		if ( !hasCreatedStatus || isGisat) {
+			userShowButton = true
+		}
 		return (
 			<>
-				<Button ghost onClick={this.onShowMapButtonClick}>Zobrazit</Button>
+				{displayShowButton ? showButton : null}
 				<Button className={expandButtonClasses} invisible icon="expand-row" onClick={this.onExpandButtonClick}/>
 			</>
 		);
