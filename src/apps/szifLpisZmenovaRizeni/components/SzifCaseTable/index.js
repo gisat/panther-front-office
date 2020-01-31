@@ -26,8 +26,8 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.specific.lpisChangeCases.useIndexed(null, null, order, 1, 1000, componentId));
-				dispatch(Action.specific.szifLpisZmenovaRizeni.reloadLeftCases());
+				const filter = null;
+				dispatch(Action.specific.lpisChangeCases.refreshUses(null, filter, order, 1, 1000, componentId));
 			}
 		}
 	}

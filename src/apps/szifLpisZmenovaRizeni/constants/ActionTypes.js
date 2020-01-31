@@ -27,6 +27,7 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 		USE: {
 			INDEXED: {
 				CLEAR: null,
+				CLEAR_ALL: null,
 				REGISTER: null
 			},
 			KEYS: {

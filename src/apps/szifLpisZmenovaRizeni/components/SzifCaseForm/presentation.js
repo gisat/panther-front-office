@@ -55,18 +55,20 @@ class SzifCaseForm extends React.PureComponent {
 
 	onClickSendAndCreateNewOne() {
 		if (this.validateForm()){
-			this.props.createLpisCase();
-			this.props.createNewActiveEditedCase();
-			this.resetFileInputs();
+			this.props.createLpisCase().then(() => {
+				this.props.createNewActiveEditedCase();
+				this.resetFileInputs();
+			})
 		}
 	}
 
 	onClickSendAndReturnBack() {
 		if (this.validateForm()){
-			this.props.createLpisCase();
-			this.props.clearActiveEditedCase();
-			this.resetFileInputs();
-			this.switchScreen();
+			this.props.createLpisCase().then(() => {
+				this.props.clearActiveEditedCase();
+				this.resetFileInputs();
+				this.switchScreen();
+			});
 		}
 	}
 
