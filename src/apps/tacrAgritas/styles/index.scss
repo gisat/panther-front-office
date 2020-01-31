@@ -75,6 +75,18 @@
 	font-size: $b4;
 	font-weight: normal;
 	margin: m(1) 0;
+	display: flex;
+	align-items: center;
+}
+
+.tacrAgritas-index-content h1 > .ptr-icon {
+	margin-right: .5rem;
+	width: 3rem;
+	height: 3rem;
+}
+
+.tacrAgritas-index-content h1 .ptr-icon .line {
+	fill: var(--accent50);
 }
 
 .tacrAgritas-index-content p {

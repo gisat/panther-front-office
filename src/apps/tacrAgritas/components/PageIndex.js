@@ -17,7 +17,7 @@ export const PageIndex = props => {
 			</div>
 			<div className="tacrAgritas-index-content">
 				<Fade duration={1500}>
-					<h1>AGRITAS portál</h1>
+					<h1><Icon icon="crop"/>AGRITAS portál</h1>
 					<p>Biofyzikální monitoring, fenologické a produkční charakteristiky porostů zemědělský plodin, Srovnání aktuálního stavu zemědělský porostů s dlouhodobým normálem (1985 - 2015).</p>
 					<div className="tacrAgritas-index-cta">
 						<Jump delay={1500}>
