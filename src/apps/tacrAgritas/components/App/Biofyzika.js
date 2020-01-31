@@ -26,6 +26,32 @@ import image4 from "../../assets/img/biofyzika_figure4.png";
 import image5 from "../../assets/img/biofyzika_figure5.png";
 import config from "../../../../config";
 
+const getZonesStyle = () => {
+	return utils.fillStyleTemplate(
+		{
+			"attributeValues":[
+				{
+					"value": 0,
+					"fill": "#000000"
+				},{
+					"value": 1,
+					"fill": "#d7191c"
+				},{
+					"value": 2,
+					"fill": "#fdae61"
+				},{
+					"value": 3,
+					"fill": "#ffffbf"
+				}, {
+					"value": 4,
+					"fill": "#a6d96a"
+				}
+			]
+		}
+	)
+};
+
+
 const getChlorophyllChoroplethStyle = (attributeKey) => {
 	return utils.fillStyleTemplate(
 	{
@@ -273,6 +299,8 @@ class Biofyzika extends React.PureComponent {
 
 		let dataForCharts = null;
 
+		let zonesStyle = getZonesStyle();
+
 		let chlorophyllAttribute = "C" + this.state.selectedMapPeriod.key;
 		let chlorophyllStyle = getChlorophyllChoroplethStyle(chlorophyllAttribute);
 
@@ -318,13 +346,19 @@ class Biofyzika extends React.PureComponent {
 						<p className="tacrAgritas-component-description">
 							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu obsahu chlorofylu v absolutní hodnotě (μg/cm<sup>2</sup>), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot obsahu chlorofylu a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
 						</p>
-						{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute, "μg/cm2")}
-						<MapLegend
-							style={chlorophyllStyle}
-							name={"Obsah chlorofylu"}
-							unit={"μg/cm2"}
-							noData
-						/>
+						<div className="tacrAgritas-map-component-wrapper">
+							{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute, "μg/cm2")}
+							<MapLegend
+								style={chlorophyllStyle}
+								name={"Obsah chlorofylu"}
+								unit={"μg/cm2"}
+								noData
+							/>
+							<MapLegend
+								style={zonesStyle}
+								name={"Management zóny"}
+							/>
+						</div>
 						{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
 					</div>
 				</div>
@@ -337,13 +371,19 @@ class Biofyzika extends React.PureComponent {
 						<p className="tacrAgritas-component-description">
 							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu obsahu vody v absolutní hodnotě (cm), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot obsahu vody a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
 						</p>
-						{this.renderMapSet('map-set-2', waterFirstMapLayers, waterSecondMapLayers, waterAttribute, "cm")}
-						<MapLegend
-							style={waterStyle}
-							name={"Obsah vody"}
-							unit={"cm"}
-							noData
-						/>
+						<div className="tacrAgritas-map-component-wrapper">
+							{this.renderMapSet('map-set-2', waterFirstMapLayers, waterSecondMapLayers, waterAttribute, "cm")}
+							<MapLegend
+								style={waterStyle}
+								name={"Obsah vody"}
+								unit={"cm"}
+								noData
+							/>
+							<MapLegend
+								style={zonesStyle}
+								name={"Management zóny"}
+							/>
+						</div>
 						{dataForCharts && dataForCharts.water ? this.renderWaterChart(dataForCharts) : null}
 					</div>
 				</div>
@@ -354,13 +394,19 @@ class Biofyzika extends React.PureComponent {
 						<p className="tacrAgritas-component-description">
 							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu indexu listové plochy v absolutní hodnotě (m<sup>2</sup>/m<sup>2</sup>), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot indexu listové plochy a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
 						</p>
-						{this.renderMapSet('map-set-3', leafsFirstMapLayers, leafsSecondMapLayers, leafsAttribute, "m2/m2")}
-						<MapLegend
-							style={leafsStyle}
-							name={"Index listové plochy"}
-							unit={<>m<sup>2</sup>/m<sup>2</sup></>}
-							noData
-						/>
+						<div className="tacrAgritas-map-component-wrapper">
+							{this.renderMapSet('map-set-3', leafsFirstMapLayers, leafsSecondMapLayers, leafsAttribute, "m2/m2")}
+							<MapLegend
+								style={leafsStyle}
+								name={"Index listové plochy"}
+								unit={<>m<sup>2</sup>/m<sup>2</sup></>}
+								noData
+							/>
+							<MapLegend
+								style={zonesStyle}
+								name={"Management zóny"}
+							/>
+						</div>
 						{dataForCharts && dataForCharts.leafs ? this.renderLeafsChart(dataForCharts) : null}
 					</div>
 				</div>

@@ -161,13 +161,15 @@ class Historie extends React.PureComponent {
 						<div className="tacrAgritas-section-subtitle">Srovnání aktuálního stavu zemědělský porostů s dlouhodobým normálem (1985 - 2015)</div>
 						<p>Srovnání aktuálního stavu s dlouhodobým normálem je založeno na zpracování dlouhodobé časové řady družicových dat Landsat, obsahující přibližně 8500 scén pořízených v průběhu období 1985 – 2015. Analýzou těchto družicových snímků byly stanoveny tzv. normálové křivky popisující obvyklý časový vývoj hodnot vegetačního indexu NDVI pro různé zemědělské plodiny za daných klimatických podmínek. Aktuální hodnoty vegetačního indexu NDVI (zjištěné pomocí družicových dat pořízených v průběhu aktuální vegetační sezóny) jsou potom srovnávány s hodnotou dlouhodobého normálu (pro danou plodinu, termín a klimatický region). Výsledek je vyjádřen jako procentuální podíl aktuální hodnoty ku hodnotě dlouhodobého normálu (tj. 100 % = aktuální hodnota je právě rovna hodnotě dlouhodobého normálu pro danou plodinu, termín a klimatický region). Srovnání aktuálního stavu s dlouhodobým normálem je pak realizováno průběžně vždy 2x do měsíce (1. – 15. a 16. – 30./31. dne v daném měsíci). Výsledky jsou v tomto případě agregovány na úroveň jednotlivých zemědělských pozemků.</p>
 
-						{this.renderMapSet('map-set-historie', mapLayers, attribute, "%")}
-						<MapLegend
-							style={mapChoroplethStyle}
-							name={"Aktuální hodnota NDVI vs. dlouhodobý normál"}
-							unit={"%"}
-							noData
-						/>
+						<div className="tacrAgritas-map-component-wrapper">
+							{this.renderMapSet('map-set-historie', mapLayers, attribute, "%")}
+							<MapLegend
+								style={mapChoroplethStyle}
+								name={"Aktuální hodnota NDVI vs. dlouhodobý normál"}
+								unit={"%"}
+								noData
+							/>
+						</div>
 						{dataForCharts ? this.renderChart(dataForCharts) : null}
 						<p>Určení referenčních normálových křivek vegetačního indexu NDVI pro jednotlivé zemědělské plodiny a klimatické regiony bylo založeno na zpracování kompletního archivu družicových dat Landsat pro Českou republiku. Toto zpracování zahrnovalo celkem přibližně 8500 scén pořízených v období mezi roky 1985 – 2015. V první fázi zpracování byly na podkladě těchto scén vytvořeny plodinové mapy pro všechny vegetační sezóny uvedeného období 1985 – 2015. Provádění analýzy časového průběhu hodnot vegetačního indexu specificky pro jednotlivé plodiny je zcela klíčové, vzhledem k odlišnostem v časovém vývoji jednotlivých plodin (např. ozimé obiloviny ve srovnání s cukrovkou apod.). Ze sérií družicových dat byly následně pro jednotlivé kombinace plodina – klimatický region extrahovány temporální profily indexu NDVI (popisující vývoj hodnot tohoto indexu v čase). Tyto křivky pak byly převedeny do jednotného časového měřítka (uvažována byla agregace dat do 15-denních intervalů). Z dílčích křivek potom byla vygenerována tzv. normálová křivka popisující z dlouhodobého hlediska obvyklý průběh hodnot indexu NDVI pro danou plodinu a klimatický region. Klimatické regiony, uvažované v rámci této analýzy, vycházejí z regionalizace používané v systému bonitovaných půdně-ekologických jednotek (BPEJ).</p>
 						<p>V další fázi jsou hodnoty NDVI průběžně extrahovány z družicových dat pořízených v průběhu aktuální vegetační sezóny (opět vždy v 15-denních monitorovacích oknech). Aby byla maximalizována pravděpodobnost, že analyzovaný pozemek bude v rámci daného monitorovacích období zachycen bez oblačnosti, jsou pro sledování aktuálních hodnot indexu NDVI využívána nejen družicová data Landsat, ale současně i Sentinel-2. S ohledem na poněkud odlišné radiometrické charakteristiky senzorů OLI (Landsat-8) a MSI (Sentinel-2) je v tomto případě ovšem nutné na data Sentinel-2 nejprve aplikovat proces radiometrické harmonizace, díky němuž jsou hodnoty indexu NDVI odvozené z dat Sentinel-2 a Landsat-8 navzájem srovnatelné. Aktuální hodnoty indexu NDVI jsou v následujícím kroku srovnávány s hodnotou odvozenou z normálové křivky pro danou plodinu a daný klimatický region. Výsledný mapový produkt tak vyjadřuje procentuální úroveň aktuální hodnoty indexu NDVI vůči normálové hodnotě (100 %). Srovnání aktuálního vývoje s dlouhodobým normálem je možné pro jednotlivé zemědělské parcely vyjádřit rovněž v podobě grafu zobrazujícím průběh aktuální temporální křivky indexu NDVI a jeho srovnání s průběhem křivky normálové.</p>

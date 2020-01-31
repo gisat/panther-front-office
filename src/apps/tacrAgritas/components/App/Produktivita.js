@@ -107,52 +107,54 @@ class Produktivita extends React.PureComponent {
 							Mapové vrstvy představují hodnoty celkem 14 různých fenologických charakteristik, odvozených pomocí matematické analýzy časového vývoje hodnot vegetačních indexů NDVI a NRERI získaných z družicových dat Sentinel-2. Tyto hodnoty jsou prezentovány jak v rastrové podobě (tj. na úrovni pixelu), tak jako hodnoty agregované na úroveň jednotlivých zemědělských pozemků. Obdobně je pak určeno celkem 6 indikátorů produktivity porostů.
 						</p>
 
-						<Fade left distance="50px">
-							<div className="tacrAgritas-map-set-container single-map">
-								<HoverHandler
-									popupContentComponent={
-										<MapPopup
-											valueColumnName={selectedAttribute && selectedAttribute.key}
-											unit={selectedAttribute && selectedAttribute.unit}
-										/>
-									}
-								>
-									<MapSetPresentation
-										activeMapKey={"productivity-map-set"}
-										mapComponent={WorldWindMap}
-										view={this.state.mapView}
-										onViewChange={this.onMapViewChange}
-										backgroundLayer={MapResources.cartoDbLight}
+						<div className="tacrAgritas-map-component-wrapper">
+							<Fade left distance="50px">
+								<div className="tacrAgritas-map-set-container single-map">
+									<HoverHandler
+										popupContentComponent={
+											<MapPopup
+												valueColumnName={selectedAttribute && selectedAttribute.key}
+												unit={selectedAttribute && selectedAttribute.unit}
+											/>
+										}
 									>
-										<PresentationMap
-											mapKey={'map-1'}
-											layers={layers}
-											onLayerClick={this.onMapClick}
-										/>
-										<MapControlsPresentation zoomOnly/>
-										<MapInfo
-											cropName={selectedArea && selectedArea.properties[cropColumnName]}
-											selectedAreaName={selectedArea && selectedArea.properties[nameColumnName]}
-											selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
-										/>
-										<Select
-											className="tacrAgritas-map-label wide"
-											value={this.state.selectedAttribute}
-											optionLabel="longName"
-											optionValue="key"
-											options={fenologyOptions}
-											onChange={this.onAttributeChange}
-										/>
-									</MapSetPresentation>
-								</HoverHandler>
-							</div>
-						</Fade>
-						<MapLegend
-							style={selectedAttribute && selectedAttribute.style}
-							name={selectedAttribute && selectedAttribute.name}
-							unit={selectedAttribute && selectedAttribute.unit}
-							noData
-						/>
+										<MapSetPresentation
+											activeMapKey={"productivity-map-set"}
+											mapComponent={WorldWindMap}
+											view={this.state.mapView}
+											onViewChange={this.onMapViewChange}
+											backgroundLayer={MapResources.cartoDbLight}
+										>
+											<PresentationMap
+												mapKey={'map-1'}
+												layers={layers}
+												onLayerClick={this.onMapClick}
+											/>
+											<MapControlsPresentation zoomOnly/>
+											<MapInfo
+												cropName={selectedArea && selectedArea.properties[cropColumnName]}
+												selectedAreaName={selectedArea && selectedArea.properties[nameColumnName]}
+												selectedAreaClimRegion={selectedArea && selectedArea.properties[climRegionColumnName]}
+											/>
+											<Select
+												className="tacrAgritas-map-label wide"
+												value={this.state.selectedAttribute}
+												optionLabel="longName"
+												optionValue="key"
+												options={fenologyOptions}
+												onChange={this.onAttributeChange}
+											/>
+										</MapSetPresentation>
+									</HoverHandler>
+								</div>
+							</Fade>
+							<MapLegend
+								style={selectedAttribute && selectedAttribute.style}
+								name={selectedAttribute && selectedAttribute.name}
+								unit={selectedAttribute && selectedAttribute.unit}
+								noData
+							/>
+						</div>
 						{dataForChart ? this.renderChart(dataForChart) : null}
 					</div>
 				</div>

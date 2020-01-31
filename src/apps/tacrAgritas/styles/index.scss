@@ -126,6 +126,14 @@
 
 
 /* Map */
+.tacrAgritas-map-component-wrapper {
+	width: 100%;
+	margin-bottom: m(1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .tacrAgritas-map-set-container {
 	height: 35rem;
 	width: 100%;
@@ -241,7 +249,7 @@
 	flex-wrap: wrap;
 	align-items: center;
 	font-size: $b1;
-	margin-bottom: m(2);
+	margin-bottom: m(1/3);
 	color: var(--base80);
 }
 
