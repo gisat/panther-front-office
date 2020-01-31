@@ -4,14 +4,30 @@ import Action from "../../state/Action";
 
 import presentation from './presentation';
 
-const borderStyle = {
+const borderStyleBefore = {
 	"rules":[
 		{
 		  "styles":[
 			{
 				// fill: '',
 				fillOpacity: 0,
-				// outlineColor:
+				outlineColor: '#ff0000',
+				outlineWidth: 2,
+				outlineOpacity: 0.8,
+			}
+		  ]
+		}
+	  ]
+};
+
+const borderStyleAfter = {
+	"rules":[
+		{
+		  "styles":[
+			{
+				// fill: '',
+				fillOpacity: 0,
+				outlineColor: '#f3cd19',
 				outlineWidth: 2,
 				outlineOpacity: 0.8,
 			}
@@ -74,7 +90,7 @@ const getMapLayers = (state, mapKey) => {
 				type: 'vector',
 				options: {
 					features: [{type:'feature', properties: {}, geometry: JSON.parse(geometryBefore)}],
-					style: borderStyle,
+					style: borderStyleBefore,
 				}
 			}
 		)
@@ -88,7 +104,7 @@ const getMapLayers = (state, mapKey) => {
 				type: 'vector',
 				options: {
 					features: [{type:'feature', properties: {}, geometry: JSON.parse(geometryAfter)}],
-					style: borderStyle,
+					style: borderStyleAfter,
 				}
 			}
 		)
