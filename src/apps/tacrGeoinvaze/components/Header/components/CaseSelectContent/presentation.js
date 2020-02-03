@@ -7,6 +7,7 @@ import Button from "../../../../../../components/common/atoms/Button";
 import Models from "../Models";
 import Inputs from "../Inputs";
 import About from "../About";
+import Methodologies from "../Methodologies";
 import Logo from "../Logo";
 
 class CaseSelectContent extends React.PureComponent {
@@ -70,6 +71,7 @@ class CaseSelectContent extends React.PureComponent {
 							<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu</Button>
 							<Button invisible primary onClick={props.changeContent.bind(null, 'inputs')}>Vstupní data</Button>
 							<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
+							<Button invisible primary onClick={props.changeContent.bind(null, 'methodologies')}>Metodiky</Button>
 						</div>
 						<div className="tacrGeoinvaze-case-select-content-content">
 							{this.renderContent(props.content)}
@@ -147,6 +149,8 @@ class CaseSelectContent extends React.PureComponent {
 				return React.createElement(Inputs);
 			case "models":
 				return React.createElement(Models);
+			case "methodologies":
+				return React.createElement(Methodologies);
 			default:
 				return null;
 		}
