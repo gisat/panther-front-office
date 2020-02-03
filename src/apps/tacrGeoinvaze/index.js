@@ -40,8 +40,8 @@ export default (path, baseUrl) => {
 
 	Store.dispatch(Action.periods.useIndexed({application: true}, null, [["period", "descending"]], 1, 1, 'tacrGeoinvaze')).then(() => {
 		let state = Store.getState();
-		let latestPeriodKeyInArray = Select.periods.getIndexed(state, {application: true}, null, [["period", "descending"]], 1, 1);
-		if (latestPeriodKeyInArray[0]) Store.dispatch(Action.periods.setActiveKey(latestPeriodKeyInArray[0]));
+		let latestPeriodInArray = Select.periods.getIndexed(state, {application: true}, null, [["period", "descending"]], 1, 1);
+		if (latestPeriodInArray && latestPeriodInArray[0]) Store.dispatch(Action.periods.setActiveKey(latestPeriodInArray[0].key));
 	});
 
 	// TODO just for testing
