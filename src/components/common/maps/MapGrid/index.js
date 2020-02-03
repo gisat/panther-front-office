@@ -135,7 +135,7 @@ class MapGrid extends React.PureComponent {
 
 				let wrapperClasses = classNames("ptr-map-wrapper", "row"+rowNo, "col"+colNo, map.props.wrapperClasses);
 				if(customWrapper) {
-					return React.createElement(customWrapper, {classes: wrapperClasses, children: map, style: style, label: map.props.label, mapKey: map.props.mapKey});
+					return React.createElement(customWrapper, {classes: wrapperClasses, children: map, style: style, label: map.props.label, mapKey: map.props.mapKey, key: `map-wrapper-${index}`});
 				} else {
 					const Map = <div key={'map-wrapper-' + index} className={wrapperClasses} style={style}>{map}</div>
 					return Map;
