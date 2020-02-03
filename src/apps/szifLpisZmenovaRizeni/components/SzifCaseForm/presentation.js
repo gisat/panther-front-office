@@ -236,6 +236,7 @@ class SzifCaseForm extends React.PureComponent {
 								key={geometryBeforeName}
 							>
 									<Button
+										onClick={() => {}}
 										icon="upload"
 										ghost
 									>
@@ -253,6 +254,7 @@ class SzifCaseForm extends React.PureComponent {
 								key={geometryAfterName}
 							>
 									<Button
+										onClick={() => {}}
 										icon="upload"
 										ghost
 									>
@@ -277,6 +279,7 @@ class SzifCaseForm extends React.PureComponent {
 							>
 									<Button
 										icon="upload"
+										onClick={() => {}}
 										ghost
 									>
 										{"Vyberte soubory"}
