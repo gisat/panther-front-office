@@ -82,7 +82,7 @@ const getMapLayers = (state, mapKey) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const geometryBefore = activeCase.data.geometryBefore;
 	const geometryAfter = activeCase.data.geometryAfter;
-	if(activeMapBorderState && activeMapBorderState.before) {
+	if(activeMapBorderState && activeMapBorderState.before && geometryBefore) {
 		layers.push(
 			{
 				key: 'before',
@@ -96,7 +96,7 @@ const getMapLayers = (state, mapKey) => {
 		)
 	}
 
-	if(activeMapBorderState && activeMapBorderState.after) {
+	if(activeMapBorderState && activeMapBorderState.after && geometryAfter) {
 		layers.push(
 			{
 				key: 'after',
