@@ -22,6 +22,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		approveEvaluation: PropTypes.func,
 		rejectEvaluation: PropTypes.func,
 		closeEvaluation: PropTypes.func,
+		goToNextCase: PropTypes.func,
 		nextCaseKey: PropTypes.string
 	};
 	render() {
@@ -57,6 +58,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						rejectEvaluation={this.props.rejectEvaluation}
 						closeEvaluation={this.props.closeEvaluation}
 						nextCaseKey={this.props.nextCaseKey}
+						goToNextCase={this.props.goToNextCase}
 					/>
 				</div>
 			</div>

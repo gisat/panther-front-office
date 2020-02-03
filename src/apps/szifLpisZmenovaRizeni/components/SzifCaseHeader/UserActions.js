@@ -14,7 +14,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		saveAndApproveEvaluation: PropTypes.func,
 		approveEvaluation: PropTypes.func,
 		rejectEvaluation: PropTypes.func,
-		closeEvaluation: PropTypes.func
+		closeEvaluation: PropTypes.func,
+		goToNextCase: PropTypes.func,
 	};
 
 	render() {
@@ -29,6 +30,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					{this.renderButtons(this.props.case)}
+					{this.renderButtonNext()}
 				</div>
 			</div>
 		);
@@ -43,6 +45,18 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			} else if(this.props.userGroups.includes('szifAdmins') || this.props.userGroups.includes('szifUsers')) {
 				return this.renderButtonsForSzifs(changeReviewCase);
 			}
+		} else {
+			return null;
+		}
+	}
+
+	renderButtonNext() {
+		if (this.props.nextCaseKey) {
+			return (
+				<Button inverted onClick={() => this.props.goToNextCase(this.props.nextCaseKey)}>
+					Přejít na další řízení
+				</Button>
+			)
 		} else {
 			return null;
 		}

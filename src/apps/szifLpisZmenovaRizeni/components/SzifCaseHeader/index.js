@@ -6,6 +6,8 @@ import presentation from "./presentation";
 const mapStateToProps = (state, ownProps) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
+	const nextCaseKey = Select.specific.lpisChangeCases.getNextCaseKey(state, activeCase.key);
+	
 	return {
 		case: activeCase,
 		//FIXME
@@ -14,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 		// userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
 		userGroups,
 		activeCaseEdited: Select.specific.lpisChangeCases.getEditedDataByKey(state, activeCase.key),
-		nextCaseKey: Select.specific.lpisChangeCases.getNextCaseKey(state, activeCase.key)
+		nextCaseKey: nextCaseKey,
 	};
 };
 
@@ -60,6 +62,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
 				}
 			})
+		},
+		goToNextCase: (nextCaseKey) => {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
 		},
 	};
 };

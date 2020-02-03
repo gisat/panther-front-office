@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect';
 import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
+import lpisZmenovaRizeniSelectors from "../LpisZmenovaRizeni/selectors";
 
 import common from "../../../../state/_common/selectors";
 
@@ -14,14 +15,29 @@ const getAllAsObject = common.getAllAsObject(getSubstate);
 
 const getNextCaseKey = createSelector([
 	getAllAsObject,
-		(state, key) => key,
+	lpisZmenovaRizeniSelectors.getActiveUserGroups,
+	(state, key) => key,
 	],
-	(allCases, key) => {
+	(allCases, userGroups, key) => {
 		const allCasesKeys = Object.keys(allCases);
 		const keyIndex = allCasesKeys.indexOf(key);
-		const nextIndex = keyIndex + 1;
-		const nextKey = allCasesKeys.length >= nextIndex ? allCasesKeys[nextIndex] : null;
-		return nextKey;
+		let nextIndex = keyIndex + 1;
+		let nextKey = allCasesKeys.length >= nextIndex ? allCasesKeys[nextIndex] : null;
+		while (nextIndex && nextKey) {
+			//check permissions
+			const nextCase = allCases[nextKey];
+			const nextCaseStatus = nextCase.data.status;
+			const hasCreatedStatus = nextCaseStatus === LpisCaseStatuses.CREATED.database || nextCaseStatus === LpisCaseStatuses.EVALUATION_CREATED.database;
+			const isGisat = userGroups && (userGroups.includes('gisatUsers') || userGroups.includes('gisatAdmins'));
+
+			if ( !hasCreatedStatus || isGisat) {
+				return nextKey;
+			} else {
+				nextIndex = nextIndex + 1;
+				nextKey = allCasesKeys.length >= nextIndex ? allCasesKeys[nextIndex] : null;
+			}
+		}
+		return null;
 	}
 );
 
