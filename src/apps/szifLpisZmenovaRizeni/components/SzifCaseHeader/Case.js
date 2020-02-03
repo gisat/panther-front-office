@@ -4,7 +4,7 @@ import utils from '../../../../utils/utils';
 
 import ExpandableContent from './ExpandableContent';
 
-class DromasLpisChangeReviewHeader extends React.PureComponent {
+class DromasLpisCase extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
 		userCreatedCase: PropTypes.object
@@ -78,17 +78,19 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			}
 
 			return (
-				<div>
-					{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
-					{placeInsert}
-					{otherInsert}
-					{dpbInsert}
-					{jiInsert}
-					{userInsert}
-				</div>
+				(props) => {
+					return (<div onFocus={props.onFocusInput} onBlur={props.onBlurInput}>
+						{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
+						{placeInsert}
+						{otherInsert}
+						{dpbInsert}
+						{jiInsert}
+						{userInsert}
+					</div>)
+				}
 			)
 		}
 	}
 }
 
-export default DromasLpisChangeReviewHeader;
+export default DromasLpisCase;
