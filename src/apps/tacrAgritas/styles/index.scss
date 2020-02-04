@@ -428,6 +428,15 @@
 }
 
 // map legend
+.tacrAgritas-legend-set {
+	display: flex;
+	align-items: flex-start;
+}
+
+.tacrAgritas-legend-set .tacrAgritas-map-legend {
+	flex-basis: 50%;
+}
+
 .tacrAgritas-map-legend {
 	display: flex;
 	flex-wrap: wrap;
@@ -493,7 +502,7 @@
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	margin: m(1);
+	margin: m(1) 0;
 }
 
 .tacrAgritas-image img {
@@ -605,5 +614,29 @@
 
 	.tacrAgritas-footer-member:last-child {
 		margin-bottom: m(2);
+	}
+
+	.tacrAgritas-legend-set {
+		flex-direction: column;
+	}
+
+	.tacrAgritas-legend-set .tacrAgritas-map-legend {
+		margin-bottom: m(1/3);
+	}
+}
+
+@media screen and (max-width: 30rem) {
+	.tacrAgritas-index-content {
+		padding: m(2/3) m(2/3) 0;
+	}
+	.tacrAgritas-index-content h1 {
+		font-size: $b3;
+	}
+	.tacrAgritas-index-card {
+		flex-basis: calc(100% - 1rem);
+		margin: m(2/3) m(2/3) 0 0;
+	}
+	.tacrAgritas-index-footer {
+		padding: 0 m(2/3);
 	}
 }

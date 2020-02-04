@@ -348,16 +348,18 @@ class Biofyzika extends React.PureComponent {
 						</p>
 						<div className="tacrAgritas-map-component-wrapper">
 							{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute, "μg/cm2")}
-							<MapLegend
-								style={chlorophyllStyle}
-								name={"Obsah chlorofylu"}
-								unit={"μg/cm2"}
-								noData
-							/>
-							<MapLegend
-								style={zonesStyle}
-								name={"Management zóny"}
-							/>
+							<div className="tacrAgritas-legend-set">
+								<MapLegend
+									style={chlorophyllStyle}
+									name={"Obsah chlorofylu"}
+									unit={"μg/cm2"}
+									noData
+								/>
+								<MapLegend
+									style={zonesStyle}
+									name={"Management zóny"}
+								/>
+							</div>
 						</div>
 						{dataForCharts && dataForCharts.chlorophyll ? this.renderChlorophyllChart(dataForCharts) : null}
 					</div>

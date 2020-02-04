@@ -273,3 +273,12 @@
 		display: none;
 	}
 }
+
+@media screen and (max-width: 30rem) {
+	.tacrAgritas-fixed-header.open {
+		height: 6rem;
+	}
+	.tacrAgritas-fixed-header .tacrAgritas-selections {
+		flex-direction: column;
+	}
+}
