@@ -15,11 +15,12 @@ class SzifCaseTableRow extends React.PureComponent {
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
 		switchScreen: PropTypes.func,
-		caseSubmit: PropTypes.object,
+		caseSubmit: PropTypes.string,
 		caseChange: PropTypes.object,
 		caseEnd: PropTypes.object,
 		caseStatus: PropTypes.string,
 		caseChanges: PropTypes.array,
+		caseJiCode: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -45,7 +46,7 @@ class SzifCaseTableRow extends React.PureComponent {
 	}
 
 	render() {
-		const {caseSubmit,caseChange,caseChanges,caseEnd,data,caseStatus} = this.props;
+		const {caseSubmit,caseChange,caseChanges,caseEnd,data,caseStatus, caseJiCode} = this.props;
 		const classes = classnames("szifLpisZmenovaRizeni-table-row", {
 			open: this.state.expanded
 		});
@@ -61,6 +62,7 @@ class SzifCaseTableRow extends React.PureComponent {
 					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{changeDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{endDate}</div>
+					<div className="szifLpisZmenovaRizeni-table-row-item">{caseJiCode}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item buttons">{this.renderButtons()}</div>
 				</div>
 				{this.state.expanded ? this.renderDetails() : null}

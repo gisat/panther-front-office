@@ -111,6 +111,7 @@ class SzifCaseTable extends React.PureComponent {
 						<div className="szifLpisZmenovaRizeni-table-header-item">Podáno</div>
 						<div className="szifLpisZmenovaRizeni-table-header-item">Změněno</div>
 						<div className="szifLpisZmenovaRizeni-table-header-item">Uzavřeno</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item">Kód JI</div>
 						<div className="szifLpisZmenovaRizeni-table-header-item buttons"></div>
 					</div>
 					<div className="szifLpisZmenovaRizeni-table-body">

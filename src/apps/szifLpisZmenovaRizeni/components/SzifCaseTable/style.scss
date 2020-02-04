@@ -146,6 +146,11 @@
 
 .szifLpisZmenovaRizeni-table-header-item:nth-child(6),
 .szifLpisZmenovaRizeni-table-row-item:nth-child(6) {
+	flex-basis: 12%;
+}
+
+.szifLpisZmenovaRizeni-table-header-item:nth-child(7),
+.szifLpisZmenovaRizeni-table-row-item:nth-child(7) {
 	min-width: 10rem;
 	width: 25%;
 	text-align: right;
