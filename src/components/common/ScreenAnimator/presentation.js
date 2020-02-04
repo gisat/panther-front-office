@@ -54,7 +54,7 @@ class ScreenAnimator extends React.PureComponent {
 			//TODO - hide previous screen after transition ends
 			// if(child.props.screenKey === activeScreenKey || child.props.screenKey === previousScreenKey) {
 			if(child.props.screenKey === activeScreenKey ) {
-				const left = index > 0 ? 100/(index+1) : 0;
+				const left = index * (100/screenCount)
 				children.push(
 					<div style={{width: 100/screenCount + '%', left: left + '%'}} key={`screenAnimator-${index}`}>
 						{React.cloneElement(child, {...child.props, switchScreen: (this.props.onSwitchScreen || this.switchScreen)})}
