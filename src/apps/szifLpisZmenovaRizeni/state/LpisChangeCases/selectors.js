@@ -66,6 +66,15 @@ const getCaseSubmit = createSelector([
 	}
 );
 
+const getCaseEvaluationApproved = createSelector([
+		getCaseChanges,
+	],
+	(caseChanges) => {
+		const change = caseChanges && caseChanges.filter((change) => change.status.toUpperCase() === LpisCaseStatuses.EVALUATION_APPROVED.database);
+		return change && change.length > 0 ? change[0] : null;
+	}
+);
+
 const getCaseChange = createSelector([
 		getCaseChanges,
 	],
@@ -92,6 +101,7 @@ export default {
 	getSubstate,
 	getCaseChanges,
 	getCaseSubmit,
+	getCaseEvaluationApproved,
 	getCaseChange,
 	getCaseEnd,
 	getCaseStatus,

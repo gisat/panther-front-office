@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import EditableText from "../../../../components/common/atoms/EditableText";
 import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 import utils from '../../../../utils/utils';
+import User from "../../../../components/common/atoms/User";
 
 class ReviewForm extends React.PureComponent {
 
 	static propTypes = {
-		userApprovedEvaluation: PropTypes.object,
+		userApprovedEvaluation: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 		userGroups: PropTypes.array,
 		onFocusInput: PropTypes.any,
 		onBlurInput: PropTypes.any,
@@ -81,12 +82,11 @@ class ReviewForm extends React.PureComponent {
 					);
 				}
 
-				if (this.props.userApprovedEvaluation){
-					let user = this.props.userApprovedEvaluation;
+				if (this.props.userApprovedEvaluation === 0 || this.props.userApprovedEvaluation){
 					userInsert = (
 						<div>
 							<div className='ptr-dromasLpisChangeReviewHeader-property'>Vyhodnocení schválil</div>
-							<p>{user.name} ({user.email})</p>
+							<User userKey={this.props.userApprovedEvaluation}/>
 						</div>
 					);
 				}

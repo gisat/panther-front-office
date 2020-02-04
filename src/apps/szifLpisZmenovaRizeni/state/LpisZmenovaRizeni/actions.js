@@ -40,7 +40,7 @@ const getViewState = (state) => {
 				}
 			},
 			LpisChangeCases: {
-				activeKey: Select.lpisChangeCase.getActiveKey(state),
+				activeKey: activeCaseKey,
 			}
 		}
 	}

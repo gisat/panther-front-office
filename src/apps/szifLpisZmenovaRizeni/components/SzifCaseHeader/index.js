@@ -7,11 +7,10 @@ const mapStateToProps = (state, ownProps) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
 	const nextCaseKey = Select.specific.lpisChangeCases.getNextCaseKey(state, activeCase.key);
-	
+	const caseEvaluationApproved = Select.specific.lpisChangeCases.getCaseEvaluationApproved(state, activeCase.key);
 	return {
 		case: activeCase,
-		//FIXME
-		// userApprovedEvaluation: Select.specific.lpisChangeReviewCases.getUserApprovedEvaluationOfActiveCase(state),
+		userApprovedEvaluation: caseEvaluationApproved && caseEvaluationApproved.userId || null,
 		//FIXME
 		// userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
 		userGroups,

@@ -6,7 +6,7 @@ import utils from "../../../../utils/utils";
 import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
-	const user = Select.users.getByKey(state, ownProps.userKey);
+	const user = Select.users.getById(state, ownProps.userKey);
 	return {
 		user,
 	}

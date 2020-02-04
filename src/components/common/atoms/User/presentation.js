@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 class User extends React.PureComponent {
 
 	static propTypes = {
+		userKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 		user: PropTypes.object,
-		onMount: PropTypes.bool,
+		onMount: PropTypes.func,
 	};
 
 	componentDidMount() {
