@@ -25,7 +25,7 @@ const getById = createSelector(
 		(state, userId) => userId,
 	],
 	(users, userId) => {
-		if (users) {
+		if (users, userId) {
 			return users.find(user => user.id === userId);
 		}
 		return false;

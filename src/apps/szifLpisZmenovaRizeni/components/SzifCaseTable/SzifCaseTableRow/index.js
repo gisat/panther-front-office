@@ -16,7 +16,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		userGroups,
 		case: caseCur,
-		caseSubmit: caseCur.submitDate,
+		caseSubmit: caseSubmit,
+		caseSubmitDate: caseCur.submitDate,
 		caseJiCode,
 		caseChange,
 		caseEnd,

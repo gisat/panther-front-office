@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import utils from '../../../../utils/utils';
+import User from "../../../../components/common/atoms/User";
 
 import ExpandableContent from './ExpandableContent';
 
 class DromasLpisCase extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
-		userCreatedCase: PropTypes.object
+		userCreatedCase: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	};
-
+	
 	render() {
+		const CaseDetail = this.renderCase(this.props.case);
 		return (
 			<div>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar case">
@@ -19,7 +21,7 @@ class DromasLpisCase extends React.PureComponent {
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
-						{this.renderCase(this.props.case)}
+						<CaseDetail />
 					</ExpandableContent>
 				</div>
 			</div>
@@ -67,26 +69,27 @@ class DromasLpisCase extends React.PureComponent {
 				);
 			}
 
-			if (this.props.userCreatedCase){
-				let user = this.props.userCreatedCase;
+			if (this.props.userCreatedCase === 0 || this.props.userCreatedCase){
 				userInsert = (
 					<div>
 						<div className='ptr-dromasLpisChangeReviewHeader-property'>Řízení zadal</div>
-						<p>{user.name} ({user.email})</p>
+						<User userKey={this.props.userCreatedCase}/>
 					</div>
 				);
 			}
 
 			return (
 				(props) => {
-					return (<div onFocus={props.onFocusInput} onBlur={props.onBlurInput}>
-						{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
-						{placeInsert}
-						{otherInsert}
-						{dpbInsert}
-						{jiInsert}
-						{userInsert}
-					</div>)
+					return (
+						<div onFocus={props.onFocusInput} onBlur={props.onBlurInput}>
+							{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
+							{placeInsert}
+							{otherInsert}
+							{dpbInsert}
+							{jiInsert}
+							{userInsert}
+						</div>
+					)
 				}
 			)
 		}

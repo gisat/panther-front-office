@@ -15,7 +15,8 @@ class SzifCaseTableRow extends React.PureComponent {
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
 		switchScreen: PropTypes.func,
-		caseSubmit: PropTypes.string,
+		caseSubmitDate: PropTypes.string,
+		caseSubmit: PropTypes.object,
 		caseChange: PropTypes.object,
 		caseEnd: PropTypes.object,
 		caseStatus: PropTypes.string,
@@ -46,11 +47,11 @@ class SzifCaseTableRow extends React.PureComponent {
 	}
 
 	render() {
-		const {caseSubmit,caseChange,caseChanges,caseEnd,data,caseStatus, caseJiCode} = this.props;
+		const {caseSubmit, caseSubmitDate,caseChange,caseChanges,caseEnd,data,caseStatus, caseJiCode} = this.props;
 		const classes = classnames("szifLpisZmenovaRizeni-table-row", {
 			open: this.state.expanded
 		});
-		const submitDate = caseSubmit ? moment(caseSubmit).format("DD. MM. YYYY") : '-';
+		const submitDate = caseSubmitDate ? moment(caseSubmitDate).format("DD. MM. YYYY") : '-';
 		const changeDate = caseChange ? moment(caseChange.changed).format("DD. MM. YYYY") : '-';
 		const endDate = caseEnd ? moment(caseEnd.changed).format("DD. MM. YYYY") : '-';
 
