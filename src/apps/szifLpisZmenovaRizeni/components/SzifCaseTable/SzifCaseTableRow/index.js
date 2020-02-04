@@ -11,10 +11,11 @@ const mapStateToProps = (state, ownProps) => {
 	const caseChanges = Select.specific.lpisChangeCases.getCaseChanges(state, ownProps.metadataKey);
 	const caseStatus = Select.specific.lpisChangeCases.getCaseStatus(state, ownProps.metadataKey);
 	const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
+	const caseCur = Select.specific.lpisChangeCases.getDataByKey(state, ownProps.metadataKey);
 	return {
 		userGroups,
-		case: Select.specific.lpisChangeCases.getDataByKey(state, ownProps.metadataKey),
-		caseSubmit,
+		case: caseCur,
+		caseSubmit: caseCur.submitDate,
 		caseChange,
 		caseEnd,
 		caseChanges,

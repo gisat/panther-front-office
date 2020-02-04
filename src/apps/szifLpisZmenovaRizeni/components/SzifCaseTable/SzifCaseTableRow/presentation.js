@@ -49,7 +49,7 @@ class SzifCaseTableRow extends React.PureComponent {
 		const classes = classnames("szifLpisZmenovaRizeni-table-row", {
 			open: this.state.expanded
 		});
-		const submitDate = caseSubmit ? moment(caseSubmit.changed).format("DD. MM. YYYY") : '-';
+		const submitDate = caseSubmit ? moment(caseSubmit).format("DD. MM. YYYY") : '-';
 		const changeDate = caseChange ? moment(caseChange.changed).format("DD. MM. YYYY") : '-';
 		const endDate = caseEnd ? moment(caseEnd.changed).format("DD. MM. YYYY") : '-';
 
