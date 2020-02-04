@@ -77,7 +77,14 @@ class SzifCaseTable extends React.PureComponent {
 		return (
 			<div className="szifLpisZmenovaRizeni-cases">
 				<div className="szifLpisZmenovaRizeni-cases-header">
-					<h1 className="szifLpisZmenovaRizeni-cases-title">Změnová řízení</h1>
+					<div className={"szifLpisZmenovaRizeni-heading"}>
+						<h1 className="szifLpisZmenovaRizeni-cases-title">Změnová řízení</h1>
+						{
+							(casesLeft && casesLeft > 0 ? 
+								<p className={'szifLpisZmenovaRizeni-cases-header-item'}>{`Tento týden je možné vytvořit ${casesLeft} řízení.`}</p>
+								: <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>)
+						}
+					</div>
 					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
 						<div className="szifLpisZmenovaRizeni-cases-header-tools">
 							<InputText
@@ -89,17 +96,14 @@ class SzifCaseTable extends React.PureComponent {
 								<Icon icon="search"/>
 							</InputText>
 							{activeUserCanAddCase ?
-								(casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreen} title={`Tento týden je možné vytvořit ještě ${casesLeft} řízení.`}>
+								(casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreen} title={`Tento týden je možné vytvořit ${casesLeft} řízení.`}>
 								<div className={'ptr-button-create-case'}>
 									<Icon icon="plus" inverted/>
 									<div className={'ptr-button-caption'}>
 										Vytvořit řízení 
-										<span className={'small'}>
-											zbývá {casesLeft}
-										</span>
 									</div>
 								</div>
-							</Button> : <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>) : (casesLeft && casesLeft > 0 ? <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Tento týden je možné vytvořit ještě {casesLeft} řízení.</p> : <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>)
+							</Button> : null) : null
 							}
 						</div>
 					</div>

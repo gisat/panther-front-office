@@ -7,6 +7,14 @@
 }
 
 // header
+.szifLpisZmenovaRizeni-cases-header .szifLpisZmenovaRizeni-heading{
+	display: flex;
+	align-items: baseline;
+	p{
+		color: var(--base0);
+	}
+}
+
 .szifLpisZmenovaRizeni-cases-header {
 	background: var(--accent60);
 	display: flex;
