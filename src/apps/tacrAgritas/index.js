@@ -29,9 +29,9 @@ export default (path, baseUrl) => {
 
 	utils.request(appConfigUrl, "GET", null, null).then((config) => {
 		if (config && config.data) {
-			const d = config.data;
+			// const d = config.data;
 			// TODO replace mock with real data
-			// const d = mockConfig.data;
+			const d = mockConfig.data;
 
 			if (d.configurations) {
 				const data = d.configurations[0].data.data;
@@ -47,37 +47,6 @@ export default (path, baseUrl) => {
 				Store.dispatch(Action.periods.add(d.periods));
 			}
 			if (d.places) {
-				// TODO move to config
-				// Store.dispatch(Action.places.add(d.places));
-				d.places = [
-					{
-						"key": "Agrossyn",
-						"data": {
-							"nameDisplay": "Agrossyn",
-							"description": "Klíčany (Praha - Východ)",
-							"bbox": [14.39,50.17,14.46,50.25]
-						}
-					},
-					{
-						"key": "PodebradskaBlata",
-						"data": {
-							"nameDisplay": "Poděbradská blata",
-							"description": "Pátek (Nymburk)"
-						}
-					},{
-						"key": "Lupofyt",
-						"data": {
-							"nameDisplay": "Lupofyt",
-							"description": "Chrášťany (Praha - Západ)"
-						}
-					},{
-						"key": "Stratov",
-						"data": {
-							"nameDisplay": "Stratov",
-							"description": "Stratov (Nymburk)"
-						}
-					}
-				];
 				Store.dispatch(Action.places.add(d.places));
 			}
 			if (d.activeCaseKey) {

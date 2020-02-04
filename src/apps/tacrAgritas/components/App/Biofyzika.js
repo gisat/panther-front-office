@@ -235,6 +235,7 @@ const getLeafsChoroplethStyle = (attributeKey) => {
 class Biofyzika extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
+		rasters: PropTypes.object,
 		placeView: PropTypes.object,
 		scope: PropTypes.object,
 		activePeriodKey: PropTypes.string
@@ -318,16 +319,15 @@ class Biofyzika extends React.PureComponent {
 			dataForCharts = this.prepareDataForCharts();
 		}
 
-		// TODO dynamic raster layers
-		if (this.props.data) {
-			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle, "AG_20180401_20180410_cab");
-			chlorophyllSecondMapLayers = this.getMapLayers(outlinesStyle, "AG_20180401_20180410_cab_zonace");
+		if (this.props.data && this.props.rasters) {
+			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle, "cab");
+			chlorophyllSecondMapLayers = this.getMapLayers(outlinesStyle, "cab_zonace");
 
-			waterFirstMapLayers = this.getMapLayers(waterStyle, "AG_20180401_20180410_cw");
-			waterSecondMapLayers = this.getMapLayers(outlinesStyle, "AG_20180401_20180410_cw_zonace");
+			waterFirstMapLayers = this.getMapLayers(waterStyle, "cw");
+			waterSecondMapLayers = this.getMapLayers(outlinesStyle, "cw_zonace");
 
-			leafsFirstMapLayers = this.getMapLayers(leafsStyle, "AG_20180401_20180410_lai");
-			leafsSecondMapLayers = this.getMapLayers(outlinesStyle, "AG_20180401_20180410_lai_zonace");
+			leafsFirstMapLayers = this.getMapLayers(leafsStyle, "lai");
+			leafsSecondMapLayers = this.getMapLayers(outlinesStyle, "lai_zonace");
 		}
 
 		return (
@@ -662,7 +662,11 @@ class Biofyzika extends React.PureComponent {
 		);
 	}
 
-	getMapLayers(style, wmsLayer) {
+	getMapLayers(style, themeKey) {
+		const rastersForTheme = this.props.rasters[themeKey];
+		const periodStartString = this.state.selectedMapPeriod.key.split("_")[0];
+		const wmsLayerName = rastersForTheme[`${this.props.activePeriodKey}${periodStartString}`];
+
 		return [
 			{
 				key: "wms",
@@ -672,7 +676,7 @@ class Biofyzika extends React.PureComponent {
 				options: {
 					url: config.tacrAgritasGeoserverWmsUrl,
 					params: {
-						layers: wmsLayer
+						layers: wmsLayerName
 					}
 				}
 			}, {

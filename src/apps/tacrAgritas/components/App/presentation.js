@@ -13,6 +13,7 @@ import logoCzechGlobe from "../../assets/img/czechglobe_logo.png";
 class App extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.array,
+		rasters: PropTypes.object,
 		activePeriodKey: PropTypes.string,
 		activePlaceView: PropTypes.object,
 		activeScope: PropTypes.object
@@ -52,6 +53,7 @@ class App extends React.PureComponent {
 				return (
 					<Biofyzika
 						data={this.props.data}
+						rasters={this.props.rasters}
 						placeView={this.props.activePlaceView}
 						activePeriodKey={this.props.activePeriodKey}
 						scope={scope}
