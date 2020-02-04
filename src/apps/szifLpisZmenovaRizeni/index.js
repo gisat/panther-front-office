@@ -106,6 +106,65 @@ export default (path, baseUrl) => {
 	const indexKey = '3bb594c3-dd3a-4ac7-992c-af8b50b6091b';
 	Store.dispatch(Action.views.setActiveKey(indexKey));
 
+	// Add default view
+	const explorerMapsState = {
+		"activeSetKey": 'szifLpisZmenovaRizeni-explorerMap-set',
+		"maps": {
+			"szifLpisZmenovaRizeni-explorerMap-1": {
+				"key": "szifLpisZmenovaRizeni-map-1",
+				"name": null,
+				"data": {}
+			},
+			"szifLpisZmenovaRizeni-explorerMap-2": {
+				"key": "szifLpisZmenovaRizeni-map-2",
+				"name": null,
+				"data": {}
+			}
+		},
+		"sets": {
+			"szifLpisZmenovaRizeni-explorerMap-set": {
+				"key": "szifLpisZmenovaRizeni-explorerMap-set",
+				"maps": [
+					"szifLpisZmenovaRizeni-explorerMap-1",
+					"szifLpisZmenovaRizeni-explorerMap-2"
+				],
+				"sync": {
+					"center": true,
+					"roll": true,
+					"range": true,
+					"tilt": true,
+					"heading": true,
+					"boxRange": true
+				},
+				"data": {
+					"backgroundLayer": {
+						"type": "worldwind",
+						"options": {
+							"layer": "wikimedia"
+						}
+					},
+					"view": {
+						"center": {
+							"lat": 50,
+							"lon": 15
+						},
+						"boxRange": 1000000
+					}
+				},
+				"activeMapKey": "szifLpisZmenovaRizeni-explorerMap-1"
+			}
+		}
+	};
+
+	const defaultExplorerState = {
+		maps: explorerMapsState,
+		dates: {},
+		activeLayers: {},
+		search: {}
+	}
+
+	Store.dispatch(Action.components.update('szifZmenovaRizeni_SentinelExplorer', defaultExplorerState));
+
 	ReactDOM.render(
 		<>
 			<Provider store={Store}>

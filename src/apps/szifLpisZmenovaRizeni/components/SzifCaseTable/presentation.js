@@ -51,7 +51,8 @@ class SzifCaseTable extends React.PureComponent {
 		};
 
 		this.onSearchChange = this.onSearchChange.bind(this);
-		this.switchScreen = props.switchScreen.bind(this, 'szifCaseForm');
+		this.switchScreenForm = props.switchScreen.bind(this, 'szifCaseForm');
+		this.switchScreenExplorer = props.switchScreen.bind(this, 'szifSentinelExplorer');
 	}
 
 	componentDidMount() {
@@ -84,6 +85,16 @@ class SzifCaseTable extends React.PureComponent {
 								<p className={'szifLpisZmenovaRizeni-cases-header-item'}>{`Tento týden je možné vytvořit ${casesLeft} řízení.`}</p>
 								: <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>)
 						}
+						<div style={{marginBottom: '1rem', marginLeft: '1rem'}}>
+							<Button inverted ghost onClick={this.switchScreenExplorer} title={'Přeprout do režimu prohlížení sentinel dat'}>
+								<div className={'ptr-button-create-case'}>
+									{/* <Icon icon="plus" inverted/> */}
+									<div className={'ptr-button-caption'}>
+										Prohlížeč sentinel dat
+									</div>
+								</div>
+							</Button>
+						</div>
 					</div>
 					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
 						<div className="szifLpisZmenovaRizeni-cases-header-tools">
@@ -96,7 +107,7 @@ class SzifCaseTable extends React.PureComponent {
 								<Icon icon="search"/>
 							</InputText>
 							{activeUserCanAddCase ?
-								(casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreen} title={`Tento týden je možné vytvořit ${casesLeft} řízení.`}>
+								(casesLeft && casesLeft > 0 ? <Button inverted ghost onClick={this.switchScreenForm} title={`Tento týden je možné vytvořit ${casesLeft} řízení.`}>
 								<div className={'ptr-button-create-case'}>
 									<Icon icon="plus" inverted/>
 									<div className={'ptr-button-caption'}>
