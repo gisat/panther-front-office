@@ -10,6 +10,7 @@ import config from "../../../../config/index";
 import lpisChangeCases from '../LpisChangeCases/actions';
 import lpisChangeCasesEdited from '../LpisChangeCasesEdited/actions';
 import lpisChangeDates from '../LpisChangeDates/actions';
+import layersHelpers from '../helpers/layers';
 
 import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 // ============ creators ===========
@@ -246,34 +247,7 @@ const saveView = () => async (dispatch, getState) => {
 const toggleLayer = (mapKey, layer) => (dispatch, getState) => {
 	const activeLayers = Select.components.get(getState(), 'szifZmenovaRizeni_ActiveLayers', mapKey);
 
-	const layerActive = activeLayers.some((l) => l.key === layer.key);
-	let updatedLayers = [];
-	if(layerActive) {
-		updatedLayers = [...activeLayers.filter(l => l.key !== layer.key)];
-	} else {
-		if(layer.options.type === 'sentinel') {
-			//remove all sentinel layers before add new one
-			const sentinelLayer = {
-				key: layer.key,
-				layerTemplateKey: layer.layerTemplateKey,
-				time: layer.start.format("YYYY-MM-DD"), 
-				options: layer.options,
-			}
-			// clear previous wms layers
-			// updatedLayers = [...activeLayers.filter(l => l.options.type !== 'sentinel'), sentinelLayer];
-			updatedLayers = [sentinelLayer];
-		} else {
-			const baseLayer = {
-				key: layer.key,
-				layerTemplateKey: layer.layerTemplateKey,
-				time: layer.start.format("YYYY-MM-DD"), 
-				options: layer.options,
-			}
-			// clear previous wms layers
-			// updatedLayers = [...activeLayers.filter(l => l.options.type !== 'wms'), baseLayer];
-			updatedLayers = [baseLayer];
-		}
-	}
+	const updatedLayers = layersHelpers.getToggledLayers(activeLayers, layer);
 
 	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', mapKey, updatedLayers));
 };

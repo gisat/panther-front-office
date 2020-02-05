@@ -3,22 +3,23 @@ import Select from '../../state/Select';
 import Action from "../../state/Action";
 
 import presentation from './presentation';
-
+const componentID = 'szifZmenovaRizeni_SentinelExplorer';
 const mapStateToProps = (state, ownProps) => {
-	const mapSetKey = Select.maps.getActiveSetKey(state);
-	const activeMapKey = Select.maps.getMapSetActiveMapKey(state, mapSetKey);
-	const maps = Select.maps.getMapSetMapKeys(state, mapSetKey) || [];
-	const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
+	const mapSetKey = Select.components.get(state, componentID, 'maps.activeSetKey');
+	const mapSet = Select.components.get(state, componentID, `maps.sets.${mapSetKey}`);
+	const activeMapKey = mapSet.activeMapKey;
+	const mapsKeys = mapSet.maps;
+
 	return {
 		mapSetKey,
 		activeMapKey,
-		borderOverlays: Select.components.get(state, 'szifZmenovaRizeni_BorderOverlays', activeMapKey),
+		// borderOverlays: Select.components.get(state, 'szifZmenovaRizeni_BorderOverlays', activeMapKey),
 		mapsContainer: {columns: 3, rows: 2},
 		// mapsContainer: Select.components.getMapsContainer(state),
-		mapsCount: maps.length,
-		case: Select.specific.lpisChangeCases.getActive(state),
-		selectedMapOrder: maps.indexOf(activeMapKey),
-		userGroups,
+		mapsCount: mapsKeys.length,
+		// case: Select.specific.lpisChangeCases.getActive(state),
+		selectedMapOrder: mapsKeys.indexOf(activeMapKey),
+		// userGroups,
 	};
 };
 

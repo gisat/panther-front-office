@@ -8,14 +8,14 @@ class SzifCaseFooter extends React.PureComponent {
 	static propTypes = {
 		addMap: PropTypes.func,
 		activeMapKey: PropTypes.string,
-		borderOverlays: PropTypes.object,
-		case: PropTypes.object,
+		// borderOverlays: PropTypes.object,
+		// case: PropTypes.object,
 		mapsContainer: PropTypes.object,
 		mapsCount: PropTypes.number,
 		mapSetKey: PropTypes.string,
 		selectedMapOrder: PropTypes.number,
-		userGroups: PropTypes.array,
-		toggleGeometries: PropTypes.func,
+		// userGroups: PropTypes.array,
+		// toggleGeometries: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -25,7 +25,7 @@ class SzifCaseFooter extends React.PureComponent {
 	render() {
 		return (
 			<div style={{width: '100%',display: 'flex'}}>
-				<MapTools
+				{/* <MapTools
 					showAfter={this.props.borderOverlays && this.props.borderOverlays.after}
 					showBefore={this.props.borderOverlays && this.props.borderOverlays.before}
 					case={this.props.case}
@@ -37,7 +37,7 @@ class SzifCaseFooter extends React.PureComponent {
 					mapSetKey={this.props.mapSetKey}
 					selectedMapOrder={this.props.selectedMapOrder}
 					toggleGeometries={this.props.toggleGeometries}
-				/>
+				/> */}
 				<Timeline mapKey={this.props.activeMapKey}/>
 			</div>
 		);

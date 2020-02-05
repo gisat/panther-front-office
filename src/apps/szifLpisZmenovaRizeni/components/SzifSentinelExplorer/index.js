@@ -48,7 +48,7 @@ const getMapLayers = (state, mapKey) => {
 	const layers = [];
 
 	////// Sync active layers to map part
-	const activeLayers = Select.components.get(state, componentID, 'activeLayers');
+	const activeLayers = Select.components.get(state, componentID, `activeLayers.${mapKey}`);
 	
 	if(activeLayers && activeLayers.length > 0) {
 		activeLayers.forEach((layer) => {

@@ -68,7 +68,7 @@ class SzifMapView extends React.PureComponent {
 						{maps}
 						<MapControlsPresentation zoomOnly updateView={this.onViewChange}/>
 					</MapSetPresentation>
-					{/* <SzifExplorerFooter /> */}
+					<SzifExplorerFooter />
 				</div>
 			</div>
 		);

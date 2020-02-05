@@ -36,6 +36,7 @@ const LEVELS=[
 const MOUSEBUFFERWIDTH = 10;
 class SzifTimeline extends React.PureComponent {
 	static propTypes = {
+		activeLayers: PropTypes.array,
 		layers: PropTypes.array,
 		periodLimit: PropTypes.object,
 		onLayerClick: PropTypes.func,
@@ -116,7 +117,7 @@ class SzifTimeline extends React.PureComponent {
 
 
 	render() {
-		const {periodLimit, layers, onLayerClick} = this.props;
+		const {periodLimit, layers, onLayerClick, activeLayers} = this.props;
 
 		const Levels = (props) => {
 			const {activeLevel} = props;
@@ -143,7 +144,7 @@ class SzifTimeline extends React.PureComponent {
 							selectMode={true}
 							layers={layers}
 							legend={true}
-							onLayerClick={onLayerClick}
+							onLayerClick={(layer) => onLayerClick(layer, activeLayers)}
 							>
 								<Mouse mouseBufferWidth={MOUSEBUFFERWIDTH} key="mouse"/>
 								<Levels key="levels"/>
