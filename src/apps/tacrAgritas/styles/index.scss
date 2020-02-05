@@ -343,6 +343,23 @@
 	font-style: italic;
 }
 
+.tacrAgritas-map-layers {
+	width: 100%;
+	text-align: left;
+	padding: 0 .15rem;
+	font-size: $b1;
+	color: var(--base80);
+}
+
+.tacrAgritas-map-layers label {
+	display: flex;
+	align-items: center;
+}
+
+.tacrAgritas-map-layers input {
+	margin-right: .25rem;
+}
+
 // map period select
 .tacrAgritas .tacrAgritas-map-label {
 	position: absolute;

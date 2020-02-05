@@ -247,12 +247,14 @@ class Biofyzika extends React.PureComponent {
 		this.state = {
 			activeDpbKey: props.data && props.data[0].properties[fidColumnName],
 			mapView: props.activePlaceView,
-			selectedMapPeriod: mapPeriodOptions[3]
+			selectedMapPeriod: mapPeriodOptions[3],
+			showChoropleth: true
 		};
 
 		this.onMapViewChange = this.onMapViewChange.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
 		this.onMapPeriodChange = this.onMapPeriodChange.bind(this);
+		this.onShowChoropleth = this.onShowChoropleth.bind(this);
 	}
 
 	componentDidMount() {
@@ -295,6 +297,12 @@ class Biofyzika extends React.PureComponent {
 		});
 	}
 
+	onShowChoropleth() {
+		this.setState({
+			showChoropleth: !this.state.showChoropleth
+		});
+	}
+
 	render() {
 		const props = this.props;
 
@@ -320,13 +328,13 @@ class Biofyzika extends React.PureComponent {
 		}
 
 		if (this.props.data && this.props.rasters) {
-			chlorophyllFirstMapLayers = this.getMapLayers(chlorophyllStyle, "cab");
+			chlorophyllFirstMapLayers = this.getMapLayers(this.state.showChoropleth ? chlorophyllStyle : outlinesStyle, "cab");
 			chlorophyllSecondMapLayers = this.getMapLayers(outlinesStyle, "cab_zonace");
 
-			waterFirstMapLayers = this.getMapLayers(waterStyle, "cw");
+			waterFirstMapLayers = this.getMapLayers(this.state.showChoropleth ? waterStyle : outlinesStyle, "cw");
 			waterSecondMapLayers = this.getMapLayers(outlinesStyle, "cw_zonace");
 
-			leafsFirstMapLayers = this.getMapLayers(leafsStyle, "lai");
+			leafsFirstMapLayers = this.getMapLayers(this.state.showChoropleth ? leafsStyle : outlinesStyle, "lai");
 			leafsSecondMapLayers = this.getMapLayers(outlinesStyle, "lai_zonace");
 		}
 
@@ -347,6 +355,12 @@ class Biofyzika extends React.PureComponent {
 							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu obsahu chlorofylu v absolutní hodnotě (μg/cm<sup>2</sup>), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot obsahu chlorofylu a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
 						</p>
 						<div className="tacrAgritas-map-component-wrapper">
+							<div className="tacrAgritas-map-layers">
+								<label>
+									<input type="checkbox" checked={this.state.showChoropleth} onChange={this.onShowChoropleth}/>
+									<div>Zobraz hodnoty agregované na půdní blok</div>
+								</label>
+							</div>
 							{this.renderMapSet('map-set-1', chlorophyllFirstMapLayers, chlorophyllSecondMapLayers, chlorophyllAttribute, "μg/cm2")}
 							<div className="tacrAgritas-legend-set">
 								<MapLegend
@@ -374,6 +388,12 @@ class Biofyzika extends React.PureComponent {
 							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu obsahu vody v absolutní hodnotě (cm), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot obsahu vody a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
 						</p>
 						<div className="tacrAgritas-map-component-wrapper">
+							<div className="tacrAgritas-map-layers">
+								<label>
+									<input type="checkbox" checked={this.state.showChoropleth} onChange={this.onShowChoropleth}/>
+									<div>Zobraz hodnoty agregované na půdní blok</div>
+								</label>
+							</div>
 							{this.renderMapSet('map-set-2', waterFirstMapLayers, waterSecondMapLayers, waterAttribute, "cm")}
 							<MapLegend
 								style={waterStyle}
@@ -397,6 +417,12 @@ class Biofyzika extends React.PureComponent {
 							Mapové okno vlevo znázorňuje výsledky kvantitativního odhadu indexu listové plochy v absolutní hodnotě (m<sup>2</sup>/m<sup>2</sup>), a to jak na úrovni družicových dat Sentinel-2, tak jako hodnoty agregované za jednotlivé zemědělské pozemky. Mapové okno vpravo znázorňuje vymezení tzv. management zón na základě prostorové variability hodnot indexu listové plochy a jejich srovnání s hodnotami obvyklými pro danou plodinu, termín a klimatické podmínky.
 						</p>
 						<div className="tacrAgritas-map-component-wrapper">
+							<div className="tacrAgritas-map-layers">
+								<label>
+									<input type="checkbox" checked={this.state.showChoropleth} onChange={this.onShowChoropleth}/>
+									<div>Zobraz hodnoty agregované na půdní blok</div>
+								</label>
+							</div>
 							{this.renderMapSet('map-set-3', leafsFirstMapLayers, leafsSecondMapLayers, leafsAttribute, "m2/m2")}
 							<MapLegend
 								style={leafsStyle}
