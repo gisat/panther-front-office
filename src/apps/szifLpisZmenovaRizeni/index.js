@@ -46,9 +46,9 @@ export default (path, baseUrl) => {
 				}
 		},
 		{
-				key: 'ortofoto_2017',
+				key: 'ortofoto_2017_zapad',
 				title: 'Ortofoto historická',
-				info: '2017',
+				info: 'západ 2017',
 				period: {start:'2017',end:'2018'},
 				type: "wms",
 				zIndex: 2,
@@ -56,14 +56,14 @@ export default (path, baseUrl) => {
 					type: 'wms',
 					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
 					params: {
-						layers: 'ORTOFOTO_AKT_ZAPAD',
+						layers: 'ORTOFOTO_17_ZAPAD',
 						time: '2017',		
 					}
 				}
 		},
 		{
-				key: 'ortofoto_2018',
-				info: '2018',
+				key: 'ortofoto_2018_vychod',
+				info: 'východ 2018',
 				title: 'Ortofoto historická',
 				period: {start:'2018',end:'2019'},
 				type: "wms",
@@ -78,8 +78,8 @@ export default (path, baseUrl) => {
 				}
 		},
 		{
-				key: 'ortofoto_2019',
-				info: '2019',
+				key: 'ortofoto_2019_zapad',
+				info: 'západ 2019',
 				title: 'Ortofoto historická',
 				period: {start:'2019',end:'2020'},
 				type: "wms",
