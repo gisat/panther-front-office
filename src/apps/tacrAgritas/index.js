@@ -29,9 +29,7 @@ export default (path, baseUrl) => {
 
 	utils.request(appConfigUrl, "GET", null, null).then((config) => {
 		if (config && config.data) {
-			// const d = config.data;
-			// TODO replace mock with real data
-			const d = mockConfig.data;
+			const d = config.data;
 
 			if (d.configurations) {
 				const data = d.configurations[0].data.data;
