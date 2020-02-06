@@ -43,9 +43,16 @@ const getNextCaseKey = createSelector([
 
 const getCaseStatus = createSelector([
 		getDataByKey,
+		(state, caseKey, userGroups) => userGroups
 	],
-	(caseData) => {
-		return caseData && caseData.status ? LpisCaseStatuses[caseData.status.toUpperCase()].szifName : null;
+	(caseData, userGroups) => {
+		const caseStatus = caseData && caseData.status ? LpisCaseStatuses[caseData.status.toUpperCase()] : null;
+		if (userGroups.includes('gisatUsers') || userGroups.includes('gisatAdmins')) {
+			return caseStatus && caseStatus.gisatName;
+		} else {
+			return caseStatus && caseStatus.szifName;
+		}
+
 	}
 );
 
