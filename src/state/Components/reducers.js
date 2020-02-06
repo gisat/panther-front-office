@@ -10,7 +10,11 @@ function update(state, action) {
 }
 function set(state, action) {
 	let path = action.path.split('.');
-	return {...state, [action.component]: setHelper(state[action.component], path, action.value)};
+	if(path && path.length === 1 && path[0] === '') {
+		return {...state, [action.component]: action.value};
+	} else {
+		return {...state, [action.component]: setHelper(state[action.component], path, action.value)};
+	}
 }
 
 function setHelper(state, path, value) {

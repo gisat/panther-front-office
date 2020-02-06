@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import Select from '../../state/Select';
 import Action from "../../state/Action";
 
+import mapHelpers from "../../state/helpers/maps";
+
+const activeLayersComponentID = 'szifZmenovaRizeni_ActiveLayers';
+const borderOverlaysComponentID = 'szifZmenovaRizeni_BorderOverlays';
+
 // props.props
 // props.classes
 // props.label
@@ -30,6 +35,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onCloseClick: (setKey, mapKey) => {
             dispatch(Action.specific.szifLpisZmenovaRizeni.removeMap(mapKey));
+            dispatch(mapHelpers.removeActiveLayersByMapKey(activeLayersComponentID, '', mapKey));
+            dispatch(mapHelpers.removeBorderOverlaysByMapKey(borderOverlaysComponentID, '', mapKey));
 		},
 	}
 };

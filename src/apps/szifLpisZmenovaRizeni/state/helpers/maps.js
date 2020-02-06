@@ -35,9 +35,16 @@ const addMapAction = (componentID, mapsComponentPath) => (dispatch, getState) =>
 
 const removeActiveLayersByMapKey = (componentID, activeLayersComponentPath, mapKey) => (dispatch, getState) => {
     const state = getState();
-    const activeLayers = Select.components.get(state, componentID, `${activeLayersComponentPath}`);
+    const activeLayers = activeLayersComponentPath ? Select.components.get(state, componentID, activeLayersComponentPath) : Select.components.getDataByComponentKey(state, componentID);
     const activeLayersWithoutMapKey = removeItemByKey(activeLayers, mapKey);
-    return dispatch(Action.components.set(componentID, `${activeLayersComponentPath}`, activeLayersWithoutMapKey));
+    return dispatch(Action.components.set(componentID, activeLayersComponentPath, activeLayersWithoutMapKey));
+}
+
+const removeBorderOverlaysByMapKey = (componentID, borderOverlaysComponentPath, mapKey) => (dispatch, getState) => {
+    const state = getState();
+    const borderOverlays = borderOverlaysComponentPath ? Select.components.get(state, componentID, borderOverlaysComponentPath) : Select.components.getDataByComponentKey(state, componentID);
+    const borderOverlaysWithoutMapKey = removeItemByKey(borderOverlays, mapKey);
+    return dispatch(Action.components.set(componentID, borderOverlaysComponentPath, borderOverlaysWithoutMapKey));
 }
 
 const removeMapAction = (componentID, mapsComponentPath, mapKey) => (dispatch, getState) => {
@@ -75,4 +82,5 @@ export default {
     getNextMapKey,
     removeMapAction,
     removeActiveLayersByMapKey,
+    removeBorderOverlaysByMapKey,
 }

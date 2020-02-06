@@ -34,8 +34,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		onCloseClick: (setKey, mapKey) => {
             dispatch(mapHelpers.removeMapAction(componentID, 'maps', mapKey));
             dispatch(mapHelpers.removeActiveLayersByMapKey(componentID, 'activeLayers', mapKey));
-            //remove also activelayers
-
 		},
 	}
 };
