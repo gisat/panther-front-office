@@ -274,7 +274,7 @@ class Biofyzika extends React.PureComponent {
 			}
 		}
 
-		if (!this.state.mapView && this.props.placeView) {
+		if (prevProps.placeView !== this.props.placeView) {
 			this.setState({mapView: this.props.placeView});
 		}
 	}
