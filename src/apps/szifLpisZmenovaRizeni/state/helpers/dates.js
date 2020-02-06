@@ -1,7 +1,20 @@
+import mapHelpers from './maps';
+
 const getDates = (geometry) => {
-	const url = 'http://dromas.gisat.cz/backend/rest/imagemosaic/getDates';
+	const url = 'http://lpisup.gisat.cz/backend/rest/imagemosaic/getDates';
+
+	const geometryWithSrid = {
+		...geometry,
+		crs: {
+			"type": "name",
+			"properties": {
+				"name": "urn:ogc:def:crs:EPSG::4326"
+			}
+		}
+	}
+
 	const data = {data: {
-		geometry
+		geometry: geometryWithSrid
 	}};
 
 	return fetch(url, {
@@ -19,6 +32,15 @@ const getDates = (geometry) => {
 	});
 }
 
+const ensureDatesForMapSetExtent = (mapSet) => {
+	const view = mapSet.data.view;
+	//get boundary geojson
+	const boundingGeometry = mapHelpers.getGeometryFromView(view);
+	return getDates(boundingGeometry.geometry).then(results => ({dates:results.dates, boundingGeometry}));
+}
+
+
 export default {
-    getDates,
+	ensureDatesForMapSetExtent,
+	getDates,
 }
