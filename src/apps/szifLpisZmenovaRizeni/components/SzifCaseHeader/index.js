@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Select from '../../state/Select';
 import Action from "../../state/Action";
 import presentation from "./presentation";
+import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 
 const mapStateToProps = (state, ownProps) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
@@ -25,7 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.specific.lpisChangeCases.updateEdited(modelKey, property, value))
 		},
 		saveEvaluation: (caseKey, nextCaseKey) => {
-			//TODO - save view and case only if edited
+			dispatch(Action.specific.szifLpisZmenovaRizeni.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
 			const prom1 = dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
 			const prom2 = dispatch(Action.specific.lpisChangeCases.saveEdited(caseKey));
 			Promise.all([prom1, prom2]).then(() => {

@@ -316,6 +316,16 @@ function saveAndApproveEvaluation() {
 	}
 }
 
+function saveEvaluation() {
+	return async (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+	
+		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
+	}
+}
+
 function rejectEvaluation() {
 	return async (dispatch, getState) => {
 		const state = getState();
@@ -396,6 +406,7 @@ szifLpisZmenovaRizeni['addMap'] = addMap;
 szifLpisZmenovaRizeni['removeMap'] = removeMap;
 szifLpisZmenovaRizeni['editActiveCaseStatus'] = editActiveCaseStatus;
 szifLpisZmenovaRizeni['saveAndApproveEvaluation'] = saveAndApproveEvaluation;
+szifLpisZmenovaRizeni['saveEvaluation'] = saveEvaluation;
 szifLpisZmenovaRizeni['rejectEvaluation'] = rejectEvaluation;
 szifLpisZmenovaRizeni['closeEvaluation'] = closeEvaluation;
 szifLpisZmenovaRizeni['approveEvaluation'] = approveEvaluation;
