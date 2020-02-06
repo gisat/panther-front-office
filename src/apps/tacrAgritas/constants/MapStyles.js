@@ -34,60 +34,273 @@ export const outlinesStyle = utils.fillStyleTemplate(
 	}
 );
 
-export const style_SOS = utils.fillStyleTemplate(
+export const style_AMPLITUDE = utils.fillStyleTemplate(
 	{
-		attributeKey: "SOS",
+		attributeKey: "AMPLITUDE",
 		attributeClasses:[
 			{
-				"interval": [0,90],
+				"interval": [0,2000],
 				"intervalBounds": [false, true],
-				"fill": "#709959"
+				"fill": "#61150d"
+			},{
+				"interval": [2000,2500],
+				"intervalBounds": [false, true],
+				"fill": "#7a391b"
+			},{
+				"interval": [2500,3000],
+				"intervalBounds": [false, true],
+				"fill": "#915d2c"
+			},{
+				"interval": [3000,3500],
+				"intervalBounds": [false, true],
+				"fill": "#a88640"
+			},{
+				"interval": [3500,4000],
+				"intervalBounds": [false, true],
+				"fill": "#c2b659"
+			},{
+				"interval": [4000,4500],
+				"intervalBounds": [false, true],
+				"fill": "#b5bd5b"
+			},{
+				"interval": [4500,5000],
+				"intervalBounds": [false, true],
+				"fill": "#849c44"
+			},{
+				"interval": [5000,5500],
+				"intervalBounds": [false, true],
+				"fill": "#5b7d31"
+			},{
+				"interval": [5500,6000],
+				"intervalBounds": [false, true],
+				"fill": "#356120"
+			},{
+				"interval": [6000,10000],
+				"intervalBounds": [false, true],
+				"fill": "#104510"
+			},
+		]
+	}
+);
+
+export const style_BASE_GRW = utils.fillStyleTemplate(
+	{
+		attributeKey: "BASE_GRW",
+		attributeClasses:[
+			{
+				"interval": [0,2000],
+				"intervalBounds": [false, true],
+				"fill": "#61150d"
 			},
 			{
-				"interval": [90,100],
-				"intervalBounds": [true, true],
-				"fill": "#a9bf78"
+				"interval": [2000,2500],
+				"intervalBounds": [false, true],
+				"fill": "#80421f"
 			},
 			{
-				"interval": [101,110],
-				"intervalBounds": [true, true],
-				"fill": "#e7e89b"
+				"interval": [2500,3000],
+				"intervalBounds": [false, true],
+				"fill": "#9e7337"
 			},
 			{
-				"interval": [111,120],
-				"intervalBounds": [true, true],
-				"fill": "#f2e599"
+				"interval": [3000,3500],
+				"intervalBounds": [false, true],
+				"fill": "#bdad55"
 			},
 			{
-				"interval": [121,130],
-				"intervalBounds": [true, true],
-				"fill": "#f2d58d"
+				"interval": [3500,4000],
+				"intervalBounds": [false, true],
+				"fill": "#aeb858"
 			},
 			{
-				"interval": [131,140],
-				"intervalBounds": [true, true],
-				"fill": "#e6bb83"
+				"interval": [4000,4500],
+				"intervalBounds": [false, true],
+				"fill": "#708c3b"
 			},
 			{
-				"interval": [141,150],
-				"intervalBounds": [true, true],
-				"fill": "#d19f82"
+				"interval": [4500,5000],
+				"intervalBounds": [false, true],
+				"fill": "#3f6925"
 			},
 			{
-				"interval": [151,160],
-				"intervalBounds": [true, true],
-				"fill": "#c99389"
-			},
-			{
-				"interval": [161,170],
-				"intervalBounds": [true, true],
-				"fill": "#e6bec9"
-			},
-			{
-				"interval": [171,365],
-				"intervalBounds": [true, true],
-				"fill": "#fff2ff"
+				"interval": [5000,10000],
+				"intervalBounds": [false, true],
+				"fill": "#104510"
 			}
+		]
+	}
+);
+
+export const style_BASE_SEN = utils.fillStyleTemplate(
+	{
+		attributeKey: "BASE_SEN",
+		attributeClasses:[
+			{
+				"interval": [0,1000],
+				"intervalBounds": [false, true],
+				"fill": "#61150d"
+			},
+			{
+				"interval": [1000,1500],
+				"intervalBounds": [false, true],
+				"fill": "#80421f"
+			},
+			{
+				"interval": [1500,2000],
+				"intervalBounds": [false, true],
+				"fill": "#9e7337"
+			},
+			{
+				"interval": [2000,2500],
+				"intervalBounds": [false, true],
+				"fill": "#bdad55"
+			},
+			{
+				"interval": [2500,3000],
+				"intervalBounds": [false, true],
+				"fill": "#aeb858"
+			},
+			{
+				"interval": [3000,3500],
+				"intervalBounds": [false, true],
+				"fill": "#708c3b"
+			},
+			{
+				"interval": [3500,4000],
+				"intervalBounds": [false, true],
+				"fill": "#3f6925"
+			},
+			{
+				"interval": [4000,10000],
+				"intervalBounds": [false, true],
+				"fill": "#104510"
+			}
+		]
+	}
+);
+
+export const style_CLIMAX_DOY = utils.fillStyleTemplate(
+	{
+		attributeKey: "CLIMAX_DOY",
+		attributeClasses:[
+			{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},
+		]
+	}
+);
+
+export const style_CLIMAX_VI = utils.fillStyleTemplate(
+	{
+		attributeKey: "CLIMAX_VI",
+		attributeClasses:[
+			{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},{
+				"interval": [],
+				"intervalBounds": [false, true],
+				"fill": ""
+			},
 		]
 	}
 );
@@ -304,49 +517,59 @@ export const style_LOS_SEN = utils.fillStyleTemplate(
 	}
 );
 
-export const style_BASE_GRW = utils.fillStyleTemplate(
+export const style_SOS = utils.fillStyleTemplate(
 	{
-		attributeKey: "BASE_GRW",
+		attributeKey: "SOS",
 		attributeClasses:[
 			{
-				"interval": [0,2000],
+				"interval": [0,90],
 				"intervalBounds": [false, true],
-				"fill": "#61150d"
+				"fill": "#709959"
 			},
 			{
-				"interval": [2000,2500],
-				"intervalBounds": [false, true],
-				"fill": "#80421f"
+				"interval": [90,100],
+				"intervalBounds": [true, true],
+				"fill": "#a9bf78"
 			},
 			{
-				"interval": [2500,3000],
-				"intervalBounds": [false, true],
-				"fill": "#9e7337"
+				"interval": [101,110],
+				"intervalBounds": [true, true],
+				"fill": "#e7e89b"
 			},
 			{
-				"interval": [3000,3500],
-				"intervalBounds": [false, true],
-				"fill": "#bdad55"
+				"interval": [111,120],
+				"intervalBounds": [true, true],
+				"fill": "#f2e599"
 			},
 			{
-				"interval": [3500,4000],
-				"intervalBounds": [false, true],
-				"fill": "#aeb858"
+				"interval": [121,130],
+				"intervalBounds": [true, true],
+				"fill": "#f2d58d"
 			},
 			{
-				"interval": [4000,4500],
-				"intervalBounds": [false, true],
-				"fill": "#708c3b"
+				"interval": [131,140],
+				"intervalBounds": [true, true],
+				"fill": "#e6bb83"
 			},
 			{
-				"interval": [4500,5000],
-				"intervalBounds": [false, true],
-				"fill": "#3f6925"
+				"interval": [141,150],
+				"intervalBounds": [true, true],
+				"fill": "#d19f82"
 			},
 			{
-				"interval": [5000,10000],
-				"intervalBounds": [false, true],
-				"fill": "#104510"
+				"interval": [151,160],
+				"intervalBounds": [true, true],
+				"fill": "#c99389"
+			},
+			{
+				"interval": [161,170],
+				"intervalBounds": [true, true],
+				"fill": "#e6bec9"
+			},
+			{
+				"interval": [171,365],
+				"intervalBounds": [true, true],
+				"fill": "#fff2ff"
 			}
 		]
 	}

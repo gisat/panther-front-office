@@ -1,5 +1,14 @@
 import utils from "../utils";
-import {style_BASE_GRW, style_EOS, style_LOS_GRW, style_LOS_SEN, style_LOS_TOT, style_SOS} from "./MapStyles";
+import {
+	style_AMPLITUDE,
+	style_BASE_GRW,
+	style_BASE_SEN, style_CLIMAX_DOY, style_CLIMAX_VI,
+	style_EOS,
+	style_LOS_GRW,
+	style_LOS_SEN,
+	style_LOS_TOT,
+	style_SOS
+} from "./MapStyles";
 
 const cartoDbLight = {
 	key: 'cartoDbBasemap',
@@ -197,7 +206,7 @@ export const fenologyOptions = [
 		name: "Koncová úroveň (baseline) senescenční fáze",
 		longName: "Koncová úroveň (baseline) senescenční fáze (BASE_SEN)",
 		unit: "NDVI",
-		style: null
+		style: style_BASE_SEN
 	}, {
 		key: "CLIMAX_DOY",
 		name: "Datum maxima vegetační sezóny",
@@ -215,7 +224,7 @@ export const fenologyOptions = [
 		name: "Sezónní amplituda NDVI",
 		longName: "Sezónní amplituda NDVI (AMPLITUDE)",
 		unit: "NDVI",
-		style: null
+		style: style_AMPLITUDE
 	}, {
 		key: "GRW_DOY",
 		name: "Datum maximální rychlosti nárůstu NDVI v růstové fázi",

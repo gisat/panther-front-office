@@ -128,7 +128,7 @@
 }
 
 .tacrAgritas-fixed-header .tacrAgritas-title {
-	font-size: $a2;
+	font-size: $b2;
 	color: var(--base0);
 	margin: 0;
 	padding: 0 m(1);
@@ -215,7 +215,7 @@
 	width: 15px;
 }
 
-@media screen and (max-width: 50rem) {
+@media screen and (max-width: 60rem) {
 	.tacrAgritas-title {
 		font-size: $b3;
 	}
@@ -249,7 +249,7 @@
 
 	/* Fixed header */
 	.tacrAgritas-fixed-header .tacrAgritas-title {
-		font-size: $b2;
+		font-size: $a1;
 	}
 	.tacrAgritas-fixed-header .tacrAgritas-selections {
 		margin-right: .5rem;
