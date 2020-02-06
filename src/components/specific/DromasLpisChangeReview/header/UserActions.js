@@ -42,6 +42,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				case `gisatUsers`:
 					return this.renderButtonsForGisatUsers(changeReviewCase);
 				case `szifAdmins`:
+				case `szifRegionAdmins`:
 				case `szifUsers`:
 					return this.renderButtonsForSzifs(changeReviewCase);
 			}

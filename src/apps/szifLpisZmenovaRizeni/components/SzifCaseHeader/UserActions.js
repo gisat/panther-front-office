@@ -42,7 +42,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				return this.renderButtonsForGisatAdmins(changeReviewCase);
 			} else if(this.props.userGroups.includes('gisatUsers')) {
 				return this.renderButtonsForGisatUsers(changeReviewCase);
-			} else if(this.props.userGroups.includes('szifAdmins') || this.props.userGroups.includes('szifUsers')) {
+			} else if(this.props.userGroups.includes('szifAdmins') || this.props.userGroups.includes('szifUsers') || this.props.userGroups.includes('szifRegionAdmins')) {
 				return this.renderButtonsForSzifs(changeReviewCase);
 			}
 		} else {

@@ -29,7 +29,7 @@ const getActiveUserGroups = (state) => {
 
 const activeUserCanAddCase = (state) => {
 	const groups = getActiveUserGroups(state);
-	const authorityRoles = ['szifUsers', 'szifAdmins'] // gisatUsers, gisatAdmins
+	const authorityRoles = ['szifUsers', 'szifAdmins', 'szifRegionAdmins'] // gisatUsers, gisatAdmins
 	return authorityRoles.some((role => groups.includes(role)));
 };
 
