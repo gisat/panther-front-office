@@ -11,6 +11,7 @@ import lpisChangeCases from '../LpisChangeCases/actions';
 import lpisChangeCasesEdited from '../LpisChangeCasesEdited/actions';
 import lpisChangeDates from '../LpisChangeDates/actions';
 import layersHelpers from '../helpers/layers';
+import mapsHelpers from '../helpers/maps';
 
 import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 // ============ creators ===========
@@ -256,15 +257,8 @@ const addMap = () => (dispatch, getState) => {
 	const state = getState();
 	const mapSetKey = Select.maps.getActiveSetKey(state);
 	const mapKeys = Select.maps.getMapSetMapKeys(state, mapSetKey);
-	let mapKey;
-	if(mapKeys) {
-		mapKeys.sort();
-		const lastMapKey = mapKeys[mapKeys.length - 1];
-		const lastMapNumber = Number.parseInt(lastMapKey.match(/[\d+]/g).join(''));
-		mapKey = `szifLpisZmenovaRizeni-map-${lastMapNumber + 1}`;
-	} else {
-		mapKey = `szifLpisZmenovaRizeni-map-1`;
-	}
+	const mapKey = mapsHelpers.getNextMapKey('szifLpisZmenovaRizeni-map-', mapKeys)
+	
 	dispatch(szifLpisZmenovaRizeni.setInitMapOnBorderOverlaysToMapKey(mapKey));
 	dispatch(szifLpisZmenovaRizeni.setInitMapActiveLayersToMapKey(mapKey));
 	dispatch(CommonAction.maps.addMapToSet(mapSetKey, mapKey));

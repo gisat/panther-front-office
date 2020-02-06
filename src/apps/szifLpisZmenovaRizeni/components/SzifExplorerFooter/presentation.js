@@ -23,22 +23,23 @@ class SzifCaseFooter extends React.PureComponent {
 	}
 
 	render() {
+		const {selectedMapOrder, activeMapKey, addMap, mapsCount} = this.props;
 		return (
 			<div style={{width: '100%',display: 'flex'}}>
-				{/* <MapTools
-					showAfter={this.props.borderOverlays && this.props.borderOverlays.after}
-					showBefore={this.props.borderOverlays && this.props.borderOverlays.before}
-					case={this.props.case}
-					userGroups={this.props.userGroups}
-					mapKey={this.props.activeMapKey}
-					addMap={this.props.addMap}
-					mapsContainer={this.props.mapsContainer}
-					mapsCount={this.props.mapsCount}
-					mapSetKey={this.props.mapSetKey}
-					selectedMapOrder={this.props.selectedMapOrder}
-					toggleGeometries={this.props.toggleGeometries}
-				/> */}
-				<Timeline mapKey={this.props.activeMapKey}/>
+				<MapTools
+					// showAfter={borderOverlays && borderOverlays.after}
+					// showBefore={borderOverlays && borderOverlays.before}
+					// case={case}
+					// userGroups={userGroups}
+					mapKey={activeMapKey}
+					addMap={addMap}
+					// mapsContainer={mapsContainer}
+					mapsCount={mapsCount}
+					// mapSetKey={mapSetKey}
+					selectedMapOrder={selectedMapOrder}
+					// toggleGeometries={toggleGeometries}
+				/>
+				<Timeline mapKey={activeMapKey}/>
 			</div>
 		);
 	}
