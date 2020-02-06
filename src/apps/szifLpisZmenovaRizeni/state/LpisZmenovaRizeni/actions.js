@@ -373,7 +373,7 @@ function reloadLeftCases() {
 	
 		return fetch(url, {
 			method: 'POST',
-			// credentials: 'include',
+			credentials: 'include',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'

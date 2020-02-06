@@ -172,6 +172,20 @@ function getViewFromBoundingBox(bbox, reflectLatitude) {
 }
 
 /**
+ * @param {Object} view
+ * @return geometry {Object} geojson geometry
+ */
+function getGeometryFromView(view) {
+	const boxRange = view.boxRange;
+	const center = view.center;
+	const point = turf.point([center.lon, center.lat]);
+	const buffered = turf.buffer(point, boxRange / 2, {units:'meters'});
+	const bbox = turf.bbox(buffered);
+	const polygon = turf.bboxPolygon(bbox);
+	return polygon;
+}
+
+/**
  * @param geometry {Object} geojson geometry
  * @param reflectLatitude {boolean}
  * @return {Object} view
@@ -251,6 +265,7 @@ export default {
 	getLocationFromPlaceString,
 	getViewFromBoundingBox,
 	getViewFromGeometry,
+	getGeometryFromView,
 	mergeLayers,
 	mergeViews,
 	resetHeading,

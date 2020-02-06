@@ -57,6 +57,7 @@ const getSentinelLayers = (dates = [], activeIndex, zIndex, layerTemplateKey, ti
 
 const mapStateToProps = (state, ownProps) => {
 	// const dates = Select.specific.lpisChangeDates.getDatesForActiveCase(state);
+	const dates = Select.components.get(state, componentID, `dates.dates`) || [];
 	const activeLayers = Select.components.get(state, componentID, `activeLayers.${ownProps.mapKey}`) || [];
 	
 	const activeSentinel1Layer = activeLayers.find((layer) => {
@@ -77,8 +78,7 @@ const mapStateToProps = (state, ownProps) => {
 	const activeWmsKey = activeWmsLayer ? activeWmsLayer.key : null;
 	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
 	const baseLayersCfg = defaultLayers|| [];
-	// const layers = [...getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel'), ...getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel infračervený'), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
-	const layers = [...getBaseLayers(baseLayersCfg, activeWmsKey)];
+	const layers = [...getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel'), ...getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel infračervený'), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
 	return {
 		activeLayers,
 		layers,
@@ -88,9 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onMount: () => {
-			// dispatch(Action.specific.lpisChangeDates.ensureDatesForActiveCase());
-		},
+		onMount: () => {},
 		onLayerClick: (layer, activeLayers) => {
 			const updatedLayers = layersHelpers.getToggledLayers(activeLayers, layer);
 			dispatch(Action.components.set(componentID, `activeLayers.${ownProps.mapKey}`, updatedLayers));

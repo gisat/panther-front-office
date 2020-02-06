@@ -1,5 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
+import datesHelpers from '../helpers/dates';
+import mapHelpers from '../../../../utils/map';
 
 // ============ creators ===========
 // ============ actions ===========
@@ -12,27 +14,7 @@ const saveDates = (key, dates) => {
 }
 
 const getDates = (key, geometry) => (dispatch, getState) => {
-	//pokud neni pod klícem geometrie, tak stáhnout
-
-	const url = 'http://dromas.gisat.cz/backend/rest/imagemosaic/getDates';
-	const data = {data: {
-		geometry
-	}};
-
-	return fetch(url, {
-		method: 'POST',
-		// credentials: 'include',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(data)
-	}).then(response => {
-		if (response.status === 200) {
-			return response.json();
-		}
-	}).then((responseContent) => {
-		// dispatch(LpisChangeCasesActions.clearIndex(null, [['submitDate', 'descending']]))
+	return datesHelpers.getDates(geometry).then((responseContent) => {
 		dispatch(saveDates(key, responseContent.dates));
 	});
 }
@@ -49,6 +31,13 @@ const loadDatesForActiveCase = () => (dispatch, getState) => {
 	dispatch(getDates(activeCaseKey, JSON.parse(geometry))).then(() => {
 		//set loading false
 	});
+}
+
+const ensureDatesForMapSetExtent = (mapSet) => {
+	const view = mapSet.data.view;
+	//get boundary geojson
+	const boundingGeometry = mapHelpers.getGeometryFromView(view);
+	return datesHelpers.getDates(boundingGeometry).then(results => ({dates:results.dates, boundingGeometry}));
 }
 
 const ensureDatesForActiveCase = () => (dispatch, getState) => {
@@ -80,6 +69,7 @@ function updateStateFromView(data) {
 
 export default {
 	ensureDatesForActiveCase,
+	ensureDatesForMapSetExtent,
 	getDates,
 	loadDatesForActiveCase,
 	updateStateFromView,

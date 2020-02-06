@@ -8,32 +8,31 @@ import Button from "../../../../components/common/atoms/Button";
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 	static propTypes = {
-		// case: PropTypes.object,
-		// userApprovedEvaluation: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-		// userCreatedCase: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-		// userGroups: PropTypes.array,
-		// editActiveCase: PropTypes.func,
-		// activeCaseEdited: PropTypes.object,
-		// saveEvaluation: PropTypes.func,
-		// saveAndApproveEvaluation: PropTypes.func,
-		// approveEvaluation: PropTypes.func,
-		// rejectEvaluation: PropTypes.func,
-		// closeEvaluation: PropTypes.func,
 		switchScreen: PropTypes.func,
-		// nextCaseKey: PropTypes.string
+		loadSentinels: PropTypes.func,
+		mapSet: PropTypes.object
 	};
 
 	constructor(props) {
 		super(props);
 		this.switchScreen = props.switchScreen.bind(this, 'szifCaseTable');
+		this.loadSentinels = this.loadSentinels.bind(this);
+	}
+
+	loadSentinels() {
+		const {loadSentinels, mapSet} = this.props;
+		loadSentinels(mapSet);
 	}
 	render() {
 		return (
 			<div className="szifLpisZmenovaRizeni-sentinel-explorer-header">
-				<div id="szifLpisZmenovaRizeni-sentinel-back">
-					<div>
-						<Button invisible inverted circular icon="back" onClick={this.switchScreen}/>
-					</div>
+				<div>
+					<Button invisible inverted icon="back" onClick={this.switchScreen}/>
+				</div>
+				<div className="szifLpisZmenovaRizeni-sentinel-explorer-header-rightblock">
+					<Button ghost inverted icon="download" onClick={this.loadSentinels}>
+						Načíst sentinel data
+					</Button>
 				</div>
 			</div>
 		);

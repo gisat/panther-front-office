@@ -3,27 +3,25 @@ import Select from '../../state/Select';
 import Action from "../../state/Action";
 import presentation from "./presentation";
 
+const componentID = 'szifZmenovaRizeni_SentinelExplorer';
+
 const mapStateToProps = (state, ownProps) => {
-	// const activeCase = Select.specific.lpisChangeCases.getActive(state);
-	// const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
-	// const nextCaseKey = Select.specific.lpisChangeCases.getNextCaseKey(state, activeCase.key);
-	// const caseEvaluationApproved = Select.specific.lpisChangeCases.getCaseEvaluationApproved(state, activeCase.key);
-	// const caseCreated = Select.specific.lpisChangeCases.getCaseSubmit(state, activeCase.key);
+	const mapSetKey = Select.components.get(state, componentID, 'maps.activeSetKey');
+	const mapSet = Select.components.get(state, componentID, `maps.sets.${mapSetKey}`);
 	return {
-		// case: activeCase,
-		// userApprovedEvaluation: caseEvaluationApproved && caseEvaluationApproved.userId || null,
-		// userCreatedCase: caseCreated && caseCreated.userId || null,
-		// userGroups,
-		// activeCaseEdited: Select.specific.lpisChangeCases.getEditedDataByKey(state, activeCase.key),
-		// nextCaseKey: nextCaseKey,
+		//datesLoading
+		//getDatesActive
+		mapSet
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		// switchScreen: () => {
-		// 	dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifCaseList'));
-		// },
+		loadSentinels: (mapSet) => {
+			dispatch(Action.specific.lpisChangeDates.ensureDatesForMapSetExtent(mapSet)).then((results) => {
+				dispatch(Action.components.set(componentID, `dates`, results));
+			});
+		},
 	};
 };
 

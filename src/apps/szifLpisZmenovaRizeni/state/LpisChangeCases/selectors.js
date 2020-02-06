@@ -53,7 +53,11 @@ const getCaseChanges = createSelector([
 		getByKey,
 	],
 	(caseObject) => {
-		return caseObject.changes
+		if(caseObject) {
+			return caseObject.changes
+		} else {
+			return null;
+		}
 	}
 );
 

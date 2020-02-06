@@ -4,4 +4,10 @@
 	display: flex;
 	align-items: flex-end;
 	background: var(--accent60);
+	padding-bottom: 1rem;
+	justify-content: space-between;
 };
+
+.szifLpisZmenovaRizeni-sentinel-explorer-header-rightblock{
+	margin: 0 1rem;
+}
