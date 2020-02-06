@@ -56,6 +56,7 @@ class SzifCaseTableRow extends React.PureComponent {
 		const endDate = caseEnd ? moment(caseEnd.changed).format("DD. MM. YYYY") : '-';
 
 		return (
+			data ? (
 			<div className={classes} key={data.caseKey}>
 				<div className="szifLpisZmenovaRizeni-table-row-record">
 					<div className="szifLpisZmenovaRizeni-table-row-item">{caseStatus}</div>
@@ -67,7 +68,7 @@ class SzifCaseTableRow extends React.PureComponent {
 					<div className="szifLpisZmenovaRizeni-table-row-item buttons">{this.renderButtons()}</div>
 				</div>
 				{this.state.expanded ? this.renderDetails() : null}
-			</div>
+			</div>) : null
 		);
 	}
 
