@@ -23,7 +23,7 @@ const getGroupByGroupId = createSelector([
 
 const getActiveUserGroups = (state) => {
 	const user = UsersSelectors.getActiveUser(state);
-	const userLpisGroups = user.groups.map(groupId => getGroupByGroupId(state, groupId)).filter(g => g);
+	const userLpisGroups = user && user.groups && user.groups.map(groupId => getGroupByGroupId(state, groupId)).filter(g => g) || [];
 	return userLpisGroups;
 }
 

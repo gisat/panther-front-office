@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Select from '../../state/Select';
 import Action from "../../state/Action";
+import mapHelpers from "../../state/helpers/maps";
+
+const componentID = 'szifZmenovaRizeni_SentinelExplorer';
 
 // props.props
 // props.classes
@@ -29,7 +32,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onCloseClick: (setKey, mapKey) => {
-            dispatch(Action.specific.szifLpisZmenovaRizeni.removeMap(mapKey));
+            dispatch(mapHelpers.removeMapAction(componentID, 'maps', mapKey));
+            dispatch(mapHelpers.removeActiveLayersByMapKey(componentID, 'activeLayers', mapKey));
+            //remove also activelayers
+
 		},
 	}
 };
