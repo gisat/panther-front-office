@@ -20,6 +20,7 @@ import {MapInfo} from "../MapInfo";
 import Select from "../../../../components/common/atoms/Select/Select";
 import {MapLegend} from "../MapLegend";
 import HorizontalBarInfoGraphic from "../HorizontalBarInfoGraphic";
+import config from "../../../../config";
 
 class Produktivita extends React.PureComponent {
 	static propTypes = {
@@ -30,14 +31,17 @@ class Produktivita extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			rasters: PropTypes.object,
 			activeDpbKey: props.data && props.data[0].properties[fidColumnName],
 			mapView: props.activePlaceView,
-			selectedAttribute: fenologyOptions[0]
+			selectedAttribute: fenologyOptions[0],
+			showChoropleth: true
 		};
 
 		this.onMapViewChange = this.onMapViewChange.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
 		this.onAttributeChange = this.onAttributeChange.bind(this);
+		this.onShowChoropleth = this.onShowChoropleth.bind(this);
 	}
 
 	componentDidMount() {
@@ -80,6 +84,12 @@ class Produktivita extends React.PureComponent {
 		});
 	}
 
+	onShowChoropleth() {
+		this.setState({
+			showChoropleth: !this.state.showChoropleth
+		});
+	}
+
 	render() {
 		const props = this.props;
 		const selectedArea = this.getSelectedAreaData();
@@ -88,7 +98,7 @@ class Produktivita extends React.PureComponent {
 		let dataForChart = null;
 
 		if (this.props.data && this.state.selectedAttribute) {
-			layers = this.getMapLayers(selectedAttribute.style);
+			layers = this.getMapLayers(this.state.showChoropleth ? selectedAttribute.style : outlinesStyle);
 		}
 
 		if (this.props.data && this.state.activeDpbKey) {
@@ -108,6 +118,12 @@ class Produktivita extends React.PureComponent {
 						</p>
 
 						<div className="tacrAgritas-map-component-wrapper">
+							<div className="tacrAgritas-map-layers">
+								<label>
+									<input type="checkbox" checked={this.state.showChoropleth} onChange={this.onShowChoropleth}/>
+									<div>Zobraz hodnoty agregované na půdní blok</div>
+								</label>
+							</div>
 							<Fade left distance="50px">
 								<div className="tacrAgritas-map-set-container single-map">
 									<HoverHandler
@@ -313,12 +329,27 @@ class Produktivita extends React.PureComponent {
 	}
 
 	getMapLayers(style) {
+		let attributeKey = this.state.selectedAttribute.key;
+		let wmsLayerName = this.props.rasters[attributeKey];
+
 		return [
+			{
+				key: "wms",
+				type: "wms",
+				opacity: 1,
+
+				options: {
+					url: config.tacrAgritasGeoserverWmsUrl,
+					params: {
+						layers: wmsLayerName
+					}
+				}
+			},
 			{
 				key: "test",
 				layerKey: "test",
 				type: "vector",
-				opacity: 0.7,
+				opacity: 1,
 
 				options: {
 					features: this.props.data,

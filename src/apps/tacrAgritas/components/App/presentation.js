@@ -63,6 +63,7 @@ class App extends React.PureComponent {
 				return (
 					<Produktivita
 						data={this.props.data}
+						rasters={this.props.rasters}
 						placeView={this.props.activePlaceView}
 						activePeriodKey={this.props.activePeriodKey}
 						scope={scope}
