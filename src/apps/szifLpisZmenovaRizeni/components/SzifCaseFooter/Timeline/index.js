@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
+import timelineHelper from "../../helpers/timeline";
 
 import presentation from './presentation';
 
@@ -9,55 +10,12 @@ const periodLimit = {
 	end: '2020'
 };
 
-const getBaseLayers = (baseLayersCfg = [], activeWmsKey) => {
-	return baseLayersCfg.map((layerCfg, index) => {
-		return {
-			layerTemplateKey: layerCfg.key,
-			period: layerCfg.period,
-			color: 'rgba(0, 237, 3, 0.7)',
-			activeColor: 'rgba(255, 0, 0, 0.5)',
-			active: layerCfg.key === activeWmsKey,
-			title: layerCfg.title,
-			info: layerCfg.info,
-			options: {
-				type: 'baselayer',
-				info: layerCfg.info,
-				...layerCfg.options
-			},
-			zIndex: layerCfg.zIndex,
-		}
-	})
-}
-
-const getSentinelLayers = (dates = [], activeIndex, zIndex, layerTemplateKey, title) => {
-	const ownLayers = [];
-	ownLayers.push({
-		layerTemplateKey,
-		period: dates.map((date) => {
-			return {
-				start: date,
-				end: date,
-			}
-		}),
-		color: 'rgba(0, 237, 3, 0.7)',
-		activeColor: 'rgba(255, 0, 0, 0.5)',
-		active: true,
-		title,
-		options: {
-			activePeriodIndex: activeIndex,
-			type: 'sentinel',
-			url: 'http://panther.gisat.cz/geoserver/wms',
-			layers: 'geonode:szif_sentinel2_2019_12_10_2017,geonode:szif_sentinel2_2019_12_10_2018,geonode:szif_sentinel2_2019_12_10_2019_without_06',
-		},
-		zIndex,
-	})
-	return ownLayers
-}
-
 const mapStateToProps = (state, ownProps) => {
 	const dates = Select.specific.lpisChangeDates.getDatesForActiveCase(state);
 	const activeLayers = Select.components.get(state, 'szifZmenovaRizeni_ActiveLayers', ownProps.mapKey) || [];
-	
+	const seninelLayers = Select.app.getLocalConfiguration(state, 'seninelLayers');
+	const sentinelGeoserverUrl = Select.app.getLocalConfiguration(state, 'sentinelGeoserverUrl');
+
 	const activeSentinel1Layer = activeLayers.find((layer) => {
 		return layer.layerTemplateKey === 'sentinel1' && layer.options.type === 'sentinel'
 	});
@@ -74,7 +32,7 @@ const mapStateToProps = (state, ownProps) => {
 	const activeWmsKey = activeWmsLayer ? activeWmsLayer.key : null;
 	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
 	const baseLayersCfg = defaultLayers|| [];
-	const layers = [...getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel'), ...getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel infračervený'), ...getBaseLayers(baseLayersCfg, activeWmsKey)];
+	const layers = [...timelineHelper.getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel', sentinelGeoserverUrl, seninelLayers.trueColor), ...timelineHelper.getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel infračervený', sentinelGeoserverUrl, seninelLayers.infrared), ...timelineHelper.getBaseLayers(baseLayersCfg, activeWmsKey)];
 	return {
 		layers,
 		periodLimit: periodLimit,

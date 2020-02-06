@@ -10,7 +10,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
 		switchScreen: PropTypes.func,
 		loadSentinels: PropTypes.func,
-		mapSet: PropTypes.object
+		mapSet: PropTypes.object,
+		getDatesUrl: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -20,8 +21,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	}
 
 	loadSentinels() {
-		const {loadSentinels, mapSet} = this.props;
-		loadSentinels(mapSet);
+		const {loadSentinels, mapSet, getDatesUrl} = this.props;
+		loadSentinels(mapSet, getDatesUrl);
 	}
 	render() {
 		return (

@@ -1,8 +1,6 @@
-import mapHelpers from './maps';
+import mapHelpers from '../../../../utils/map';
 
-const getDates = (geometry) => {
-	const url = 'http://lpisup.gisat.cz/backend/rest/imagemosaic/getDates';
-
+const getDates = (geometry, getDatesUrl) => {
 	const geometryWithSrid = {
 		...geometry,
 		crs: {
@@ -17,7 +15,7 @@ const getDates = (geometry) => {
 		geometry: geometryWithSrid
 	}};
 
-	return fetch(url, {
+	return fetch(getDatesUrl, {
 		method: 'POST',
 		credentials: 'include',
 		headers: {
@@ -32,11 +30,11 @@ const getDates = (geometry) => {
 	});
 }
 
-const ensureDatesForMapSetExtent = (mapSet) => {
+const ensureDatesForMapSetExtent = (mapSet, getDatesUrl) => {
 	const view = mapSet.data.view;
 	//get boundary geojson
 	const boundingGeometry = mapHelpers.getGeometryFromView(view);
-	return getDates(boundingGeometry.geometry).then(results => ({dates:results.dates, boundingGeometry}));
+	return getDates(boundingGeometry.geometry, getDatesUrl).then(results => ({dates:results.dates, boundingGeometry}));
 }
 
 

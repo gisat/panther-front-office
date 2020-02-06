@@ -13,14 +13,15 @@ const saveDates = (key, dates) => {
 	}
 }
 
-const getDates = (key, geometry) => (dispatch, getState) => {
-	return datesHelpers.getDates(geometry).then((responseContent) => {
+const getDates = (key, geometry, getDatesUrl) => (dispatch, getState) => {
+	return datesHelpers.getDates(geometry, getDatesUrl).then((responseContent) => {
 		dispatch(saveDates(key, responseContent.dates));
 	});
 }
 
 const loadDatesForActiveCase = () => (dispatch, getState) => {
 	const state = getState();
+	const getDatesUrl = Select.app.getLocalConfiguration(state, 'getDatesUrl');
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const activeCaseKey = activeCase.key;
 	const geometryBefore = activeCase.data.geometryBefore;
@@ -28,16 +29,16 @@ const loadDatesForActiveCase = () => (dispatch, getState) => {
 	const geometry = geometryBefore || geometryAfter;
 
 	//set loading true
-	dispatch(getDates(activeCaseKey, JSON.parse(geometry))).then(() => {
+	dispatch(getDates(activeCaseKey, JSON.parse(geometry), getDatesUrl)).then(() => {
 		//set loading false
 	});
 }
 
-const ensureDatesForMapSetExtent = (mapSet) => {
+const ensureDatesForMapSetExtent = (mapSet, getDatesUrl) => {
 	const view = mapSet.data.view;
 	//get boundary geojson
 	const boundingGeometry = mapHelpers.getGeometryFromView(view);
-	return datesHelpers.getDates(boundingGeometry.geometry).then(results => ({dates:results.dates, boundingGeometry}));
+	return datesHelpers.getDates(boundingGeometry.geometry, getDatesUrl).then(results => ({dates:results.dates, boundingGeometry}));
 }
 
 const ensureDatesForActiveCase = () => (dispatch, getState) => {
