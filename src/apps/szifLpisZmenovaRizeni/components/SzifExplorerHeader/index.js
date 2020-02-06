@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../state/Select';
 import Action from "../../state/Action";
+import datesHelpers from "../../state/helpers/dates";
 import presentation from "./presentation";
 
 const componentID = 'szifZmenovaRizeni_SentinelExplorer';
@@ -18,7 +19,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		loadSentinels: (mapSet) => {
-			dispatch(Action.specific.lpisChangeDates.ensureDatesForMapSetExtent(mapSet)).then((results) => {
+			datesHelpers.ensureDatesForMapSetExtent(mapSet).then((results) => {
 				dispatch(Action.components.set(componentID, `dates`, results));
 			});
 		},

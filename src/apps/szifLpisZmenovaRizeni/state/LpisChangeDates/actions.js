@@ -37,7 +37,7 @@ const ensureDatesForMapSetExtent = (mapSet) => {
 	const view = mapSet.data.view;
 	//get boundary geojson
 	const boundingGeometry = mapHelpers.getGeometryFromView(view);
-	return datesHelpers.getDates(boundingGeometry).then(results => ({dates:results.dates, boundingGeometry}));
+	return datesHelpers.getDates(boundingGeometry.geometry).then(results => ({dates:results.dates, boundingGeometry}));
 }
 
 const ensureDatesForActiveCase = () => (dispatch, getState) => {
