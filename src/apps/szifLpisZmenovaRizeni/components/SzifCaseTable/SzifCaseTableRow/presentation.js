@@ -103,7 +103,7 @@ class SzifCaseTableRow extends React.PureComponent {
 	}
 
 	renderDetails() {
-		const {caseChange, caseSubmit} = this.props;
+		const {caseChange, caseSubmit, userGroups} = this.props;
 		const props = this.props;
 
 		let classes = classnames("szifLpisZmenovaRizeni-table-detail", {
@@ -114,6 +114,7 @@ class SzifCaseTableRow extends React.PureComponent {
 			<div className={classes}>
 				<SzifCaseTableRowDetail
 					caseKey={props.data.caseKey}
+					status={props.data.status}
 					codeDpb={props.data.codeDpb}
 					codeJi={props.data.codeJi}
 					changeDescription={props.data.changeDescription}
@@ -126,6 +127,7 @@ class SzifCaseTableRow extends React.PureComponent {
 					evaluationUsedSources={props.data.evaluationUsedSources}
 					caseSubmit={caseSubmit}
 					caseChange={caseChange}
+					userGroups={userGroups}
 				/>
 			</div>
 		);

@@ -10,6 +10,7 @@ import './style.scss';
 class SzifCaseTableRowDetail extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.string,
+		status: PropTypes.string,
 		caseSubmit: PropTypes.object,
 		caseChange: PropTypes.object,
 		codeDpb: PropTypes.string,
@@ -22,16 +23,34 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		evaluationDescription: PropTypes.string,
 		evaluationDescriptionOther: PropTypes.string,
 		evaluationUsedSources: PropTypes.string,
+		userGroups: PropTypes.array,
 	};
 
 	constructor(props) {
 		super(props);
 	}
 
+	renderEvaluationResults() {
+		const {status, userGroups, evaluationResult, evaluationDescription, evaluationUsedSources} = this.props;
+		const evaluationResultValue = evaluationResult ? evaluationConclusions.find(c => c.value === evaluationResult.toUpperCase()).label : null;
+		if (!userGroups || status === 'CREATED' || (
+			(userGroups.includes('szifUsers') || userGroups.includes('szifAdmins') || userGroups.includes('szifRegionAdmins')) && (status === 'EVALUATION_CREATED')
+		)
+		){
+			return null;
+		} else {
+			return (<div>
+						<h4>Výsledek vyhodnocení družicových dat</h4>
+						{evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
+						{evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", evaluationDescription) : null}
+						{evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", evaluationUsedSources, "sources") : null}
+					</div>)
+		}
+	}
+
 	render() {
 		const {caseChange, caseSubmit} = this.props;
 		const props = this.props;
-		const evaluationResultValue = props.evaluationResult ? evaluationConclusions.find(c => c.value === props.evaluationResult.toUpperCase()).label : null;
 		return (
 			<div>
 				<div className="szifLpisZmenovaRizeni-table-detail-top-bar">
@@ -47,12 +66,9 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 						{props.changeDescriptionPlace ? this.renderItem("Určení místa změny v terénu", props.changeDescriptionPlace) : null}
 						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther) : null}
 					</div>
-					<div>
-						<h4>Výsledek vyhodnocení družicových dat</h4>
-						{props.evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
-						{props.evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", props.evaluationDescription) : null}
-						{props.evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", props.evaluationUsedSources, "sources") : null}
-					</div>
+					{
+						this.renderEvaluationResults()
+					}
 				</div>
 			</div>
 		);
