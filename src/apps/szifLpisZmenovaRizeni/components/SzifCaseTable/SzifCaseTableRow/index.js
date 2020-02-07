@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.specific.szifLpisZmenovaRizeni.applyView(ownProps.data.viewKey)).then(() => {
 				dispatch(Action.specific.lpisChangeCases.setActiveKey(ownProps.metadataKey));
 			});
+		},
+		invalidateCase: (caseKey) => {
+			dispatch(Action.specific.szifLpisZmenovaRizeni.invalidateEvaluation(caseKey));
 		}
 	}
 };

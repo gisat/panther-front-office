@@ -15,6 +15,7 @@ class SzifCaseTableRow extends React.PureComponent {
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
 		switchScreen: PropTypes.func,
+		invalidateCase: PropTypes.func,
 		caseSubmitDate: PropTypes.string,
 		caseSubmit: PropTypes.object,
 		caseChange: PropTypes.object,
@@ -113,7 +114,8 @@ class SzifCaseTableRow extends React.PureComponent {
 		return (
 			<div className={classes}>
 				<SzifCaseTableRowDetail
-					caseKey={props.data.caseKey}
+					caseKey={props.metadataKey}
+					invalidateCase={props.invalidateCase}
 					status={props.data.status}
 					codeDpb={props.data.codeDpb}
 					codeJi={props.data.codeJi}

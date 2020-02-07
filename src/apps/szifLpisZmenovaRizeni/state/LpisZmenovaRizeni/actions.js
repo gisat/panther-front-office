@@ -281,8 +281,12 @@ const editActiveCaseStatus = (status) => (dispatch, getState) => {
 	const state = getState();
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const activeCaseKey = activeCase && activeCase.key;
-	if(status && activeCaseKey) {
-		dispatch(lpisChangeCases.updateEdited(activeCaseKey, 'status', status));
+	editCaseStatus(activeCaseKey, status);
+}
+
+const editCaseStatus = (caseKey, status) => (dispatch, getState) => {
+	if(status && caseKey) {
+		dispatch(lpisChangeCases.updateEdited(caseKey, 'status', status));
 	}
 }
 
@@ -313,7 +317,7 @@ function saveAndApproveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
 	}
 }
 
@@ -323,7 +327,7 @@ function saveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
 	}
 }
 
@@ -333,7 +337,13 @@ function rejectEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.CREATED.database));
+		return dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.CREATED.database));
+	}
+}
+
+function invalidateEvaluation(caseKey) {
+	return async (dispatch, getState) => {
+		return dispatch(saveCaseStatus(caseKey, LpisCaseStatuses.INVALID.database));
 	}
 }
 
@@ -343,7 +353,7 @@ function closeEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.CLOSED.database));
+		return dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.CLOSED.database));
 	}
 }
 
@@ -353,14 +363,21 @@ function approveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+		return dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
 	}
 }
 
-function saveCaseStatus(activeCaseKey, status) {
+function saveActiveCaseStatus(activeCaseKey, status) {
 	return async (dispatch, getState) => {	
 		dispatch(editActiveCaseStatus(status));
 		await dispatch(lpisChangeCases.saveEdited(activeCaseKey));
+	}
+}
+
+function saveCaseStatus(caseKey, status) {
+	return async (dispatch, getState) => {	
+		dispatch(editCaseStatus(caseKey, status));
+		await dispatch(lpisChangeCases.saveEdited(caseKey));
 	}
 }
 
@@ -410,6 +427,7 @@ szifLpisZmenovaRizeni['saveAndApproveEvaluation'] = saveAndApproveEvaluation;
 szifLpisZmenovaRizeni['saveEvaluation'] = saveEvaluation;
 szifLpisZmenovaRizeni['rejectEvaluation'] = rejectEvaluation;
 szifLpisZmenovaRizeni['closeEvaluation'] = closeEvaluation;
+szifLpisZmenovaRizeni['invalidateEvaluation'] = invalidateEvaluation;
 szifLpisZmenovaRizeni['approveEvaluation'] = approveEvaluation;
 szifLpisZmenovaRizeni['redirectToNextViewFromActiveView'] = redirectToNextViewFromActiveView;
 szifLpisZmenovaRizeni['reloadLeftCases'] = reloadLeftCases;

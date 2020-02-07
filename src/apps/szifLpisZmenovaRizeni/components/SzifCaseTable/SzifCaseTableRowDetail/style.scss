@@ -11,7 +11,12 @@
 
 .szifLpisZmenovaRizeni-table-detail-top-bar {
 	display: flex;
+	justify-content: space-between;
 	padding: m(4/3) m(2/3) 0;
+}
+
+.ptr-button.ghost.szifLpisZmenovaRizeni-btn-invalidate {
+	background: #ffb0b0;
 }
 
 .szifLpisZmenovaRizeni-table-detail-item {

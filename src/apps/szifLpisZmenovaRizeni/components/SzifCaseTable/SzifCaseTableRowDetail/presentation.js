@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classnames from 'classnames';
+import Button from "../../../../../components/common/atoms/Button";
 import {evaluationConclusions} from "../../../../../constants/LpisCaseStatuses";
 import User from "../../../../../components/common/atoms/User";
 
@@ -10,6 +11,7 @@ import './style.scss';
 class SzifCaseTableRowDetail extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.string,
+		invalidateCase: PropTypes.func,
 		status: PropTypes.string,
 		caseSubmit: PropTypes.object,
 		caseChange: PropTypes.object,
@@ -28,6 +30,13 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.onInvalidateClick = this.onInvalidateClick.bind(this);
+	}
+
+	onInvalidateClick() {
+		const {caseKey, invalidateCase} = this.props;
+		invalidateCase(caseKey);
 	}
 
 	renderEvaluationResults() {
@@ -48,6 +57,25 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		}
 	}
 
+	renderTopBarMenu() {
+		const {status, userGroups} = this.props;
+
+		const isSzifUser = userGroups.includes('szifUsers') || userGroups.includes('szifAdmins') || userGroups.includes('szifRegionAdmins');
+		const isCreated = status === 'CREATED'
+		const isInvalid = status === 'INVALID'
+		const isClosed = status === 'CLOSED'
+		
+		const isGisatAdmin = userGroups.includes('gisatAdmins');
+
+		const showInvalidateButton = (isSzifUser && isCreated) || (isGisatAdmin && !isInvalid && !isClosed);
+		if (showInvalidateButton) {
+			return (
+				<Button ghost onClick={this.onInvalidateClick} className={'szifLpisZmenovaRizeni-btn-invalidate'} >Zneplatnit záznam řízení</Button>
+			);
+		} else {
+			return null;
+		}
+	}
 	render() {
 		const {caseChange, caseSubmit} = this.props;
 		const props = this.props;
@@ -58,6 +86,11 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 					{props.codeJi ? this.renderItem("Kód JI", props.codeJi) : null}
 					{caseSubmit ? this.renderItem("Zadal", <User userKey={caseSubmit.userId}/>) : null}
 					{caseChange ? this.renderItem("Poslední změna", <User userKey={caseChange.userId}/>) : null}
+					<div>
+						<div className="ptr-change-reviews-table-details-top-bar-menu">
+							{this.renderTopBarMenu()}
+						</div>
+					</div>
 				</div>
 				<div className="szifLpisZmenovaRizeni-table-detail-descriptions">
 					<div>
