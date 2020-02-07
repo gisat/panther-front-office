@@ -76,7 +76,7 @@ class Header extends React.PureComponent {
 				<div className="tacrAgritas-header" ref={this.ref}>
 					<Fade cascade left distance="50px" duration={500} delay={200}>
 						<div className="tacrAgritas-header-content">
-							{props.place ? this.renderTitle() : null}
+							{props.place ? this.renderTitle(true) : null}
 							{props.cases && props.scopes && props.periods ? this.renderSelections() : null}
 						</div>
 					</Fade>
@@ -91,10 +91,10 @@ class Header extends React.PureComponent {
 		);
 	}
 
-	renderTitle() {
+	renderTitle(longTitle) {
 		return (
 			<h1 className="tacrAgritas-title">
-				Farma {this.props.place.data.nameDisplay}
+				{(this.props.place.data.nameInternal && longTitle) ? this.props.place.data.nameInternal : this.props.place.data.nameDisplay}
 			</h1>
 		);
 	}
