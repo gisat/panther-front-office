@@ -16,6 +16,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		rejectEvaluation: PropTypes.func,
 		closeEvaluation: PropTypes.func,
 		goToNextCase: PropTypes.func,
+		readyToSaveEvaluation: PropTypes.bool,
 	};
 
 	render() {
@@ -75,13 +76,13 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatAdmins-created">
 					<div>
-						<Button inverted onClick={() => this.props.saveEvaluation(this.props.case.key, this.props.nextCaseKey)}>
+						<Button inverted onClick={() => this.props.saveEvaluation(this.props.case.key, this.props.nextCaseKey)} disabled={!this.props.readyToSaveEvaluation}>
 							Uložit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
 					</div>
 					<div>
-						<Button inverted onClick={() => this.props.saveAndApproveEvaluation(this.props.nextCaseKey)}>
+						<Button inverted onClick={() => this.props.saveAndApproveEvaluation(this.props.nextCaseKey)} disabled={!this.props.readyToSaveEvaluation}>
 							Uložit a schválit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
@@ -124,7 +125,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div key="gisatUsers-created">
 					<div>
-						<Button primary onClick={() => this.props.saveEvaluation(this.props.case.key, this.props.nextCaseKey)}>
+						<Button primary onClick={() => this.props.saveEvaluation(this.props.case.key, this.props.nextCaseKey)} disabled={!this.props.readyToSaveEvaluation}>
 							Uložit vyhodnocení
 							{this.renderButtonNextCaseIndicator()}
 						</Button>

@@ -51,6 +51,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div id="dromasLpisChangeReviewHeader-actions">
 					<UserActions
 						case={this.props.case}
+						readyToSaveEvaluation={this.props.activeCaseEdited && this.props.activeCaseEdited && !!this.props.activeCaseEdited.evaluationResult && !!this.props.activeCaseEdited.evaluationDescription}
 						userGroups={this.props.userGroups}
 						saveEvaluation={this.props.saveEvaluation}
 						saveAndApproveEvaluation={this.props.saveAndApproveEvaluation}
