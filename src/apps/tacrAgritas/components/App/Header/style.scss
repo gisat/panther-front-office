@@ -23,6 +23,10 @@
 	margin-top: m(2);
 }
 
+.tacrAgritas-header-select .ptr-select__input input {
+	width: 0 !important;
+}
+
 .tacrAgritas-header-select-container {
 	margin: m(1) 0;
 	max-width: 25rem;
