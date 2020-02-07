@@ -23,7 +23,7 @@ const refreshUses = (filterByActive, filter, order, start, length, componentId) 
 	if(indexed) {
 		dispatch(clearIndex(null, order));
 	}
-	dispatch(useIndexed(null, null, order, 1, 1000, componentId));
+	dispatch(useIndexed(filterByActive, filter, order, start, length, componentId));
 	dispatch(ActionSzifLpisZmenovaRizeni.reloadLeftCases());
 }
 

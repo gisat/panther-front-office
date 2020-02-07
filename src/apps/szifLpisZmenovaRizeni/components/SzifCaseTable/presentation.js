@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './style.scss';
 import SzifCaseTableRow from "./SzifCaseTableRow";
 import Button from "../../../../components/common/atoms/Button";
+import Select from "../../../../components/common/atoms/Select/Select";
 import Icon from "../../../../components/common/atoms/Icon";
 import InputText from "../../../../components/common/atoms/Input/Input";
 import fuzzysort from "fuzzysort";
@@ -40,6 +41,11 @@ class SzifCaseTable extends React.PureComponent {
 		cases: PropTypes.array,
 		switchScreen: PropTypes.func,
 		activeUserCanAddCase: PropTypes.bool,
+		selectedStatus: PropTypes.array,
+		userGroups: PropTypes.array,
+		casesFilter: PropTypes.object,
+		onMount: PropTypes.func,
+		onChangeStatus: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -56,7 +62,9 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		this.props.onMount();
+		const {onMount, casesFilter} = this.props;
+		onMount(casesFilter);
+		this.onStatusChange = this.onStatusChange.bind(this);
 	}
 
 	onSearchChange(searchString) {
@@ -71,9 +79,14 @@ class SzifCaseTable extends React.PureComponent {
 		});
 	}
 
+	onStatusChange(newFilter) {
+		this.props.onChangeStatus(newFilter);
+	}
+
 	render() {
-		const {casesLeft, activeUserCanAddCase} = this.props;
+		const {casesLeft, activeUserCanAddCase, statusesOptions, selectedStatus} = this.props;
 		const cases = this.state.filteredCases || this.props.cases;
+
 
 		return (
 			<div className="szifLpisZmenovaRizeni-cases">
@@ -121,7 +134,18 @@ class SzifCaseTable extends React.PureComponent {
 				</div>
 				<div className="szifLpisZmenovaRizeni-table">
 					<div className="szifLpisZmenovaRizeni-table-header">
-						<div className="szifLpisZmenovaRizeni-table-header-item">Status</div>
+						<div className="szifLpisZmenovaRizeni-table-header-item">
+							<Select
+								clearable={false}
+								key="change-review-state-selector"
+								onChange={this.onStatusChange}
+								optionLabel = 'label'
+								optionValue = 'value'			
+								options={statusesOptions}
+								placeholder="STAV"
+								value={selectedStatus}
+							/>
+						</div>
 						<div className="szifLpisZmenovaRizeni-table-header-item">Název řízení</div>
 						<div className="szifLpisZmenovaRizeni-table-header-item">Podáno</div>
 						<div className="szifLpisZmenovaRizeni-table-header-item">Změněno</div>

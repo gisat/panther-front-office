@@ -26,6 +26,7 @@ class Select extends React.PureComponent {
         unfocusable: PropTypes.bool,
         value: PropTypes.oneOfType([
             PropTypes.object,
+            PropTypes.array,
             PropTypes.string
         ]),
         valueIsTitle: PropTypes.bool,
