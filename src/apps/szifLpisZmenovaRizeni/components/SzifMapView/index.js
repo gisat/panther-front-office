@@ -160,6 +160,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		onViewChange: (setKey, view) => {
 			dispatch(Action.maps.setSetView(setKey, view));
+		},
+		onUnMount: () => {
+			//clear edited active case
+			dispatch(Action.specific.lpisChangeCases.removeEditedActive())
+			dispatch(Action.specific.lpisChangeCases.setActiveKey(undefined));
 		}
 	}
 };

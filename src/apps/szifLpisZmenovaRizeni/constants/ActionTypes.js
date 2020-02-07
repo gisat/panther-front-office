@@ -9,6 +9,7 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 			REMOVE: null,
 			REMOVE_PROPERTY: null,
 			UPDATE: null,
+			REMOVE_ACTIVE: null,
 		},
 		ENSURE: {
 			ERROR: null

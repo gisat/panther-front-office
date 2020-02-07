@@ -34,6 +34,12 @@ const actionUpdate = (data) => {
 	}
 };
 
+const removeEditedActive = () => {
+	return {
+		type: ActionTypes.LPIS_CHANGE_CASES.EDITED.REMOVE_ACTIVE,
+	}
+};
+
 function updateStateFromView(data) {
 	return dispatch => {
 		if (data) {
@@ -52,5 +58,6 @@ export default {
 	clearIndex,
 	saveEdited,
 	updateEdited,
+	removeEditedActive,
 	updateStateFromView,
 }

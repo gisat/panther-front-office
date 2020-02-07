@@ -25,6 +25,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.removeEditedProperty(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.EDITED.UPDATE:
 			return common.updateEdited(state, action);
+		case ActionTypes.LPIS_CHANGE_CASES.EDITED.REMOVE_ACTIVE:
+			return common.removeEditedActive(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.INDEX.ADD:
 			return common.addIndex(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES.INDEX.CLEAR_ALL:

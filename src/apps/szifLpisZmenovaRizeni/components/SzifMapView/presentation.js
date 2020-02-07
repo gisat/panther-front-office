@@ -21,12 +21,18 @@ class SzifMapView extends React.PureComponent {
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
 		setActiveMapKey: PropTypes.func,
+		onUnMount: PropTypes.func,
 		view: PropTypes.object,
 	};
 
 	constructor(props) {
 		super(props);
 		this.onViewChange = this.onViewChange.bind(this);
+	}
+
+	componentWillUnmount() {
+		const {onUnMount} = this.props;
+		onUnMount();
 	}
 
 	renderMaps(activeMapKey) {

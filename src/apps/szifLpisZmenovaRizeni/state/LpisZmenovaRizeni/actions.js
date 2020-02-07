@@ -292,8 +292,8 @@ function redirectToNextViewFromActiveView() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 
-		//FIXME !!!clear edited...
-		// is it necessary???
+		//clear edits
+		dispatch(lpisChangeCases.removeEditedActive());
 
 		const nextCaseKey = Select.specific.lpisChangeCases.getNextCaseKey(state, activeCaseKey);
 		const nextCase = Select.specific.lpisChangeCases.getDataByKey(state, nextCaseKey);
