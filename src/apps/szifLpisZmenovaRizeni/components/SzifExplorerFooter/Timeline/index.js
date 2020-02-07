@@ -7,7 +7,7 @@ import timelineHelper from "../../helpers/timeline";
 import presentation from './presentation';
 const componentID = 'szifZmenovaRizeni_SentinelExplorer';
 const periodLimit = {
-	start: '2017',
+	start: '2016',
 	end: '2020'
 };
 

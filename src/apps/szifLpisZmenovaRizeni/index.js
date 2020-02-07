@@ -29,7 +29,7 @@ export default (path, baseUrl) => {
 
 	i18n.changeLanguage('cz');
 
-	Store.dispatch(Action.app.setLocalConfiguration('period', {start: '2017', end: '2020'}));
+	Store.dispatch(Action.app.setLocalConfiguration('period', {start: '2016', end: '2020'}));
 	Store.dispatch(Action.app.setLocalConfiguration('getDatesUrl', 'http://lpisup.gisat.cz/backend/rest/imagemosaic/getDates'));
 	Store.dispatch(Action.app.setLocalConfiguration('sentinelGeoserverUrl', 'http://lpisup.gisat.cz/geoserver/wms'));
 	Store.dispatch(Action.app.setLocalConfiguration('seninelLayers', {
@@ -41,7 +41,7 @@ export default (path, baseUrl) => {
 		{
 				key: 'ortofoto_akt',
 				title: 'Ortofoto aktuální',
-				period: {start:'2017',end:'2020'},
+				period: {start:'2016',end:'2020'},
 				type: "wms",
 				zIndex: 1,
 				options: {
@@ -49,6 +49,22 @@ export default (path, baseUrl) => {
 					"url": 'http://eagri.cz/public/app/wms/plpis.fcgi',
 					params: {
 						layers: 'ILPIS_RASTRY',
+					}
+				}
+		},
+		{
+				key: 'ortofoto_2016_zapad',
+				title: 'Ortofoto historická',
+				info: 'východ 2016',
+				period: {start:'2016',end:'2017'},
+				type: "wms",
+				zIndex: 2,
+				options: {
+					type: 'wms',
+					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
+					params: {
+						layers: 'ORTOFOTO_16_VYCHOD',
+						time: '2016',		
 					}
 				}
 		},

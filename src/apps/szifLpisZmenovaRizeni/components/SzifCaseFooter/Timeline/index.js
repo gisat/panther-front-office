@@ -6,7 +6,7 @@ import timelineHelper from "../../helpers/timeline";
 import presentation from './presentation';
 
 const periodLimit = {
-	start: '2017',
+	start: '2016',
 	end: '2020'
 };
 
