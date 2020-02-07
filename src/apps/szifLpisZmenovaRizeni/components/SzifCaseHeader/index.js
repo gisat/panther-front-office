@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				}
 			})
 		},
-		goToNextCase: (nextCaseKey) => {
+		goToNextCase: () => {
 				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
 		},
 	};

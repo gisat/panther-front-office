@@ -46,7 +46,9 @@ const ensureDatesForActiveCase = () => (dispatch, getState) => {
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const activeCaseKey = activeCase.key;
 	const dates = Select.specific.lpisChangeDates.getDates(state, activeCaseKey);
-	if(!dates) {
+	//get dates returns still new results, we need to reload everytime
+	// if(!dates) {
+	if(true) {
 		return dispatch(loadDatesForActiveCase());
 	}
 }

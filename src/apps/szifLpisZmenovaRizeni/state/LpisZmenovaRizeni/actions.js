@@ -299,6 +299,7 @@ function redirectToNextViewFromActiveView() {
 		const nextCase = Select.specific.lpisChangeCases.getDataByKey(state, nextCaseKey);
 		if(nextCaseKey && nextCase) {
 			const viewKey = nextCase.viewKey;
+			dispatch(lpisChangeCases.setActiveKey(undefined));
 			dispatch(szifLpisZmenovaRizeni.applyView(viewKey)).then(() => {
 				dispatch(lpisChangeCases.setActiveKey(nextCaseKey));
 			});
