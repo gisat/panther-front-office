@@ -281,6 +281,7 @@ const editActiveCaseStatus = (status) => (dispatch, getState) => {
 	const state = getState();
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const activeCaseKey = activeCase && activeCase.key;
+
 	editCaseStatus(activeCaseKey, status);
 }
 
@@ -317,7 +318,7 @@ function saveAndApproveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
 	}
 }
 
@@ -327,7 +328,7 @@ function saveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
 	}
 }
 
@@ -337,7 +338,7 @@ function rejectEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		return dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.CREATED.database));
+		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.CREATED.database));
 	}
 }
 
@@ -353,7 +354,7 @@ function closeEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		return dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.CLOSED.database));
+		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.CLOSED.database));
 	}
 }
 
@@ -363,14 +364,15 @@ function approveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		return dispatch(saveActiveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+		return dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
 	}
 }
 
-function saveActiveCaseStatus(activeCaseKey, status) {
+function saveActiveCaseStatus(caseKey, status) {
 	return async (dispatch, getState) => {	
 		dispatch(editActiveCaseStatus(status));
-		await dispatch(lpisChangeCases.saveEdited(activeCaseKey));
+		dispatch(editCaseStatus(caseKey, status));
+		await dispatch(lpisChangeCases.saveEdited(caseKey));
 	}
 }
 
