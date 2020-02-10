@@ -102,9 +102,9 @@
 // Header
 .szifLpisZmenovaRizeni-table-header {
 	display: flex;
-	height: 2rem;
 	background: var(--accent60);
 	padding: .3rem 16px .3rem .5rem;
+	align-items: center;
 }
 
 .szifLpisZmenovaRizeni-table-header-item {
@@ -180,5 +180,40 @@
 		& .line {
 			fill: currentColor;
 		}
+	}
+}
+
+.szifLpisZmenovaRizeni-table-header-item .ptr-select-container{
+	.ptr-select__control{
+		background: var(--accent60);
+		border-color: var(--accent0);
+
+		&:hover {
+			border-color: var(--base40);
+		}
+	}
+
+	.ptr-select__value-container > div{
+		color: var(--accent0);
+	}
+
+	.ptr-select__dropdown-indicator, .ptr-select__clear-indicator{
+		color: var(--accent0);
+	}
+	
+	.ptr-select__indicator-separator{
+		background: var(--accent0);
+	}
+
+	.ptr-select__control:hover .ptr-select__indicator-separator,
+	.ptr-select__control--is-focused .ptr-select__indicator-separator{
+		background: var(--base40);
+	}
+
+	.ptr-select__control:hover .ptr-select__dropdown-indicator,
+	.ptr-select__control--is-focused .ptr-select__dropdown-indicator,
+	.ptr-select__dropdown-indicator:hover,
+	.ptr-select__clear-indicator:hover{
+		color: var(--accent0);
 	}
 }
