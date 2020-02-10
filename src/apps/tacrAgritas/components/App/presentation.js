@@ -39,7 +39,7 @@ class App extends React.PureComponent {
 					{this.props.activePlace && this.props.activePlace.data.nameDisplay ? <title>{this.props.activePlace.data.nameDisplay}</title> : null}
 				</Helmet>
 				<Header/>
-				<div className="tacrAgritas-content">
+				<div className="tacrAgritas-content" id="tacrAgritas-content">
 					{props.activeScope ? this.renderMonitoring(props.activeScope) : null}
 				</div>
 				{this.renderFooter()}

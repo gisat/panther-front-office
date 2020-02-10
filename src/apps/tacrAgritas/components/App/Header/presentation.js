@@ -61,7 +61,12 @@ class Header extends React.PureComponent {
 
 	onScopeChange(model) {
 		this.props.onScopeChange(model.key);
-		window.scrollTo(0,0);
+		setTimeout(()=>{
+			document.querySelector("#tacrAgritas-content").scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
+		}, 500);
 	}
 
 	render() {
