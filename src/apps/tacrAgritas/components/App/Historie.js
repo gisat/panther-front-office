@@ -157,15 +157,15 @@ class Historie extends React.PureComponent {
 						<p>V další fázi jsou hodnoty NDVI průběžně extrahovány z družicových dat pořízených v průběhu aktuální vegetační sezóny (opět vždy v 15-denních monitorovacích oknech). Aby byla maximalizována pravděpodobnost, že analyzovaný pozemek bude v rámci daného monitorovacích období zachycen bez oblačnosti, jsou pro sledování aktuálních hodnot indexu NDVI využívána nejen družicová data Landsat, ale současně i Sentinel-2. S ohledem na poněkud odlišné radiometrické charakteristiky senzorů OLI (Landsat-8) a MSI (Sentinel-2) je v tomto případě ovšem nutné na data Sentinel-2 nejprve aplikovat proces radiometrické harmonizace, díky němuž jsou hodnoty indexu NDVI odvozené z dat Sentinel-2 a Landsat-8 navzájem srovnatelné. Aktuální hodnoty indexu NDVI jsou v následujícím kroku srovnávány s hodnotou odvozenou z normálové křivky pro danou plodinu a daný klimatický region. Výsledný mapový produkt tak vyjadřuje procentuální úroveň aktuální hodnoty indexu NDVI vůči normálové hodnotě (100 %). Srovnání aktuálního vývoje s dlouhodobým normálem je možné pro jednotlivé zemědělské parcely vyjádřit rovněž v podobě grafu zobrazujícím průběh aktuální temporální křivky indexu NDVI a jeho srovnání s průběhem křivky normálové.</p>
 						<p>V další fázi jsou hodnoty NDVI průběžně extrahovány z družicových dat pořízených v průběhu aktuální vegetační sezóny (opět vždy v 15-denních monitorovacích oknech). Aby byla maximalizována pravděpodobnost, že analyzovaný pozemek bude v rámci daného monitorovacích období zachycen bez oblačnosti, jsou pro sledování aktuálních hodnot indexu NDVI využívána nejen družicová data Landsat, ale současně i Sentinel-2. S ohledem na poněkud odlišné radiometrické charakteristiky senzorů OLI (Landsat-8) a MSI (Sentinel-2) je v tomto případě ovšem nutné na data Sentinel-2 nejprve aplikovat proces radiometrické harmonizace, díky němuž jsou hodnoty indexu NDVI odvozené z dat Sentinel-2 a Landsat-8 navzájem srovnatelné. Aktuální hodnoty indexu NDVI jsou v následujícím kroku srovnávány s hodnotou odvozenou z normálové křivky pro danou plodinu a daný klimatický region. Výsledný mapový produkt tak vyjadřuje procentuální úroveň aktuální hodnoty indexu NDVI vůči normálové hodnotě (100 %). Srovnání aktuálního vývoje s dlouhodobým normálem je možné pro jednotlivé zemědělské parcely vyjádřit rovněž v podobě grafu zobrazujícím průběh aktuální temporální křivky indexu NDVI a jeho srovnání s průběhem křivky normálové.</p>
 					</div>
+					<Fade left distance="50px">
+						<div className="tacrAgritas-image">
+							<img src={image1}/>
+							<p className="tacrAgritas-component-description">
+								Ukázka srovnání aktuálního stavu porostu ozimé pšenice (A) a jarního ječmene (B) vzhledem k dlouhodobému normálu (1985 - 2015). Po rychlém nárůstu na počátku vegetační sezóny, který byl dán zejména neobvykle teplým počasím v dubnu (vývoj některých plodin byl urychlen o 30 – 40 dní), začal vlivem nastupujícího sucha stav porostů v polovině května stagnovat a v průběhu června klesl až k podprůměrným hodnotám.
+							</p>
+						</div>
+					</Fade>
 				</div>
-				<Fade left distance="50px">
-					<div className="tacrAgritas-image">
-						<img src={image1}/>
-						<p className="tacrAgritas-component-description">
-							Ukázka srovnání aktuálního stavu porostu ozimé pšenice (A) a jarního ječmene (B) vzhledem k dlouhodobému normálu (1985 - 2015). Po rychlém nárůstu na počátku vegetační sezóny, který byl dán zejména neobvykle teplým počasím v dubnu (vývoj některých plodin byl urychlen o 30 – 40 dní), začal vlivem nastupujícího sucha stav porostů v polovině května stagnovat a v průběhu června klesl až k podprůměrným hodnotám.
-						</p>
-					</div>
-				</Fade>
 			</>
 		);
 	}
