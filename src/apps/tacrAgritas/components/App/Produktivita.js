@@ -33,21 +33,13 @@ class Produktivita extends React.PureComponent {
 		this.state = {
 			rasters: PropTypes.object,
 			activeDpbKey: props.data && props.data[0].properties[fidColumnName],
-			mapView: props.activePlaceView,
 			selectedAttribute: fenologyOptions[0],
 			showChoropleth: true
 		};
 
-		this.onMapViewChange = this.onMapViewChange.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
 		this.onAttributeChange = this.onAttributeChange.bind(this);
 		this.onShowChoropleth = this.onShowChoropleth.bind(this);
-	}
-
-	componentDidMount() {
-		if (this.props.placeView) {
-			this.setState({mapView: this.props.placeView});
-		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -60,16 +52,6 @@ class Produktivita extends React.PureComponent {
 				});
 			}
 		}
-
-		if (prevProps.placeView !== this.props.placeView) {
-			this.setState({mapView: this.props.placeView});
-		}
-	}
-
-	onMapViewChange(view) {
-		this.setState({
-			mapView: view
-		})
 	}
 
 	onMapClick(mapKey, layerKey, fids) {
@@ -137,8 +119,7 @@ class Produktivita extends React.PureComponent {
 										<MapSetPresentation
 											activeMapKey={"productivity-map-set"}
 											mapComponent={WorldWindMap}
-											view={this.state.mapView}
-											onViewChange={this.onMapViewChange}
+											view={this.props.placeView}
 											backgroundLayer={MapResources.cartoDbLight}
 										>
 											<PresentationMap

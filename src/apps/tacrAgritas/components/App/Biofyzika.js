@@ -280,9 +280,17 @@ class Biofyzika extends React.PureComponent {
 	}
 
 	onMapViewChange(view) {
-		this.setState({
-			mapView: view
-		})
+		const self = this;
+
+		if (this.mapViewTimeout) {
+			clearTimeout(this.mapViewTimeout);
+		}
+
+		this.mapViewTimeout = setTimeout(() => {
+			self.setState({
+				mapView: view
+			})
+		}, 1000);
 	}
 
 	onMapClick(mapKey, layerKey, fids) {

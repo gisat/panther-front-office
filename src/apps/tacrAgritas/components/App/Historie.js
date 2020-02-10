@@ -85,19 +85,11 @@ class Historie extends React.PureComponent {
 
 		this.state = {
 			activeDpbKey: props.data && props.data[0].properties[fidColumnName],
-			mapView: props.activePlaceView,
 			selectedMapPeriod: mapPeriodOptionsHistorie[3]
 		};
 
-		this.onMapViewChange = this.onMapViewChange.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
 		this.onMapPeriodChange = this.onMapPeriodChange.bind(this);
-	}
-
-	componentDidMount() {
-		if (this.props.placeView) {
-			this.setState({mapView: this.props.placeView});
-		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -110,16 +102,6 @@ class Historie extends React.PureComponent {
 				});
 			}
 		}
-
-		if (prevProps.placeView !== this.props.placeView) {
-			this.setState({mapView: this.props.placeView});
-		}
-	}
-
-	onMapViewChange(view) {
-		this.setState({
-			mapView: view
-		})
 	}
 
 	onMapClick(mapKey, layerKey, fids) {
@@ -204,8 +186,7 @@ class Historie extends React.PureComponent {
 						<MapSetPresentation
 							activeMapKey={key}
 							mapComponent={WorldWindMap}
-							view={this.state.mapView}
-							onViewChange={this.onMapViewChange}
+							view={this.props.placeView}
 							sync={{
 								boxRange: true,
 								center: true,
