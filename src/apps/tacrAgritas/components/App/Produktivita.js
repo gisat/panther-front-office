@@ -313,19 +313,7 @@ class Produktivita extends React.PureComponent {
 		let attributeKey = this.state.selectedAttribute.key;
 		let wmsLayerName = this.props.rasters[attributeKey];
 
-		return [
-			{
-				key: "wms",
-				type: "wms",
-				opacity: 1,
-
-				options: {
-					url: config.tacrAgritasGeoserverWmsUrl,
-					params: {
-						layers: wmsLayerName
-					}
-				}
-			},
+		let layers =  [
 			{
 				key: "test",
 				layerKey: "test",
@@ -347,7 +335,26 @@ class Produktivita extends React.PureComponent {
 					fidColumnName
 				}
 			}
-		]
+		];
+
+		if (wmsLayerName) {
+			layers.unshift(
+				{
+					key: "wms",
+					type: "wms",
+					opacity: 1,
+
+					options: {
+						url: config.tacrAgritasGeoserverWmsUrl,
+						params: {
+							layers: wmsLayerName
+						}
+					}
+				}
+			);
+		}
+
+		return layers;
 	}
 
 	getDataForChart() {

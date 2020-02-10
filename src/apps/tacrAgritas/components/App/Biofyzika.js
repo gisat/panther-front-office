@@ -703,19 +703,8 @@ class Biofyzika extends React.PureComponent {
 		const periodStartString = this.state.selectedMapPeriod.key.split("_")[0];
 		const wmsLayerName = rastersForTheme[`${this.props.activePeriodKey}${periodStartString}`];
 
-		return [
+		let layers = [
 			{
-				key: "wms",
-				type: "wms",
-				opacity: 1,
-
-				options: {
-					url: config.tacrAgritasGeoserverWmsUrl,
-					params: {
-						layers: wmsLayerName
-					}
-				}
-			}, {
 				key: "test",
 				layerKey: "test",
 				type: "vector",
@@ -736,7 +725,24 @@ class Biofyzika extends React.PureComponent {
 					fidColumnName
 				}
 			}
-		]
+		];
+
+		if (wmsLayerName) {
+			layers.unshift({
+				key: "wms",
+				type: "wms",
+				opacity: 1,
+
+				options: {
+					url: config.tacrAgritasGeoserverWmsUrl,
+					params: {
+						layers: wmsLayerName
+					}
+				}
+			});
+		}
+
+		return layers;
 	}
 
 	prepareDataForCharts() {
