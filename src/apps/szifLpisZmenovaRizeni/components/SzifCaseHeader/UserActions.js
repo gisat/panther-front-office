@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
 
-import User from "../../../../components/common/controls/User";
+import User from "../Login/";
 import Button from "../../../../components/common/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {

@@ -7,7 +7,7 @@ import presentation from "./presentation";
 import utils from "../../../../utils/utils";
 
 const order = [['submitDate', 'descending']];
-const filterComponentId = 'SzifCaseTable' + utils.randomString(6);
+const filterComponentId = 'SzifCaseTableFilterStatus';
 
 const mapStateToProps = state => {
 	const casesLeft = Select.components.get(state, 'szifZmenovaRizeni_CaseCounter', 'weekCaseCountLeft');

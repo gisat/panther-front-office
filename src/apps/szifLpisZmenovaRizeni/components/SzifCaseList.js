@@ -1,5 +1,5 @@
 import React from 'react';
-import User from "../../../components/common/controls/User";
+import User from "./Login/";
 import ScreenAnimator from "../../../components/common/ScreenAnimator/presentation";
 import SzifCaseTable from "./SzifCaseTable";
 import SzifCaseForm from "./SzifCaseForm";
