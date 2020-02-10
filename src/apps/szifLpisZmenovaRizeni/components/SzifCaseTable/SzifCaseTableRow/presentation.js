@@ -12,8 +12,7 @@ import LpisCaseStatuses from "../../../constants/LpisCaseStatuses";
 class SzifCaseTableRow extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
-		highlightedCaseKey: PropTypes.string,
-		highlightedChangeDescription: PropTypes.string,
+		highlightedKeys: PropTypes.object,
 		switchScreen: PropTypes.func,
 		invalidateCase: PropTypes.func,
 		caseSubmitDate: PropTypes.string,
@@ -61,11 +60,11 @@ class SzifCaseTableRow extends React.PureComponent {
 			<div className={classes} key={data.caseKey}>
 				<div className="szifLpisZmenovaRizeni-table-row-record">
 					<div className="szifLpisZmenovaRizeni-table-row-item">{caseStatus}</div>
-					{this.renderCaseKey()}
+					{this.renderItem('caseKey', this.props.data.caseKey)}
 					<div className="szifLpisZmenovaRizeni-table-row-item">{submitDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{changeDate}</div>
 					<div className="szifLpisZmenovaRizeni-table-row-item">{endDate}</div>
-					<div className="szifLpisZmenovaRizeni-table-row-item">{caseJiCode}</div>
+					{this.renderItem('codeJi', caseJiCode)}
 					<div className="szifLpisZmenovaRizeni-table-row-item buttons">{this.renderButtons()}</div>
 				</div>
 				{this.state.expanded ? this.renderDetails() : null}
@@ -95,12 +94,13 @@ class SzifCaseTableRow extends React.PureComponent {
 		);
 	}
 
-	renderCaseKey(){
-		return this.props.highlightedCaseKey ? (
-			<div dangerouslySetInnerHTML={{__html: this.props.highlightedCaseKey}} className="szifLpisZmenovaRizeni-table-row-item highlighted"></div>
-		) : (
-			<div className="szifLpisZmenovaRizeni-table-row-item">{this.props.data.caseKey}</div>
-		);
+	renderItem(itemKey, value){
+		const highlighted = this.props.highlightedKeys[itemKey];
+		if(highlighted) {
+			return <div dangerouslySetInnerHTML={{__html: highlighted}} className="szifLpisZmenovaRizeni-table-row-item highlighted"></div>
+		} else {
+			return <div className="szifLpisZmenovaRizeni-table-row-item">{value}</div>
+		}
 	}
 
 	renderDetails() {
@@ -118,9 +118,8 @@ class SzifCaseTableRow extends React.PureComponent {
 					invalidateCase={props.invalidateCase}
 					status={props.data.status}
 					codeDpb={props.data.codeDpb}
-					codeJi={props.data.codeJi}
 					changeDescription={props.data.changeDescription}
-					highlightedChangeDescription={props.highlightedChangeDescription}
+					highlightedKeys={props.highlightedKeys}
 					changeDescriptionOther={props.data.changeDescriptionOther}
 					changeDescriptionPlace={props.data.changeDescriptionPlace}
 					evaluationResult={props.data.evaluationResult}

@@ -9,8 +9,8 @@ import Icon from "../../../../components/common/atoms/Icon";
 import InputText from "../../../../components/common/atoms/Input/Input";
 import fuzzysort from "fuzzysort";
 
-const SEARCHABLE_CASE_KEYS = ['caseKey', 'changeDescription'];
-const SEARCHABLE_CASE_KEYS_SOURCES = ['data.caseKey', 'data.changeDescription'];
+const SEARCHABLE_CASE_KEYS = ['caseKey', 'changeDescription','changeDescriptionOther','changeDescriptionPlace','codeDpb','codeJi','evaluationDescription','evaluationDescriptionOther'];
+const SEARCHABLE_CASE_KEYS_SOURCES = ['data.caseKey', 'data.changeDescription', 'data.changeDescriptionOther', 'data.changeDescriptionPlace', 'data.codeDpb', 'data.codeJi', 'data.evaluationDescription', 'data.evaluationDescriptionOther'];
 const SEARCHING_RESULTS_LIMIT = 20;
 const SEARCHING_SCORE_THRESHOLD = -10000;
 
@@ -164,13 +164,18 @@ class SzifCaseTable extends React.PureComponent {
 	}
 	
 	renderRow(caseData) {
+		const highlightedKeys = {};
+		for(const [key, value] of Object.entries(caseData)) {
+			if(key.includes('_highlighted')) {
+				highlightedKeys[key.split("_highlighted")[0]] = value;
+			}
+		}
 		return (
 			<SzifCaseTableRow
 				key={caseData.key}
 				metadataKey={caseData.key}
 				data={caseData.data}
-				highlightedCaseKey={caseData.caseKey_highlighted}
-				highlightedChangeDescription={caseData.changeDescription_highlighted}
+				highlightedKeys={highlightedKeys}
 			/>
 		);
 	}

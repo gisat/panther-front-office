@@ -16,9 +16,8 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		caseSubmit: PropTypes.object,
 		caseChange: PropTypes.object,
 		codeDpb: PropTypes.string,
-		codeJi: PropTypes.string,
 		changeDescription: PropTypes.string,
-		highlightedChangeDescription: PropTypes.string,
+		highlightedKeys: PropTypes.object,
 		changeDescriptionOther: PropTypes.string,
 		changeDescriptionPlace: PropTypes.string,
 		evaluationResult: PropTypes.string,
@@ -40,7 +39,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 	}
 
 	renderEvaluationResults() {
-		const {status, userGroups, evaluationResult, evaluationDescription, evaluationUsedSources} = this.props;
+		const {status, userGroups, evaluationResult, evaluationDescription,evaluationDescriptionOther, evaluationUsedSources} = this.props;
 		const evaluationResultValue = evaluationResult ? evaluationConclusions.find(c => c.value === evaluationResult.toUpperCase()).label : null;
 		if (!userGroups || status === 'CREATED' || (
 			(userGroups.includes('szifUsers') || userGroups.includes('szifAdmins') || userGroups.includes('szifRegionAdmins')) && (status === 'EVALUATION_CREATED')
@@ -51,7 +50,8 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 			return (<div>
 						<h4>Výsledek vyhodnocení družicových dat</h4>
 						{evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
-						{evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", evaluationDescription) : null}
+						{evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", evaluationDescription, 'evaluationDescription') : null}
+						{evaluationDescriptionOther ? this.renderItem("Popis výsledků vyhodnocení další", evaluationDescriptionOther, 'evaluationDescriptionOther') : null}
 						{evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", evaluationUsedSources, "sources") : null}
 					</div>)
 		}
@@ -82,8 +82,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		return (
 			<div>
 				<div className="szifLpisZmenovaRizeni-table-detail-top-bar">
-					{props.codeDpb ? this.renderItem("Kód DPB", props.codeDpb) : null}
-					{props.codeJi ? this.renderItem("Kód JI", props.codeJi) : null}
+					{props.codeDpb ? this.renderItem("Kód DPB", props.codeDpb, 'codeDpb') : null}
 					{caseSubmit ? this.renderItem("Zadal", <User userKey={caseSubmit.userId}/>) : null}
 					{caseChange ? this.renderItem("Poslední změna", <User userKey={caseChange.userId}/>) : null}
 					<div>
@@ -95,9 +94,9 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 				<div className="szifLpisZmenovaRizeni-table-detail-descriptions">
 					<div>
 						<h4>Ohlášení územní změny</h4>
-						{props.changeDescription ? this.renderChangeDescription() : null}
-						{props.changeDescriptionPlace ? this.renderItem("Určení místa změny v terénu", props.changeDescriptionPlace) : null}
-						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther) : null}
+						{props.changeDescription ? this.renderItem("Popis důvodu pro aktualizaci LPIS", props.changeDescription, 'changeDescription') : null}
+						{props.changeDescriptionPlace ? this.renderItem("Určení místa změny v terénu", props.changeDescriptionPlace, 'changeDescriptionPlace') : null}
+						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther, 'changeDescriptionOther') : null}
 					</div>
 					{
 						this.renderEvaluationResults()
@@ -107,27 +106,23 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		);
 	}
 
-	renderChangeDescription() {
-		return this.props.highlightedChangeDescription ? (
-			<div className="szifLpisZmenovaRizeni-table-detail-item highlighted">
-				<div>{"Popis důvodu pro aktualizaci LPIS"}</div>
-				<div dangerouslySetInnerHTML={{__html: this.props.highlightedChangeDescription}}></div>
-			</div>
-		) : (
-			<div className="szifLpisZmenovaRizeni-table-detail-item">
-				<div>{"Popis důvodu pro aktualizaci LPIS"}</div>
-				<div>{this.props.changeDescription}</div>
-			</div>
-		);
-	}
-
-	renderItem(title, value) {
-		return (
-			<div className="szifLpisZmenovaRizeni-table-detail-item">
-				<div>{title}</div>
-				<div>{value}</div>
-			</div>
-		);
+	renderItem(title, value, highlightKey) {
+		const highlighted = highlightKey && this.props.highlightedKeys[highlightKey];
+		if(highlighted) {
+			return (
+				<div className="szifLpisZmenovaRizeni-table-detail-item">
+					<div>{title}</div>
+					<div dangerouslySetInnerHTML={{__html: highlighted}} className="highlighted"></div>
+				</div>
+			)
+		} else {
+			return (
+				<div className="szifLpisZmenovaRizeni-table-detail-item">
+					<div>{title}</div>
+					<div>{value}</div>
+				</div>
+			)
+		}
 	}
 
 	renderSourcesItem(title, value) {
