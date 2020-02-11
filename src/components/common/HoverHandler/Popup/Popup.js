@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {getTootlipPosition} from '../position';
 import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
@@ -8,6 +9,18 @@ import './style.scss';
 
 const WIDTH = 250;
 const HEIGHT = 50;
+const TOOLTIP_PADDING = 15;
+
+const getTooltipStyle = () => {
+	// bbox for tooltip default defined by window
+	const windowScrollTop = window.document.documentElement.scrollTop;
+	const windowScrollLeft = window.document.documentElement.scrollLeft;
+	const windowHeight = window.document.documentElement.clientHeight;
+	const windowWidth = window.document.documentElement.clientWidth;
+	const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
+
+	return getTootlipPosition('corner', ['right', 'left', 'top', 'bottom'], windowBBox, TOOLTIP_PADDING);
+}
 
 class Popup extends React.PureComponent {
 
@@ -16,7 +29,12 @@ class Popup extends React.PureComponent {
 		y: PropTypes.number,
 		maxX: PropTypes.number,
 		content: PropTypes.element,
-		compressed: PropTypes.bool
+		getStyle: PropTypes.func,
+		hoveredElemen: PropTypes.oneOfType([
+			PropTypes.element,
+			PropTypes.object,
+		  ]),
+		  compressed: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -25,66 +43,63 @@ class Popup extends React.PureComponent {
 		this.ref = React.createRef();
 	}
 
-	render() {
-		// TODO solve popup positioning properly
-		const maxX = window.innerWidth - 20;
-		const minX = 0;
-
-		const maxY = window.innerHeight + window.pageYOffset - 20;
-		const minY = window.pageYOffset;
-
+	getStyle() {
+		let posX = this.props.x;
+		let posY = this.props.y;
+		let maxX = window.innerWidth;
+		let maxY = window.innerHeight + window.pageYOffset;
+		let minY = window.pageYOffset;
 		const maxWidth = maxX - 20;
 		const maxHeight = (maxY - minY) - 20;
 
-		let x = this.props.x + 15;
-		let y = this.props.y + 20;
+		const element = this.ref.current && this.ref.current.children[0];
+		let width = element && element.offsetWidth ? element.offsetWidth : WIDTH;
+		let height = element && element.offsetHeight ? element.offsetHeight : HEIGHT;
 
-		let width = this.ref.current && this.ref.current.offsetWidth ? this.ref.current.offsetWidth : WIDTH;
-		let height = this.ref.current && this.ref.current.offsetHeight ? this.ref.current.offsetHeight : HEIGHT;
+		let style = null;
 
-		// size
-		if (this.props.compressed || (height > maxHeight)) {
-			width = 500;
+		if(typeof this.props.getStyle === 'function' && this.props.hoveredElemen) {
+			style = this.props.getStyle()(posX, posY, width, height, this.props.hoveredElemen);
+		} else {
+			//right corner on mouse position
+			style = getTooltipStyle()(posX, posY, width, height);
+
 		}
 
-		if (width > maxWidth) {
-			width = maxWidth;
-		}
+		if (this.props.compressed || (height > maxHeight)) {	
+			width = 500;	
+		}	
 
-		// positioning
-		if ((x + width) > maxX) {
-			x = this.props.x - width - 10;
+		if (width > maxWidth) {	
+			width = maxWidth;	
 		}
+		return style;
+	}
 
-		if (x < minX) {
-			x = minX;
+	componentDidMount() {
+		// autofocus the input on mount
+		if(true && this.ref && this.ref.current) {
+			const style = this.getStyle();
+			this.ref.current.style = style;
 		}
+	}
 
-		if ((y + height) > maxY) {
-			y = this.props.y - height - 10;
-		}
-
-		if (y < minY && minY < maxY - height) {
-			y = maxY - height;
-		}
-
-		if (y < 0) {
-			y = 0;
-		}
-
-		let style = {
-			top: y,
-			left: x,
-			width
-		};
+	render() {
+		const style = this.getStyle();
 
 		let classes = classnames("ptr-popup", {
 			'compressed': this.props.compressed
 		});
 
+		if(this.ref && !this.ref.current) {
+			style.display = 'none';
+		}
+
 		return (
-			<div style={style} className={classes} ref={this.ref}>
-				{this.props.content ? React.cloneElement(this.props.content) : this.props.children}
+			<div ref={this.ref} className={classes}>
+				<div style={style} className={classes}>
+					{this.props.content ? React.cloneElement(this.props.content) : this.props.children}
+				</div>
 			</div>
 		);
 	}

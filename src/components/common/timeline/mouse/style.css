@@ -1,0 +1,8 @@
+
+.ptr-timeline-mouse > rect {
+	fill: rgba(76, 177, 204, .15);
+}
+.ptr-timeline-mouse > line {
+	stroke-width: 1;
+	stroke: rgba(76, 177, 204, .7);
+}
