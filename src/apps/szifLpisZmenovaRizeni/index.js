@@ -40,7 +40,7 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setLocalConfiguration('defaultLayers', [
 		{
 				key: 'ortofoto_akt',
-				title: 'Ortofoto aktuální',
+				title: 'Ortofoto LPIS',
 				period: {start:'2016',end:'2020'},
 				type: "wms",
 				zIndex: 1,
@@ -54,7 +54,7 @@ export default (path, baseUrl) => {
 		},
 		{
 				key: 'ortofoto_2016_zapad',
-				title: 'Ortofoto historická',
+				title: 'Ortofoto východ/západ',
 				info: 'východ 2016',
 				period: {start:'2016',end:'2017'},
 				type: "wms",
@@ -70,7 +70,7 @@ export default (path, baseUrl) => {
 		},
 		{
 				key: 'ortofoto_2017_zapad',
-				title: 'Ortofoto historická',
+				title: 'Ortofoto východ/západ',
 				info: 'západ 2017',
 				period: {start:'2017',end:'2018'},
 				type: "wms",
@@ -87,7 +87,7 @@ export default (path, baseUrl) => {
 		{
 				key: 'ortofoto_2018_vychod',
 				info: 'východ 2018',
-				title: 'Ortofoto historická',
+				title: 'Ortofoto východ/západ',
 				period: {start:'2018',end:'2019'},
 				type: "wms",
 				zIndex: 2,
@@ -103,7 +103,7 @@ export default (path, baseUrl) => {
 		{
 				key: 'ortofoto_2019_zapad',
 				info: 'západ 2019',
-				title: 'Ortofoto historická',
+				title: 'Ortofoto východ/západ',
 				period: {start:'2019',end:'2020'},
 				type: "wms",
 				zIndex: 2,
