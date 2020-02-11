@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classnames from 'classnames';
+import Menu, {MenuItem} from '../../../../../components/common/atoms/Menu';
 import Button from "../../../../../components/common/atoms/Button";
 import {evaluationConclusions} from "../../../../../constants/LpisCaseStatuses";
 import User from "../../../../../components/common/atoms/User";
@@ -70,7 +71,14 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		const showInvalidateButton = (isSzifUser && isCreated) || (isGisatAdmin && !isInvalid && !isClosed);
 		if (showInvalidateButton) {
 			return (
-				<Button ghost onClick={this.onInvalidateClick} className={'szifLpisZmenovaRizeni-btn-invalidate'} >Zneplatnit záznam řízení</Button>
+				<div className="">
+					<Button onClick={()=>{}} icon="dots">
+						<Menu bottom left>
+							<MenuItem onClick={this.onInvalidateClick}>Zneplatnit záznam řízení</MenuItem>
+						</Menu>
+					</Button>
+				</div>
+
 			);
 		} else {
 			return null;
