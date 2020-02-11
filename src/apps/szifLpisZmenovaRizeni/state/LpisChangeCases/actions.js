@@ -21,7 +21,7 @@ const refreshUses = (filterByActive, filter, order, start, length, componentId) 
 	const indexed = Select.specific.lpisChangeCases.getIndexed(state, filterByActive, filter, order, start, length)
 	
 	if(indexed) {
-		dispatch(clearIndex(null, order));
+		dispatch(clearIndex(filter, order));
 	}
 	dispatch(useIndexed(filterByActive, filter, order, start, length, componentId));
 	dispatch(ActionSzifLpisZmenovaRizeni.reloadLeftCases());

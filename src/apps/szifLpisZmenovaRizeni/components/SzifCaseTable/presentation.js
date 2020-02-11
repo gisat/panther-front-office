@@ -59,12 +59,12 @@ class SzifCaseTable extends React.PureComponent {
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.switchScreenForm = props.switchScreen.bind(this, 'szifCaseForm');
 		this.switchScreenExplorer = props.switchScreen.bind(this, 'szifSentinelExplorer');
+		this.onStatusChange = this.onStatusChange.bind(this);
 	}
 
 	componentDidMount() {
 		const {onMount, casesFilter} = this.props;
 		onMount(casesFilter);
-		this.onStatusChange = this.onStatusChange.bind(this);
 	}
 
 	onSearchChange(searchString) {
