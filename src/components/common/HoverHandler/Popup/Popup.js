@@ -73,7 +73,7 @@ class Popup extends React.PureComponent {
 		if (width > maxWidth) {	
 			width = maxWidth;	
 		}
-		return style;
+		return (element && element.offsetWidth !== 0 && element.offsetHeight !== 0) ? {...style} : {...style, position:'absolute', overfloat: 'auto'};
 	}
 
 	componentDidMount() {

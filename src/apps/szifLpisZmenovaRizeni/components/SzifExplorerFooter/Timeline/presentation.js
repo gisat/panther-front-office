@@ -99,7 +99,7 @@ class SzifTimeline extends React.PureComponent {
 			const windowHeight = window.document.documentElement.clientHeight;
 			const windowWidth = window.document.documentElement.clientWidth;
 			const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
-			return getTootlipPosition(referencePoint, ['bottom', 'top'], windowBBox, TOOLTIP_PADDING)
+			return getTootlipPosition(referencePoint, ['top'], windowBBox, TOOLTIP_PADDING)
 		}
 	}
 	getVerticalTootlipStyle() {
