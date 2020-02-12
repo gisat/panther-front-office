@@ -82,7 +82,7 @@ class DromasLpisCase extends React.PureComponent {
 				(props) => {
 					return (
 						<div onFocus={props.onFocusInput} onBlur={props.onBlurInput}>
-							{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
+							{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.changeDescription)}
 							{placeInsert}
 							{otherInsert}
 							{dpbInsert}
