@@ -22,6 +22,9 @@ const mapDispatchToPropsFactory = () => {
 					dispatch(Action.specific.lpisChangeCasesEdited.createNewActiveEditedCase());
 				}
 			},
+			onUnmount: () => {
+				dispatch(Action.specific.lpisChangeCasesEdited.clearActiveEditedCaseKey());
+			},
 			createLpisCase:() => {
 				return dispatch(Action.specific.lpisChangeCasesEdited.createLpisCase());
 			},

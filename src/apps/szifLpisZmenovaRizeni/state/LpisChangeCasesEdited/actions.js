@@ -15,6 +15,12 @@ function createNewActiveEditedCase(key) {
 	}
 }
 
+function clearActiveEditedCaseKey() {
+	return {
+		type: ActionTypes.LPIS_CHANGE_CASES_EDITED.CLEAR_ACTIVE_EDITED_CASE_KEY,
+	}
+}
+
 function createLpisCase() {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -107,4 +113,5 @@ export default {
 	createLpisCase,
 	editActiveEditedCase,
 	clearActiveEditedCase,
+	clearActiveEditedCaseKey,
 }

@@ -22,6 +22,10 @@ function clearEditedCase(state, action) {
 	return {...state, editedCases: [...editedCases, editedCase]};
 }
 
+function clearActiveEditedCaseKey(state) {
+	return {...state, activeNewEditedCaseKey: null, editedCases: []};
+}
+
 function editActiveEditedCase(state, action) {
 	let editedCases = [];
 
@@ -103,6 +107,8 @@ export default (state = INITIAL_STATE, action) => {
 			return editActiveEditedCase(state, action);
 		case ActionTypes.LPIS_CHANGE_CASES_EDITED.CREATE_NEW_ACTIVE_EDITED_CASE:
 			return createNewActiveEditedCase(state, action);
+		case ActionTypes.LPIS_CHANGE_CASES_EDITED.CLEAR_ACTIVE_EDITED_CASE_KEY:
+			return clearActiveEditedCaseKey(state);
 	
 		default:
 			return state;

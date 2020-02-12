@@ -26,6 +26,7 @@ class SzifCaseForm extends React.PureComponent {
 	static propTypes = {
 		activeEditedCase: PropTypes.object,
 		onMount: PropTypes.func,
+		onUnmount: PropTypes.func,
 		createLpisCase: PropTypes.func,
 		createNewActiveEditedCase: PropTypes.func,
 		editActiveEditedCase: PropTypes.func,
@@ -51,6 +52,11 @@ class SzifCaseForm extends React.PureComponent {
 		const {onMount, activeEditedCase} = this.props;
 		const activeNewEditedCaseKey = activeEditedCase && activeEditedCase.key;
 		onMount(activeNewEditedCaseKey);
+	}
+
+	componentWillUnmount() {
+		const {onUnmount} = this.props;
+		onUnmount();
 	}
 
 	onClickSendAndCreateNewOne() {

@@ -42,6 +42,7 @@ export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 		CLEAR_EDITED_CASE: null,
 		EDIT_ACTIVE_EDITED_CASE: null,
 		CREATE_NEW_ACTIVE_EDITED_CASE: null,
+		CLEAR_ACTIVE_EDITED_CASE_KEY: null,
 	},
 	LPIS_CHANGE_DATES: {
 		SAVE_DATES: null,
