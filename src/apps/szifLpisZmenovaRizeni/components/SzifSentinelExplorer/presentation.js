@@ -32,11 +32,12 @@ class SzifMapView extends React.PureComponent {
 	renderMaps(activeMapKey) {
 		const {maps} = this.props; 
 		return maps.map((map) => {
+			const label = map.layers && map.layers[0] && map.layers[0].title || map.label;
 			return <PresentationMap
 						key={map.key}
 						mapKey={map.key}
 						layers={map.layers}
-						label={map.label}
+						label={label}
 						/>
 		})
 	}

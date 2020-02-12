@@ -1,48 +1,11 @@
 import { connect } from 'react-redux';
 import Select from '../../state/Select';
 import Action from "../../state/Action";
+import layersHelpers from "../helpers/layers";
 
 import presentation from './presentation';
 
 const componentID = 'szifZmenovaRizeni_SentinelExplorer';
-
-const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time, layer) => {
-	return {
-			key: spatialDataSourceKey,
-			type: "wms",
-			options: {
-				url: layer.options.url,
-				params: {
-					...layer.options.params,
-					layers: layer.options.layers,
-					time: layer.time,
-				}
-			}
-	}
-}
-
-const getWMSRasterSpatialDataSource = (layer) => {
-	return {
-			key: layer.key,
-			type: "wms",
-			options: {
-				"url": layer.options.url,
-				params: {
-					...layer.options.params
-				}
-			}
-	}
-}
-
-const getLayerConfig = (layer) => {
-	if(layer && layer.options && layer.options.type && layer.options.type === 'sentinel') {
-		return getSentinelRasterSpatialDataSource(layer.key,  'sentinel', layer.time, layer);
-	}
-
-	if(layer && layer.options && layer.options.type && layer.options.type === 'wms') {
-		return getWMSRasterSpatialDataSource(layer);
-	}
-}
 
 const getMapLayers = (state, mapKey) => {
 	const layers = [];
@@ -52,7 +15,7 @@ const getMapLayers = (state, mapKey) => {
 	
 	if(activeLayers && activeLayers.length > 0) {
 		activeLayers.forEach((layer) => {
-			layers.push(getLayerConfig(layer));
+			layers.push(layersHelpers.getLayerConfig(layer));
 		})
 	}
 

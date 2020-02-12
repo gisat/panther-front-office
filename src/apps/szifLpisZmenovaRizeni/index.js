@@ -53,7 +53,7 @@ export default (path, baseUrl) => {
 				}
 		},
 		{
-				key: 'ortofoto_2016_zapad',
+				key: 'ortofoto_2016_vychod',
 				title: 'Ortofoto východ/západ',
 				info: 'východ 2016',
 				period: {start:'2016',end:'2017'},
