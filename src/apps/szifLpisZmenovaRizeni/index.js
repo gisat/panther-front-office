@@ -30,8 +30,8 @@ export default (path, baseUrl) => {
 	i18n.changeLanguage('cz');
 
 	Store.dispatch(Action.app.setLocalConfiguration('period', {start: '2016', end: '2020'}));
-	Store.dispatch(Action.app.setLocalConfiguration('getDatesUrl', 'http://lpisup.gisat.cz/backend/rest/imagemosaic/getDates'));
-	Store.dispatch(Action.app.setLocalConfiguration('sentinelGeoserverUrl', 'http://lpisup.gisat.cz/geoserver/wms'));
+	Store.dispatch(Action.app.setLocalConfiguration('getDatesUrl', 'https://lpisup.gisat.cz/backend/rest/imagemosaic/getDates'));
+	Store.dispatch(Action.app.setLocalConfiguration('sentinelGeoserverUrl', 'https://lpisup.gisat.cz/geoserver/wms'));
 	Store.dispatch(Action.app.setLocalConfiguration('seninelLayers', {
 		trueColor: 'ptr3:S2_432_2019',
 		infrared: 'ptr3:S2_843_2019',
