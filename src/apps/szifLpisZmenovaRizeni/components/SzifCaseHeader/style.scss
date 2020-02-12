@@ -152,6 +152,7 @@
 /* ============ map tools ===================== */
 .ptr-dromasLpisChangeReviewHeader-topBar.mapTools {
 	padding-right: .5rem;
+	flex-flow: column;
 }
 .ptr-dromasLpisChangeReviewHeader-map-info {
 	display: flex;

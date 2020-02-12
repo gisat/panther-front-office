@@ -68,7 +68,8 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	onSearchChange(searchString) {
-		let filteredCases = [...this.props.cases];
+		const cases = this.props.cases || [];
+		let filteredCases = [...cases];
 		if (searchString && searchString !== "") {
 			filteredCases = search(searchString, filteredCases);
 		}

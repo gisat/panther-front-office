@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapTools from './MapTools';
 import Timeline from './Timeline';
+import AddMapButton from "../SzifCaseFooter/AddMapButton";
 // import './style.scss';
 
 class SzifCaseFooter extends React.PureComponent {
@@ -26,19 +26,15 @@ class SzifCaseFooter extends React.PureComponent {
 		const {selectedMapOrder, activeMapKey, addMap, mapsCount} = this.props;
 		return (
 			<div style={{width: '100%',display: 'flex'}}>
-				<MapTools
-					// showAfter={borderOverlays && borderOverlays.after}
-					// showBefore={borderOverlays && borderOverlays.before}
-					// case={case}
-					// userGroups={userGroups}
-					mapKey={activeMapKey}
-					addMap={addMap}
-					// mapsContainer={mapsContainer}
-					mapsCount={mapsCount}
-					// mapSetKey={mapSetKey}
-					selectedMapOrder={selectedMapOrder}
-					// toggleGeometries={toggleGeometries}
-				/>
+
+				<div className="ptr-dromasLpisChangeReviewHeader-topBar mapTools">
+					<div className="ptr-dromasLpisChangeReviewHeader-map-info">
+						<div className="ptr-dromasLpisChangeReviewHeader-map-name">
+							{activeMapKey ? ("Mapa " + (selectedMapOrder + 1)) : ""}
+						</div>
+					</div>
+					<AddMapButton disabled={mapsCount >= 9} addMap={addMap}/>
+				</div>
 				<Timeline mapKey={activeMapKey}/>
 			</div>
 		);

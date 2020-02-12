@@ -1,8 +1,11 @@
 .szifLpisZmenovaRizeni-map-view {
 	height: 100%;
-	background-color: red;
 	width: 100%;
 	overflow: auto;
 	display: flex;
 	flex-direction: column;
+}
+
+.ptr-dromasLpisChangeReviewHeader-map-add{
+	white-space: nowrap;
 }

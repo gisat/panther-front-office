@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from "../../../../components/common/atoms/Button";
+import Icon from "../../../../components/common/atoms/Icon";
 import MapsGridIcon from "../../../../components/presentation/atoms/MapsGridIcon";
 import LpisCaseStatuses from "../../constants/LpisCaseStatuses";
+import AddMapButton from "./AddMapButton";
 
 class MapTools extends React.PureComponent {
 
@@ -20,14 +22,14 @@ class MapTools extends React.PureComponent {
 	};
 
 	onToggleGeometry(key, e) {
-		const {showAfter, showBefore} = this.props;
+		const {showAfter, showBefore, toggleGeometries, mapKey} = this.props;
 		const newShowBefore = (key === 'before') ? e.target.checked : showBefore;
 		const newShowAfter = (key === 'after') ? e.target.checked : showAfter;
-		this.props.toggleGeometries(this.props.mapKey, newShowBefore, newShowAfter);
+		toggleGeometries(mapKey, newShowBefore, newShowAfter);
 	}
 
 	render() {
-		const {showAfter, showBefore} = this.props;
+		const {showAfter, showBefore, mapsCount, addMap, mapKey, selectedMapOrder} = this.props;
 		let geometryAfter = this.props.case && this.props.case.data && this.props.case.data.geometryAfter;
 		let geometryBefore = this.props.case && this.props.case.data && this.props.case.data.geometryBefore;
 
@@ -40,11 +42,9 @@ class MapTools extends React.PureComponent {
 							rows={this.props.mapsContainer.rows}
 							selected={this.props.selectedMapOrder}
 						/> */}
-						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapKey ? ("Mapa " + (this.props.selectedMapOrder + 1)) : ""}</div>
+						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{mapKey ? ("Mapa " + (selectedMapOrder + 1)) : ""}</div>
 					</div>
-					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
-						{this.renderMapAddButton()}
-					</div>
+					<AddMapButton disabled={mapsCount >= 9} addMap={addMap}/>
 				</div>
 				<div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-control-toggles">
@@ -73,24 +73,6 @@ class MapTools extends React.PureComponent {
 			</div>
 		);
 	}
-
-	renderMapAddButton() {
-		// if (
-		// 	(this.props.case && this.props.case.data.status && this.props.case.data.status.toUpperCase() === LpisCaseStatuses.CREATED.database)
-		// 	&& (this.props.userGroups.includes('gisatUsers') || this.props.userGroups.includes('gisatAdmins'))
-		// ) {
-			return (
-				<Button
-					disabled={this.props.mapsCount > 11}
-					ghost
-					icon="plus"
-					onClick={() => {this.props.addMap()}}
-					small
-				/>
-			);
-		}
-	// }
-
 }
 
 export default MapTools;
