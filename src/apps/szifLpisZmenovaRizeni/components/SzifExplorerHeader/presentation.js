@@ -12,6 +12,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		switchScreen: PropTypes.func,
 		loadSentinels: PropTypes.func,
 		setMapSetView: PropTypes.func,
+		getDatesActive: PropTypes.bool,
 		mapSet: PropTypes.object,
 		getDatesUrl: PropTypes.string,
 	};
@@ -48,6 +49,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		loadSentinels(mapSet, getDatesUrl);
 	}
 	render() {
+		const {getDatesActive} = this.props;
 		return (
 			<div className="szifLpisZmenovaRizeni-sentinel-explorer-header">
 				<div>
@@ -66,7 +68,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						</div>
 					</div>
 				<div className="szifLpisZmenovaRizeni-sentinel-explorer-header-rightblock">
-					<Button ghost inverted icon="download" onClick={this.loadSentinels}>
+					<Button ghost inverted icon="download" onClick={this.loadSentinels} disabled={!getDatesActive}>
 						Načíst sentinel data
 					</Button>
 				</div>

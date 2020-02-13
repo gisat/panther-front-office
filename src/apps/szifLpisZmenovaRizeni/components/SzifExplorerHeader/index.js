@@ -9,12 +9,14 @@ const componentID = 'szifZmenovaRizeni_SentinelExplorer';
 const mapStateToProps = (state, ownProps) => {
 	const mapSetKey = Select.components.get(state, componentID, 'maps.activeSetKey');
 	const mapSet = Select.components.get(state, componentID, `maps.sets.${mapSetKey}`);
+	const range = mapSet.data.view.boxRange;
 	const getDatesUrl = Select.app.getLocalConfiguration(state, 'getDatesUrl');
 	return {
 		//datesLoading
 		//getDatesActive
 		mapSet,
 		getDatesUrl,
+		getDatesActive: range < 50000, //getDates active in boxRange less than 50km
 	};
 };
 
