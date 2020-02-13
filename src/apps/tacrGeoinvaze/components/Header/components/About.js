@@ -9,7 +9,7 @@ export default props => (
 		<p>Pro potřeby tvorby modelů byly druhy rozděleny do tzv. „funkčních skupin“ s ohledem na jejich biologii, ekologie a způsob šíření. Druhy živočichů byly rozděleny dle preferovaného prostředí výskytu na druhy vázané na vodní prostředí a druhy terestrické. Dále pak byly skupiny rozděleny dle taxonomické příslušnosti. Cévnaté rostliny byly rozděleny na vodní a terestrické, terestrické pak na byliny a dřeviny. Pro jednotlivé funkční skupiny byl použit shodný algoritmus konstrukce map a modelů. Algoritmy tvorby modelů se liší pro jednotlivé funkční skupiny a jsou popsány v kapitole Metodika – Konstrukce predikčních modelů.</p>
 
 		<h4>Živočichové – suchozemští</h4>
-		<ul>
+		<ul className="tacrGeoinvaze-case-ul">
 			<li>Neovison vison</li>
 			<li>Nyctereutes procyonoides</li>
 			<li>Ondatra zibethicus</li>
@@ -17,7 +17,7 @@ export default props => (
 		</ul>
 
 		<h4>Živočichové – vázaní na vodní prostředí</h4>
-		<ul>
+		<ul className="tacrGeoinvaze-case-ul">
 			<li>Astacus leptodactylus</li>
 			<li>Oronectes limosus</li>
 			<li>Pacifastacus leniusculus</li>
@@ -36,7 +36,7 @@ export default props => (
 		</ul>
 
 		<h4>Rostliny suchozemské</h4>
-		<ul>
+		<ul className="tacrGeoinvaze-case-ul">
 			<li>Amorpha fruticosa</li>
 			<li>Buddleja davidii</li>
 			<li>Colutea arborescens</li>
@@ -67,7 +67,7 @@ export default props => (
 		</ul>
 
 		<h4>Dřeviny</h4>
-		<ul>
+		<ul className="tacrGeoinvaze-case-ul">
 			<li>Acer negundo</li>
 			<li>Ailanthus altissima</li>
 			<li>Pinus nigra</li>
