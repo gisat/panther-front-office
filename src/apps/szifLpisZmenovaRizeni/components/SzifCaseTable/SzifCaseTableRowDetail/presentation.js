@@ -53,7 +53,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 						<h4>Výsledek vyhodnocení družicových dat</h4>
 						{evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
 						{evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", evaluationDescription, 'evaluationDescription') : null}
-						{evaluationDescriptionOther ? this.renderItem("Popis výsledků vyhodnocení další", evaluationDescriptionOther, 'evaluationDescriptionOther') : null}
+						{evaluationDescriptionOther ? this.renderItem("Další komentář", evaluationDescriptionOther, 'evaluationDescriptionOther') : null}
 						{evaluationUsedSources ? this.renderEvaluationUsedSources(evaluationUsedSources) : null}
 					</div>)
 		}
