@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-import MapTimeline from "../../../../../components/common/mapTimeline/";
-import PeriodLimit from "../../../../../components/common/timeline/periodLimit";
-import Overlays from "../../../../../components/common/timeline/overlay";
-import Picker from "../../../../../components/common/timeline/centerPicker";
-import Mouse from "../../../../../components/common/timeline/mouse";
-import Years from '../../../../../components/common/timeline/years';
-import Months from '../../../../../components/common/timeline/months';
-import Overlay from '../../../../../components/common/timeline/overlay';
+import MapTimeline from "../../../../components/common/mapTimeline/";
+import PeriodLimit from "../../../../components/common/timeline/periodLimit";
+import Overlays from "../../../../components/common/timeline/overlay";
+import Picker from "../../../../components/common/timeline/centerPicker";
+import Mouse from "../../../../components/common/timeline/mouse";
+import Years from '../../../../components/common/timeline/years';
+import Months from '../../../../components/common/timeline/months';
+import Overlay from '../../../../components/common/timeline/overlay';
 
-import TimeLineHover from '../../../../../components/common/timeline/TimeLineHover';
-import HoverHandler from "../../../../../components/common/HoverHandler/HoverHandler";
-import {getTootlipPosition} from "../../../../../components/common/HoverHandler/position";
+import TimeLineHover from '../../../../components/common/timeline/TimeLineHover';
+import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {getTootlipPosition} from "../../../../components/common/HoverHandler/position";
 
-import {getIntersectionLayers, getIntersectionOverlays, overlap} from '../../../../../components/common/timeline/utils/overlays';
+import {getIntersectionLayers, getIntersectionOverlays, overlap} from '../../../../components/common/timeline/utils/overlays';
 
 
 const TOOLTIP_PADDING = 5;
@@ -64,15 +64,19 @@ class SzifTimeline extends React.PureComponent {
 			if(overlay.options.type === 'wms') {
 				info = overlay.info || '';
 			} else if(overlay.options.type === 'sentinel') {
-				info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
+				info = periodCount > 1 ? periodCount : overlay.info || `(${overlay.period[0].end.substring(0,4)}-${overlay.period[0].end.substring(5,7)}-${overlay.period[0].end.substring(8,10)})`;
 			}
 			return <div key={overlay.layerTemplateKey} className={'ptr-timeline-tooltip-layer'}>
 				<div>
 					<span className="dot" style={{'backgroundColor': overlay.color}}></span>
 				</div>
-				<div>{overlay.title}</div>
-				<div>
-					{info}
+				<div className={'ptr-timeline-tooltip-layer-text'}>
+					<div>
+						{overlay.title}
+					</div>
+					<div>
+						{info}
+					</div>
 				</div>
 			</div>
 		})
@@ -99,7 +103,7 @@ class SzifTimeline extends React.PureComponent {
 			const windowHeight = window.document.documentElement.clientHeight;
 			const windowWidth = window.document.documentElement.clientWidth;
 			const windowBBox = [windowScrollTop, windowScrollLeft + windowWidth, windowScrollTop + windowHeight, windowScrollLeft];
-			return getTootlipPosition(referencePoint, ['top'], windowBBox, TOOLTIP_PADDING)
+			return getTootlipPosition(referencePoint, ['bottom', 'top'], windowBBox, TOOLTIP_PADDING)
 		}
 	}
 	getVerticalTootlipStyle() {

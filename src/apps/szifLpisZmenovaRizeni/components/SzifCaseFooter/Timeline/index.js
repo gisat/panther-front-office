@@ -3,7 +3,7 @@ import Select from '../../../state/Select';
 import Action from "../../../state/Action";
 import timelineHelper from "../../helpers/timeline";
 
-import presentation from './presentation';
+import presentation from '../../Timeline/presentation';
 
 const periodLimit = {
 	start: '2016',

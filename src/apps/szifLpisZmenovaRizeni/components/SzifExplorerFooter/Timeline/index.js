@@ -4,7 +4,7 @@ import Action from "../../../state/Action";
 import layersHelpers from "../../../state/helpers/layers";
 import timelineHelper from "../../helpers/timeline";
 
-import presentation from './presentation';
+import presentation from '../../Timeline/presentation';
 const componentID = 'szifZmenovaRizeni_SentinelExplorer';
 const periodLimit = {
 	start: '2016',
