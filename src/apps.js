@@ -95,6 +95,16 @@ export default [
 	 */
 	{
 		key: 'szdcInsar19',
+		urls: [
+			{
+				hostname: 'insar.gisat.cz',
+				path: '/szdc140'
+			},
+			{
+				hostname: 'insar.gisat.cz',
+				path: null
+			}
+		],
 		hostname: 'nope.gisat.cz',
 		path: null,
 		devPath: '/szdcInsar19',
