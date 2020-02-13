@@ -24,7 +24,7 @@ class SzifCaseFooter extends React.PureComponent {
 
 	render() {
 		return (
-			<div style={{width: '100%',display: 'flex'}}>
+			<div className={'ptr-map-footer'}>
 				<MapTools
 					showAfter={this.props.borderOverlays && this.props.borderOverlays.after}
 					showBefore={this.props.borderOverlays && this.props.borderOverlays.before}

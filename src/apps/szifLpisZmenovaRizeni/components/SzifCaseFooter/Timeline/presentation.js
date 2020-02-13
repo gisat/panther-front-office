@@ -63,15 +63,19 @@ class SzifTimeline extends React.PureComponent {
 			if(overlay.options.type === 'wms') {
 				info = overlay.info || '';
 			} else if(overlay.options.type === 'sentinel') {
-				info = periodCount > 1 ? periodCount : overlay.info || `${overlay.period[0].start} - ${overlay.period[0].end}`;
+				info = periodCount > 1 ? periodCount : overlay.info || `(${overlay.period[0].end.substring(0,4)}-${overlay.period[0].end.substring(5,7)}-${overlay.period[0].end.substring(8,10)})`;
 			}
 			return <div key={overlay.layerTemplateKey} className={'ptr-timeline-tooltip-layer'}>
 				<div>
 					<span className="dot" style={{'backgroundColor': overlay.color}}></span>
 				</div>
-				<div>{overlay.title}</div>
-				<div>
-					{info}
+				<div className={'ptr-timeline-tooltip-layer-text'}>
+					<div>
+						{overlay.title}
+					</div>
+					<div>
+						{info}
+					</div>
 				</div>
 			</div>
 		})

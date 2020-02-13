@@ -11,7 +11,12 @@
 .ptr-timeline-tooltip-layer {
 	margin: 2px 0;
 	display: flex;
-	width: 100%;
+    width: 100%;
+    
+    .ptr-timeline-tooltip-layer-text{
+        display: flex;
+        justify-content: space-between;
+    }
 }
 .ptr-timeline-tooltip-layer > div {
 	flex-grow: 1;
