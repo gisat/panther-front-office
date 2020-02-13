@@ -48,9 +48,24 @@ const getViewState = (state) => {
 	}
 }
 
+const clearBorderOverlays = () => (dispatch, getState) => {
+	const state = getState();
+	dispatch(CommonAction.components.set('szifZmenovaRizeni_BorderOverlays', '', {}));
+};
+
+const clearActiveLayers = () => (dispatch, getState) => {
+	const state = getState();
+	dispatch(CommonAction.components.set('szifZmenovaRizeni_ActiveLayers', '', {}));
+};
+
 const applyView = (viewKey) => async (dispatch, getState) => {
 	//apply default view
 	if (!viewKey) {
+		//clear current components
+		dispatch(clearActiveLayers());
+		dispatch(clearBorderOverlays());
+		
+
 		viewKey = Select.views.getActiveKey(getState());
 		dispatch(CommonAction.views.apply(viewKey, {
 			...CommonAction,
@@ -67,6 +82,10 @@ const applyView = (viewKey) => async (dispatch, getState) => {
 			//dispatch view applied?
 		});
 	} else {
+		//clear current components
+		dispatch(clearActiveLayers());
+		dispatch(clearBorderOverlays());
+
 		//get view
 		await dispatch(CommonAction.views.useKeys([viewKey]));
 		dispatch(CommonAction.views.apply(viewKey, {

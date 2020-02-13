@@ -63,6 +63,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		goToNextCase: () => {
 				dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
 		},
+		resetView: (viewKey) => {
+				dispatch(Action.specific.szifLpisZmenovaRizeni.applyView(viewKey));
+		},
 	};
 };
 

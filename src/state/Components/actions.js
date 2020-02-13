@@ -15,7 +15,7 @@ function updateStateFromView(components) {
 		if (components) {
 			// TODO update all store at once
 			_.forIn(components, (data, component) => {
-				dispatch(actionUpdate(component, data));
+				dispatch(actionSet(component, '', data));
 			});
 		}
 	};

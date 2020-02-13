@@ -23,8 +23,20 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		rejectEvaluation: PropTypes.func,
 		closeEvaluation: PropTypes.func,
 		goToNextCase: PropTypes.func,
-		nextCaseKey: PropTypes.string
+		nextCaseKey: PropTypes.string,
+		resetView: PropTypes.func,
 	};
+
+	constructor(props) {
+		super(props);
+
+		this.resetView = this.resetView.bind(this);
+	}
+
+	resetView() {
+		this.props.resetView(this.props.case.data.viewKey);
+
+	}
 	render() {
 		return (
 			<div id="dromasLpisChangeReviewHeader">
@@ -60,6 +72,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						closeEvaluation={this.props.closeEvaluation}
 						nextCaseKey={this.props.nextCaseKey}
 						goToNextCase={this.props.goToNextCase}
+						resetView={this.resetView}
 					/>
 				</div>
 			</div>

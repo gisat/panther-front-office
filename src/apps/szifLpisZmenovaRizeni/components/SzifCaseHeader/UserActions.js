@@ -16,6 +16,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		rejectEvaluation: PropTypes.func,
 		closeEvaluation: PropTypes.func,
 		goToNextCase: PropTypes.func,
+		resetView: PropTypes.func,
 		readyToSaveEvaluation: PropTypes.bool,
 	};
 
@@ -33,6 +34,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					{this.renderButtons(this.props.case)}
 					{this.renderButtonNext()}
 				</div>
+				{this.renderButtonResetView()}
 			</div>
 		);
 	}
@@ -61,6 +63,14 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		} else {
 			return null;
 		}
+	}
+
+	renderButtonResetView() {
+		return (
+			<Button inverted onClick={this.props.resetView}>
+				Restartovat mapu
+			</Button>
+		)
 	}
 
 	renderButtonNextCaseIndicator() {
