@@ -131,11 +131,28 @@ class MapTimeline extends React.PureComponent {
 		vertical: false,
 	}
 
+	getZIndexCount(layers) {
+		const sortedLayers = [...layers].sort((a, b) => a.zIndex-b.zIndex);
+		
+
+		//merge layers on same level
+		let lastZIndex = -1;
+		const layersCount = sortedLayers.reduce((acc, layer) => {
+			if (lastZIndex < layer.zIndex) {
+				lastZIndex = layer.zIndex;
+				return acc + 1
+			} else {
+				return acc;
+			}
+		}, 0)
+
+		return layersCount;
+	}
 	render() {
 		const {levels, periodLimit, onHover, onClick, onChange, vertical, children, periodLimitOnCenter, selectMode, contentHeight, onLayerClick, layers, legend} = this.props;
 
 		const overlays = getOverlaysCfg(layers);
-		const contentHeightByLayers = (layers.length + 1) * utils.getRemSize();
+		const contentHeightByLayers = (this.getZIndexCount(layers) + 1) * utils.getRemSize();
 		const childArray = React.Children.toArray(children)
 		childArray.push(<Overlay key={'layers'} overlays={overlays} onClick={onLayerClick}/>);
 
