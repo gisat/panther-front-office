@@ -25,6 +25,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				dispatch(Action.components.set(componentID, `dates`, results));
 			});
 		},
+		setMapSetView: (mapSetKey, center, range) => {
+			const view = {
+				'center': {lat: center[0], lon: center[1]},
+				boxRange: range,
+				tilt: 0,
+				roll: 0,
+				heading: 0,
+			}
+			dispatch(Action.components.set(componentID, `maps.sets.${mapSetKey}.data.view`, view));
+		},
 	};
 };
 
