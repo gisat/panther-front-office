@@ -1,7 +1,9 @@
 const getSentinelRasterSpatialDataSource = (spatialDataSourceKey, name, time, layer) => {
+	//identify infrared by title :(
+	const isInfrared = layer.options.title === 'Sentinel infračervený';
 	return {
 			key: spatialDataSourceKey,
-			title: `Sentinel-2 (${layer.time})`,
+			title: isInfrared ? `Sentinel-2 ir. (${layer.time})` : `Sentinel-2 (${layer.time})`,
 			type: "wms",
 			options: {
 				url: layer.options.url,

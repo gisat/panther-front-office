@@ -42,7 +42,7 @@ const getUsedSourcesForAllMaps = (state) => {
 			let title = layers[0].options.title;
 			const type = layers[0].options.type;
 			if(type === 'sentinel') {
-				title = `${layers[0].options.title} (${layers[0].time})`
+				title = `${layers[0].options.title} (${layers[0].time})`;
 			} else if(title === "Ortofoto východ/západ") {
 				title = `Ortofoto ${layers[0].options.info}`;
 			}
