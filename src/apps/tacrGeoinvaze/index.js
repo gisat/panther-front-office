@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
 import Action from '../../state/Action';
+import Select from "../../state/Select";
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
@@ -30,11 +31,22 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));
-	Store.dispatch(Action.app.loadConfiguration());
+	// Store.dispatch(Action.app.loadConfiguration());
+	Store.dispatch(Action.app.loadConfiguration()).then(() => {
+		let state = Store.getState();
+		let actualExpansionTemplateKey = Select.app.getConfiguration(state, 'templates.actualExpansion');
+		if (actualExpansionTemplateKey) Store.dispatch(Action.layerTemplates.setActiveKey(actualExpansionTemplateKey));
+	});
+
+	Store.dispatch(Action.periods.useIndexed({application: true}, null, [["period", "descending"]], 1, 1, 'tacrGeoinvaze')).then(() => {
+		let state = Store.getState();
+		let latestPeriodInArray = Select.periods.getIndexed(state, {application: true}, null, [["period", "descending"]], 1, 1);
+		if (latestPeriodInArray && latestPeriodInArray[0]) Store.dispatch(Action.periods.setActiveKey(latestPeriodInArray[0].key));
+	});
 
 	// TODO just for testing
-	Store.dispatch(Action.layerTemplates.setActiveKey('5ff15c35-e6dc-4204-9720-80ad5f7b67a0'));
-	Store.dispatch(Action.periods.setActiveKey('5f853535-13c5-488c-af75-b167ce2262bb'));
+	// Store.dispatch(Action.layerTemplates.setActiveKey('5ff15c35-e6dc-4204-9720-80ad5f7b67a0'));
+	// Store.dispatch(Action.periods.setActiveKey('b8d08665-ca80-4fd7-968d-9cad82f4e1a3'));
 	// Store.dispatch(Action.cases.setActiveKey('fa8f6402-2f4d-4286-9b4b-7f48cf6e60bf'));
 
 	Store.dispatch(Action.maps.addMap({
@@ -76,6 +88,7 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
 
+	path = path || '';
 
 	ReactDOM.render(
 		<>

@@ -46,11 +46,11 @@ const Myval = props => (
 		</InvasivePotential>
 		<Resources>
 			<Resource>Anděra M., Červený J.: Červený seznam savců České republiky. Příroda,22: 139-149.</Resource>
-			<Resource>Anděra M., Červený J. 2009: Velcí savci v České republice. Rozšíření, historie a ochrana. 2. Šelmy (Carnivora). Národní muzeum, Praha,215 pp.</Resource>
+			<Resource>Anděra M., Červený J. 2009: Velcí savci v České republice. Rozšíření, historie a ochrana. 2. Šelmy (<i>Carnivora</i>). Národní muzeum, Praha,215 pp.</Resource>
 			<Resource>Anděra M., Gaisler J., 2019: Savci České republiky: rozšíření, ekologie ochrana. 2. upravené vydání. Academia Praha, 286 str.</Resource>
 			<Resource>Červený J., Anděra M., Koubek P., Homolka M., Toman A., 2001: Recently expanding mammal species in the Czech Republic: distribution, abundace and legal status. Beiträge zur Jagd- und Wildforschung, 26: 111-125.</Resource>
 			<Resource>Červený J., Anděra M., Koubek P. Bufka L., 2006: Změny vrozšíření naich savců na začátku 21. století. Ochrana přírody 62(2): 44-51.</Resource>
-			<Resource>Matějů J., Dvořák S., Tejrovský V., Bušek O., Ježek M., Matějů Z., 2012:  Current distribution of Procyon lotor in nort-western Bohemia, Czech Republic (Carnivora: Procyonidae). Lynx, n.s. (Praha), 43: 133-140.</Resource>
+			<Resource>Matějů J., Dvořák S., Tejrovský V., Bušek O., Ježek M., Matějů Z., 2012:  Current distribution of Procyon lotor in nort-western Bohemia, Czech Republic (<i>Carnivora: Procyonidae</i>). Lynx, n.s. (Praha), 43: 133-140.</Resource>
 			<Resource>Mlíkovský J., Stýblo P. (eds.), 2006: Nepůvodní druhy fauny a flóry ČR. ČSOP Praha, 496 pp.</Resource>
 		</Resources>
 	</div>

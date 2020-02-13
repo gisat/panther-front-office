@@ -31,7 +31,7 @@ const LupinaMnoholista = props => (
 			copyright="Foto: Johana Vardarman"
 		/>
 		<TextBlock>
-			<p>Vytrvalá, 50 - 150 cm vysoká bylina.  Lodyha je přímá, listy dlanitě složené, dlouze řapíkaté, 12 - 15četné, s lístky kopinatými až obkopinatými, nejširšími v polovině až v horní třetině. Květy vyrůstají v 15–40 cm dlouhém hroznu, jsou modré až fialové, zřídka bílé. Květní hrozen až 50 - 80květý. Plodem je lusk.</p>
+			<p>Vytrvalá, 50—150 cm vysoká bylina.  Lodyha je přímá, listy dlanitě složené, dlouze řapíkaté, 12—15četné, s lístky kopinatými až obkopinatými, nejširšími v polovině až v horní třetině. Květy vyrůstají v 15—40 cm dlouhém hroznu, jsou modré až fialové, zřídka bílé. Květní hrozen až 50—80květý. Plodem je lusk.</p>
 			<h5>Ekologie a způsob šíření</h5>
 			<p>Jedná se o světlomilnou okrasnou trvalku často pěstovanou v mnoha kultivarech. Kvete od června do září. Lupina má schopnost obohacovat půdu dusíkatými sloučeninami. Proto byla dříve vysévána do lesních kultur, zvláště na kyselých půdách pro obohacení půdy dusíkem. Rovněž v minulosti využívána jako pastva pro zvěř. Ojediněle používána ke zpevnění náspů v okolí železničních tratí. Vyskytuje se na mýtinách, okrajích cest a lesů, v lesních světlinách a podél železnic. Snadno kolonizuje travnaté plochy uvolněné narušením drnu. Vyhovují ji kyselé až neutrální půdy, na půdách zásaditých jej nenajdeme. Šíří se semeny. Je sice klonální (mnohohlavý oddenek), ale rozrůstání trsů je plošně velmi omezené. Druh často zplaňuje. Dokáže vytvořit rozsáhlé porosty, které mění půdní poměry (obohacování půdy dusíkem) a konkurencí mění a snižují diverzitu místní vegetace. Celá rostlina je jedovatá. Prioritní je zejména monitoring a likvidace v okolí chráněných území.</p>
 		</TextBlock>

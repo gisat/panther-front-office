@@ -7,6 +7,7 @@ import Button from "../../../../../../components/common/atoms/Button";
 import Models from "../Models";
 import Inputs from "../Inputs";
 import About from "../About";
+import Methodologies from "../Methodologies";
 import Logo from "../Logo";
 
 class CaseSelectContent extends React.PureComponent {
@@ -33,7 +34,7 @@ class CaseSelectContent extends React.PureComponent {
 									Tento geoinformační portál je zaměřen na vizualizaci distribuce invazních nepůvodních druhů v rámci ČR. Pro druhy byly vytvořeny mapy současného výskytu a predikční modely možného výskytu. V mapách současného rozšíření je možné též sledovat vývoj šíření druhu podle délky trvání výskytu v zájmovém území. Zobrazení výstupů modelů pak ukazuje maximální možné rozšíření druhů a predikci v časových horizontech.
 								</p>
 								<p>
-									Portál by měl sloužit orgánům státní správy a územní samosprávy, stejně tak soukromým vlastníkům pozemků, honiteb a správcům lesních pozemků. Na základě aktuálního rozšíření či potenciálního nebezpečí rozšíření invazních druhů je možno navrhnout cílené postupy monitoringu a eliminace invazních druhů v zájmovém území, popřípadě žádat o státní finanční příspěvky na likvidaci a management invazních nepůvodních druhů.
+									Portál by měl sloužit orgánům státní správy a územní samosprávy, stejně tak soukromým vlastníkům pozemků, honiteb a správcům lesních pozemků. Na základě aktuálního rozšíření či potenciálního nebezpečí rozšíření invazních druhů je možno navrhnout cílené postupy monitoringu a likvidace invazních druhů v zájmovém území, popřípadě žádat o státní finanční příspěvky na likvidaci a management invazních nepůvodních druhů.
 								</p>
 							</div>
 							<div className="tacrGeoinvaze-case-select-content-logos">
@@ -70,6 +71,7 @@ class CaseSelectContent extends React.PureComponent {
 							<Button invisible primary onClick={props.changeContent.bind(null, 'about')}>O projektu</Button>
 							<Button invisible primary onClick={props.changeContent.bind(null, 'inputs')}>Vstupní data</Button>
 							<Button invisible primary onClick={props.changeContent.bind(null, 'models')}>Použité modely</Button>
+							<Button invisible primary onClick={props.changeContent.bind(null, 'methodologies')}>Metodiky</Button>
 						</div>
 						<div className="tacrGeoinvaze-case-select-content-content">
 							{this.renderContent(props.content)}
@@ -147,6 +149,8 @@ class CaseSelectContent extends React.PureComponent {
 				return React.createElement(Inputs);
 			case "models":
 				return React.createElement(Models);
+			case "methodologies":
+				return React.createElement(Methodologies);
 			default:
 				return null;
 		}

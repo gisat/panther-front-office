@@ -27,7 +27,7 @@ const Rak = props => (
 		</Summary>
 		<CaseImage
 			source={image}
-			copyright="Foto: biolob.cz"
+			copyright="Foto: biolib.cz"
 		/>
 		<TextBlock>
 			<p>Dospělý rak dorůstá až 120 mm v délce těla, většinou ale méně. Krunýř je hladký, pouze po stranách hlavy jsou nápadné ostré trny. Má jeden pár postorbitálních lišt. Na svrchní straně zadečkových článků jsou příčné hnědočervené až tmavě červené pruhy či oddělené skvrny. Rostrum (rypec) je poměrně dlouhé. Klepeta jsou drobná s oranžovými hroty oddělenými od zbytku prstů černým proužkem. Spodní strana klepet je světlá. Existuje tmavá forma zbarvení, u které nejsou patrné proužky na zadečkových článcích. Někteří dospělí jedinci mohou být naopak světlí a s výraznými světlemodrými okrsky na těle a končetinách.</p>
