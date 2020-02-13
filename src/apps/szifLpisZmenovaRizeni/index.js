@@ -16,9 +16,7 @@ import '../../styles/base.scss';
 import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
-import SzifCaseList from "./components/SzifCaseList";
-import SzifMapViewWrapper from "./components/SzifMapViewWrapper";
-import ScreenAnimator from "../../components/common/ScreenAnimator";
+import App from "./App";
 
 
 const cz = {};
@@ -196,13 +194,7 @@ export default (path, baseUrl) => {
 					defaultTitle="LPIS - Změnová řízení"
 				/>
 				<AppContainer appKey="szifLpisZmenovaRizeni" loginRequired>
-					<ScreenAnimator
-						screenAnimatorKey='szifScreenAnimator'
-						activeScreenKey='szifCaseList'
-					>
-						<SzifCaseList screenKey="szifCaseList"/>
-						<SzifMapViewWrapper screenKey="szifMapView"/>
-					</ScreenAnimator>
+					<App />
 				</AppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
