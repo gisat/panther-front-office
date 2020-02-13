@@ -5,9 +5,11 @@ import AngleDoubleLeft from "./components/AngleDoubleLeft";
 import AngleDoubleRight from "./components/AngleDoubleRight";
 import AngleDoubleUp from "./components/AngleDoubleUp";
 import ArrowLeft from './components/ArrowLeft';
+import Calendar from './components/Calendar';
 import Circle from './components/Circle';
 import ChevronLeft from './components/ChevronLeft';
 import ChevronRight from './components/ChevronRight';
+import Crop from './components/Crop';
 import Delete from './components/Delete';
 import Dots from './components/Dots';
 import getAngleRight from './components/angle-right-solid';
@@ -30,6 +32,8 @@ import Legend from './components/Legend';
 import MapPin from './components/MapPin';
 import Minus from './components/Minus';
 import MinusThick from './components/MinusThick';
+import Monitor from './components/Monitor';
+import Monitoring from './components/Monitoring';
 import NorthArrow from './components/NorthArrow';
 import Plus from './components/Plus';
 import PlusThick from './components/PlusThick';
@@ -74,12 +78,16 @@ const icon = key => {
 		case 'arrow-left':
 		case 'back':
 			return <ArrowLeft />;
+		case 'calendar':
+			return <Calendar />;
 		case 'circle':
 			return <Circle />;
 		case 'chevron-left':
 			return <ChevronLeft />;
 		case 'chevron-right':
 			return <ChevronRight />;
+		case 'crop':
+			return <Crop/>;
 		case 'delete':
 			return <Delete />; //todo
 		case 'dots':
@@ -115,9 +123,14 @@ const icon = key => {
 		case 'map-pin':
 			return <MapPin/>;
 		case 'minus':
-			return <Minus />;
+			return <Minus />; //todo
 		case 'minus-thick':
 			return <MinusThick />;
+		case 'monitor':
+		case 'display':
+			return <Monitor/>;
+		case 'monitoring':
+			return <Monitoring/>;
 		case 'north-arrow':
 			return <NorthArrow />;
 		case 'opacity':

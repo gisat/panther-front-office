@@ -1,0 +1,413 @@
+{
+	"data": [
+      {
+        "key": 9,
+        "data": {
+          "submitDate": "2017-03-16T00:00:00.000Z",
+          "codeDpb": "2501",
+          "codeJi": "3139",
+          "caseKey": "17/436/EPU/2/0018353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": null,
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-04-01, Sentinel-2 - 2017-05-11, Sentinel-2 - 2018-04-06",
+          "viewKey": 4850
+          
+        }
+      },
+      {
+        "key": 10,
+        "data": {
+          "submitDate": "2017-02-02T00:00:00.000Z",
+          "codeDpb": "0202/1",
+          "codeJi": "50277",
+          "caseKey": "17/438/EPU/2/0006353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "UNCLEAR",
+          "evaluationDescription": "Nelze rozhodnout správnost zákresu.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - východ - 2014\nOrtofoto - východ - 2016\nSentinel-2 - 2017-04-01\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-05-14",
+          "viewKey": 4851
+        }
+      },
+      {
+        "key": 11,
+        "data": {
+          "submitDate": "2017-12-07T00:00:00.000Z",
+          "codeDpb": "5305/1",
+          "codeJi": "37790",
+          "caseKey": "17/554/EPU/1/0055949",
+          "changeDescription": "Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MATCH",
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "Vypadá to, že výklenek ve východní části není obhospodařován stejným způsobem jako DPB a na podzim (viz snímek 28.9.2017) mohlo dojít ke shrnutí ornice na hromadu.",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-07-20, Sentinel-2 - 2017-09-28, Sentinel-2 - 2018-05-31",
+          "viewKey": 4852
+        }
+      },
+      {
+        "key": 12,
+        "data": {
+          "submitDate": "2018-04-09T00:00:00.000Z",
+          "codeDpb": "7208/1",
+          "codeJi": "39589",
+          "caseKey": "18/104/EPU/3/0027964",
+          "changeDescription": "Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MISMATCH",
+          "evaluationDescription": "Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále viditelná poškozená vegetace.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - západ - 2015\nOrtofoto - západ - 2017\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-04-19\nSentinel-2 - 2018-08-04",
+          "viewKey": 4853
+        }
+      },{
+        "key": 9,
+        "data": {
+          "submitDate": "2017-03-16T00:00:00.000Z",
+          "codeDpb": "2501",
+          "codeJi": "3139",
+          "caseKey": "17/436/EPU/2/0018353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": null,
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-04-01, Sentinel-2 - 2017-05-11, Sentinel-2 - 2018-04-06",
+          "viewKey": 4850
+
+        }
+      },
+      {
+        "key": 10,
+        "data": {
+          "submitDate": "2017-02-02T00:00:00.000Z",
+          "codeDpb": "0202/1",
+          "codeJi": "50277",
+          "caseKey": "17/438/EPU/2/0006353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "UNCLEAR",
+          "evaluationDescription": "Nelze rozhodnout správnost zákresu.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - východ - 2014\nOrtofoto - východ - 2016\nSentinel-2 - 2017-04-01\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-05-14",
+          "viewKey": 4851
+        }
+      },
+      {
+        "key": 11,
+        "data": {
+          "submitDate": "2017-12-07T00:00:00.000Z",
+          "codeDpb": "5305/1",
+          "codeJi": "37790",
+          "caseKey": "17/554/EPU/1/0055949",
+          "changeDescription": "Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MATCH",
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "Vypadá to, že výklenek ve východní části není obhospodařován stejným způsobem jako DPB a na podzim (viz snímek 28.9.2017) mohlo dojít ke shrnutí ornice na hromadu.",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-07-20, Sentinel-2 - 2017-09-28, Sentinel-2 - 2018-05-31",
+          "viewKey": 4852
+        }
+      },
+      {
+        "key": 12,
+        "data": {
+          "submitDate": "2018-04-09T00:00:00.000Z",
+          "codeDpb": "7208/1",
+          "codeJi": "39589",
+          "caseKey": "18/104/EPU/3/0027964",
+          "changeDescription": "Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MISMATCH",
+          "evaluationDescription": "Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále viditelná poškozená vegetace.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - západ - 2015\nOrtofoto - západ - 2017\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-04-19\nSentinel-2 - 2018-08-04",
+          "viewKey": 4853
+        }
+      },{
+        "key": 9,
+        "data": {
+          "submitDate": "2017-03-16T00:00:00.000Z",
+          "codeDpb": "2501",
+          "codeJi": "3139",
+          "caseKey": "17/436/EPU/2/0018353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": null,
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-04-01, Sentinel-2 - 2017-05-11, Sentinel-2 - 2018-04-06",
+          "viewKey": 4850
+
+        }
+      },
+      {
+        "key": 10,
+        "data": {
+          "submitDate": "2017-02-02T00:00:00.000Z",
+          "codeDpb": "0202/1",
+          "codeJi": "50277",
+          "caseKey": "17/438/EPU/2/0006353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "UNCLEAR",
+          "evaluationDescription": "Nelze rozhodnout správnost zákresu.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - východ - 2014\nOrtofoto - východ - 2016\nSentinel-2 - 2017-04-01\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-05-14",
+          "viewKey": 4851
+        }
+      },
+      {
+        "key": 11,
+        "data": {
+          "submitDate": "2017-12-07T00:00:00.000Z",
+          "codeDpb": "5305/1",
+          "codeJi": "37790",
+          "caseKey": "17/554/EPU/1/0055949",
+          "changeDescription": "Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MATCH",
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "Vypadá to, že výklenek ve východní části není obhospodařován stejným způsobem jako DPB a na podzim (viz snímek 28.9.2017) mohlo dojít ke shrnutí ornice na hromadu.",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-07-20, Sentinel-2 - 2017-09-28, Sentinel-2 - 2018-05-31",
+          "viewKey": 4852
+        }
+      },
+      {
+        "key": 12,
+        "data": {
+          "submitDate": "2018-04-09T00:00:00.000Z",
+          "codeDpb": "7208/1",
+          "codeJi": "39589",
+          "caseKey": "18/104/EPU/3/0027964",
+          "changeDescription": "Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MISMATCH",
+          "evaluationDescription": "Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále viditelná poškozená vegetace.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - západ - 2015\nOrtofoto - západ - 2017\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-04-19\nSentinel-2 - 2018-08-04",
+          "viewKey": 4853
+        }
+      },{
+        "key": 9,
+        "data": {
+          "submitDate": "2017-03-16T00:00:00.000Z",
+          "codeDpb": "2501",
+          "codeJi": "3139",
+          "caseKey": "17/436/EPU/2/0018353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": null,
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-04-01, Sentinel-2 - 2017-05-11, Sentinel-2 - 2018-04-06",
+          "viewKey": 4850
+
+        }
+      },
+      {
+        "key": 10,
+        "data": {
+          "submitDate": "2017-02-02T00:00:00.000Z",
+          "codeDpb": "0202/1",
+          "codeJi": "50277",
+          "caseKey": "17/438/EPU/2/0006353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "UNCLEAR",
+          "evaluationDescription": "Nelze rozhodnout správnost zákresu.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - východ - 2014\nOrtofoto - východ - 2016\nSentinel-2 - 2017-04-01\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-05-14",
+          "viewKey": 4851
+        }
+      },
+      {
+        "key": 11,
+        "data": {
+          "submitDate": "2017-12-07T00:00:00.000Z",
+          "codeDpb": "5305/1",
+          "codeJi": "37790",
+          "caseKey": "17/554/EPU/1/0055949",
+          "changeDescription": "Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MATCH",
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "Vypadá to, že výklenek ve východní části není obhospodařován stejným způsobem jako DPB a na podzim (viz snímek 28.9.2017) mohlo dojít ke shrnutí ornice na hromadu.",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-07-20, Sentinel-2 - 2017-09-28, Sentinel-2 - 2018-05-31",
+          "viewKey": 4852
+        }
+      },
+      {
+        "key": 12,
+        "data": {
+          "submitDate": "2018-04-09T00:00:00.000Z",
+          "codeDpb": "7208/1",
+          "codeJi": "39589",
+          "caseKey": "18/104/EPU/3/0027964",
+          "changeDescription": "Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MISMATCH",
+          "evaluationDescription": "Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále viditelná poškozená vegetace.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - západ - 2015\nOrtofoto - západ - 2017\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-04-19\nSentinel-2 - 2018-08-04",
+          "viewKey": 4853
+        }
+      },{
+        "key": 9,
+        "data": {
+          "submitDate": "2017-03-16T00:00:00.000Z",
+          "codeDpb": "2501",
+          "codeJi": "3139",
+          "caseKey": "17/436/EPU/2/0018353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": null,
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-04-01, Sentinel-2 - 2017-05-11, Sentinel-2 - 2018-04-06",
+          "viewKey": 4850
+
+        }
+      },
+      {
+        "key": 10,
+        "data": {
+          "submitDate": "2017-02-02T00:00:00.000Z",
+          "codeDpb": "0202/1",
+          "codeJi": "50277",
+          "caseKey": "17/438/EPU/2/0006353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "UNCLEAR",
+          "evaluationDescription": "Nelze rozhodnout správnost zákresu.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - východ - 2014\nOrtofoto - východ - 2016\nSentinel-2 - 2017-04-01\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-05-14",
+          "viewKey": 4851
+        }
+      },
+      {
+        "key": 11,
+        "data": {
+          "submitDate": "2017-12-07T00:00:00.000Z",
+          "codeDpb": "5305/1",
+          "codeJi": "37790",
+          "caseKey": "17/554/EPU/1/0055949",
+          "changeDescription": "Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MATCH",
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "Vypadá to, že výklenek ve východní části není obhospodařován stejným způsobem jako DPB a na podzim (viz snímek 28.9.2017) mohlo dojít ke shrnutí ornice na hromadu.",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-07-20, Sentinel-2 - 2017-09-28, Sentinel-2 - 2018-05-31",
+          "viewKey": 4852
+        }
+      },
+      {
+        "key": 12,
+        "data": {
+          "submitDate": "2018-04-09T00:00:00.000Z",
+          "codeDpb": "7208/1",
+          "codeJi": "39589",
+          "caseKey": "18/104/EPU/3/0027964",
+          "changeDescription": "Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MISMATCH",
+          "evaluationDescription": "Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále viditelná poškozená vegetace.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - západ - 2015\nOrtofoto - západ - 2017\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-04-19\nSentinel-2 - 2018-08-04",
+          "viewKey": 4853
+        }
+      },{
+        "key": 9,
+        "data": {
+          "submitDate": "2017-03-16T00:00:00.000Z",
+          "codeDpb": "2501",
+          "codeJi": "3139",
+          "caseKey": "17/436/EPU/2/0018353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": null,
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-04-01, Sentinel-2 - 2017-05-11, Sentinel-2 - 2018-04-06",
+          "viewKey": 4850
+
+        }
+      },
+      {
+        "key": 10,
+        "data": {
+          "submitDate": "2017-02-02T00:00:00.000Z",
+          "codeDpb": "0202/1",
+          "codeJi": "50277",
+          "caseKey": "17/438/EPU/2/0006353",
+          "changeDescription": "Potvrdit, že stávající zákres DPB je správně",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "UNCLEAR",
+          "evaluationDescription": "Nelze rozhodnout správnost zákresu.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - východ - 2014\nOrtofoto - východ - 2016\nSentinel-2 - 2017-04-01\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-05-14",
+          "viewKey": 4851
+        }
+      },
+      {
+        "key": 11,
+        "data": {
+          "submitDate": "2017-12-07T00:00:00.000Z",
+          "codeDpb": "5305/1",
+          "codeJi": "37790",
+          "caseKey": "17/554/EPU/1/0055949",
+          "changeDescription": "Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MATCH",
+          "evaluationDescription": "Stav podle družicových snímků není v rozporu se zákresem.",
+          "evaluationDescriptionOther": "Vypadá to, že výklenek ve východní části není obhospodařován stejným způsobem jako DPB a na podzim (viz snímek 28.9.2017) mohlo dojít ke shrnutí ornice na hromadu.",
+          "evaluationUsedSources": "Aktuální ortofoto LPIS, Ortofoto - východ - 2014, Ortofoto - východ - 2016, Sentinel-2 - 2017-07-20, Sentinel-2 - 2017-09-28, Sentinel-2 - 2018-05-31",
+          "viewKey": 4852
+        }
+      },
+      {
+        "key": 12,
+        "data": {
+          "submitDate": "2018-04-09T00:00:00.000Z",
+          "codeDpb": "7208/1",
+          "codeJi": "39589",
+          "caseKey": "18/104/EPU/3/0027964",
+          "changeDescription": "Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.",
+          "changeDescriptionPlace": null,
+          "changeDescriptionOther": null,
+          "evaluationResult": "MISMATCH",
+          "evaluationDescription": "Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále viditelná poškozená vegetace.",
+          "evaluationDescriptionOther": null,
+          "evaluationUsedSources": "Aktuální ortofoto LPIS\nOrtofoto - západ - 2015\nOrtofoto - západ - 2017\nSentinel-2 - 2017-07-30\nSentinel-2 - 2018-04-19\nSentinel-2 - 2018-08-04",
+          "viewKey": 4853
+        }
+      }
+    ]
+}

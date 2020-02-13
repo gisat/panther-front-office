@@ -1,0 +1,43 @@
+@import '../../../../../styles/variables';
+
+.szifLpisZmenovaRizeni-table-detail > div {
+	padding: 0 .5rem;
+	height: calc(100% - 1px);
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	border-top: 1px dashed var(--accent30);
+}
+
+.szifLpisZmenovaRizeni-table-detail-top-bar {
+	display: flex;
+	padding: m(4/3) m(2/3) 0;
+}
+
+.szifLpisZmenovaRizeni-table-detail-item {
+	display: flex;
+	flex-direction: column;
+	margin-right: 3rem;
+}
+
+.szifLpisZmenovaRizeni-table-detail-item > div:first-child {
+	font-size: $b1;
+	color: var(--base70);
+}
+
+.szifLpisZmenovaRizeni-table-detail-descriptions {
+	padding: 0 m(2/3);
+	display: flex;
+}
+
+.szifLpisZmenovaRizeni-table-detail-descriptions > div {
+	width: 50%;
+}
+
+.szifLpisZmenovaRizeni-table-detail-descriptions > div h4 {
+	//color: var(--accent50);
+}
+
+.szifLpisZmenovaRizeni-table-detail-descriptions > div .szifLpisZmenovaRizeni-table-detail-item {
+	margin-bottom: 1rem;
+}

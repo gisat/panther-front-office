@@ -64,7 +64,8 @@ class Line extends React.PureComponent {
 				popup: {
 					x: e.pageX,
 					y: e.pageY,
-					content: this.getPopupContent(data)
+					content: this.getPopupContent(data),
+					data: {...this.props, ...data}
 				}
 			});
 		}
@@ -78,7 +79,8 @@ class Line extends React.PureComponent {
 				popup: {
 					x: e.pageX,
 					y: e.pageY,
-					content: this.getPopupContent(data)
+					content: this.getPopupContent(data),
+					data: {...this.props, ...data}
 				}
 			});
 		}

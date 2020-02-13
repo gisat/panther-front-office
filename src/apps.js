@@ -103,6 +103,19 @@ export default [
 		})
 	},
 	/**
+	 * SZIF LPIS změnová řízení
+	 * tw: ???
+	 */
+	{
+		key: 'szifLpisZmenovaRizeni',
+		hostname: 'nope.gisat.cz',
+		path: null,
+		devPath: '/szifLpisZmenovaRizeni',
+		app: (path, baseUrl) => import(/* webpackChunkName: "szifLpisZmenovaRizeni" */'./apps/szifLpisZmenovaRizeni').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
 	 * Geoinvaze
 	 * tw: GEOINV
 	 */
@@ -122,6 +135,23 @@ export default [
 		path: '/ptr3-beta/geoinvaze',
 		devPath: '/tacrGeoinvaze',
 		app: (path, baseUrl) => import(/* webpackChunkName: "tacrGeoinvaze" */'./apps/tacrGeoinvaze').then(module => {
+			module.default(path, baseUrl);
+		})
+	},
+	/**
+	 * TAČR Agritas
+	 * tw: AGRIBF
+	 */
+	{
+		key: 'tacrAgritas',
+		urls: [
+			{
+				hostname: "project.gisat.cz",
+				path: "/agritas"
+			}
+		],
+		devPath: '/tacrAgritas',
+		app: (path, baseUrl) => import(/* webpackChunkName: "tacrAgritas" */'./apps/tacrAgritas').then(module => {
 			module.default(path, baseUrl);
 		})
 	},

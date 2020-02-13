@@ -70,8 +70,9 @@ export default {
 	views: Views,
 	users: Users,
 	windows: Windows,
-	specific: {
-		lpisChangeReviewCases: LpisChangeReviewCases,
-		lpisCheckCases: LpisCheckCases,
-	}
+	// TODO still needed?
+	// specific: {
+	// 	lpisChangeReviewCases: LpisChangeReviewCases,
+	// 	lpisCheckCases: LpisCheckCases,
+	// }
 };

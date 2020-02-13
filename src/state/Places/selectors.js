@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import common from "../_common/selectors";
 import ScopesSelectors from "../Scopes/selectors";
+import mapUtils from "../../utils/map";
 
 
 const getSubstate = state => state.places;
@@ -31,6 +32,19 @@ const getPlacesForActiveScope = createSelector(
 	}
 );
 
+const getActiveView = createSelector(
+	[
+		getActive
+	],
+	(place) => {
+		if (place && place.data && place.data.bbox) {
+			return mapUtils.getViewFromBoundingBox(place.data.bbox, true);
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getPlaces: getAll,
 	getAll,
@@ -40,6 +54,7 @@ export default {
 	getActiveKeys,
 	getActive,
 	getActivePlaces,
+	getActiveView,
 	
 	getByKey: common.getByKey(getSubstate),
 

@@ -61,6 +61,7 @@ const actionReceiveConfiguration = (configuration) => {
 // ============ export ===========
 
 export default {
+	add: actionReceiveConfiguration,
 	setKey: actionSetKey,
 	setBaseUrl: actionSetBaseUrl,
 	setLocalConfiguration: actionSetLocalConfiguration,

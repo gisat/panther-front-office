@@ -59,7 +59,7 @@ class Select extends React.PureComponent {
         		label = _.get(option, this.props.optionLabel)
 			}
 
-            return {value, label};
+            return {value, label, isDisabled: option.isDisabled};
         });
     }
 
@@ -164,6 +164,7 @@ class Select extends React.PureComponent {
                 hideSelectedOptions={props.hideSelectedOptions}
                 isClearable={this.props.clearable}
                 isDisabled={this.props.disabled}
+                isOptionDisabled={(option) => option.isDisabled}
                 isMulti={this.props.multi}
                 onChange={this.onChange}
                 options={props.options}
@@ -189,6 +190,7 @@ class Select extends React.PureComponent {
                 hideSelectedOptions={props.hideSelectedOptions}
                 isClearable={this.props.clearable}
                 isDisabled={this.props.disabled}
+                isOptionDisabled={(option) => option.isDisabled}
                 isMulti={this.props.multi}
                 onChange={this.onChange}
                 onCreateOption={this.onCreate}

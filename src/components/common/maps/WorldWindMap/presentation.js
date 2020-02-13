@@ -15,6 +15,8 @@ import './style.scss';
 import viewUtils from "../viewUtils";
 import {defaultLevelsRange, numberOfLevels} from "../constants";
 import LargeDataLayer from "./layers/LargeDataLayerSource/LargeDataLayer";
+import CyclicPickController from "../../../../utils/worldwind/CyclicPickController";
+import VectorLayer from "./layers/VectorLayer";
 
 const {WorldWindow, ElevationModel} = WorldWind;
 
@@ -45,6 +47,7 @@ class WorldWindMap extends React.PureComponent {
 
 		this.onClick = this.onClick.bind(this);
 		this.onLayerHover = this.onLayerHover.bind(this);
+		this.onWorldWindHover =  this.onWorldWindHover.bind(this);
 		this.onLayerClick = this.onLayerClick.bind(this);
 		this.onMouseOut = this.onMouseOut.bind(this);
 		this.onZoomLevelsBased = this.onZoomLevelsBased.bind(this);
@@ -61,6 +64,7 @@ class WorldWindMap extends React.PureComponent {
 			this.wwd.eventListeners.wheel.listeners = [this.onZoomLevelsBased.bind(this)];
 		}
 
+		new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.onWorldWindHover, true);
 		this.updateNavigator(defaultMapView);
 		this.updateLayers();
 
@@ -144,6 +148,8 @@ class WorldWindMap extends React.PureComponent {
 		this.wwd.layers.forEach(layer => {
 			if (layer instanceof LargeDataLayer) {
 				layer.updateHoveredKeys(this.context.hoveredItems, this.context.x, this.context.y);
+			} else if (layer instanceof VectorLayer) {
+				layer.updateHoveredFeatures(this.context.hoveredItems);
 			}
 		});
 		this.wwd.redraw();
@@ -223,6 +229,26 @@ class WorldWindMap extends React.PureComponent {
 	onLayerClick(layerKey, featureKeys) {
 		if (this.props.onLayerClick) {
 			this.props.onLayerClick(this.props.mapKey, layerKey, featureKeys);
+		}
+	}
+
+	onWorldWindHover(renderables, event) {
+		if (renderables.length) {
+			// TODO is this enough?
+			const layerPantherProps = renderables[0].parentLayer.pantherProps;
+
+			// TODO chceck if data should be returned in data property
+			const data = renderables.map(renderable => {return {data: renderable.userObject.userProperties}});
+			const featureKeys = data.map(renderable => renderable.data[layerPantherProps.fidColumnName]);
+
+			// TODO add support for touch events
+			if (event.type === 'mousedown') {
+				this.onLayerClick(layerPantherProps.layerKey, featureKeys);
+			} else {
+				this.onLayerHover(layerPantherProps.layerKey, featureKeys, event.pageX, event.pageY, <div>{featureKeys.join(",")}</div>, data, layerPantherProps.fidColumnName);
+			}
+		} else if (this.context && this.context.onHoverOut){
+			this.context.onHoverOut();
 		}
 	}
 

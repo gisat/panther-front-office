@@ -12,6 +12,7 @@ import Action from "../Action";
 
 // ============ creators ===========
 
+const add = common.add(ActionTypes.PLACES);
 const create = common.create(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const deleteItem = common.delete(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const saveEdited = common.saveEdited(Select.places.getSubstate, 'places', ActionTypes.PLACES);
@@ -28,6 +29,7 @@ const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(S
 // ============ export ===========
 
 export default {
+	add,
 	create,
 	delete: deleteItem,
 	ensureIndexesWithFilterByActive,

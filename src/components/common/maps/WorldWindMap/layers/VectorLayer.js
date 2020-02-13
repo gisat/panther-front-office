@@ -1,10 +1,12 @@
 import WorldWind from 'webworldwind-esa';
-import mapStyles from "../../../../../utils/mapStyles";
+import mapStyles, {DEFAULT_SIZE} from "../../../../../utils/mapStyles";
+import _ from 'lodash';
 
-const STYLE = {
-	interiorColor: WorldWind.Color.TRANSPARENT,
-	outlineColor: new WorldWind.Color(.35,.35,.35,1),
-	outlineWidth: 2
+let DEFAULT_SELECTED_STYLE = {
+	outlineWidth: 3,
+	outlineColor: "#ff0000",
+	outlineOpacity: 1,
+	fillOpacity: 0,
 };
 
 /**
@@ -23,9 +25,20 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		super(name);
 
 		this.opacity = layer.opacity || 1;
-		this.style = layer.options && layer.options.style;
 
-		this.addFeatures(layer.options.features || []);
+		this.pantherProps = {
+			features: options.features || [],
+			fidColumnName: options.fidColumnName,
+			hovered: {...options.hovered},
+			selected: {...options.selected},
+			key: layer.key,
+			layerKey: layer.layerKey,
+			onHover: options.onHover,
+			onClick: options.onClick,
+			style: options.style
+		};
+
+		this.addFeatures(this.pantherProps.features);
 	};
 
 	/**;
@@ -40,7 +53,7 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		const parser = new WorldWind.GeoJSONParser(geojson);
 
 		const shapeConfigurationCallback = (geometry, properties) => {
-			let style = mapStyles.getStyleObject(properties, this.style);
+			let style = mapStyles.getStyleObject(properties, this.pantherProps.style);
 			return {userProperties: {...properties, style}}
 		};
 
@@ -50,13 +63,95 @@ class VectorLayer extends WorldWind.RenderableLayer {
 				let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
 				let fillRgb = mapStyles.hexToRgb(style.fill);
 
-				renderable.attributes.outlineWidth = style.outlineWidth;
-				renderable.attributes.outlineColor = new WorldWind.Color(outlineRgb.r/255, outlineRgb.g/256, outlineRgb.b/256, style.outlineOpacity);
-				renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
+				renderable.userProperties.worldWindDefaultStyle = {
+					outlineWidth: style.outlineWidth,
+					outlineColor: new WorldWind.Color(outlineRgb.r / 255, outlineRgb.g / 256, outlineRgb.b / 256, style.outlineOpacity),
+					interiorColor: new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity)
+				};
+
+				this.applyStyles(renderable);
 			});
 		};
 
 		parser.load(renderablesAddCallback, shapeConfigurationCallback, this);
+	}
+
+	/**
+	 * @param fids {Array}
+	 */
+	updateHoveredFeatures(fids) {
+		this.renderables.forEach(renderable => {
+			const key = renderable.userProperties[this.pantherProps.fidColumnName];
+			if (_.includes(fids, key)) {
+				this.applyHoveredStyle(renderable);
+			} else {
+				this.applyStyles(renderable);
+			}
+		});
+	}
+
+	applyStyles(renderable) {
+		this.applyRenderableDefaultStyle(renderable);
+
+		let selectionStyle = this.getSelectionStyle(renderable);
+		if (selectionStyle) {
+			this.applySelectedStyle(renderable,selectionStyle)
+		}
+	}
+
+	applyRenderableDefaultStyle(renderable) {
+		renderable.attributes.outlineWidth = renderable.userProperties.worldWindDefaultStyle.outlineWidth;
+		renderable.attributes.outlineColor = renderable.userProperties.worldWindDefaultStyle.outlineColor;
+		renderable.attributes.interiorColor = renderable.userProperties.worldWindDefaultStyle.interiorColor;
+	}
+
+	applyHoveredStyle(renderable) {
+		let style = {
+			outlineWidth: 3,
+			outlineColor: "#ffaaaa",
+			outlineOpacity: 1,
+			fillOpacity: 0,
+		};
+
+		if (this.pantherProps.hovered && this.pantherProps.hovered.style) {
+			style = {...style, ...mapStyles.getStyleObject(null, this.pantherProps.hovered.style, true)};
+		}
+
+		this.setRenderableStyle(renderable, style);
+	}
+
+	applySelectedStyle(renderable, definition) {
+		const style = {...DEFAULT_SELECTED_STYLE, ...mapStyles.getStyleObject(null, definition, true)};
+		this.setRenderableStyle(renderable, style);
+	}
+
+	setRenderableStyle(renderable, style) {
+		let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
+
+		renderable.attributes.outlineWidth = style.outlineWidth;
+		renderable.attributes.outlineColor = new WorldWind.Color(outlineRgb.r/255, outlineRgb.g/256, outlineRgb.b/256, style.outlineOpacity);
+
+		if (style.fill) {
+			let fillRgb = mapStyles.hexToRgb(style.fill);
+			renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
+		}
+	}
+
+	getSelectionStyle(renderable) {
+		if (this.pantherProps.selected) {
+			const featureKey = renderable.userProperties[this.pantherProps.fidColumnName];
+			let style = null;
+
+			_.forIn(this.pantherProps.selected, (selection, key) => {
+				if (selection.keys && _.includes(selection.keys, featureKey)) {
+					style = selection.style || DEFAULT_SELECTED_STYLE;
+				}
+			});
+
+			return style;
+		} else {
+			return null;
+		}
 	}
 }
 
