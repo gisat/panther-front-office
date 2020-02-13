@@ -285,9 +285,17 @@ const editActiveCaseStatus = (status) => (dispatch, getState) => {
 	editCaseStatus(activeCaseKey, status);
 }
 
+function editCase(caseKey, valueKey, value) {
+	return (dispatch, getState) => {
+		if(caseKey && valueKey && value) {
+			dispatch(lpisChangeCases.updateEdited(caseKey, valueKey, value));
+		}
+	}
+}
+
 const editCaseStatus = (caseKey, status) => (dispatch, getState) => {
 	if(status && caseKey) {
-		dispatch(lpisChangeCases.updateEdited(caseKey, 'status', status));
+		dispatch(editCase(caseKey, 'status', status));
 	}
 }
 
@@ -317,7 +325,8 @@ function saveAndApproveEvaluation() {
 		const state = getState();
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
-	
+
+		dispatch(editActiveCaseMapSources());
 		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
 	}
 }
@@ -328,7 +337,10 @@ function saveEvaluation() {
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
 	
-		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(editActiveCaseMapSources());
+		const prom1 = dispatch(saveView());
+		const prom2 = dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_CREATED.database));
+		return Promise.all([prom1, prom2]);
 	}
 }
 
@@ -410,6 +422,18 @@ function reloadLeftCases() {
 		}).then((responseContent) => {
 			dispatch(CommonAction.components.set('szifZmenovaRizeni_CaseCounter', 'weekCaseCountLeft', responseContent.other.lpisChangeCase.weekCaseCountLeft));
 		});
+	}
+}
+
+function editActiveCaseMapSources() {
+	return (dispatch, getState) => {
+		const state = getState();
+		const activeCase = Select.specific.lpisChangeCases.getActive(state);
+		const activeCaseKey = activeCase && activeCase.key;
+		let usedSources = Select.specific.lpisZmenovaRizeni.getUsedSourcesForAllMaps(state);
+		if(usedSources && usedSources.length) {
+			dispatch(editCase(activeCaseKey, 'evaluationUsedSources', usedSources.sort().join('\n')))
+		}
 	}
 }
 

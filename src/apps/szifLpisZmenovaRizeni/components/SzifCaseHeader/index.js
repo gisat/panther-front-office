@@ -26,14 +26,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.specific.lpisChangeCases.updateEdited(modelKey, property, value))
 		},
 		saveEvaluation: (caseKey, nextCaseKey) => {
-			dispatch(Action.specific.szifLpisZmenovaRizeni.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
-			const prom1 = dispatch(Action.specific.szifLpisZmenovaRizeni.saveView());
-			const prom2 = dispatch(Action.specific.lpisChangeCases.saveEdited(caseKey));
-			Promise.all([prom1, prom2]).then(() => {
+			dispatch(Action.specific.szifLpisZmenovaRizeni.saveEvaluation()).then(() => {
 				if(nextCaseKey) {
 					dispatch(Action.specific.szifLpisZmenovaRizeni.redirectToNextViewFromActiveView());
 				}
-			  });
+			})
 		},
 		saveAndApproveEvaluation: (nextCaseKey) => {
 			dispatch(Action.specific.szifLpisZmenovaRizeni.saveAndApproveEvaluation()).then(() => {

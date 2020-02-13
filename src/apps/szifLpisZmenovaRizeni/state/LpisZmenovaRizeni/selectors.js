@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 
 import UsersSelectors from '../../../../state/Users/selectors';
 import AppSelectors from '../../../../state/App/selectors';
+import ComponentsSelectors from '../../../../state/Components/selectors';
 
 const getGroupByGroupId = createSelector([
 		AppSelectors.getCompleteConfiguration,
@@ -33,7 +34,26 @@ const activeUserCanAddCase = (state) => {
 	return authorityRoles.some((role => groups.includes(role)));
 };
 
+const getUsedSourcesForAllMaps = (state) => {
+	const szifZmenovaRizeni_ActiveLayers = ComponentsSelectors.getDataByComponentKey(state, 'szifZmenovaRizeni_ActiveLayers');
+	const sources = [];
+	for(const [mapKey, layers] of Object.entries(szifZmenovaRizeni_ActiveLayers)) {
+		if(layers && layers[0] && layers[0].options.title) {
+			let title = layers[0].options.title;
+			const type = layers[0].options.type;
+			if(type === 'sentinel') {
+				title = `${layers[0].options.title} (${layers[0].time})`
+			} else if(title === "Ortofoto východ/západ") {
+				title = `Ortofoto ${layers[0].options.info}`;
+			}
+			sources.push(title);
+		}
+	}
+	return sources;
+};
+
 export default {
 	getActiveUserGroups,
 	activeUserCanAddCase,
+	getUsedSourcesForAllMaps,
 };

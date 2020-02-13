@@ -6,7 +6,6 @@ import React from 'react';
 // props.mapKey
 // props.removeMapDisabled
 const presentation = (props) => {
-    console.log(props);
     
     return (<div className={`szifLpisZmenovaRizeni-map ${props.classes}`} style={props.style}>
         <div className="map-window-tools">

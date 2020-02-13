@@ -6,6 +6,7 @@ import Menu, {MenuItem} from '../../../../../components/common/atoms/Menu';
 import Button from "../../../../../components/common/atoms/Button";
 import {evaluationConclusions} from "../../../../../constants/LpisCaseStatuses";
 import User from "../../../../../components/common/atoms/User";
+import utils from "../../../../../utils/utils";
 
 import './style.scss';
 
@@ -53,9 +54,18 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 						{evaluationResult ? this.renderItem("Závěr vyhodnocení", evaluationResultValue) : null}
 						{evaluationDescription ? this.renderItem("Popis výsledků vyhodnocení", evaluationDescription, 'evaluationDescription') : null}
 						{evaluationDescriptionOther ? this.renderItem("Popis výsledků vyhodnocení další", evaluationDescriptionOther, 'evaluationDescriptionOther') : null}
-						{evaluationUsedSources ? this.renderSourcesItem("Využitá družicová a další referenční data", evaluationUsedSources, "sources") : null}
+						{evaluationUsedSources ? this.renderEvaluationUsedSources(evaluationUsedSources) : null}
 					</div>)
 		}
+	}
+
+	renderEvaluationUsedSources(data){
+		return (
+			<div className="ptr-change-reviews-table-details-record">
+				<h4>Využitá družicová a další referenční data</h4>
+				{utils.renderParagraphWithSeparatedLines(data)}
+			</div>
+		);
 	}
 
 	renderTopBarMenu() {
