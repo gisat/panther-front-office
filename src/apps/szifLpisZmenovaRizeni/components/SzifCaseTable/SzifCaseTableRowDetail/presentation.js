@@ -27,6 +27,8 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		evaluationDescriptionOther: PropTypes.string,
 		evaluationUsedSources: PropTypes.string,
 		userGroups: PropTypes.array,
+		attachments: PropTypes.array,
+		attachmentsBaseUrl: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -115,6 +117,8 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 						{props.changeDescription ? this.renderItem("Popis důvodu pro aktualizaci LPIS", props.changeDescription, 'changeDescription') : null}
 						{props.changeDescriptionPlace ? this.renderItem("Určení místa změny v terénu", props.changeDescriptionPlace, 'changeDescriptionPlace') : null}
 						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther, 'changeDescriptionOther') : null}
+						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther, 'changeDescriptionOther') : null}
+						{props.attachments ? this.renderAttachments(props.attachments) : null}
 					</div>
 					{
 						this.renderEvaluationResults()
@@ -141,6 +145,22 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 				</div>
 			)
 		}
+	}
+
+	renderAttachments(attachments) {
+		const attachmentsElms = attachments.map((attachment) => {
+			return <div key={attachment.key}>
+				<a href={`${this.props.attachmentsBaseUrl}/${attachment.key}`} target={'_blank'}>
+					{attachment.data.filename}
+				</a>
+			</div>
+		})
+		return (
+			<div className="szifLpisZmenovaRizeni-table-detail-item">
+				<div>Přílohy</div>
+				<div>{attachmentsElms}</div>
+			</div>
+		)
 	}
 
 	renderSourcesItem(title, value) {

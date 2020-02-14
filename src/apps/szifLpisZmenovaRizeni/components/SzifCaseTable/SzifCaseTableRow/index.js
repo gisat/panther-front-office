@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
+import path from "path";
 import Action from "../../../state/Action";
 import Select from "../../../state/Select";
+import config from "../../../../../config/index";
 
 import presentation from './presentation';
 
@@ -11,12 +13,15 @@ const mapStateToProps = (state, ownProps) => {
 	const caseChanges = Select.specific.lpisChangeCases.getCaseChanges(state, ownProps.metadataKey);
 	const userGroups = Select.specific.lpisZmenovaRizeni.getActiveUserGroups(state);
 	const caseStatus = Select.specific.lpisChangeCases.getCaseStatus(state, ownProps.metadataKey, userGroups);
-	const caseCur = Select.specific.lpisChangeCases.getDataByKey(state, ownProps.metadataKey);
-	const caseJiCode = caseCur ? caseCur.codeJi : null;
-	const caseSubmitDate = caseCur ? caseCur.submitDate : null;
+	const caseData = Select.specific.lpisChangeCases.getDataByKey(state, ownProps.metadataKey);
+	const caseCur = Select.specific.lpisChangeCases.getByKey(state, ownProps.metadataKey);
+	const caseJiCode = caseData ? caseData.codeJi : null;
+	const caseSubmitDate = caseData ? caseData.submitDate : null;
+	const caseAttachments = caseCur ? caseCur.attachments : null;
+	const attachmentsBaseUrl = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend','rest','attachments');
 	return {
 		userGroups,
-		case: caseCur,
+		case: caseData,
 		caseSubmit: caseSubmit,
 		caseSubmitDate,
 		caseJiCode,
@@ -24,6 +29,8 @@ const mapStateToProps = (state, ownProps) => {
 		caseEnd,
 		caseChanges,
 		caseStatus,
+		caseAttachments,
+		attachmentsBaseUrl,
 	}
 };
 

@@ -22,6 +22,8 @@ class SzifCaseTableRow extends React.PureComponent {
 		caseStatus: PropTypes.string,
 		caseChanges: PropTypes.array,
 		caseJiCode: PropTypes.string,
+		caseAttachments: PropTypes.array,
+		attachmentsBaseUrl: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -129,6 +131,8 @@ class SzifCaseTableRow extends React.PureComponent {
 					caseSubmit={caseSubmit}
 					caseChange={caseChange}
 					userGroups={userGroups}
+					attachments={props.caseAttachments}
+					attachmentsBaseUrl={props.attachmentsBaseUrl}
 				/>
 			</div>
 		);

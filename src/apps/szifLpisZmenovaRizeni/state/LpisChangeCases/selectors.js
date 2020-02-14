@@ -105,6 +105,7 @@ const getCaseEnd = createSelector([
 
 export default {
 	getActive,
+	getByKey,
 	getDataByKey,
 	getEditedDataByKey,
 	getIndexed,
