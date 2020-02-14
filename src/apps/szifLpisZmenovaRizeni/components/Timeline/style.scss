@@ -1,3 +1,7 @@
+.ptr-maptimeline .ptr-timeline-content{
+    background: rgba(0, 0, 0, 0);
+}
+
 .ptr-timeline-overlay rect{
     pointer-events: all;
     cursor: pointer;
@@ -41,4 +45,13 @@
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
-  }
+}
+.ptr-maptimelinelegend{
+    border-left: var(--accent50) solid 1px;
+    margin-top: -2px;
+    padding-top: 2px;
+
+    .ptr-maptimeline-legenditem:nth-child(odd) {
+        background: var(--accent15);
+    }
+}

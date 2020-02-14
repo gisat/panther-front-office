@@ -10,6 +10,8 @@
 
 	.szifLpisZmenovaRizeni-heading{
 		display: flex;
+		align-items: center;
+
 		 > *{
 			margin: 0 1rem;
 		 }
@@ -17,7 +19,7 @@
 		h2{
 			margin: 0 1rem;
 			font-weight: normal;
-			font-size: m(1.5);
+			font-size: $a2;
 			color: var(--accent0);
 		}
 

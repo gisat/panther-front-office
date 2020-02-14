@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Timeline from './Timeline';
 import AddMapButton from "../SzifCaseFooter/AddMapButton";
-// import './style.scss';
+import './style.css';
 
 class SzifCaseFooter extends React.PureComponent {
 	static propTypes = {
@@ -25,7 +25,7 @@ class SzifCaseFooter extends React.PureComponent {
 	render() {
 		const {selectedMapOrder, activeMapKey, addMap, mapsCount} = this.props;
 		return (
-			<div style={{width: '100%',display: 'flex'}}>
+			<div className={'ptr-dromasLpisChangeReview-footer'}>
 
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar mapTools">
 					<div className="ptr-dromasLpisChangeReviewHeader-map-info">
