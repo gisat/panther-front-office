@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
-import path from "path";
 import Action from "../../../state/Action";
 import Select from "../../../state/Select";
-import config from "../../../../../config/index";
 
 import presentation from './presentation';
 
@@ -18,7 +16,6 @@ const mapStateToProps = (state, ownProps) => {
 	const caseJiCode = caseData ? caseData.codeJi : null;
 	const caseSubmitDate = caseData ? caseData.submitDate : null;
 	const caseAttachments = caseCur ? caseCur.attachments : null;
-	const attachmentsBaseUrl = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend','rest','attachments');
 	return {
 		userGroups,
 		case: caseData,
@@ -30,7 +27,6 @@ const mapStateToProps = (state, ownProps) => {
 		caseChanges,
 		caseStatus,
 		caseAttachments,
-		attachmentsBaseUrl,
 	}
 };
 

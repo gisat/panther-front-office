@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import utils from '../../../../utils/utils';
 import User from "../../../../components/common/atoms/User";
+import getAttachmentsBaseUrl from '../helpers/attachments';
 
 import ExpandableContent from './ExpandableContent';
 
 class DromasLpisCase extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
+		userCreatedCase: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 		userCreatedCase: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	};
 	
@@ -31,7 +33,7 @@ class DromasLpisCase extends React.PureComponent {
 	renderCase(changeReviewCase) {
 		if(changeReviewCase) {
 
-			let placeInsert, otherInsert, dpbInsert, jiInsert, userInsert;
+			let placeInsert, otherInsert, dpbInsert, jiInsert, userInsert, attachments;
 
 			if (changeReviewCase.data.changeDescriptionPlace) {
 				placeInsert = (
@@ -78,6 +80,23 @@ class DromasLpisCase extends React.PureComponent {
 				);
 			}
 
+			if (changeReviewCase.attachments && changeReviewCase.attachments.length > 0){
+				const attachmentsElms = changeReviewCase.attachments.map((attachment) => {
+					return <div key={attachment.key}>
+						<a href={`${getAttachmentsBaseUrl()}/${attachment.key}`} target={'_blank'}>
+							{attachment.data.filename}
+						</a>
+					</div>
+				})
+
+				attachments = (
+					<div>
+						<div className='ptr-dromasLpisChangeReviewHeader-property'>Přílohy</div>
+						<div>{attachmentsElms}</div>
+					</div>
+				);
+			}
+
 			return (
 				(props) => {
 					return (
@@ -88,6 +107,7 @@ class DromasLpisCase extends React.PureComponent {
 							{dpbInsert}
 							{jiInsert}
 							{userInsert}
+							{attachments}
 						</div>
 					)
 				}

@@ -7,6 +7,7 @@ import Button from "../../../../../components/common/atoms/Button";
 import {evaluationConclusions} from "../../../../../constants/LpisCaseStatuses";
 import User from "../../../../../components/common/atoms/User";
 import utils from "../../../../../utils/utils";
+import getAttachmentsBaseUrl from '../../helpers/attachments';
 
 import './style.scss';
 
@@ -28,7 +29,6 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		evaluationUsedSources: PropTypes.string,
 		userGroups: PropTypes.array,
 		attachments: PropTypes.array,
-		attachmentsBaseUrl: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -150,7 +150,7 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 	renderAttachments(attachments) {
 		const attachmentsElms = attachments.map((attachment) => {
 			return <div key={attachment.key}>
-				<a href={`${this.props.attachmentsBaseUrl}/${attachment.key}`} target={'_blank'}>
+				<a href={`${getAttachmentsBaseUrl()}/${attachment.key}`} target={'_blank'}>
 					{attachment.data.filename}
 				</a>
 			</div>
