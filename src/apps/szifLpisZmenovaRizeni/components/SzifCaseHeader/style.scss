@@ -5,7 +5,7 @@
 	// z-index: 10100;
 
 	width: 100%;
-	height: 115px;
+	height: 135px;
 
 	display: flex;
 
@@ -22,31 +22,30 @@
 	color: #ddd;
 }
 
-#dromasLpisChangeReviewHeader > div {
-	/*flex-grow: 1;*/
-}
 #dromasLpisChangeReviewHeader-back {
+	flex-grow: 0;
 	width: 2.5rem;
 }
 #dromasLpisChangeReviewHeader-back > div {
 	padding: .3rem .4rem;
 }
 #dromasLpisChangeReviewHeader-case {
+	flex-grow: 2;
 	/*width: 30%;*/
 	min-width: 15rem;
-	flex-grow: 1;
 	flex-basis: 15rem;
 	/*background: #906;*/
 }
 #dromasLpisChangeReviewHeader-review {
+	flex-grow: 2;
 	/*width: 30%;*/
 	min-width: 15rem;
-	flex-grow: 1;
 	flex-basis: 15rem;
 	/*background: #6e8;*/
 }
 #dromasLpisChangeReviewHeader-actions {
 	/*width: 20%;*/
+	flex-grow: 1;
 	width: 21rem;
 	flex-shrink: 0;
 	/*background: #f7a;*/
@@ -76,7 +75,7 @@
 	box-sizing: border-box; /* todo remove when redundant */
 }
 .ptr-dromasLpisChangeReviewHeader-content {
-	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
+	// height: calc(135px - 2.2rem); /* whole header (old code dependent) - topBar height */
 }
 #dromasLpisChangeReviewHeader > div > div {
 	height: 100%;
@@ -130,7 +129,7 @@
 }
 
 #dromasLpisChangeReviewHeader-actions .ptr-dromasLpisChangeReviewHeader-content {
-	padding: 0 .5rem .5rem .5rem;
+	padding: 0 .5rem 0 .5rem;
 }
 
 #dromasLpisChangeReviewHeader-actions .ptr-dromasLpisChangeReviewHeader-content > div > div {
@@ -208,9 +207,15 @@
 	padding: .2rem .5rem;
 	border-radius: .2rem;
 	color: #222;
+	white-space: nowrap;
 }
 .ptr-dromasLpisChangeReviewHeader-conclusion-status {
 	margin-left: .75rem;
+}
+.ptr-dromasLpisChangeReviewHeader-conclusion-select {
+	.ptr-select__control{
+		background: var(--base20);
+	}
 }
 
 /* ============ expandable content ============ */
@@ -221,7 +226,7 @@
 	overflow: hidden;
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content {
-	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
+	height: calc(135px - 2.2rem); /* whole header (old code dependent) - topBar height */
 
 	transition:
 		height .3s ease-in-out;
@@ -247,7 +252,7 @@
 
 #dromasLpisChangeReviewHeader p {
 	font-size: .875rem;
-	margin-bottom: 1rem;
+	margin-bottom: .875rem;
 }
 .ptr-dromasLpisChangeReviewHeader-property {
 	color: rgb(181, 190, 201);
@@ -257,4 +262,14 @@
 #dromasLpisChangeReviewHeader .ptr-editable-text {
 	font-size: 0.875rem;
 	line-height: 1.4;
+}
+
+.ptr-dromasLpisChangeReviewHeader-controls{
+	padding-left: .5rem;
+	display: flex;
+	> * {
+		&:nth-child(2){
+			margin-left: .5rem;
+		}
+	}
 }

@@ -23,6 +23,7 @@ class Select extends React.PureComponent {
         optionLabel: PropTypes.string, // path to label
         optionValue: PropTypes.string, // path to value
         type: PropTypes.string,
+        placeholder: PropTypes.string,
         unfocusable: PropTypes.bool,
         value: PropTypes.oneOfType([
             PropTypes.object,
@@ -157,6 +158,7 @@ class Select extends React.PureComponent {
     renderBase(props, classes) {
         return (
             <SelectBase
+                placeholder={this.props.placeholder}
                 className={classes}
                 classNamePrefix={'ptr-select'}
                 clearable={this.props.clearable}

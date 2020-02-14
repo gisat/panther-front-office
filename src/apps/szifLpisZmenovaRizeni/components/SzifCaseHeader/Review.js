@@ -48,7 +48,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					optionValue = 'value'
 
 					value={data.evaluationResult}
-					placeholder="závěr"
+					placeholder="Závěr..."
 					onChange={this.onChangeResult}
 				/>
 			);
