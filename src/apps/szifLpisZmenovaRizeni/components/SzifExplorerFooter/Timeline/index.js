@@ -6,17 +6,12 @@ import timelineHelper from "../../helpers/timeline";
 
 import presentation from '../../Timeline/presentation';
 const componentID = 'szifZmenovaRizeni_SentinelExplorer';
-const periodLimit = {
-	start: '2016',
-	end: '2020'
-};
 
 const mapStateToProps = (state, ownProps) => {
-	// const dates = Select.specific.lpisChangeDates.getDatesForActiveCase(state);
 	const dates = Select.components.get(state, componentID, `dates.dates`) || [];
 	const activeLayers = Select.components.get(state, componentID, `activeLayers.${ownProps.mapKey}`) || [];
-	const seninelLayers = Select.app.getLocalConfiguration(state, 'seninelLayers');
-	const sentinelGeoserverUrl = Select.app.getLocalConfiguration(state, 'sentinelGeoserverUrl');
+	const seninelLayers = Select.app.getConfiguration(state, 'seninelLayers');
+	const sentinelGeoserverUrl = Select.app.getConfiguration(state, 'sentinelGeoserverUrl');
 	
 	const activeSentinel1Layer = activeLayers.find((layer) => {
 		return layer.layerTemplateKey === 'sentinel1' && layer.options.type === 'sentinel'
@@ -34,7 +29,8 @@ const mapStateToProps = (state, ownProps) => {
 	const activeSentinel1Index = activeSentinel1Layer ? activeSentinel1Layer.options.periodIndex : null;
 	const activeSentinel2Index = activeSentinel2Layer ? activeSentinel2Layer.options.periodIndex : null;
 	const activeWmsKey = activeWmsLayer ? activeWmsLayer.key : null;
-	const defaultLayers = Select.app.getLocalConfiguration(state, 'defaultLayers');
+	const defaultLayers = Select.app.getConfiguration(state, 'defaultLayers');
+	const periodLimit = Select.app.getConfiguration(state, 'period');
 	const baseLayersCfg = defaultLayers|| [];
 	const layers = [...timelineHelper.getSentinelLayers(dates, activeSentinel1Index, 10, 'sentinel1', 'Sentinel', sentinelGeoserverUrl, seninelLayers.trueColor), ...timelineHelper.getSentinelLayers(dates, activeSentinel2Index, 11, 'sentinel2', 'Sentinel infračervený', sentinelGeoserverUrl, seninelLayers.infrared), ...timelineHelper.getBaseLayers(baseLayersCfg, activeWmsKey)];
 	return {

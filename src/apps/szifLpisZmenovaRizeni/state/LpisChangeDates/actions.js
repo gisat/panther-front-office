@@ -21,7 +21,7 @@ const getDates = (key, geometry, getDatesUrl) => (dispatch, getState) => {
 
 const loadDatesForActiveCase = () => (dispatch, getState) => {
 	const state = getState();
-	const getDatesUrl = Select.app.getLocalConfiguration(state, 'getDatesUrl');
+	const getDatesUrl = Select.app.getConfiguration(state, 'getDatesUrl');
 	const activeCase = Select.specific.lpisChangeCases.getActive(state);
 	const activeCaseKey = activeCase.key;
 	const geometryBefore = activeCase.data.geometryBefore;

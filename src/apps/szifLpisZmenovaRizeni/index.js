@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
 import Action from './state/Action';
+import Select from './state/Select';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
@@ -27,105 +28,15 @@ export default (path, baseUrl) => {
 
 	i18n.changeLanguage('cz');
 
-	Store.dispatch(Action.app.setLocalConfiguration('period', {start: '2016', end: '2020'}));
-	Store.dispatch(Action.app.setLocalConfiguration('getDatesUrl', 'https://lpisup.gisat.cz/backend/rest/imagemosaic/getDates'));
-	Store.dispatch(Action.app.setLocalConfiguration('sentinelGeoserverUrl', 'https://lpisup.gisat.cz/geoserver/wms'));
-	Store.dispatch(Action.app.setLocalConfiguration('seninelLayers', {
-		trueColor: 'ptr3:S2_432_2019',
-		infrared: 'ptr3:S2_843_2019',
-	}));
-
-	Store.dispatch(Action.app.setLocalConfiguration('defaultLayers', [
-		{
-				key: 'ortofoto_akt',
-				title: 'Ortofoto LPIS',
-				period: {start:'2016',end:'2020'},
-				type: "wms",
-				zIndex: 1,
-				options: {
-					type: 'wms',
-					"url": 'http://eagri.cz/public/app/wms/plpis.fcgi',
-					params: {
-						layers: 'ILPIS_RASTRY',
-					}
-				}
-		},
-		{
-				key: 'ortofoto_2016_vychod',
-				title: 'Ortofoto východ/západ',
-				info: 'východ 2016',
-				period: {start:'2016',end:'2017'},
-				type: "wms",
-				zIndex: 2,
-				options: {
-					type: 'wms',
-					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
-					params: {
-						layers: 'ORTOFOTO_16_VYCHOD',
-						time: '2016',		
-					}
-				}
-		},
-		{
-				key: 'ortofoto_2017_zapad',
-				title: 'Ortofoto východ/západ',
-				info: 'západ 2017',
-				period: {start:'2017',end:'2018'},
-				type: "wms",
-				zIndex: 2,
-				options: {
-					type: 'wms',
-					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
-					params: {
-						layers: 'ORTOFOTO_17_ZAPAD',
-						time: '2017',		
-					}
-				}
-		},
-		{
-				key: 'ortofoto_2018_vychod',
-				info: 'východ 2018',
-				title: 'Ortofoto východ/západ',
-				period: {start:'2018',end:'2019'},
-				type: "wms",
-				zIndex: 2,
-				options: {
-					type: 'wms',
-					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
-					params: {
-						layers: 'ORTOFOTO_AKT_VYCHOD',
-						time: '2018',		
-					}
-				}
-		},
-		{
-				key: 'ortofoto_2019_zapad',
-				info: 'západ 2019',
-				title: 'Ortofoto východ/západ',
-				period: {start:'2019',end:'2020'},
-				type: "wms",
-				zIndex: 2,
-				options: {
-					type: 'wms',
-					"url": 'http://eagri.cz/public/app/wms/public_podklad.fcgi',
-					params: {
-						layers: 'ORTOFOTO_AKT_ZAPAD',
-						time: '2019',		
-					}
-				}
-		}
-	]));
-
 	Store.dispatch(Action.app.setKey('szifLpisZmenovaRizeni'));
 	Store.dispatch(Action.specific.szifLpisZmenovaRizeni.reloadLeftCases());
-	Store.dispatch(Action.app.loadConfiguration());
+	Store.dispatch(Action.app.loadConfiguration()).then(() => {
+		// Add default view
+		Store.dispatch(Action.views.setActiveKey(Select.app.getConfiguration(Store.getState(),'defaultViewKey')));
+	});
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
-
-	// Add default view
-	const indexKey = '3bb594c3-dd3a-4ac7-992c-af8b50b6091b';
-	Store.dispatch(Action.views.setActiveKey(indexKey));
 
 	// Add default view
 	const explorerMapsState = {

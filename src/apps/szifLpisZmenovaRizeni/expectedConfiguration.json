@@ -1,0 +1,157 @@
+{
+    "data": {
+        "configurations": [
+            {
+                "key": "4941d287-5670-4ba7-bde7-96362d405bb3",
+                "data": {
+                    "data": {
+                        "timeRange": "2016/2020",
+                        "regionGroups": [
+                            {
+                                "base": 2147000005,
+                                "admin": 2147000015
+                            },
+                            {
+                                "base": 2147000006,
+                                "admin": 2147000016
+                            },
+                            {
+                                "base": 2147000007,
+                                "admin": 2147000017
+                            },
+                            {
+                                "base": 2147000008,
+                                "admin": 2147000018
+                            },
+                            {
+                                "base": 2147000009,
+                                "admin": 2147000019
+                            },
+                            {
+                                "base": 2147000010,
+                                "admin": 2147000020
+                            },
+                            {
+                                "base": 2147000011,
+                                "admin": 2147000021
+                            }
+                        ],
+                        "permissionGroups": {
+                            "szifUsers": 2147000002,
+                            "gisatUsers": 2147000000,
+                            "szifAdmins": 2147000003,
+                            "gisatAdmins": 2147000001
+                        },
+                        "getDatesUrl": "https://lpisup.gisat.cz/backend/rest/imagemosaic/getDates",
+                        "sentinelGeoserverUrl": "https://lpisup.gisat.cz/geoserver/wms",
+                        "period": {
+                            "start": "2016",
+                            "end": "2020"
+                        },
+                        "defaultViewKey": "3bb594c3-dd3a-4ac7-992c-af8b50b6091b",
+                        "defaultLayers": [
+                            {
+                                "key": "ortofoto_akt",
+                                "title": "Ortofoto LPIS",
+                                "period": {
+                                    "start": "2016",
+                                    "end": "2020"
+                                },
+                                "type": "wms",
+                                "zIndex": 1,
+                                "options": {
+                                    "type": "wms",
+                                    "url": "http://eagri.cz/public/app/wms/plpis.fcgi",
+                                    "params": {
+                                        "layers": "ILPIS_RASTRY"
+                                    }
+                                }
+                            },
+                            {
+                                "key": "ortofoto_2016_vychod",
+                                "title": "Ortofoto východ/západ",
+                                "info": "východ 2016",
+                                "period": {
+                                    "start": "2016",
+                                    "end": "2017"
+                                },
+                                "type": "wms",
+                                "zIndex": 2,
+                                "options": {
+                                    "type": "wms",
+                                    "url": "http://eagri.cz/public/app/wms/public_podklad.fcgi",
+                                    "params": {
+                                        "layers": "ORTOFOTO_16_VYCHOD",
+                                        "time": "2016"
+                                    }
+                                }
+                            },
+                            {
+                                "key": "ortofoto_2017_zapad",
+                                "title": "Ortofoto východ/západ",
+                                "info": "západ 2017",
+                                "period": {
+                                    "start": "2017",
+                                    "end": "2018"
+                                },
+                                "type": "wms",
+                                "zIndex": 2,
+                                "options": {
+                                    "type": "wms",
+                                    "url": "http://eagri.cz/public/app/wms/public_podklad.fcgi",
+                                    "params": {
+                                        "layers": "ORTOFOTO_17_ZAPAD",
+                                        "time": "2017"
+                                    }
+                                }
+                            },
+                            {
+                                "key": "ortofoto_2018_vychod",
+                                "info": "východ 2018",
+                                "title": "Ortofoto východ/západ",
+                                "period": {
+                                    "start": "2018",
+                                    "end": "2019"
+                                },
+                                "type": "wms",
+                                "zIndex": 2,
+                                "options": {
+                                    "type": "wms",
+                                    "url": "http://eagri.cz/public/app/wms/public_podklad.fcgi",
+                                    "params": {
+                                        "layers": "ORTOFOTO_AKT_VYCHOD",
+                                        "time": "2018"
+                                    }
+                                }
+                            },
+                            {
+                                "key": "ortofoto_2019_zapad",
+                                "info": "západ 2019",
+                                "title": "Ortofoto východ/západ",
+                                "period": {
+                                    "start": "2019",
+                                    "end": "2020"
+                                },
+                                "type": "wms",
+                                "zIndex": 2,
+                                "options": {
+                                    "type": "wms",
+                                    "url": "http://eagri.cz/public/app/wms/public_podklad.fcgi",
+                                    "params": {
+                                        "layers": "ORTOFOTO_AKT_ZAPAD",
+                                        "time": "2019"
+                                    }
+                                }
+                            }
+                        ],
+                        "seninelLayers": {
+                            "trueColor": "ptr3:S2_432_2019",
+                            "infrared": "ptr3:S2_843_2019"
+                        }
+                    },
+                    "applicationKey": "szifLpisZmenovaRizeni"
+                }
+            }
+        ]
+    }
+}

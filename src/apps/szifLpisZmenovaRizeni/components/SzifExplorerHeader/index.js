@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 	const mapSetKey = Select.components.get(state, componentID, 'maps.activeSetKey');
 	const mapSet = Select.components.get(state, componentID, `maps.sets.${mapSetKey}`);
 	const range = mapSet.data.view.boxRange;
-	const getDatesUrl = Select.app.getLocalConfiguration(state, 'getDatesUrl');
+	const getDatesUrl = Select.app.getConfiguration(state, 'getDatesUrl');
 	return {
 		//datesLoading
 		//getDatesActive
