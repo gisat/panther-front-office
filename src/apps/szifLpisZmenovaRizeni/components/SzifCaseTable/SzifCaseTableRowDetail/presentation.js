@@ -117,7 +117,6 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 						{props.changeDescription ? this.renderItem("Popis důvodu pro aktualizaci LPIS", props.changeDescription, 'changeDescription') : null}
 						{props.changeDescriptionPlace ? this.renderItem("Určení místa změny v terénu", props.changeDescriptionPlace, 'changeDescriptionPlace') : null}
 						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther, 'changeDescriptionOther') : null}
-						{props.changeDescriptionOther ? this.renderItem("Další informace", props.changeDescriptionOther, 'changeDescriptionOther') : null}
 						{props.attachments ? this.renderAttachments(props.attachments) : null}
 					</div>
 					{

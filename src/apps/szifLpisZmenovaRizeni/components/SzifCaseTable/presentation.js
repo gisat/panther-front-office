@@ -39,7 +39,7 @@ function search(searchString, cases){
 class SzifCaseTable extends React.PureComponent {
 	static propTypes = {
 		cases: PropTypes.array,
-		switchScreen: PropTypes.func,
+		switchScreenToExplorer: PropTypes.func,
 		activeUserCanAddCase: PropTypes.bool,
 		selectedStatus: PropTypes.array,
 		userGroups: PropTypes.array,
@@ -58,7 +58,6 @@ class SzifCaseTable extends React.PureComponent {
 
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.switchScreenForm = props.switchScreen.bind(this, 'szifCaseForm');
-		this.switchScreenExplorer = props.switchScreen.bind(this, 'szifSentinelExplorer');
 		this.onStatusChange = this.onStatusChange.bind(this);
 	}
 
@@ -87,7 +86,7 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	render() {
-		const {casesLeft, activeUserCanAddCase, statusesOptions, selectedStatus} = this.props;
+		const {casesLeft, activeUserCanAddCase, statusesOptions, selectedStatus, switchScreenToExplorer} = this.props;
 		const cases = this.state.filteredCases || this.props.cases;
 
 
@@ -102,7 +101,7 @@ class SzifCaseTable extends React.PureComponent {
 								: <p className={'szifLpisZmenovaRizeni-cases-header-item'}>Dosažen týdenní limit na vytvoření řízení.</p>)
 						}
 						<div style={{marginBottom: '1rem', marginLeft: '1rem'}}>
-							<Button inverted ghost onClick={this.switchScreenExplorer} title={'Přeprout do režimu prohlížení sentinel dat'}>
+							<Button inverted ghost onClick={switchScreenToExplorer} title={'Přeprout do režimu prohlížení sentinel dat'}>
 								<div className={'ptr-button-create-case'}>
 									{/* <Icon icon="plus" inverted/> */}
 									<div className={'ptr-button-caption'}>

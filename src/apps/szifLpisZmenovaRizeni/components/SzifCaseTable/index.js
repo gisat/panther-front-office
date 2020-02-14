@@ -50,6 +50,9 @@ const mapDispatchToPropsFactory = () => {
 				const filter = {status:{in: newFilter.keys}};
 				dispatch(Action.components.set(filterComponentId, 'filter', filter));
 				dispatch(Action.specific.lpisChangeCases.refreshUses(null, filter, order, 1, 1000, componentId));
+			},
+			switchScreenToExplorer: () => {
+				dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifSentinelExplorer'));
 			}
 		}
 	}

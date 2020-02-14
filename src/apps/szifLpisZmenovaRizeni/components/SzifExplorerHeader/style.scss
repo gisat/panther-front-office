@@ -2,10 +2,34 @@
 
 .szifLpisZmenovaRizeni-sentinel-explorer-header{
 	display: flex;
-	align-items: flex-end;
+	// align-items: flex-end;
 	background: var(--accent60);
-	padding-bottom: 1rem;
+	padding: 1rem 0;
 	justify-content: space-between;
+
+
+	.szifLpisZmenovaRizeni-heading{
+		display: flex;
+		 > *{
+			margin: 0 1rem;
+		 }
+
+		h2{
+			margin: 0 1rem;
+			font-weight: normal;
+			font-size: m(1.5);
+			color: var(--accent0);
+		}
+
+		.ptr-back-button{
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	.szifLpisZmenovaRizeni-cases-header-tools input{
+		min-width: 20rem;
+	}
 };
 
 .szifLpisZmenovaRizeni-sentinel-explorer-header-rightblock{

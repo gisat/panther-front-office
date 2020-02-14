@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Select from './state/Select';
 import SzifCaseList from "./components/SzifCaseList";
 import SzifMapViewWrapper from "./components/SzifMapViewWrapper";
+import SzifSentinelExplorer from "./components/SzifSentinelExplorer";
 import ScreenAnimator from "../../components/common/ScreenAnimator";
 
 const mapStateToProps = state => {
@@ -24,6 +25,7 @@ const presentation = ({userGroups}) => {
             >
             <SzifCaseList screenKey="szifCaseList"/>
             <SzifMapViewWrapper screenKey="szifMapView"/>
+            <SzifSentinelExplorer screenKey="szifSentinelExplorer"/>
         </ScreenAnimator>)
     } else {
         return null

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Icon from "../../../../components/common/atoms/Icon";
 import InputText from "../../../../components/common/atoms/Input/Input";
 import './style.scss';
-
+import User from "../Login/";
 import Button from "../../../../components/common/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 	static propTypes = {
-		switchScreen: PropTypes.func,
+		switchScreenToCaseList: PropTypes.func,
 		loadSentinels: PropTypes.func,
 		setMapSetView: PropTypes.func,
 		getDatesActive: PropTypes.bool,
@@ -49,13 +49,18 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		loadSentinels(mapSet, getDatesUrl);
 	}
 	render() {
-		const {getDatesActive} = this.props;
+		const {getDatesActive, switchScreenToCaseList} = this.props;
+		const loadSentinelDataTitle = !getDatesActive ? 'Načíst data jde po přiblížení mapy' : 'Načíst sentinel data';
 		return (
 			<div className="szifLpisZmenovaRizeni-sentinel-explorer-header">
-				<div>
-					<Button invisible inverted icon="back" onClick={this.switchScreen}/>
-				</div>
-				<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
+				<div className={'szifLpisZmenovaRizeni-heading'}>
+					<div className={'ptr-back-button'}>
+						<Button invisible inverted icon="back" onClick={switchScreenToCaseList}/>
+					</div>
+					<h2>
+						Prohlížeč sentinel dat
+					</h2>
+					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
 						<div className="szifLpisZmenovaRizeni-cases-header-tools">
 							<InputText
 								placeholder="Souřadnice WGS"
@@ -65,12 +70,15 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 							>
 								<Icon icon="search"/>
 							</InputText>
+							<Button ghost inverted onClick={this.loadSentinels} disabled={!getDatesActive} title={loadSentinelDataTitle}>
+								Načíst sentinel data
+								<Icon icon="download"/>
+							</Button>
 						</div>
 					</div>
-				<div className="szifLpisZmenovaRizeni-sentinel-explorer-header-rightblock">
-					<Button ghost inverted icon="download" onClick={this.loadSentinels} disabled={!getDatesActive}>
-						Načíst sentinel data
-					</Button>
+				</div>
+				<div className="szifLpisZmenovaRizeni-user">
+					<User inverted/>
 				</div>
 			</div>
 		);

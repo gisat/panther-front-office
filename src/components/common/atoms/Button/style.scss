@@ -129,6 +129,7 @@
 
 .ptr-button > .ptr-icon .line {
   fill: currentColor;
+  stroke: currentColor;
 }
 
 // TODO remove after icon refactoring
@@ -403,6 +404,7 @@
 .ptr-button.inverted {
   background: var(--base70);
   color: var(--base0);
+  stroke: var(--base0);
   border-radius: .2rem;
 }
 
@@ -482,6 +484,7 @@
 
 .ptr-button.disabled .ptr-icon .line {
   fill: var(--base35);
+  stroke: var(--base35);
 }
 
 // TODO remove after all icons will be refactored

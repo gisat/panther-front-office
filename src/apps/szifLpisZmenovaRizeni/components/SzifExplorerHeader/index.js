@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			}
 			dispatch(Action.components.set(componentID, `maps.sets.${mapSetKey}.data.view`, view));
 		},
+		switchScreenToCaseList: () => {
+			dispatch(Action.components.set('szifScreenAnimator', 'activeScreenKey', 'szifCaseList'));
+		}
 	};
 };
 
