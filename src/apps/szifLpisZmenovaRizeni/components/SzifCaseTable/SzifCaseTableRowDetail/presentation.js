@@ -63,9 +63,9 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 
 	renderEvaluationUsedSources(data){
 		return (
-			<div className="ptr-change-reviews-table-details-record">
-				<h4>Využitá družicová a další referenční data</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+			<div className="szifLpisZmenovaRizeni-table-detail-item">
+					<div>Využitá družicová a další referenční data</div>
+					<div>{utils.renderParagraphWithSeparatedLines(data)}</div>
 			</div>
 		);
 	}
@@ -102,12 +102,16 @@ class SzifCaseTableRowDetail extends React.PureComponent {
 		return (
 			<div>
 				<div className="szifLpisZmenovaRizeni-table-detail-top-bar">
-					{props.codeDpb ? this.renderItem("Kód DPB", props.codeDpb, 'codeDpb') : null}
-					{caseSubmit ? this.renderItem("Zadal", <User userKey={caseSubmit.userId}/>) : null}
-					{caseChange ? this.renderItem("Poslední změna", <User userKey={caseChange.userId}/>) : null}
-					<div>
-						<div className="ptr-change-reviews-table-details-top-bar-menu">
-							{this.renderTopBarMenu()}
+					<div className={'szifLpisZmenovaRizeni-top-bar-item'}>
+						{props.codeDpb ? this.renderItem("Kód DPB", props.codeDpb, 'codeDpb') : null}
+						{caseSubmit ? this.renderItem("Zadal", <User userKey={caseSubmit.userId}/>) : null}
+					</div>
+					<div className={'szifLpisZmenovaRizeni-top-bar-item'}>
+						{caseChange ? this.renderItem("Poslední změna", <User userKey={caseChange.userId}/>) : null}
+						<div>
+							<div className="ptr-change-reviews-table-details-top-bar-menu">
+								{this.renderTopBarMenu()}
+							</div>
 						</div>
 					</div>
 				</div>

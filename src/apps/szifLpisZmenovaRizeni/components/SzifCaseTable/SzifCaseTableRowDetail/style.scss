@@ -1,7 +1,7 @@
 @import '../../../../../styles/variables';
 
 .szifLpisZmenovaRizeni-table-detail > div {
-	padding: 0 .5rem;
+	// padding: 0 .5rem;
 	height: calc(100% - 1px);
 	overflow-y: auto;
 	display: flex;
@@ -12,7 +12,7 @@
 .szifLpisZmenovaRizeni-table-detail-top-bar {
 	display: flex;
 	justify-content: space-between;
-	padding: m(4/3) m(2/3) 0;
+	padding: m(1) m(1);
 }
 
 .ptr-button.ghost.szifLpisZmenovaRizeni-btn-invalidate {
@@ -38,6 +38,7 @@
 .szifLpisZmenovaRizeni-table-detail-descriptions {
 	padding: 0 m(2/3);
 	display: flex;
+	border-top: 1px dashed var(--accent30);
 }
 
 .szifLpisZmenovaRizeni-table-detail-descriptions > div {
@@ -50,4 +51,18 @@
 
 .szifLpisZmenovaRizeni-table-detail-descriptions > div .szifLpisZmenovaRizeni-table-detail-item {
 	margin-bottom: 1rem;
+}
+
+.szifLpisZmenovaRizeni-top-bar-item{
+	display: flex;
+	width: 50%;
+	justify-content: space-between;
+}
+
+.szifLpisZmenovaRizeni-top-bar-item:nth-child(1){
+	justify-content: start;
+}
+
+.szifLpisZmenovaRizeni-top-bar-item:nth-last-child(){
+	justify-content: space-between;
 }
