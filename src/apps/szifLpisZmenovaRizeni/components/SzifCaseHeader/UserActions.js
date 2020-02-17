@@ -71,7 +71,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		return (
 			<div>
 				<Button inverted onClick={this.props.resetView} small>
-					Restartovat mapu
+					Zpět na původní nastavení
 				</Button>
 			</div>
 		)

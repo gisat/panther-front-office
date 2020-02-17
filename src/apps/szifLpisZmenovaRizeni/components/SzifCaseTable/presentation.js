@@ -105,7 +105,7 @@ class SzifCaseTable extends React.PureComponent {
 								<div className={'ptr-button-create-case'}>
 									{/* <Icon icon="plus" inverted/> */}
 									<div className={'ptr-button-caption'}>
-										Prohlížeč sentinel dat
+										Prohlížeč snímků Sentinel
 									</div>
 								</div>
 							</Button>

@@ -50,7 +50,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	}
 	render() {
 		const {getDatesActive, switchScreenToCaseList} = this.props;
-		const loadSentinelDataTitle = !getDatesActive ? 'Načíst data jde po přiblížení mapy' : 'Načíst sentinel data';
+		const loadSentinelDataTitle = !getDatesActive ? 'Zobrazit dostupné snímky lze po přiblížení mapy' : 'Zobrazit dostupné snímky Sentinel na časové ose';
 		return (
 			<div className="szifLpisZmenovaRizeni-sentinel-explorer-header">
 				<div className={'szifLpisZmenovaRizeni-heading'}>
@@ -58,7 +58,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						<Button invisible inverted icon="back" onClick={switchScreenToCaseList}/>
 					</div>
 					<h2>
-						Prohlížeč sentinel dat
+						Prohlížeč snímků Sentinel
 					</h2>
 					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
 						<div className="szifLpisZmenovaRizeni-cases-header-tools">
@@ -71,7 +71,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 								<Icon icon="search"/>
 							</InputText>
 							<Button ghost inverted onClick={this.loadSentinels} disabled={!getDatesActive} title={loadSentinelDataTitle}>
-								Načíst sentinel data
+								Aktualizace časové osy
 								<Icon icon="download"/>
 							</Button>
 						</div>
