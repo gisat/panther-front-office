@@ -6,7 +6,7 @@ import {withResizeDetector} from 'react-resize-detector';
 import Timeline from '../timeline';
 import Overlay from '../timeline/overlay';
 import MapTimelineLegend from './MapTimelineLegend'
-import utils from "../../../utils/utils";
+import {utils} from "panther-utils"
 import './style.scss';
 
 const CONTROLS_WIDTH = 0;

@@ -1,6 +1,6 @@
 import ActionTypes from '../../../constants/ActionTypes';
 import _ from 'lodash';
-import utils from "../../../utils/utils";
+import {utils} from "panther-utils"
 
 const INITIAL_STATE = {
 	activeCaseKey: null,
@@ -56,7 +56,7 @@ function changeSelectedStatuses(state, action) {
 }
 
 function createNewActiveEditedCase(state, action) {
-	let key = action.key || utils.guid();
+	let key = action.key || utils.uuid();
 
 	let futureEditedCase = {
 		key: key,

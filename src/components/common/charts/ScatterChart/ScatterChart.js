@@ -6,8 +6,7 @@ import * as d3 from 'd3';
 import './style.scss';
 import Point from "../Point";
 
-import utilsFilter from "../../../../utils/filter";
-import utilsSort from "../../../../utils/sort";
+import {filter, sort} from "panther-utils";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 import ChartLegend from "../ChartLegend/ChartLegend";
@@ -49,7 +48,7 @@ class ScatterChart extends React.PureComponent {
 		let data = {...props.data};
 
 		if (data) {
-			data = utilsFilter.filterDataWithNullValue(data, [props.xSourcePath, props.ySourcePath], props.serieDataSourcePath);
+			data = filter.filterDataWithNullValue(data, [props.xSourcePath, props.ySourcePath], props.serieDataSourcePath);
 
 			/* domain */
 			if (props.isSerie) {
@@ -89,7 +88,7 @@ class ScatterChart extends React.PureComponent {
 				});
 
 				if (props.zSourcePath) {
-					data = utilsSort.sortByOrder(data, [[props.zSourcePath, 'desc']]);
+					data = sort.sortByOrder(data, [[props.zSourcePath, 'desc']]);
 				}
 
 				zValues = _.map(data, item => {

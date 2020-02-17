@@ -1,6 +1,6 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
-import {removeItemByIndex, addItemToIndex, replaceItemOnIndex, removeItemByKey} from '../../utils/stateManagement';
+import {stateManagement} from "panther-utils";
 import {isNumber} from 'lodash';
 
 const INITIAL_VIEW = {
@@ -96,7 +96,7 @@ const addSet = (state, setState) => {
 };
 
 const removeSet = (state, setKey) => {
-	const withoutSetKey = removeItemByKey(state.sets, setKey);
+	const withoutSetKey = stateManagement.removeItemByKey(state.sets, setKey);
 	
 	return {...state, sets: withoutSetKey};
 };
@@ -120,7 +120,7 @@ const removeMapKeyFromSet = (state, setKey, mapKey) => {
 	
 	const setToUpdate = getSetByKey(state, setKey);
 	const mapIndex = setToUpdate.maps.indexOf(mapKey);
-	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: stateManagement.removeItemByIndex(setToUpdate.maps, mapIndex)}}};
 };
 
 const setSetView = (state, setKey, view = INITIAL_VIEW) => {
@@ -159,7 +159,7 @@ const addMap = (state, mapState = INITIAL_MAP_STATE) => {
 };
 
 const removeMap = (state, mapKey) => {
-	const newMaps = removeItemByKey(state.maps, mapKey);
+	const newMaps = stateManagement.removeItemByKey(state.maps, mapKey);
 	let newMapsState = {...state, maps: newMaps};
 	//If mapKey is in sets, then remove it from each
 	for (const [key, value] of Object.entries(state.sets)) {
@@ -197,7 +197,7 @@ const setMapLayerHoveredFeatureKeys = (state, mapKey, layerKey, hoveredFeatureKe
 			}
 		};
 
-		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		const updatedLayers = stateManagement.replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		return state;
@@ -226,7 +226,7 @@ const setMapLayerSelection = (state, mapKey, layerKey, selectionKey) => {
 			}
 		};
 
-		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
+		const updatedLayers = stateManagement.replaceItemOnIndex(mapState.data.layers, layerIndex, newLayerState);
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		return state;
@@ -301,7 +301,7 @@ const addLayer = (state, mapKey, layerState, index) => {
 const removeLayer = (state, mapKey, layerKey) => {
 	const mapState = getMapByKey(state, mapKey);
 	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
-	return setMap(state, {...mapState, data: {...mapState.data, layers: removeItemByIndex(mapState.data.layers, layerIndex)}});
+	return setMap(state, {...mapState, data: {...mapState.data, layers: stateManagement.removeItemByIndex(mapState.data.layers, layerIndex)}});
 };
 
 const removeLayers = (state, mapKey, layersKeys = [])=> {
@@ -317,19 +317,19 @@ const setLayerIndex = (state, mapKey, layerKey, index) => {
 	const mapState = getMapByKey(state, mapKey);
 	const layerIndex = mapState.data.layers.findIndex(l => l.key ===layerKey);
 	const layerState = {...mapState.data.layers[layerIndex]};
-	const withoutLayer = removeItemByIndex(mapState.data.layers, layerIndex);
-	const onPosition = addItemToIndex(withoutLayer, index, layerState);
+	const withoutLayer = stateManagement.removeItemByIndex(mapState.data.layers, layerIndex);
+	const onPosition = stateManagement.addItemToIndex(withoutLayer, index, layerState);
 	return setMap(state, {...mapState, data: {...mapState.data, layers: onPosition}});
 };
 
 const setMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE, layerKey) => {
 	const mergedLayerState = _.merge(_.cloneDeep(INITIAL_LAYER_STATE), layerState); //FIXME - musí se mergnout se stavem
-	const mergedLayerStateWithoutKey = removeItemByKey(mergedLayerState, 'key');
+	const mergedLayerStateWithoutKey = stateManagement.removeItemByKey(mergedLayerState, 'key');
 	mergedLayerStateWithoutKey['key'] = layerKey;
 	const mapState = getMapByKey(state, mapKey);
 	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
 	if(layerIndex > -1) {
-		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerStateWithoutKey);
+		const updatedLayers = stateManagement.replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerStateWithoutKey);
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		//error - layer not found
@@ -344,7 +344,7 @@ const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE, layerKe
 	if(layerIndex > -1) {
 		layerState['key'] = layerKey;
 		const mergedLayerState = _.merge(_.cloneDeep({...mapState.data.layers[layerIndex]}), layerState);
-		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState);
+		const updatedLayers = stateManagement.replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState);
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		//error - layer not found

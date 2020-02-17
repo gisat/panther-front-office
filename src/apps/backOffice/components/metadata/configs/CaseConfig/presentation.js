@@ -11,10 +11,11 @@ import TagsSelect from "../../../formComponents/MetadataMultiSelect/TagsSelect";
 
 import cz from "./locales/cz";
 import en from "./locales/en";
-import utils from "../../../../../../utils/utils";
+import {utils} from "panther-utils"
+import i18next from "i18next";
 
 // add local locales
-utils.addI18nResources('backOffice_CaseConfig', {cz, en});
+utils.addI18nResources(i18next,'backOffice_CaseConfig', {cz, en});
 
 class CaseConfig extends React.PureComponent {
 	static propTypes = {

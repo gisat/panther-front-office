@@ -8,7 +8,7 @@ import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
-import utils from '../../utils/utils';
+import {utils} from "panther-utils"
 
 import common from '../_common/actions';
 
@@ -722,7 +722,7 @@ function getBodyForMatlabProcessesRequest(processes) {
 			return {
 				data: _.map(processes, (process) => {
 					return {
-						uuid: utils.guid(),
+						uuid: utils.uuid(),
 						data: process
 					}
 				})
@@ -738,7 +738,7 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 		let scenarioKeys = [];
 		uploads.forEach((upload) => {
 			scenarioKeys.push(upload.scenarioKey);
-			let uuid = utils.guid();
+			let uuid = utils.uuid();
 			let requestAttempt = () => {
 				fetch(url, {
 					method: 'POST',

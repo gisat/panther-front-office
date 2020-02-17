@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
-import utils from '../../../../../../../utils/utils';
+import {utils} from "panther-utils"
 import {PantherSelectItem} from "../../../../../../../components/common/atoms/PantherSelect";
 import IndicatorCard from "./IndicatorCard";
 

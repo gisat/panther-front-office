@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 import CommonSelect from '../../../state/Select';
-import CacheFifo from "../../../utils/CacheFifo";
+import {CacheFifo} from "panther-utils";
 
 let trackTimeSerieChartCache = new CacheFifo(10);
 let pointInfoCache = new CacheFifo(10);

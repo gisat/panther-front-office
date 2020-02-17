@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import utils from '../../../../utils/utils';
+import {utils} from "panther-utils"
+import {CyclicPickController, ClickPickController} from "panther-utils";
 import _, {isEqual, isNull} from 'lodash';
 
 import WorldWind from 'webworldwind-esa';
@@ -9,8 +10,6 @@ import decorateWorldWindowController from './controllers/WorldWindowControllerDe
 import navigator from './navigator/helpers';
 
 import Attribution from './Attribution/Attribution';
-import CyclicPickController from '../../../../utils/worldwind/CyclicPickController';
-import ClickPickController from '../../../../utils/worldwind/ClickPickController';
 
 import './style.scss'
 import download from "downloadjs";

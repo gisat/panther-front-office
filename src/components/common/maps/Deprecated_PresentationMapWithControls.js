@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import mapUtils from "../../../utils/map";
+import {map as mapUtils} from "panther-utils";
 import {defaultMapView} from '../../../constants/Map';
 
 class Deprecated_PresentationMapWithControls extends React.PureComponent {

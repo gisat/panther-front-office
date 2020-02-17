@@ -4,11 +4,11 @@ import _ from 'lodash';
 import moment from 'moment';
 import WorldWind from 'webworldwind-esa';
 import GeoJSONParser from '../../../../worldwind/formats/geojson/GeoJSONParser';
-import utils from '../../../../utils/utils';
+import {utils} from "panther-utils"
 
 import Layers from '../../../../view/worldWind/layers/Layers';
 import Controls from '../../../../view/worldWind/controls/Controls';
-import mapUtils from "../../../../utils/map";
+import {map as mapUtils} from "panther-utils";
 import MyWmsLayer from '../../../../worldwind/layers/MyWmsLayer';
 
 const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, SurfacePolygon, Position} = WorldWind;
@@ -123,7 +123,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
             }
 
             this.sourceLayer = new MyWmsLayer({
-                name: 'Polygons ' + utils.guid(),
+                name: 'Polygons ' + utils.uuid(),
                 service: props.sourceLayer.url,
                 layerNames: props.sourceLayer.name,
                 sector: new Sector(-90, 90, -180, 180),

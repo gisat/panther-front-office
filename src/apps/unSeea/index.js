@@ -9,7 +9,7 @@ import Favicon from 'react-favicon';
 import Action from './state/Action';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
-import utils from '../../utils/utils';
+import {utils} from "panther-utils"
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
@@ -25,9 +25,10 @@ import DistrictsSecond from './components/pages/DistrictsSecond/subAppWrapper';
 import Districts from './components/pages/Districts/subAppWrapper';
 import Trees from './components/pages/Trees/subAppWrapper';
 import LandingPage from './components/pages/LandingPage/presentation';
+import i18next from "i18next";
 
 // override and extend locales in namespaces
-utils.addI18nResources('common', {en});
+utils.addI18nResources(i18next,'common', {en});
 
 
 export default (path, baseUrl) => {

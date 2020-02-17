@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import createCachedSelector from "re-reselect";
 import commonSelectors from '../_common/selectors';
-import CacheFifo from "../../utils/CacheFifo";
+import {CacheFifo} from "panther-utils";
 
 let mergeFeaturesWithAttributesCache = new CacheFifo(20);
 

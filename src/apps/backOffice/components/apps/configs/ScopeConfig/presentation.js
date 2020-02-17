@@ -6,7 +6,7 @@ import InputWrapper from "../../../../../../components/common/atoms/InputWrapper
 import {withNamespaces} from "react-i18next";
 import Button from "../../../../../../components/common/atoms/Button";
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
-import utils from "../../../../../../utils/utils";
+import {utils} from "panther-utils"
 
 class ScopeConfig extends React.PureComponent {
 	static propTypes = {

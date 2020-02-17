@@ -1,7 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 import _ from 'lodash';
-import utils from "../../utils/utils";
+import {utils} from "panther-utils"
 
 import config from "../../config";
 import path from "path";

@@ -4,9 +4,8 @@ import Select from '../../state/Select';
 import commonActions from '../_common/actions';
 import commonHelpers from '../_common/helpers';
 import commonSelectors from '../_common/selectors';
-import utils from '../../utils/utils';
-import mapUtils from '../../utils/map';
-import * as layerTreeUtils from '../../utils/layerTreeUtils';
+import {utils} from "panther-utils"
+import {map as mapUtils, layerTree} from "panther-utils";
 import Action from "../Action";
 
 const {actionGeneralError} = commonActions;
@@ -123,7 +122,7 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys, useActiveMetadat
 		const state = getState();
 
 		//no array but object
-		const flattenLT = layerTreeUtils.getFlattenLayers(treeLayers[0][layerTreeBranchKey]);
+		const flattenLT = layerTree.getFlattenLayers(treeLayers[0][layerTreeBranchKey]);
 		const visibleLayers = flattenLT.filter((l) => l.visible);
 		//add all visible layers in layerTree to map
 		const visibleLayersKeys = visibleLayers.map(l => l.key);
@@ -138,7 +137,7 @@ const addTreeLayers = (treeLayers, layerTreeBranchKey, mapKeys, useActiveMetadat
 				// clean templateKeys found in map
 				const uniqVisibleLayersKeys = layersState ? visibleLayersKeys.filter((lk) => !layersState.some(ls => ls.layer && ls.layer.layerTemplate === lk)) : visibleLayersKeys;
 				uniqVisibleLayersKeys.forEach((layerKey) => {
-					const zIndex = layerTreeUtils.getLayerZindex(treeLayers[0], layerKey);
+					const zIndex = layerTree.getLayerZindex(treeLayers[0], layerKey);
 					const layer = {layerTemplate: layerKey};
 
 					switch (layerTreeBranchKey) {

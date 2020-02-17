@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import common from "../_common/selectors";
 import ScopesSelectors from "../Scopes/selectors";
-import mapUtils from "../../utils/map";
+import {map as mapUtils} from "panther-utils";
 
 
 const getSubstate = state => state.places;

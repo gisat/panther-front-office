@@ -8,7 +8,7 @@ import CartogramVectorLayer from "./CartogramVectorLayer";
 import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
-import {removeItemByIndex, addItemToIndex, addItem} from '../../../../../utils/stateManagement';
+import {stateManagement} from "panther-utils";
 import {defaultVectorStyle} from "./utils/vectorStyle";
 import WmtsLayer from "../../WorldWindMap/layers/WmtsLayer";
 
@@ -25,9 +25,9 @@ function addLayer(layers, layerData, position) {
 		let layer = getLayerByType(layerData);
 		if (layer) {
 			if (position || position === 0) {
-				return addItemToIndex(layers, position, layer)
+				return stateManagement.addItemToIndex(layers, position, layer)
 			} else {
-				return addItem(layers, layer)
+				return stateManagement.addItem(layers, layer)
 			}
 		} else {
 			return layers;
@@ -57,7 +57,7 @@ function findLayerIndexByKey(layers, layerKey) {
 function removeLayer(layers, layerKey) {
 	let layerIndex = findLayerIndexByKey(layers, layerKey);
 	if (layerIndex > -1){
-		return removeItemByIndex(layers, layerIndex);
+		return stateManagement.removeItemByIndex(layers, layerIndex);
 	} else {
 		return layers;
 	}

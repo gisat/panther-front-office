@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import utils from '../../../../utils/utils';
+import {CyclicPickController} from "panther-utils";
+import {utils} from "panther-utils"
 import _ from 'lodash';
 
 import WorldWind from 'webworldwind-esa';
@@ -15,7 +16,6 @@ import './style.scss';
 import viewUtils from "../viewUtils";
 import {defaultLevelsRange, numberOfLevels} from "../constants";
 import LargeDataLayer from "./layers/LargeDataLayerSource/LargeDataLayer";
-import CyclicPickController from "../../../../utils/worldwind/CyclicPickController";
 import VectorLayer from "./layers/VectorLayer";
 
 const {WorldWindow, ElevationModel} = WorldWind;

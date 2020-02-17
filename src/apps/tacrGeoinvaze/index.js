@@ -9,7 +9,8 @@ import Action from '../../state/Action';
 import Select from "../../state/Select";
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
-import utils from '../../utils/utils';
+import i18next from "i18next";
+import {utils} from "panther-utils"
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
@@ -23,7 +24,7 @@ import AppContainer from "../../components/common/AppContainer";
 import App from './components/App';
 
 // override and extend locales in namespaces
-utils.addI18nResources('common', {cz});
+utils.addI18nResources(i18next,'common', {cz});
 
 export default (path, baseUrl) => {
 

@@ -6,7 +6,7 @@ import chroma from 'chroma-js';
 import classnames from 'classnames';
 
 import './style.scss';
-import utilsSort from "../../../../utils/sort";
+import {sort} from "panther-utils";
 
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
@@ -183,7 +183,7 @@ class ColumnChart extends React.PureComponent {
 			}
 		});
 		params.push(['negative.total', order], ['positive.total', order]);
-		return utilsSort.sortByOrder(data, params);
+		return sort.sortByOrder(data, params);
 	}
 
 	getExtremeValues(data) {

@@ -10,10 +10,11 @@ import InputWrapper, {InputWrapperInfo} from "../../../../../../components/commo
 
 import cz from "./locales/cz";
 import en from "./locales/en";
-import utils from "../../../../../../utils/utils";
+import {utils} from "panther-utils";
+import i18next from "i18next";
 
 // add local locales
-utils.addI18nResources('ViewMetadataConfig', {cz, en});
+utils.addI18nResources(i18next,'ViewMetadataConfig', {cz, en});
 
 class ViewConfig extends React.PureComponent {
 	static propTypes = {

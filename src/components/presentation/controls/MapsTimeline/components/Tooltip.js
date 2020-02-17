@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import config from '../../../../../config/index';
 
 import _ from 'lodash';
+import {period} from "panther-utils";
 import classNames from 'classnames';
 import moment from 'moment';
 
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 
 class Tooltip extends React.PureComponent {
 
@@ -63,7 +64,7 @@ class Tooltip extends React.PureComponent {
 					let periodsLength = layer.periods && layer.periods.length;
 					if (periodsLength) {
 						if (periodsLength === 1) {
-							periods = utils.periodToString(layer.periods[0]);
+							periods = period.toString(layer.periods[0]);
 						} else {
 							periods = periodsLength + ' periods';
 						}

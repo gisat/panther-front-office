@@ -1,5 +1,5 @@
 import WorldWind from "webworldwind-esa";
-import {getValueClassesByStatistics, getClassByValue} from '../../../utils/statistics'
+import {statistics as pantherStatistics} from "panther-utils";
 import {
     DEFAULTFILLTRANSPARENCY,
     DEFAULTOUTLINETRANSPARENCY,
@@ -20,7 +20,7 @@ export const getStyleFunction = (min, max, numClasses, color) => {
         max
     };
     const classCount = numClasses || 1;
-    const statisticsClasses = getValueClassesByStatistics(statistics, classCount);
+    const statisticsClasses = pantherStatistics.getValueClassesByStatistics(statistics, classCount);
 
     const colorClasses = getCartogramColorScale(color, classCount);
     const outlineColorClasses = transformScaleDarker(colorClasses, 2);
@@ -30,7 +30,7 @@ export const getStyleFunction = (min, max, numClasses, color) => {
         const attributes = new ShapeAttributes();
         const value = renderable.userProperties.ucast;
         if(value || value === 0) {
-            const calassIndex = getClassByValue(statisticsClasses, value);
+            const calassIndex = pantherStatistics.getClassByValue(statisticsClasses, value);
             const valueColor = colorClasses[calassIndex];
             const outlineValueColor = outlineColorClasses[calassIndex];
             

@@ -4,8 +4,8 @@ import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
-import utils from '../../../utils/utils';
-import {filterScopesByUrl} from '../../../utils/models';
+import {utils} from "panther-utils"
+import {models} from 'panther-utils';
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 	let hostName = window.location.hostname;
 
 	// todo move hostName to configuration
-	let filteredScopes = (isAdminGroupMember || hostName === "localhost" || hostName === "192.168.2.205")  ? scopes : filterScopesByUrl(scopes, url);
+	let filteredScopes = (isAdminGroupMember || hostName === "localhost" || hostName === "192.168.2.205")  ? scopes : models.filterScopesByUrl(scopes, url);
 
 	return {
 		active: Select.components.isAppInIntroMode(state),

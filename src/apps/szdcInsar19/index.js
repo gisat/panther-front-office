@@ -9,7 +9,7 @@ import Action from '../../state/Action';
 import Select from '../../state/Select';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
-import utils from '../../utils/utils';
+import {utils} from "panther-utils"
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
@@ -23,9 +23,6 @@ import App from './components/App';
 import _ from "lodash";
 
 // import App from './components/App';
-
-// override and extend locales in namespaces
-// utils.addI18nResources('common', {cz});
 
 export default (path, baseUrl) => {
 

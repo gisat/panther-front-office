@@ -6,7 +6,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 
 const LAYER_HEIGHT = 10;
 

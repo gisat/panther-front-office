@@ -4,11 +4,10 @@ import _ from 'lodash';
 import config from './config';
 import apps from './apps';
 
-import {initialize as initializeGTag} from './utils/gtag';
-import {forceSetPassiveEvents} from './utils/events';
+import {events, gTag} from 'panther-utils';
 
 //Fix for passive events
-forceSetPassiveEvents();
+events.forceSetPassiveEvents();
 
 
 const devIndex = (hostname) => import(/* webpackChunkName: "devIndex" */'./apps/_devIndex').then(module => {
@@ -21,7 +20,7 @@ const error = (url, error) => import(/* webpackChunkName: "devIndex" */'./apps/_
 function start() {
 	//configute Google Analytics TODO REMOVE !!!!!!!!!!!!!!!…!!
 	if(config.gtag) {
-		initializeGTag(config.gtag);
+		gTag.initialize(config.gtag);
 	}
 	
 	let isDevHostname = (url.hostname === 'localhost' || _.includes(config.devHostnames, url.hostname));

@@ -8,7 +8,7 @@ import _ from 'lodash';
 import '../../styles/reset.css';
 import '../../styles/base.scss';
 
-import utils from "../../utils/sort";
+import {sort} from "panther-utils";
 import layersHelper from '../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
 import {getStyleFunction} from "./Elections/layerTurnoutStyle";
 import Elections from "./Elections/Elections";
@@ -90,7 +90,7 @@ export default () => {
 							party.HLASY_STRANA[0].$.PROC_HLASU = Number(party.HLASY_STRANA[0].$.PROC_HLASU);
 							return party;
 						});
-						let orderedTotalResults = utils.sortByOrder(adjustedResults, [['HLASY_STRANA[0].$.PROC_HLASU', 'desc']]);
+						let orderedTotalResults = sort.sortByOrder(adjustedResults, [['HLASY_STRANA[0].$.PROC_HLASU', 'desc']]);
 						let preparedData = _.slice(orderedTotalResults, 0, 10);
 
 						ReactDOM.render(

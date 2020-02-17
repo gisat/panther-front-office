@@ -9,7 +9,7 @@ import Favicon from 'react-favicon';
 import Action from './state/Action';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
-import utils from '../../utils/utils';
+import {utils} from "panther-utils";
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
@@ -28,7 +28,7 @@ import spatialDataSourcesCfg from "./data/spatialDataSources.js";
 import boundariesSpatialData from "./data/boundaries.js";
 
 // override and extend locales in namespaces
-utils.addI18nResources('common', {en});
+utils.addI18nResources(i18n,'common', {en});
 
 
 const WINDOW_SET_KEY = "utep_sdg_11_3_1";

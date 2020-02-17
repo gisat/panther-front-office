@@ -1,12 +1,13 @@
 import React from 'react';
 import { withNamespaces } from 'react-i18next';
 
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 import cz from './locales/cz.json';
 import en from './locales/en.json';
+import i18next from "i18next";
 
 // add locales to component namespace
-utils.addI18nResources('Demo#Months', {cz, en});
+utils.addI18nResources(i18next,'Demo#Months', {cz, en});
 
 class Months extends React.PureComponent {
 	render() {

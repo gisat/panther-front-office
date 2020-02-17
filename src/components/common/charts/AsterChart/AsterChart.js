@@ -9,9 +9,8 @@ import './style.scss';
 import Segment from "./Segment";
 import ChartLegend from "../ChartLegend/ChartLegend";
 
-import utils from "../../../../utils/utils";
-import utilsFilter from "../../../../utils/filter";
-import utilsSort from "../../../../utils/sort";
+import {utils} from "panther-utils"
+import {filter, sort} from "panther-utils";
 
 const TICK_WIDTH = 8; // in px
 
@@ -113,8 +112,8 @@ class AsterChart extends React.PureComponent {
 			let values = [];
 
 			if (props.data) {
-				data = utilsFilter.filterDataWithNullValue(props.data, props.valueSourcePath);
-				data = props.sorting ? utilsSort.sortByOrder(data, props.sorting) : data;
+				data = filter.filterDataWithNullValue(props.data, props.valueSourcePath);
+				data = props.sorting ? sort.sortByOrder(data, props.sorting) : data;
 
 				/* ensure colors */
 				data = _.map(data, item => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import utils from '../../../../utils/utils';
+import {utils} from "panther-utils"
 
 import ExpandableContent from './ExpandableContent';
 
@@ -35,7 +35,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				placeInsert = (
 					<div>
 						<div className='ptr-dromasLpisChangeReviewHeader-property'>Určení místa změny v terénu</div>
-						{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description_place)}
+						{changeReviewCase.data.change_description_place}
 					</div>
 				);
 			}
@@ -44,7 +44,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				otherInsert = (
 					<div>
 						<div className='ptr-dromasLpisChangeReviewHeader-property'>Další informace</div>
-						{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description_other)}
+						{changeReviewCase.data.change_description_other}
 					</div>
 				);
 			}
@@ -79,7 +79,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 			return (
 				<div>
-					{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
+					{changeReviewCase.data.change_description}
 					{placeInsert}
 					{otherInsert}
 					{dpbInsert}

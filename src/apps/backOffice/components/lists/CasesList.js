@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../state/Select';
 import Action from "../../state/Action";
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 
 import presentation from './MetadataList';
 import CaseScreen from "../metadata/screens/CaseScreen";

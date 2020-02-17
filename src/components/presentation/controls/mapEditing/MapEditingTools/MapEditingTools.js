@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 import _ from 'lodash';
 
 import Slider from 'rc-slider';

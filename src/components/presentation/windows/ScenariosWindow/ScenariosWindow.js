@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import utils from '../../../../utils/utils';
+import {utils} from "panther-utils"
 import _ from 'lodash';
 import Window from "../../../containers/Window";
 import ScreenAnimator from "../../ScreenAnimator/ScreenAnimator";

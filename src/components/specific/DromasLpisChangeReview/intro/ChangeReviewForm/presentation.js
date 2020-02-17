@@ -5,7 +5,7 @@ import Action from '../../../../../state/Action';
 import fields from "../../../../../constants/LpisCaseFields";
 
 import _ from 'lodash';
-import utils from "../../../../../utils/utils.js";
+import utils from "panther-utils".js";
 
 import Button from "../../../../common/atoms/Button";
 import Icon from "../../../../common/atoms/Icon";
@@ -112,7 +112,7 @@ class ChangeReviewForm extends React.PureComponent {
 		let files = event.target.files;
 
 		if (key.toLowerCase().includes(`geometry`)) {
-			let uuid = utils.guid();
+			let uuid = utils.uuid();
 			this.props.editActiveEditedCase(
 				key,
 				{

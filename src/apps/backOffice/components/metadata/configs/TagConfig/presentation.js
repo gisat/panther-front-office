@@ -10,10 +10,11 @@ import InputWrapper, {InputWrapperInfo} from "../../../../../../components/commo
 
 import cz from "./locales/cz";
 import en from "./locales/en";
-import utils from "../../../../../../utils/utils";
+import {utils} from "panther-utils";
+import i18next from "i18next";
 
 // add local locales
-utils.addI18nResources('TagMetadataConfig', {cz, en});
+utils.addI18nResources(i18next,'TagMetadataConfig', {cz, en});
 
 class TagConfig extends React.PureComponent {
 	static propTypes = {

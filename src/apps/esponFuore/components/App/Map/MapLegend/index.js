@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../../../../../state/Select';
-import Action from "../../../../../../state/Action";
 import React from "react";
-import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../../../utils/statistics';
-import { getIntervalTitle } from '../../../../../../utils/legend';
+import { legend, statistics } from 'panther-utils';
 import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
@@ -63,7 +61,7 @@ const mapStateToProps = (state, ownProps) => {
 				if(layer.attributeRelationsData) {
 					const attributeStatisticsFilter = {
 						attributeDataSourceKey: {in: [layer.attributeRelationsData.attributeDataSourceKey]},
-						percentile: quartilePercentiles,
+						percentile: statistics.quartilePercentiles,
 					};
 		
 					const attributeStatistics = Select.attributeStatistics.getBatchByFilterOrder(state, attributeStatisticsFilter, null);
@@ -75,7 +73,7 @@ const mapStateToProps = (state, ownProps) => {
 				}
 			}
 
-			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
+			layerByLayerTemplateKey.mergedStatistics = statistics.mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
 			
 
 			const choroplethLegendItem = {
@@ -92,18 +90,18 @@ const mapStateToProps = (state, ownProps) => {
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
 					styleFunction = getCartogramStyleFunction(color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
-					const classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
-					const intervals = getClassesIntervals(classes);
+					const classes = statistics.setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
+					const intervals = statistics.getClassesIntervals(classes);
 
 					choroplethLegendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
 					choroplethLegendItem.description = layerByLayerTemplateKey.attribute.data.description;
 
 					//avoid clear values
 					choroplethLegendItem.items = intervals.map((interval, index) => {
-						const value = getMiddleClassValues(interval)[0];
+						const value = statistics.getMiddleClassValues(interval)[0];
 						const attribution = styleFunction({userProperties:{tmpAttribute: value}})
 						const first = index === 0;
-						const title = getIntervalTitle(interval, first);
+						const title = legend.getIntervalTitle(interval, first);
 						return {
 							title: title,
 							image: getPolygonImageByAttribution(attribution)

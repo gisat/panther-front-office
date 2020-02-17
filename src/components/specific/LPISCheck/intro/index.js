@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 

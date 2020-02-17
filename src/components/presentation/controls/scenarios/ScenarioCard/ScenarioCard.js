@@ -13,7 +13,7 @@ import Menu, {MenuItem} from '../../../../common/atoms/Menu';
 
 import './ScenarioCard.css';
 import Action from "../../../../../state/Action";
-import utils from "../../../../../utils/utils";
+import {utils} from "panther-utils"
 
 let polyglot = window.polyglot;
 
@@ -108,7 +108,7 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	onStartMapEditing(){
-		let scenarioKey = utils.guid();
+		let scenarioKey = utils.uuid();
 		this.props.onStartMapEditing(scenarioKey, this.props.scenarioSpatialDataSource);
 	}
 

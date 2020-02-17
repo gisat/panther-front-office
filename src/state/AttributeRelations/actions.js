@@ -7,7 +7,7 @@ import statisticsActions from "../AttributeStatistics/actions";
 import attributeDataSourcesActions from "../AttributeDataSources/actions";
 import commonSelectors from "../_common/selectors";
 import _ from "lodash";
-import { quartilePercentiles } from '../../utils/statistics';
+import {statistics} from "panther-utils";
 
 
 // ============ creators ===========
@@ -43,7 +43,7 @@ function ensureIndexedSpecific(filter, order, start, length, componentId, noStat
 				};
 
 				let statisticsFilter = {
-					percentile: quartilePercentiles,
+					percentile: statistics.quartilePercentiles,
 					attributeDataSourceKey: {in: uniqueAtributeDataSourceKeys}
 				};
 

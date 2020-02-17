@@ -5,12 +5,13 @@ import Input from "../../../atoms/Input/Input";
 import {withNamespaces} from "react-i18next";
 import cz from "./locales/cz";
 import en from "./locales/en";
+import i18next from "i18next";
 
 import './style.scss';
 import Icon from "../../../atoms/Icon";
-import utils from "../../../../../utils/utils";
+import {utils} from "panther-utils"
 
-utils.addI18nResources('GoToPlace', {cz, en});
+utils.addI18nResources(i18next,'GoToPlace', {cz, en});
 
 class GoToPlace extends React.PureComponent {
 

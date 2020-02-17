@@ -5,10 +5,10 @@ import React from "react";
 import PropTypes from 'prop-types';
 import _ from "lodash";
 import {defaultMapView} from "../../../constants/Map";
-import mapUtils from "../../../utils/map";
+import {map as mapUtils} from "panther-utils";
 
 import './style.scss';
-import utils from "../../../utils/utils";
+import {utils} from "panther-utils"
 import Error from "../atoms/Error";
 
 const mapStateToProps = (state, ownProps) => {

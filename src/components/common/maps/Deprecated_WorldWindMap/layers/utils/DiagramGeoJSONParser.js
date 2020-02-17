@@ -1,7 +1,7 @@
 import WorldWind from 'webworldwind-esa';
-import * as turf from '@turf/turf'
-import {getRadius} from './diagram'
-import {rangeMap} from '../../../../../../utils/statistics';
+import * as turf from '@turf/turf';
+import {getRadius} from './diagram';
+import {statistics as pantherStatistics} from 'panther-utils';
 import {MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../styles/cartodiagram';
 
 const {GeoJSONParser, ArgumentError, Logger, SurfaceCircle, ShapeAttributes} = WorldWind;
@@ -33,7 +33,7 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 		this.normalizedMaxRadius = normalizedMaxRadius;
 		this.normalizedMinRadius = normalizedMinRadius;
 		this.statistics = statistics;
-		this.normalizationCallback = this.normalized ? rangeMap([getRadius(statistics.min, this.series), getRadius(statistics.max, this.series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
+		this.normalizationCallback = this.normalized ? pantherStatistics.rangeMap([getRadius(statistics.min, this.series), getRadius(statistics.max, this.series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
 	};
 
 	addRenderablesDiagram(layer, geometry, properties) {

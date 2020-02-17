@@ -4,8 +4,6 @@ import {withNamespaces} from "react-i18next";
 import {Route, Switch} from "react-router";
 import Helmet from "react-helmet";
 
-import utils from '../../../../../utils/sort';
-
 /* Base types */
 import ScopesList from "../../lists/ScopesList";
 import ConfigurationsList from "../../lists/ConfigurationsList";

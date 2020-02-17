@@ -7,7 +7,8 @@ import { Route, Switch } from 'react-router';
 import Action from './state/Action';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
-import utils from '../../utils/utils';
+import i18next from "i18next";
+import utils from 'panther-utils';
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';
@@ -31,7 +32,7 @@ import cz from "./locales/cz/common";
 import en from "./locales/en/common";
 
 // override and extend locales in namespaces
-utils.addI18nResources('common', {cz, en});
+utils.addI18nResources(i18next, 'common', {cz, en});
 
 /**
  * Returns function returning BO Page for given component & screen set key

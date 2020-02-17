@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 
 import Button from '../../../../common/atoms/Button';
 import ExpandRowButton from '../../../../common/atoms/ExpandRowButton';
@@ -149,7 +149,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		) : (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis důvodu pro aktualizaci LPIS</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+				{data}
 			</div>
 		);
 	}
@@ -158,7 +158,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Určení místa změny v terénu</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+				{data}
 			</div>
 		);
 	}
@@ -167,7 +167,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další informace</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+				{data}
 			</div>
 		);
 	}
@@ -187,7 +187,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis výsledků vyhodnocení</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+				{data}
 			</div>
 		);
 	}
@@ -196,7 +196,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Využitá družicová a další referenční data</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+				{data}
 			</div>
 		);
 	}
@@ -205,7 +205,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další komentář</h4>
-				{utils.renderParagraphWithSeparatedLines(data)}
+				{data}
 			</div>
 		);
 	}

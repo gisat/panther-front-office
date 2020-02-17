@@ -1,4 +1,4 @@
-import utils from '../../../utils/utils';
+import {utils} from "panther-utils"
 import {commonActionTypesDefinitions} from "../../../constants/ActionTypes";
 
 export const backOfficeActionTypesDefinitions = {

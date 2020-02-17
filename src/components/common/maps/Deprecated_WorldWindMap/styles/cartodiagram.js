@@ -1,7 +1,7 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
 import {getRadius} from '../layers/utils/diagram';
-import {rangeMap} from '../../../../../utils/statistics';
+import {statistics as pantherStatistics} from "panther-utils";
 import {
     DEFAULTFILLTRANSPARENCY,
     getOutlineColor,
@@ -26,7 +26,7 @@ export const getCartodiagramStyleFunction = (color = noDataPalette.colorRgb, fil
 
     const diagramInteriorColor = Color.colorFromByteArray([...chroma(color).rgb(), fillTransparency]);
     const diagramOutlineColor = Color.colorFromByteArray([...getOutlineColor(color)]);
-    const normalizationCallback = normalized ? rangeMap([getRadius(statistics.min, series), getRadius(statistics.max, series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
+    const normalizationCallback = normalized ? pantherStatistics.rangeMap([getRadius(statistics.min, series), getRadius(statistics.max, series)], [normalizedMinRadius, normalizedMaxRadius]) : null;
 
     //create 5 classes
     return (renderable, layer) => {

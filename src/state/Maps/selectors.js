@@ -4,8 +4,8 @@ import _ from 'lodash';
 import * as path from "path";
 import config from "../../config/index";
 
-import mapUtils from '../../utils/map';
-import CacheFifo from "../../utils/CacheFifo";
+import {map as mapUtils} from "panther-utils";
+import {CacheFifo} from "panther-utils";
 import mapHelpers from './helpers';
 
 import commonSelectors from "../_common/selectors";

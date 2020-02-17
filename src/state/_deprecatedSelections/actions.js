@@ -2,7 +2,7 @@ import Select from '../Select';
 import _ from "lodash";
 import common from "../_common/actions";
 import ActionTypes from "../../constants/ActionTypes";
-import utils from "../../utils/utils";
+import {utils} from "panther-utils"
 
 const add = common.add(ActionTypes._DEPRECATED_SELECTIONS);
 const setActiveKey = common.setActiveKey(ActionTypes._DEPRECATED_SELECTIONS);

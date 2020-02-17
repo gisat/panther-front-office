@@ -5,10 +5,9 @@ import * as d3 from 'd3';
 import moment from 'moment';
 
 import '../style.scss';
-import utils from "../../../../utils/sort";
 
 import Line from "./Line";
-import utilsFilter from "../../../../utils/filter";
+import {filter, sort} from "panther-utils";
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 import ChartLegend from "../ChartLegend/ChartLegend";
@@ -47,7 +46,7 @@ class LineChart extends React.PureComponent {
 		let data = {...props.data};
 
 		if (data) {
-			data = utilsFilter.filterDataWithNullValue(data, props.ySourcePath, props.serieDataSourcePath);
+			data = filter.filterDataWithNullValue(data, props.ySourcePath, props.serieDataSourcePath);
 
 			/* domain */
 			let yValues = _.map(data, item => {
@@ -182,7 +181,7 @@ class LineChart extends React.PureComponent {
 			let name = _.get(item, props.nameSourcePath);
 			let color = colors(_.get(item, props.keySourcePath));
 
-			serie = this.props.sorting ? utils.sortByOrder(serie, props.sorting) : serie;
+			serie = this.props.sorting ? sort.sortByOrder(serie, props.sorting) : serie;
 
 			let coordinates = serie.map(record => {
 				let xValue = _.get(record, props.xSourcePath);

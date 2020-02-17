@@ -1,5 +1,5 @@
 import WorldWind from 'webworldwind-esa';
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 
 const Sector = WorldWind.Sector,
     Location = WorldWind.Location,

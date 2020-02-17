@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import mapUtils from '../../../../utils/map';
+import {map as mapUtils} from "panther-utils";
 import _ from 'lodash';
 import WorldWind from 'webworldwind-esa';
 

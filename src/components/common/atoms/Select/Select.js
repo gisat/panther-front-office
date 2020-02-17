@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import './select.scss';
 import Key from "./Key";
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 
 class Select extends React.PureComponent {
 

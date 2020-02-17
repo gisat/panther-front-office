@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import PlaceSelector from '../../presentation/view-selectors/PlaceSelector';
-import utils from "../../../utils/utils";
+import {utils} from "panther-utils"
 
 const order = [['name', 'ascending']];
 

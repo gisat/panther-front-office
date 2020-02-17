@@ -3,7 +3,7 @@ import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 
 import presentation, {Map as map, PresentationMap as presentationMap} from './presentation';
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapSetKey) {

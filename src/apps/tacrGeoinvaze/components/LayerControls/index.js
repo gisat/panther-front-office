@@ -4,7 +4,7 @@ import Action from '../../../../state/Action';
 import Select from '../../../../state/Select';
 
 import presentation from "./presentation";
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 
 const filterByActive = {application: true};
 const periodsOrder = [["period", "descending"]];

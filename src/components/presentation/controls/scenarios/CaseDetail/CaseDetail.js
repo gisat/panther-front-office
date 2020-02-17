@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -144,7 +144,7 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	addScenario(){
-		let scenarioKey = utils.guid();
+		let scenarioKey = utils.uuid();
 		this.props.addScenario(scenarioKey);
 
 		setTimeout(() => {

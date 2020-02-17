@@ -1,4 +1,4 @@
-import {rangeMap} from "../../../../../../utils/statistics";
+import {statistics} from "panther-utils";
 import {getRadius} from "../../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/diagram";
 import {
 	MAX_DIAGRAM_RADIUS,
@@ -11,7 +11,7 @@ function prepareDiagramLegendData(min, max, currentRange, color, mapComponentId)
 		const diagramType = 'volume';
 		let mapComponent = mapComponentId ? document.getElementById(mapComponentId) : document.getElementById(mapComponents[0].id);
 		let mapWidthPx = mapComponent.clientWidth;
-		let mapFunction = rangeMap([getRadius(min, diagramType), getRadius(max, diagramType)], [MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS]);
+		let mapFunction = statistics.rangeMap([getRadius(min, diagramType), getRadius(max, diagramType)], [MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS]);
 
 		return getNiceValues(min, max).map(value => {
 			return {

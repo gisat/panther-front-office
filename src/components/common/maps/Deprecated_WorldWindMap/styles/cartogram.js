@@ -1,6 +1,6 @@
 import WorldWind from "webworldwind-esa";
-import chroma from 'chroma-js';
-import {getValueClassesByStatistics, getClassByValue, getClassCount, setClassesMinMaxFromStatistics} from '../../../../../utils/statistics'
+
+import {statistics as pantherStatistics} from "panther-utils";
 import {
     DEFAULTFILLTRANSPARENCY,
     DEFAULTOUTLINETRANSPARENCY,
@@ -22,13 +22,13 @@ const {Color, ShapeAttributes} = WorldWind;
 export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey) => {
     const usePercentiles = statistics.hasOwnProperty('percentile') && statistics.percentile.length > 1;
 
-    const classCount = usePercentiles ? getClassCount(statistics.percentile) || 1 : 5;
-    const statisticsClasses = usePercentiles ? statistics.percentile : getValueClassesByStatistics(statistics, classCount);
+    const classCount = usePercentiles ? pantherStatistics.getClassCount(statistics.percentile) || 1 : 5;
+    const statisticsClasses = usePercentiles ? statistics.percentile : pantherStatistics.getValueClassesByStatistics(statistics, classCount);
     
     //statistics percentiles can be calculated from more statistics
     //min & max values are min max, not average
     if(usePercentiles) {
-        setClassesMinMaxFromStatistics(statisticsClasses, statistics);
+        pantherStatistics.setClassesMinMaxFromStatistics(statisticsClasses, statistics);
     }
     const colorClasses = getCartogramColorScale(color, classCount);
     const outlineColorClasses = transformScaleDarker(colorClasses, 2);
@@ -41,7 +41,7 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
         let valueColor;
         let outlineValueColor;
         if(value || value === 0) {
-            const calassIndex = getClassByValue(statisticsClasses, value);
+            const calassIndex = pantherStatistics.getClassByValue(statisticsClasses, value);
             valueColor = colorClasses[calassIndex];
             outlineValueColor = outlineColorClasses[calassIndex];
         }

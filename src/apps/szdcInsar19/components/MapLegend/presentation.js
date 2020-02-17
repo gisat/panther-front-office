@@ -1,7 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
-import mapStyles, {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
+// import mapStyles, {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
+import utils from "panther-utils"
 import './style.scss';
 
 //todo utils?
@@ -188,7 +189,7 @@ class MapLegend extends React.PureComponent {
 							<span>{arrowData.attribute && arrowData.attribute.data.nameDisplay}</span>
 							<div>
 								{arrowData.styleValues.map((value, index) => {
-									let style = mapStyles.getStyleObject(value, arrowData.styleDefinition);
+									let style = utils.mapStyle.getStyleObject(value, arrowData.styleDefinition);
 
 									return (
 										<div key={index} className="szdcInsar19-legend-item">
@@ -267,7 +268,7 @@ class MapLegend extends React.PureComponent {
 			const {interval, intervalBounds, ...style} = cls;
 			return (
 				<div className="szdcInsar19-legend-item" key={index}>
-					{this.renderSymbol({...DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
+					{this.renderSymbol({...utils.mapStyle.DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
 					<div>{interval[0]} to {interval[1]}</div>
 				</div>
 			);
@@ -278,7 +279,7 @@ class MapLegend extends React.PureComponent {
 		return _.map(values, (style, value) => {
 			return (
 				<div className="szdcInsar19-legend-item" key={value}>
-					{this.renderSymbol({...DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
+					{this.renderSymbol({...utils.mapStyle.DEFAULT_STYLE_OBJECT, ...defaultStyle, ...style})}
 					<div>{value}</div>
 				</div>
 			);
@@ -302,7 +303,7 @@ class MapLegend extends React.PureComponent {
 
 	renderTriangle(style) {
 		// TODO common calculation of triangle size
-		const size = DEFAULT_SIZE;
+		const size = utils.mapStyle.DEFAULT_SIZE;
 		const ty = Math.sqrt(Math.pow(size, 2) - Math.pow(size/2, 2));
 		const points = `${size/2},${0} ${0},${ty} ${size},${ty}`;
 		const svgStyle = this.getSvgStyle(style);
@@ -315,7 +316,7 @@ class MapLegend extends React.PureComponent {
 	}
 
 	renderCircle(style) {
-		const size = DEFAULT_SIZE;
+		const size = utils.mapStyle.DEFAULT_SIZE;
 		const svgStyle = this.getSvgStyle(style);
 		const outlineWidth = style && style.outlineWidth || 0;
 		return (
@@ -326,7 +327,7 @@ class MapLegend extends React.PureComponent {
 	}
 
 	renderSquare(style) {
-		const size = DEFAULT_SIZE * 0.9;
+		const size = utils.mapStyle.DEFAULT_SIZE * 0.9;
 		const svgStyle = this.getSvgStyle(style);
 		const outlineWidth = style && style.outlineWidth || 0;
 		return (
@@ -337,7 +338,7 @@ class MapLegend extends React.PureComponent {
 	}
 
 	renderDiamond(style) {
-		const size = DEFAULT_SIZE * 0.85;
+		const size = utils.mapStyle.DEFAULT_SIZE * 0.85;
 		const outlineWidth = style && style.outlineWidth || 0;
 		const diagonalSize = Math.sqrt(2) * (size + 2*outlineWidth);
 		const transformation = `rotate(45, ${size/2}, ${size/2}) translate(${(diagonalSize - size)/2})`;
@@ -353,7 +354,7 @@ class MapLegend extends React.PureComponent {
 	}
 
 	renderCircleWithArrow(style) {
-		const circleSize = DEFAULT_SIZE;
+		const circleSize = utils.mapStyle.DEFAULT_SIZE;
 		const outlineWidth = style && style.outlineWidth || 1;
 		const circleStyle = this.getSvgStyle(style);
 

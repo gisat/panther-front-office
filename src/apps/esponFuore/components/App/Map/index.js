@@ -6,8 +6,8 @@ import {cloneDeep, isEqual} from 'lodash';
 
 import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
-import utils from '../../../../../utils/utils';
-import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
+import {utils} from "panther-utils"
+import {statistics} from 'panther-utils';
 import fuoreUtils from "../../../utils";
 
 const useActiveMetadataKeys = {
@@ -101,7 +101,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 				if(layer.attributeRelationsData) {
 					const attributeStatisticsFilter = {
 						attributeDataSourceKey: {in: [layer.attributeRelationsData.attributeDataSourceKey]},
-						percentile: quartilePercentiles,
+						percentile: statistics.quartilePercentiles,
 					};
 		
 					const attributeStatistics = Select.attributeStatistics.getBatchByFilterOrder(state, attributeStatisticsFilter, null);
@@ -113,7 +113,7 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 				}
 			}
 
-			layerByLayerTemplateKey.mergedStatistics = mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
+			layerByLayerTemplateKey.mergedStatistics = statistics.mergeAttributeStatistics(Object.values(layerByLayerTemplateKey.statistics).filter(s => s));
 	}
 
 	return vectorLayersByLayerTemplateKey;

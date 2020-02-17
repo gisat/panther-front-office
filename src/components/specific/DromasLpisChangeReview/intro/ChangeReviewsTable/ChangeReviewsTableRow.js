@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 
 import Button from '../../../../common/atoms/Button';
 import ExpandRowButton from '../../../../common/atoms/ExpandRowButton';

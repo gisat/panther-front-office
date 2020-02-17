@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
-import utils from "../../../../../utils/utils";
+import {utils} from "panther-utils"
 
 import TagScreen from "../screens/TagScreen";
 import presentation from "../../switchers/presentation";

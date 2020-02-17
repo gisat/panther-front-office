@@ -4,8 +4,7 @@ import {QuadTree, Box, Point, Circle} from 'js-quadtree';
 import * as turf from '@turf/turf';
 import LargeDataLayerTile from "./LargeDataLayerTile";
 import _ from 'lodash';
-import {style} from "redux-logger/src/diff";
-import {DEFAULT_SIZE} from "../../../../../../utils/mapStyles";
+import {mapStyle} from "panther-utils";
 
 const {
 	Location,
@@ -41,7 +40,7 @@ class LargeDataLayer extends TiledImageLayer {
 			layerKey: layer.layerKey,
 			onHover: options.onHover,
 			onClick: options.onClick,
-			pointHoverBuffer: options.pointHoverBuffer || DEFAULT_SIZE,
+			pointHoverBuffer: options.pointHoverBuffer || mapStyle.DEFAULT_SIZE,
 			style: options.style,
 			wwd: wwd
 		};

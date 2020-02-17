@@ -7,7 +7,7 @@ import chroma from 'chroma-js';
 
 import './style.scss';
 
-import utils from "../../../../utils/utils";
+import {utils} from "panther-utils"
 
 import Node from "./Node";
 import Link from "./Link";

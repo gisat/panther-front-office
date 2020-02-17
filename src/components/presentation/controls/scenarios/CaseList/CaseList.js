@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -33,7 +33,7 @@ class CaseList extends React.PureComponent {
 
 	showDetail(caseKey){
 		if (!caseKey) {
-			caseKey = utils.guid();
+			caseKey = utils.uuid();
 			this.props.setDefaultSituationActive();
 		}
 		this.props.setActiveCase(caseKey);

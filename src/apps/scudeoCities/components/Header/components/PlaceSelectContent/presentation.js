@@ -4,7 +4,7 @@ import './style.scss';
 import classnames from "classnames";
 import Button from "../../../../../../components/common/atoms/Button";
 import {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
-import utils from "../../../../../../utils/utils";
+import {utils} from "panther-utils"
 
 class PlaceSelectContent extends React.PureComponent {
 	

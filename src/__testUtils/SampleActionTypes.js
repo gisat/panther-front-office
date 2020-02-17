@@ -1,4 +1,4 @@
-import utils from '../utils/utils';
+import utils from 'panther-utils';
 
 export default utils.deepKeyMirror({
 	SAMPLE: {

@@ -5,7 +5,7 @@ import Select from '../../../../../state/Select';
 import Action from "../../../../../state/Action";
 
 import Presentation from "./presentation";
-import utils from "../../../../../utils/utils";
+import {utils} from "panther-utils"
 
 const mapStateToProps = (state, ownProps) => {
 	return {

@@ -1,5 +1,5 @@
 import WorldWind from 'webworldwind-esa';
-import mapStyles, {DEFAULT_SIZE} from "../../../../../utils/mapStyles";
+import utils from 'panther-utils';
 import _ from 'lodash';
 
 let DEFAULT_SELECTED_STYLE = {
@@ -53,15 +53,15 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		const parser = new WorldWind.GeoJSONParser(geojson);
 
 		const shapeConfigurationCallback = (geometry, properties) => {
-			let style = mapStyles.getStyleObject(properties, this.pantherProps.style);
+			let style = utils.mapStyle.getStyleObject(properties, this.pantherProps.style);
 			return {userProperties: {...properties, style}}
 		};
 
 		const renderablesAddCallback = (layer) => {
 			layer.renderables.forEach(renderable => {
 				let style = renderable.userProperties && renderable.userProperties.style;
-				let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
-				let fillRgb = mapStyles.hexToRgb(style.fill);
+				let outlineRgb = utils.mapStyle.hexToRgb(style.outlineColor);
+				let fillRgb = utils.mapStyle.hexToRgb(style.fill);
 
 				renderable.userProperties.worldWindDefaultStyle = {
 					outlineWidth: style.outlineWidth,
@@ -114,25 +114,25 @@ class VectorLayer extends WorldWind.RenderableLayer {
 		};
 
 		if (this.pantherProps.hovered && this.pantherProps.hovered.style) {
-			style = {...style, ...mapStyles.getStyleObject(null, this.pantherProps.hovered.style, true)};
+			style = {...style, ...utils.mapStyle.getStyleObject(null, this.pantherProps.hovered.style, true)};
 		}
 
 		this.setRenderableStyle(renderable, style);
 	}
 
 	applySelectedStyle(renderable, definition) {
-		const style = {...DEFAULT_SELECTED_STYLE, ...mapStyles.getStyleObject(null, definition, true)};
+		const style = {...DEFAULT_SELECTED_STYLE, ...utils.mapStyle.getStyleObject(null, definition, true)};
 		this.setRenderableStyle(renderable, style);
 	}
 
 	setRenderableStyle(renderable, style) {
-		let outlineRgb = mapStyles.hexToRgb(style.outlineColor);
+		let outlineRgb = utils.mapStyle.hexToRgb(style.outlineColor);
 
 		renderable.attributes.outlineWidth = style.outlineWidth;
 		renderable.attributes.outlineColor = new WorldWind.Color(outlineRgb.r/255, outlineRgb.g/256, outlineRgb.b/256, style.outlineOpacity);
 
 		if (style.fill) {
-			let fillRgb = mapStyles.hexToRgb(style.fill);
+			let fillRgb = utils.mapStyle.hexToRgb(style.fill);
 			renderable.attributes.interiorColor = new WorldWind.Color(fillRgb.r/255, fillRgb.g/256, fillRgb.b/256, style.fillOpacity);
 		}
 	}

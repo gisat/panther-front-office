@@ -20,7 +20,7 @@
  * @param options.intensityGradient {Object} Keys represent the opacity between 0 and 1 and the values represent
  *  color strings.
  */
-import mapStyles, {DEFAULT_SIZE} from "../../../../../../utils/mapStyles";
+import {mapStyle} from "panther-utils";
 import shapes from "./canvasShapes";
 import _ from "lodash";
 
@@ -34,7 +34,7 @@ class LargeDataLayerTile {
 
 		// todo here?
 		if (this._hovered && this._hovered.keys) {
-			this._hoveredStyle = mapStyles.getStyleObject(null, this._hovered.style, true); // todo add default
+			this._hoveredStyle = mapStyle.getStyleObject(null, this._hovered.style, true); // todo add default
 		}
 
 		if (selected && !_.isEmpty(selected)) {
@@ -43,7 +43,7 @@ class LargeDataLayerTile {
 				if (selectedDef && !_.isEmpty(selectedDef)) {
 					sel.push({
 						keys: selectedDef.keys,
-						style: mapStyles.getStyleObject(null, selectedDef.style, true) // todo add default
+						style: mapStyle.getStyleObject(null, selectedDef.style, true) // todo add default
 					});
 				}
 			});
@@ -139,7 +139,7 @@ class LargeDataLayerTile {
 
 	shape(context, data, hovered, selected) {
 		let attributes = data.data;
-		let style = mapStyles.getStyleObject(attributes, this._style);
+		let style = mapStyle.getStyleObject(attributes, this._style);
 
 		// apply hovered style, if feature is hovered
 		if (hovered) {
@@ -260,7 +260,7 @@ class LargeDataLayerTile {
 				return Math.sqrt(style.volume/Math.PI);
 			}
 		} else {
-			return DEFAULT_SIZE;
+			return mapStyle.DEFAULT_SIZE;
 		}
 	}
 	

@@ -6,8 +6,7 @@ import {cloneDeep, isEqual} from 'lodash';
 
 import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
-import utils from '../../../../../utils/utils';
-import { quartilePercentiles, mergeAttributeStatistics } from '../../../../../utils/statistics';
+import {utils} from "panther-utils"
 
 const useActiveMetadataKeys = {
 	scope: false,

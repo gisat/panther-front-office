@@ -6,7 +6,7 @@ import {cloneDeep} from 'lodash';
 
 import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
-import utils from '../../../../../utils/utils';
+import {utils} from "panther-utils"
 
 const useActiveMetadataKeys = {
 	scope: false,

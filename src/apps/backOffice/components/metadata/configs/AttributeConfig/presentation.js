@@ -11,11 +11,13 @@ import Select from "../../../../../../components/common/atoms/Select/Select";
 
 import cz from "./locales/cz";
 import en from "./locales/en";
-import utils from "../../../../../../utils/utils";
+import {utils} from "panther-utils";
+import i18next from "i18next";
+
 import MultiSelect from "../../../formComponents/MetadataMultiSelect/presentation";
 
 // add local locales
-utils.addI18nResources('AttributeMetadataConfig', {cz, en});
+utils.addI18nResources(i18next,'AttributeMetadataConfig', {cz, en});
 
 class AttributeConfig extends React.PureComponent {
 	static propTypes = {
