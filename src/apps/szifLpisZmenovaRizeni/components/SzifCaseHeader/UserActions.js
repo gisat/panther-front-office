@@ -28,7 +28,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						{/*<span className='ptr-dromasLpisChangeReviewHeader-heading'>Řízení</span>*/}
 						{this.renderStatus(this.props.case)}
 					</div>
-					<User />
+					<User inverted/>
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					{this.renderButtons(this.props.case)}
