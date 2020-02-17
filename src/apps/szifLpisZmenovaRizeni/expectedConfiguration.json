@@ -145,8 +145,8 @@
                             }
                         ],
                         "seninelLayers": {
-                            "trueColor": "ptr3:S2_432_2019",
-                            "infrared": "ptr3:S2_843_2019"
+                            "trueColor": "ptr3:S2_432_2018,ptr3:S2_432_2019,ptr3:S2_432_2020",
+                            "infrared": "ptr3:S2_843_2018,ptr3:S2_843_2019,ptr3:S2_843_2020"
                         }
                     },
                     "applicationKey": "szifLpisZmenovaRizeni"
