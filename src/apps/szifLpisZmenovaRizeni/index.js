@@ -70,9 +70,10 @@ export default (path, baseUrl) => {
 				},
 				"data": {
 					"backgroundLayer": {
-						"type": "worldwind",
-						"options": {
-							"layer": "wikimedia"
+						key: 'zm',
+						type: 'wmts',
+						options: {
+							url: 'https://ags.cuzk.cz/arcgis/rest/services/zmwm/MapServer/tile/{z}/{y}/{x}?blankTile=false'
 						}
 					},
 					"view": {
