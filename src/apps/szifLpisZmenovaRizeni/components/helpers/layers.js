@@ -20,7 +20,8 @@ const getWMSRasterSpatialDataSource = (layer) => {
 	let label
 	if(layer.options.title === 'Ortofoto východ/západ') {
 		const ortoLabelParts = layer.key.split('_');
-		label = `Ortofoto - ${ortoLabelParts[1]} (${ortoLabelParts[2]})`	
+		const location = ortoLabelParts[2] === 'vychod' ? 'východ' : 'západ';
+		label = `Ortofoto - ${ortoLabelParts[1]} (${location})`;
 	} else {
 		label = layer.options.title || '';
 	}
