@@ -63,7 +63,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<div className="szifLpisZmenovaRizeni-cases-header-tools-container">
 						<div className="szifLpisZmenovaRizeni-cases-header-tools">
 							<InputText
-								placeholder="Souřadnice WGS"
+								placeholder="Souřadnice WGS [48.90, 14.30]"
 								transparent
 								onChange={this.onSearchChange}
 								value={this.state.searchString}
