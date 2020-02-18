@@ -2,7 +2,7 @@ import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 import common from '../../../../state/_common/actions';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const add = common.add(ActionTypes.ESPON_FUORE_SELECTIONS);
 const setActiveKey = common.setActiveKey(ActionTypes.ESPON_FUORE_SELECTIONS);

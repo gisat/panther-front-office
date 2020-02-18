@@ -1,4 +1,4 @@
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 import {commonActionTypesDefinitions} from "../../../constants/ActionTypes";
 
 export const tacrAgritasActionTypesDefinitions = {

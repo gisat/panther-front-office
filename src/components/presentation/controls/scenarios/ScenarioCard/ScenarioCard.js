@@ -13,7 +13,7 @@ import Menu, {MenuItem} from '../../../../common/atoms/Menu';
 
 import './ScenarioCard.css';
 import Action from "../../../../../state/Action";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 let polyglot = window.polyglot;
 

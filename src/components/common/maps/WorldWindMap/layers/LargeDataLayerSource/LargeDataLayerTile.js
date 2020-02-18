@@ -20,7 +20,7 @@
  * @param options.intensityGradient {Object} Keys represent the opacity between 0 and 1 and the values represent
  *  color strings.
  */
-import {mapStyle} from "panther-utils";
+import {mapStyle} from '@gisatcz/ptr-utils';
 import shapes from "./canvasShapes";
 import _ from "lodash";
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withNamespaces } from 'react-i18next';
 
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 import cz from './locales/cz.json';
 import en from './locales/en.json';
 import i18next from "i18next";

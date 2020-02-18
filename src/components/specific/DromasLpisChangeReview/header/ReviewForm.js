@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import EditableText from "../../../common/atoms/EditableText";
 import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class ReviewForm extends React.PureComponent {
 

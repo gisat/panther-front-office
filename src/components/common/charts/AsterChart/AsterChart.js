@@ -9,8 +9,8 @@ import './style.scss';
 import Segment from "./Segment";
 import ChartLegend from "../ChartLegend/ChartLegend";
 
-import {utils} from "panther-utils"
-import {filter, sort} from "panther-utils";
+import {utils} from '@gisatcz/ptr-utils'
+import {filter, sort} from '@gisatcz/ptr-utils';
 
 const TICK_WIDTH = 8; // in px
 

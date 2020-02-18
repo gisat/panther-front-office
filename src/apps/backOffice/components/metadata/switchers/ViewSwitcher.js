@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../../state/Select';
 import Action from "../../../state/Action";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 import ViewScreen from "../screens/ViewScreen";
 import presentation from "../../switchers/presentation";

@@ -7,7 +7,7 @@ import {withNamespaces} from "react-i18next";
 import Button from "../../../../../../components/common/atoms/Button";
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import ScopeSelect from "../../../formComponents/MetadataMultiSelect/ScopeSelect";
-import utils from 'panther-utils';
+import utils from '@gisatcz/ptr-utils';
 
 class LayerTreesConfig extends React.PureComponent {
 	static propTypes = {

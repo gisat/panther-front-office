@@ -8,7 +8,7 @@ import _ from 'lodash';
 import '../../styles/reset.css';
 import '../../styles/base.scss';
 
-import {sort} from "panther-utils";
+import {sort} from '@gisatcz/ptr-utils';
 import layersHelper from '../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
 import {getStyleFunction} from "./Elections/layerTurnoutStyle";
 import Elections from "./Elections/Elections";

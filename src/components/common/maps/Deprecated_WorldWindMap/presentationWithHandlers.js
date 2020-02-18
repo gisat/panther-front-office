@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 import _, {isEqual, isNull} from 'lodash';
 
 import WorldWind from 'webworldwind-esa';

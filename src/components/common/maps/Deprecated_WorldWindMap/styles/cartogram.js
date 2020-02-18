@@ -1,6 +1,6 @@
 import WorldWind from "webworldwind-esa";
 
-import {statistics as pantherStatistics} from "panther-utils";
+import {statistics as pantherStatistics} from '@gisatcz/ptr-utils';
 import {
     DEFAULTFILLTRANSPARENCY,
     DEFAULTOUTLINETRANSPARENCY,

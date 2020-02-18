@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 // import mapStyles, {DEFAULT_SIZE, DEFAULT_STYLE_OBJECT} from "../../../../utils/mapStyles";
-import utils from "panther-utils"
+import utils from '@gisatcz/ptr-utils'
 import './style.scss';
 
 //todo utils?

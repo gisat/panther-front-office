@@ -10,7 +10,7 @@ import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 import LayerPeriods from "../../LayerPeriods/actions";
 
 // ============ creators ===========

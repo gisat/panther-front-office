@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import './style.scss';
 import Point from "../Point";
 
-import {filter, sort} from "panther-utils";
+import {filter, sort} from '@gisatcz/ptr-utils';
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 import ChartLegend from "../ChartLegend/ChartLegend";

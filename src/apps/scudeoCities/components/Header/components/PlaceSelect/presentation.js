@@ -4,7 +4,7 @@ import './style.scss';
 import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
 import classnames from "classnames";
 import PlaceSelectContent from "../PlaceSelectContent";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class PlaceSelect extends React.PureComponent {
 

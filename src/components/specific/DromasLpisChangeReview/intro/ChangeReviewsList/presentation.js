@@ -9,7 +9,7 @@ import InputText from "../../../../common/atoms/Input/Input";
 
 import './style.css';
 import Names from "../../../../../constants/Names";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class ChangeReviewsList extends React.PureComponent {
 

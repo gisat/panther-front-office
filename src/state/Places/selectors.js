@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import common from "../_common/selectors";
 import ScopesSelectors from "../Scopes/selectors";
-import {map as mapUtils} from "panther-utils";
+import {map as mapUtils} from '@gisatcz/ptr-utils';
 
 
 const getSubstate = state => state.places;

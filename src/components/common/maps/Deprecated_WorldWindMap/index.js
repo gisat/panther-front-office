@@ -4,7 +4,7 @@ import Action from "../../../../state/Action";
 
 import wrapper from '../Deprecated_MapWrapper';
 
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const mapStateToProps = (state, props) => {
 	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 import _ from 'lodash';
 
 import Graph from './components/Graph';

@@ -6,8 +6,8 @@ import {cloneDeep, isEqual} from 'lodash';
 
 import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
 
-import {utils} from "panther-utils"
-import {statistics} from 'panther-utils';
+import {utils} from '@gisatcz/ptr-utils'
+import {statistics} from '@gisatcz/ptr-utils';
 import fuoreUtils from "../../../utils";
 
 const useActiveMetadataKeys = {

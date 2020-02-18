@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Select from '../../../../../../state/Select';
 import React from "react";
-import { legend, statistics } from 'panther-utils';
+import { legend, statistics } from '@gisatcz/ptr-utils';
 import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Action from '../../../../state/Action';
 import Select from '../../../../state/Select';
 import ScenarioCard from "../../../presentation/controls/scenarios/ScenarioCard/ScenarioCard";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const mapStateToProps = (state, ownProps) => {
 	return {

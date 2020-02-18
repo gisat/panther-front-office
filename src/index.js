@@ -4,7 +4,7 @@ import _ from 'lodash';
 import config from './config';
 import apps from './apps';
 
-import {events, gTag} from 'panther-utils';
+import {events, gTag} from '@gisatcz/ptr-utils';
 
 //Fix for passive events
 events.forceSetPassiveEvents();

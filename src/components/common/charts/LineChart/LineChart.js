@@ -7,7 +7,7 @@ import moment from 'moment';
 import '../style.scss';
 
 import Line from "./Line";
-import {filter, sort} from "panther-utils";
+import {filter, sort} from '@gisatcz/ptr-utils';
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";
 import ChartLegend from "../ChartLegend/ChartLegend";

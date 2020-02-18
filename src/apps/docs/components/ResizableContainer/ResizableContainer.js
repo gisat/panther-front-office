@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Rnd} from 'react-rnd';
 import './style.scss';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class ResizableContainer extends React.PureComponent {
 

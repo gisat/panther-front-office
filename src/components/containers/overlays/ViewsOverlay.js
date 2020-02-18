@@ -4,8 +4,8 @@ import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
-import {utils} from "panther-utils"
-import {models} from 'panther-utils';
+import {utils} from '@gisatcz/ptr-utils'
+import {models} from '@gisatcz/ptr-utils';
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);

@@ -6,7 +6,7 @@ import chroma from 'chroma-js';
 import classnames from 'classnames';
 
 import './style.scss';
-import {sort} from "panther-utils";
+import {sort} from '@gisatcz/ptr-utils';
 
 import cartesianChart from "../cartesianChart/cartesianChart";
 import CartesianChartContent from "../cartesianChart/CartesianChartContent";

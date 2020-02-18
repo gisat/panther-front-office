@@ -1,6 +1,6 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
-import {stateManagement} from "panther-utils";
+import {stateManagement} from '@gisatcz/ptr-utils';
 import {isNumber} from 'lodash';
 
 const INITIAL_VIEW = {

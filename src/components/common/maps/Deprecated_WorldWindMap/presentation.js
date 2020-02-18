@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {utils} from "panther-utils"
-import {CyclicPickController, ClickPickController} from "panther-utils";
+import {utils} from '@gisatcz/ptr-utils'
+import {CyclicPickController, ClickPickController} from '@gisatcz/ptr-utils';
 import _, {isEqual, isNull} from 'lodash';
 
 import WorldWind from 'webworldwind-esa';

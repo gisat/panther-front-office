@@ -1,5 +1,5 @@
 import React from 'react';
-import {map as mapUtils} from "panther-utils";
+import {map as mapUtils} from '@gisatcz/ptr-utils';
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
 import MapSet from "../../../components/common/maps/MapSet/presentation";
 

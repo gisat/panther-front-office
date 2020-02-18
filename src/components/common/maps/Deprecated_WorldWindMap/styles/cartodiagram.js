@@ -1,7 +1,7 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
 import {getRadius} from '../layers/utils/diagram';
-import {statistics as pantherStatistics} from "panther-utils";
+import {statistics as pantherStatistics} from '@gisatcz/ptr-utils';
 import {
     DEFAULTFILLTRANSPARENCY,
     getOutlineColor,

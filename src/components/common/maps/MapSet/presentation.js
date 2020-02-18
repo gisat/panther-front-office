@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import {map as mapUtils} from "panther-utils";
+import {map as mapUtils} from '@gisatcz/ptr-utils';
 
 import ContainerMap from '../Map';
 import {defaultMapView} from '../../../../constants/Map';

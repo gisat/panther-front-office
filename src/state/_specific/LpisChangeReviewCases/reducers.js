@@ -1,6 +1,6 @@
 import ActionTypes from '../../../constants/ActionTypes';
 import _ from 'lodash';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const INITIAL_STATE = {
 	activeCaseKey: null,

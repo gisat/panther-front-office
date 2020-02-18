@@ -1,5 +1,5 @@
 import WorldWind from 'webworldwind-esa';
-import utils from 'panther-utils';
+import utils from '@gisatcz/ptr-utils';
 import _ from 'lodash';
 
 let DEFAULT_SELECTED_STYLE = {

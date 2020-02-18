@@ -3,7 +3,7 @@ import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 
 import presentation, {Map as map, PresentationMap as presentationMap} from './presentation';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapSetKey) {

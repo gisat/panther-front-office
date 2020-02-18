@@ -4,7 +4,7 @@ import {QuadTree, Box, Point, Circle} from 'js-quadtree';
 import * as turf from '@turf/turf';
 import LargeDataLayerTile from "./LargeDataLayerTile";
 import _ from 'lodash';
-import {mapStyle} from "panther-utils";
+import {mapStyle} from '@gisatcz/ptr-utils';
 
 const {
 	Location,

@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 import CommonSelect from '../../../state/Select';
-import {CacheFifo} from "panther-utils";
+import {CacheFifo} from '@gisatcz/ptr-utils';
 
 let trackTimeSerieChartCache = new CacheFifo(10);
 let pointInfoCache = new CacheFifo(10);

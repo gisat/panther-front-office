@@ -11,7 +11,7 @@ import Select from "../../../../../../components/common/atoms/Select/Select";
 
 import cz from "./locales/cz";
 import en from "./locales/en";
-import {utils} from "panther-utils";
+import {utils} from '@gisatcz/ptr-utils';
 import i18next from "i18next";
 
 import MultiSelect from "../../../formComponents/MetadataMultiSelect/presentation";

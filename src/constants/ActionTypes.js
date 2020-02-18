@@ -1,4 +1,4 @@
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 export const commonActionTypesDefinitions = {
 

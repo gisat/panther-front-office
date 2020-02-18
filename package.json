@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.2.2",
+    "@gisatcz/ptr-utils": "1.0.5",
     "@manaflair/redux-batch": "1.0.0",
     "@turf/turf": "5.1.6",
     "babel-core": "^7.0.0-bridge.0",
@@ -24,7 +25,6 @@
     "moment": "2.23.0",
     "node-sass": "4.13.1",
     "oaf-react-router": "^2.0.0",
-    "panther-utils": "0.1.0-alpha.2",
     "path": "0.12.7",
     "prop-types": "15.6.2",
     "query-string": "6.2.0",

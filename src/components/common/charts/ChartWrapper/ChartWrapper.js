@@ -10,7 +10,7 @@ import Button from "../../atoms/Button";
 import Menu from "../../atoms/Menu";
 import {MenuItem} from "../../atoms/Menu";
 import Loader from "../../atoms/Loader/Loader";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class ChartWrapper extends React.PureComponent {
 	static propTypes = {

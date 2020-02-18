@@ -1,7 +1,7 @@
 import WorldWind from 'webworldwind-esa';
 import * as turf from '@turf/turf';
 import {getRadius} from './diagram';
-import {statistics as pantherStatistics} from 'panther-utils';
+import {statistics as pantherStatistics} from '@gisatcz/ptr-utils';
 import {MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../styles/cartodiagram';
 
 const {GeoJSONParser, ArgumentError, Logger, SurfaceCircle, ShapeAttributes} = WorldWind;

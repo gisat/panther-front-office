@@ -4,11 +4,11 @@ import _ from 'lodash';
 import moment from 'moment';
 import WorldWind from 'webworldwind-esa';
 import GeoJSONParser from '../../../../worldwind/formats/geojson/GeoJSONParser';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 import Layers from '../../../../view/worldWind/layers/Layers';
 import Controls from '../../../../view/worldWind/controls/Controls';
-import {map as mapUtils} from "panther-utils";
+import {map as mapUtils} from '@gisatcz/ptr-utils';
 import MyWmsLayer from '../../../../worldwind/layers/MyWmsLayer';
 
 const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, SurfacePolygon, Position} = WorldWind;

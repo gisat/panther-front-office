@@ -6,7 +6,7 @@ import WmsLayer from './WmsLayer';
 import WmtsLayer from './WmtsLayer';
 import LargeDataLayer from "./LargeDataLayerSource/LargeDataLayer";
 import _ from "lodash";
-import {mapStyle} from "panther-utils";
+import {mapStyle} from '@gisatcz/ptr-utils';
 
 function getLayerByType(layerDefinition, wwd, onHover, onClick){
 	if (layerDefinition.type){

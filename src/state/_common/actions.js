@@ -10,7 +10,7 @@ import Select from "../Select";
 import ActionTypes from "../../constants/ActionTypes";
 
 import Action from '../Action';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const PAGE_SIZE = config.requestPageSize;
 const DEFAULT_CATEGORY_PATH = 'metadata';

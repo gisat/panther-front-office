@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {CyclicPickController} from "panther-utils";
-import {utils} from "panther-utils"
+import {CyclicPickController} from '@gisatcz/ptr-utils';
+import {utils} from '@gisatcz/ptr-utils'
 import _ from 'lodash';
 
 import WorldWind from 'webworldwind-esa';

@@ -10,7 +10,7 @@ import Select from '../../Select';
 
 import common from '../../_common/actions';
 
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const TTL = 3;
 

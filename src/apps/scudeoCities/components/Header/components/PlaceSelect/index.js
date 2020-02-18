@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import Action from '../../../../../../state/Action';
 import Select from '../../../../../../state/Select';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 import presentation from "./presentation";
 

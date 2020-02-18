@@ -1,4 +1,4 @@
-import {statistics} from "panther-utils";
+import {statistics} from '@gisatcz/ptr-utils';
 import {getRadius} from "../../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/diagram";
 import {
 	MAX_DIAGRAM_RADIUS,

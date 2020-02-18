@@ -5,7 +5,7 @@ import Select from '../../../../../state/Select';
 import Action from "../../../../../state/Action";
 
 import Presentation from "./presentation";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 const mapStateToProps = (state, ownProps) => {
 	return {

@@ -9,7 +9,7 @@ import i18next from "i18next";
 
 import './style.scss';
 import Icon from "../../../atoms/Icon";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 utils.addI18nResources(i18next,'GoToPlace', {cz, en});
 

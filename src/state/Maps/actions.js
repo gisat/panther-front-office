@@ -4,8 +4,8 @@ import Select from '../../state/Select';
 import commonActions from '../_common/actions';
 import commonHelpers from '../_common/helpers';
 import commonSelectors from '../_common/selectors';
-import {utils} from "panther-utils"
-import {map as mapUtils, layerTree} from "panther-utils";
+import {utils} from '@gisatcz/ptr-utils'
+import {map as mapUtils, layerTree} from '@gisatcz/ptr-utils';
 import Action from "../Action";
 
 const {actionGeneralError} = commonActions;

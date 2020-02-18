@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 export default (WrappedChartComponent) => {
 	class CartesianChart extends React.PureComponent {

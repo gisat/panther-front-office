@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Action from '../../../../../state/Action';
 import fields from "../../../../../constants/LpisCaseFields";
 
-import _ from 'lodash';
-import utils from "panther-utils".js";
+import {utils} from '@gisatcz/ptr-utils';
 
 import Button from "../../../../common/atoms/Button";
-import Icon from "../../../../common/atoms/Icon";
 import InputFile from "../../../../common/atoms/InputFile/InputFile";
 import InputText from "../../../../common/atoms/Input/Input";
 import InputWrapper from "../../../../common/atoms/InputWrapper/InputWrapper";

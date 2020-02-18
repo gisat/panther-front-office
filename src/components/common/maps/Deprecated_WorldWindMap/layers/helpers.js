@@ -8,7 +8,7 @@ import CartogramVectorLayer from "./CartogramVectorLayer";
 import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
 import _ from "lodash";
-import {stateManagement} from "panther-utils";
+import {stateManagement} from '@gisatcz/ptr-utils';
 import {defaultVectorStyle} from "./utils/vectorStyle";
 import WmtsLayer from "../../WorldWindMap/layers/WmtsLayer";
 

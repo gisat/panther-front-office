@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import config from '../../../../../config/index';
 
 import _ from 'lodash';
-import {period} from "panther-utils";
+import {period} from '@gisatcz/ptr-utils';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class Tooltip extends React.PureComponent {
 

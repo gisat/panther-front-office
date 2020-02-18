@@ -7,7 +7,7 @@ import statisticsActions from "../AttributeStatistics/actions";
 import attributeDataSourcesActions from "../AttributeDataSources/actions";
 import commonSelectors from "../_common/selectors";
 import _ from "lodash";
-import {statistics} from "panther-utils";
+import {statistics} from '@gisatcz/ptr-utils';
 
 
 // ============ creators ===========

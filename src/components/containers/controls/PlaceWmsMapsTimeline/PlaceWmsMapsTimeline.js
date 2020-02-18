@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MapsTimeline from './../../../presentation/controls/MapsTimeline/MapsTimeline';
 import ReactResizeDetector from 'react-resize-detector';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 import _ from 'lodash';
 
 class PlaceWmsMapsTimeline extends React.PureComponent {

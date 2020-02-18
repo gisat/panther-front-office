@@ -9,7 +9,7 @@ import Action from '../../state/Action';
 import Select from '../../state/Select';
 import Store, {history} from './state/Store';
 import i18n from '../../i18n';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 // base styles need to be imported before all components
 import '../../styles/reset.css';

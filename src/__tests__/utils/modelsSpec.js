@@ -1,4 +1,4 @@
-import {models} from 'panther-utils';
+import {models} from '@gisatcz/ptr-utils';
 
 const scopes = [{
 	key: 1

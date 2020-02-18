@@ -6,7 +6,7 @@ import _ from 'lodash';
 import Icon from '../../../../components/common/atoms/Icon';
 
 import './style.scss';
-import {utils} from "panther-utils"
+import {utils} from '@gisatcz/ptr-utils'
 
 class AppSelect extends React.PureComponent {
 
