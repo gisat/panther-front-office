@@ -1,8 +1,0 @@
-.ptr-overlay-editing {
-	padding: 0;
-	flex-direction: row;
-}
-
-.ptr-overlay-editing.open {
-	display: flex;
-}

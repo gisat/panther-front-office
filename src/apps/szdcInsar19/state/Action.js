@@ -2,7 +2,6 @@ import CommonAction from '../../../state/Action';
 import CommonSelect from "../../../state/Select";
 import Select from "./Select";
 import _ from 'lodash';
-import {getState} from "../../../__testUtils/sampleStates/_common";
 
 const hoveredStyle = {
 	"rules":[
