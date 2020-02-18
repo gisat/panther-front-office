@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
+import Favicon from 'react-favicon';
 
 import Action from './state/Action';
 import Select from './state/Select';
@@ -15,6 +16,8 @@ import utils from '../../utils/utils';
 import '../../styles/reset.css';
 import '../../styles/base.scss';
 import './styles/index.scss';
+
+import favicon from './assets/favicon.ico';
 
 import AppContainer from "../../components/common/AppContainer";
 import App from "./App";
@@ -100,6 +103,7 @@ export default (path, baseUrl) => {
 
 	ReactDOM.render(
 		<>
+			<Favicon url={favicon}/>
 			<Provider store={Store}>
 				<Helmet
 					titleTemplate="%s | LPIS - Změnová řízení"
