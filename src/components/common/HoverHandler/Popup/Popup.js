@@ -96,7 +96,7 @@ class Popup extends React.PureComponent {
 		}
 
 		return (
-			<div ref={this.ref} className={classes}>
+			<div ref={this.ref}>
 				<div style={style} className={classes}>
 					{this.props.content ? React.cloneElement(this.props.content) : this.props.children}
 				</div>
