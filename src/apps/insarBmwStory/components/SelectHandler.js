@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
-import SelectContext from '../../../components/common/HoverHandler/context';
-import Popup from "../../../components/common/HoverHandler/Popup/Popup";
+import {Context, Popup} from "@gisatcz/ptr-core";
+const SelectContext = Context.getContext('HoverContext');
 
 class SelectHandler extends React.PureComponent {
 

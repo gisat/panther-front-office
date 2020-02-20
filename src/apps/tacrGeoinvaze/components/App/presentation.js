@@ -10,7 +10,7 @@ import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 
 import ReactResizeDetector from 'react-resize-detector';
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import Header from '../Header';
 import LayerControls from "../LayerControls";
 import CaseDetail from "../CaseDetail";

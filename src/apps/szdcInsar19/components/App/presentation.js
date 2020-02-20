@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Map from "../../../../components/common/maps/Map";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import PantherSelect, {PantherSelectItem} from "../../../../components/common/atoms/PantherSelect";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import MapPopup from "../MapPopup";
 import TrackTimeSerieChart from "../TrackTimeSerieChart";
 import ZoneClassificationTimeSerieChart from "../ZoneClassificationTimeSerieChart";

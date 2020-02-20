@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
-
-import HoverContext from "../../../common/HoverHandler/context";
 import Bar from "./Bar";
 
 import './style.scss';
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 const ANIMATION_DURATION = 1500;
 const ANIMATION_DELAY = 1000;

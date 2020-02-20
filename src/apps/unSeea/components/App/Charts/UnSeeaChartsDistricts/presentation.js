@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
-import HoverContext from "../../../../../../components/common/HoverHandler/context";
+import {AsterChart} from "@gisatcz/ptr-charts";
 import observedValues from './observed';
 
 import './style.css';
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;

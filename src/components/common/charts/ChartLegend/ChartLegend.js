@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import chroma from 'chroma-js';
 import _ from 'lodash';
-import HoverContext from "../../HoverHandler/context";
-
 import './style.scss';
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class ChartLegend extends React.PureComponent {
 	static contextType = HoverContext;

@@ -12,7 +12,7 @@ import largePointData from "../../../mockData/map/largePointData/geometries";
 import style from "../../../mockData/map/czGadm1WithStyles/style";
 import style2 from "../../../mockData/map/czGadm1WithStyles/style2";
 import largeDataStyle from "../../../mockData/map/largePointData/style";
-import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 
 const shapesStyle = {
 	"key":"szdc-zonal-classification-circles",

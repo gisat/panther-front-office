@@ -1,7 +1,7 @@
 import React from 'react';
 import Fade from "react-reveal/Fade";
 import {Header, Visualization} from "../Page";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
 import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";

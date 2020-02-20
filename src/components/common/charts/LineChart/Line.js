@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import HoverContext from "../../HoverHandler/context";
 
 import '../style.scss';
 import Point from "../Point";
 import moment from "moment";
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class Line extends React.PureComponent {
 	static contextType = HoverContext;

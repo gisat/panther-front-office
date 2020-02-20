@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
-import HoverContext from "../HoverHandler/context";
 import * as d3 from 'd3';
 
 import './style.scss';
-import {Prop} from "../../../apps/docs/components/ComponentPropsTable/ComponentPropsTable";
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class AxisLabel extends React.PureComponent {
 	static contextType = HoverContext;

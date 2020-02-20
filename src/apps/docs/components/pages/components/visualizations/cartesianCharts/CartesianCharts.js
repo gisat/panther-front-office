@@ -10,7 +10,7 @@ import serie_10 from "../../../../mockData/scatterChart/serie_10";
 import sample_4 from "../../../../mockData/sample_4";
 import sample_15 from "../../../../mockData/sample_15";
 import sample_serie_4 from "../../../../mockData/sample_serie_4";
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
 import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";

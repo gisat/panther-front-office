@@ -4,9 +4,11 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
-import HoverContext from "../../HoverHandler/context";
 
 import '../style.scss';
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class Link extends React.PureComponent {
 

@@ -10,13 +10,15 @@ import layersHelpers from './layers/helpers';
 import navigator from './navigator/helpers';
 import {defaultMapView} from '../../../../constants/Map';
 
-import HoverContext from "../../../../components/common/HoverHandler/context";
-
 import './style.scss';
 import viewUtils from "../viewUtils";
 import {defaultLevelsRange, numberOfLevels} from "../constants";
 import LargeDataLayer from "./layers/LargeDataLayerSource/LargeDataLayer";
+
 import VectorLayer from "./layers/VectorLayer";
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 const {WorldWindow, ElevationModel} = WorldWind;
 

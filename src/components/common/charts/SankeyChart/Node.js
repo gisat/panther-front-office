@@ -4,9 +4,10 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
-import HoverContext from "../../../common/HoverHandler/context";
-
 import '../style.scss';
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class Node extends React.PureComponent {
 

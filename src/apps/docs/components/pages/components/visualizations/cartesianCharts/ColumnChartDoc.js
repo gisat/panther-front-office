@@ -5,7 +5,7 @@ import sample_200 from "../../../../mockData/sample_200";
 import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import diverging_stacked from "../../../../mockData/columnChart/diverging_stacked_sample";
 import ColumnChart from "../../../../../../../components/common/charts/ColumnChart/ColumnChart";
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 
 import Page, {
 	DocsToDoInline,

@@ -11,7 +11,7 @@ import {outlinesStyle, hoveredStyleDefinition, selectedStyleDefinition} from "..
 import phenology from "../../assets/img/phenology.png";
 import productivity from "../../assets/img/productivity.png";
 import Fade from "react-reveal/Fade";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import {MapPopup} from "../MapPopup";
 import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";

@@ -11,7 +11,7 @@ import MapResources, {
 
 import {outlinesStyle, hoveredStyleDefinition, selectedStyleDefinition} from "../../constants/MapStyles";
 import {MapLegend} from "../MapLegend";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import {MapPopup} from "../MapPopup";
 import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";

@@ -7,7 +7,7 @@ import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
 import sample_serie_500 from "../../../../mockData/sample_serie_500";
 
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import Page, {
 	InlineCodeHighlighter,
 	LightDarkBlock,

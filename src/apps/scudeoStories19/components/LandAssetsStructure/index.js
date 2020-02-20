@@ -2,7 +2,7 @@ import React from 'react';
 import Fade from "react-reveal/Fade";
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import SankeyChart from "../../../../components/common/charts/SankeyChart/SankeyChart";
 import Select from "../../../../components/common/atoms/Select/Select";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";

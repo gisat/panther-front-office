@@ -4,9 +4,9 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import moment from 'moment';
 
-import HoverContext from "../HoverHandler/context";
-
+import {Context} from "@gisatcz/ptr-core";
 import './style.scss';
+const HoverContext = Context.getContext('HoverContext');
 
 class Point extends React.PureComponent {
 	static contextType = HoverContext;

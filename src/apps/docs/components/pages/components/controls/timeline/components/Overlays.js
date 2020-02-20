@@ -8,7 +8,7 @@ import Page, {
 	SyntaxHighlighter
 } from "../../../../Page";
 // import serie_10 from "../../../../mockData/scatterChart/serie_10";
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import ReactResizeDetector from 'react-resize-detector';
 
 import Timeline from "../../../../../../../components/common/timeline/";
@@ -202,7 +202,7 @@ const width = 1000;
 <Timeline 
 	period={period}
 	containerWidth={width}
-	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onChange={(timelineState)=> {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	>
 		<Picker key="picker"/>

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import HoverContext from "../../../components/common/HoverHandler/context";
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 /* This wrapper is a hack for bringing selected line to the top of the chart.*/
 class ChartWrapper extends React.PureComponent {

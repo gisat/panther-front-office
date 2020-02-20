@@ -6,7 +6,7 @@ import {Visualization, Header} from '../Page';
 import {cloneDeep} from 'lodash';
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
 import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
 import Select from "../../../../components/common/atoms/Select/Select";

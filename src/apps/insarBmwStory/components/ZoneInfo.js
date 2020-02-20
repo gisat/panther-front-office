@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import HoverContext from "../../../components/common/HoverHandler/context";
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class ZoneInfo extends React.PureComponent {
 	static contextType = HoverContext;

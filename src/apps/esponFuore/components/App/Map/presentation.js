@@ -13,10 +13,12 @@ import CartogramVectorLayer from '../../../../../components/common/maps/Deprecat
 import {defaultVectorStyle} from "../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/vectorStyle";
 
 import WorldWindMap from "../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
-import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
 
 import helpers from './download/helpers';
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;

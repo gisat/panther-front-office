@@ -8,7 +8,8 @@ import {
 	vectorLayerHighlightedFeatureStyle as highlightedFeatureStyle
 } from "../../constants";
 
-import HoverContext from "../../../../common/HoverHandler/context";
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class VectorLayer extends React.PureComponent {
 	static contextType = HoverContext;

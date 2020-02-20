@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 import cz_gadm from '../../../mockData/map/czGadm1WithStyles/geometries';
 import style from '../../../mockData/map/czGadm1WithStyles/style';
-import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 
 const hoveredStyle = {
 	"rules":[

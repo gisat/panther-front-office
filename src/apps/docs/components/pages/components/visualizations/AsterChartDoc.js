@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-import AsterChart from "../../../../../../components/common/charts/AsterChart/AsterChart";
-import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
+import {AsterChart} from "@gisatcz/ptr-charts";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
 import ResizableContainer from "../../../ResizableContainer/ResizableContainer";
 import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";

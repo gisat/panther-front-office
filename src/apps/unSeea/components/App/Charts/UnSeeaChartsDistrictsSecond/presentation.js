@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
-import HoverContext from "../../../../../../components/common/HoverHandler/context";
 import observedValues from './observed';
 
+import {Context} from "@gisatcz/ptr-core";
 import './style.css';
+const HoverContext = Context.getContext('HoverContext');
 
 class ChartPanel extends React.PureComponent {
 	static contextType = HoverContext;

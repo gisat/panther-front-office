@@ -5,8 +5,8 @@ import xml2js from 'xml2js';
 import _ from 'lodash';
 
 // base styles need to be imported before all components
-import '../../styles/reset.css';
-import '../../styles/base.scss';
+import '@gisatcz/ptr-core/src/styles/reset.css';
+import '@gisatcz/ptr-core/src/styles/base.scss';
 
 import {sort} from '@gisatcz/ptr-utils';
 import layersHelper from '../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';

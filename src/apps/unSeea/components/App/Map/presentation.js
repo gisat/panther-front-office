@@ -12,8 +12,10 @@ import CartodiagramVectorLayer from '../../../../../components/common/maps/Depre
 import {defaultVectorStyle} from "../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/vectorStyle";
 
 import WorldWindMap from "../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
-import HoverContext from "../../../../../components/common/HoverHandler/context";
 import _ from "lodash";
+
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 class UnSeeaWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;

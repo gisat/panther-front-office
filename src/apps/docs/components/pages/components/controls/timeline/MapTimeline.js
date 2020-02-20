@@ -20,8 +20,8 @@ import Months from '../../../../../../../components/common/timeline/months';
 import Overlay from '../../../../../../../components/common/timeline/overlay';
 
 import TimeLineHover from '../../../../../../../components/common/timeline/TimeLineHover';
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import {getTootlipPosition} from "../../../../../../../components/common/HoverHandler/position";
+import {HoverHandler} from "@gisatcz/ptr-core";
+import {getTootlipPosition} from "@gisatcz/ptr-core";
 
 import {getIntersectionLayers, getIntersectionOverlays, overlap} from '../../../../../../../components/common/timeline/utils/overlays';
 import moment from 'moment';

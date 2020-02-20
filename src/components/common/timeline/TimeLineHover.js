@@ -1,6 +1,7 @@
 import React from 'react';
 
-import hoverContext from '../HoverHandler/context';
+import {Context} from "@gisatcz/ptr-core";
+const hoverContext = Context.getContext('HoverContext');
 
 
 class TimelineHover extends React.PureComponent {

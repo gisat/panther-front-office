@@ -9,7 +9,7 @@ import ColumnChart from "../../../../../../components/common/charts/ColumnChart/
 import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
-import HoverHandler from "../../../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import MapSet, {PresentationMap} from "../../../../../../components/common/maps/MapSet/presentation";
 
 let au_2_data = null;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from 'lodash';
 import moment from "moment";
 import LineChart from "../../../../components/common/charts/LineChart/LineChart";
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 
 import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";

@@ -20,8 +20,7 @@ import Months from '../../../../../../../components/common/timeline/months';
 import Overlay from '../../../../../../../components/common/timeline/overlay';
 
 import TimeLineHover from '../../../../../../../components/common/timeline/TimeLineHover';
-import HoverHandler from "../../../../../../../components/common/HoverHandler/HoverHandler";
-import {getTootlipPosition} from "../../../../../../../components/common/HoverHandler/position";
+import {HoverHandler, getTootlipPosition} from "@gisatcz/ptr-core";
 
 import {getIntersectionOverlays, overlap} from '../../../../../../../components/common/timeline/utils/overlays';
 import moment from 'moment';
@@ -302,7 +301,7 @@ const width = 1000;
 
 <Timeline 
 	periodLimit={periodLimit}
-	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onChange={(timelineState)=> {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	>
 		<Picker key="picker"/>
@@ -353,7 +352,7 @@ const Levels = (props) => {
 
 <Timeline 
 	periodLimit={periodLimit}
-	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onChange={(timelineState)=> {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	levels={LEVELS}
 	>
@@ -406,7 +405,7 @@ const Levels = (props) => {
 };
 <Timeline
 	periodLimit={periodLimit}
-	onChange={(timelineState) => {console.log("onChange", timelineState)}}
+	onChange={(timelineState)=> {console.log("onChange", timelineState)}}
 	onClick={(evt) => console.log("onClick", evt)}
 	vertical={true}
 	levels={LEVELS}
@@ -470,7 +469,7 @@ const getHorizontalTootlipStyle = () => {
 	<TimeLineHover getHoverContent={getHoverContent}>
 		<Timeline
 			periodLimit={periodLimit}
-			onChange={(timelineState) => {console.log("onChange", timelineState)}}
+			onChange={(timelineState)=> {console.log("onChange", timelineState)}}
 			onClick={(evt) => console.log("onClick", evt)}
 			vertical={false}
 			levels={LEVELS}

@@ -6,7 +6,8 @@ import * as d3 from 'd3';
 
 import './style.scss';
 
-import HoverContext from "../../../common/HoverHandler/context";
+import {Context} from "@gisatcz/ptr-core";
+const HoverContext = Context.getContext('HoverContext');
 
 const DEFAULT_COLOR = "#2aa8a3";
 const HIGHLIGHT_COLOR = "#2a928e";

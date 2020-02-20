@@ -19,7 +19,7 @@ import EsponFuoreTimeline from "./Timeline";
 import EsponFuoreChart from "./Charts/EsponFuoreChart";
 
 import ReactResizeDetector from 'react-resize-detector';
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import SimpleLayersControl from "../../../../components/common/maps/controls/SimpleLayersControl/presentation";
 
 import bing from "../../assets/img/powered-by-bing.png";

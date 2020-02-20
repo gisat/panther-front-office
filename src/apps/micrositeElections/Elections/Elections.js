@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import './style.scss';
-import HoverHandler from "../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 import ColumnChart from "../../../components/common/charts/ColumnChart/ColumnChart";
 import ChartWrapper from "../../../components/common/charts/ChartWrapper/ChartWrapper";
 import WorldWindMap from "../../../components/common/maps/Deprecated_WorldWindMap/presentation";

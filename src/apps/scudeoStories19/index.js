@@ -11,8 +11,8 @@ import Action from "../../state/Action";
 import Page from './components/Page';
 
 // base styles need to be imported before all components
-import '../../styles/reset.css';
-import '../../styles/base.scss';
+import '@gisatcz/ptr-core/src/styles/reset.css';
+import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer/presentation";

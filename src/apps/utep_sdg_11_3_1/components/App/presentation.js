@@ -11,7 +11,7 @@ import MapControls from "../../../../components/common/maps/Deprecated_MapContro
 import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
-import HoverHandler from "../../../../components/common/HoverHandler/HoverHandler";
+import {HoverHandler} from "@gisatcz/ptr-core";
 
 
 import AppContext from '../../context';
