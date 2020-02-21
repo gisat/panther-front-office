@@ -12,3 +12,4 @@ export const getNOK = (val) => `${Math.round(val * 10) / 10} NOK`;
 export const getSquareCentimeters = (val) => `${Math.round(val * 10000000) / 1000} cm2`;
 export const getGramsFromKilograms = (val) => `${Math.round(val * 100000) / 100} g`;
 export const getMicrogramsFromGrams = (val) => `${Math.round(val * 100000) / 100} mg`;
+export const getKilogramsFromGrams = (val) => `${Math.round(val / 10) / 100} kg`;

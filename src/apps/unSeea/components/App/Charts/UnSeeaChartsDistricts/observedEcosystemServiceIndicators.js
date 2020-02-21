@@ -1,6 +1,8 @@
 import {
 	getGramsFromKilograms,
-	getMicrogramsFromGrams,
+	getKilogramsFromGrams,
+	getCubicMetersPerYear,
+	getKilogramsPerYear,
 } from '../../../../utils/units'
 
 export default [
@@ -30,28 +32,29 @@ export default [
 		normalisedName: 'CO_STOR_KG_TP_MEAN_POP',
 		name: 'CO_STOR_KG_TP_MEAN',
 		color: '#1b4700',
-		getTooltip: getGramsFromKilograms,
+		getTooltip: getKilogramsPerYear,
 		title: 'Stored Carbon'
 	},
 	{
 		normalisedName: 'CO_SEQ_KG_TP_MEAN_POP',
 		name: 'CO_SEQ_KG_TP_MEAN',
 		color: '#568038',
-		getTooltip: getGramsFromKilograms,
+		getTooltip: getKilogramsPerYear,
 		title: 'Sequestered Carbon'
 	},
 	{
 		normalisedName: 'CO_AVO_KG_TP_MEAN_POP',
 		name: 'CO_AVO_KG_TP_MEAN',
 		color: '#92be71',
-		getTooltip: getGramsFromKilograms,
+		// getTooltip: (val) => `${getGramsFromKilograms(val)}/year`,
+		getTooltip: getCubicMetersPerYear, //realy?
 		title: 'Avoided Runoff'
 	},
 	{
 		normalisedName: 'POL_REM_G_TP_MEAN_POP',
 		name: 'POL_REM_G_TP_MEAN',
 		color: '#d4ffb0',
-		getTooltip: getMicrogramsFromGrams,
+		getTooltip: (val) => `${getKilogramsFromGrams(val)}/year`,
 		title: 'Removed air pollution'
 	},
 
