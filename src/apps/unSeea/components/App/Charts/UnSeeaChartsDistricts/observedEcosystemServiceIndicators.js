@@ -1,8 +1,7 @@
-const getSquareCentimeters = (val) => `${Math.round(val * 10000000) / 1000} cm2`;
-const getCentimeters = (val) => `${Math.round(val * 10000000) / 100000} cm`;
-const getGramsFromKilograms = (val) => `${Math.round(val * 100000) / 100} g`;
-const getMicrogramsFromGrams = (val) => `${Math.round(val * 100000) / 100} mg`;
-const getDollars = (val) => `${Math.round(val * 10000) / 10000} $`;
+import {
+	getGramsFromKilograms,
+	getMicrogramsFromGrams,
+} from '../../../../utils/units'
 
 export default [
 	//hneda

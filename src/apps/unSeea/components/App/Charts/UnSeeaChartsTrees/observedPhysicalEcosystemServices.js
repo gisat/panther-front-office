@@ -1,13 +1,11 @@
-const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
-const getCentimeters = (val) => `${Math.round(val * 100) / 100} cm`;
-const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
-const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
-const getCubicMetersPerYear = (val) => `${Math.round(val * 100) / 100} m3/year`;
-const getKilogramsPerYear = (val) => `${Math.round(val * 100) / 100} kg/year`;
-const getKilowattsPerYear = (val) => `${Math.round(val * 100) / 100} KWh/year`;
-const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
-const getGramsPerYear = (val) => `${Math.round(val * 100) / 100} g/year`;
-const getDollars = (val) => `${Math.round(val * 10) / 10} $`;
+import {
+	getKilograms,
+	getCubicMetersPerYear,
+	getKilogramsPerYear,
+	getKilowattsPerYear,
+	getGramsPerYear,
+} from '../../../../utils/units'
+
 
 export default [
 	//zelena

@@ -1,4 +1,8 @@
-const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
+import {
+	getSquareMeters,
+} from '../../../../utils/units'
+
+
 
 export default [
 	{
