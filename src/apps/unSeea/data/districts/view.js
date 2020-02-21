@@ -72,8 +72,8 @@ const view = {
                         }
                     }
                 },
-                "activeMapKey": "un_seea_districts_grid",
-                "activeSetKey": "un_seea_mapset_districts_grid"
+                "activeMapKey": "un_seea_districts",
+                "activeSetKey": "un_seea_mapset_districts"
             },
             "charts": {
                 "sets": {

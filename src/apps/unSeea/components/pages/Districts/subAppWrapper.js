@@ -11,7 +11,7 @@ class Apps extends React.PureComponent {
 		this.context.updateContext({
 			activeView: 'UN_SEEA_DISTRICTS',
 			windowSetKey: "un_seea_districts",
-			mapSetKey: "un_seea_mapset_districts_grid",
+			mapSetKey: "un_seea_mapset_districts",
 			applicationKey: 'un_seea',
 			activeChartSet: "unSeeaDistrictsCharts",
 			vectorLayerStyleKey: 'districts',

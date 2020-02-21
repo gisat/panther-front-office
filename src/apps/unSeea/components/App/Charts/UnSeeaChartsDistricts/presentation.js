@@ -11,11 +11,11 @@ import observedMonetaryIndicators from './observedMonetaryIndicators';
 import './style.css';
 
 const areas = [
-	{
-		key: 'un_seea_districts_grid',
-		name: 'Grid',
-		mapSetKey: 'un_seea_mapset_districts_grid'
-	},
+	// {
+	// 	key: 'un_seea_districts_grid',
+	// 	name: 'Grid',
+	// 	mapSetKey: 'un_seea_mapset_districts_grid'
+	// },
 	{
 		key: 'un_seea_districts',
 		name: 'Standard',
@@ -107,13 +107,13 @@ class ChartPanel extends React.PureComponent {
 			return (
 					<div>
 						<div className="ptr-unseea-top-options">
-							<Select 
+							{/* <Select 
 								options={areas}
 								optionLabel={'name'}
 								optionValue={'key'}
 								value={activeMapSet}
 								onChange={this.onSelectedAreaChanged}
-								/>
+								/> */}
 							<label>
 								Display normalise data
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />
