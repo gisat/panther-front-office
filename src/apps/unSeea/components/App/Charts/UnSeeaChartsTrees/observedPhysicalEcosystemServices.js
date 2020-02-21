@@ -2,7 +2,7 @@ const getSquareMeters = (val) => `${Math.round(val * 100) / 100} m2`;
 const getCentimeters = (val) => `${Math.round(val * 100) / 100} cm`;
 const getMeters = (val) => `${Math.round(val * 100) / 100} m`;
 const getKilograms = (val) => `${Math.round(val * 100) / 100} kg`;
-const getSquareMetersPerYear = (val) => `${Math.round(val * 100) / 100} m3/year`;
+const getCubicMetersPerYear = (val) => `${Math.round(val * 100) / 100} m3/year`;
 const getKilogramsPerYear = (val) => `${Math.round(val * 100) / 100} kg/year`;
 const getKilowattsPerYear = (val) => `${Math.round(val * 100) / 100} KWh/year`;
 const getGrams = (val) => `${Math.round(val * 100) / 100} g`;
@@ -21,13 +21,13 @@ export default [
 		name: 'CO_SEQ_KG',
 		color: '#0b3500',
 		getTooltip: getKilogramsPerYear,
-		title: 'Sequestrated Carbon'
+		title: 'Sequestered Carbon',
 	},
 	{
 		name: 'RUNOFF_M3',
 		color: '#1c4701',
-		getTooltip: getSquareMetersPerYear,
-		title: 'Sequestrated Carbon'
+		getTooltip: getCubicMetersPerYear,
+		title: 'Avoided runoff'
 	},
 	{
 		name: 'CO_AVO_KG',
@@ -108,7 +108,7 @@ export default [
 	// 	name: 'CO_SEQ_N17',
 	// 	color: '#4974C6',
 	// 	getTooltip: getKilograms,
-	// 	title: 'Sequestrated Carbon'
+	// 	title: 'Sequestered Carbon'
 	// },
 	// {
 	// 	name: 'CO_AVO_N17',

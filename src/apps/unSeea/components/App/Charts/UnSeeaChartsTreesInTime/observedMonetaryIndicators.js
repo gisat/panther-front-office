@@ -37,7 +37,7 @@ export default [
 	// 	name: 'CO_SEQ_KG_TP_MEAN_POP',
 	// 	color: '#568038',
 	// 	getTooltip: getGramsFromKilograms,
-	// 	title: 'Sequestrated Carbon'
+	// 	title: 'Sequestered Carbon'
 	// },
 	// {
 	// 	name: 'CO_AVO_KG_TP_MEAN_POP',
@@ -64,7 +64,7 @@ export default [
 		name: 'CO_SEQ_N17_TP_MEAN_POP',
 		color: '#4974C6',
 		getTooltip: getGramsFromKilograms,
-		title: 'Sequestrated Carbon'
+		title: 'Sequestered Carbon'
 	},
 	{
 		name: 'CO_AVO_N17_TP_MEAN_POP',
