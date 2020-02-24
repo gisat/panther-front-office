@@ -45,6 +45,10 @@
     margin-left: 1rem;
     font-size: $a3;
     color: var(--base65); 
+
+    a{
+        text-decoration: none;
+    }
 }
 .ptr-un-seea-app-title-subscript{
     font-size: $a1;

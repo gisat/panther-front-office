@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 import ChartSet from '../../../../../components/common/charts/ChartSet';
 // import UnSeeaCharts from "../Charts/UnSeeaCharts";
@@ -38,10 +39,12 @@ export default (props) => {
 						</a>
 					</div>
 					<div className="ptr-un-seea-app-title">
-						Oslo EEA municipal applications
-						<div className="ptr-un-seea-app-title-subscript">
-							powered by Urban Tep
-						</div>
+						<Link to={`${'/unSeea'}`}>
+							Oslo EEA municipal applications
+							<div className="ptr-un-seea-app-title-subscript">
+								powered by Urban Tep
+							</div>
+						</Link>
 					</div>
 				</div>
 				<div className='logo-wrapper'>

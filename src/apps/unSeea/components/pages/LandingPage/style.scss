@@ -65,7 +65,9 @@
 .unseea-subapp-list{
 	display: flex;
 	flex-flow: row;
-	justify-content: center;
+	padding: 1rem;
+    flex-wrap: wrap;
+    justify-content: start;
 }
 
 .unseea-subapp-list	.unseea-subapp-item{
