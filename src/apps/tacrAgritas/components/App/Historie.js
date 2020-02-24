@@ -21,7 +21,7 @@ import Select from "../../../../components/common/atoms/Select/Select";
 import utils from "../../utils";
 import moment from "moment";
 import {LineChartPopup} from "../LineChartPopup";
-import LineChart from "../../../../components/common/charts/LineChart/LineChart";
+import {LineChart} from '@gisatcz/ptr-charts';
 import Fade from "react-reveal/Fade";
 
 import image1 from "../../assets/img/dlouhodoby_normal_figure1.png";

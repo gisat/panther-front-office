@@ -7,8 +7,7 @@ import {cloneDeep} from 'lodash';
 
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import {HoverHandler} from "@gisatcz/ptr-core";
-import LineChart from "../../../../components/common/charts/LineChart/LineChart";
-import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
+import {AxisLabel, LineChart} from '@gisatcz/ptr-charts';
 import Select from "../../../../components/common/atoms/Select/Select";
 import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
@@ -17,9 +16,6 @@ import conversions from '../../data/conversions';
 import {getVectorLayer} from '../../data/data';
 import "./styles/style.scss";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
-
-import request from '../../../../state/_common/request';
-import AxisLabel from "../../../../components/common/charts/AxisLabel";
 
 const backgroundLayer = {
 	key: 'background-osm',

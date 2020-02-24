@@ -2,10 +2,8 @@ import React from 'react';
 import Fade from "react-reveal/Fade";
 import {Header, Visualization} from "../Page";
 import {HoverHandler} from "@gisatcz/ptr-core";
-import ColumnChart from "../../../../components/common/charts/ColumnChart/ColumnChart";
-import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
+import {ColumnChart, ScatterChart} from '@gisatcz/ptr-charts';
 
-import conversions from "../../data/conversions";
 import LayerSelect from "../LayerSelect/index";
 
 import './styles/style.scss';

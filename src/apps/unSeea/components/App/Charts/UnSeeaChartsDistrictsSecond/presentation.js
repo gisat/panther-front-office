@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
+import {ColumnChart} from '@gisatcz/ptr-charts';
 import observedValues from './observed';
 
 import {Context} from "@gisatcz/ptr-core";

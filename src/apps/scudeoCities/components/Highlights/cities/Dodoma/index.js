@@ -1,12 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import conversions from "../../../../data/conversions";
-import Select from "../../../../../../components/common/atoms/Select/Select";
 
-import LineChart from "../../../../../../components/common/charts/LineChart/LineChart";
-import ColumnChart from "../../../../../../components/common/charts/ColumnChart/ColumnChart";
-import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
+import conversions from "../../../../data/conversions";
+import {ColumnChart, LineChart} from '@gisatcz/ptr-charts';
 import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
 import {HoverHandler} from "@gisatcz/ptr-core";

@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ChartWrapper from "../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import ColumnChart from "../../../../../components/common/charts/ColumnChart/ColumnChart";
-import LineChart from "../../../../../components/common/charts/LineChart/LineChart";
-import ScatterChart from "../../../../../components/common/charts/ScatterChart/ScatterChart";
+import {ColumnChart, LineChart, ScatterChart} from '@gisatcz/ptr-charts';
 import data from "../../../data/attributeData";
 
 function getGniData(period) {

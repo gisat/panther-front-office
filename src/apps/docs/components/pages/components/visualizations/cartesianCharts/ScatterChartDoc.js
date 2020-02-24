@@ -1,8 +1,7 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
-import _ from 'lodash';
 import {HoverHandler} from "@gisatcz/ptr-core";
-import ScatterChart from "../../../../../../../components/common/charts/ScatterChart/ScatterChart";
+import {ScatterChart} from '@gisatcz/ptr-charts';
 
 import sample_50 from "../../../../mockData/sample_50";
 

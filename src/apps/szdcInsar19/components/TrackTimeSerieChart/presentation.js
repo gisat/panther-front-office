@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import moment from "moment";
 import {HoverHandler} from "@gisatcz/ptr-core";
-import ScatterChart from "../../../../components/common/charts/ScatterChart/ScatterChart";
+import {ScatterChart} from '@gisatcz/ptr-charts';
 import Center from '../../../../components/common/atoms/Center';
 import Loader from '../../../../components/common/atoms/Loader/Loader';
 

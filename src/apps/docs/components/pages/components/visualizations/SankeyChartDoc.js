@@ -1,11 +1,8 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 
-import SankeyChart from "../../../../../../components/common/charts/SankeyChart/SankeyChart";
 import {HoverHandler} from "@gisatcz/ptr-core";
+import {SankeyChart} from "@gisatcz/ptr-charts";
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
-import ResizableContainer from "../../../ResizableContainer/ResizableContainer";
-import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";
 
 // import sample_4 from "../../../mockData/asterChart/sample_4";
 import sample_1 from "../../../mockData/sankeyChart/sample_1.json";

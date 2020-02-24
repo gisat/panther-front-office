@@ -1,7 +1,7 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 
-import LineChart from "../../../components/common/charts/LineChart/LineChart";
+import {LineChart} from '@gisatcz/ptr-charts';
 import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../components/common/maps/controls/MapControls/presentation";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {withNamespaces} from "react-i18next";
-import LineChart from "../../../../../../../components/common/charts/LineChart/LineChart";
+import {LineChart} from '@gisatcz/ptr-charts';
 
 import sample_serie_4 from "../../../../mockData/sample_serie_4";
 import sample_serie_30 from "../../../../mockData/sample_serie_30";
