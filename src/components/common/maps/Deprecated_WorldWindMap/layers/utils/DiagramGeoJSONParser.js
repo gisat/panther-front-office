@@ -93,12 +93,19 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 			const count = this.geoJSONObject.features.length;
 			for(let i = 0; i < count; i++) {
 				const feature = this.geoJSONObject.features[i];
-				const polygon = turf.multiPolygon(feature.geometry.coordinates);
-				const centroid = turf.centroid(polygon);
+				const type = feature.geometry.type
+				let centroid;
+				if(type === 'Point') {
+					centroid = feature.geometry.coordinates;
+				} else {
+					const polygon = turf.multiPolygon(feature.geometry.coordinates);
+					const center = turf.centroid(polygon);
+					centroid = center.geometry.coordinates;
+				}
 
 				this.addRenderablesDiagram(
 					layer,
-					centroid.geometry.coordinates,
+					centroid,
 					feature.properties
 					);
 			}

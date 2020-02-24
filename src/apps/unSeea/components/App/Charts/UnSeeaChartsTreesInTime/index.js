@@ -29,11 +29,11 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		}) : null;
 		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		layers.forEach((l) => {
-			if(l.type === 'vector' || l.type === 'vector-large-point') {
+			if(l.type === 'vector' || l.type === 'vector-large-point' || l.type === 'vector-circle') {
 				l.spatialIdKey = ownProps.spatialIdKey
 			}
 		})
-		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector' || layerData.type === 'vector-large-point') : [];
+		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector' || layerData.type === 'vector-large-point' || layerData.type === 'vector-circle') : [];
 
 		let layersVectorData = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.spatialRelationsData) {

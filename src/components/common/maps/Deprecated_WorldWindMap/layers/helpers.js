@@ -5,6 +5,7 @@ import ExtendedGeoJsonLayer from "./ExtendedGeoJsonLayer";
 import ExtendedRenderableLayer from "./VectorLayer";
 import CartodiagramVectorLayer from "./CartodiagramVectorLayer";
 import CartogramVectorLayer from "./CartogramVectorLayer";
+import CircleVectorLayer from "./CircleVectorLayer";
 import LargePointLayer from "./largePointLayer";
 import WikimediaLayer from './WikimediaLayer';
 import ColoredLayer from "./ColoredLayer";
@@ -108,6 +109,8 @@ function getLayerByType(layerData, type){
 				return getCartodiagramVectorLayer(layerData);
 			case "vector-relative":
 				return getCartogramVectorLayer(layerData);
+			case "vector-circle":
+				return getCircleVectorLayer(layerData);
 			case "wmts-new":
 				return new WmtsLayer(layerData);
 			case "vector-large-point":
@@ -192,6 +195,19 @@ function getCartogramVectorLayer(layerData) {
 		layerName: layerData.layerName,
 		spatialIdKey: layerData.spatialRelationsData.fidColumnName,
 		attributeIdKey: layerData.attributeRelationsData.fidColumnName,
+		...layerData,
+	}, defaultVectorStyle);
+
+	return layer;
+}
+
+function getCircleVectorLayer(layerData) {
+	const layer = new CircleVectorLayer({
+		key: layerData.key,
+		layerName: layerData.layerName,
+		spatialIdKey: layerData.spatialRelationsData.fidColumnName,
+		// attributeIdKey: layerData.attributeRelationsData.fidColumnName,
+		attributeIdKey: null,
 		...layerData,
 	}, defaultVectorStyle);
 

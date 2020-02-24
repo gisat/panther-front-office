@@ -107,13 +107,13 @@ class ChartPanel extends React.PureComponent {
 			return (
 					<div>
 						<div className="ptr-unseea-top-options">
-							<Select 
+							{/* <Select 
 								options={areas}
 								optionLabel={'name'}
 								optionValue={'key'}
 								value={activeMapSet}
 								onChange={this.onSelectedAreaChanged}
-								/>
+								/> */}
 							{/* <label>
 								Normalise data by by median
 								<input type="checkbox" checked={this.state.normalised} onChange={this.onShowNormalisedDataClicked} />

@@ -5,6 +5,7 @@ import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 import layersHelper from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
 import {getStaticDistrictsStyleFunction} from './staticPolygonStyle';
 import {getStaticTreesStyleFunction} from './staticTreesPointStyle';
+import {getCartodiagramStyleFunction} from './staticTreesInTimePointStyle';
 import {getCartogramStyleFunction} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/VectorLayer';
@@ -224,7 +225,15 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
 							break;
 					case 'treesInTime':
-							existingLayer.setStyleFunction(getStaticTreesStyleFunction('#FFF', 50, '#000', 255, 3));
+							const layerStatistics = {
+								count: 802,
+								min: 0,
+								max: 100,
+								median: 50,
+								percentile: [10,20,30,40,50,60,70,80],
+								type: "numeric",
+							}
+							existingLayer.setStyleFunction(getCartodiagramStyleFunction('#FFF', 50, '#000', 255, 'PERIMETER', 'value'));
 							break;
 				}
 			}
@@ -246,7 +255,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 			const layer = LayersData.find(l => l.key === key);
 			let existingLayer = layersHelper.findLayerByKey(layersState, key);
 			// const instanceOfVector = existingLayer && (existingLayer instanceof CartogramVectorLayer || existingLayer instanceof CartodiagramVectorLayer);
-			// const metadata = layersMetadata[key];
+			const metadata = layersMetadata[key];
 			const instanceOfVector = existingLayer && (existingLayer instanceof ExtendedRenderableLayer) || existingLayer && (existingLayer instanceof TiledImageLayer);
 
 			// if(instanceOfVector && layersAttributeData[key] && metadata) {
@@ -268,8 +277,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 							feature.properties.hovered = true;
 						}
 					}
-
-					existingLayer.setRenderables(spatialData, defaultVectorStyle, null);
+					existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata || null);
 
 				} else {
 					//Data are empty, set empty GoeJSON as renderable

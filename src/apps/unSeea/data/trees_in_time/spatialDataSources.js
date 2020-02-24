@@ -3,7 +3,7 @@ const spatialDataSources = [{
         "data": {
             "nameInternal": null,
             "attribution": null,
-            "type": "vector-large-point",
+            "type": "vector",
             "tableName": null,
         }
     },
@@ -12,7 +12,7 @@ const spatialDataSources = [{
         "data": {
             "nameInternal": null,
             "attribution": null,
-            "type": "vector-large-point",
+            "type": "vector-circle",
             "tableName": null,
         }
     }

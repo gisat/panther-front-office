@@ -17,6 +17,7 @@ const useActiveMetadataKeys = {
 const mapStateToProps = (state, props) => {
 
 	return (state) => {
+		const layersMetadata = {};
 		let selectedFeatures = Select.selections.getActive(state);
 		let selectedAreas = selectedFeatures && selectedFeatures.data ? selectedFeatures.data.values : null;
 		let layersState = Select.maps.getLayersStateByMapKey_deprecated(state, props.mapKey, useActiveMetadataKeys);
@@ -26,15 +27,22 @@ const mapStateToProps = (state, props) => {
 		}) : null;
 		let layers = Select.maps.getLayers_deprecated(state, layersData);
 		layers.forEach((l) => {
-			if(l.type === 'vector' || l.type === 'vector-large-point') {
+			if(l.type === 'vector-circle') {
+				l.normalized = false;
+			}
+			if(l.type === 'vector' || l.type === 'vector-large-point' || l.type === 'vector-circle') {
 				l.spatialIdKey = props.activeMapAttributeKey
 			}
+					if(l.type === 'vector-circle') {
+						layersMetadata[l.key] = {attributeDataKey: 'PERIMETER'};
+					}
 		})
 		// let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector') : [];
-		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector' || layerData.type === 'vector-large-point') : [];
+		let vectorLayers = layers ? layers.filter((layerData) => layerData.type === 'vector' || layerData.type === 'vector-large-point' || layerData.type === 'vector-circle') : [];
 
 		const map = Select.maps.getMapByKey(state, props.mapKey);
 		let label = null;
+
 		if(map && map.data && map.data.metadataModifiers && map.data.metadataModifiers.period) {
 			const periodKey = map.data.metadataModifiers.period;
 			const period = Select.periods.getDataByKey(state, periodKey);
@@ -64,7 +72,7 @@ const mapStateToProps = (state, props) => {
 			layersVectorData,
 			layersAttributeData: null,
 			layersAttributeStatistics: {},
-			layersMetadata: {},
+			layersMetadata,
 			navigator: Select.maps.getNavigator_deprecated(state, props.mapKey),
 			// activeAttributeKey: Select.attributes.getActiveKey(state),
 			label: label || null,
