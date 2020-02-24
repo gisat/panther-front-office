@@ -44,8 +44,7 @@ const getOverlaysCfg = (layers) => {
 			//todo rem
 			top = (line * LINEHEIGHT) + PADDING;
 		}
-
-		if(layerCfg && layerCfg.period && layerCfg.period.length) {
+		if(layerCfg && layerCfg.period && layerCfg.period.length > 0) {
 			const otherOptions = layerCfg.options || {};
 			const cfgs = layerCfg.period.map((period, index) => {
 				return getOverlayCfg({
@@ -63,7 +62,7 @@ const getOverlaysCfg = (layers) => {
 				})
 			});
 			return [...acc, ...cfgs];
-		} else {
+		} else if(layerCfg.period && layerCfg.period.start && layerCfg.period.end) {
 			const otherOptions = layerCfg.options || {};
 			const cfg = getOverlayCfg({
 				key: layerCfg.layerTemplateKey,
@@ -81,6 +80,8 @@ const getOverlaysCfg = (layers) => {
 			})
 
 			return [...acc, cfg]
+		} else {
+			return acc;
 		}
 	}, [])
 }
