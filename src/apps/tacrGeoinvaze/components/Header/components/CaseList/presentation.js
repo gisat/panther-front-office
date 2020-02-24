@@ -1,7 +1,6 @@
 import React from "react";
 
-import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
-import classnames from "classnames";
+import {PantherSelect, PantherSelectItem} from '@gisatcz/ptr-atoms';
 import CaseImage from "../../../CaseImage";
 
 class CaseSelect extends React.PureComponent {

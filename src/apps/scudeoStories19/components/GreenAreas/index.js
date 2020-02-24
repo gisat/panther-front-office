@@ -2,17 +2,15 @@ import React from 'react';
 import Fade from "react-reveal/Fade";
 import {Header, Visualization} from "../Page";
 import {HoverHandler} from "@gisatcz/ptr-core";
+import {Select} from "@gisatcz/ptr-atoms";
 import {ColumnChart, ScatterChart, SankeyChart} from '@gisatcz/ptr-charts';
-import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
-import Select from "../../../../components/common/atoms/Select/Select";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
 import {getMergedDataset, clearEmptyNodes, urbanFabricL3classes, getVectorLayer, getL4CoverageValueKey} from '../../data/data';
 import './styles/style.scss';
-import greenSatelliteImage from './assets/Image.png';
 
 const backgroundLayer = {
 	key: 'background-osm',

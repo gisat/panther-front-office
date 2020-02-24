@@ -1,9 +1,7 @@
 import React from "react";
 
 import './style.scss';
-import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
-import Input from "../../../../../../components/common/atoms/Input/Input";
-import Icon from "../../../../../../components/common/atoms/Icon";
+import {Icon, Input, PantherSelect, PantherSelectItem} from '@gisatcz/ptr-atoms';
 import IndicatorList from "./components/IndicatorList";
 import CategoryMenu from "./components/CategoryMenu";
 

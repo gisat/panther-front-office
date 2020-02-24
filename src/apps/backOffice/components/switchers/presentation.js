@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import _ from 'lodash';
 import {withNamespaces} from "react-i18next";
 
-import Button from "../../../../components/common/atoms/Button";
-import Select from '../../../../components/common/atoms/Select/Select';
+import {Button, Select} from '@gisatcz/ptr-atoms';
 
 import './style.scss';
 

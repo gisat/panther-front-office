@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 import {utils} from '@gisatcz/ptr-utils'
-import {PantherSelectItem} from "../../../../../../../components/common/atoms/PantherSelect";
+import {PantherSelectItem} from '@gisatcz/ptr-atoms';
 import IndicatorCard from "./IndicatorCard";
 
 let categoryKey = null;

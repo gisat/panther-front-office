@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import Select from "../../../../../components/common/atoms/Select/Select";
 
 import './style.scss';
-import Button from "../../../../../components/common/atoms/Button";
+import {Button, Select} from '@gisatcz/ptr-atoms';
 import AttributeFilter from "./AttributeFilter";
 
 class AreasFilter extends React.PureComponent {

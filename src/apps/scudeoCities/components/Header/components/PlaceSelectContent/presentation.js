@@ -2,8 +2,7 @@ import React from "react";
 
 import './style.scss';
 import classnames from "classnames";
-import Button from "../../../../../../components/common/atoms/Button";
-import {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
+import {PantherSelect, PantherSelectItem} from '@gisatcz/ptr-atoms';
 import {utils} from '@gisatcz/ptr-utils'
 
 class PlaceSelectContent extends React.PureComponent {

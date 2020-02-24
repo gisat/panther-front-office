@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import Icon from '../../../components/common/atoms/Icon'
+import {Icon} from '@gisatcz/ptr-atoms'
 
 class Expandable extends React.PureComponent {
 	static defaultProps = {

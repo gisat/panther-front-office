@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
-import Input from "../../../../../../components/common/atoms/Input/Input";
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
-import Button from "../../../../../../components/common/atoms/Button";
+import {Button, Input} from '@gisatcz/ptr-atoms';
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 
 class LayerTemplateConfig extends React.PureComponent {

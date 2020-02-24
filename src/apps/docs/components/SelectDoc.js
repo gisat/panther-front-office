@@ -1,9 +1,7 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
-import _ from 'lodash';
-import {utils} from '@gisatcz/ptr-utils'
 
-import Select from "../../../components/common/atoms/Select/Select";
+import {Select} from '@gisatcz/ptr-atoms';
 
 const baseOptions = ['Chocolate', 'Strawberry very loooooooooooooooooooooooong and tasty and sweet', 'Vanilla'];
 

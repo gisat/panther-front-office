@@ -7,8 +7,8 @@ import Names from '../../../../constants/Names'
 
 import './style.scss';
 
-import Button from '../../atoms/Button';
-import Menu, {MenuItem} from '../../atoms/Menu';
+import {Button} from '@gisatcz/ptr-atoms';
+import {Menu, MenuItem} from '@gisatcz/ptr-atoms';
 import {withNamespaces} from "react-i18next";
 
 class User extends React.PureComponent {

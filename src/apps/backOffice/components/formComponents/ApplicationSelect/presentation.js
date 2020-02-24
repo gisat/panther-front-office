@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from 'lodash';
 import classnames from 'classnames';
 import {withNamespaces} from "react-i18next";
-import Select from "../../../../../components/common/atoms/Select/Select";
+import {Select} from "@gisatcz/ptr-atoms";
 
 class ApplicationSelect extends React.PureComponent {
 	static propTypes = {

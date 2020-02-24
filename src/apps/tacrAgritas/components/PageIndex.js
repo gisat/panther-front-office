@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import Helmet from "react-helmet";
 import Fade from "react-reveal/Fade";
 import Jump from "react-reveal/Jump";
-import Icon from "../../../components/common/atoms/Icon"
+import {Icon} from '@gisatcz/ptr-atoms'
 
 export const PageIndex = props => {
 		const places = props.places;

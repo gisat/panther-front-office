@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import viewUtils from '../../viewUtils';
 import {defaultLevelsRange, numberOfLevels as maxNumberOfLevels} from '../../constants';
 
-import Icon from '../../../atoms/Icon';
+import {Icon} from '@gisatcz/ptr-atoms';
 import HoldButton from '../../../../presentation/atoms/HoldButton';
 import './style.scss';
 

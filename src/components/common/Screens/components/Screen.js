@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import Button from "../../atoms/Button";
+import {Button} from '@gisatcz/ptr-atoms';
 
 class Screen extends React.PureComponent {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from "lodash";
-import Icon from "../../../../components/common/atoms/Icon";
+import {Icon} from '@gisatcz/ptr-atoms';
 
 import './style.scss';
 

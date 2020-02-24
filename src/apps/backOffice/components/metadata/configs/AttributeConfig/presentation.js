@@ -4,17 +4,13 @@ import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
-import Button from "../../../../../../components/common/atoms/Button";
-import Input from "../../../../../../components/common/atoms/Input/Input";
+import {Button, Input, Select} from '@gisatcz/ptr-atoms';
 import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
-import Select from "../../../../../../components/common/atoms/Select/Select";
 
 import cz from "./locales/cz";
 import en from "./locales/en";
 import {utils} from '@gisatcz/ptr-utils';
 import i18next from "i18next";
-
-import MultiSelect from "../../../formComponents/MetadataMultiSelect/presentation";
 
 // add local locales
 utils.addI18nResources(i18next,'AttributeMetadataConfig', {cz, en});

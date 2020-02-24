@@ -4,8 +4,7 @@ import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
-import Button from "../../../../../../components/common/atoms/Button";
-import Input from "../../../../../../components/common/atoms/Input/Input";
+import {Button, Input} from '@gisatcz/ptr-atoms';
 import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 import TagsSelect from "../../../formComponents/MetadataMultiSelect/TagsSelect";
 

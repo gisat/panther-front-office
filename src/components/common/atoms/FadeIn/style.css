@@ -1,8 +1,0 @@
-.ptr-fade-in-container {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.ptr-fade-in-container.vertical {
-	flex-direction: column;
-}

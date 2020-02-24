@@ -3,7 +3,7 @@ import React from "react";
 import './style.scss';
 import classnames from "classnames";
 import CaseList from "../CaseList";
-import Button from "../../../../../../components/common/atoms/Button";
+import {Button} from '@gisatcz/ptr-atoms';
 import Models from "../Models";
 import Inputs from "../Inputs";
 import About from "../About";

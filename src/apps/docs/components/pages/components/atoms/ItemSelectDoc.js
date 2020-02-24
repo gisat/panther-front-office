@@ -2,7 +2,7 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
-import MultiSelect from "../../../../../../components/common/atoms/Select/MultiSelect";
+import {MultiSelect} from "@gisatcz/ptr-atoms";
 
 import Page from '../../../Page';
 

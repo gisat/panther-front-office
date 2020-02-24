@@ -8,7 +8,7 @@ import {cloneDeep} from 'lodash';
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {AxisLabel, LineChart} from '@gisatcz/ptr-charts';
-import Select from "../../../../components/common/atoms/Select/Select";
+import {Select} from '@gisatcz/ptr-atoms';
 import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import {getMergedDataset} from '../../data/wsf/data';

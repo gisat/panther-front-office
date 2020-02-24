@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import _ from 'lodash';
-import Icon from "../../../atoms/Icon";
+import {Icon} from '@gisatcz/ptr-atoms'
 import HoldButton from "../../../../presentation/atoms/HoldButton";
 
 import './style.scss';

@@ -1,10 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-import Button, {Buttons, ButtonGroup} from "../../../../../../components/common/atoms/Button";
-import Icon from "../../../../../../components/common/atoms/Icon";
-import Menu from "../../../../../../components/common/atoms/Menu";
-import {MenuItem} from "../../../../../../components/common/atoms/Menu";
+import {Button, Buttons, ButtonGroup, Icon, Menu, MenuItem} from '@gisatcz/ptr-atoms';
 
 import Page, {LightDarkBlock, SyntaxHighlighter} from '../../../Page';
 import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";

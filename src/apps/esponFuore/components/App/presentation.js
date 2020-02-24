@@ -6,7 +6,7 @@ import AppContext from '../../context';
 
 import LandingPage from '../LandingPage';
 import Header from '../Header';
-import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
+import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import FuoreMap from "./Map";

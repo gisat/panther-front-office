@@ -1,16 +1,7 @@
 import React from "react";
-import Helmet from "react-helmet";
 import _ from 'lodash';
 
-import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
-import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
-import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapTools from "../../../../components/common/maps/controls/MapTools";
-
-
-import ReactResizeDetector from 'react-resize-detector';
-import {HoverHandler} from "@gisatcz/ptr-core";
+import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import Header from '../Header';
 import LayerControls from "../LayerControls";
 import CaseDetail from "../CaseDetail";

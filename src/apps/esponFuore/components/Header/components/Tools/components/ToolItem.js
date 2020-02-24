@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from 'classnames';
 
-import Icon from "../../../../../../../components/common/atoms/Icon";
+import {Icon} from '@gisatcz/ptr-atoms';
 
 class ToolItem extends React.PureComponent {
 

@@ -12,9 +12,8 @@ import navigator from './navigator/helpers';
 import Attribution from './Attribution/Attribution';
 
 import './style.scss'
-import download from "downloadjs";
-import Button from "../../atoms/Button";
-import Menu, {MenuItem} from "../../atoms/Menu";
+import {Button} from '@gisatcz/ptr-atoms';
+import {Menu, MenuItem} from '@gisatcz/ptr-atoms';
 
 const {WorldWindow, ElevationModel} = WorldWind;
 

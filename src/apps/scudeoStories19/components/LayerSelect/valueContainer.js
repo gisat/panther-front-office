@@ -1,6 +1,6 @@
 import React from 'react';
 import Select, { components } from 'react-select';
-import Icon from "../../../../components/common/atoms/Icon";
+import {Icon} from '@gisatcz/ptr-atoms';
 
 const Input = ({ children, ...props }) => {
   return (

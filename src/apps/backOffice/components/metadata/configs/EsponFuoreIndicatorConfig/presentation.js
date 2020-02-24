@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
-import Button from "../../../../../../components/common/atoms/Button";
-import Input from "../../../../../../components/common/atoms/Input/Input";
+import {Button, Input} from '@gisatcz/ptr-atoms';
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 
 import AttributesSelect from "../../../formComponents/MetadataMultiSelect/AttributesSelect";

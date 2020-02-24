@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { Prism as Highlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import Icon from '../../../components/common/atoms/Icon';
+import {Icon} from '@gisatcz/ptr-atoms';
 
 export const PageTitle = ({children}) => (
 	<div className="ptr-docs-page-title">

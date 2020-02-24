@@ -4,6 +4,7 @@ import _ from 'lodash';
 import moment from "moment";
 import {LineChart} from '@gisatcz/ptr-charts';
 import {HoverHandler} from "@gisatcz/ptr-core";
+import {Select} from "@gisatcz/ptr-atoms";
 
 import MapSetPresentation, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
@@ -16,7 +17,6 @@ import {LineChartPopup} from "../LineChartPopup";
 import {MapInfo} from "../MapInfo";
 import {MapLegend} from "../MapLegend";
 import {MapPopup} from "../MapPopup";
-import Select from "../../../../components/common/atoms/Select/Select";
 import Fade from "react-reveal/Fade";
 
 import image1 from "../../assets/img/biofyzika_figure1.png";

@@ -1,12 +1,9 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
 
-import Button, {Buttons} from "../../../../../components/common/atoms/Button";
-import Icon from "../../../../../components/common/atoms/Icon";
+import {Icon, Button, Buttons, Loader} from '@gisatcz/ptr-atoms';
 import './style.scss';
-import Loader from "../../../../../components/common/atoms/Loader/Loader";
 
 class DataExport extends React.PureComponent {
 

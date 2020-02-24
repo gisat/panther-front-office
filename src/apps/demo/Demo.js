@@ -4,7 +4,7 @@ import Deprecated_PresentationMapWithControls from "../../components/common/maps
 import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation";
 import LeafletMap from "../../components/common/maps/LeafletMap/presentation";
 import MapControls from "../../components/common/maps/controls/MapControls/presentation";
-import Select from "../../components/common/atoms/Select/Select";
+import {Select} from '@gisatcz/ptr-atoms';
 
 import central_europe from "./data/central_europe";
 

@@ -2,9 +2,7 @@ import React from "react";
 import classNames from 'classnames';
 
 import './style.scss';
-import Button, {ButtonGroup} from "../../../../components/common/atoms/Button";
-import ButtonSwitch, {Option} from "../../../../components/common/atoms/ButtonSwitch";
-import Select from "../../../../components/common/atoms/Select/Select";
+import {ButtonSwitch, ButtonSwitchOption} from '@gisatcz/ptr-atoms';
 
 class LayerControls extends React.PureComponent {
 
@@ -105,7 +103,7 @@ class LayerControls extends React.PureComponent {
 						<div>
 							<ButtonSwitch onClick={this.switchToActual} ghost>
 								{latestPeriods.map(period => (
-									<Option key={period.key} active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</Option>
+									<ButtonSwitchOption key={period.key} active={actualExpansionActive && period.key === this.props.activePeriodKey} value={period.key}>{period.data.nameDisplay}</ButtonSwitchOption>
 								))}
 							</ButtonSwitch>
 							{/*<Select/>*/}
@@ -143,9 +141,9 @@ class LayerControls extends React.PureComponent {
 					<div className="tacrGeoinvaze-layer-title">Model budoucího rozšíření &ndash; horizont</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option active={gis1active} value={"gis1"}>krátkodobý</Option>
-							<Option active={gis3active} value={"gis3"}>střednědobý</Option>
-							<Option active={gis10active} value={"gis10"}>dlouhodobý</Option>
+							<ButtonSwitchOption active={gis1active} value={"gis1"}>krátkodobý</ButtonSwitchOption>
+							<ButtonSwitchOption active={gis3active} value={"gis3"}>střednědobý</ButtonSwitchOption>
+							<ButtonSwitchOption active={gis10active} value={"gis10"}>dlouhodobý</ButtonSwitchOption>
 						</ButtonSwitch>
 					</div>
 					
@@ -166,9 +164,9 @@ class LayerControls extends React.PureComponent {
 					<div className="tacrGeoinvaze-layer-title">Model maximálního možného rozšíření</div>
 					<div>
 						<ButtonSwitch onClick={this.switchToModel} ghost>
-							<Option active={gamActive} value={"gam"}>GAM</Option>
-							<Option active={gbmActive} value={"gbm"}>GBM</Option>
-							<Option active={maxentActive} value={"maxent"}>MAXENT</Option>
+							<ButtonSwitchOption active={gamActive} value={"gam"}>GAM</ButtonSwitchOption>
+							<ButtonSwitchOption active={gbmActive} value={"gbm"}>GBM</ButtonSwitchOption>
+							<ButtonSwitchOption active={maxentActive} value={"maxent"}>MAXENT</ButtonSwitchOption>
 						</ButtonSwitch>
 					</div>
 					<div className="tacrGeoinvaze-layer-legend continuous">

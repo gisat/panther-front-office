@@ -1,8 +1,7 @@
 import React from "react";
 
 import './style.scss';
-import PantherSelect, {PantherSelectItem} from "../../../../../../components/common/atoms/PantherSelect";
-import classnames from "classnames";
+import {PantherSelect, PantherSelectItem} from '@gisatcz/ptr-atoms';
 import PlaceSelectContent from "../PlaceSelectContent";
 import {utils} from '@gisatcz/ptr-utils'
 

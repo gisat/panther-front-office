@@ -1,8 +1,5 @@
 import React from 'react';
-// import UIObjectSelect from 'components/containers/controls/Select/Select'
-import Select from '../../../components/common/atoms/Select/MultiSelect';
-import AddValue from '../../../components/common/atoms/Select/AddValue';
-import Button from "../../../components/common/atoms/Button";
+import {AddValue, Button, MultiSelect} from '@gisatcz/ptr-atoms';
 
 class Test extends React.PureComponent {
 	render() {
@@ -27,7 +24,7 @@ class Test extends React.PureComponent {
                     />
                 </div>
 
-                <Select
+                <MultiSelect
                     options = {options}
                     selectedValues = {selectedValues}
                     ordered={true}

@@ -4,8 +4,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 
 import './style.scss';
-import Select from "../../../../../components/common/atoms/Select/Select";
-import Icon from "../../../../../components/common/atoms/Icon";
+import {Icon, Select} from '@gisatcz/ptr-atoms';
 import Fade from "react-reveal/Fade";
 
 const BUFFER = 100;

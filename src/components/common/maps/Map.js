@@ -5,11 +5,10 @@ import React from "react";
 import PropTypes from 'prop-types';
 import _ from "lodash";
 import {defaultMapView} from "../../../constants/Map";
-import {map as mapUtils} from '@gisatcz/ptr-utils';
+import {map as mapUtils, utils} from '@gisatcz/ptr-utils';
+import {Error} from '@gisatcz/ptr-atoms';
 
 import './style.scss';
-import {utils} from '@gisatcz/ptr-utils'
-import Error from "../atoms/Error";
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.stateMapKey) {

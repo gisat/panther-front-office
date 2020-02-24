@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {NavLink, withRouter} from 'react-router-dom';
 
-import Icon from '../../../../components/common/atoms/Icon';
+import {Icon} from '@gisatcz/ptr-atoms';
 import Apps from './icons/Apps';
 import Dashboard from './icons/Dashboard';
 import Places from "./icons/Places";

@@ -17,7 +17,7 @@ import MapSetPresentation, {PresentationMap} from "../../../../components/common
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
 import MapControlsPresentation from "../../../../components/common/maps/controls/MapControls/presentation";
 import {MapInfo} from "../MapInfo";
-import Select from "../../../../components/common/atoms/Select/Select";
+import {Select} from "@gisatcz/ptr-atoms";
 import utils from "../../utils";
 import moment from "moment";
 import {LineChartPopup} from "../LineChartPopup";

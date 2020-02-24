@@ -2,7 +2,7 @@ import React from "react";
 import Helmet from "react-helmet";
 import classnames from 'classnames';
 
-import AdjustableColumns from '../../../../components/common/atoms/AdjustableColumns';
+import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
 import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
 import UtepSdgMap from "./Map";

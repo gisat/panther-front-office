@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import Icon from '../../../../components/common/atoms/Icon';
+import {Icon} from '@gisatcz/ptr-atoms';
 
 import './style.scss';
 import {utils} from '@gisatcz/ptr-utils'

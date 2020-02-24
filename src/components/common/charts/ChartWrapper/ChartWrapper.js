@@ -6,11 +6,8 @@ import domToImage from 'dom-to-image';
 import download from "downloadjs";
 
 import './style.scss';
-import Button from "../../atoms/Button";
-import Menu from "../../atoms/Menu";
-import {MenuItem} from "../../atoms/Menu";
-import Loader from "../../atoms/Loader/Loader";
-import {utils} from '@gisatcz/ptr-utils'
+import {Button, Loader, Menu, MenuItem} from '@gisatcz/ptr-atoms';
+import {utils} from '@gisatcz/ptr-utils';
 
 class ChartWrapper extends React.PureComponent {
 	static propTypes = {

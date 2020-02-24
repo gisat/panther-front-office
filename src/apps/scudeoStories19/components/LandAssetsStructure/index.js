@@ -4,7 +4,7 @@ import Fade from "react-reveal/Fade";
 import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {SankeyChart, ColumnChart} from '@gisatcz/ptr-charts';
-import Select from "../../../../components/common/atoms/Select/Select";
+import {Select} from "@gisatcz/ptr-atoms";
 import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";

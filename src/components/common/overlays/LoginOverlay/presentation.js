@@ -7,8 +7,7 @@ import Names from '../../../../constants/Names'
 
 import './style.css';
 
-import Button from '../../atoms/Button';
-import InputText from '../../atoms/Input/Input';
+import {Button, Input} from '@gisatcz/ptr-atoms';
 import {withNamespaces} from "react-i18next";
 
 class LoginOverlay extends React.PureComponent {
@@ -86,7 +85,7 @@ class LoginOverlay extends React.PureComponent {
 			<div className={classNames("ptr-login-overlay", {open: this.state.open || this.props.open})}>
 				<div className="ptr-login">
 					<div>
-						<InputText
+						<Input
 							inverted
 							email
 							transparent
@@ -96,7 +95,7 @@ class LoginOverlay extends React.PureComponent {
 						/>
 					</div>
 					<div>
-						<InputText
+						<Input
 							inverted
 							password
 							transparent

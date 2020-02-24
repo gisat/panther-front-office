@@ -3,7 +3,7 @@ import {withNamespaces} from "react-i18next";
 import _ from 'lodash';
 
 import Page from '../../../Page';
-import Input from "../../../../../../components/common/atoms/Input/Input";
+import {Input} from '@gisatcz/ptr-atoms';
 import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 
 class FormsDoc extends React.PureComponent {

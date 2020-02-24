@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Truncate from 'react-truncate';
 import classnames from 'classnames';
+import {FadeIn} from '@gisatcz/ptr-atoms';
 
 import './style.scss';
-import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
 
 class ScopesList extends React.PureComponent {
 

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Rnd } from 'react-rnd';
 import _ from 'lodash';
 
-import Icon from "../../atoms/Icon";
+import {Icon} from '@gisatcz/ptr-atoms'
 
 // TODO handle sizes in rem
 const MIN_WIDTH = 100;

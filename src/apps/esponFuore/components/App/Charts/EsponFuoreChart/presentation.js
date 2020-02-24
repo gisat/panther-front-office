@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
 import {ColumnChart, LineChart} from '@gisatcz/ptr-charts';
-import Icon from "../../../../../../components/common/atoms/Icon";
+import {Icon} from '@gisatcz/ptr-atoms';
 import chroma from "chroma-js";
 import fuoreUtils from "../../../../utils";
 

@@ -4,7 +4,7 @@ import moment from 'moment';
 import classnames from 'classnames';
 
 import './style.scss';
-import Button from "../../../../../components/common/atoms/Button";
+import {Button} from '@gisatcz/ptr-atoms';
 import SzifCaseTableRowDetail from "../SzifCaseTableRowDetail/presentation";
 
 class SzifCaseTableRow extends React.PureComponent {

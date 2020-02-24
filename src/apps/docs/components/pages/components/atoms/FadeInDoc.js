@@ -1,7 +1,6 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
-import _ from 'lodash';
-import FadeIn from "../../../../../../components/common/atoms/FadeIn/FadeIn";
+import {FadeIn} from '@gisatcz/ptr-atoms';
 
 import Page from '../../../Page';
 
