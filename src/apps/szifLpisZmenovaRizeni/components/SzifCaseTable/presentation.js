@@ -44,6 +44,7 @@ class SzifCaseTable extends React.PureComponent {
 		selectedStatus: PropTypes.array,
 		userGroups: PropTypes.array,
 		casesFilter: PropTypes.object,
+		casesOrder: PropTypes.array,
 		onMount: PropTypes.func,
 		onChangeStatus: PropTypes.func,
 	};
@@ -62,8 +63,8 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const {onMount, casesFilter} = this.props;
-		onMount(casesFilter);
+		const {onMount, casesFilter, casesOrder} = this.props;
+		onMount(casesFilter, casesOrder);
 	}
 
 	onSearchChange(searchString) {
@@ -82,7 +83,8 @@ class SzifCaseTable extends React.PureComponent {
 	}
 
 	onStatusChange(newFilter) {
-		this.props.onChangeStatus(newFilter);
+		const {casesOrder} = this.props;
+		this.props.onChangeStatus(newFilter, casesOrder);
 	}
 
 	render() {

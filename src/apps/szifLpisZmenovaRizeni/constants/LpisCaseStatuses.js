@@ -110,3 +110,15 @@ export const evaluationConclusions = [
 		colour: '#a09a94'
 	},
 ];
+
+export const getStatusesForUserGroups = (userGroups) => {
+	let statusesOptions = null;
+	if (userGroups.includes('gisatUsers')) {
+		statusesOptions = statusesOptionsGisatUsers;
+	} else if (userGroups.includes('gisatAdmins')){
+		statusesOptions = statusesOptionsGisatAdmins;
+	} else {
+		statusesOptions = statusesOptionsSzif;
+	}
+	return statusesOptions;
+}

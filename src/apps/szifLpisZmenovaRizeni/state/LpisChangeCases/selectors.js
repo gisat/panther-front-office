@@ -17,9 +17,10 @@ const getNextCaseKey = createSelector([
 	getAllAsObject,
 	lpisZmenovaRizeniSelectors.getActiveUserGroups,
 	(state, key) => key,
+	(state, key, cases) => cases,
 	],
-	(allCases, userGroups, key) => {
-		const allCasesKeys = Object.keys(allCases);
+	(allCases, userGroups, key, cases) => {
+		const allCasesKeys = cases && cases.map(c => c.key) || [];
 		const keyIndex = allCasesKeys.indexOf(key);
 		let nextIndex = keyIndex + 1;
 		let nextKey = allCasesKeys.length >= nextIndex ? allCasesKeys[nextIndex] : null;

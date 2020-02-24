@@ -318,16 +318,12 @@ const editCaseStatus = (caseKey, status) => (dispatch, getState) => {
 	}
 }
 
-function redirectToNextViewFromActiveView() {
+function redirectToNextViewFromActiveView(nextCaseKey) {
 	return (dispatch, getState) => {
 		const state = getState();
-		const activeCase = Select.specific.lpisChangeCases.getActive(state);
-		const activeCaseKey = activeCase && activeCase.key;
-
 		//clear edits
 		dispatch(lpisChangeCases.removeEditedActive());
 
-		const nextCaseKey = Select.specific.lpisChangeCases.getNextCaseKey(state, activeCaseKey);
 		const nextCase = Select.specific.lpisChangeCases.getDataByKey(state, nextCaseKey);
 		if(nextCaseKey && nextCase) {
 			const viewKey = nextCase.viewKey;
