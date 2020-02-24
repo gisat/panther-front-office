@@ -344,9 +344,10 @@ function saveAndApproveEvaluation() {
 		const state = getState();
 		const activeCase = Select.specific.lpisChangeCases.getActive(state);
 		const activeCaseKey = activeCase && activeCase.key;
-
 		dispatch(editActiveCaseMapSources());
-		dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+		const prom1 = dispatch(saveView());
+		const prom2 = dispatch(saveCaseStatus(activeCaseKey, LpisCaseStatuses.EVALUATION_APPROVED.database));
+		return Promise.all([prom1, prom2]);
 	}
 }
 
