@@ -110,6 +110,10 @@ export default [
 		key: 'szifLpisZmenovaRizeni',
 		urls: [
 			{
+				hostname: 'lpisuptest.gisat.cz',
+				path: null
+			},
+			{
 				hostname: 'lpisup.gisat.cz',
 				path: null
 			}
