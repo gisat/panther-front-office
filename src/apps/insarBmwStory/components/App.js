@@ -1,13 +1,12 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 
-import {LineChart} from '@gisatcz/ptr-charts';
+import {LineChart, ChartWrapper} from '@gisatcz/ptr-charts';
 import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
 import MapControls from "../../../components/common/maps/controls/MapControls/presentation";
 import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
 import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
-import ChartWrapper from "./ChartWrapper";
 
 import gisatLogo from '../assets/logo.png';
 import vuhuLogo from '../assets/logo-vuhu.png';

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import ChartWrapper from "../../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import {AsterChart} from "@gisatcz/ptr-charts";
+import {AsterChart, ChartWrapper} from "@gisatcz/ptr-charts";
 import observedValues from './observed';
 
 import './style.css';

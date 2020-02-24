@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
-import ChartWrapper from "../../../../../components/common/charts/ChartWrapper/ChartWrapper";
-import {ColumnChart, LineChart, ScatterChart} from '@gisatcz/ptr-charts';
+import {ColumnChart, LineChart, ScatterChart, ChartWrapper} from '@gisatcz/ptr-charts';
 import data from "../../../data/attributeData";
 
 function getGniData(period) {

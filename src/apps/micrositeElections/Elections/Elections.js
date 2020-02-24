@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 
 import './style.scss';
 import {HoverHandler} from "@gisatcz/ptr-core";
-import {ColumnChart} from '@gisatcz/ptr-charts';
-import ChartWrapper from "../../../components/common/charts/ChartWrapper/ChartWrapper";
+import {ColumnChart, ChartWrapper} from '@gisatcz/ptr-charts';
 import WorldWindMap from "../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 
 
