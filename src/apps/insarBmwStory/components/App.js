@@ -1,5 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import _ from 'lodash';
 
 import {LineChart, ChartWrapper} from '@gisatcz/ptr-charts';
 import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
@@ -73,10 +74,21 @@ class App extends React.PureComponent {
 		let self = this;
 
 		Promise.all([bmwZonesLoader, vuhuLoader, vuhu0Loader]).then((data) => {
+			let vuhu = data[1];
+			if (_.isObject(vuhu)) {
+				vuhu = Object.values(vuhu);
+			}
+
+			let vuhu0 = data[2];
+			if (_.isObject(vuhu0)) {
+				vuhu0 = Object.values(vuhu0);
+			}
+
+
 			self.setState({
 				features: data[0].features,
-				vuhu: data[1],
-				vuhu0: data[2]
+				vuhu,
+				vuhu0
 			});
 		});
 	}

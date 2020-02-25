@@ -66,7 +66,6 @@ class WorldWindMap extends React.PureComponent {
 		}
 
 		new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.onWorldWindHover, true);
-		debugger;
 		this.updateNavigator(mapConstants.defaultMapView);
 		this.updateLayers();
 
