@@ -4,9 +4,9 @@ import Action from "../../../state/Action";
 import React from "react";
 import PropTypes from 'prop-types';
 import _ from "lodash";
-import {defaultMapView} from "../../../constants/Map";
 import {map as mapUtils, utils} from '@gisatcz/ptr-utils';
 import {Error} from '@gisatcz/ptr-atoms';
+import {mapConstants} from '@gisatcz/ptr-core';
 
 import './style.scss';
 
@@ -97,7 +97,7 @@ class Map extends React.PureComponent {
 		
 		if (!props.stateMapKey) {
 			this.state = {
-				view: {...defaultMapView, ...props.view}
+				view: {...mapConstants.defaultMapView, ...props.view}
 			};
 		}
 		
@@ -117,12 +117,12 @@ class Map extends React.PureComponent {
 			if (prevProps && prevProps.view) { //todo simplify
 				if (!_.isEqual(props.view, prevProps.view)) {
 					this.setState({
-						view: {...defaultMapView, ...props.view}
+						view: {...mapConstants.defaultMapView, ...props.view}
 					});
 				}
 			} else {
 				this.setState({
-					view: {...defaultMapView, ...props.view}
+					view: {...mapConstants.defaultMapView, ...props.view}
 				});
 			}
 		}

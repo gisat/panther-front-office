@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {map as mapUtils} from '@gisatcz/ptr-utils';
-import {defaultMapView} from '../../../constants/Map';
+import {mapConstants} from '@gisatcz/ptr-core';
 
 class Deprecated_PresentationMapWithControls extends React.PureComponent {
 	static propTypes = {
@@ -14,7 +14,7 @@ class Deprecated_PresentationMapWithControls extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			view: {...defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
+			view: {...mapConstants.defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
 		};
 
 		this.updateView = this.updateView.bind(this);
@@ -31,12 +31,12 @@ class Deprecated_PresentationMapWithControls extends React.PureComponent {
 			if (prevProps && prevProps.map && prevProps.map.props && prevProps.map.props.view) {
 				if (!_.isEqual(props.map.props.view, prevProps.map.props.view)) {
 					this.setState({
-						view: {...defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
+						view: {...mapConstants.defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
 					});
 				}
 			} else {
 				this.setState({
-					view: {...defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
+					view: {...mapConstants.defaultMapView, ...(props.map && props.map.props && props.map.props.view)}
 				});
 			}
 		}

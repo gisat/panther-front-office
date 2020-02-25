@@ -1,6 +1,4 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
-import Names from '../../constants/Names';
 
 const INITIAL_STATE = {
 };

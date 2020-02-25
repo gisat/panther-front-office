@@ -33,11 +33,6 @@ import Users from './Users/actions';
 import Views from './Views/actions';
 import Windows from './Windows/actions';
 
-
-// specific types
-import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
-import LpisCheckCases from './_specific/LpisCheckCases/actions';
-
 export default {
 	_deprecatedSelections: _deprecatedSelections,
 	app: App,
@@ -69,10 +64,5 @@ export default {
 	tags: Tags,
 	views: Views,
 	users: Users,
-	windows: Windows,
-	// TODO still needed?
-	// specific: {
-	// 	lpisChangeReviewCases: LpisChangeReviewCases,
-	// 	lpisCheckCases: LpisCheckCases,
-	// }
+	windows: Windows
 };

@@ -8,7 +8,6 @@ import WorldWind from 'webworldwind-esa';
 import decorateWorldWindowController from './controllers/WorldWindowControllerDecorator';
 import layersHelpers from './layers/helpers';
 import navigator from './navigator/helpers';
-import {defaultMapView} from '../../../../constants/Map';
 
 import './style.scss';
 import viewUtils from "../viewUtils";
@@ -17,7 +16,7 @@ import LargeDataLayer from "./layers/LargeDataLayerSource/LargeDataLayer";
 
 import VectorLayer from "./layers/VectorLayer";
 
-import {Context} from "@gisatcz/ptr-core";
+import {Context, mapConstants} from "@gisatcz/ptr-core";
 const HoverContext = Context.getContext('HoverContext');
 
 const {WorldWindow, ElevationModel} = WorldWind;
@@ -67,7 +66,8 @@ class WorldWindMap extends React.PureComponent {
 		}
 
 		new CyclicPickController(this.wwd, ['mousemove', 'mousedown', 'mouseup', 'mouseout', 'touchstart', 'touchmove', 'touchend'], this.onWorldWindHover, true);
-		this.updateNavigator(defaultMapView);
+		debugger;
+		this.updateNavigator(mapConstants.defaultMapView);
 		this.updateLayers();
 
 	}
@@ -181,7 +181,7 @@ class WorldWindMap extends React.PureComponent {
 	onNavigatorChange(event) {
 		if (event) {
 			const viewParams = navigator.getViewParamsFromWorldWindNavigator(event);
-			const changedViewParams = navigator.getChangedViewParams({...defaultMapView, ...this.props.view}, viewParams);
+			const changedViewParams = navigator.getChangedViewParams({...mapConstants.efaultMapView, ...this.props.view}, viewParams);
 
 			if(this.props.onViewChange) {
 				if (!_.isEmpty(changedViewParams)) {

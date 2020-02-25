@@ -36,10 +36,6 @@ import viewsReducers from './Views/reducers';
 import windowsReducers from './Windows/reducers';
 
 
-// specific types
-import lpisChangeReviewCasesReducers from './_specific/LpisChangeReviewCases/reducers';
-import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
-
 
 // Redux store
 const Store = createStore(combineReducers({
@@ -73,12 +69,7 @@ const Store = createStore(combineReducers({
 	tags: tagsReducers,
 	users: usersReducers,
 	views: viewsReducers,
-	windowsReducers: windowsReducers,
-	// TODO still needed?
-	// specific: combineReducers({
-	// 	lpisChangeReviewCases: lpisChangeReviewCasesReducers,
-	// 	lpisCheckCases: lpisCheckCasesReducers,
-	// })
+	windowsReducers: windowsReducers
 }), applyMiddleware(thunk, logger));
 
 

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import {map as mapUtils} from '@gisatcz/ptr-utils';
 
 import ContainerMap from '../Map';
-import {defaultMapView} from '../../../../constants/Map';
+import {mapConstants} from '@gisatcz/ptr-core';
 
 import './style.scss';
 import MapGrid from "../MapGrid";
@@ -41,7 +41,7 @@ class MapSet extends React.PureComponent {
 
 		if (!props.stateMapSetKey) {
 			this.state = {
-				view: mapUtils.mergeViews(defaultMapView, props.view),
+				view: mapUtils.mergeViews(mapConstants.defaultMapView, props.view),
 
 				activeMapKey: props.activeMapKey,
 				mapViews: {}
@@ -51,7 +51,7 @@ class MapSet extends React.PureComponent {
 				if (child && typeof child === "object"
 					&& (child.type === Map || child.type === ContainerMap || child.type === PresentationMap)
 					&& child.props.mapKey === props.activeMapKey) {
-					this.state.mapViews[child.mapKey] = mapUtils.mergeViews(defaultMapView, props.view, child.props.view);
+					this.state.mapViews[child.mapKey] = mapUtils.mergeViews(mapConstants.defaultMapView, props.view, child.props.view);
 				}
 			});
 		}

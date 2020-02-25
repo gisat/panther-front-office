@@ -4,7 +4,7 @@ import L from 'leaflet';
 import viewHelpers from './viewHelpers';
 import layersHelpers from './layersHelpers';
 import utils from '../viewUtils';
-import {defaultMapView} from '../../../../constants/Map';
+import {mapConstants} from '@gisatcz/ptr-core';
 
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
@@ -37,7 +37,7 @@ class LeafletMap extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const initialView = {...defaultMapView, ...this.props.view};
+		const initialView = {...mapConstants.defaultMapView, ...this.props.view};
 
 		/* Setup leaflet map
 		*	- hide default zoom and attribution controls

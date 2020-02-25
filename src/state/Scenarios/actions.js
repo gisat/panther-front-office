@@ -1,6 +1,5 @@
 import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
-import Names from '../../constants/Names';
 import Select from '../Select';
 import config from '../../config';
 
@@ -582,7 +581,6 @@ function apiDeleteCases(cases, ttl) {
 
 function apiDeleteCasesError(message){
 	return (dispatch) => {
-		window.alert(Names.SCENARIO_CASES_DELETE_ERROR_MESSAGE);
 		dispatch(actionApiDeleteCasesError(message))
 	}
 }

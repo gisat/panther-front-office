@@ -13,7 +13,7 @@ import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 import AttributeDataSelectors from '../AttributeData/selectors';
 import AttributeDataSourcesSelectors from '../AttributeDataSources/selectors';
 import AppSelectors from '../App/selectors';
-import {defaultMapView} from "../../constants/Map";
+import {mapConstants} from '@gisatcz/ptr-core';
 import StylesSelectors from "../Styles/selectors";
 import SelectionsSelectors from "../Selections/selectors";
 
@@ -442,11 +442,11 @@ const getView = createSelector(
 				}
 
 				let mapSetView = set.data && set.data.view;
-				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
+				let view = mapUtils.mergeViews(mapConstants.defaultMapView, mapSetView, mapView);
 				return !_.isEmpty(view) ? view : null;
 			} else {
 				let view = map.data && map.data.view;
-				return mapUtils.mergeViews(defaultMapView, view);
+				return mapUtils.mergeViews(mapConstants.defaultMapView, view);
 			}
 		} else {
 			return null;
@@ -465,7 +465,7 @@ const getMapSetView = createSelector(
 	(set) => {
 		if (set) {
 			let setView = set.data && set.data.view;
-			return mapUtils.mergeViews(defaultMapView, setView);
+			return mapUtils.mergeViews(mapConstants.defaultMapView, setView);
 		} else {
 			return null;
 		}
@@ -493,11 +493,11 @@ const getMapSetActiveMapView = createSelector(
 				}
 
 				let mapSetView = set.data && set.data.view;
-				let view = mapUtils.mergeViews(defaultMapView, mapSetView, mapView);
+				let view = mapUtils.mergeViews(mapConstants.defaultMapView, mapSetView, mapView);
 				return !_.isEmpty(view) ? view : null;
 			} else {
 				let view = map.data && map.data.view;
-				return mapUtils.mergeViews(defaultMapView, view);
+				return mapUtils.mergeViews(mapConstants.defaultMapView, view);
 			}
 		} else {
 			return null;

@@ -1,7 +1,5 @@
-import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
-import VisualsConfig from '../../constants/VisualsConfig';
 
 import common from '../_common/actions';
 import attributeRelationsActions from '../AttributeRelations/actions';
