@@ -7,14 +7,11 @@ import Helmet from "react-helmet";
 
 import Action from '../../state/Action';
 import createStore, {createHistory} from './state/Store';
-import i18n from '../../i18n';
-import i18next from "i18next";
-import {utils} from '@gisatcz/ptr-utils'
+import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
-import '@gisatcz/ptr-core/src/styles/base.scss';
-import './styles/index.scss';
+import '@gisatcz/ptr-core/src/styles/base.scss';import './styles/index.scss';
 
 import en from "./locales/en/common";
 
@@ -23,7 +20,7 @@ import AppContainer from "../../components/common/AppContainer";
 import App from './components/App';
 
 // override and extend locales in namespaces
-utils.addI18nResources(i18next, 'common', {en});
+localesUtils.addI18nResources('common', {en});
 
 export default (path, baseUrl) => {
 	

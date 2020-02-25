@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
 import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 import {Button, Input} from '@gisatcz/ptr-atoms';
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import ScopeSelect from "../../../formComponents/MetadataMultiSelect/ScopeSelect";

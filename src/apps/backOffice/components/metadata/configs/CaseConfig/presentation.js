@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {withNamespaces} from "react-i18next";
+import {withNamespaces, localesUtils} from '@gisatcz/ptr-locales';
 import _ from 'lodash';
 
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
@@ -10,11 +10,9 @@ import TagsSelect from "../../../formComponents/MetadataMultiSelect/TagsSelect";
 
 import cz from "./locales/cz";
 import en from "./locales/en";
-import {utils} from '@gisatcz/ptr-utils'
-import i18next from "i18next";
 
 // add local locales
-utils.addI18nResources(i18next,'backOffice_CaseConfig', {cz, en});
+localesUtils.addI18nResources('backOffice_CaseConfig', {cz, en});
 
 class CaseConfig extends React.PureComponent {
 	static propTypes = {

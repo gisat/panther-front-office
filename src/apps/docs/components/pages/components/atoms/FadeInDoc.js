@@ -1,5 +1,5 @@
 import React from 'react';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 import {FadeIn} from '@gisatcz/ptr-atoms';
 
 import Page from '../../../Page';

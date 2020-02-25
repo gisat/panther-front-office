@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {withNamespaces} from "react-i18next";
+import {withNamespaces, localesUtils} from '@gisatcz/ptr-locales';
 import _ from 'lodash';
 
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
@@ -10,10 +10,9 @@ import InputWrapper, {InputWrapperInfo} from "../../../../../../components/commo
 import cz from "./locales/cz";
 import en from "./locales/en";
 import {utils} from '@gisatcz/ptr-utils';
-import i18next from "i18next";
 
 // add local locales
-utils.addI18nResources(i18next,'AttributeMetadataConfig', {cz, en});
+localesUtils.addI18nResources('AttributeMetadataConfig', {cz, en});
 
 class AttributeConfig extends React.PureComponent {
 	static propTypes = {

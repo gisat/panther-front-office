@@ -5,7 +5,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import Helmet from "react-helmet";
 import createStore, {createHistory} from './state/Store';
 import Action from "../../state/Action";
-import i18n from '../../i18n';
 
 // base styles need to be imported before all components
 // import '@gisatcz/ptr-core/src/styles/reset.css';

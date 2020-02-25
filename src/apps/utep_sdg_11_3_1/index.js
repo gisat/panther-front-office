@@ -8,7 +8,7 @@ import Favicon from 'react-favicon';
 
 import Action from './state/Action';
 import Store, {history} from './state/Store';
-import i18n from '../../i18n';
+import {i18n} from '@gisatcz/ptr-locales';
 import {utils} from '@gisatcz/ptr-utils';
 
 // base styles need to be imported before all components

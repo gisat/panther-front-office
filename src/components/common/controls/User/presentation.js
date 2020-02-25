@@ -5,7 +5,7 @@ import './style.scss';
 
 import {Button} from '@gisatcz/ptr-atoms';
 import {Menu, MenuItem} from '@gisatcz/ptr-atoms';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 
 class User extends React.PureComponent {
 

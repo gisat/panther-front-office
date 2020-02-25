@@ -6,9 +6,7 @@ import { Route, Switch } from 'react-router';
 
 import Action from './state/Action';
 import Store, {history} from './state/Store';
-import i18n from '../../i18n';
-import i18next from "i18next";
-import {utils} from '@gisatcz/ptr-utils';
+import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
@@ -32,7 +30,7 @@ import cz from "./locales/cz/common";
 import en from "./locales/en/common";
 
 // override and extend locales in namespaces
-utils.addI18nResources(i18next, 'common', {cz, en});
+localesUtils.addI18nResources('common', {cz, en});
 
 /**
  * Returns function returning BO Page for given component & screen set key

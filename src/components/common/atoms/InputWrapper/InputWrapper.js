@@ -2,17 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {utils} from '@gisatcz/ptr-utils'
-import _ from 'lodash';
-import i18next from "i18next";
 
 import cz from './locales/cz.json';
 import en from './locales/en.json';
 
 import './style.scss';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces, localesUtils} from '@gisatcz/ptr-locales';
 
 // add locales to component namespace
-utils.addI18nResources(i18next,'Atoms#InputWrapper', {cz, en});
+localesUtils.addI18nResources('Atoms#InputWrapper', {cz, en});
 
 class InputWrapper extends React.PureComponent {
 

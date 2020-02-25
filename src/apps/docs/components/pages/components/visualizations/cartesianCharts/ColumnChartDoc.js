@@ -1,5 +1,5 @@
 import React from 'react';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 import sample_15 from "../../../../mockData/sample_15";
 import sample_200 from "../../../../mockData/sample_200";
 import sample_serie_4 from "../../../../mockData/sample_serie_4";

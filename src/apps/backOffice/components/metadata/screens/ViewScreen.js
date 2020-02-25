@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 
 import ViewConfig from "../configs/ViewConfig";
 import ViewSwitcher from "../switchers/ViewSwitcher";

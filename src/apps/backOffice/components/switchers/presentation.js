@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 
 import {Button, Select} from '@gisatcz/ptr-atoms';
 

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import './style.css';
 
 import {Button, Input} from '@gisatcz/ptr-atoms';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 
 class LoginOverlay extends React.PureComponent {
 

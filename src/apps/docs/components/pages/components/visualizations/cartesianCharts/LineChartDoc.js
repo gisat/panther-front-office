@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 import {LineChart} from '@gisatcz/ptr-charts';
 
 import sample_serie_4 from "../../../../mockData/sample_serie_4";

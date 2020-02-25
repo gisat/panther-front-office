@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {withNamespaces} from "react-i18next";
+import {withNamespaces} from '@gisatcz/ptr-locales';
 
 import AttributeConfig from "../configs/AttributeConfig";
 import AttributeSwitcher from "../switchers/AttributeSwitcher";
