@@ -1,8 +1,0 @@
-/* Disability */
-.hold-button:not(.disabled) {
-    cursor: pointer;
-}
-
-.hold-button.disabled {
-    pointer-events: none;
-}

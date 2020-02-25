@@ -1,10 +1,8 @@
 import React from 'react';
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import _ from 'lodash';
 
 import Page from '../../../Page';
-import {Input} from '@gisatcz/ptr-atoms';
-import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+import {Input, InputWrapper, InputWrapperInfo} from '@gisatcz/ptr-atoms';
 
 class FormsDoc extends React.PureComponent {
 

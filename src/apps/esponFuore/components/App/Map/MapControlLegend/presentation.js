@@ -1,8 +1,7 @@
 import React from "react";
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import {Icon} from '@gisatcz/ptr-atoms'
-import HoldButton from '../../../../../../components/presentation/atoms/HoldButton'
+import {Icon, HoldButton} from '@gisatcz/ptr-atoms'
 import './mapLegend.scss';
 class MapLegend extends React.PureComponent {
 

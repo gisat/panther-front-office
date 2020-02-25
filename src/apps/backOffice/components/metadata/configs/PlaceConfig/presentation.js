@@ -4,8 +4,7 @@ import {withNamespaces, localesUtils} from '@gisatcz/ptr-locales';
 import _ from 'lodash';
 
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
-import {Button, Input} from '@gisatcz/ptr-atoms';
-import InputWrapper, {InputWrapperInfo} from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+import {Button, Input, InputWrapper, InputWrapperInfo} from '@gisatcz/ptr-atoms';
 
 import cz from "./locales/cz";
 import en from "./locales/en";

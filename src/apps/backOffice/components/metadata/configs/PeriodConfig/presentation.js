@@ -4,8 +4,7 @@ import {withNamespaces} from '@gisatcz/ptr-locales';
 import _ from 'lodash';
 
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
-import {Button, Input} from '@gisatcz/ptr-atoms';
-import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+import {Button, Input, InputWrapper} from '@gisatcz/ptr-atoms';
 
 class PeriodConfig extends React.PureComponent {
 	static propTypes = {

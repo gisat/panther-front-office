@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import {withNamespaces} from '@gisatcz/ptr-locales';
 import _ from 'lodash';
 
-import {Button, Input} from '@gisatcz/ptr-atoms';
-import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
+import {Button, Input, InputWrapper} from '@gisatcz/ptr-atoms';
 
 import AttributesSelect from "../../../formComponents/MetadataMultiSelect/AttributesSelect";
 import TagsSelect from "../../../formComponents/MetadataMultiSelect/TagsSelect";

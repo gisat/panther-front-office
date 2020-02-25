@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {Icon} from '@gisatcz/ptr-atoms'
-import HoldButton from '../../../presentation/atoms/HoldButton'
+import {Icon, HoldButton} from '@gisatcz/ptr-atoms';
 import './mapControls.scss';
 class MapControls extends React.PureComponent {
 

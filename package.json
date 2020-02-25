@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.2.2",
-    "@gisatcz/ptr-atoms": "0.0.1-pre-alpha",
+    "@gisatcz/ptr-atoms": "1.0.0-alpha",
     "@gisatcz/ptr-core": "1.0.0-alpha",
     "@gisatcz/ptr-charts": "0.0.6-pre-alpha",
     "@gisatcz/ptr-locales": "0.0.1-pre-alpha",

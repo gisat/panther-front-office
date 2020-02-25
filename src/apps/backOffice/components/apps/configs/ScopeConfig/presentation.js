@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
-import InputWrapper from "../../../../../../components/common/atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import {Button, Input} from '@gisatcz/ptr-atoms';
+import {Button, Input, InputWrapper} from '@gisatcz/ptr-atoms';
 import ApplicationSelect from "../../../formComponents/ApplicationSelect";
 import {utils} from '@gisatcz/ptr-utils'
 
