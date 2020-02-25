@@ -8,7 +8,7 @@ import _ from 'lodash';
  * DEFAULT VALUES (fallback)
  * Used if not specified in rewrites.
  */
-import defaults from './defaults';
+import {configDefaults} from '@gisatcz/ptr-core';
 /**
  * CONFIG PROPER
  * Per-instance values, development values & features.
@@ -25,5 +25,5 @@ for(let configKey in rewrites) {
 	}
 }
 
-let config = _.merge({}, defaults, validConfigurationUpdate);
+let config = _.merge({}, configDefaults, validConfigurationUpdate);
 export default config;
