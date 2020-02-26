@@ -16,6 +16,7 @@ export const commonActionTypesDefinitions = {
 		SET_KEY: null,
 		SET_BASE_URL: null,
 		SET_LOCAL_CONFIGURATION: null,
+		UPDATE_LOCAL_CONFIGURATION: null,
 		RECEIVE_CONFIGURATION: null
 	},
 

@@ -9,7 +9,6 @@ import Favicon from 'react-favicon';
 import Action from './state/Action';
 import Store, {history} from './state/Store';
 import {i18n, localesUtils} from '@gisatcz/ptr-locales';
-import {utils} from '@gisatcz/ptr-utils'
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
@@ -24,6 +23,7 @@ import ReactRouterViewController from "./components/ReactRouterViewController";
 import App from "./components/App";
 
 import favicon from './assets/favicon.ico';
+import config from "../../config";
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {en});
@@ -36,6 +36,7 @@ export default (path, baseUrl) => {
 
 	let componentId = 'Fuore-LayersTree';
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('esponFuore'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.01));

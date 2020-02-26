@@ -15,6 +15,7 @@ import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
+import config from "../../config";
 
 // import vuhu from './data/vuhu_krivky.json';
 // import vuhu0 from './data/vuhu_krivky_0.json';
@@ -28,6 +29,7 @@ export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('insarBmwStory'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 

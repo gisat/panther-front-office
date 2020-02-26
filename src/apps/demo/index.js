@@ -6,6 +6,7 @@ import '@gisatcz/ptr-core/src/styles/reset.css';
 import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
+import config from "../../../src/config";
 import Demo from './Demo';
 import {Provider} from "react-redux";
 import {ConnectedRouter} from "connected-react-router";
@@ -13,10 +14,13 @@ import {Redirect, Route, Switch} from "react-router";
 import AppContainer from "../../components/common/AppContainer/presentation";
 import createStore, {createHistory} from './state/Store';
 import MapConnectedToState from "./components/MapConnectedToStore";
+import Action from "../backOffice/state/Action";
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
+
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 
 	ReactDOM.render(
 		<>

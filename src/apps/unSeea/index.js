@@ -9,7 +9,6 @@ import Favicon from 'react-favicon';
 import Action from './state/Action';
 import Store, {history} from './state/Store';
 import {i18n, localesUtils} from '@gisatcz/ptr-locales';
-import {utils} from '@gisatcz/ptr-utils'
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
@@ -25,12 +24,14 @@ import DistrictsSecond from './components/pages/DistrictsSecond/subAppWrapper';
 import Districts from './components/pages/Districts/subAppWrapper';
 import Trees from './components/pages/Trees/subAppWrapper';
 import LandingPage from './components/pages/LandingPage/presentation';
+import config from "../../config";
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {en});
 
 
 export default (path, baseUrl) => {
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 
 	// Set language
 	i18n.changeLanguage("en");

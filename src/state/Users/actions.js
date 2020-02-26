@@ -1,6 +1,5 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
-import config from "../../config";
 import path from "path";
 import fetch from "isomorphic-fetch";
 
@@ -52,7 +51,8 @@ function onLogout() {
 }
 
 function apiLoginUser(email, password) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		dispatch(actionApiLoginRequest());
 
 		let payload = {
@@ -60,7 +60,7 @@ function apiLoginUser(email, password) {
 			password: password
 		};
 
-		return request('backend/api/login/login', 'POST', null, payload)
+		return request(localConfig, 'backend/api/login/login', 'POST', null, payload)
 			.then(result => {
 				if (result.data.status === "ok") {
 					dispatch(onLogin());
@@ -122,10 +122,11 @@ function apiLoginUser(email, password) {
 // }
 
 function apiLoadCurrentUser() {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		dispatch(actionApiLoadCurrentUserRequest());
 
-		return request('backend/rest/user/current', 'GET', null, null)
+		return request(localConfig,'backend/rest/user/current', 'GET', null, null)
 			.then(result => {
 				if (result.errors) { //todo how do we return errors here?
 					throw new Error(result.errors);
@@ -151,10 +152,12 @@ function apiLoadCurrentUser() {
 
 function apiLogoutUser(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
-	return dispatch => {
+	return (dispatch, getState) => {
+		const apiBackendProtocol = Select.app.getLocalConfiguration(getState(), 'apiBackendProtocol');
+		const apiBackendHost = Select.app.getLocalConfiguration(getState(), 'apiBackendHost');
 		dispatch(actionApiLogoutRequest());
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/api/login/logout');
+		let url = apiBackendProtocol + '://' + path.join(apiBackendHost, 'backend/api/login/logout');
 
 		return fetch(url, {
 			method: 'POST',

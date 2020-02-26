@@ -14,7 +14,6 @@ import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
 import config from '../../config';
-import mockConfig from './mockConfig.json';
 import utils from "./utils";
 import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
@@ -25,6 +24,7 @@ export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	const appConfigUrl = config.tacrAgritasDataRepositoryUrl + 'config.json';
 
 	utils.request(appConfigUrl, "GET", null, null).then((config) => {

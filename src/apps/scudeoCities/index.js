@@ -18,6 +18,7 @@ import en from "./locales/en/common";
 import AppContainer from "../../components/common/AppContainer";
 
 import App from './components/App';
+import config from "../../config";
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {en});
@@ -27,6 +28,7 @@ export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('scudeoCities'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));

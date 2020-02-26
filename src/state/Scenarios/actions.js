@@ -1,7 +1,6 @@
 import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
-import config from '../../config';
 
 import _ from 'lodash';
 import path from 'path';
@@ -181,6 +180,7 @@ function removeCases(keys){
 function load(caseKey) {
 	return (dispatch, getState) => {
 		let state = getState();
+		const localConfig = Select.app.getCompleteLocalConfiguration(state);
 		if (state.scenarios.loading) {
 			// already loading, do nothing
 		} else {
@@ -188,7 +188,7 @@ function load(caseKey) {
 			let query = {
 				scenario_case_id: caseKey
 			};
-			dispatch(common.request('backend/rest/metadata/scenarios', "GET", query, null, loadReceive, actionLoadError));
+			dispatch(common.request(localConfig, 'backend/rest/metadata/scenarios', "GET", query, null, loadReceive, actionLoadError));
 		}
 	}
 }
@@ -227,6 +227,7 @@ function loadCases(ttl) {
 	return (dispatch, getState) => {
 
 		let state = getState();
+		const localConfig = Select.app.getCompleteLocalConfiguration(state);
 		if (state.scenarios.loading) {
 			// already loading, do nothing
 		} else {
@@ -236,7 +237,7 @@ function loadCases(ttl) {
 
 			if (activePlaceKey) {
 
-				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata/scenario_cases');
+				let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/metadata/scenario_cases');
 				let query = queryString.stringify({
 					place_id: activePlaceKey
 				});
@@ -329,10 +330,11 @@ function deleteActiveCase() {
 
 function apiCreateCases(cases, scenarios, placeKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
-	return dispatch => {
+	return (dispatch, getState) => {
 		dispatch(actionApiCreateCasesRequest(_.map(cases, 'key')));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/metadata');
 
 		let payload = {
 			data: {
@@ -414,8 +416,9 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 		dispatch(actionApiUpdateCasesRequest(_.map(updates, 'key')));
 
 		let state = getState();
+		const localConfig = Select.app.getCompleteLocalConfiguration(state);
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/metadata');
 
 		let payload = {
 			data: {
@@ -522,10 +525,11 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 
 function apiDeleteCases(cases, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
-	return dispatch => {
+	return (dispatch, getState) => {
 		dispatch(actionApiDeleteCasesRequest(_.map(cases, 'key')));
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/metadata');
 
 		let payload = {
 			data: {
@@ -586,8 +590,9 @@ function apiDeleteCasesError(message){
 }
 
 function apiUploadScenarioFiles(scenarios) {
-	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/importer/upload');
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/importer/upload');
 
 		let promises = [];
 		let scenarioKeys = [];
@@ -632,7 +637,8 @@ function clearRequestInterval(uuid) {
 }
 
 function apiExecuteMultipleMatlabProcessAndPublisResults(processes) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		processes = _.isArray(processes) ? processes : [processes];
 
 		processes.forEach((process) => {
@@ -644,7 +650,7 @@ function apiExecuteMultipleMatlabProcessAndPublisResults(processes) {
 		getBodyForMatlabProcessesRequest(processes)
 			.then((body) => {
 				let execute = () => {
-					executeMatlabProcessRequest(body)
+					executeMatlabProcessRequest(body, localConfig)
 						.then((results) => {
 							return processMatlabProcessRequestResults(results, dispatch);
 						})
@@ -693,9 +699,9 @@ function processMatlabProcessRequestResults(results, dispatch) {
 		});
 }
 
-function executeMatlabProcessRequest(body) {
+function executeMatlabProcessRequest(body, localConfig) {
 	return fetch(
-		config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/pucs/publish'),
+		localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/pucs/publish'),
 		{
 			method: "POST",
 			credentials: 'include',
@@ -730,7 +736,8 @@ function getBodyForMatlabProcessesRequest(processes) {
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/pucs/execute_matlab');
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/pucs/execute_matlab');
 		let state = getState();
 
 		let scenarioKeys = [];
@@ -785,7 +792,8 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/relations');
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, 'backend/rest/relations');
 
 		let activePlace = Select.places.getActive(getState());
 

@@ -2,12 +2,13 @@ import ActionTypes from '../../constants/ActionTypes';
 import request from "../_common/request";
 import selectors from './selectors';
 import commonActions from '../_common/actions';
-import _ from "lodash";
+import Select from "../Select";
 
 // ============ creators ===========
 
 const loadConfiguration = () => {
 	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		const apiPath = 'backend/rest/applications/filtered/configurations';
 		let applicationKey = selectors.getKey(getState());
 		const payload = {
@@ -15,7 +16,7 @@ const loadConfiguration = () => {
 				applicationKey
 			}
 		};
-		return request(apiPath, 'POST', null, payload)
+		return request(localConfig, apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors.configurations || result.data && !result.data.configurations) {
 					dispatch(commonActions.actionGeneralError(result.errors.configurations || new Error('no data')));
@@ -51,6 +52,12 @@ const actionSetLocalConfiguration = (path, value) => {
 		value
 	}
 };
+const actionUpdateLocalConfiguration = (update) => {
+	return {
+		type: ActionTypes.APP.UPDATE_LOCAL_CONFIGURATION,
+		update
+	}
+};
 const actionReceiveConfiguration = (configuration) => {
 	return {
 		type: ActionTypes.APP.RECEIVE_CONFIGURATION,
@@ -63,6 +70,7 @@ const actionReceiveConfiguration = (configuration) => {
 export default {
 	add: actionReceiveConfiguration,
 	setKey: actionSetKey,
+	updateLocalConfiguration: actionUpdateLocalConfiguration,
 	setBaseUrl: actionSetBaseUrl,
 	setLocalConfiguration: actionSetLocalConfiguration,
 	loadConfiguration

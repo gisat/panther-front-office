@@ -38,6 +38,7 @@ import HoverHandlerDoc from "./components/pages/components/commonFeatures/HoverH
 import LayersDoc from "./components/pages/architecture/systemDataTypes/LayersDoc";
 import MapViewDoc from "./components/pages/architecture/systemDataTypes/MapViewDoc";
 import StyleDoc from "./components/pages/architecture/commonDataTypes/StyleDoc";
+import config from "../../config";
 
 
 export default (path, baseUrl) => {
@@ -45,6 +46,7 @@ export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('docs'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 

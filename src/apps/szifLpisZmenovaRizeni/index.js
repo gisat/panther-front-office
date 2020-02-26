@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
 import Action from './state/Action';
@@ -15,10 +13,12 @@ import './styles/index.scss';
 
 import AppContainer from "../../components/common/AppContainer";
 import SzifCaseTable from "./components/SzifCaseTable";
+import config from "../../config";
 
 export default (path, baseUrl) => {
 
 	// Load Current User
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
 	ReactDOM.render(

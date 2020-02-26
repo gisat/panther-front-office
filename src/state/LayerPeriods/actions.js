@@ -4,7 +4,6 @@ import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 
-import config from '../../config';
 import Select from '../Select';
 
 const TTL = 3;
@@ -15,6 +14,11 @@ const TTL = 3;
 function loadForAoiLayer(aoi, wmsLayer, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
+		const state = getState();
+		const apiBackendProtocol = Select.app.getLocalConfiguration(state, 'apiBackendProtocol');
+		const apiBackendHost = Select.app.getLocalConfiguration(state, 'apiBackendHost');
+		const apiBackendPath = Select.app.getLocalConfiguration(state, 'apiBackendPath');
+		const apiBackendAoiLayerPeriodsPath = Select.app.getLocalConfiguration(state, 'apiBackendAoiLayerPeriodsPath');
 
 		if (!_.isObject(aoi)) {
 			aoi = _.find(Select.aoi.getAois(getState()), {key: aoi});
@@ -25,7 +29,7 @@ function loadForAoiLayer(aoi, wmsLayer, ttl) {
 
 		dispatch(actionLoadForAoiRequest(aoi.key, wmsLayer.key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendAoiLayerPeriodsPath);
+		let url = apiBackendProtocol + '://' + path.join(apiBackendHost, apiBackendPath, apiBackendAoiLayerPeriodsPath);
 		let body = {
 			data: {
 				geometry: aoi.geometry,
@@ -64,6 +68,11 @@ function loadForAoiLayer(aoi, wmsLayer, ttl) {
 function loadForPlaceLayer(place, wmsLayer, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
+		const state = getState();
+		const apiBackendProtocol = Select.app.getLocalConfiguration(state, 'apiBackendProtocol');
+		const apiBackendHost = Select.app.getLocalConfiguration(state, 'apiBackendHost');
+		const apiBackendPath = Select.app.getLocalConfiguration(state, 'apiBackendPath');
+		const apiBackendAoiLayerPeriodsPath = Select.app.getLocalConfiguration(state, 'apiBackendAoiLayerPeriodsPath');
 
 		if (!_.isObject(place)) {
 			place = _.find(Select.places.getPlaces(getState()), {key: place});
@@ -74,7 +83,7 @@ function loadForPlaceLayer(place, wmsLayer, ttl) {
 
 		dispatch(actionLoadForPlaceRequest(place.key, wmsLayer.key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendAoiLayerPeriodsPath);
+		let url = apiBackendProtocol + '://' + path.join(apiBackendHost, apiBackendPath, apiBackendAoiLayerPeriodsPath);
 		let body = {
 			data: {
 				geometry: place.geometry,
@@ -113,6 +122,7 @@ function loadForKeyLayer(key, geometry, wmsLayer, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
 		let state = getState();
+		const localConfig = Select.app.getCompleteLocalConfiguration(state);
 
 		if (!_.isObject(wmsLayer)) {
 			wmsLayer = _.find(state.wmsLayers.data, {key: wmsLayer});
@@ -120,7 +130,7 @@ function loadForKeyLayer(key, geometry, wmsLayer, ttl) {
 
 		dispatch(actionLoadForKeyLayerRequest(key, geometry, wmsLayer.key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendAoiLayerPeriodsPath);
+		let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, localConfig.apiBackendAoiLayerPeriodsPath);
 		let body = {
 			data: {
 				geometry: geometry,

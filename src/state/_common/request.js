@@ -1,6 +1,5 @@
 import _ from "lodash";
 import fetch from "isomorphic-fetch";
-import config from "../../config/index";
 import path from "path";
 import queryString from "query-string";
 
@@ -8,6 +7,7 @@ const TTL = 5;
 
 /**
  * Request helper. Creates an request to backend.
+ * @param localConfig
  * @param apiPath - path to backend endpoint (hostname taken from config)
  * @param method - HTTP method
  * @param query - url query as object
@@ -15,9 +15,9 @@ const TTL = 5;
  * @param ttl - (optional) number of tries
  * @returns response or error
  */
-export default function request (apiPath, method, query, payload, ttl) {
+export default function request (localConfig, apiPath, method, query, payload, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
-	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, apiPath);
+	let url = localConfig.apiBackendProtocol + '://' + path.join(localConfig.apiBackendHost, localConfig.apiBackendPath, apiPath);
 	if (query) {
 		url += '?' + queryString.stringify(query);
 	}

@@ -19,12 +19,14 @@ import AppContainer from "../../components/common/AppContainer/presentation";
 import GlobalWSF from "./components/GlobalWSF";
 import GreenAreas from "./components/GreenAreas";
 import LandAssetsStructure from "./components/LandAssetsStructure";
+import config from "../../config";
 // import SlumsMonitoring from "./components/SlumsMonitoring";
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
 	const Store = createStore(history);
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('scudeoCities19'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 

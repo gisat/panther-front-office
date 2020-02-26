@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
+import config from "../../../src/config";
 
 import Action from '../../state/Action';
 import Select from "../../state/Select";
 import Store, {history} from './state/Store';
 import {i18n, localesUtils} from '@gisatcz/ptr-locales';
-import {utils} from '@gisatcz/ptr-utils'
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
@@ -27,6 +27,7 @@ localesUtils.addI18nResources('common', {cz});
 
 export default (path, baseUrl) => {
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('tacrGeoinvaze'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.components.set('tacrGeoinvaze_CaseSelectContent', 'showIntro', true));

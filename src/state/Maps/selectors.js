@@ -2,7 +2,6 @@ import {createSelector} from 'reselect';
 import createCachedSelector from "re-reselect";
 import _ from 'lodash';
 import * as path from "path";
-import config from "../../config/index";
 
 import {map as mapUtils} from '@gisatcz/ptr-utils';
 import {CacheFifo} from '@gisatcz/ptr-utils';
@@ -16,6 +15,7 @@ import AppSelectors from '../App/selectors';
 import {mapConstants} from '@gisatcz/ptr-core';
 import StylesSelectors from "../Styles/selectors";
 import SelectionsSelectors from "../Selections/selectors";
+import Select from "../Select";
 
 let getBackgroundLayerCache = new CacheFifo(10);
 let getLayersCache = new CacheFifo(10);
@@ -603,13 +603,17 @@ const getLayers = (state, layersState) => {
 							// TODO quick solution for geoinv
 							let currentApp = AppSelectors.getKey(state);
 							if (currentApp === 'tacrGeoinvaze') {
+								const apiGeoserverWMSProtocol = Select.app.getLocalConfiguration(state, 'apiGeoserverWMSProtocol');
+								const apiGeoserverWMSHost = Select.app.getLocalConfiguration(state, 'apiGeoserverWMSHost');
+								const apiGeoserverWMSPath = Select.app.getLocalConfiguration(state, 'apiGeoserverWMSPath');
+
 								if (dataSource && dataSource.data && dataSource.data.layerName && (dataSource.data.type === "vector" || dataSource.data.type === "raster")) {
 									mapLayers.push({
 										key: layerKey + '_' + dataSource.key,
 										layerKey: layerKey,
 										type: "wms",
 										options: {
-											url: config.apiGeoserverWMSProtocol + "://" + path.join(config.apiGeoserverWMSHost, config.apiGeoserverWMSPath),
+											url: apiGeoserverWMSProtocol + "://" + path.join(apiGeoserverWMSHost, apiGeoserverWMSPath),
 											params: {
 												layers: dataSource.data.layerName
 											}
@@ -746,6 +750,7 @@ const getLayers_deprecated = createSelector(
 	[
 		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
 		AttributeDataSelectors.getFilteredGroupedByLayerKey,
+		AppSelectors.getCompleteLocalConfiguration,
 		(state, layers) => (layers)
 	],
 	/**
@@ -753,10 +758,10 @@ const getLayers_deprecated = createSelector(
 	 * @param layers {null | Array}
 	 * @return {null | Array} Collection of layers data for map component
 	 */
-	(groupedSpatialSources, groupedAttributeSources, layers) => {
+	(groupedSpatialSources, groupedAttributeSources,localConfig, layers) => {
 		// FIXME - more complex
 		if (groupedSpatialSources && groupedAttributeSources && layers) {
-			return layers.map((layer) => getLayerConfiguration(layer, groupedSpatialSources[layer.data.key], groupedAttributeSources[layer.data.key]));
+			return layers.map((layer) => getLayerConfiguration(localConfig, layer, groupedSpatialSources[layer.data.key], groupedAttributeSources[layer.data.key]));
 		} else {
 			return null;
 		}
@@ -915,7 +920,7 @@ const getLayersStateByMapSetKey_deprecated = createSelector(
 // ----- helpers ------
 const getLayerState = (layer) => ({filter: layer.mergedFilter, data: layer.layer});
 
-const getLayerConfiguration = (layer, spatialSourcesForLayer, attributeSourcesForLayer) => {
+const getLayerConfiguration = (localConfig, layer, spatialSourcesForLayer, attributeSourcesForLayer) => {
 	// let spatialSourcesForLayer = groupedSpatialSources[layer.data.key];
 	let layerConfig = null;
 	if (spatialSourcesForLayer) {
@@ -925,8 +930,8 @@ const getLayerConfiguration = (layer, spatialSourcesForLayer, attributeSourcesFo
 		[spatialSourcesForLayer[0]].forEach(source => {
 			let key = `${layer.data.key}`;
 			let mapServerConfig = {
-				wmsMapServerUrl: `${config.apiGeoserverWMSProtocol}://${config.apiGeoserverWMSHost}/${config.apiGeoserverWMSPath}`,
-				wfsMapServerUrl: `${config.apiGeoserverWFSProtocol}://${config.apiGeoserverWFSHost}/${config.apiGeoserverWFSPath}`
+				wmsMapServerUrl: `${localConfig.apiGeoserverWMSProtocol}://${localConfig.apiGeoserverWMSHost}/${localConfig.apiGeoserverWMSPath}`,
+				wfsMapServerUrl: `${localConfig.apiGeoserverWFSProtocol}://${localConfig.apiGeoserverWFSHost}/${localConfig.apiGeoserverWFSPath}`
 			};
 
 			if (source) {

@@ -28,6 +28,10 @@ const setLocalConfiguration = (state, action) => {
 	return {...state, localConfiguration: setHelper(state.localConfiguration, path, action.value)};
 };
 
+const updateLocalConfiguration = (state, action) => {
+	return {...state, localConfiguration: state.localConfiguration ? {...state.localConfiguration, ...action.update} : action.update};
+};
+
 function setHelper(state, path, value) {
 	let remainingPath = [...path];
 	let currentKey = remainingPath.shift();
@@ -50,6 +54,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setKey(state, action);
 		case ActionTypes.APP.SET_LOCAL_CONFIGURATION:
 			return setLocalConfiguration(state, action);
+		case ActionTypes.APP.UPDATE_LOCAL_CONFIGURATION:
+			return updateLocalConfiguration(state, action);
 		case ActionTypes.APP.RECEIVE_CONFIGURATION:
 			return receiveConfiguration(state, action);
 		default:

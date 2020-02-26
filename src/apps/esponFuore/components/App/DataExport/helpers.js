@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import config from '../../../../../config/index';
 import download from 'downloadjs';
 import Select from '../../../state/Select';
 
@@ -10,6 +9,8 @@ function error (message) {
 export default (type, applyFilter) => {
 	return (dispatch, getState) => {
 		const state = getState();
+		const apiBackendProtocol = Select.app.getLocalConfiguration(state, 'apiBackendProtocol');
+		const apiBackendHost = Select.app.getLocalConfiguration(state, 'apiBackendHost');
 
 		const applicationKey = Select.app.getKey(state);
 		const scopeKey = Select.scopes.getActiveKey(state);
@@ -27,7 +28,7 @@ export default (type, applyFilter) => {
 		};
 
 		/* Endpoint */
-		let url = `${config.apiBackendProtocol}://${config.apiBackendHost}/backend/rest/export/${type ? type : 'geojson'}/filtered`;
+		let url = `${apiBackendProtocol}://${apiBackendHost}/backend/rest/export/${type ? type : 'geojson'}/filtered`;
 
 		/* Payload */
 		let payload = {

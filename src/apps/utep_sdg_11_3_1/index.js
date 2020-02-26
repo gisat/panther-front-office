@@ -26,6 +26,7 @@ import viewCfg from "./data/view.js";
 import spatialRalationsCfg from "./data/spatialRalations.js";
 import spatialDataSourcesCfg from "./data/spatialDataSources.js";
 import boundariesSpatialData from "./data/boundaries.js";
+import config from "../../config";
 
 // override and extend locales in namespaces
 utils.addI18nResources(i18n,'common', {en});
@@ -35,6 +36,7 @@ const WINDOW_SET_KEY = "utep_sdg_11_3_1";
 const MAP_SET_KEY = "utep_sdg_11_3_1";
 
 export default (path, baseUrl) => {
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.views.add(viewCfg));
 	Store.dispatch(Action.views.setActiveKey('UTEP_SDG_11_3_1'));
 	Store.dispatch(Action.views.apply("UTEP_SDG_11_3_1", Action));

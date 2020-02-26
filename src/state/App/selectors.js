@@ -25,5 +25,6 @@ export default {
 	getKey,
 	getConfiguration,
 	getCompleteConfiguration,
-	getLocalConfiguration
+	getLocalConfiguration,
+	getCompleteLocalConfiguration
 };

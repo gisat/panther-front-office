@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
 import Action from '../../state/Action';
 import Select from '../../state/Select';
 import Store, {history} from './state/Store';
-import {i18n} from '@gisatcz/ptr-locales';
-import {utils} from '@gisatcz/ptr-utils'
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
@@ -21,11 +17,13 @@ import './styles/index.scss';
 import AppContainer from "../../components/common/AppContainer";
 import App from './components/App';
 import _ from "lodash";
+import config from "../../config";
 
 // import App from './components/App';
 
 export default (path, baseUrl) => {
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setKey('szdcInsar19'));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 	Store.dispatch(Action.app.setLocalConfiguration('geometriesAccuracy', 0.001));

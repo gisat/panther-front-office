@@ -7,6 +7,7 @@ import { Route, Switch } from 'react-router';
 import Action from './state/Action';
 import Store, {history} from './state/Store';
 import {i18n, localesUtils} from '@gisatcz/ptr-locales';
+import config from "../../../src/config";
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
@@ -49,6 +50,7 @@ const pageFactory = (appPath, managedAppKey) => (component, screenSetKey, baseAc
 
 export default (path, baseUrl, managedAppKey) => {
 
+	Store.dispatch(Action.app.updateLocalConfiguration(config));
 	Store.dispatch(Action.app.setBaseUrl(baseUrl));
 
 	let page = pageFactory(path, managedAppKey);

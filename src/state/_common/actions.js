@@ -2,7 +2,6 @@ import _, {isEqual} from "lodash";
 import path from "path";
 import moment from 'moment';
 
-import config from '../../config';
 import request from './request';
 import commonHelpers from './helpers';
 import commonSelectors from './selectors';
@@ -12,7 +11,6 @@ import ActionTypes from "../../constants/ActionTypes";
 import Action from '../Action';
 import {utils} from '@gisatcz/ptr-utils'
 
-const PAGE_SIZE = config.requestPageSize;
 const DEFAULT_CATEGORY_PATH = 'metadata';
 
 
@@ -36,14 +34,15 @@ const addIndex = (action) => {
 };
 
 const apiDelete = (dataType, categoryPath, data) => {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		const apiPath = 'backend/rest/' + categoryPath;
 		const payload = {
 			data: {
 				[dataType]: data
 			}
 		};
-		return request(apiPath, 'DELETE', null, payload)
+		return request(localConfig, apiPath, 'DELETE', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
@@ -63,14 +62,15 @@ const apiDelete = (dataType, categoryPath, data) => {
 };
 
 const apiUpdate = (getSubstate, dataType, actionTypes, categoryPath, editedData) => {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		const apiPath = 'backend/rest/' + categoryPath;
 		const payload = {
 			data: {
 				[dataType]: editedData
 			}
 		};
-		return request(apiPath, 'PUT', null, payload)
+		return request(localConfig, apiPath, 'PUT', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
@@ -295,8 +295,10 @@ function receiveIndexedBatch(actionTypes, result, dataType, filter, order, key) 
 }
 
 function requestWrapper(apiPath, method, query, payload, successAction, errorAction) {
-	return dispatch => {
-		request(apiPath, method, query, payload)
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+
+		request(localConfig, apiPath, method, query, payload)
 			.then(result => {
 				dispatch(successAction(result.data));
 			})
@@ -311,6 +313,7 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 		return (dispatch, getState) => {
 			const state = getState();
 			const apiPath = path.join('backend/rest', categoryPath);
+			const localConfig = Select.app.getCompleteLocalConfiguration(state);
 
 			let applicationKey = null;
 			if (appKey) {
@@ -323,7 +326,7 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 			}
 
 			const payload = getCreatePayload(dataType, key, applicationKey);
-			return request(apiPath, 'POST', null, payload).then(result => {
+			return request(localConfig, apiPath, 'POST', null, payload).then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
@@ -352,12 +355,14 @@ function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEG
 }
 
 function loadAll(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		const PAGE_SIZE = localConfig.requestPageSize;
 		const apiPath = getAPIPath(categoryPath, dataType);
 		let payload = {
 			limit: PAGE_SIZE
 		};
-		request(apiPath, 'POST', null, payload)
+		request(localConfig, apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
@@ -374,7 +379,7 @@ function loadAll(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
 							};
-							promises.push(request(apiPath, 'POST', null, pagePayload)); //todo what if one fails?
+							promises.push(request(localConfig, apiPath, 'POST', null, pagePayload)); //todo what if one fails?
 						}
 						Promise.all(promises).then(results => {
 							let remainingData = _.flatten(results.map(res => res.data[dataType]));
@@ -392,7 +397,8 @@ function loadAll(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 
 function ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH){
 	return (dispatch, getState) => {
-		let state = getState();
+		const state = getState();
+		const PAGE_SIZE = Select.app.getLocalConfiguration(state, 'requestPageSize');
 
 		let keysToLoad = commonSelectors.getKeysToLoad(getSubstate)(state, keys);
 		let promises = [];
@@ -410,7 +416,9 @@ function ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath = DEF
 
 function ensureIndexed(getSubstate, dataType, filter, order, start, length, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH){
 	return (dispatch, getState) => {
-		let state = getState();
+		const state = getState();
+		const localConfig = Select.app.getCompleteLocalConfiguration(state);
+		const PAGE_SIZE = localConfig.requestPageSize;
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
 		let changedOn = commonSelectors.getIndexChangedOn(getSubstate)(state, filter, order);
 
@@ -474,7 +482,8 @@ function ensureIndexedBatch(dataType, filter, order, actionTypes, categoryPath =
 }
 
 function loadKeysPage(dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		const apiPath = getAPIPath(categoryPath, dataType);
 
 		let payload = {
@@ -484,7 +493,7 @@ function loadKeysPage(dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGO
 				}
 			}
 		};
-		return request(apiPath, 'POST', null, payload)
+		return request(localConfig, apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					throw new Error(result.errors[dataType] || 'no data');
@@ -500,7 +509,9 @@ function loadKeysPage(dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGO
 }
 
 function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		const PAGE_SIZE = localConfig.requestPageSize;
 		const apiPath = getAPIPath(categoryPath, dataType);
 
 		let payload = {
@@ -509,7 +520,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 			order: order,
 			limit: PAGE_SIZE
 		};
-		return request(apiPath, 'POST', null, payload)
+		return request(localConfig, apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					throw new Error(result.errors[dataType] || 'no data');
@@ -527,7 +538,8 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 }
 
 function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH, key, additionalParams) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
 		const apiPath = getAPIPath(categoryPath, dataType);
 
 		let payload = {
@@ -539,7 +551,7 @@ function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = D
 			payload = {...payload, ...additionalParams};
 		}
 
-		return request(apiPath, 'POST', null, payload)
+		return request(localConfig, apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					throw new Error(result.errors[dataType] || 'no data');
@@ -555,13 +567,15 @@ function loadIndexedBatch(dataType, filter, order, actionTypes, categoryPath = D
 }
 
 function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATEGORY_PATH) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const localConfig = Select.app.getCompleteLocalConfiguration(getState());
+		const PAGE_SIZE = localConfig.requestPageSize;
 		const apiPath = getAPIPath(categoryPath, dataType);
 		const payload = {
 			filter: filter,
 			limit: PAGE_SIZE
 		};
-		return request(apiPath, 'POST', null, payload)
+		return request(localConfig, apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
@@ -579,7 +593,7 @@ function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATE
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
 							};
-							promises.push(request(apiPath, 'POST', null, pagePayload)); //todo what if one fails?
+							promises.push(request(localConfig, apiPath, 'POST', null, pagePayload)); //todo what if one fails?
 						}
 						return Promise.all(promises).then(results => {
 							let remainingData = _.flatten(results.map(res => res.data[dataType]));
