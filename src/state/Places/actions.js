@@ -1,13 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
 
 import common from '../_common/actions';
-import LayerPeriods from "../LayerPeriods/actions";
-import ScenariosActions from "../Scenarios/actions";
-import SpatialRelationsActions from "../SpatialRelations/actions";
-import SpatialDataSourcesActions from "../SpatialDataSources/actions";
 import Select from "../Select";
-import Action from "../Action";
 
 
 // ============ creators ===========

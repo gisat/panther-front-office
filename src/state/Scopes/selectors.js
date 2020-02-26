@@ -1,7 +1,4 @@
 import {createSelector} from 'reselect';
-import _ from 'lodash';
-import Select from '../Select';
-
 import common from "../_common/selectors";
 
 const getSubstate = state => state.scopes;

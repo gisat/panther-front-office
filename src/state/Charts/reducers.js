@@ -1,5 +1,4 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
 
 const INITIAL_STATE = {
 	charts: {},

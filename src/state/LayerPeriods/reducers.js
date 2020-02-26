@@ -1,6 +1,4 @@
 import ActionTypes from '../../constants/ActionTypes';
-import Action from '../Action';
-import _ from 'lodash';
 
 const INITIAL_STATE = {
 	byAoiKey: {},

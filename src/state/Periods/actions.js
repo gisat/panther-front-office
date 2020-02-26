@@ -1,5 +1,4 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
 import common from '../_common/actions';
 import Select from "../Select";
 

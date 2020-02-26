@@ -2,10 +2,6 @@ import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 import common from "../_common/actions";
 import _ from "lodash";
-import attributeActions from "../Attributes/actions";
-import attributeDataSourcesActions from "../AttributeDataSources/actions";
-import statisticsActions from "../AttributeStatistics/actions";
-import attributeDataActions from "../AttributeData/actions";
 import commonSelectors from "../_common/selectors";
 import Action from "../Action";
 
