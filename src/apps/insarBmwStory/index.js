@@ -5,8 +5,7 @@ import Helmet from "react-helmet";
 import { Provider } from 'react-redux';
 
 import createStore, {createHistory} from './state/Store';
-
-import Action from '../../state/Action';
+import {Action} from '@gisatcz/ptr-state';
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';

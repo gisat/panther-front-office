@@ -1,10 +1,5 @@
 import {createSelector} from "reselect";
-import _ from 'lodash';
-import commonHelpers from "../../../../state/_common/helpers";
-import commonSelect from "../../../../state/Select";
-import commonSelectors from "../../../../state/_common/selectors";
-
-import esponFuoreIndicators from "../../../esponFuore/state/EsponFuoreIndicators/selectors";
+import {commonSelectors, commonHelpers, Select as commonSelect} from '@gisatcz/ptr-state';
 
 const activeAppKey = state => state.specific.apps.activeKey;
 

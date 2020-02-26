@@ -3,7 +3,7 @@ import _ from 'lodash';
 import MapSet from "../../../../components/common/maps/MapSet";
 import MapControls from "../../../../components/common/maps/controls/MapControls";
 import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
-import Action from '../../../../state/Action';
+import {Action} from '@gisatcz/ptr-state';
 import ControlPanel from "./ControlPanel";
 
 import './style.scss';

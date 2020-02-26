@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 
-import common from "../../../../state/_common/selectors";
+import {commonSelectors as common} from '@gisatcz/ptr-state';
 import {getAllForActiveApp as gafaa} from '../_backOffice/selectors';
 
 const getSubstate = state => state.specific.configurations;

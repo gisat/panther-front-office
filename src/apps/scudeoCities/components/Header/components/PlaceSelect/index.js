@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import _ from 'lodash';
 
-import Action from '../../../../../../state/Action';
-import Select from '../../../../../../state/Select';
+import {Action, Select} from '@gisatcz/ptr-state';
 import {utils} from '@gisatcz/ptr-utils'
 
 import presentation from "./presentation";

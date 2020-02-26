@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-import CommonSelect from '../../../state/Select';
+import {Select as CommonSelect} from '@gisatcz/ptr-state';
 import {CacheFifo} from '@gisatcz/ptr-utils';
 
 let trackTimeSerieChartCache = new CacheFifo(10);

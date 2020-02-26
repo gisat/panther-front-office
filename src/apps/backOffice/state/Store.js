@@ -11,29 +11,8 @@ import configurationsReducers from './Configurations/reducers';
 import indicatorsReducers from '../../esponFuore/state/EsponFuoreIndicators/reducers';
 
 // base types
-import appReducers from '../../../state/App/reducers';
-import areasReducers from '../../../state/Areas/reducers';
-import attributesReducers from '../../../state/Attributes/reducers';
-import attributeRelationsReducers from "../../../state/AttributeRelations/reducers";
-import attributeSetsReducers from '../../../state/AttributeSets/reducers';
-import casesReducers from '../../../state/Cases/reducers';
-import componentsReducers from '../../../state/Components/reducers';
-import layerPeriodsReducers from '../../../state/LayerPeriods/reducers';
-import layerTemplatesReducers from '../../../state/LayerTemplates/reducers';
-import layersTreesReducers from '../../../state/LayersTrees/reducers';
-import mapsReducers from '../../../state/Maps/reducers';
-import periodsReducers from '../../../state/Periods/reducers';
-import placesReducers from '../../../state/Places/reducers';
-import scenariosReducers from '../../../state/Scenarios/reducers';
-import scopesReducers from '../../../state/Scopes/reducers';
-import screensReducers from '../../../state/Screens/reducers';
-import snapshotsReducers from '../../../state/Snapshots/reducers';
-import spatialDataSourcesReducers from '../../../state/SpatialDataSources/reducers';
-import spatialRelationsReducers from '../../../state/SpatialRelations/reducers';
-import stylesReducers from '../../../state/Styles/reducers';
-import tagsReducers from '../../../state/Tags/reducers';
-import usersReducers from '../../../state/Users/reducers';
-import viewsReducers from '../../../state/Views/reducers';
+import {appReducers,areasReducers,areaRelationsReducers,attributeRelationsReducers,attributesReducers,attributeSetsReducers,attributeDataReducers,attributeDataSourcesReducers,attributeStatisticsReducers,casesReducers,chartsReducers,componentsReducers,layerPeriodsReducers,layerTemplatesReducers,layersTreesReducers,mapsReducers,periodsReducers,placesReducers,scenariosReducers,scopesReducers,screensReducers,selectionsReducers,snapshotsReducers,spatialDataReducers,spatialDataSourcesReducers
+	,spatialRelationsReducers,stylesReducers,tagsReducers,usersReducers,viewsReducers,windowsReducers} from '@gisatcz/ptr-state';
 
 export const history = createBrowserHistory();
 

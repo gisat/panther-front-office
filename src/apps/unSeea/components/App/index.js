@@ -1,6 +1,4 @@
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import Select from '../../state/Select';
 
 import presentation from "./presentation";
 

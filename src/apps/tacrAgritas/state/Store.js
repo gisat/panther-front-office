@@ -7,11 +7,7 @@ import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 
 // base types
-import appReducers from '../../../state/App/reducers';
-import casesReducers from '../../../state/Cases/reducers';
-import periodsReducers from '../../../state/Periods/reducers';
-import placesReducers from '../../../state/Places/reducers';
-import scopesReducers from '../../../state/Scopes/reducers';
+import {appReducers,casesReducers,periodsReducers,placesReducers,scopesReducers} from '@gisatcz/ptr-state';
 import tacrAgritasData from "../../tacrAgritas/state/Data/reducers";
 
 export const createHistory = (options) => {

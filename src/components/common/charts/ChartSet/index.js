@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-
-import Select from "../../../../state/Select";
-import Action from "../../../../state/Action";
+import {Select, Action} from '@gisatcz/ptr-state';
 
 import presentation from './presentation';
 

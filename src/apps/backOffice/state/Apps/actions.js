@@ -1,6 +1,5 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
-import common from '../../../../state/_common/actions';
+import {commonActions as common} from '@gisatcz/ptr-state';
 import Select from "../../state/Select";
 
 // ============ creators ===========

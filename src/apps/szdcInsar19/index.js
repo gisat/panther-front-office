@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Helmet from "react-helmet";
 
-import Action from '../../state/Action';
-import Select from '../../state/Select';
+import {Action, Select} from '@gisatcz/ptr-state';
 import Store, {history} from './state/Store';
 
 // base styles need to be imported before all components

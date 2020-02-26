@@ -8,6 +8,7 @@
     "@gisatcz/ptr-core": "1.0.0-alpha",
     "@gisatcz/ptr-charts": "0.0.6-pre-alpha",
     "@gisatcz/ptr-locales": "0.0.1-pre-alpha",
+    "@gisatcz/ptr-state": "1.0.0-pre-alpha",
     "@gisatcz/ptr-utils": "1.0.5",
     "@manaflair/redux-batch": "1.0.0",
     "@turf/turf": "5.1.6",

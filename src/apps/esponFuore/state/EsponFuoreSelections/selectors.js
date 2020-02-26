@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 import createCachedSelector from "re-reselect";
 import _ from 'lodash';
-import common from "../../../../state/_common/selectors";
+import {commonSelectors as common} from '@gisatcz/ptr-state';
 
 const getSubstate = state => state.specific.esponFuoreSelections;
 const getActive = common.getActive(getSubstate);

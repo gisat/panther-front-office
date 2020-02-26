@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Select from '../../../../../../state/Select';
+import {Action, Select} from '@gisatcz/ptr-state';
 import React from "react";
 import { legend, statistics } from '@gisatcz/ptr-utils';
 import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'

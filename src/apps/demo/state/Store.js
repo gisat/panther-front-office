@@ -7,13 +7,8 @@ import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 
 // base types
-import appReducers from '../../../state/App/reducers';
-import casesReducers from '../../../state/Cases/reducers';
-import layerTemplatesReducers from '../../../state/LayerTemplates/reducers';
-import usersReducers from '../../../state/Users/reducers';
-import mapsReducers from '../../../state/Maps/reducers';
-import spatialDataSourcesReducers from "../../../state/SpatialDataSources/reducers";
-import spatialRelationsReducers from "../../../state/SpatialRelations/reducers";
+import {appReducers,casesReducers,layerTemplatesReducers,mapsReducers,spatialDataSourcesReducers
+	,spatialRelationsReducers,usersReducers} from '@gisatcz/ptr-state';
 
 
 export const createHistory = (options) => {

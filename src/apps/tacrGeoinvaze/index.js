@@ -6,8 +6,7 @@ import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 import config from "../../../src/config";
 
-import Action from '../../state/Action';
-import Select from "../../state/Select";
+import {Action, Select} from '@gisatcz/ptr-state';
 import Store, {history} from './state/Store';
 import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 

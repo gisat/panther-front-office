@@ -6,7 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch, Redirect } from 'react-router';
 
 import createStore, {createHistory} from './state/Store';
-import Action from "../../state/Action";
+import {Action} from '@gisatcz/ptr-state';
 
 import Page from './components/Page';
 

@@ -1,4 +1,4 @@
-import CommonSelect from '../../../state/Select';
+import {Select as CommonSelect} from '@gisatcz/ptr-state';
 
 import lpisChangeCases from './LpisChangeCases/selectors';
 

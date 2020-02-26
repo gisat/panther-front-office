@@ -1,8 +1,5 @@
 import {createSelector} from 'reselect';
-import _ from 'lodash';
-
-import common from "../../../../state/_common/selectors";
-import commonHelpers from "../../../../state/_common/helpers";
+import {commonSelectors as common, commonHelpers} from '@gisatcz/ptr-state';
 
 const getSubstate = state => state.specific.esponFuoreIndicators;
 

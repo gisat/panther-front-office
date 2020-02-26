@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import {Select, Action} from '@gisatcz/ptr-state';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 

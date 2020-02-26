@@ -1,5 +1,5 @@
 import {utils} from '@gisatcz/ptr-utils'
-import {commonActionTypesDefinitions} from "../../../constants/ActionTypes";
+import {commonActionTypesDefinitions} from '@gisatcz/ptr-state';
 
 export const szifLpisZmenovaRizeniActionTypesDefinitions = {
 	LPIS_CHANGE_CASES: {

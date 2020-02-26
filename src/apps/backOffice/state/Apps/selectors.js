@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 
-import common from "../../../../state/_common/selectors";
+import {commonSelectors as common} from '@gisatcz/ptr-state';
 
 const getSubstate = state => state.specific.apps;
 

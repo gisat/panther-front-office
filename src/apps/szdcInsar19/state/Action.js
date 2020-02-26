@@ -1,5 +1,4 @@
-import CommonAction from '../../../state/Action';
-import CommonSelect from "../../../state/Select";
+import {Action as CommonAction, Select as CommonSelect} from '@gisatcz/ptr-state';
 import Select from "./Select";
 import _ from 'lodash';
 

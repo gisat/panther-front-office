@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import Select from '../../../../state/Select';
-import Action from "../../../../state/Action";
+import {Select, Action} from '@gisatcz/ptr-state';
 
 import presentation, {Map as map, PresentationMap as presentationMap} from './presentation';
 import {utils} from '@gisatcz/ptr-utils'

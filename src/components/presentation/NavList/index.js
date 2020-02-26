@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import presentation from "./presentation";
-import Action from '../../../state/Action';
-import Select from '../../../state/Select';
+import {Select, Action} from '@gisatcz/ptr-state';
 
 const mapStateToProps = (state, ownProps) => {
     return {

@@ -1,6 +1,5 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
-import common, {DEFAULT_INITIAL_STATE} from '../../../../state/_common/reducers';
+import {DEFAULT_INITIAL_STATE, commonReducers as common} from '@gisatcz/ptr-state';
 
 const INITIAL_STATE = {
 	...DEFAULT_INITIAL_STATE

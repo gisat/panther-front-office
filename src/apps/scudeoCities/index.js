@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import Helmet from "react-helmet";
 
-import Action from '../../state/Action';
+import {Action} from '@gisatcz/ptr-state';
 import createStore, {createHistory} from './state/Store';
 import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 

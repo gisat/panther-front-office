@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import CommonSelect from "../../../state/Select";
+import {Select as CommonSelect} from '@gisatcz/ptr-state';
 
 import tacrAgritasData from "./Data/selectors";
 

@@ -1,4 +1,4 @@
-import CommonAction from '../../../state/Action';
+import {Action as CommonAction} from '@gisatcz/ptr-state';
 
 export default {
 	...CommonAction,

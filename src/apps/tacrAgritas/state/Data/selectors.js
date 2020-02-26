@@ -1,11 +1,7 @@
 import {createSelector} from 'reselect';
 import _ from "lodash";
 
-import common from "../../../../state/_common/selectors";
-import PlacesSelectors from "../../../../state/Places/selectors";
-import ScopesSelectors from "../../../../state/Scopes/selectors";
-import PeriodsSelectors from "../../../../state/Periods/selectors";
-import CasesSelectors from "../../../../state/Cases/selectors";
+import {commonSelectors as common, placesSelectors, scopesSelectors, periodsSelectors, casesSelectors} from '@gisatcz/ptr-state';
 
 const getSubstate = state => state.specific.tacrAgritasData;
 const getAllAsObject = common.getAllAsObject(getSubstate);
@@ -14,10 +10,10 @@ const getByKey = common.getByKey(getSubstate);
 const getFeaturesForActiveMetadata = createSelector(
 	[
 		getAllAsObject,
-		PlacesSelectors.getActiveKey,
-		ScopesSelectors.getActiveKey,
-		PeriodsSelectors.getActiveKey,
-		CasesSelectors.getActiveKey
+		placesSelectors.getActiveKey,
+		scopesSelectors.getActiveKey,
+		periodsSelectors.getActiveKey,
+		casesSelectors.getActiveKey
 	],
 	(dataAsObject, activePlaceKey, activeScopeKey, activePeriodKey, activeCaseKey) => {
 		const key = `${activePlaceKey}_${activeScopeKey}_${activePeriodKey}`;

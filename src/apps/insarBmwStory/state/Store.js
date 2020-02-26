@@ -7,8 +7,7 @@ import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 
 // base types
-import appReducers from '../../../state/App/reducers';
-import usersReducers from '../../../state/Users/reducers';
+import {appReducers, usersReducers} from '@gisatcz/ptr-state';
 
 export const createHistory = (options) => {
 	let history = createBrowserHistory(options);

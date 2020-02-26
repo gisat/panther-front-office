@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 
 import './style.scss';
-import Select from "../../../apps/esponFuore/state/Select";
-import Action from "../../../apps/esponFuore/state/Action";
+import {Select, Action} from '@gisatcz/ptr-state';
 
 import presentation from './presentation';
 

@@ -1,8 +1,6 @@
-import commonActions from "../../../../state/_common/actions";
+import {commonActions, commonHelpers, commonSelectors} from '@gisatcz/ptr-state';
 import Select from "../../state/Select";
 import ActionTypes from "../../constants/ActionTypes";
-import commonHelpers from "../../../../state/_common/helpers";
-import commonSelectors from "../../../../state/_common/selectors";
 
 const DEFAULT_CATEGORY_PATH = "metadata";
 
