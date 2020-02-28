@@ -14,7 +14,6 @@ import FuoreMapPresentation from "./Map/presentation";
 import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
 import MapControlLegend from "./Map/MapControlLegend";
 import MapTools from "../../../../components/common/maps/controls/MapTools";
-import ChartSet from '../../../../components/common/charts/ChartSet';
 import EsponFuoreTimeline from "./Timeline";
 import EsponFuoreChart from "./Charts/EsponFuoreChart";
 
@@ -24,6 +23,12 @@ import SimpleLayersControl from "../../../../components/common/maps/controls/Sim
 
 import bing from "../../assets/img/powered-by-bing.png";
 import IndicatorDescription from "./IndicatorDescription";
+
+import {ChartSet, ChartWrapper} from '@gisatcz/ptr-charts';
+import {connects} from '@gisatcz/ptr-state';
+
+console.log(ChartSet, ChartWrapper);
+const ConnectedChartSet = connects.ChartSet(ChartSet);
 
 const backgroundLayers = [
 	{
@@ -157,11 +162,11 @@ class EsponFuoreApp extends React.PureComponent {
 											render: props => (
 												<div className="esponFuore-right-panel">
 													<IndicatorDescription/>
-													<ChartSet
+													<ConnectedChartSet
 														setKey="esponFuoreCharts"
 													>
 														<EsponFuoreChart/>
-													</ChartSet>
+													</ConnectedChartSet>
 												</div>
 												)
 										},

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import ChartSet from '../../../../../components/common/charts/ChartSet';
-// import UnSeeaCharts from "../Charts/UnSeeaCharts";
 import UnSeeaChartsTrees from "../Charts/UnSeeaChartsTrees";
 import UnSeeaChartsDistricts from "../Charts/UnSeeaChartsDistricts";
 import UnSeeaChartsDistrictsSecond from "../Charts/UnSeeaChartsDistrictsSecond";
@@ -9,6 +7,10 @@ import urbantepLogo from "../../../assets/img/logo_tep_urban.png";
 import ninaLogo from "../../../assets/img/eeanina.png";
 import "./style.scss";
 
+import {ChartSet} from '@gisatcz/ptr-charts';
+import {connects} from '@gisatcz/ptr-state';
+
+const ConnectedChartSet = connects.ChartSet(ChartSet);
 
 const renderChartSet = (chartSetKey, activeAttributeKey) => {
 	switch(chartSetKey) {
@@ -49,11 +51,11 @@ export default (props) => {
 
 			{/* charts */}
 			<div style={{flex: '1 0 auto'}}>
-				<ChartSet
+				<ConnectedChartSet
 					setKey={props.activeChartSet}
 				>
 					{renderChartSet(props.activeChartSet, props.activeAttributeKey)}
-				</ChartSet>
+				</ConnectedChartSet>
 			</div>
 		</div>
 	)
