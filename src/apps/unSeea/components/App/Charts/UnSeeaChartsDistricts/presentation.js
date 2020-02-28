@@ -174,7 +174,7 @@ class ChartPanel extends React.PureComponent {
 													captions: true
 												}}
 												forceMinimum={0}
-												forceMaximum= {!this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.max}
+												forceMaximum= {!this.state.normalised ? 100 : monetaryIndicatorsStatistics.sumStatistics.maxNormalised}
 												legend
 											/>
 										</ChartWrapper>
