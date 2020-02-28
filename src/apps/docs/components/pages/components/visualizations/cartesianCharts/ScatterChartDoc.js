@@ -8,7 +8,7 @@ import sample_50 from "../../../../mockData/sample_50";
 import sample_serie_10 from "../../../../mockData/scatterChart/serie_10";
 import Page, {DocsToDo, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 import ComponentPropsTable from "../../../../ComponentPropsTable/ComponentPropsTable";
-import {Link} from "react-router-dom";
+import {Link} from "@gisatcz/ptr-state";
 import ResizableContainer from "../../../../ResizableContainer/ResizableContainer";
 
 class ScatterChartDoc extends React.PureComponent {

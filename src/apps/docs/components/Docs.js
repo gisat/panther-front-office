@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { Route, withRouter } from '@gisatcz/ptr-state';
+import { NavLink } from '@gisatcz/ptr-state';
 import pathUtils from 'path';
 import classNames from 'classnames';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import {Redirect, Route, Switch} from 'react-router';
+import {Provider} from '@gisatcz/ptr-state';
+import { ConnectedRouter } from '@gisatcz/ptr-state';
+import {Redirect, Route, Switch} from '@gisatcz/ptr-state';
 import Favicon from 'react-favicon';
 import createStore, {createHistory} from "../tacrAgritas/state/Store";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { NavLink, withRouter } from 'react-router-dom'
-import { matchPath } from 'react-router';
+import { NavLink, withRouter } from '@gisatcz/ptr-state'
+import { matchPath } from '@gisatcz/ptr-state';
 
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';

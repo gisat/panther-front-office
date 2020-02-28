@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, thunk, logger} from '@gisatcz/ptr-state';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { connectRouter, routerMiddleware } from '@gisatcz/ptr-state';
 import { createBrowserHistory } from 'history';
 
 // specific types

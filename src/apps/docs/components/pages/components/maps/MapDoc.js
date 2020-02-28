@@ -3,7 +3,7 @@ import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, S
 import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
 import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
 import PresentationMapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
-import {Link} from "react-router-dom";
+import {Link} from "@gisatcz/ptr-state";
 import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
 import Map, {PresentationMap} from "../../../../../../components/common/maps/Map";
 import _ from 'lodash';

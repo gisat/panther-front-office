@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from "react-helmet";
 import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from '@gisatcz/ptr-state';
 import eo4sd_urban_logo from '../assets/eo4sd_urban_logo.png';
 
 export const Visualization = (props) => {

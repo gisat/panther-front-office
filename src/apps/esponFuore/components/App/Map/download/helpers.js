@@ -2,7 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import download from "downloadjs";
 import domToImage from "dom-to-image";
-import {Provider} from 'react-redux';
+import {Provider} from '@gisatcz/ptr-state';
 
 import Store from "../../../../state/Store";
 import template from "./template";

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
+import {Provider} from '@gisatcz/ptr-state';
+import { ConnectedRouter } from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 import createStore, {createHistory} from './state/Store';
 import {Action} from '@gisatcz/ptr-state';

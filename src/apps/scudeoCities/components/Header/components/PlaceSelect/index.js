@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import { withRouter } from 'react-router';
+import {connect} from '@gisatcz/ptr-state';
+import { withRouter } from '@gisatcz/ptr-state';
 
 import {Action, Select} from '@gisatcz/ptr-state';
 import {utils} from '@gisatcz/ptr-utils'

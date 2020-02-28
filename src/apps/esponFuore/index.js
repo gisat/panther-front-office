@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router';
+import {Provider} from '@gisatcz/ptr-state';
+import { ConnectedRouter } from '@gisatcz/ptr-state';
+import { Route, Switch } from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 import Favicon from 'react-favicon';
 

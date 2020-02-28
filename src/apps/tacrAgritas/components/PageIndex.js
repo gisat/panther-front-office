@@ -1,5 +1,5 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink} from "@gisatcz/ptr-state";
 import Helmet from "react-helmet";
 import Fade from "react-reveal/Fade";
 import Jump from "react-reveal/Jump";

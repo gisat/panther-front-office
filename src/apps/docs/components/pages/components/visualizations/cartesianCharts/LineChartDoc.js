@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@gisatcz/ptr-state';
 import {withNamespaces} from '@gisatcz/ptr-locales';
 import {LineChart} from '@gisatcz/ptr-charts';
 

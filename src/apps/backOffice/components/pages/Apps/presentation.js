@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import {Route, Switch} from "react-router";
+import {Route, Switch} from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 
 /* Base types */

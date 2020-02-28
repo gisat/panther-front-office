@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {NavLink, withRouter} from 'react-router-dom';
+import {NavLink, withRouter} from '@gisatcz/ptr-state';
 
 import {Icon} from '@gisatcz/ptr-atoms';
 import Apps from './icons/Apps';
@@ -14,7 +14,7 @@ import AppSelect from '../AppSelect';
 
 import './style.scss';
 import PropTypes from "prop-types";
-import {matchPath} from "react-router";
+import {matchPath} from '@gisatcz/ptr-state';
 import isArray from "lodash/isArray";
 import isObject from "lodash/isObject";
 import User from "../../../../components/common/controls/User";

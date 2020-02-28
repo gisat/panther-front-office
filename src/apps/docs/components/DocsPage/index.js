@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import {Route, Switch} from "react-router";
+import {Route, Switch} from '@gisatcz/ptr-state';
 import NavList from '../../../../components/presentation/NavList';
 import _ from 'lodash';
 

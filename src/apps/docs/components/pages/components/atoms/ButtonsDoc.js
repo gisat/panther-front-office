@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link} from "@gisatcz/ptr-state";
 
 import {Button, Buttons, ButtonGroup, Icon, Menu, MenuItem} from '@gisatcz/ptr-atoms';
 

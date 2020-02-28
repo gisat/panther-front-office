@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose, thunk, logger, reduxBatch } from '@gisatcz/ptr-state';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { connectRouter, routerMiddleware } from '@gisatcz/ptr-state';
 import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 

@@ -8,9 +8,9 @@ import './styles/index.scss';
 
 import config from "../../../src/config";
 import Demo from './Demo';
-import {Provider} from "react-redux";
-import {ConnectedRouter} from "connected-react-router";
-import {Redirect, Route, Switch} from "react-router";
+import {Provider} from "@gisatcz/ptr-state";
+import {ConnectedRouter} from '@gisatcz/ptr-state';
+import {Redirect, Route, Switch} from '@gisatcz/ptr-state';
 import AppContainer from "../../components/common/AppContainer/presentation";
 import createStore, {createHistory} from './state/Store';
 import MapConnectedToState from "./components/MapConnectedToStore";

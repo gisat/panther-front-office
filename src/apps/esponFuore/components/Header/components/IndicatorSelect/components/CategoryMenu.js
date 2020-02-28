@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from 'react-redux';
+import {connect} from '@gisatcz/ptr-state';
 import _ from 'lodash';
 
 import Action from '../../../../../state/Action';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Truncate from 'react-truncate';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from '@gisatcz/ptr-state';
 import eeninaLogoFull from '../../../assets/img/eeanina.png';
 import gisatLogo from '../../../assets/img/gisat-logo.png';
 import urbanTEPLogo from '../../../assets/img/logo_tep_urban.png';

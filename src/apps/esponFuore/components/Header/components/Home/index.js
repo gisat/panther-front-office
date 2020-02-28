@@ -1,4 +1,4 @@
-import {connect} from 'react-redux';
+import {connect} from '@gisatcz/ptr-state';
 
 import Action from '../../../../state/Action';
 
