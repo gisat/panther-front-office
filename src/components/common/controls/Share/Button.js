@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Select, Action} from '@gisatcz/ptr-state';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import classNames from 'classnames';
 
 import {Button} from '@gisatcz/ptr-atoms';

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import Helmet from "react-helmet";
 
 import {Action, Select} from '@gisatcz/ptr-state';

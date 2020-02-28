@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import wrapper from './presentation';

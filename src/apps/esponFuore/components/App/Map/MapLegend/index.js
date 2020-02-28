@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {Action, Select} from '@gisatcz/ptr-state';
 import React from "react";
 import { legend, statistics } from '@gisatcz/ptr-utils';

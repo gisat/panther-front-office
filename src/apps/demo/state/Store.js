@@ -1,7 +1,4 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
-import { reduxBatch } from '@manaflair/redux-batch';
+import { createStore, combineReducers, applyMiddleware, compose, thunk, logger, reduxBatch } from '@gisatcz/ptr-state';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";

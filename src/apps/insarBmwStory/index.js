@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import Helmet from "react-helmet";
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 
 import createStore, {createHistory} from './state/Store';
 import {Action} from '@gisatcz/ptr-state';

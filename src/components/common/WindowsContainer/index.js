@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import './style.scss';
 import {Select, Action} from '@gisatcz/ptr-state';

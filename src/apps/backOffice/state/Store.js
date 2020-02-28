@@ -1,6 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import { createStore, combineReducers, applyMiddleware, thunk, logger} from '@gisatcz/ptr-state';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 

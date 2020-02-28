@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {Select, Action} from '@gisatcz/ptr-state';
 
 import presentation, {Map as map, PresentationMap as presentationMap} from './presentation';

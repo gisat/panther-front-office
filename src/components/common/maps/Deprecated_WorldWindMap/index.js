@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {Select, Action} from '@gisatcz/ptr-state';
 
 import wrapper from '../Deprecated_MapWrapper';

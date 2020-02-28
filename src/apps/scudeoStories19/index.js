@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch, Redirect } from 'react-router';
 
