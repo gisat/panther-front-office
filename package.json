@@ -52,7 +52,7 @@
     "xml2js": "0.4.19"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --modulePaths=src",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
@@ -62,7 +62,8 @@
     "babel-jest": "^23.6.0",
     "babel-plugin-jest-hoist": "23.2.0",
     "babel-preset-env": "1.7.0",
-    "d3-sankey": "^0.12.3"
+    "d3-sankey": "^0.12.3",
+    "react-app-rewired": "2.1.5"
   },
   "browserslist": [
     ">0.2%",
