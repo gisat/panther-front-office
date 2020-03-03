@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import './style.scss';
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {ColumnChart, ChartWrapper} from '@gisatcz/ptr-charts';
-import WorldWindMap from "../../../components/common/maps/Deprecated_WorldWindMap/presentation";
+import {Deprecated_WorldWindMapPresentation} from '@gisatcz/ptr-deprecated';
 
 
 class Elections extends React.PureComponent {
@@ -42,7 +42,7 @@ class Elections extends React.PureComponent {
 						Volební účast [%]
 					</h3>
 					<div style={{height:'300px', width: '400px'}}>
-						<WorldWindMap 
+						<Deprecated_WorldWindMapPresentation
 							navigator={this.props.navigator}
 							layers={this.props.layers}
 							elevationModel={null}

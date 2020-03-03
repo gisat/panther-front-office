@@ -3,14 +3,13 @@ import Fade from "react-reveal/Fade";
 import {Header, Visualization} from "../Page";
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {ColumnChart, ScatterChart} from '@gisatcz/ptr-charts';
+import {Select} from '@gisatcz/ptr-atoms';
 
 import LayerSelect from "../LayerSelect/index";
 
 import './styles/style.scss';
-import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
-import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
-import Select from "../../../../components/common/atoms/Select/Select";
+import {Deprecated_PresentationMapWithControls} from '@gisatcz/ptr-deprecated';
+import {MapControls, LeafletMap} from '@gisatcz/ptr-maps';
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import {getMergedDataset, getVectorLayer} from '../../data/data';
 

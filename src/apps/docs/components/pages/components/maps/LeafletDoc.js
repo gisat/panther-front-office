@@ -1,6 +1,6 @@
 import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
-import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
+import {LeafletMap} from "@gisatcz/ptr-maps";
 import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";
 
 class LeafletDoc extends React.PureComponent {

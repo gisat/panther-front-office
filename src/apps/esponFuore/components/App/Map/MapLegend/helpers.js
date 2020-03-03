@@ -1,9 +1,9 @@
 import {statistics} from '@gisatcz/ptr-utils';
-import {getRadius} from "../../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/diagram";
+import {getRadius} from "@gisatcz/ptr-deprecated";
 import {
 	MAX_DIAGRAM_RADIUS,
 	MIN_DIAGRAM_RADIUS
-} from "../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram";
+} from "@gisatcz/ptr-deprecated";
 
 function prepareDiagramLegendData(min, max, currentRange, color, mapComponentId) {
 	let mapComponents = document.getElementsByClassName("ptr-world-wind-map");

@@ -4,9 +4,8 @@ import {withNamespaces} from '@gisatcz/ptr-locales';
 import Page, {
 	SyntaxHighlighter
 } from '../../../Page';
-import {PresentationMap} from "../../../../../../components/common/maps/Map";
-import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
-import PresentationMapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
+
+import {WorldWindMap, MapControls as PresentationMapControls, PresentationMap} from "@gisatcz/ptr-maps";
 import cz_gadm from "../../../mockData/map/czGadm1WithStyles/geometries";
 import largePointData from "../../../mockData/map/largePointData/geometries";
 import style from "../../../mockData/map/czGadm1WithStyles/style";

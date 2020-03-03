@@ -1,10 +1,12 @@
 import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 
-import MapControlsPresentation from "../../../../../../../components/common/maps/controls/MapControls/presentation";
-import MapSet from "../../../../../../../components/common/maps/MapSet";
-import MapSetPresentation, {PresentationMap} from "../../../../../../../components/common/maps/MapSet/presentation";
-import WorldWindMap from "../../../../../../../components/common/maps/WorldWindMap/presentation";
+import {WorldWindMap, MapControls as MapControlsPresentation, MapSet, MapSetPresentationMap, PresentationMap} from "@gisatcz/ptr-maps";
+
+import {connects} from '@gisatcz/ptr-state';
+
+const ConnectedMap = connects.Map(PresentationMap);
+const ConnectedMapSet = connects.MapSet(MapSet);
 
 const backgroundLayer = {
 	layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
@@ -75,17 +77,18 @@ class MapSetDoc extends React.PureComponent {
 			<Page title="Map set">
 				<h2>Connected to store</h2>
 				<div style={{height: 500}}>
-					<MapSet
+					<ConnectedMapSet
 						stateMapSetKey="docs-MapSet"
 						mapComponent={WorldWindMap}
+						connectedMapComponent={ConnectedMap}
 					>
 						<MapControlsPresentation/>
-					</MapSet>
+					</ConnectedMapSet>
 				</div>
 
 				<h2>Uncontrolled</h2>
 				<div style={{height: 500}}>
-					<MapSet
+					<ConnectedMapSet
 						activeMapKey='map-2'
 						mapComponent={WorldWindMap}
 						view={{
@@ -97,25 +100,25 @@ class MapSetDoc extends React.PureComponent {
 							boxRange: true,
 							center: true
 						}}
-						backgroundLayer={backgroundLayer}
+						backgroundLayer={wikimedia}
 						layers={layers2}
 					>
-						<PresentationMap
+						<MapSetPresentationMap
 							mapKey='map-1'
 						/>
-						<PresentationMap
+						<MapSetPresentationMap
 							mapKey='map-2'
 						/>
-						<PresentationMap
+						<MapSetPresentationMap
 							mapKey='map-3'
 						/>
 						<MapControlsPresentation/>
-					</MapSet>
+					</ConnectedMapSet>
 				</div>
 
 				<h2>Uncontrolled unconnected</h2>
 				<div style={{height: 500}}>
-					<MapSetPresentation
+					<MapSet
 						activeMapKey='map-2'
 						mapComponent={WorldWindMap}
 						view={{
@@ -129,17 +132,17 @@ class MapSetDoc extends React.PureComponent {
 						}}
 						backgroundLayer={wikimedia}
 					>
-						<PresentationMap
+						<MapSetPresentationMap
 							mapKey='map-1'
 						/>
-						<PresentationMap
+						<MapSetPresentationMap
 							mapKey='map-2'
 						/>
-						<PresentationMap
+						<MapSetPresentationMap
 							mapKey='map-3'
 						/>
 						<MapControlsPresentation/>
-					</MapSetPresentation>
+					</MapSet>
 				</div>
 			</Page>
 		);

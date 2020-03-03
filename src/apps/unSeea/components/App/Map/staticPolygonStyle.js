@@ -2,14 +2,10 @@ import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
 
 import {
-    DEFAULTFILLTRANSPARENCY,
-    getOutlineColor,
-
     noDataAccentedPalette,
     filteredPalette,
-    noDataPalette,
     hoverPalette
-} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+} from '@gisatcz/ptr-deprecated';
 
 const {Color, ShapeAttributes} = WorldWind;
 

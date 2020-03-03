@@ -2,10 +2,8 @@ import React from 'react';
 
 import conversions from "../../../../data/conversions";
 import {ColumnChart, LineChart} from '@gisatcz/ptr-charts';
-import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
-import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
+import {LeafletMap, MapControls, PresentationMap, MapSet} from "@gisatcz/ptr-maps";
 import {HoverHandler} from "@gisatcz/ptr-core";
-import MapSet, {PresentationMap} from "../../../../../../components/common/maps/MapSet/presentation";
 
 let au_2_data = null;
 let au_3_data = null;

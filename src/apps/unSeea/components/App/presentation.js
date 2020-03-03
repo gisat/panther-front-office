@@ -3,11 +3,9 @@ import Helmet from "react-helmet";
 
 import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
+import {Deprecated_MapSet, Deprecated_MapControls} from "@gisatcz/ptr-deprecated";
 import Map from "./Map";
 import MapPresentation from "./Map/presentation";
-import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import {HoverHandler} from "@gisatcz/ptr-core";
@@ -15,6 +13,8 @@ import {HoverHandler} from "@gisatcz/ptr-core";
 import InfoPanel from "./InfoPanel/presentation";
 
 import AppContext from './context/context';
+
+import {MapTools} from '@gisatcz/ptr-maps';
 
 class App extends React.PureComponent {
 
@@ -44,7 +44,7 @@ class App extends React.PureComponent {
 														handleHeight
 														render={({ width, height }) => {return (
 															<>
-																<MapSet
+																<Deprecated_MapSet
 																	mapSetKey={this.context.mapSetKey}
 																	activeAttributeKey={this.props.activeAttributeKey}
 																	layerTreesFilter={{applicationKey: this.context.applicationKey}}
@@ -57,9 +57,9 @@ class App extends React.PureComponent {
 																			activeAttributeKey={this.context.activeAttributeKey}
 																		/>
 																	</Map>
-																</MapSet>
+																</Deprecated_MapSet>
 																<MapTools>
-																	<MapControls zoomOnly/>
+																	<Deprecated_MapControls zoomOnly/>
 																</MapTools>
 															</>
 															)

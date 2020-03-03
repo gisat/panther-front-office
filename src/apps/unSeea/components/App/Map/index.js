@@ -4,7 +4,7 @@ import Action from "../../../state/Action";
 
 import {cloneDeep} from 'lodash';
 
-import wrapper from '../../../../../components/common/maps/Deprecated_MapWrapper';
+import {Deprecated_MapWrapper} from "@gisatcz/ptr-deprecated";
 
 import {utils} from '@gisatcz/ptr-utils'
 
@@ -99,4 +99,4 @@ const mapDispatchToProps = (dispatch, props) => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(wrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(Deprecated_MapWrapper);

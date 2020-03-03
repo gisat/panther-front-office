@@ -2,17 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
-import layersHelper from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
-import {getCartogramStyleFunction} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
-import {getCartodiagramStyleFunction, MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram';
+import {layersHelper, getCartogramStyleFunction, getCartodiagramStyleFunction, DEFAULTFILLTRANSPARENCY, CartodiagramVectorLayer, CartogramVectorLayer, defaultVectorStyle, Deprecated_WorldWindMapPresentation, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS} from '@gisatcz/ptr-deprecated';
 
-import ExtendedRenderableLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/ExtendedGeoJsonLayer';
-import { DEFAULTFILLTRANSPARENCY } from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
-import CartodiagramVectorLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/CartodiagramVectorLayer';
-import CartogramVectorLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/CartogramVectorLayer';
-import {defaultVectorStyle} from "../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/vectorStyle";
-
-import WorldWindMap from "../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 import _ from "lodash";
 
 import helpers from './download/helpers';
@@ -453,7 +444,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 	render() {
 		return (
-			<WorldWindMap
+			<Deprecated_WorldWindMapPresentation
 				{...this.props}
 				layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
 				label={this.props.label}

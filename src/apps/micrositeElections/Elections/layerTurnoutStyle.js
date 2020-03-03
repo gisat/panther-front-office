@@ -5,7 +5,7 @@ import {
     DEFAULTOUTLINETRANSPARENCY,
     getCartogramColorScale,
     transformScaleDarker,
-} from '../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+} from '@gisatcz/ptr-deprecated'
 
 const {Color, ShapeAttributes} = WorldWind;
 

@@ -3,9 +3,8 @@ import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
 
 import {LineChart, ChartWrapper} from '@gisatcz/ptr-charts';
-import Deprecated_PresentationMapWithControls from "../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import MapControls from "../../../components/common/maps/controls/MapControls/presentation";
-import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
+import {Deprecated_PresentationMapWithControls} from '@gisatcz/ptr-deprecated';
+import {MapControls, LeafletMap} from '@gisatcz/ptr-maps';
 import SelectHandler from "./SelectHandler";
 import ZoneInfo from "./ZoneInfo";
 

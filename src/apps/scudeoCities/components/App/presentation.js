@@ -6,9 +6,8 @@ import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import Header from '../Header';
 import Highlights from "../Highlights";
 import Sidebar from "../Sidebar";
-import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
-import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
-import Deprecated_PresentationMapWithControls from "../../../../components/common/maps/Deprecated_PresentationMapWithControls";
+import {WorldWindMap, MapControls} from "@gisatcz/ptr-maps";
+import {Deprecated_PresentationMapWithControls} from '@gisatcz/ptr-deprecated';
 
 class App extends React.PureComponent {
 	

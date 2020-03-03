@@ -1,11 +1,5 @@
 import WorldWind, {ImageSource} from "webworldwind-esa";
-import chroma from 'chroma-js';
-import {getCircle} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/images';
-import {
-    hoverPalette
-} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
-
-import {getColorPallet} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors';
+import {getColorPallet, hoverPalette, getCircle} from '@gisatcz/ptr-deprecated';
 
 const {PlacemarkAttributes} = WorldWind;
 

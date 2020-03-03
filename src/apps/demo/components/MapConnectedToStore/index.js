@@ -1,12 +1,11 @@
 import React from 'react';
-import _ from 'lodash';
-import MapSet from "../../../../components/common/maps/MapSet";
-import MapControls from "../../../../components/common/maps/controls/MapControls";
-import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
+import {WorldWindMap, MapControls, MapSet} from "@gisatcz/ptr-maps";
 import {Action} from '@gisatcz/ptr-state';
 import ControlPanel from "./ControlPanel";
 
 import './style.scss';
+import {connects} from '@gisatcz/ptr-state';
+const ConnectedMapSet = connects.MapSet(MapSet);
 
 class MapConnectedToState extends React.PureComponent {
 	constructor(props){
@@ -21,12 +20,12 @@ class MapConnectedToState extends React.PureComponent {
 		return (
 			<div className="demo-map-store-app ptr-light">
 				<div className="demo-map-store-map">
-					<MapSet
+					<ConnectedMapSet
 						mapSetKey="xyz-map-set"
 						mapComponent={WorldWindMap}
 					>
 						<MapControls/>
-					</MapSet>
+					</ConnectedMapSet>
 				</div>
 				<ControlPanel
 					mapSetKey='xyz-map-set'

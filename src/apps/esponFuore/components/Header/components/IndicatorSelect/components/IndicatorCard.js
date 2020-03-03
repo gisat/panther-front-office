@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {getCartogramColorScale} from '../../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+import {getCartogramColorScale} from '@gisatcz/ptr-deprecated';
 
 import fuoreUtils from "../../../../../utils";
 import diagrams from "./sampleDiagrams";

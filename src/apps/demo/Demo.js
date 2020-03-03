@@ -1,9 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import Deprecated_PresentationMapWithControls from "../../components/common/maps/Deprecated_PresentationMapWithControls";
-import WorldWindMap from "../../components/common/maps/WorldWindMap/presentation";
-import LeafletMap from "../../components/common/maps/LeafletMap/presentation";
-import MapControls from "../../components/common/maps/controls/MapControls/presentation";
+import {Deprecated_PresentationMapWithControls} from '@gisatcz/ptr-deprecated';
+import {WorldWindMap, LeafletMap, MapControls} from "@gisatcz/ptr-maps";
 import {Select} from '@gisatcz/ptr-atoms';
 
 import central_europe from "./data/central_europe";

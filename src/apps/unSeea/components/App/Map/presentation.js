@@ -2,18 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
-import layersHelper from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
+import {layersHelper, getCartogramStyleFunction, defaultVectorStyle, CartodiagramVectorLayer, ExtendedRenderableLayer} from '@gisatcz/ptr-deprecated';
 import {getStaticDistrictsStyleFunction} from './staticPolygonStyle';
 import {getStaticTreesStyleFunction} from './staticTreesPointStyle';
-import {getCartogramStyleFunction} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
 
-import ExtendedRenderableLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/VectorLayer';
-import CartodiagramVectorLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/CartodiagramVectorLayer';
-import {defaultVectorStyle} from "../../../../../components/common/maps/Deprecated_WorldWindMap/layers/utils/vectorStyle";
-
-import WorldWindMap from "../../../../../components/common/maps/Deprecated_WorldWindMap/presentation";
 import _ from "lodash";
 
+import {Deprecated_WorldWindMapPresentation} from '@gisatcz/ptr-deprecated';
 import {Context} from "@gisatcz/ptr-core";
 const HoverContext = Context.getContext('HoverContext');
 
@@ -388,7 +383,7 @@ class UnSeeaWorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		return (<WorldWindMap
+		return (<Deprecated_WorldWindMapPresentation
 			{...this.props} 
 			layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
 			label={this.props.label}

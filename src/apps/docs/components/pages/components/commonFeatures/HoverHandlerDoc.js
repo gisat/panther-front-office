@@ -2,11 +2,11 @@ import React from 'react';
 import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";
 import Page, {DocsToDo} from "../../../Page";
 import {HoverHandler} from "@gisatcz/ptr-core";
+import {LeafletMap} from "@gisatcz/ptr-maps";
 import {AsterChart, ColumnChart, LineChart, ScatterChart} from '@gisatcz/ptr-charts';
 
 import sample_10 from "../../../mockData/scatterChart/serie_10";
 import dodoma from "../../../mockData/map/dodoma_districts_as_us_states";
-import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
 
 class HoverHandlerDoc extends React.PureComponent {
 	constructor(props) {

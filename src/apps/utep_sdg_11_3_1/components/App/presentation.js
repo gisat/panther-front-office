@@ -4,11 +4,9 @@ import classnames from 'classnames';
 
 import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
+import {Deprecated_MapSet, Deprecated_MapControls} from "@gisatcz/ptr-deprecated";
 import UtepSdgMap from "./Map";
 import UtepSdgMapPresentation from "./Map/presentation";
-import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
-import MapTools from "../../../../components/common/maps/controls/MapTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import {HoverHandler} from "@gisatcz/ptr-core";
@@ -18,7 +16,11 @@ import AppContext from '../../context';
 import UtepSdgCharts from "./Charts/UtepSdgCharts";
 import UtepSdgHeader from "./UtepSdgHeader";
 import uTepLogo from '../../assets/urban-tep-logo.png';
-import GoToPlace from "../../../../components/common/maps/controls/GoToPlace";
+
+import {MapTools, GoToPlace} from '@gisatcz/ptr-maps';
+import {connects} from '@gisatcz/ptr-state';
+
+const ConnectedGoToPlace = connects.GoToPlace(GoToPlace);
 
 class UtepSdg extends React.PureComponent {
 
@@ -51,7 +53,7 @@ class UtepSdg extends React.PureComponent {
 															handleHeight
 															render={({ width, height }) => {return (
 																<>
-																	<MapSet
+																	<Deprecated_MapSet
 																		mapSetKey={this.context.mapSetKey}
 																		activeAttributeKey={this.props.activeAttributeKey}
 																		layerTreesFilter={{applicationKey: 'utep_sdg_11_3_1'}}
@@ -61,14 +63,14 @@ class UtepSdg extends React.PureComponent {
 																		<UtepSdgMap>
 																			<UtepSdgMapPresentation />
 																		</UtepSdgMap>
-																	</MapSet>
+																	</Deprecated_MapSet>
 																	<MapTools>
-																		<MapControls
+																		<Deprecated_MapControls
 																			zoomOnly
 																		/>
 																	</MapTools>
 																	<div className="utep_sdg_11_3_1-map-go-to-wrapper ptr-light">
-																		<GoToPlace/>
+																		<ConnectedGoToPlace/>
 																	</div>
 																</>
 															)

@@ -1,9 +1,7 @@
 import React from "react";
 
-import Deprecated_PresentationMapWithControls from "../../../../../../components/common/maps/Deprecated_PresentationMapWithControls";
-import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
-import MapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
-import LeafletMap from "../../../../../../components/common/maps/LeafletMap/presentation";
+import {Deprecated_PresentationMapWithControls} from '@gisatcz/ptr-deprecated';
+import {WorldWindMap, LeafletMap, MapControls} from "@gisatcz/ptr-maps";
 
 let dodoma_au_level_3 = null;
 let dodomaAuLevel3 = null;

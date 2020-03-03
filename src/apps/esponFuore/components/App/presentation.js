@@ -8,26 +8,23 @@ import LandingPage from '../LandingPage';
 import Header from '../Header';
 import {AdjustableColumns} from '@gisatcz/ptr-atoms';
 import WindowsContainer from '../../../../components/common/WindowsContainer';
-import MapSet from "../../../../components/common/maps/Deprecated_MapSet";
+import {Deprecated_MapSet, Deprecated_MapControls} from "@gisatcz/ptr-deprecated";
 import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
-import MapControls from "../../../../components/common/maps/Deprecated_MapControls";
 import MapControlLegend from "./Map/MapControlLegend";
-import MapTools from "../../../../components/common/maps/controls/MapTools";
 import EsponFuoreTimeline from "./Timeline";
 import EsponFuoreChart from "./Charts/EsponFuoreChart";
 
 import ReactResizeDetector from 'react-resize-detector';
 import {HoverHandler} from "@gisatcz/ptr-core";
-import SimpleLayersControl from "../../../../components/common/maps/controls/SimpleLayersControl/presentation";
 
 import bing from "../../assets/img/powered-by-bing.png";
 import IndicatorDescription from "./IndicatorDescription";
 
 import {ChartSet, ChartWrapper} from '@gisatcz/ptr-charts';
+import {SimpleLayersControl, MapTools} from '@gisatcz/ptr-maps';
 import {connects} from '@gisatcz/ptr-state';
 
-console.log(ChartSet, ChartWrapper);
 const ConnectedChartSet = connects.ChartSet(ChartSet);
 
 const backgroundLayers = [
@@ -120,7 +117,7 @@ class EsponFuoreApp extends React.PureComponent {
 													handleHeight
 													render={({ width, height }) => {return (
 														<>
-															<MapSet
+															<Deprecated_MapSet
 																mapSetKey={this.context.mapSetKey}
 																activeAttributeKey={this.props.activeAttributeKey}
 																layerTreesFilter={{applicationKey: 'esponFuore', scopeKey: this.props.activeScopeKey}}
@@ -132,7 +129,7 @@ class EsponFuoreApp extends React.PureComponent {
 																>
 																	<FuoreMapPresentation />
 																</FuoreMap>
-															</MapSet>
+															</Deprecated_MapSet>
 															<MapTools>
 																<SimpleLayersControl
 																	layers={backgroundLayers}
@@ -146,7 +143,7 @@ class EsponFuoreApp extends React.PureComponent {
 																	itemKey={"legend"}
 																	mapSetKey={this.context.mapSetKey}
 																/>
-																<MapControls zoomOnly/>
+																<Deprecated_MapControls zoomOnly/>
 															</MapTools>
 															<div className="esponFuore-map-attribution">{this.state.backgroundLayers[0].attribution}</div>
 														</>

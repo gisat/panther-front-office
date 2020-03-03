@@ -1,16 +1,15 @@
 import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
-import WorldWindMap from "../../../../../../components/common/maps/WorldWindMap/presentation";
-import layersHelper from '../../../../../../components/common/maps/WorldWindMap/layers/helpers';
-import PresentationMapControls from "../../../../../../components/common/maps/controls/MapControls/presentation";
-import {Link} from "@gisatcz/ptr-state";
-import ComponentPropsTable, {Section, Prop} from "../../../ComponentPropsTable/ComponentPropsTable";
-import Map, {PresentationMap} from "../../../../../../components/common/maps/Map";
+import {WorldWindMap, MapControls as PresentationMapControls, PresentationMap} from "@gisatcz/ptr-maps";
+import {connects} from "@gisatcz/ptr-state";
+
 import _ from 'lodash';
 
 import cz_gadm from '../../../mockData/map/czGadm1WithStyles/geometries';
 import style from '../../../mockData/map/czGadm1WithStyles/style';
 import {HoverHandler} from "@gisatcz/ptr-core";
+
+const Map = connects.Map(PresentationMap);
 
 const hoveredStyle = {
 	"rules":[

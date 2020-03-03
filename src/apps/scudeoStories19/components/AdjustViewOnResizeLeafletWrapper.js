@@ -1,7 +1,6 @@
 import React from 'react';
 import {map as mapUtils} from '@gisatcz/ptr-utils';
-import LeafletMap from "../../../components/common/maps/LeafletMap/presentation";
-import MapSet from "../../../components/common/maps/MapSet/presentation";
+import {LeafletMap, MapSet} from "@gisatcz/ptr-maps";
 
 const BASE_MAP_SIZE = 1400; // size of map container in px, for which the view is calibrated
 

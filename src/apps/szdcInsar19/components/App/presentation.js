@@ -1,18 +1,20 @@
 import React from 'react';
 import _ from 'lodash';
 
-import Map from "../../../../components/common/maps/Map";
-import WorldWindMap from "../../../../components/common/maps/WorldWindMap/presentation";
+import {WorldWindMap, MapControls, PresentationMap} from "@gisatcz/ptr-maps";
 import {PantherSelect, PantherSelectItem} from '@gisatcz/ptr-atoms';
 import {HoverHandler} from "@gisatcz/ptr-core";
 import MapPopup from "../MapPopup";
 import TrackTimeSerieChart from "../TrackTimeSerieChart";
 import TrackSelect from "./components/TrackSelect";
 import PeriodSelect from "./components/PeriodSelect";
-import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
 import MapLegend from "../MapLegend";
 import LayersControl from "../LayersControl";
 import PointInfo from "../PointInfo";
+import {connects} from "@gisatcz/ptr-state";
+
+const Map = connects.Map(PresentationMap);
+
 
 const appViews = {
 	track: {

@@ -1,11 +1,10 @@
 import React from 'react';
 import Fade from "react-reveal/Fade";
 
-import LeafletMap from "../../../../components/common/maps/LeafletMap/presentation";
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {SankeyChart, ColumnChart} from '@gisatcz/ptr-charts';
 import {Select} from "@gisatcz/ptr-atoms";
-import MapControls from "../../../../components/common/maps/controls/MapControls/presentation";
+import {LeafletMap, MapControls, MapSetPresentationMap as PresentationMap, MapSet} from "@gisatcz/ptr-maps";
 import AdjustViewOnResizeLeafletWrapper from "../AdjustViewOnResizeLeafletWrapper";
 import conversions from "../../data/conversions";
 
@@ -27,7 +26,6 @@ import './styles/style.scss';
 import fetch from "isomorphic-fetch";
 import _ from "lodash";
 import Expandable from "../Expandable";
-import MapSet, {PresentationMap} from "../../../../components/common/maps/MapSet/presentation";
 
 // LULC Level III
 const URBAN_FABRIC_KEYS = ["11100", "11200"];

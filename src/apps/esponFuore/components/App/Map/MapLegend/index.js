@@ -2,9 +2,7 @@ import {connect} from '@gisatcz/ptr-state';
 import {Action, Select} from '@gisatcz/ptr-state';
 import React from "react";
 import { legend, statistics } from '@gisatcz/ptr-utils';
-import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
-import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
-import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
+import { getPolygonImageByAttribution, DEFAULTFILLTRANSPARENCY, getCartogramStyleFunction } from '@gisatcz/ptr-deprecated';
 import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
