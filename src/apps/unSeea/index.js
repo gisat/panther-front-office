@@ -49,10 +49,10 @@ export default (path, baseUrl) => {
 						<ConnectedRouter history={history}>
 							<Switch>
 								{/* <Route exact path={path + "/"} render={page(Dashboard, "base")} /> */}
-								<Route path={path + "/districtsSecond"} component={DistrictsSecond} />
-								<Route path={path + "/districts"} component={Districts} />
-								<Route path={path + "/trees"} component={Trees} />
-								<Route path={path + "/treesInTime"} component={TreesInTime} />
+								<Route path={path + "/districtsSecond"} render={(props) => (<DistrictsSecond homePath={path} {...props}/>)} />
+								<Route path={path + "/districts"} render={(props) => (<Districts homePath={path} {...props}/>)} />
+								<Route path={path + "/trees"} render={(props) => (<Trees homePath={path} {...props}/>)} />
+								<Route path={path + "/treesInTime"} render={(props) => (<TreesInTime homePath={path} {...props}/>)} />
 								<Route path={path} component={LandingPage} />
 							</Switch>
 						</ConnectedRouter>

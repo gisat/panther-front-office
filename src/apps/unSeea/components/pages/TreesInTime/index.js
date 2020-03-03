@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import Action from '../../../state/Action';
 
-import presentation from "./presentation";
+import presentation from "../SubApp/presentation";
 
 import viewCfg from "../../../data/trees_in_time/view.js";
 // import spatialRelationsCfg from "../../../data/trees_in_time/spatialRelations.js";

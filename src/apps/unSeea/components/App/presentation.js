@@ -91,6 +91,7 @@ class App extends React.PureComponent {
 														activeChartSet={this.context.activeChartSet}
 														activeAttributeKey={this.context.activeAttributeKey}
 														onActiveMapChanged={this.onActiveMapChanged}
+														homePath={this.props.homePath}
 													/>
 													)
 											},

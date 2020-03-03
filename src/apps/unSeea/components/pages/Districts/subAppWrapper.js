@@ -25,6 +25,7 @@ class Apps extends React.PureComponent {
 			activeView && activeView === 'UN_SEEA_DISTRICTS' ? (<App 
 							activeView={activeView} 
 							activeSpatialDataSourceKey={activeSpatialDataSourceKey}
+							homePath={this.props.homePath}
 							/>
 							) : null
 		);

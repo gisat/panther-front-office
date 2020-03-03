@@ -2,15 +2,15 @@ import React from 'react';
 
 import App from '../../App'
 
-class Apps extends React.PureComponent {
+class SubApp extends React.PureComponent {
 	componentDidMount() {
 		this.props.onMount()
 	}
 	render() {
 		return (
-			<App/>
+			<App {...this.props}/>
 		);
 	}
 }
 
-export default Apps;
+export default SubApp;

@@ -4,7 +4,7 @@ import context from '../../App/context/context';
 
 import App from './index';
 
-class Apps extends React.PureComponent {
+class Trees extends React.PureComponent {
 	static contextType = context;
 
 	componentDidMount() {
@@ -25,10 +25,11 @@ class Apps extends React.PureComponent {
 			activeView && activeView === 'UN_SEEA_TREES' ? (<App 
 							activeView={activeView} 
 							activeSpatialDataSourceKey={activeSpatialDataSourceKey}
+							homePath={this.props.homePath}
 							/>
 							) : null
 		);
 	}
 }
 
-export default Apps;
+export default Trees;
