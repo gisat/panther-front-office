@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from '@gisatcz/ptr-state';
-import { ConnectedRouter } from '@gisatcz/ptr-state';
+import { ConnectedRouter, connects } from '@gisatcz/ptr-state';
 import { Route, Switch } from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 import config from "../../../src/config";
@@ -16,10 +16,10 @@ import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
 import cz from "./locales/cz/common";
-
-import AppContainer from "../../components/common/AppContainer";
-
 import App from './components/App';
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {cz});
@@ -97,13 +97,13 @@ export default (path, baseUrl) => {
 					// titleTemplate="%s | Geoinvaze"
 					defaultTitle="Geoinformační portál biologických invazí"
 				/>
-				<AppContainer appKey="tacrGeoinvaze">
+				<ConnectedAppContainer appKey="tacrGeoinvaze">
 					<ConnectedRouter history={history}>
 						<>
 							<Route path={path + "/:caseKey?/:layerTemplateKey?/:periodKey?"} component={App} />
 						</>
 					</ConnectedRouter>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);

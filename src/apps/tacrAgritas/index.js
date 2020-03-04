@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 import { ConnectedRouter } from '@gisatcz/ptr-state';
 import {Redirect, Route, Switch} from '@gisatcz/ptr-state';
 import Favicon from 'react-favicon';
@@ -15,10 +15,12 @@ import './styles/index.scss';
 
 import config from '../../config';
 import utils from "./utils";
-import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
 import favicon from './assets/favicon.ico';
 import {PageIndex} from "./components/PageIndex";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
@@ -62,7 +64,7 @@ export default (path, baseUrl) => {
 				<>
 					<Favicon url={favicon}/>
 					<Provider store={Store}>
-						<AppContainer appKey="tacrAgritas">
+						<ConnectedAppContainer appKey="tacrAgritas">
 							<ConnectedRouter history={history}>
 								<Switch>
 									{pages.map(key =>
@@ -79,7 +81,7 @@ export default (path, baseUrl) => {
 									)}/>
 								</Switch>
 							</ConnectedRouter>
-						</AppContainer>
+						</ConnectedAppContainer>
 					</Provider>
 				</>, document.getElementById('ptr')
 			);

@@ -1,9 +1,12 @@
 import React from 'react';
 import {withNamespaces} from '@gisatcz/ptr-locales';
+import {connects} from '@gisatcz/ptr-state';
+import {Screens} from '@gisatcz/ptr-components';
 import Helmet from "react-helmet";
 
-import Screens from "../../../components/common/Screens";
 import TopBar from "./TopBar";
+
+const ConnectedScreens = connects.Screens(Screens);
 
 class Page extends React.PureComponent {
 	render() {
@@ -18,9 +21,9 @@ class Page extends React.PureComponent {
 					<TopBar {...props} />
 				</div>
 				<div className="ptr-bo-content">
-					<Screens key={screenSetKey} setKey={screenSetKey} baseActiveWidth={baseActiveWidth}>
+					<ConnectedScreens key={screenSetKey} setKey={screenSetKey} baseActiveWidth={baseActiveWidth}>
 						{children}
-					</Screens>
+					</ConnectedScreens>
 				</div>
 			</div>
 		);

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import Helmet from "react-helmet";
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 
 import createStore, {createHistory} from './state/Store';
 import {Action} from '@gisatcz/ptr-state';
@@ -12,9 +12,11 @@ import '@gisatcz/ptr-core/src/styles/reset.css';
 import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
-import AppContainer from "../../components/common/AppContainer/presentation";
 import App from "./components/App";
 import config from "../../config";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // import vuhu from './data/vuhu_krivky.json';
 // import vuhu0 from './data/vuhu_krivky_0.json';
@@ -41,9 +43,9 @@ export default (path, baseUrl) => {
 				<Helmet
 					defaultTitle="Insar4BMW"
 				/>
-				<AppContainer appKey="insarBmwStory">
+				<ConnectedAppContainer appKey="insarBmwStory">
 					<App/>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);

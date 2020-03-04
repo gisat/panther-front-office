@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import {Route, Switch} from '@gisatcz/ptr-state';
-import NavList from '../../../../components/presentation/NavList';
+import {Route, Switch, connects} from '@gisatcz/ptr-state';
 import _ from 'lodash';
 
 import './style.scss';
@@ -19,6 +17,8 @@ import LineChartDoc from "../LineChartDoc";
 import AsterChartDoc from "../AsterChartDoc";
 import ScatterChartDoc from "../ScatterChartDoc";
 import WorldWindMapDoc from "../WorldWindMapDoc";
+
+const NavList = connects.NavList;
 
 class DocsPage extends React.PureComponent {
 

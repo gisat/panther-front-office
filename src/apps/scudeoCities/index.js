@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 import { ConnectedRouter } from '@gisatcz/ptr-state';
 import { Route, Switch } from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
@@ -11,14 +11,16 @@ import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 
 // base styles need to be imported before all components
 import '@gisatcz/ptr-core/src/styles/reset.css';
-import '@gisatcz/ptr-core/src/styles/base.scss';import './styles/index.scss';
+import '@gisatcz/ptr-core/src/styles/base.scss';
+import './styles/index.scss';
 
 import en from "./locales/en/common";
 
-import AppContainer from "../../components/common/AppContainer";
-
 import App from './components/App';
 import config from "../../config";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {en});
@@ -61,13 +63,13 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | City explorer"
 					defaultTitle="City explorer"
 				/>
-				<AppContainer appKey="scudeoCities">
+				<ConnectedAppContainer appKey="scudeoCities">
 					<ConnectedRouter history={history}>
 						<>
 							<Route path="/:placeKey?/:contentKey?/:contentQuery?" component={App} />
 						</>
 					</ConnectedRouter>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 import { ConnectedRouter } from '@gisatcz/ptr-state';
 import {Route, Switch} from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
@@ -19,7 +19,6 @@ import './styles/index.scss';
 import en from "./locales/en/common";
 
 import AppContext from './context';
-import AppContainer from "../../components/common/AppContainer";
 import App from "./components/App";
 
 import viewCfg from "./data/view.js";
@@ -27,6 +26,9 @@ import spatialRalationsCfg from "./data/spatialRalations.js";
 import spatialDataSourcesCfg from "./data/spatialDataSources.js";
 import boundariesSpatialData from "./data/boundaries.js";
 import config from "../../config";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
 utils.addI18nResources(i18n,'common', {en});
@@ -67,14 +69,14 @@ export default (path, baseUrl) => {
 						titleTemplate="%s | UTEP SDG 11.3.1"
 						defaultTitle="UTEP SDG 11.3.1"
 					/>
-					<AppContainer>
+					<ConnectedAppContainer>
 						<ConnectedRouter history={history}>
 							<Switch>
 								<Route exact path={path + "/dark"} render={() => (<App dark />)} />
 								<Route component={App} />
 							</Switch>
 						</ConnectedRouter>
-					</AppContainer>
+					</ConnectedAppContainer>
 				</AppContext.Provider>
 			</Provider>
 		</>, document.getElementById('ptr')

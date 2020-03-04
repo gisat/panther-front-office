@@ -2,7 +2,6 @@ import React from "react";
 import Helmet from "react-helmet";
 
 import {AdjustableColumns} from '@gisatcz/ptr-atoms';
-import WindowsContainer from '../../../../components/common/WindowsContainer';
 import {Deprecated_MapSet, Deprecated_MapControls} from "@gisatcz/ptr-deprecated";
 import Map from "./Map";
 import MapPresentation from "./Map/presentation";
@@ -15,6 +14,10 @@ import InfoPanel from "./InfoPanel/presentation";
 import AppContext from './context/context';
 
 import {MapTools} from '@gisatcz/ptr-maps';
+import {WindowsContainer} from '@gisatcz/ptr-components';
+import {connects} from '@gisatcz/ptr-state';
+
+const ConnectedWindowsContainer = connects.WindowsContainer(WindowsContainer);
 
 class App extends React.PureComponent {
 
@@ -32,7 +35,7 @@ class App extends React.PureComponent {
 								</title>
 							</Helmet>
 							<div className="un_seea-content">
-								<WindowsContainer setKey={this.context.windowSetKey}>
+								<ConnectedWindowsContainer setKey={this.context.windowSetKey}>
 									<AdjustableColumns
 										fixed
 										content={[
@@ -81,7 +84,7 @@ class App extends React.PureComponent {
 											},
 										]}
 									/>
-								</WindowsContainer>
+								</ConnectedWindowsContainer>
 							</div>
 					</HoverHandler>
 				</div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from '@gisatcz/ptr-state';
-import { ConnectedRouter } from '@gisatcz/ptr-state';
+import { ConnectedRouter, connects } from '@gisatcz/ptr-state';
 import { Route, Switch } from '@gisatcz/ptr-state';
 
 import Action from './state/Action';
@@ -18,7 +18,6 @@ import Page from './components/Page';
 import TestSelectPage from './components/TestSelect';
 
 import Test from './components/Test';
-import AppContainer from "../../components/common/AppContainer";
 import Apps from './components/pages/Apps';
 import Dashboard from './components/pages/Dashboard';
 import Places from './components/pages/Places';
@@ -29,6 +28,9 @@ import Users from './components/pages/Users';
 
 import cz from "./locales/cz/common";
 import en from "./locales/en/common";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {cz, en});
@@ -66,7 +68,7 @@ export default (path, baseUrl, managedAppKey) => {
 
 	ReactDOM.render(
 		<Provider store={Store}>
-			<AppContainer loginRequired>
+			<ConnectedAppContainer loginRequired>
 				<ConnectedRouter history={history}>
 					<Switch>
 						<Route exact path={path + "/"} render={page(Dashboard, "base")} />
@@ -81,7 +83,7 @@ export default (path, baseUrl, managedAppKey) => {
 						<Route exact path={path + "/testselect"} render={page(TestSelectPage, "testselect")} />
 					</Switch>
 				</ConnectedRouter>
-			</AppContainer>
+			</ConnectedAppContainer>
 		</Provider>,document.getElementById('ptr')
 	);
 }

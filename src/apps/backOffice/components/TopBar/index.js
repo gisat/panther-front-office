@@ -1,8 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
-import {NavLink, withRouter} from '@gisatcz/ptr-state';
-
+import {NavLink, connects} from '@gisatcz/ptr-state';
 import {Icon} from '@gisatcz/ptr-atoms';
+import {User} from '@gisatcz/ptr-components';
+
 import Apps from './icons/Apps';
 import Dashboard from './icons/Dashboard';
 import Places from "./icons/Places";
@@ -13,11 +13,8 @@ import Users from './icons/Users';
 import AppSelect from '../AppSelect';
 
 import './style.scss';
-import PropTypes from "prop-types";
-import {matchPath} from '@gisatcz/ptr-state';
-import isArray from "lodash/isArray";
-import isObject from "lodash/isObject";
-import User from "../../../../components/common/controls/User";
+
+const ConnectedUser = connects.User(User);
 
 class TopBar extends React.PureComponent {
 	onNavKeyPress(path, key) {
@@ -90,7 +87,7 @@ class TopBar extends React.PureComponent {
 					</NavLink>
 				</div>
 				<div className="ptr-bo-top-bar-user">
-					<User/>
+					<ConnectedUser/>
 				</div>
 			</>
 		)

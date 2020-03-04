@@ -7,7 +7,6 @@ import AppContext from '../../context';
 import LandingPage from '../LandingPage';
 import Header from '../Header';
 import {AdjustableColumns} from '@gisatcz/ptr-atoms';
-import WindowsContainer from '../../../../components/common/WindowsContainer';
 import {Deprecated_MapSet, Deprecated_MapControls} from "@gisatcz/ptr-deprecated";
 import FuoreMap from "./Map";
 import FuoreMapPresentation from "./Map/presentation";
@@ -23,9 +22,11 @@ import IndicatorDescription from "./IndicatorDescription";
 
 import {ChartSet, ChartWrapper} from '@gisatcz/ptr-charts';
 import {SimpleLayersControl, MapTools} from '@gisatcz/ptr-maps';
+import {WindowsContainer} from '@gisatcz/ptr-components';
 import {connects} from '@gisatcz/ptr-state';
 
 const ConnectedChartSet = connects.ChartSet(ChartSet);
+const ConnectedWindowsContainer = connects.WindowsContainer(WindowsContainer);
 
 const backgroundLayers = [
 	{
@@ -106,7 +107,7 @@ class EsponFuoreApp extends React.PureComponent {
 						<Helmet><title>{props.activeScope ? props.activeScope.data.nameDisplay : null}</title></Helmet>
 						<Header />
 						<div className="esponFuore-content">
-							<WindowsContainer setKey={this.context.windowSetKey}>
+							<ConnectedWindowsContainer setKey={this.context.windowSetKey}>
 								<AdjustableColumns
 									fixed
 									content={[
@@ -172,7 +173,7 @@ class EsponFuoreApp extends React.PureComponent {
 								<EsponFuoreTimeline
 									mapSetKey={this.context.mapSetKey}
 								/>
-							</WindowsContainer>
+							</ConnectedWindowsContainer>
 						</div>
 					</HoverHandler>
 				</div>

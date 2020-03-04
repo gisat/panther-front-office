@@ -3,7 +3,6 @@ import Helmet from "react-helmet";
 import classnames from 'classnames';
 
 import {AdjustableColumns} from '@gisatcz/ptr-atoms';
-import WindowsContainer from '../../../../components/common/WindowsContainer';
 import {Deprecated_MapSet, Deprecated_MapControls} from "@gisatcz/ptr-deprecated";
 import UtepSdgMap from "./Map";
 import UtepSdgMapPresentation from "./Map/presentation";
@@ -19,6 +18,9 @@ import uTepLogo from '../../assets/urban-tep-logo.png';
 
 import {MapTools, GoToPlace} from '@gisatcz/ptr-maps';
 import {connects} from '@gisatcz/ptr-state';
+import {WindowsContainer} from '@gisatcz/ptr-components';
+
+const ConnectedWindowsContainer = connects.WindowsContainer(WindowsContainer);
 
 const ConnectedGoToPlace = connects.GoToPlace(GoToPlace);
 
@@ -37,7 +39,7 @@ class UtepSdg extends React.PureComponent {
 					<HoverHandler>
 						<Helmet><title>UTEP SDG 11.3.1</title></Helmet>
 						<div className="utep_sdg_11_3_1-content">
-							<WindowsContainer setKey={this.context.windowSetKey}>
+							<ConnectedWindowsContainer setKey={this.context.windowSetKey}>
 								<ReactResizeDetector
 									handleWidth
 									render={({ width }) => {
@@ -99,7 +101,7 @@ class UtepSdg extends React.PureComponent {
 									)
 									}}
 								/>
-							</WindowsContainer>
+							</ConnectedWindowsContainer>
 						</div>
 					</HoverHandler>
 				</div>

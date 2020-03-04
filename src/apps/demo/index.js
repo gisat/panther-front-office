@@ -10,11 +10,13 @@ import config from "../../../src/config";
 import Demo from './Demo';
 import {Provider} from "@gisatcz/ptr-state";
 import {ConnectedRouter} from '@gisatcz/ptr-state';
-import {Redirect, Route, Switch} from '@gisatcz/ptr-state';
-import AppContainer from "../../components/common/AppContainer/presentation";
+import {Redirect, Route, Switch, connects} from '@gisatcz/ptr-state';
 import createStore, {createHistory} from './state/Store';
 import MapConnectedToState from "./components/MapConnectedToStore";
 import Action from "../backOffice/state/Action";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
@@ -25,14 +27,14 @@ export default (path, baseUrl) => {
 	ReactDOM.render(
 		<>
 			<Provider store={Store}>
-				<AppContainer appKey="demo">
+				<ConnectedAppContainer appKey="demo">
 					<ConnectedRouter history={history}>
 						<Switch>
 							<Route exact path="/mapState" render={() => <MapConnectedToState store={Store}/>}/>
 							<Route path="/" component={Demo}/>
 						</Switch>
 					</ConnectedRouter>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);

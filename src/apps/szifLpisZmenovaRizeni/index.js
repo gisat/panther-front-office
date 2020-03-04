@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 
 import Action from './state/Action';
@@ -11,9 +11,11 @@ import '@gisatcz/ptr-core/src/styles/reset.css';
 import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
-import AppContainer from "../../components/common/AppContainer";
 import SzifCaseTable from "./components/SzifCaseTable";
 import config from "../../config";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 export default (path, baseUrl) => {
 
@@ -28,9 +30,9 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | LPIS - Změnová řízení"
 					defaultTitle="LPIS - Změnová řízení"
 				/>
-				<AppContainer appKey="szifLpisZmenovaRizeni">
+				<ConnectedAppContainer appKey="szifLpisZmenovaRizeni">
 					<SzifCaseTable/>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);

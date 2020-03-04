@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
 import {Provider} from '@gisatcz/ptr-state';
 import { ConnectedRouter } from '@gisatcz/ptr-state';
-import { Route, Switch, Redirect } from '@gisatcz/ptr-state';
+import { Route, Switch, Redirect, connects } from '@gisatcz/ptr-state';
 
 import createStore, {createHistory} from './state/Store';
 import {Action} from '@gisatcz/ptr-state';
@@ -15,12 +15,13 @@ import '@gisatcz/ptr-core/src/styles/reset.css';
 import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
-import AppContainer from "../../components/common/AppContainer/presentation";
 import GlobalWSF from "./components/GlobalWSF";
 import GreenAreas from "./components/GreenAreas";
 import LandAssetsStructure from "./components/LandAssetsStructure";
 import config from "../../config";
-// import SlumsMonitoring from "./components/SlumsMonitoring";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
@@ -60,7 +61,7 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | SCUDEO Stories"
 					defaultTitle="SCUDEO Stories"
 				/>
-				<AppContainer appKey="scudeoStories19">
+				<ConnectedAppContainer appKey="scudeoStories19">
 					<ConnectedRouter history={history}>
 						<Switch>
 							{pages.map(page =>
@@ -84,7 +85,7 @@ export default (path, baseUrl) => {
 							)}/>
 						</Switch>
 					</ConnectedRouter>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);

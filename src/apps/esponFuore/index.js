@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from '@gisatcz/ptr-state';
 import { ConnectedRouter } from '@gisatcz/ptr-state';
-import { Route, Switch } from '@gisatcz/ptr-state';
+import { Route, Switch, connects } from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 import Favicon from 'react-favicon';
 
@@ -18,12 +18,14 @@ import './styles/index.scss';
 import en from "./locales/en/common";
 
 import AppContext from './context';
-import AppContainer from "../../components/common/AppContainer";
 import ReactRouterViewController from "./components/ReactRouterViewController";
 import App from "./components/App";
 
 import favicon from './assets/favicon.ico';
 import config from "../../config";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {en});
@@ -59,14 +61,14 @@ export default (path, baseUrl) => {
 						titleTemplate="%s | ESPON FUORE"
 						defaultTitle="ESPON FUORE"
 					/>
-					<AppContainer>
+					<ConnectedAppContainer>
 						<ConnectedRouter history={history}>
 							<>
 								<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
 								<Route component={App} />
 							</>
 						</ConnectedRouter>
-					</AppContainer>
+					</ConnectedAppContainer>
 				</AppContext.Provider>
 			</Provider>
 		</>, document.getElementById('ptr')

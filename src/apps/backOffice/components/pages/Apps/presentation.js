@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import {Route, Switch} from '@gisatcz/ptr-state';
+import {Route, Switch, connects} from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 
 /* Base types */
@@ -10,11 +10,9 @@ import ConfigurationsList from "../../lists/ConfigurationsList";
 import LayerTreesList from "../../lists/LayerTreesList";
 
 /* Specific types */
-
-
-import NavList from '../../../../../components/presentation/NavList'
-
 import './style.scss';
+
+const NavList = connects.NavList;
 
 class Apps extends React.PureComponent {
 	static propTypes = {

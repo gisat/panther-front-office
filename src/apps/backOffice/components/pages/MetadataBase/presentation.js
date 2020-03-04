@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withNamespaces} from '@gisatcz/ptr-locales';
-import {Route, Switch} from '@gisatcz/ptr-state';
+import {Route, Switch, connects} from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 
 /* Base types */
@@ -15,10 +15,8 @@ import ViewsList from "../../lists/ViewsList";
 
 /* Specific types */
 import EsponFuoreIndicatorsList from "../../lists/EsponFuoreIndicatorsList";
-
-import NavList from '../../../../../components/presentation/NavList'
-
 import './style.scss';
+const NavList = connects.NavList;
 
 class MetadataBase extends React.PureComponent {
 	static propTypes = {

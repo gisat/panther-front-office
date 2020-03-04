@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 import { ConnectedRouter } from '@gisatcz/ptr-state';
 import { Route, Switch } from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
@@ -18,13 +18,15 @@ import './styles/index.scss';
 import en from "./locales/en/common";
 
 import SubAppContextProvider from './components/App/context/SubAppContextProvider';
-import AppContainer from "../../components/common/AppContainer";
 
 import DistrictsSecond from './components/pages/DistrictsSecond/subAppWrapper';
 import Districts from './components/pages/Districts/subAppWrapper';
 import Trees from './components/pages/Trees/subAppWrapper';
 import LandingPage from './components/pages/LandingPage/presentation';
 import config from "../../config";
+
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
 localesUtils.addI18nResources('common', {en});
@@ -45,7 +47,7 @@ export default (path, baseUrl) => {
 						titleTemplate="%s | UN SEEA"
 						defaultTitle="UN SEEA"
 					/>
-					<AppContainer>
+					<ConnectedAppContainer>
 						<ConnectedRouter history={history}>
 							<Switch>
 								{/* <Route exact path={path + "/"} render={page(Dashboard, "base")} /> */}
@@ -55,7 +57,7 @@ export default (path, baseUrl) => {
 								<Route path={path} component={LandingPage} />
 							</Switch>
 						</ConnectedRouter>
-					</AppContainer>
+					</ConnectedAppContainer>
 				</SubAppContextProvider>
 			</Provider>
 		</>, document.getElementById('ptr')

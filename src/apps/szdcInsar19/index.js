@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from '@gisatcz/ptr-state';
+import {Provider, connects} from '@gisatcz/ptr-state';
 import Helmet from "react-helmet";
 
 import {Action, Select} from '@gisatcz/ptr-state';
@@ -11,14 +11,12 @@ import '@gisatcz/ptr-core/src/styles/reset.css';
 import '@gisatcz/ptr-core/src/styles/base.scss';
 import './styles/index.scss';
 
-// import cz from "./locales/cz/common";
-
-import AppContainer from "../../components/common/AppContainer";
 import App from './components/App';
 import _ from "lodash";
 import config from "../../config";
 
-// import App from './components/App';
+import {AppContainer} from "@gisatcz/ptr-components";
+const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 export default (path, baseUrl) => {
 
@@ -93,9 +91,9 @@ export default (path, baseUrl) => {
 					titleTemplate="%s | S"
 					defaultTitle="S"
 				/>
-				<AppContainer appKey="szdcInsar19">
+				<ConnectedAppContainer appKey="szdcInsar19">
 					<App/>
-				</AppContainer>
+				</ConnectedAppContainer>
 			</Provider>
 		</>, document.getElementById('ptr')
 	);
