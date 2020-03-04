@@ -13,7 +13,7 @@ import productivity from "../../assets/img/productivity.png";
 import Fade from "react-reveal/Fade";
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {MapPopup} from "../MapPopup";
-import {WorldWindMap, MapControls as MapControlsPresentation, PresentationMap, MapSet as MapSetPresentation} from "@gisatcz/ptr-maps";
+import {WorldWindMap, MapControls as MapControlsPresentation, MapSetPresentationMap as PresentationMap, MapSet as MapSetPresentation} from "@gisatcz/ptr-maps";
 import {MapInfo} from "../MapInfo";
 import {Select} from "@gisatcz/ptr-atoms";
 import {MapLegend} from "../MapLegend";

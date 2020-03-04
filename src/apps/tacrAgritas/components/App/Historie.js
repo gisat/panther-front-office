@@ -13,7 +13,7 @@ import {outlinesStyle, hoveredStyleDefinition, selectedStyleDefinition} from "..
 import {MapLegend} from "../MapLegend";
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {MapPopup} from "../MapPopup";
-import {WorldWindMap, MapControls as MapControlsPresentation, PresentationMap, MapSet as MapSetPresentation} from "@gisatcz/ptr-maps";
+import {WorldWindMap, MapControls as MapControlsPresentation, MapSetPresentationMap as PresentationMap, MapSet as MapSetPresentation} from "@gisatcz/ptr-maps";
 import {MapInfo} from "../MapInfo";
 import {Select} from "@gisatcz/ptr-atoms";
 import utils from "../../utils";

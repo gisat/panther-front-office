@@ -5,7 +5,7 @@ import moment from "moment";
 import {LineChart} from '@gisatcz/ptr-charts';
 import {HoverHandler} from "@gisatcz/ptr-core";
 import {Select} from "@gisatcz/ptr-atoms";
-import {WorldWindMap, MapControls as MapControlsPresentation, PresentationMap, MapSet as MapSetPresentation} from "@gisatcz/ptr-maps";
+import {WorldWindMap, MapControls as MapControlsPresentation, MapSetPresentationMap as PresentationMap, MapSet as MapSetPresentation} from "@gisatcz/ptr-maps";
 import MapResources, {cropColumnName, fidColumnName, nameColumnName, climRegionColumnName, mapPeriodOptions} from "../../constants/MapResources";
 import {outlinesStyle, hoveredStyleDefinition, selectedStyleDefinition} from "../../constants/MapStyles";
 

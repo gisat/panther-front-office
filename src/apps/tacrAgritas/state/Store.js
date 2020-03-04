@@ -4,7 +4,7 @@ import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 
 // base types
-import {appReducers,casesReducers,periodsReducers,placesReducers,scopesReducers} from '@gisatcz/ptr-state';
+import {appReducers,casesReducers,periodsReducers,placesReducers,scopesReducers,usersReducers} from '@gisatcz/ptr-state';
 import tacrAgritasData from "../../tacrAgritas/state/Data/reducers";
 
 export const createHistory = (options) => {
@@ -33,6 +33,7 @@ export default history => {
 		periods: periodsReducers,
 		places: placesReducers,
 		router: connectRouter(history),
-		scopes: scopesReducers
+		scopes: scopesReducers,
+		users: usersReducers
 	}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));
 }
