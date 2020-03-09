@@ -1,7 +1,7 @@
 import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../../Page";
 
-import {WorldWindMap, MapControls as MapControlsPresentation, MapSet, MapSetPresentationMap, PresentationMap} from "@gisatcz/ptr-maps";
+import {ReactLeafletMap, LeafletMap, WorldWindMap, MapControls as MapControlsPresentation, MapSet, MapSetPresentationMap, PresentationMap} from "@gisatcz/ptr-maps";
 
 import {connects} from '@gisatcz/ptr-state';
 
@@ -12,6 +12,14 @@ const backgroundLayer = {
 	layerTemplateKey: 'd54f7782-976b-4fb2-9066-5f1ca4f3b703',
 	metadataModifiers: {
 		applicationKey: 'docs'
+	}
+};
+
+const osm = {
+	key: 'background-osm',
+	type: 'wmts',
+	options: {
+		url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 	}
 };
 
@@ -48,7 +56,7 @@ class MapSetDoc extends React.PureComponent {
 		props.addSet({
 			key: 'docs-MapSet',
 			data: {
-				backgroundLayer: wikimedia,
+				backgroundLayer: osm,
 				layers: layers,
 				view: {
 					center: {
@@ -75,7 +83,79 @@ class MapSetDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Map set">
-				<h2>Connected to store</h2>
+				<h2>Leaflet</h2>
+				<h3>Connected to store</h3>
+				<div style={{height: 500}}>
+					<ConnectedMapSet
+						stateMapSetKey="docs-MapSet"
+						mapComponent={ReactLeafletMap}
+						connectedMapComponent={ConnectedMap}
+					>
+						<MapControlsPresentation levelsBased zoomOnly/>
+					</ConnectedMapSet>
+				</div>
+
+				<h3>Uncontrolled</h3>
+				<div style={{height: 500}}>
+					<ConnectedMapSet
+						activeMapKey='map-2'
+						mapComponent={ReactLeafletMap}
+						view={{
+							boxRange: 1000000,
+							heading: 10,
+							tilt: 10
+						}}
+						sync={{
+							boxRange: true,
+							center: true
+						}}
+						backgroundLayer={osm}
+						layers={layers2}
+					>
+						<MapSetPresentationMap
+							mapKey='map-1'
+						/>
+						<MapSetPresentationMap
+							mapKey='map-2'
+						/>
+						<MapSetPresentationMap
+							mapKey='map-3'
+						/>
+						<MapControlsPresentation levelsBased zoomOnly/>
+					</ConnectedMapSet>
+				</div>
+
+				<h3>Uncontrolled unconnected</h3>
+				<div style={{height: 500}}>
+					<MapSet
+						activeMapKey='map-2'
+						mapComponent={ReactLeafletMap}
+						view={{
+							boxRange: 100000,
+							heading: 10,
+							tilt: 10
+						}}
+						sync={{
+							boxRange: true,
+							center: true
+						}}
+						backgroundLayer={osm}
+					>
+						<MapSetPresentationMap
+							mapKey='map-1'
+						/>
+						<MapSetPresentationMap
+							mapKey='map-2'
+						/>
+						<MapSetPresentationMap
+							mapKey='map-3'
+						/>
+						<MapControlsPresentation levelsBased zoomOnly/>
+					</MapSet>
+				</div>
+
+				<h2>World Wind</h2>
+				<h3>Connected to store</h3>
 				<div style={{height: 500}}>
 					<ConnectedMapSet
 						stateMapSetKey="docs-MapSet"
@@ -86,7 +166,7 @@ class MapSetDoc extends React.PureComponent {
 					</ConnectedMapSet>
 				</div>
 
-				<h2>Uncontrolled</h2>
+				<h3>Uncontrolled</h3>
 				<div style={{height: 500}}>
 					<ConnectedMapSet
 						activeMapKey='map-2'
@@ -116,7 +196,7 @@ class MapSetDoc extends React.PureComponent {
 					</ConnectedMapSet>
 				</div>
 
-				<h2>Uncontrolled unconnected</h2>
+				<h3>Uncontrolled unconnected</h3>
 				<div style={{height: 500}}>
 					<MapSet
 						activeMapKey='map-2'

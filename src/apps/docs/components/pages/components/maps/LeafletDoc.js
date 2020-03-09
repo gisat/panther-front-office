@@ -1,12 +1,31 @@
 import React from 'react';
 import Page, {DocsToDo, DocsToDoInline, InlineCodeHighlighter, LightDarkBlock, SyntaxHighlighter} from "../../../Page";
-import {LeafletMap} from "@gisatcz/ptr-maps";
+import {LeafletMap, ReactLeafletMap} from "@gisatcz/ptr-maps";
 import ComponentPropsTable from "../../../ComponentPropsTable/ComponentPropsTable";
+
+const backgroundLayer = {
+	key: 'background-osm',
+	type: 'wmts',
+	options: {
+		url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+	}
+};
 
 class LeafletDoc extends React.PureComponent {
 	render() {
 		return (
 			<Page title="Leaflet">
+				<div style={{height: 500, marginBottom: 10}}>
+					<ReactLeafletMap
+						mapKey='react-leaflet-map'
+						view={{
+							center: {lat: 50, lon: 12},
+							boxRange: 10000
+						}}
+						backgroundLayer={backgroundLayer}
+					/>
+				</div>
+
 				<div style={{height: 500}}>
 					<LeafletMap
 						mapKey='typical-example'
@@ -14,13 +33,7 @@ class LeafletDoc extends React.PureComponent {
 							center: {lat: 50, lon: 15},
 							boxRange: 10000000
 						}}
-						backgroundLayer={{
-							key: 'background-osm',
-							type: 'wmts',
-							options: {
-								url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-							}
-						}}
+						backgroundLayer={backgroundLayer}
 					/>
 				</div>
 				<h2>Props</h2>
