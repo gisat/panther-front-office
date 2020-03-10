@@ -49,6 +49,19 @@ const layers2 = [{
 	}
 }];
 
+const layersForLeaflet = [{
+	key: 'cuzk_ortofoto',
+	name: 'CUZK Ortofoto',
+	type: 'wms',
+	opacity: 0.5,
+	options: {
+		url: 'http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?',
+		params: {
+			layers: 'GR_ORTFOTORGB'
+		}
+	}
+}];
+
 class MapSetDoc extends React.PureComponent {
 	constructor(props){
 		super(props);
@@ -110,7 +123,7 @@ class MapSetDoc extends React.PureComponent {
 							center: true
 						}}
 						backgroundLayer={osm}
-						layers={layers2}
+						layers={layersForLeaflet}
 					>
 						<MapSetPresentationMap
 							mapKey='map-1'
@@ -140,6 +153,7 @@ class MapSetDoc extends React.PureComponent {
 							center: true
 						}}
 						backgroundLayer={osm}
+						layers={layersForLeaflet}
 					>
 						<MapSetPresentationMap
 							mapKey='map-1'

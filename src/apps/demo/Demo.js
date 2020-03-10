@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import {Deprecated_PresentationMapWithControls} from '@gisatcz/ptr-deprecated';
-import {WorldWindMap, LeafletMap, MapControls} from "@gisatcz/ptr-maps";
+import {WorldWindMap, LeafletMap, ReactLeafletMap, MapControls} from "@gisatcz/ptr-maps";
 import {Select} from '@gisatcz/ptr-atoms';
 
 import central_europe from "./data/central_europe";
@@ -10,6 +10,10 @@ const mapFrameworks = {
 	leaflet: {
 		name: "Leaflet",
 		component: LeafletMap
+	},
+	reactLeaflet: {
+		name: "React Leaflet",
+		component: ReactLeafletMap
 	},
 	worldWind: {
 		name: "World Wind",
