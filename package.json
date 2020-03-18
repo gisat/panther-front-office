@@ -22,7 +22,7 @@
     "lodash": "4.17.15",
     "leaflet": "1.5.1",
     "moment": "2.23.0",
-    "node-sass": "4.11.0",
+    "node-sass": "4.13.1",
     "oaf-react-router": "^2.0.0",
     "path": "0.12.7",
     "prop-types": "15.6.2",
@@ -63,7 +63,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --modulePaths=src",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "proxy": "lcp --proxyUrl https://lpisup.gisat.cz --port 3001 --origin http://localhost:3000 --proxyPartial '' --credentials"
   },
   "devDependencies": {
     "babel-jest": "^23.6.0",
@@ -71,6 +72,7 @@
     "babel-preset-env": "1.7.0",
     "d3-sankey": "^0.12.3",
     "jest": "23.6.0",
+    "local-cors-proxy": "^1.1.0",
     "redux-testkit": "1.0.6"
   },
   "browserslist": [

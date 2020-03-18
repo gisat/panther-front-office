@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		setMapSetView: (mapSetKey, center, range) => {
 			const view = {
-				'center': {lat: center[0], lon: center[1]},
+				center: {lat: center[0], lon: center[1]},
 				boxRange: range,
 				tilt: 0,
 				roll: 0,

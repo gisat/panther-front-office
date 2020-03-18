@@ -36,7 +36,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			//set as center
 			const lat = searchString.split(',')[0].replace(' ', '');
 			const lon = searchString.split(',')[1].replace(' ', '');
-			setMapSetView(mapSet.key, [lat, lon], 500);
+			setMapSetView(mapSet.key, [parseFloat(lat), parseFloat(lon)], 500);
 		}
 
 		this.setState({
