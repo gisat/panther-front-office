@@ -27,3 +27,6 @@ package-lock.json
 
 # testing
 jest.json
+
+# dev
+config-overrides.js
