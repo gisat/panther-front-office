@@ -8,12 +8,11 @@ import Favicon from 'react-favicon';
 
 import Action from './state/Action';
 import Store, {history} from './state/Store';
-import {i18n} from '@gisatcz/ptr-locales';
-import {utils} from '@gisatcz/ptr-utils';
+import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 
 // base styles need to be imported before all components
-import '@gisatcz/ptr-core/src/styles/reset.css';
-import '@gisatcz/ptr-core/src/styles/base.scss';
+import '@gisatcz/ptr-core/lib/styles/reset.css';
+import '@gisatcz/ptr-core/lib/styles/base.scss';
 import './styles/index.scss';
 
 import en from "./locales/en/common";
@@ -31,7 +30,7 @@ import {AppContainer} from "@gisatcz/ptr-components";
 const ConnectedAppContainer = connects.AppContainer(AppContainer);
 
 // override and extend locales in namespaces
-utils.addI18nResources(i18n,'common', {en});
+localesUtils.addI18nResources('common', {en});
 
 
 const WINDOW_SET_KEY = "utep_sdg_11_3_1";

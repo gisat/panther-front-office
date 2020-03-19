@@ -1,4 +1,10 @@
-@import '~@gisatcz/ptr-core/src/styles/_variables';
+@import '~@gisatcz/ptr-core/lib/styles/_variables';
+@import '~@gisatcz/ptr-components/dist/style.css';
+@import '~@gisatcz/ptr-charts/dist/style.css';
+@import '~@gisatcz/ptr-maps/dist/style.css';
+@import '~@gisatcz/ptr-atoms/dist/style.css';
+@import '~@gisatcz/ptr-core/dist/style.css';
+
 
 .ptr-docs {
 	display: flex;

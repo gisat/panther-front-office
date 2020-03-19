@@ -10,8 +10,8 @@ import {i18n, localesUtils} from '@gisatcz/ptr-locales';
 import config from "../../../src/config";
 
 // base styles need to be imported before all components
-import '@gisatcz/ptr-core/src/styles/reset.css';
-import '@gisatcz/ptr-core/src/styles/base.scss';
+import '@gisatcz/ptr-core/lib/styles/reset.css';
+import '@gisatcz/ptr-core/lib/styles/base.scss';
 import './styles/index.scss';
 
 import Page from './components/Page';
