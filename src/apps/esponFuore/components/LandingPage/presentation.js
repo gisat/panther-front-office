@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import esponLogo from '../../assets/img/espon-logo.png';
 import esponLogoFull from '../../assets/img/espon-logo-full.png';
 import gisatLogo from '../../assets/img/gisat-logo.png';
 import './style.scss';
@@ -15,7 +14,7 @@ class LandingPage extends React.PureComponent {
 				<div>
 					<div className="esponFuore-landing-page-intro">
 						<div className="esponFuore-landing-page-logo">
-							<img src={esponLogo}/>
+							<img src={esponLogoFull}/>
 						</div>
 						<div className="esponFuore-landing-page-text">
 							<h1>Functional Urban Areas and Other Regions - Analytical Tool</h1>
