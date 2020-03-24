@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import methodology from "../../assets/img/methodology.png";
 import esponLogoFull from '../../assets/img/espon-logo-full.png';
 import gisatLogo from '../../assets/img/gisat-logo.png';
 import './style.scss';
@@ -20,10 +21,11 @@ class LandingPage extends React.PureComponent {
 							<h1>Functional Urban Areas and Other Regions - Analytical Tool</h1>
 							<p>This web tool is the main outcome of the ESPON FUORE project. It presents the data, indicators and knowledge related to Functional Urban Areas and Regions in Europe and provides an unique opportunity to analyze the current situation and recent trends in functional regions in Europe. The tool offers a wide range of analytical functionalities, including advanced filtering and benchmarking via interactive maps and graphs</p>
 							<p>Policy decisions and actions reach beyond administrative borders. This means geographies for policy making are not aligned with the geographies affected. Policy-making using functional areas should overcome these challenges. In order to improve the relevance, efficiency and effectiveness of the policy making and implementation process regarding functional areas, it is essential to have data, indicators and analytical tools that can help to better understand the drivers for growth and facilitate policy debates at various levels.</p>
-							<p><b>Please note that this is the beta version of the webtool, so it will be further developed.
-								Also, the figures presented are currently under validation. Therefore, they should be considered as draft results of the project and may be further adjusted.</b></p>
+							<p>The FUORE Webtool is providing <b>estimated</b> indicators by Functional Urban Areas and other functional regions in Europe. This estimation is based on a <a href={methodology} target="_blank">complex methodology</a> of of disaggregation of NUTS-based indicators by means of different ancillary datasets and the aggregation back to the different functional regions. Therefore, <b>the&nbsp;figures shown by the FUORE webtool cannot replace official statistics whenever they exist</b>. Further information available in the <a href="https://www.espon.eu/sites/default/files/attachments/ESPON%20FUORE%20-%20Draft%20Final%20Report.pdf" target="_blank">ESPON FUORE Draft Final Report</a>.</p>
+
 							<div className="esponFuore-landing-page-links">
 								<div className="bottom-link"><a href="https://www.espon.eu/functional-urban-areas-tool" target="_blank">Project information</a></div>
+								<div className="bottom-link disabled"><a href="#">Video tutorial</a></div>
 								<div className="bottom-link disabled"><a href="#">Custom disaggregation</a></div>
 							</div>
 						</div>
