@@ -71,6 +71,15 @@ export const getCartogramColorScale = (color, classCount) => {
     return colorClasses;
 };
 
+export const getCartogramTwoColorScale = (highColor, lowColor, centerColor, classCount) => {
+    const chromaHighColor = chroma(highColor);
+    const chromaLowColor = chroma(lowColor);
+    const chromaCenterColor = chroma(centerColor);
+    const colorScale = chroma.scale([chromaLowColor, chromaCenterColor, chromaHighColor]).mode('lrgb');
+    const colorClasses = colorScale.colors((classCount * 2), null).map(c => c.saturate(1).rgb());
+    return colorClasses;
+};
+
 /**
  * 
  * Calculate percentil position of value between min and max values

@@ -28,6 +28,7 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 * @param {Object|Array} renderablesData - GeoJSON data
 	 */
 	setRenderables(renderablesData) {
+		this.removeAllRenderables();
 		const parser = new WorldWind.GeoJSONParser(renderablesData);
 		const shapeConfigurationCallback = (geometry, properties) => {
 			//add properties to renderable

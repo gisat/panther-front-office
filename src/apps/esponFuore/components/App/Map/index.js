@@ -200,7 +200,9 @@ const mapStateToProps = (state, props) => {
 					acc[layerData.key] = {
 						dataType: attribute &&  attribute.data && attribute.data.valueType,
 						attributeDataKey,
-						color: fuoreUtils.resolveColour(attribute)
+						color: fuoreUtils.resolveColour(attribute),
+						colors: [...fuoreUtils.resolveColours(attribute), '#ffffbf'], //#ffffbf - center color
+						twoSideScale: attribute.twoSideScale === true,
 					}
 				}
 			}

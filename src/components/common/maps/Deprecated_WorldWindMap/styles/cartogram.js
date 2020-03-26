@@ -1,10 +1,11 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
-import {getValueClassesByStatistics, getClassByValue, getClassCount, setClassesMinMaxFromStatistics} from '../../../../../utils/statistics'
+import {getValueClassesByStatistics, getClassByValue, getClassCount, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics} from '../../../../../utils/statistics'
 import {
     DEFAULTFILLTRANSPARENCY,
     DEFAULTOUTLINETRANSPARENCY,
     getCartogramColorScale,
+    getCartogramTwoColorScale,
     transformScaleDarker,
 
     filteredPalette,
@@ -16,8 +17,32 @@ const {Color, ShapeAttributes} = WorldWind;
 
 /**
  * 
- * @param {Array} fillColorPalette  RGB color
+ * @param {string} highColor  
+ * @param {string} lowColor  
+ * @param {string} centerColor  
+ * @param {Array} classCount  number of classes
  * @param {number} fillTransparency 0-255 (255 - no transparent)
+ * @param {Object} statistics Object with min, max, optionaly center
+ * @param {string} attributeDataKey
+ */
+export const getTwoColoredCartogramStyleFunction = (highColor, lowColor, centerColor, classCount, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey) => {
+    const statisticsClasses = getMinMaxCenterValueClassesByStatistics(statistics, classCount);
+    
+    const colorByteArrayClasses = getCartogramTwoColorScale(highColor, lowColor, centerColor, classCount);
+    const colorClasses = colorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, fillTransparency]));
+    
+    const outlineColorByteArrayClasses = transformScaleDarker(colorByteArrayClasses, 2);
+    const outlineColorClasses = outlineColorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, DEFAULTOUTLINETRANSPARENCY]));
+
+    return getScalesStyleFunction(statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses);
+}
+
+/**
+ * 
+ * @param {Array} color  RGB color
+ * @param {number} fillTransparency 0-255 (255 - no transparent)
+ * @param {Object} statistics 
+ * @param {string} attributeDataKey
  */
 export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey) => {
     const usePercentiles = statistics.hasOwnProperty('percentile') && statistics.percentile.length > 1;
@@ -30,10 +55,23 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
     if(usePercentiles) {
         setClassesMinMaxFromStatistics(statisticsClasses, statistics);
     }
-    const colorClasses = getCartogramColorScale(color, classCount);
-    const outlineColorClasses = transformScaleDarker(colorClasses, 2);
-    
+    const colorByteArrayClasses = getCartogramColorScale(color, classCount);
+    const colorClasses = colorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, fillTransparency]));
 
+    const outlineColorByteArrayClasses = transformScaleDarker(colorByteArrayClasses, 2);
+    const outlineColorClasses = outlineColorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, DEFAULTOUTLINETRANSPARENCY]));
+
+    return getScalesStyleFunction(statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses);
+}
+
+/**
+ * 
+ * @param {Array} statisticsClasses  
+ * @param {string} attributeDataKey  
+ * @param {Array} outlineColorClasses
+ * @param {Array} colorClasses
+ */
+export const getScalesStyleFunction = (statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses) => {
     //create 5 classes
     return (renderable, layer) => {
         const attributes = new ShapeAttributes();
@@ -54,15 +92,15 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
             attributes.interiorColor = Color.colorFromByteArray(filteredPalette.lighterTransparentRgba);
             attributes.outlineColor = Color.colorFromByteArray(filteredPalette.darkerTransparentRgba);
         } else if (renderable.selected) {
-            attributes.interiorColor = Color.colorFromByteArray([...valueColor, fillTransparency]);
+            attributes.interiorColor = valueColor;
             attributes.outlineColor = Color.colorFromByteArray([hoverPalette.colorRgb]);            
             attributes.outlineWidth = 5;    
         } else if (renderable.hovered) {
             attributes.interiorColor = Color.colorFromByteArray(hoverPalette.colorOpaqueRgba);
             attributes.outlineColor = Color.colorFromByteArray(hoverPalette.darkerTransparentRgba);    
         } else {
-            attributes.interiorColor = Color.colorFromByteArray([...valueColor, fillTransparency]);
-            attributes.outlineColor = Color.colorFromByteArray([...outlineValueColor, DEFAULTOUTLINETRANSPARENCY]); //gray
+            attributes.interiorColor = valueColor;
+            attributes.outlineColor = outlineValueColor; //gray
         }
 
         return attributes;

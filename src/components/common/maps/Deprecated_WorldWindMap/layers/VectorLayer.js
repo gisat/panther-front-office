@@ -1,6 +1,9 @@
 import WorldWind from 'webworldwind-esa';
 import {isEqual} from 'lodash';
-const {RenderableLayer} = WorldWind;
+const {
+	RenderableLayer,
+	GeoJSONParser
+} = WorldWind;
 
 /**
  * Class extending WorldWind.WmsLayer.
@@ -78,12 +81,13 @@ class ExtendedRenderableLayer extends RenderableLayer {
 	 * @param {Object|Array} renderablesData - GeoJSON data
 	 */
 	setRenderables(renderablesData, defaultStyle, metadata) {
+		this.removeAllRenderables();
 		const attributeDataKey = metadata && metadata.attributeDataKey;
 		if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
 			this.orderFeaturesDescending(renderablesData, attributeDataKey);
 		}
 
-		const parser = new WorldWind.GeoJSONParser(renderablesData);
+		const parser = new GeoJSONParser(renderablesData);
 		const shapeConfigurationCallback = (geometry, properties) => {
 			let geometryType = null;
 			if (geometry.isPointType() || geometry.isMultiPointType()) {

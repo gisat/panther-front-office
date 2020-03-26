@@ -20,6 +20,38 @@ export const getValueClassesByStatistics = (statistics, classesCount = 1) => {
 
 /**
  * 
+ * @param {Object} statistics 
+ * @param {number} absClassesCount 
+ * @returns {Array} break class values with first and last point
+ */
+export const getMinMaxCenterValueClassesByStatistics = (statistics, absClassesCount = 1) => {
+    const min = Number.parseFloat(statistics.min);
+    const max = Number.parseFloat(statistics.max);
+    const center = Number.parseFloat(statistics.center);
+
+    const absRange = Math.max(Math.abs(center-min), Math.abs(center-max));
+    const classWidth = absRange / absClassesCount;
+
+    const classes = [];
+
+    //classes on left side
+    for(let i = 0; i < absClassesCount; i++) {
+        const position = absClassesCount - i;
+        classes[i] = center - (position * classWidth);
+    }
+
+    classes[absClassesCount] = center;
+
+    //classes on right side
+    for(let i = 1; i < absClassesCount + 1; i++) {
+        const position = absClassesCount + i;
+        classes[position] = center + (i * classWidth);
+    }
+    return classes;
+}
+
+/**
+ * 
  * @param {Array} classes Array of break class values with first and last point
  * @param {number} value 
  * @returns {number} class index 
@@ -80,7 +112,8 @@ export const mergeAttributeStatistics = (statistics = []) => {
 
     mergedStatistics.percentile[0] = mergedStatistics.min;
     mergedStatistics.percentile[mergedStatistics.percentile.length - 1] = mergedStatistics.max;
-
+    //temporary expecting that all datasets has center in zero
+    mergedStatistics.center = 0;
     //check if min and max is filled
     const minFilled = isNumber(mergedStatistics.min);
     const maxFilled = isNumber(mergedStatistics.max);
