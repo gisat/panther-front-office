@@ -202,7 +202,7 @@ const mapStateToProps = (state, props) => {
 						attributeDataKey,
 						color: fuoreUtils.resolveColour(attribute),
 						colors: [...fuoreUtils.resolveColours(attribute), '#ffffbf'], //#ffffbf - center color
-						twoSideScale: attribute.twoSideScale === true,
+						twoSideScale: attribute.data.twoSideScale === true,
 					}
 				}
 			}

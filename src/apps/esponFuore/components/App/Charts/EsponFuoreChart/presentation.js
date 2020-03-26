@@ -121,6 +121,17 @@ class EsponFuoreChart extends React.PureComponent {
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
 		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
 
+		let useColorScale = false;
+		if(this.props.attribute.dataType === 'relative' && this.props.attribute.twoSideScale) {
+			useColorScale = true;
+			const colors = fuoreUtils.resolveColours(this.props.attribute);
+			color = colors[0]; //set default color as color for highest values from color scale
+			for (const item of data) {
+				const positive = item.data.values[0].value >= 0; 
+				item.data.color = positive ? colors[0] : colors[1];
+			}
+		}
+
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
 		} else if (!enoughPeriods) {
@@ -142,6 +153,7 @@ class EsponFuoreChart extends React.PureComponent {
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
+				colorSourcePath={useColorScale ? 'data.color' : null}
 				defaultColor={color}
 				highlightColor={color ? chroma(color).darken(1) : null}
 				barGapRatio={0.25}
