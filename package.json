@@ -22,7 +22,7 @@
     "leaflet": "1.5.1",
     "moment": "2.23.0",
     "node-sass": "4.13.1",
-    "oaf-react-router": "^2.0.0",
+    "oaf-react-router": "2.1.1",
     "path": "0.12.7",
     "prop-types": "15.6.2",
     "query-string": "6.2.0",

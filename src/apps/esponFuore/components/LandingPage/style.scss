@@ -15,7 +15,7 @@
 
 .esponFuore-landing-page-intro {
 	display: flex;
-	padding: m(4/3) m(2);
+	padding: m(4/3) m(2) 0;
 }
 
 .esponFuore-landing-page-logo {
@@ -23,45 +23,54 @@
 }
 
 .esponFuore-landing-page-logo > img {
-	width: 10rem;
+	min-width: 12rem;
+	width: 12rem;
 }
 
 .esponFuore-landing-page-text {
 	padding: m(1) m(1) m(1) m(2);
 }
 
+.esponFuore-landing-page-about {
+	padding: 0 m(2) 0 21rem;
+	margin-bottom: m(2);
+	outline: none;
+}
+
 .esponFuore-landing-page-links {
-	margin-top: m(5/3);
-	display: flex;
-	flex-wrap: wrap;
-	text-transform: uppercase;
+	margin-left: m(1);
 }
 
-.esponFuore-landing-page-text .bottom-link {
-	margin: 0 m(2) m(1/3) 0;
+.esponFuore-landing-page-links .bottom-link {
+	line-height: 2;
 }
 
-.esponFuore-landing-page-text .bottom-link.disabled a {
+.esponFuore-landing-page-links .bottom-link.disabled a {
 	pointer-events: none;
 	color: var(--accent30);
 }
 
 .esponFuore-landing-page-footer {
-	padding: m(2) m(1) m(1);
+	padding: m(2) m(1) m(2) 21rem;
+	background: var(--base15);
+}
+
+.esponFuore-landing-page-footer > div {
+	max-width: 50rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.esponFuore-landing-page-footer > a {
-	margin: m(1) m(3);
+.esponFuore-landing-page-footer > div > a {
+	margin-right: m(4);
 }
 
-.esponFuore-landing-page-footer > a img {
+.esponFuore-landing-page-footer > div > a img {
 	width: 10rem;
 }
 
-@media screen and (max-width: 60rem)  {
+@media screen and (max-width: 80rem)  {
 	.esponFuore-landing-page-intro {
 		flex-direction: column;
 	}
@@ -72,8 +81,17 @@
 	.esponFuore-landing-page-text {
 		padding: m(1);
 	}
-	.esponFuore-landing-page-footer > a {
-		margin: m(1) m(2);
+	.esponFuore-landing-page-about {
+		padding-left: m(2);
+	}
+	.esponFuore-landing-page-footer {
+		padding-left: m(2);
+	}
+	.esponFuore-landing-page-footer > div {
+		justify-content: flex-start;
+	}
+	.esponFuore-landing-page-footer > div > a {
+		margin-right: m(3);
 	}
 }
 
@@ -84,10 +102,11 @@
 	.esponFuore-landing-page-links {
 		flex-direction: column;
 	}
-	.esponFuore-landing-page-footer {
+	.esponFuore-landing-page-footer > div {
 		flex-direction: column;
+		align-items: flex-start;
 	}
-	.esponFuore-landing-page-footer > a {
-		margin: m(1) 0;
+	.esponFuore-landing-page-footer > div > a:not(:last-child) {
+		margin-bottom: m(2);
 	}
 }

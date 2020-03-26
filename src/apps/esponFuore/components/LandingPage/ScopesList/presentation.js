@@ -76,7 +76,7 @@ class ScopesList extends React.PureComponent {
 				});
 
 				return (
-					<div className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
+					<div id="scopes" className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
 						<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 						{scope.data && scope.data.description ? (
 							<div className="esponFuore-scope-card-description">
