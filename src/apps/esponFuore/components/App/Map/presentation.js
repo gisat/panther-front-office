@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {isEqual, isNull, cloneDeep, isEmpty, includes} from 'lodash';
 
 import layersHelper from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/helpers';
-import {getCartogramStyleFunction} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
+import {getCartogramStyleFunction, getTwoColoredCartogramStyleFunction} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
 import {getCartodiagramStyleFunction, MIN_DIAGRAM_RADIUS, MAX_DIAGRAM_RADIUS} from '../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartodiagram';
 
 import ExtendedRenderableLayer from '../../../../../components/common/maps/Deprecated_WorldWindMap/layers/ExtendedGeoJsonLayer';
@@ -17,6 +17,8 @@ import HoverContext from "../../../../../components/common/HoverHandler/context"
 import _ from "lodash";
 
 import helpers from './download/helpers';
+
+const styleCache = new window.Map();
 
 class FuoreWorldWindMap extends React.PureComponent {
 	static contextType = HoverContext;
@@ -262,10 +264,41 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 			if(instanceOfVector && layerStatistics && metadata) {
 				//set layerstyle
-				if(metadata.dataType === 'relative') {
-					existingLayer.setStyleFunction(getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey));
-				} else if(metadata.dataType === 'absolute') {
-					existingLayer.setStyleFunction(getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey, 'volume', true, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS));
+				if(metadata.dataType === 'relative' && metadata.twoSideScale) {
+					const highColor = metadata.colors[0];
+					const lowColor = metadata.colors[1];
+					const centerColor = metadata.colors[2];
+					const absClassCount = 3
+					const styleFunctionKey = `${highColor}-${lowColor}-${centerColor}-${absClassCount}-${DEFAULTFILLTRANSPARENCY}-${layerStatistics.min}-${layerStatistics.max}-${layerStatistics.center}-${metadata.attributeDataKey}`;
+					let styleFunction;
+					if(styleCache.has(styleFunctionKey)) {
+						styleFunction = styleCache.get(styleFunctionKey);
+					} else {                                                  getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey);
+						styleFunction = getTwoColoredCartogramStyleFunction(highColor, lowColor, centerColor, absClassCount, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey);
+						styleCache.set(styleFunctionKey, styleFunction);
+					}
+					existingLayer.setStyleFunction(styleFunction);
+				} else if(metadata.dataType === 'relative') {
+					const styleFunctionKey = `${metadata.color}-${DEFAULTFILLTRANSPARENCY}-${layerStatistics.min}-${layerStatistics.max}-${metadata.attributeDataKey}`;
+					let styleFunction;
+					if(styleCache.has(styleFunctionKey)) {
+						styleFunction = styleCache.get(styleFunctionKey);
+					} else {
+						styleFunction = getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey);
+						styleCache.set(styleFunctionKey, styleFunction);
+					}
+					existingLayer.setStyleFunction(styleFunction);
+				}
+				 else if(metadata.dataType === 'absolute') {
+					const styleFunctionKey = `${metadata.color}-${DEFAULTFILLTRANSPARENCY}-${layerStatistics.min}-${layerStatistics.max}-${metadata.attributeDataKey}`;
+					let styleFunction;
+					if(styleCache.has(styleFunctionKey)) {
+						styleFunction = styleCache.get(styleFunctionKey);
+					} else {
+						styleFunction = getCartodiagramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey, 'volume', true, MAX_DIAGRAM_RADIUS, MIN_DIAGRAM_RADIUS);
+						styleCache.set(styleFunctionKey, styleFunction);
+					}
+					existingLayer.setStyleFunction(styleFunction);
 				}
 			}
 		}
@@ -340,6 +373,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 					}
 					//Statistics on layer must be set!
 					if(existingLayer.attributeStatistics && !isNaN(existingLayer.attributeStatistics.min) && !isNaN(existingLayer.attributeStatistics.max)) {
+						console.log(spatialData);
+						
 						existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
 					}
 

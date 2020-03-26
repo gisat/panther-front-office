@@ -6,6 +6,14 @@ import _ from 'lodash';
 import period, {toString as periodToString} from './period';
 import {replaceIdWithKey, removeDuplicities} from './models';
 
+//scales taken from https://colorbrewer2.org/#type=diverging&scheme=RdYlGn&n=6
+const colorScales = [
+	['#01665e','#8c510a'],
+	['#4d9221','#c51b7d'],
+	['#542788','#b35806'],
+	['#2166ac','#b2182b'],
+	['#1a9850','#d73027'],
+]
 
 export default {
 
@@ -205,6 +213,17 @@ export default {
 			hash = Math.imul(hash + string.charCodeAt(i) | 0, 265443576107);
 		}
 		return (hash ^ hash >>> 17) >>> 0;
+	},
+
+	/**
+	 * Deterministic two side colour scale set based on input string.
+	 * @param string - input string
+	 * @returns {Array} colors
+	 */
+	stringToColoursScale(string) {
+		const hash = this.stringToNumHash(string);
+		const scaleIndex = hash % (colorScales.length - 1)
+		return colorScales[scaleIndex];
 	},
 
 	/**

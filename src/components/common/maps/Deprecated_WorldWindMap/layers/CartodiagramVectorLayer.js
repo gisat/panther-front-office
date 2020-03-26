@@ -26,7 +26,7 @@ class CartodiagramVectorLayer extends VectorLayer {
 	 * @param {Object|Array} renderablesData - GeoJSON data
 	 */
 	setRenderables(renderablesData, defaultStyle, metadata) {
-
+		this.removeAllRenderables();
 		if (renderablesData) {
 			const attributeDataKey = metadata && metadata.attributeDataKey;
 			if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
