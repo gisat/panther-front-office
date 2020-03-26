@@ -7,7 +7,7 @@ import Helmet from "react-helmet";
 import Favicon from 'react-favicon';
 
 import Action from './state/Action';
-import Store, {history} from './state/Store';
+import createStore, {createHistory} from './state/Store';
 import i18n from '../../i18n';
 import utils from '../../utils/utils';
 
@@ -24,6 +24,7 @@ import ReactRouterViewController from "./components/ReactRouterViewController";
 import App from "./components/App";
 
 import favicon from './assets/favicon.ico';
+import ScopesDescription from "./components/ScopesDescription";
 
 // override and extend locales in namespaces
 utils.addI18nResources('common', {en});
@@ -33,6 +34,8 @@ const WINDOW_SET_KEY = "esponFuore";
 const MAP_SET_KEY = "esponFuore";
 
 export default (path, baseUrl) => {
+	const history = createHistory({ basename: path });
+	const Store = createStore(history);
 
 	let componentId = 'Fuore-LayersTree';
 
@@ -49,7 +52,6 @@ export default (path, baseUrl) => {
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
 	//add visible layers
-
 	ReactDOM.render(
 		<>
 			<Favicon url={favicon}/>
@@ -61,10 +63,13 @@ export default (path, baseUrl) => {
 					/>
 					<AppContainer>
 						<ConnectedRouter history={history}>
-							<>
-								<Route path={path + "/:viewKey"} component={ReactRouterViewController} />
-								<Route component={App} />
-							</>
+							<Switch>
+								<Route exact path={"/delineation-methods"} component={ScopesDescription} />
+								<>
+									<Route path={"/:viewKey"} component={ReactRouterViewController} />
+									<Route component={App} />
+								</>
+							</Switch>
 						</ConnectedRouter>
 					</AppContainer>
 				</AppContext.Provider>

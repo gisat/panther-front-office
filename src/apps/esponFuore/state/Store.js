@@ -39,48 +39,59 @@ import tagsReducers from '../../../state/Tags/reducers';
 import usersReducers from '../../../state/Users/reducers';
 import viewsReducers from '../../../state/Views/reducers';
 import windowsReducers from '../../../state/Windows/reducers';
+import {wrapHistory} from "oaf-react-router/dist";
 
-export const history = createBrowserHistory();
+export const createHistory = (options) => {
+	let history = createBrowserHistory(options);
+	const settings = {
+		primaryFocusTarget: "body",
+		smoothScroll: true
+	};
+	wrapHistory(history, settings); //todo review behaviour
+	return history;
+};
 
-let middleware = applyMiddleware(thunk, routerMiddleware(history));
-if (process.env.NODE_ENV === 'development') {
-	middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+// Redux store creator
+export default history => {
+
+	let middleware = applyMiddleware(thunk, routerMiddleware(history));
+	if (process.env.NODE_ENV === 'development') {
+		middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+	}
+	return createStore(combineReducers({
+		specific: combineReducers({
+			esponFuoreIndicators: indicatorReducers,
+			esponFuoreSelections: selectionsReducers
+		}),
+		app: appReducers,
+		areas: areasReducers,
+		attributes: attributesReducers,
+		attributeRelations: attributeRelationsReducers,
+		attributeStatistics: attributeStatisticsReducers,
+		attributeSets: attributeSetsReducers,
+		attributeData: attributeData,
+		attributeDataSources: attributeDataSources,
+		charts: chartsReducers,
+		components: componentsReducers,
+		cases: casesReducers,
+		layerPeriods: layerPeriodsReducers,
+		layerTemplates: layerTemplatesReducers,
+		layersTrees: layerTreeReducers,
+		maps: mapsReducers,
+		periods: periodsReducers,
+		places: placesReducers,
+		router: connectRouter(history),
+		scenarios: scenariosReducers,
+		scopes: scopesReducers,
+		screens: screensReducers,
+		snapshots: snapshotsReducers,
+		spatialDataSources: spatialDataSourcesReducers,
+		spatialVectorDataSources: spatialVectorDataSourcesReducers,
+		spatialRelations: spatialRelationsReducers,
+		styles: stylesReducers,
+		tags: tagsReducers,
+		users: usersReducers,
+		views: viewsReducers,
+		windows: windowsReducers
+	}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));
 }
-
-// Redux store
-export default createStore(combineReducers({
-	specific: combineReducers({
-		esponFuoreIndicators: indicatorReducers,
-		esponFuoreSelections: selectionsReducers
-	}),
-	app: appReducers,
-	areas: areasReducers,
-	attributes: attributesReducers,
-	attributeRelations: attributeRelationsReducers,
-	attributeStatistics: attributeStatisticsReducers,
-	attributeSets: attributeSetsReducers,
-	attributeData: attributeData,
-	attributeDataSources: attributeDataSources,
-	charts: chartsReducers,
-	components: componentsReducers,
-	cases: casesReducers,
-	layerPeriods: layerPeriodsReducers,
-	layerTemplates: layerTemplatesReducers,
-	layersTrees: layerTreeReducers,
-	maps: mapsReducers,
-	periods: periodsReducers,
-	places: placesReducers,
-	router: connectRouter(history),
-	scenarios: scenariosReducers,
-	scopes: scopesReducers,
-	screens: screensReducers,
-	snapshots: snapshotsReducers,
-	spatialDataSources: spatialDataSourcesReducers,
-	spatialVectorDataSources: spatialVectorDataSourcesReducers,
-	spatialRelations: spatialRelationsReducers,
-	styles: stylesReducers,
-	tags: tagsReducers,
-	users: usersReducers,
-	views: viewsReducers,
-	windows: windowsReducers
-}), compose(reduxBatch, middleware, reduxBatch, applyMiddleware(thunk), reduxBatch));
