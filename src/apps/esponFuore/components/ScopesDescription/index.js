@@ -12,6 +12,17 @@ class ScopesDescription extends React.PureComponent {
 				<div className="esponFuore-scopes-description-menu">
 					<div className="esponFuore-scopes-description-menu-content">
 						<NavLink className="ptr-button invisible" to={"/"}><Icon icon="arrow-left"/><div className="ptr-button-caption">Main page</div></NavLink>
+						<div className="esponFuore-scopes-description-menu-content-links">
+							<NavLink to="#fua">Functional urban areas</NavLink>
+							<NavLink to="#tcoa">TERCET Coast</NavLink>
+							<NavLink to="#msa">Maritime service areas</NavLink>
+							<NavLink to="#mtn">Mountains</NavLink>
+							<NavLink to="#isl">Islands</NavLink>
+							<NavLink to="#spa">Sparsely populated areas</NavLink>
+							<NavLink to="#green-infrastructure">Green infrastructure</NavLink>
+							<NavLink to="#border-narrow">Border narrow</NavLink>
+							<NavLink to="#border-large">Border large</NavLink>
+						</div>
 					</div>
 				</div>
 				<div className="esponFuore-scopes-description-content">
