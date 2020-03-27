@@ -274,7 +274,6 @@ class FuoreWorldWindMap extends React.PureComponent {
 					if(styleCache.has(styleFunctionKey)) {
 						styleFunction = styleCache.get(styleFunctionKey);
 					} else {
-						getCartogramStyleFunction(metadata.color, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey);
 						styleFunction = getTwoColoredCartogramStyleFunction(highColor, lowColor, centerColor, absClassCount, DEFAULTFILLTRANSPARENCY, layerStatistics, metadata.attributeDataKey);
 						styleCache.set(styleFunctionKey, styleFunction);
 					}

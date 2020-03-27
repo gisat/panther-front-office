@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import Select from '../../../../../../state/Select';
 import Action from "../../../../../../state/Action";
 import React from "react";
-import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics } from '../../../../../../utils/statistics';
+import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics } from '../../../../../../utils/statistics';
 import { getIntervalTitle } from '../../../../../../utils/legend';
 import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
-import {getCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
+import {getCartogramStyleFunction, getTwoColoredCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
 import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
@@ -91,8 +91,19 @@ const mapStateToProps = (state, ownProps) => {
 
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
-					styleFunction = getCartogramStyleFunction(color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
-					const classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
+					let classes;
+					if(layerByLayerTemplateKey.attribute.data.twoSideScale === true) {
+						const classCount = 3;
+						const colors = [...fuoreUtils.resolveColours(layerByLayerTemplateKey.attribute), '#ffffbf']; //#ffffbf - center color
+						const highColor = colors[0];
+						const lowColor = colors[1];
+						const centerColor = colors[2];	
+						styleFunction = getTwoColoredCartogramStyleFunction(highColor, lowColor, centerColor, classCount, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
+						classes = getMinMaxCenterValueClassesByStatistics(layerByLayerTemplateKey.mergedStatistics, classCount);
+					} else {
+						styleFunction = getCartogramStyleFunction(color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
+						classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
+					}
 					const intervals = getClassesIntervals(classes);
 
 					choroplethLegendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
