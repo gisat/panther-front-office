@@ -182,6 +182,12 @@ class EsponFuoreChart extends React.PureComponent {
 			}
 		}
 
+		//in case of twoSideScale data set default color as color for highest values
+		if(this.props.attribute.dataType === 'relative' && this.props.attribute.twoSideScale) {
+			const colors = fuoreUtils.resolveColours(this.props.attribute);
+			color = colors[0]; //set default color as color for highest values from color scale
+		}
+
 		if (noItemFitsFilter) {
 			return <div className="ptr-chart-wrapper-info">No area was filtered.</div>
 		} else if (!enoughPeriods) {
