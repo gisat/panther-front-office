@@ -32,7 +32,7 @@ class LandingPage extends React.PureComponent {
 					<div id="about" className="esponFuore-landing-page-about">
 						<p>This web tool is the main outcome of the ESPON FUORE project. It presents the data, indicators and knowledge related to Functional Urban Areas and Regions in Europe and provides an unique opportunity to analyze the current situation and recent trends in functional regions in Europe. The tool offers a wide range of analytical functionalities, including advanced filtering and benchmarking via interactive maps and graphs.</p>
 						<p>The estimation of indicators is based on a <a href={methodology} target="_blank">complex methodology</a> of of disaggregation of NUTS-based indicators by means of different ancillary datasets and the aggregation back to the different functional regions.</p>
-						<h3>Learn more</h3>
+						<h3 id="links">Learn more</h3>
 
 							<div className="bottom-link"><NavLink to={"/delineation-methods"}>Delineation methods</NavLink></div>
 							<div className="bottom-link"><a href="https://www.espon.eu/sites/default/files/attachments/ESPON%20FUORE%20-%20Draft%20Final%20Report.pdf" target="_blank">ESPON FUORE Draft Final Report</a></div>

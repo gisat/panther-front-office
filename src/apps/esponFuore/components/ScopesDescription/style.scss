@@ -21,7 +21,7 @@
 }
 
 .esponFuore-scopes-description-menu .ptr-button:hover {
-	color: var(--accent60);
+	color: var(--accent50);
 }
 
 .esponFuore-scopes-description-menu-content {
@@ -49,7 +49,7 @@
 
 .esponFuore-scopes-description-menu-content-links > a:hover {
 	background: var(--base20);
-	color: var(--accent60);
+	color: var(--accent50);
 }
 
 .esponFuore-scopes-description-content {
@@ -69,6 +69,12 @@
 .esponFuore-scopes-description ul {
 	margin-left: m(1);
 	padding-bottom: m(1);
+}
+
+.esponFuore-doc-image {
+	margin: m(1/3) 0 m(1);
+	width: 100%;
+	max-width: 50rem;
 }
 
 @media screen and (max-width: 60rem)  {
