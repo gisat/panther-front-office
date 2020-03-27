@@ -48,13 +48,8 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
     const usePercentiles = statistics.hasOwnProperty('percentile') && statistics.percentile.length > 1;
 
     const classCount = usePercentiles ? getClassCount(statistics.percentile) || 1 : 5;
-    const statisticsClasses = usePercentiles ? statistics.percentile : getValueClassesByStatistics(statistics, classCount);
-    
-    //statistics percentiles can be calculated from more statistics
-    //min & max values are min max, not average
-    if(usePercentiles) {
-        setClassesMinMaxFromStatistics(statisticsClasses, statistics);
-    }
+    let statisticsClasses = usePercentiles ? statistics.percentile : getValueClassesByStatistics(statistics, classCount);
+
     const colorByteArrayClasses = getCartogramColorScale(color, classCount);
     const colorClasses = colorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, fillTransparency]));
 
