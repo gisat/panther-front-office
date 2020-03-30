@@ -6,6 +6,20 @@ import classnames from 'classnames';
 import './style.scss';
 import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
 
+import fallbackThumbnail from '../../../assets/scopePreviews/fallback.png';
+
+const thumbnails = {
+	'fua': require(`../../../assets/scopePreviews/fua.png`),
+	'msa': require(`../../../assets/scopePreviews/coasts-msa.png`),
+	'tcoa': require(`../../../assets/scopePreviews/coasts-tcoa16.png`),
+	'border-large': require(`../../../assets/scopePreviews/border.png`),
+	'border-narrow': require(`../../../assets/scopePreviews/border-narrow.png`),
+	'green-infrastructure': require(`../../../assets/scopePreviews/green-infrastructure.png`),
+	'islands': require(`../../../assets/scopePreviews/islands.png`),
+	'spa': require(`../../../assets/scopePreviews/spa.png`),
+	'mountains': require(`../../../assets/scopePreviews/mountains.png`)
+};
+
 class ScopesList extends React.PureComponent {
 
 	static propTypes = {
@@ -62,13 +76,11 @@ class ScopesList extends React.PureComponent {
 			let style = {};
 
 			if (scope) {
-				if (scope.data.configuration.imageName) {
-					try {
-						let image = require(`../../../assets/scopePreviews/${scope.data.configuration.imageName}.png`);
-						style.backgroundImage = `url(${image})`;
-					} catch (e) {
-						console.warn("esponFuore#ScopesList: ", e)
-					}
+				const regionType = scope.data.configuration && scope.data.configuration.regionType;
+				if (regionType && thumbnails[regionType]) {
+					style.backgroundImage = `url(${thumbnails[regionType]})`;
+				} else {
+					style.backgroundImage = `url(${fallbackThumbnail})`;
 				}
 
 				let classes = classnames("esponFuore-scope-card", {
