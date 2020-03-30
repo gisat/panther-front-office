@@ -51,21 +51,16 @@
 }
 
 a.esponFuore-scope-card-link {
-	display: inline-block;
-	text-decoration: none;
 	position: relative;
-	border-radius: .25rem;
-	margin: m(2/3) 3.5rem 0 1.5rem;
-	padding: .15rem .35rem;
 	color: var(--base10);
+	text-decoration: none;
+	margin-left: .15rem;
 	font-size: $b1;
-	border: 1px solid var(--base30);
-	//background: rgba(var(--base50rgb), .7);
 }
 
 a.esponFuore-scope-card-link:hover {
 	color: var(--base10);
-	background: rgba(var(--base50rgb), .5);
+	text-decoration: underline;
 }
 
 .esponFuore-scope-card:hover:before,

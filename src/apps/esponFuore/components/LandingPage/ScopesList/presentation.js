@@ -95,10 +95,9 @@ class ScopesList extends React.PureComponent {
 							<>
 								<div className="esponFuore-scope-card-description">
 									<Truncate lines={6}>
-										{scope.data && scope.data.description}
+										{scope.data && scope.data.description}.
 									</Truncate>
 								</div>
-								{regionType ? (<NavLink className="esponFuore-scope-card-link" to={`/delineation-methods#${regionType}`}>Read more...</NavLink>) : null}
 							</>
 						) : null}
 					</div>
