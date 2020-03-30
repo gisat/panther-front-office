@@ -59,14 +59,14 @@ class CategoryMenu extends React.PureComponent {
 		
 		return (
 			<>
-				{props.categories && props.categories.map(category => {
+				{props.categories && props.categories.map((category, i) => {
 					if(category) {
 						let isActive = category.key === props.activeCategoryKey;
 						let className = isActive ? 'selected' : '';
 						let subCategories = isActive ? this.renderSubCategories() : null;
 				
 						return (
-							<>
+							<React.Fragment key={i}>
 								<a
 									key={category.key}
 									onClick={props.selectCategory.bind(null, category.key)}
@@ -75,7 +75,7 @@ class CategoryMenu extends React.PureComponent {
 									{category.data.nameDisplay}
 								</a>
 								{subCategories}
-							</>
+							</React.Fragment>
 						);
 					}
 				})}
