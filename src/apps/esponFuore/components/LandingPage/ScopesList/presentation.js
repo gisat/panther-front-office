@@ -7,6 +7,7 @@ import './style.scss';
 import FadeIn from "../../../../../components/common/atoms/FadeIn/FadeIn";
 
 import fallbackThumbnail from '../../../assets/scopePreviews/fallback.png';
+import {NavLink} from "react-router-dom";
 
 const thumbnails = {
 	'fua': require(`../../../assets/scopePreviews/fua.png`),
@@ -41,8 +42,8 @@ class ScopesList extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
-	onScopeSelect(key) {
-		if (key !== (this.props.activeScope && this.props.activeScope.key)) {
+	onScopeSelect(key, e) {
+		if (e.target.className !== "esponFuore-scope-card-link" && key !== (this.props.activeScope && this.props.activeScope.key)) {
 			this.props.onScopeSelect(key);
 		}
 	}
@@ -91,11 +92,14 @@ class ScopesList extends React.PureComponent {
 					<div id="scopes" className={classes} style={style} tabIndex={0} onClick={this.onScopeSelect.bind(this, scope.key)} key={scope.key}>
 						<div className="esponFuore-scope-card-name">{scope.data && scope.data.nameDisplay}</div>
 						{scope.data && scope.data.description ? (
-							<div className="esponFuore-scope-card-description">
-								<Truncate lines={6}>
-									{scope.data && scope.data.description}
-								</Truncate>
-							</div>
+							<>
+								<div className="esponFuore-scope-card-description">
+									<Truncate lines={6}>
+										{scope.data && scope.data.description}
+									</Truncate>
+								</div>
+								{regionType ? (<NavLink className="esponFuore-scope-card-link" to={`/delineation-methods#${regionType}`}>Read more...</NavLink>) : null}
+							</>
 						) : null}
 					</div>
 				);
