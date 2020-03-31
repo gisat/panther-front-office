@@ -129,7 +129,7 @@ const getDataSourceKeyFiltered = createSelector(
  * @param state {Object}
  * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
-const getFilteredDataGroupedByLayerKey = createSelector(
+const getFilteredDataGroupedByLayerKey = createCachedSelector(
 	[
 		getAllData,
 		(state, layers) => layers
@@ -161,7 +161,7 @@ const getFilteredDataGroupedByLayerKey = createSelector(
 			return null;
 		}
 	}
-);
+)((state, layers) => JSON.stringify(layers));
 
 
 /**

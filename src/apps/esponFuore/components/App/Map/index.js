@@ -16,6 +16,8 @@ const useActiveMetadataKeys = {
 	period: true
 };
 
+let namesFilter = {};
+
 const getNamesByLayerTemplateKeys = (state, props, namesFilter) => {
 	const mapSet = Select.maps.getMapSetByMapKey(state, props.mapKey);
 
@@ -120,7 +122,6 @@ const getStatisticsByLayerTemplateKeys = (state, props) => {
 }
 
 const mapStateToProps = (state, props) => {
-	let namesFilter = {};
 	// let filter = {};
 	let chartCfg = {};
 
