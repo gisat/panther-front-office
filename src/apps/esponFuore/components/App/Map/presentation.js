@@ -79,7 +79,8 @@ class FuoreWorldWindMap extends React.PureComponent {
 
 		this.setState({
 			thematicLayers: thematicLayers || [],
-			backgroundLayers
+			backgroundLayers,
+			layers: [...backgroundLayers, ...thematicLayers]
 		});
 }
 
@@ -147,7 +148,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 			}
 
 			if(backgroundLayersChanged && !isEqual(this.state.backgroundLayers, backgroundLayers)) {
-				this.setState({backgroundLayers});
+				this.setState({
+					backgroundLayers,
+					layers: [...backgroundLayers, ...this.state.thematicLayers]
+				});
 			}
 
 			if(!isEqual(this.props.activeFilter, prevProps.activeFilter)) {
@@ -157,7 +161,10 @@ class FuoreWorldWindMap extends React.PureComponent {
 			}
 
 			if(thematicLayersChanged && !isEqual(this.state.thematicLayers, thematicLayers)) {
-				this.setState({thematicLayers});
+				this.setState({
+					thematicLayers,
+					layers: [...this.state.backgroundLayers, ...thematicLayers]
+				});
 				this.handleMetadata(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersMetadata)
 				this.handleStatistics(this.props.layersVectorData, [...this.state.backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics)
 
@@ -488,7 +495,7 @@ class FuoreWorldWindMap extends React.PureComponent {
 		return (
 			<WorldWindMap
 				{...this.props}
-				layers={[...this.state.backgroundLayers, ...this.state.thematicLayers]}
+				layers={this.state.layers}
 				label={this.props.label}
 				rerendererSetter={this.setRerenderer}
 				onHover={this.onHover}
