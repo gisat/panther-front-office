@@ -11,6 +11,10 @@ import IndicatorCard from "./IndicatorCard";
 
 let categoryKey = null;
 let filter = null;
+
+let subCategoryTagKey = null;
+let subCategoryFilter =  null;
+
 const filterByActive = {scope: true};
 
 const mapStateToProps = (state, ownProps) => {
@@ -18,11 +22,14 @@ const mapStateToProps = (state, ownProps) => {
 	// don't mutate selector input if it is not needed
 	if (categoryKey !== ownProps.categoryKey){
 		filter = {tagKeys: {includes: [ownProps.categoryKey]}};
-		categoryKey = ownProps.categoryKey;
 	}
-	
-	// todo don't mutate selector input each time (dedicate selector?)
-	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}};
+
+	if (categoryKey !== ownProps.categoryKey || subCategoryTagKey !== ownProps.subCategoryTagKey) {
+		subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.categoryKey]}};
+	}
+
+	categoryKey = ownProps.categoryKey;
+	subCategoryTagKey = ownProps.subCategoryTagKey;
 
 	return {
 		indicators: Select.specific.esponFuoreIndicators.getIndexed(state, filterByActive, filter, null, 1, 1000),

@@ -6,14 +6,19 @@ import Action from '../../../../../state/Action';
 import Select from '../../../../../state/Select';
 import utils from '../../../../../../../utils/utils';
 
-let categoryKey = null;
-let filter = null;
+
+let activeCategoryKey = null;
+let subCategoryTagKey = null;
+let subCategoryFilter =  null;
 const filterByActive = {scope: true};
 
 const mapStateToProps = (state, ownProps) => {
-	
-	// todo don't mutate selector input each time (dedicate selector?)
-	let subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}};
+	if (activeCategoryKey !== ownProps.activeCategoryKey || subCategoryTagKey !== ownProps.subCategoryTagKey) {
+		subCategoryFilter = {tagKeys: {includes: [ownProps.subCategoryTagKey, ownProps.activeCategoryKey]}};
+	}
+
+	activeCategoryKey = ownProps.activeCategoryKey;
+	subCategoryTagKey = ownProps.subCategoryTagKey;
 
 	return {
 		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 100),

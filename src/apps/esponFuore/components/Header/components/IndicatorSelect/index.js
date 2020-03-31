@@ -10,10 +10,18 @@ import presentation from "./presentation";
 const filterByActive = {application: true, scope: true};
 let tagKey = null;
 
+let categoryTagKey = null;
+let categoryFilter = null;
+
 const mapStateToProps = (state, ownProps) => {
 	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
 	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
-	let categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
+
+	if (categoryTagKey !== ownProps.categoryTagKey){
+		categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
+	}
+	categoryTagKey = ownProps.categoryTagKey;
+
 
 	// don't mutate selector input if it is not needed
 	if (!_.isEqual(tagKey,  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0])){
