@@ -93,7 +93,13 @@ class DiagramGeoJSONParser extends GeoJSONParser {
 			const count = this.geoJSONObject.features.length;
 			for(let i = 0; i < count; i++) {
 				const feature = this.geoJSONObject.features[i];
-				const polygon = turf.multiPolygon(feature.geometry.coordinates);
+				let polygon = null;
+				if (feature.geometry.type === "Polygon") {
+					polygon = turf.polygon(feature.geometry.coordinates);
+				} else {
+					polygon = turf.multiPolygon(feature.geometry.coordinates);
+				}
+
 				const centroid = turf.centroid(polygon);
 
 				this.addRenderablesDiagram(
