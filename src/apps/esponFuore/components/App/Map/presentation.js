@@ -72,6 +72,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 		//todo check if layer already in map
 		if (this.props.layersVectorData) {
 			const layers = this.props.layers || [];
+
+			this.handleMetadata(this.props.layersVectorData, [...backgroundLayers, ...thematicLayers], this.props.layersMetadata);
+			this.handleStatistics(this.props.layersVectorData, [...backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics);
+
+
 			this.handleVectorData(layers, this.props.layersVectorData, this.props.layersAttributeData, this.props.layersMetadata, [...backgroundLayers, ...thematicLayers], this.props.nameData);
 			this.setFilterVectorLayers(this.props.activeFilter, layers, [...backgroundLayers, ...thematicLayers]);
 			this.setStyleFunction(this.props.layersVectorData, [...backgroundLayers, ...thematicLayers], this.props.layersAttributeStatistics, this.props.layersMetadata)
