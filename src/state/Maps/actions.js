@@ -268,12 +268,25 @@ const addMapForPeriod = (periodKey, setKey) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		let map = Select.maps.getMapByMetadata_deprecated(state, {period: periodKey});
+		let setMaps = Select.maps.getMapsBySetKey(state, setKey);
 
 		if (!map) {
 			let mapKey = utils.uuid();
+			let layers = null;
+			if (setMaps && setMaps[0].data && setMaps[0].data.layers) {
+				layers = setMaps[0].data.layers.map(layer => {
+					return {
+						...layer,
+						key: utils.uuid()
+					}
+				});
+			}
+
+
 			map = {
 				key: mapKey,
 				data: {
+					layers,
 					metadataModifiers: {
 						period: periodKey
 					}

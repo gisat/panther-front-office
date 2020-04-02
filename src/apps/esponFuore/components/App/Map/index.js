@@ -258,17 +258,8 @@ const mapDispatchToProps = (dispatch, props) => {
 	const componentId = 'WorldWindMapSelector_' + utils.randomString(6);
 
 	return {
-		onMount: (layersTreeLoaded) => {
-			// if(!layersTreeLoaded) {
-			if(true) {
-				dispatch(Action.maps.deprecated_use(props.mapKey, useActiveMetadataKeys));
-				const layerTreesFilter = props.layerTreesFilter;
-				//action to load LT data and add visible layers to map store
-				dispatch(Action.layersTrees.ensureData(layerTreesFilter, componentId)).then(() => {
-					//parse map LT data
-					dispatch(Action.maps.addLayersToMaps(layerTreesFilter, [props.mapKey], useActiveMetadataKeys));
-				});
-			}
+		onMount: () => {
+			dispatch(Action.maps.deprecated_use(props.mapKey, useActiveMetadataKeys));
 		},
 
 		onUnmount: () => {

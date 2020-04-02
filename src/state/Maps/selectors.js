@@ -117,6 +117,26 @@ const getMapSetMapKeys = createSelector(
 
 /**
  * @param state {Object}
+ * @param setKey {string}
+ */
+const getMapsBySetKey = createSelector(
+	[
+		getMapSetByKey,
+		getMapsAsObject,
+	],
+	(set, maps) => {
+		if (maps && set && set.maps && set.maps.length) {
+			return set.maps.map(mapKey => {
+				return maps[mapKey];
+			});
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
  * @param mapKey {string}
  */
 const getMapBackgroundLayerStateByMapKey = createSelector(
@@ -968,6 +988,7 @@ export default {
 	getMapSetByMapKey,
 	getMapSetLayersStateBySetKey,
 	getMapSetMapKeys,
+	getMapsBySetKey,
 	getMapSetView,
 	getMapSets,
 	getMapSetsAsObject,

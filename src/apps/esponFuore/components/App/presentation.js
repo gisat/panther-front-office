@@ -118,7 +118,7 @@ class EsponFuoreApp extends React.PureComponent {
 															<MapSet
 																mapSetKey={this.context.mapSetKey}
 																activeAttributeKey={this.props.activeAttributeKey}
-																layerTreesFilter={{applicationKey: 'esponFuore', scopeKey: this.props.activeScopeKey}}
+																filter={{applicationKey: 'esponFuore', scopeKey: this.props.activeScopeKey}}
 																width={width}
 																height={height}
 															>
