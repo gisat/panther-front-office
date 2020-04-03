@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 	subCategoryTagKey = ownProps.subCategoryTagKey;
 
 	return {
-		subCategories: Select.tags.getIndexed(state, filterByActive, subCategoryFilter, null, 1, 100),
+		subCategories: Select.specific.esponFuore.getOrderedSubcategories(state, filterByActive, subCategoryFilter, null, 1, 100),
 	}
 };
 

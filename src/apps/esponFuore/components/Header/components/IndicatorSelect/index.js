@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
 		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
 		activeCategoryKey: Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeCategory'),
-		categories: Select.tags.getIndexed(state, filterByActive, categoryFilter, null, 1, 100),
+		categories: Select.specific.esponFuore.getOrderedCategories(state, filterByActive, categoryFilter, null, 1, 100),
 		indicators: Select.specific.esponFuoreIndicators.getAll(state),
 		activeIndicator,
 		activeIndicatorCategory

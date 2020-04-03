@@ -226,6 +226,8 @@ const mapStateToProps = (state, props) => {
 			return acc
 		}, {});
 
+		console.log(props.mapKey, layersAttributeStatistics);
+
 		let namesForVectorLayers = getNamesByLayerTemplateKeys(state, props, namesFilter);
 		let vectorLayersNames = vectorLayers.reduce((acc, layerData) => {
 			if(layerData.attributeRelationsData) {
