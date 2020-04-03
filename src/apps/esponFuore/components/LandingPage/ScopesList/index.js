@@ -12,7 +12,7 @@ const filter = {application: true};
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scopes: Select.scopes.getIndexed(state, filter, null, order, 1, 100),
+		scopes: Select.specific.esponFuore.getOrderedScopes(state, filter, null, order, 1, 100),
 		activeScope: Select.scopes.getActive(state)
 	}
 };

@@ -3,6 +3,7 @@ import esponFuoreIndicators from './EsponFuoreIndicators/selectors';
 import esponFuoreSelections from './EsponFuoreSelections/selectors';
 import {createSelector} from "reselect";
 import _ from "lodash";
+import AppSelectors from '../../../state/App/selectors';
 import ScopesSelectors from '../../../state/Scopes/selectors';
 import TagsSelectors from '../../../state/Tags/selectors';
 
@@ -19,7 +20,7 @@ const getOrderedIndicators = createSelector(
 		esponFuoreIndicators.getIndexed,
 		ScopesSelectors.getActiveScopeConfiguration
 	],
-	(tags, scopeConfig) => getOrderedModelsByConfigParameter(tags, scopeConfig, "indicatorKeys")
+	(indicators, scopeConfig) => getOrderedModelsByConfigParameter(indicators, scopeConfig, "indicatorKeys")
 );
 
 const getOrderedSubcategories = createSelector(
@@ -28,6 +29,14 @@ const getOrderedSubcategories = createSelector(
 		ScopesSelectors.getActiveScopeConfiguration
 	],
 	(tags, scopeConfig) => getOrderedModelsByConfigParameter(tags, scopeConfig, "subCategoryTagKeys")
+);
+
+const getOrderedScopes = createSelector(
+	[
+		ScopesSelectors.getIndexed,
+		AppSelectors.getCompleteConfiguration
+	],
+	(scopes, appConfig) => getOrderedModelsByConfigParameter(scopes, appConfig, "scopeKeys")
 );
 
 // helpers
@@ -47,6 +56,8 @@ function getOrderedModelsByConfigParameter(models, config, parameter) {
 		} else {
 			return models;
 		}
+	} else if (models) {
+		return models;
 	} else {
 		return null;
 	}
@@ -55,6 +66,7 @@ function getOrderedModelsByConfigParameter(models, config, parameter) {
 const esponFuore = {
 	getOrderedCategories,
 	getOrderedIndicators,
+	getOrderedScopes,
 	getOrderedSubcategories
 };
 

@@ -13,7 +13,7 @@ const filter = {application: true};
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scopeSelectOpen: Select.components.get(state, 'esponFuore_ScopeSelect', 'scopeSelectOpen'),
-		scopes: Select.scopes.getIndexed(state, filter, null, order, 1, 20),
+		scopes: Select.specific.esponFuore.getOrderedScopes(state, filter, null, order, 1, 20),
 		activeScope: Select.scopes.getActive(state)
 	}
 };
