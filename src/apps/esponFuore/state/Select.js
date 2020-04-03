@@ -11,7 +11,15 @@ const getOrderedCategories = createSelector(
 		TagsSelectors.getIndexed,
 		ScopesSelectors.getActiveScopeConfiguration
 	],
-	(tags, scopeConfig) => getOrderedByParameter(tags, scopeConfig, "categoryTagKeys")
+	(tags, scopeConfig) => getOrderedModelsByConfigParameter(tags, scopeConfig, "categoryTagKeys")
+);
+
+const getOrderedIndicators = createSelector(
+	[
+		esponFuoreIndicators.getIndexed,
+		ScopesSelectors.getActiveScopeConfiguration
+	],
+	(tags, scopeConfig) => getOrderedModelsByConfigParameter(tags, scopeConfig, "indicatorKeys")
 );
 
 const getOrderedSubcategories = createSelector(
@@ -19,25 +27,25 @@ const getOrderedSubcategories = createSelector(
 		TagsSelectors.getIndexed,
 		ScopesSelectors.getActiveScopeConfiguration
 	],
-	(tags, scopeConfig) => getOrderedByParameter(tags, scopeConfig, "subCategoryTagKeys")
+	(tags, scopeConfig) => getOrderedModelsByConfigParameter(tags, scopeConfig, "subCategoryTagKeys")
 );
 
 // helpers
-function getOrderedByParameter(tags, scopeConfig, parameter) {
-	if (tags && scopeConfig) {
-		const order = scopeConfig.order && scopeConfig.order[parameter];
+function getOrderedModelsByConfigParameter(models, config, parameter) {
+	if (models && config) {
+		const order = config.order && config.order[parameter];
 		if (order) {
 			const uniqueKeysOrder = _.uniq(order);
-			let orderedCategories = [];
+			let orderedModels = [];
 			_.forEach(uniqueKeysOrder, categoryKey => {
-				const category = _.find(tags, (tag) => tag.key === categoryKey);
+				const category = _.find(models, (tag) => tag.key === categoryKey);
 				if (category) {
-					orderedCategories.push(category);
+					orderedModels.push(category);
 				}
 			});
-			return orderedCategories;
+			return orderedModels;
 		} else {
-			return tags;
+			return models;
 		}
 	} else {
 		return null;
@@ -46,6 +54,7 @@ function getOrderedByParameter(tags, scopeConfig, parameter) {
 
 const esponFuore = {
 	getOrderedCategories,
+	getOrderedIndicators,
 	getOrderedSubcategories
 };
 
