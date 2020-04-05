@@ -128,7 +128,9 @@ class EsponFuoreApp extends React.PureComponent {
 																	<FuoreMapPresentation />
 																</FuoreMap>
 															</MapSet>
-															<MapTools>
+															<MapTools
+																bottom={this.props.timelineHeight}
+															>
 																<SimpleLayersControl
 																	layers={backgroundLayers}
 																	activeLayer={this.state.backgroundLayers[0]}
@@ -143,7 +145,7 @@ class EsponFuoreApp extends React.PureComponent {
 																/>
 																<MapControls zoomOnly/>
 															</MapTools>
-															<div className="esponFuore-map-attribution">{this.state.backgroundLayers[0].attribution}</div>
+															<div style={{bottom: this.props.timelineHeight}}className="esponFuore-map-attribution">{this.state.backgroundLayers[0].attribution}</div>
 														</>
 														)
 													}}

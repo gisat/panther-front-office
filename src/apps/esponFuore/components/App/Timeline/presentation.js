@@ -58,6 +58,10 @@ class EsponFuoreTimeline extends React.PureComponent {
 			(prevProps.activeAttributeKey !== this.props.activeAttributeKey || prevProps.activeScopeKey !== this.props.activeScopeKey)) {
 			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey);
 		}
+
+		if (this.props.savedHeight !== this.el.clientHeight) {
+			this.props.saveHeightValue(this.el.clientHeight);
+		}
 	}
 
 	onPeriodClick(periodKey) {
@@ -94,6 +98,10 @@ class EsponFuoreTimeline extends React.PureComponent {
 			if (width !== this.state.width) {
 				this.setState({width, remSize});
 			}
+		}
+
+		if (this.props.savedHeight !== this.el.clientHeight) {
+			this.props.saveHeightValue(this.el.clientHeight);
 		}
 	}
 

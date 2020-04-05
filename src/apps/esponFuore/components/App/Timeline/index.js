@@ -25,7 +25,8 @@ const mapStateToProps = (state, ownProps) => {
 		activeScopeKey: scopeKey,
 		activePeriodKeys: Select.periods.getActiveKeys(state),
 		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, filter, 'timeline'),
-		periods: Select.periods.getIndexed(state, periodsFilterByActive, null, periodsOrder, 1, 100)
+		periods: Select.periods.getIndexed(state, periodsFilterByActive, null, periodsOrder, 1, 100),
+		savedHeight: Select.components.get(state, "esponFuore_Timeline", "height")
 	}
 };
 
@@ -52,6 +53,9 @@ const mapDispatchToPropsFactory = () => {
 			removeMap: (periodKey) => {
 				dispatch(Action.maps.removeMapForPeriod(periodKey, ownProps.mapSetKey));
 			},
+			saveHeightValue: (value) => {
+				dispatch(Action.components.set("esponFuore_Timeline", "height", value));
+			}
 		}
 	}
 };
