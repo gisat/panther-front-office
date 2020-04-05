@@ -4,7 +4,7 @@ import download from "downloadjs";
 import domToImage from "dom-to-image";
 import { Provider } from 'react-redux';
 
-import Store from "../../../../state/Store";
+import {Store} from "../../../../index";
 import template from "./template";
 import MapLegend from "../MapLegend";
 

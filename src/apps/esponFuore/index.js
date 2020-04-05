@@ -33,9 +33,11 @@ utils.addI18nResources('common', {en});
 const WINDOW_SET_KEY = "esponFuore";
 const MAP_SET_KEY = "esponFuore";
 
+let Store;
+
 export default (path, baseUrl) => {
 	const history = createHistory({ basename: path });
-	const Store = createStore(history);
+	Store = createStore(history);
 
 	let componentId = 'Fuore-LayersTree';
 
@@ -77,4 +79,8 @@ export default (path, baseUrl) => {
 		</>, document.getElementById('ptr')
 	);
 
+}
+
+export {
+	Store
 }
