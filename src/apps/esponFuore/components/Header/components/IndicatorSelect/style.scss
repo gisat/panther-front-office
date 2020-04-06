@@ -83,6 +83,9 @@
 	opacity: .6;
 	padding-left: .25rem;
 }
+.esponFuore-indicator-select-current-category:first-letter {
+	text-transform: uppercase;
+}
 
 .esponFuore-indicator-select-categories {
 	overflow-y: auto;
@@ -145,6 +148,10 @@
 	color: #fff;
 	font-size: $b2;
 	letter-spacing: .025rem;
+}
+
+.esponFuore-indicator-list-subCategory-header:first-letter {
+	text-transform: uppercase;
 }
 
 .esponFuore-indicator-list-indicators {
