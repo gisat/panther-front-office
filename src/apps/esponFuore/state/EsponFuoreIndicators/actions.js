@@ -3,6 +3,7 @@ import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 import Action from '../Action';
 import attributeActions from '../../../../state/Attributes/actions';
+import layerTemplatesActions from '../../../../state/LayerTemplates/actions';
 import viewsActions from '../../../../state/Views/actions';
 import common from '../../../../state/_common/actions';
 
@@ -34,13 +35,22 @@ function select(key) {
 		dispatch(setActiveKey(key));
 		dispatch(setActiveAttributeByIndicatorKey(key));
 
-		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(getState(), key);
-		let viewKey = activeIndicator && activeIndicator.data && activeIndicator.data.viewKey;
-		let activeView = Select.views.getActiveKey(getState());
+		const activeAuLevel = Select.app.getLocalConfiguration(getState(), "activeAuLevel");
+		const scopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
 
-		if (!activeView || (viewKey && viewKey !== activeView)) {
+		const viewKey = scopeConfig && scopeConfig["auLevel" + activeAuLevel + "ViewKey"];
+		const layerTemplateKey = scopeConfig && scopeConfig["auLevel" + activeAuLevel + "LayerTemplateKey"];
+
+		const activeViewKey = Select.views.getActiveKey(getState());
+		const activeLayerTemplateKey = Select.layerTemplates.getActiveKey(getState());
+
+		if (!activeLayerTemplateKey || (layerTemplateKey && layerTemplateKey !== activeLayerTemplateKey)) {
+			dispatch(layerTemplatesActions.setActiveKey(layerTemplateKey));
+		}
+
+		if (!activeViewKey || (viewKey && viewKey !== activeViewKey)) {
 			dispatch(viewsActions.setActiveKey(viewKey));
-			dispatch(viewsActions.apply(activeIndicator.data.viewKey, Action));
+			dispatch(viewsActions.apply(viewKey, Action));
 		}
 	}
 }

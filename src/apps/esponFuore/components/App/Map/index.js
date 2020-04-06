@@ -128,7 +128,10 @@ const mapStateToProps = (state, props) => {
 	return (state) => {
 		let activeScope = Select.scopes.getActive(state);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
-		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
+		let activeAuLevel = Select.app.getLocalConfiguration(state, "activeAuLevel");
+		let layerTemplateKey = activeAuLevel && activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration && activeScope.data.configuration["auLevel" + activeAuLevel + "LayerTemplateKey"];
+
+		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey, layerTemplateKey};
 		// let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey_deprecated(state, props.mapKey);
 		// let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 		let layerTree = Select.layersTrees.getByFilterOrder(state, props.layerTreesFilter, null);

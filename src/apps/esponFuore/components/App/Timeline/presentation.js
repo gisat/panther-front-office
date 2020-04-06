@@ -17,6 +17,7 @@ class EsponFuoreTimeline extends React.PureComponent {
 	static propTypes = {
 		addMap: PropTypes.func,
 		activeAttributeKey: PropTypes.string,
+		activeLayerTemplateKey: PropTypes.string,
 		activePeriodKeys: PropTypes.array,
 		activeScopeKey: PropTypes.string,
 		availablePeriodKeys: PropTypes.array,
@@ -43,8 +44,8 @@ class EsponFuoreTimeline extends React.PureComponent {
 		this.resize();
 		if (window) window.addEventListener('resize', this.resize, {passive: true});
 		this.props.onMount();
-		if (this.props.activeScopeKey && this.props.activeAttributeKey) {
-			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey);
+		if (this.props.activeScopeKey && this.props.activeAttributeKey && this.props.activeLayerTemplateKey) {
+			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey, this.props.activeLayerTemplateKey);
 		}
 	}
 
@@ -54,9 +55,9 @@ class EsponFuoreTimeline extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.activeScopeKey && this.props.activeAttributeKey &&
-			(prevProps.activeAttributeKey !== this.props.activeAttributeKey || prevProps.activeScopeKey !== this.props.activeScopeKey)) {
-			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey);
+		if (this.props.activeScopeKey && this.props.activeAttributeKey && this.props.activeLayerTemplateKey &&
+			(prevProps.activeAttributeKey !== this.props.activeAttributeKey || prevProps.activeScopeKey !== this.props.activeScopeKey || prevProps.activeLayerTemplateKey !== this.props.activeLayerTemplateKey)) {
+			this.props.onActiveAttributeChange(this.props.activeAttributeKey, this.props.activeScopeKey, this.props.activeLayerTemplateKey);
 		}
 
 		if (this.props.savedHeight !== this.el.clientHeight) {

@@ -27,14 +27,23 @@ function setActiveKey(key) {
 		dispatch(setActiveKeyAndEnsureDependencies(key));
 
 		// TODO move somewhere else (probably after implementing areas)
-		let activeScope = Select.scopes.getActive(getState());
-		if (activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey) {
-			dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: activeScope.data.configuration.areaNameAttributeKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
-		}
+		const appKey = Select.app.getKey(getState());
+		if (appKey === "esponFuore") {
+			const level = Select.app.getLocalConfiguration(getState(), "activeAuLevel");
+			const activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
+			if (activeScopeConfig) {
+				const layerTemplateKey = activeScopeConfig["auLevel" + level + "LayerTemplateKey"];
+				const nameAttributeKey = activeScopeConfig.areaNameAttributeKey;
+				const countryAttributeKey = activeScopeConfig.countryCodeAttributeKey;
 
-		//load filter countries
-		if (activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.countryCodeAttributeKey) {
-			dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: activeScope.data.configuration.countryCodeAttributeKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
+				if (layerTemplateKey && nameAttributeKey) {
+					dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: nameAttributeKey, layerTemplateKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
+				}
+
+				if (layerTemplateKey && countryAttributeKey) {
+					dispatch(attributeRelationsActions.ensureIndexedSpecific({scopeKey: key, attributeKey: countryAttributeKey, layerTemplateKey}, null, 1, 10, 'scopes.actions#setActiveScope', true));
+				}
+			}
 		}
 	};
 }

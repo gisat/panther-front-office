@@ -24,6 +24,7 @@ const getLocalConfiguration = createSelector(
 export default {
 	getKey,
 	getCompleteConfiguration,
+	getCompleteLocalConfiguration,
 	getConfiguration,
 	getLocalConfiguration
 };

@@ -15,13 +15,15 @@ let filter = {};
 const mapStateToProps = (state, ownProps) => {
 	let scopeKey = Select.scopes.getActiveKey(state);
 	let attributeKey = Select.attributes.getActiveKey(state);
+	let layerTemplateKey = Select.layerTemplates.getActiveKey(state);
 
-	if (!_.isEqual(filter, {scopeKey, attributeKey})){
-		filter = {scopeKey, attributeKey}
+	if (!_.isEqual(filter, {scopeKey, attributeKey, layerTemplateKey})){
+		filter = {scopeKey, attributeKey, layerTemplateKey}
 	}
 
 	return {
 		activeAttributeKey: attributeKey,
+		activeLayerTemplateKey: layerTemplateKey,
 		activeScopeKey: scopeKey,
 		activePeriodKeys: Select.periods.getActiveKeys(state),
 		availablePeriodKeys: Select.periods.getKeysByAttributeRelations(state, filter, 'timeline'),
@@ -44,8 +46,8 @@ const mapDispatchToPropsFactory = () => {
 			onMount: () => {
 				dispatch(Action.periods.useIndexed(periodsFilterByActive, null, periodsOrder, 1, 100, componentId));
 			},
-			onActiveAttributeChange: (attributeKey, scopeKey) => {
-				dispatch(Action.attributeRelations.ensureIndexed({scopeKey, attributeKey}, null, 1, 1000));
+			onActiveAttributeChange: (attributeKey, scopeKey, layerTemplateKey) => {
+				dispatch(Action.attributeRelations.ensureIndexed({scopeKey, attributeKey, layerTemplateKey}, null, 1, 1000));
 			},
 			onUnmount: () => {
 				dispatch(Action.periods.useIndexedClear(componentId));

@@ -104,7 +104,7 @@ const getNamesByFid = createCachedSelector(
 	(allDataSources, filtered) => {
 		if (allDataSources && !_.isEmpty(allDataSources) && filtered) {
 			let data = {};
-			if (filtered.length === 1) {
+			if (filtered.length) {
 				let filteredSource = filtered[0];
 				let source = allDataSources[filteredSource.attributeDataSourceKey];
 				let keySource = filteredSource.fidColumnName;
