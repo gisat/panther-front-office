@@ -385,8 +385,6 @@ class FuoreWorldWindMap extends React.PureComponent {
 					}
 					//Statistics on layer must be set!
 					if(existingLayer.attributeStatistics && !isNaN(existingLayer.attributeStatistics.min) && !isNaN(existingLayer.attributeStatistics.max)) {
-						console.log(spatialData);
-						
 						existingLayer.setRenderables(spatialData, defaultVectorStyle, metadata);
 					}
 

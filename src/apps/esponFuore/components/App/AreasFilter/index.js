@@ -8,7 +8,7 @@ import utils from '../../../../../utils/utils';
 import helpers from './helpers';
 import presentation from "./presentation";
 
-const getUniqueCountries = (features) => {
+const getUniqueCountries = (features, fidColumnName) => {
 	const countries = [];
 	features.features.forEach((f) => {
 		let country = countries.find(c => f.properties.cntr === c.code);
@@ -17,24 +17,30 @@ const getUniqueCountries = (features) => {
 			countries.push(country);
 		}
 
-		country.units.push(f.properties.objectid);
+		country.units.push(f.properties[fidColumnName]);
 	});
 	return countries;
 };
 
 const mapStateToProps = (state, ownProps) => {
 	let countryCodes = null;
-	let activeScope = Select.scopes.getActive(state);
-	let countryFilterAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.countryCodeAttributeKey;
-	let countryFilter = {attributeKey: countryFilterAttributeKey, scopeKey: activeScope.key};
+
+	const activeAuLevel = Select.app.getLocalConfiguration(state, "activeAuLevel");
+	const activeScope = Select.scopes.getActive(state);
+	const scopeConfig = Select.scopes.getActiveScopeConfiguration(state);
+	const layerTemplateKey = scopeConfig && scopeConfig["auLevel" + activeAuLevel + "LayerTemplateKey"];
+
+	let countryFilterAttributeKey = scopeConfig && scopeConfig.countryCodeAttributeKey;
+	let countryFilter = {attributeKey: countryFilterAttributeKey, scopeKey: activeScope.key, layerTemplateKey};
 
 	const relations = Select.attributeRelations.getFiltered(state, countryFilter);
 
 	if (relations && relations.length) {
-		let attributeDataSourceKey = relations[0].attributeDataSourceKey;
+		const relation = relations[0];
+		let attributeDataSourceKey = relation.attributeDataSourceKey;
 		let attributes = Select.attributeData.getByKey(state, attributeDataSourceKey);
 		if (attributes) {
-			countryCodes = getUniqueCountries(attributes.attributeData);
+			countryCodes = getUniqueCountries(attributes.attributeData, relation.fidColumnName);
 		}
 	}
 
