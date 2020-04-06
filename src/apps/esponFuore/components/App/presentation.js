@@ -24,6 +24,7 @@ import SimpleLayersControl from "../../../../components/common/maps/controls/Sim
 
 import bing from "../../assets/img/powered-by-bing.png";
 import IndicatorDescription from "./IndicatorDescription";
+import LevelSwitch from "./LevelSwitch";
 
 const backgroundLayers = [
 	{
@@ -159,6 +160,7 @@ class EsponFuoreApp extends React.PureComponent {
 											render: props => (
 												<div className="esponFuore-right-panel">
 													<IndicatorDescription/>
+													<LevelSwitch/>
 													<ChartSet
 														setKey="esponFuoreCharts"
 													>
