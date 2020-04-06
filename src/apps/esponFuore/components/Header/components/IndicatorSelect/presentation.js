@@ -56,7 +56,12 @@ class IndicatorSelect extends React.PureComponent {
 		if (props.activeIndicator) {
 			return (
 				<>
-					<div className="esponFuore-indicator-select-current-category" title={props.activeIndicatorCategory && props.activeIndicatorCategory.data && props.activeIndicatorCategory.data.nameDisplay}>{props.activeIndicatorCategory && props.activeIndicatorCategory.data && props.activeIndicatorCategory.data.nameDisplay}</div>
+					<div className="esponFuore-indicator-select-current-category-wrapper">
+						<div className="esponFuore-indicator-select-current-category" title={props.activeIndicatorCategory && props.activeIndicatorCategory.data && props.activeIndicatorCategory.data.nameDisplay}>{props.activeIndicatorCategory && props.activeIndicatorCategory.data && props.activeIndicatorCategory.data.nameDisplay}</div>
+						{props.activeIndicatorSubCategory ? (
+							<div className="esponFuore-indicator-select-current-category" title={props.activeIndicatorSubCategory && props.activeIndicatorSubCategory.data && props.activeIndicatorSubCategory.data.nameDisplay}>{props.activeIndicatorSubCategory && props.activeIndicatorSubCategory.data && props.activeIndicatorSubCategory.data.nameDisplay}</div>
+						) : null}
+					</div>
 					<div className="esponFuore-indicator-select-current-indicator" title={props.activeIndicator && props.activeIndicator.data && props.activeIndicator.data.nameDisplay}>{props.activeIndicator.data.nameDisplay}</div>
 				</>
 			);

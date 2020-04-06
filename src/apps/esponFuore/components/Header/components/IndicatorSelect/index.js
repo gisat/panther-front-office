@@ -8,10 +8,14 @@ import utils from '../../../../../../utils/utils';
 import presentation from "./presentation";
 
 const filterByActive = {application: true, scope: true};
-let tagKey = null;
+let tagKeys = null;
 
 let categoryTagKey = null;
+let subCategoryTagKey = null;
 let categoryFilter = null;
+
+let activeIndicatorCategory = null;
+let activeIndicatorSubCategory = null;
 
 const mapStateToProps = (state, ownProps) => {
 	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
@@ -21,14 +25,25 @@ const mapStateToProps = (state, ownProps) => {
 		categoryFilter = {tagKeys: {includes: [ownProps.categoryTagKey]}};
 	}
 	categoryTagKey = ownProps.categoryTagKey;
+	subCategoryTagKey = ownProps.subCategoryTagKey;
 
 
 	// don't mutate selector input if it is not needed
-	if (!_.isEqual(tagKey,  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0])){
-		tagKey =  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys && activeIndicator.data.tagKeys[0];
+	if (!_.isEqual(tagKeys,  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys)){
+		tagKeys =  activeIndicator && activeIndicator.data && activeIndicator.data.tagKeys;
+
+		_.forEach(tagKeys, tagKey => {
+			let tag = Select.tags.getByKey(state, tagKey);
+			if (tag && tag.data && tag.data.tagKeys) {
+				if (_.includes(tag.data.tagKeys, categoryTagKey)) {
+					activeIndicatorCategory = tag;
+				} else if (_.includes(tag.data.tagKeys, subCategoryTagKey)) {
+					activeIndicatorSubCategory = tag;
+				}
+			}
+		});
 	}
 
-	let activeIndicatorCategory = Select.tags.getByKey(state, tagKey);
 	return {
 		indicatorSelectOpen: Select.components.get(state, 'esponFuore_IndicatorSelect', 'indicatorSelectOpen'),
 		searchValue: Select.components.get(state, 'esponFuore_IndicatorSelect', 'searchValue'),
@@ -36,7 +51,8 @@ const mapStateToProps = (state, ownProps) => {
 		categories: Select.specific.esponFuore.getOrderedCategories(state, filterByActive, categoryFilter, null, 1, 100),
 		indicators: Select.specific.esponFuoreIndicators.getAll(state),
 		activeIndicator,
-		activeIndicatorCategory
+		activeIndicatorCategory,
+		activeIndicatorSubCategory
 	}
 };
 

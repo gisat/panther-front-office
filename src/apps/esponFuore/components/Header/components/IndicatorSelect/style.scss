@@ -70,10 +70,11 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-.esponFuore-indicator-select-current-category {
+.esponFuore-indicator-select-current-category-wrapper {
 	font-size: $b1;
 	color: rgba(255,255,255,.7);
 	padding: .6rem .5rem 0 1.05rem;
+	display: flex;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -81,7 +82,7 @@
 .esponFuore-indicator-select-current-category::after {
 	content: '>';
 	opacity: .6;
-	padding-left: .25rem;
+	padding: 0 .25rem;
 }
 .esponFuore-indicator-select-current-category:first-letter {
 	text-transform: uppercase;
