@@ -295,9 +295,9 @@ class BarGroup extends React.PureComponent {
 			style.background = color;
 		}
 
-		let valueString = record.value;
+		let valueString = record.value.toLocaleString();
 		if ((record.value % 1) !== 0) {
-			valueString = valueString.toFixed(2);
+			valueString = valueString.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 		}
 
 
@@ -308,7 +308,7 @@ class BarGroup extends React.PureComponent {
 					<div className="ptr-popup-record">
 						{attribute ? <div className="ptr-popup-record-attribute">{attribute}</div> : null}
 						<div className="ptr-popup-record-value-group">
-							{(valueString || valueString === 0) ? <span className="value">{valueString.toLocaleString()}</span> : null}
+							{(valueString) ? <span className="value">{valueString}</span> : null}
 							{attributeUnits ? <span className="unit">{attributeUnits}</span> : null}
 						</div>
 					</div>
