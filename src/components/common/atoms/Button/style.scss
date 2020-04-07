@@ -563,3 +563,11 @@
 .ptr-button-group .ptr-button:focus {
 	z-index: 2;
 }
+
+/* === Button switch ======================================= */
+// todo
+
+.ptr-button-switch .ptr-button.ghost.active {
+  background: var(--accent50);
+  color: var(--base10);
+}
