@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		switchLevel: (level) => {
+			dispatch(Action.windows.remove(ownProps.windowSetKey, 'legend'));
 			dispatch(Action.specific.esponFuore.changeAuLevel(level));
 		}
 	}

@@ -160,7 +160,9 @@ class EsponFuoreApp extends React.PureComponent {
 											render: props => (
 												<div className="esponFuore-right-panel">
 													<IndicatorDescription/>
-													<LevelSwitch/>
+													<LevelSwitch
+														windowSetKey={this.context.windowSetKey}
+													/>
 													<ChartSet
 														setKey="esponFuoreCharts"
 													>
