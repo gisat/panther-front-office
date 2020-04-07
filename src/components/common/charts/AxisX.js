@@ -93,6 +93,11 @@ class AxisX extends React.PureComponent {
 
 	renderLinearGrid(shift) {
 		let ticks = this.props.scale.ticks(this.props.width > 300 ? MAX_TICK_COUNT : MIN_TICK_COUNT);
+		if (this.props.scaleType === "time" && this.props.options && this.props.options.axisValueFormat === "YYYY") {
+			ticks = _.filter(ticks, tick => {
+				return moment(tick).dayOfYear() === 1;
+			});
+		}
 		let availableHeight = (this.props.width/ticks.length)/Math.sqrt(2);
 
 		return (
