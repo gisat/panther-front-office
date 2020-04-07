@@ -245,9 +245,9 @@ class BarGroup extends React.PureComponent {
 							value = negative.value;
 						}
 
-						let valueString = value;
+						let valueString = value.toLocaleString();
 						if ((value % 1) !== 0) {
-							valueString = valueString.toFixed(2);
+							valueString = valueString.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 						}
 
 						return (
