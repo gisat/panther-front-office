@@ -15,12 +15,14 @@ export default (type, applyFilter) => {
 		const scopeKey = Select.scopes.getActiveKey(state);
 		const attributeKey = Select.attributes.getActiveKey(state);
 		const periodKeys = Select.periods.getActiveKeys(state);
+		const layerTemplateKey = Select.layerTemplates.getActiveKey(state);
 		const selection = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state);
 
 		const filter = {
 			applicationKey,
 			scopeKey,
 			attributeKey,
+			layerTemplateKey,
 			periodKey: {
 				in: periodKeys
 			}
