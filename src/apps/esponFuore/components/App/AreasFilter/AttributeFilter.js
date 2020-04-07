@@ -84,53 +84,55 @@ class AttributeFilter extends React.PureComponent {
 		let isDecimal = (this.props.max % 1 !== 0) || (this.props.min % 1 !== 0);
 
 		return (
-			<div className="esponFuore-attribute-filter">
-				<SliderRange
-					className="esponFuore-attribute-slider"
-					onChange={this.onChange.bind(this)}
-					onAfterChange={this.props.onChange}
-					min={this.props.min}
-					max={this.props.max}
-					value={this.state.range}
-					step={isDecimal ? 0.001:1}
-					marks={{
-						[this.props.min]: {
-							label: this.props.min.toLocaleString(),
-							style: {
-								left: 0,
-								width: 'auto',
-								marginLeft: -7
-							}
+			this.props.min && this.props.max ? (
+				<div className="esponFuore-attribute-filter">
+					<SliderRange
+						className="esponFuore-attribute-slider"
+						onChange={this.onChange.bind(this)}
+						onAfterChange={this.props.onChange}
+						min={this.props.min}
+						max={this.props.max}
+						value={this.state.range}
+						step={isDecimal ? 0.001:1}
+						marks={{
+							[this.props.min]: {
+								label: this.props.min.toLocaleString(),
+								style: {
+									left: 0,
+									width: 'auto',
+									marginLeft: -7
+								}
 
-						},
-						[this.props.max]: {
-							label: this.props.max.toLocaleString(),
-							style: {
-								right: 0,
-								left: 'auto',
-								width: 'auto',
-								marginLeft: 0,
-								marginRight: -7
-							}
-						}}}
-					tipFormatter={(value) => value.toLocaleString()}
-				/>
-				<div className="esponFuore-attribute-filter-inputs">
-					<InputNumber
-						defaultValue={this.props.min}
-						value={this.state.range[0]}
-						precision={isDecimal ? 3:0}
-						onChange={this.onInputMinChange}
+							},
+							[this.props.max]: {
+								label: this.props.max.toLocaleString(),
+								style: {
+									right: 0,
+									left: 'auto',
+									width: 'auto',
+									marginLeft: 0,
+									marginRight: -7
+								}
+							}}}
+						tipFormatter={(value) => value.toLocaleString()}
 					/>
-					<div className="esponFuore-attribute-filter-input-separator">-</div>
-					<InputNumber
-						defaultValue={this.props.max}
-						value={this.state.range[1]}
-						precision={isDecimal ? 3:0}
-						onChange={this.onInputMaxChange}
-					/>
+					<div className="esponFuore-attribute-filter-inputs">
+						<InputNumber
+							defaultValue={this.props.min}
+							value={this.state.range[0]}
+							precision={isDecimal ? 3:0}
+							onChange={this.onInputMinChange}
+						/>
+						<div className="esponFuore-attribute-filter-input-separator">-</div>
+						<InputNumber
+							defaultValue={this.props.max}
+							value={this.state.range[1]}
+							precision={isDecimal ? 3:0}
+							onChange={this.onInputMaxChange}
+						/>
+					</div>
 				</div>
-			</div>
+			) : null
 		);
 	}
 }
