@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Button from "../../../../../components/common/atoms/Button";
+import ButtonSwitch, {Option} from "../../../../../components/common/atoms/ButtonSwitch";
 import "./style.scss";
 
 const levelToSwitch = {
@@ -19,20 +21,14 @@ class LevelSwitch extends React.PureComponent {
 		activeLevel: PropTypes.number
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.onChangeLevelClick = this.onChangeLevelClick.bind(this);
-	}
-
-	onChangeLevelClick() {
-		this.props.switchLevel(levelToSwitch[this.props.activeLevel].level);
-	}
-
 	render() {
 		return (
 			<div className="esponFuore-level-switch">
-				<Button onClick={this.onChangeLevelClick}>{`Switch to ${levelToSwitch[this.props.activeLevel].label}`}</Button>
+				<ButtonSwitch onClick={this.props.switchLevel} ghost>
+					{_.map(levelToSwitch, level  => (
+						<Option active={this.props.activeLevel === level.level} value={level.level}>{level.label}</Option>
+					))}
+				</ButtonSwitch>
 			</div>
 		);
 	}
