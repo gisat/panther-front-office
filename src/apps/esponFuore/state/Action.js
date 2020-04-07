@@ -21,9 +21,7 @@ const changeAuLevel = (level) =>
 		dispatch(CommonAction.attributeRelations.useIndexedClearAll());
 		dispatch(CommonAction.spatialRelations.useIndexedClearAll());
 		dispatch(CommonAction.charts.setInitial());
-		// dispatch(CommonAction.maps.setInitial());
 		dispatch(CommonAction.attributes.setActiveKey(null));
-		// dispatch(CommonAction.periods.setActiveKeys(null));
 		dispatch(CommonAction.views.setActiveKeys(null));
 
 		dispatch(CommonAction.scopes.setActiveKey(activeScopeKey));
@@ -62,10 +60,12 @@ const setLayerTemplateForAllLayers = (layerTemplateKey) =>
 		const allMaps = Select.maps.getMaps(getState());
 		const activeMapSet = Select.maps.getActiveMapSet(getState());
 
-		let newMapKeys = [];
+		let newMapKeys = [...activeMapSet.maps];
 		const newMaps = allMaps.map(map => {
+			const oldKey = map.key;
 			const newKey = utils.uuid();
-			newMapKeys.push(newKey);
+			const oldKeyPosition = _.indexOf(newMapKeys, oldKey);
+			newMapKeys[oldKeyPosition] = newKey;
 
 			return {
 				key: newKey,
