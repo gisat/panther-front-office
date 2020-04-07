@@ -30,7 +30,7 @@ function setActiveAttributeByIndicatorKey(key) {
 	}
 }
 
-function select(key) {
+function select(key, levelChange) {
 	return (dispatch, getState) => {
 		dispatch(setActiveKey(key));
 		dispatch(setActiveAttributeByIndicatorKey(key));
@@ -48,7 +48,7 @@ function select(key) {
 			dispatch(layerTemplatesActions.setActiveKey(layerTemplateKey));
 		}
 
-		if (!activeViewKey || (viewKey && viewKey !== activeViewKey)) {
+		if (!levelChange && (!activeViewKey || (viewKey && viewKey !== activeViewKey))) {
 			dispatch(viewsActions.setActiveKey(viewKey));
 			dispatch(viewsActions.apply(viewKey, Action));
 		}

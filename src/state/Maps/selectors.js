@@ -22,6 +22,20 @@ const getMapSetsAsObject = state => state.maps.sets;
 const getActiveSetKey = state => state.maps.activeSetKey;
 const getActiveMapKey = state => state.maps.activeMapKey;
 
+const getActiveMapSet = createSelector(
+	[
+		getMapSetsAsObject,
+		getActiveSetKey
+	],
+	(sets, key) => {
+		if (sets && !_.isEmpty(sets) && key && sets[key]) {
+			return sets[key];
+		} else {
+			return null;
+		}
+	}
+);
+
 const getMaps = createSelector(
 	[getMapsAsObject],
 	(maps) => {
@@ -968,6 +982,7 @@ function getFiltersForUse_deprecated(layer, activeKeys, useMetadata) {
 export default {
 	getActiveMapKey,
 	getActiveSetKey,
+	getActiveMapSet,
 	getAllLayersStateByMapKey,
 
 	getBackgroundLayer,
@@ -978,6 +993,7 @@ export default {
 	getLayers,
 	getLayersStateByMapKey,
 
+	getMaps,
 	getMapByKey,
 	getMapLayerByMapKeyAndLayerKey,
 	getMapsAsObject,
