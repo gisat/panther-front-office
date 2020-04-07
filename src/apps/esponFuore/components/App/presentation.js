@@ -158,7 +158,7 @@ class EsponFuoreApp extends React.PureComponent {
 											minWidth: "20rem",
 											maxWidth: "45rem",
 											render: props => (
-												<div className="esponFuore-right-panel">
+												<div className="esponFuore-right-panel" style={{paddingBottom: this.props.timelineHeight + 5}}>
 													<IndicatorDescription/>
 													<LevelSwitch
 														windowSetKey={this.context.windowSetKey}

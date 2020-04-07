@@ -179,6 +179,10 @@ $headerHeight: m(2);
 	min-height: auto;
 }
 
+.esponFuore-right-panel .ptr-charts-container > div:last-child {
+	margin-bottom: 0;
+}
+
 .esponFuore-app .ptr-chart-legend {
 	justify-content: center;
 	margin-top: m(1/3);
