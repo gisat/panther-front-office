@@ -66,15 +66,11 @@ class EsponFuoreApp extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (prevProps.activeAttributeKey !== this.props.activeAttributeKey) {
-			this.onSelectionClear();
-		} else if (prevProps.activePeriodKeys !== this.props.activePeriodKeys) {
-			this.onSelectionClear();
-		} else if (prevProps.activeScopeKey !== this.props.activeScopeKey) {
+		if (prevProps.activeAttributeKey !== this.props.activeAttributeKey || prevProps.activePeriodKeys !== this.props.activePeriodKeys || prevProps.activeScopeKey !== this.props.activeScopeKey || prevProps.activeLevel !== this.props.activeLevel) {
 			this.onSelectionClear();
 		}
 	}
-
+s
 	onSelectionClear() {
 		if (this.props.onSelectionClear) {
 			this.props.onSelectionClear();

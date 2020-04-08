@@ -11,6 +11,7 @@ const mapStateToProps = state => {
 		activeScope: Select.scopes.getActive(state),
 		activeAttributeKey: Select.attributes.getActiveKey(state),
 		activePeriodKeys: Select.periods.getActiveKeys(state),
+		activeLevel: Select.app.getLocalConfiguration(state, "activeAuLevel"),
 		attribute: Select.attributes.getActive(state),
 		timelineHeight: Select.components.get(state, "esponFuore_Timeline", "height")
 	}
