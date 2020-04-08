@@ -5,11 +5,12 @@ function getActiveAttributeData(state) {
 	let attributeKey = Select.attributes.getActiveKey(state);
 	let scopeKey = Select.scopes.getActiveKey(state);
 	let periodKeys = Select.periods.getActiveKeys(state);
+	let layerTemplateKey = Select.layerTemplates.getActiveKey(state);
 
-	if (attributeKey && scopeKey && periodKeys) {
+	if (attributeKey && scopeKey && periodKeys && layerTemplateKey) {
 		// Get relations
 		let relations = periodKeys.map(periodKey => {
-			return Select.attributeRelations.getFiltered(state, {attributeKey, scopeKey, periodKey});
+			return Select.attributeRelations.getFiltered(state, {attributeKey, scopeKey, periodKey, layerTemplateKey});
 		});
 
 		if (relations && relations.length) {
@@ -52,11 +53,12 @@ function getActiveAttributeStatistics(state) {
 	let attributeKey = Select.attributes.getActiveKey(state);
 	let scopeKey = Select.scopes.getActiveKey(state);
 	let periodKeys = Select.periods.getActiveKeys(state);
+	let layerTemplateKey = Select.layerTemplates.getActiveKey(state);
 
-	if (attributeKey && scopeKey && periodKeys) {
+	if (attributeKey && scopeKey && periodKeys && layerTemplateKey) {
 		// Get relations
 		let relations = periodKeys.map(periodKey => {
-			return Select.attributeRelations.getFiltered(state, {attributeKey, scopeKey, periodKey});
+			return Select.attributeRelations.getFiltered(state, {attributeKey, scopeKey, periodKey, layerTemplateKey});
 		});
 
 		if (relations && relations.length) {
