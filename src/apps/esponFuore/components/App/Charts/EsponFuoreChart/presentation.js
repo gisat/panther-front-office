@@ -215,6 +215,12 @@ class EsponFuoreChart extends React.PureComponent {
 				yValuesSize={4.3}
 
 				yOptions={yOptions}
+				xScaleType="time"
+				xOptions={{
+					inputValueFormat: "YYYY",
+					popupValueFormat: "YYYY",
+					axisValueFormat: "YYYY"
+				}}
 
 				withPoints
 				data={data}
