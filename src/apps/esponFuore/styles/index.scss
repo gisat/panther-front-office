@@ -188,6 +188,10 @@ $headerHeight: m(2);
 	margin-top: m(1/3);
 }
 
+.esponFuore-app .ptr-axis-grid .without-data {
+	display: none;
+}
+
 
 /* map controls */
 .esponFuore-app .map-controls {

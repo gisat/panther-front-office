@@ -7,3 +7,16 @@
 .esponFuore-indicator-description p {
 	font-size: $b1;
 }
+
+.esponFuore-collapse-text-toggle {
+	color: var(--accent40);
+	cursor: pointer;
+}
+
+.esponFuore-collapse-text-toggle.show-less {
+	padding-left: .25rem;
+}
+
+.esponFuore-collapse-text-toggle:hover {
+	color: var(--accent50);
+}
