@@ -3,3 +3,10 @@
 .esponFuore-level-switch {
 	margin-bottom: m(1);
 }
+.esponFuore-level-switch > span {
+	line-height: .85rem;
+	font-size: $b1;
+}
+.esponFuore-level-switch > .ptr-button-switch {
+	margin: 0 .4rem;
+}
