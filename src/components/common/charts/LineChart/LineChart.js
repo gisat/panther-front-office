@@ -149,7 +149,7 @@ class LineChart extends React.PureComponent {
 					{(data) ?
 						<CartesianChartContent
 							{...props}
-							{...{xScale, yScale, contentData: xDomain}}
+							{...{xScale, yScale, contentData: props.xScaleType === "time" ? sortedUniqueXvalues : xDomain}}
 						>
 							{mode === 'aggregated' ?
 								this.renderAggregated(data, props, xScale, yScale) :

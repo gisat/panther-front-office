@@ -188,8 +188,8 @@ $headerHeight: m(2);
 	margin-top: m(1/3);
 }
 
-.esponFuore-app .ptr-axis-grid .without-data {
-	display: none;
+.esponFuore-app .ptr-axis-grid .without-data .ptr-tick-caption {
+	fill: var(--base30);
 }
 
 

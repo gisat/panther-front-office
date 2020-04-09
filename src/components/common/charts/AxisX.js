@@ -103,15 +103,24 @@ class AxisX extends React.PureComponent {
 		return (
 			<g className="ptr-axis-grid" transform={`translate(${this.props.leftPadding}, 0)`}>
 				{ticks.map(value => {
+					let classes = null;
 					let xCoord = this.props.scale(value);
 					let text = value;
+
 					if (this.props.scaleType !== 'time') {
 						text = value.toLocaleString();
 					}
 
+					if (this.props.scaleType === 'time' && this.props.options && this.props.options.axisValueFormat === "YYYY") {
+						const year = moment(value).format("YYYY");
+						if (!_.includes(this.props.data, year)) {
+							classes = "without-data";
+						}
+					}
+
 					if (xCoord || xCoord === 0) {
 						return (
-							<g key={value}>
+							<g key={value} className={classes}>
 								<line
 									className="ptr-axis-gridline"
 									x1={xCoord}
