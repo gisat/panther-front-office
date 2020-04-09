@@ -26,8 +26,8 @@ class LevelSwitch extends React.PureComponent {
 			<div className="esponFuore-level-switch">
 				<span>Use</span>
 				<ButtonSwitch onClick={this.props.switchLevel} ghost small>
-					{_.map(levelToSwitch, level  => (
-						<Option active={this.props.activeLevel === level.level} value={level.level}>{level.label}</Option>
+					{_.map(levelToSwitch, (level, i)  => (
+						<Option key={i} active={this.props.activeLevel === level.level} value={level.level}>{level.label}</Option>
 					))}
 				</ButtonSwitch>
 				<span>units</span>
