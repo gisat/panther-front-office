@@ -38,6 +38,18 @@ class LineChart extends React.PureComponent {
 		super(props);
 	}
 
+	getXvalue(scale, value, offset) {
+		if (this.props.xScaleType === "time") {
+			if (this.props.xOptions && this.props.xOptions.inputValueFormat) {
+				return scale(moment(`${value}`, this.props.xOptions.inputValueFormat).toDate());
+			} else {
+				return scale(new Date(value));
+			}
+		} else {
+			return scale(value) + offset;
+		}
+	}
+
 	// TODO axis orientation
 	render() {
 		const props = this.props;
@@ -135,7 +147,7 @@ class LineChart extends React.PureComponent {
 
 			if (props.forceMode){
 				mode = props.forceMode;
-			} else if (data.length > props.aggregationThreshold && props.xScaleType !== 'time') {
+			} else if (data.length > props.aggregationThreshold) {
 				mode = 'aggregated';
 			} else if (data.length > props.grayingThreshold) {
 				mode = 'gray';
@@ -186,17 +198,7 @@ class LineChart extends React.PureComponent {
 
 			let coordinates = serie.map(record => {
 				let xValue = _.get(record, props.xSourcePath);
-				let x;
-				if (this.props.xScaleType === "time") {
-					if (props.xOptions && props.xOptions.inputValueFormat) {
-						x = xScale(moment(`${xValue}`, props.xOptions.inputValueFormat).toDate());
-					} else {
-						x = xScale(new Date(xValue));
-					}
-				} else {
-					x = xScale(xValue) + leftOffset;
-				}
-
+				let x = this.getXvalue(xScale, xValue, leftOffset);
 				let y = yScale(_.get(record, props.ySourcePath));
 				return {x,y, originalData: record};
 			});
@@ -265,7 +267,9 @@ class LineChart extends React.PureComponent {
 		});
 
 		let maxCoordinates = maxValuesForChart.map(record => {
-			let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+			let xValue = _.get(record, props.xSourcePath);
+			let x = this.getXvalue(xScale, xValue, leftOffset);
+
 			let y = yScale(_.get(record, props.ySourcePath));
 			return {x,y, originalData: record};
 		});
@@ -280,7 +284,8 @@ class LineChart extends React.PureComponent {
 		});
 
 		let minCoordinates = minValuesForChart.map(record => {
-			let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+			let xValue = _.get(record, props.xSourcePath);
+			let x = this.getXvalue(xScale, xValue, leftOffset);
 			let y = yScale(_.get(record, props.ySourcePath));
 			return {x,y, originalData: record};
 		});
@@ -295,7 +300,8 @@ class LineChart extends React.PureComponent {
 		});
 
 		let averageCoordinates = averageValuesForChart.map(record => {
-			let x = xScale(_.get(record, props.xSourcePath)) + leftOffset;
+			let xValue = _.get(record, props.xSourcePath);
+			let x = this.getXvalue(xScale, xValue, leftOffset);
 			let y = yScale(_.get(record, props.ySourcePath));
 			return {x,y, originalData: record};
 		});

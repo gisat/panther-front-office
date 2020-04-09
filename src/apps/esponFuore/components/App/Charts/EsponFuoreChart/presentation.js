@@ -228,6 +228,7 @@ class EsponFuoreChart extends React.PureComponent {
 				highlightColor={color ? chroma(color).darken(1) : null}
 
 				legend={legend}
+				aggregationThreshold={30}
 			/>
 		}
 	}
