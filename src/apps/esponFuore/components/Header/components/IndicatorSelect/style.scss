@@ -70,6 +70,9 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+.esponFuore-indicator-select-current-indicator:first-letter {
+	text-transform: uppercase;
+}
 .esponFuore-indicator-select-current-category-wrapper {
 	font-size: $b1;
 	color: rgba(255,255,255,.7);
@@ -186,6 +189,10 @@
 	color: var(--accent80);
 	background-color: rgba(255, 255, 255, .8);
 	width: 100%;
+}
+
+.esponFuore-indicator-card > span:first-letter {
+	text-transform: uppercase;
 }
 
 .esponFuore-indicator-card > svg {
