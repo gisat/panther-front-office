@@ -10,6 +10,7 @@ import fuoreUtils from "../../../../utils";
 
 class EsponFuoreChart extends React.PureComponent {
 	static propTypes = {
+		activeIndicator: PropTypes.object,
 		attribute: PropTypes.object,
 		filter: PropTypes.object,
 		data: PropTypes.array,
@@ -122,9 +123,9 @@ class EsponFuoreChart extends React.PureComponent {
 		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
 
 		let useColorScale = false;
-		if(this.props.attribute.dataType === 'relative' && this.props.attribute.twoSideScale) {
+		if(this.props.activeIndicator.data.type === 'relative' && this.props.activeIndicator.data.twoSideScale) {
 			useColorScale = true;
-			const colors = fuoreUtils.resolveColours(this.props.attribute);
+			const colors = fuoreUtils.resolveColours(this.props.activeIndicator);
 			color = colors[0]; //set default color as color for highest values from color scale
 			for (const item of data) {
 				const positive = item.data.values[0].value >= 0; 
@@ -183,8 +184,8 @@ class EsponFuoreChart extends React.PureComponent {
 		}
 
 		//in case of twoSideScale data set default color as color for highest values
-		if(this.props.attribute.dataType === 'relative' && this.props.attribute.twoSideScale) {
-			const colors = fuoreUtils.resolveColours(this.props.attribute);
+		if(this.props.activeIndicator.data.type === 'relative' && this.props.activeIndicator.data.twoSideScale) {
+			const colors = fuoreUtils.resolveColours(this.props.activeIndicator);
 			color = colors[0]; //set default color as color for highest values from color scale
 		}
 

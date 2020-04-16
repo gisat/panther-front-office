@@ -22,6 +22,8 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 
 		let activeFilter = Select.specific.esponFuoreSelections.getActiveWithFilteredKeys(state);
 		let activeScope = Select.scopes.getActive(state);
+		let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
+		let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
 		let nameAttributeKey = activeScope && activeScope.data && activeScope.data.configuration && activeScope.data.configuration.areaNameAttributeKey;
 		let currentNamesFilter= {scopeKey: activeScope && activeScope.key, attributeKey: nameAttributeKey};
 		let scopeKey = Select.scopes.getActiveKey(state);
@@ -53,6 +55,7 @@ const mapStateToPropsFactory = (initialState, ownProps) => {
 		// TODO ensure periods
 		return {
 			attribute: Select.attributes.getActive(state),
+			activeIndicator: activeIndicator,
 			data: completeData,
 			filter: activeFilterData,
 			periods: Select.periods.getByKeys(state, filter && filter.periodKey && filter.periodKey.in),
