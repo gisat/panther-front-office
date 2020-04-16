@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Select from '../../../../../../state/Select';
+import Select from '../../../../state/Select';
 import Action from "../../../../../../state/Action";
 import React from "react";
 import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics } from '../../../../../../utils/statistics';
@@ -17,6 +17,9 @@ const mapStateToProps = (state, ownProps) => {
 	let legendType = null;
 	let navigatorRange = Select.maps.getMapSetNavigatorRange_deprecated(state, ownProps.mapSetKey);
 	const layersState = Select.maps.getLayersStateByMapSetKey_deprecated(state, ownProps.mapSetKey);
+
+	let activeIndicatorKey = Select.components.get(state, 'esponFuore_IndicatorSelect', 'activeIndicator');
+	let activeIndicator = Select.specific.esponFuoreIndicators.getByKey(state, activeIndicatorKey);
 
 	const mapSetsLayers = {};
 	for (const [key, value] of Object.entries(layersState)) {
@@ -87,14 +90,14 @@ const mapStateToProps = (state, ownProps) => {
 				layerByLayerTemplateKey.attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
 				legendType = layerByLayerTemplateKey.attribute && layerByLayerTemplateKey.attribute.data && layerByLayerTemplateKey.attribute.data.valueType;
 
-				const color = fuoreUtils.resolveColour(layerByLayerTemplateKey.attribute);
+				const color = fuoreUtils.resolveColour(activeIndicator);
 
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
 					let classes;
-					if(layerByLayerTemplateKey.attribute.data.twoSideScale === true) {
+					if(activeIndicator.data.twoSideScale === true) {
 						const classCount = 3;
-						const colors = [...fuoreUtils.resolveColours(layerByLayerTemplateKey.attribute), '#ffffbf']; //#ffffbf - center color
+						const colors = [...fuoreUtils.resolveColours(activeIndicator), '#ffffff']; //#ffffff - center color
 						const highColor = colors[0];
 						const lowColor = colors[1];
 						const centerColor = colors[2];	
@@ -104,6 +107,7 @@ const mapStateToProps = (state, ownProps) => {
 						styleFunction = getCartogramStyleFunction(color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 						classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
 					}
+					classes.sort((a, b) => b - a);
 					const intervals = getClassesIntervals(classes);
 
 					choroplethLegendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
