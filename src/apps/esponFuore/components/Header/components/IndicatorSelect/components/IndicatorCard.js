@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {getCartogramColorScale} from '../../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
+import {getCartogramColorScale, getCartogramTwoColorScale} from '../../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
 
 import fuoreUtils from "../../../../../utils";
 import diagrams from "./sampleDiagrams";
@@ -31,6 +31,17 @@ function getSomeDiagramsOrdered (key) {
 
 function getColorFromScale (color, index) {
 	let scale = getCartogramColorScale(color, CHOROPLETH_INTERVALS);
+	let colorRgb = scale[index % CHOROPLETH_INTERVALS];
+	return `rgb(${colorRgb[0]},${colorRgb[1]},${colorRgb[2]})`;
+}
+
+function getColorFromTwoSideScale (color, index, indicator) {
+	const classCount = 3;
+	const colors = [...fuoreUtils.resolveColours(indicator), '#ffffff']; //#ffffff - center color
+	const highColor = colors[0];
+	const lowColor = colors[1];
+	const centerColor = colors[2];	
+	const scale = getCartogramTwoColorScale(highColor, lowColor, centerColor, classCount);
 	let colorRgb = scale[index % CHOROPLETH_INTERVALS];
 	return `rgb(${colorRgb[0]},${colorRgb[1]},${colorRgb[2]})`;
 }
@@ -94,7 +105,9 @@ class IndicatorCard extends React.PureComponent {
 		return this.state.polygons.map((p, index) => {
 			let style = {};
 
-			if (color) {
+			if(this.props.indicator.data.twoSideScale === true) {
+				style.fill = getColorFromTwoSideScale(color, index, this.props.indicator);
+			} else if (color) {
 				style.fill = getColorFromScale(color, index);
 			}
 
