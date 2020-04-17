@@ -55,7 +55,7 @@ function updateActiveSelectionAttributeFilterAndByAttributeKey(attributeKey, fil
 				dispatch(setActiveKey(null));
 				dispatch(actionRemove([activeSelection.key]));
 			}
-		} else {
+		} else if (!activeSelection && filter){
 			let data = {
 				attributeFilter: {
 					and: [filter]
