@@ -2,10 +2,12 @@ import ActionTypes from '../../constants/ActionTypes';
 
 import Select from '../Select';
 import Action from '../Action';
+import appActions from '../../../../state/App/actions';
 import attributeActions from '../../../../state/Attributes/actions';
 import layerTemplatesActions from '../../../../state/LayerTemplates/actions';
 import viewsActions from '../../../../state/Views/actions';
 import common from '../../../../state/_common/actions';
+import {indicatorLevelDataNaming, levelToSwitch} from "../../constants/appConstants";
 
 // ============ creators ===========
 
@@ -35,7 +37,19 @@ function select(key, levelChange) {
 		dispatch(setActiveKey(key));
 		dispatch(setActiveAttributeByIndicatorKey(key));
 
-		const activeAuLevel = Select.app.getLocalConfiguration(getState(), "activeAuLevel");
+		let activeAuLevel = Select.app.getLocalConfiguration(getState(), "activeAuLevel");
+
+		const activeIdicator = Select.specific.esponFuoreIndicators.getActive(getState());
+		const indicatorDataForLevels = activeIdicator && activeIdicator.data && activeIdicator.data.other;
+		const indicatorDataForLevel2 = indicatorDataForLevels[indicatorLevelDataNaming[2]];
+
+		// Always switch to level 2 if data is available
+		// If current level is 2, but data is missing, switch to level 1
+		if (!levelChange && (activeAuLevel === 1 && indicatorDataForLevel2 || activeAuLevel === 2 && !indicatorDataForLevel2)) {
+			dispatch(appActions.setLocalConfiguration('activeAuLevel', levelToSwitch[activeAuLevel].level));
+			activeAuLevel = Select.app.getLocalConfiguration(getState(), "activeAuLevel");
+		}
+
 		const scopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
 
 		const viewKey = scopeConfig && scopeConfig["auLevel" + activeAuLevel + "ViewKey"];

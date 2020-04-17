@@ -1,34 +1,28 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import Button from "../../../../../components/common/atoms/Button";
+import classnames from "classnames";
 import ButtonSwitch, {Option} from "../../../../../components/common/atoms/ButtonSwitch";
 import "./style.scss";
-
-const levelToSwitch = {
-	2: {
-		level: 1,
-		label: "country level"
-	},
-	1: {
-		level: 2,
-		label: "regional level"
-	}
-};
+import {indicatorLevelDataNaming, levelToSwitch} from "../../../constants/appConstants";
 
 class LevelSwitch extends React.PureComponent {
 	static propTypes = {
-		activeLevel: PropTypes.number
+		activeLevel: PropTypes.number,
+		activeIndicator: PropTypes.object
 	};
 
 	render() {
+		const indicatorData = this.props.activeIndicator && this.props.activeIndicator.data && this.props.activeIndicator.data.other;
+
 		return (
 			<div className="esponFuore-level-switch">
 				<span>Use</span>
 				<ButtonSwitch onClick={this.props.switchLevel} ghost small>
-					{_.map(levelToSwitch, (level, i)  => (
-						<Option key={i} active={this.props.activeLevel === level.level} value={level.level}>{level.label}</Option>
-					))}
+					{_.map(levelToSwitch, (level, i)  => {
+						const hasData = indicatorData && indicatorData[indicatorLevelDataNaming[level.level]];
+						return <Option key={i} disabled={!hasData} active={this.props.activeLevel === level.level} value={level.level}>{level.label}</Option>
+					})}
 				</ButtonSwitch>
 				<span>units</span>
 			</div>

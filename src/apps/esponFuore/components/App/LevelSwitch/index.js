@@ -7,7 +7,8 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		activeLevel: Select.app.getLocalConfiguration(state, "activeAuLevel")
+		activeLevel: Select.app.getLocalConfiguration(state, "activeAuLevel"),
+		activeIndicator: Select.specific.esponFuoreIndicators.getActive(state)
 	}
 };
 
