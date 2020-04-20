@@ -3,7 +3,7 @@ import espon_logo from '../../../../assets/img/espon-logo-full.png';
 
 export default (d) => {
 	return `
-		<span class="scope">${d.scope.split(". ")[1]}</span>
+		<span class="scope">${d.scope}</span>
 		<h1 class="title">${d.attribute} (${d.period})</h1>
 		<p class="description">
 			${d.description}
