@@ -219,9 +219,6 @@
 	.esponFuore-indicator-select-indicators {
 		padding-left: 1.5rem;
 	}
-	.esponFuore-indicator-select-indicators > div {
-		width: 18rem;
-	}
 
 	.esponFuore-indicator-card > span {
 		font-size: $a1;
@@ -231,7 +228,7 @@
 		height: 4rem;
 	}
 	.esponFuore-indicator-select-content {
-		padding: 2rem 1rem;
+		padding: 2rem 0 0 1rem;
 	}
 	.esponFuore-indicator-select-current-indicator,
 	.esponFuore-indicator-select-indicators > div > span {
