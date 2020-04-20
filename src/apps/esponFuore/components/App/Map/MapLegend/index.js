@@ -87,10 +87,11 @@ const mapStateToProps = (state, ownProps) => {
 			};
 
 			if(layerByLayerTemplateKey.attributeKey) {
-				layerByLayerTemplateKey.attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
+				const attribute = Select.attributes.getByKey(state, layerByLayerTemplateKey.attributeKey);
+				layerByLayerTemplateKey.attribute = attribute;
 				legendType = layerByLayerTemplateKey.attribute && layerByLayerTemplateKey.attribute.data && layerByLayerTemplateKey.attribute.data.valueType;
 
-				const color = fuoreUtils.resolveColour(activeIndicator);
+				const color = fuoreUtils.resolveColour(attribute);
 
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
