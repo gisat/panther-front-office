@@ -24,19 +24,47 @@ class SimpleLayersControl extends React.PureComponent {
 		};
 
 		this.onControlButtonClick = this.onControlButtonClick.bind(this);
-		this.onBlur = this.onBlur.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
 	}
 
-	onBlur(e) {
-		setTimeout(() => {
-			this.setState({open: false});
-		}, 50);
+	componentWillUnmount() {
+		this.stopHandlingClickOutside();
+	}
+
+	startHandlingClickOutside() {
+		document.addEventListener('mousedown', this.handleClickOutside);
+	}
+
+	stopHandlingClickOutside() {
+		document.removeEventListener('mousedown', this.handleClickOutside);
+	}
+
+	handleClickOutside(event) {
+		const wrapperRef = this.ref && this.ref.current;
+		const isOpen = this.state.open;
+		if (isOpen && wrapperRef && !wrapperRef.contains(event.target)) {
+		this.close();
+		}
+	}
+
+	close() {
+		this.stopHandlingClickOutside();
+		this.setState({open: false});
+	}
+
+	open() {
+		this.startHandlingClickOutside();
+		this.setState({open: true});
 	}
 
 	onControlButtonClick() {
-		this.setState({
-			open: !this.state.open
-		});
+		const isOpen = this.state.open;
+		if(isOpen) {
+			this.close();
+		} else {
+			this.open();
+		}
+
 	}
 
 	onLayerTileClick(key) {
@@ -52,7 +80,7 @@ class SimpleLayersControl extends React.PureComponent {
 
 		// TODO replace HoldButton
 		return (
-			<div className={buttonClasses} onBlur={this.onBlur} ref={this.ref}>
+			<div className={buttonClasses} ref={this.ref}>
 				<HoldButton
 					onClick={this.onControlButtonClick}
 				>
