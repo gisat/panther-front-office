@@ -8,6 +8,6 @@ import {round, roundHigher} from './math'
  */
 export const getIntervalTitle = (interval, first) => {
     const firstRounded = first ? round(interval[0], 2).toLocaleString() : roundHigher(interval[0], 2).toLocaleString();
-    const title = interval[1] === interval[0] ? round(interval[0], 2).toLocaleString() : `${firstRounded} - ${round(interval[1], 2).toLocaleString()}`;
+    const title = interval[1] === interval[0] ? round(interval[0], 2).toLocaleString() : `${firstRounded} to ${round(interval[1], 2).toLocaleString()}`;
     return title;
 }
