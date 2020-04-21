@@ -76,6 +76,26 @@ export default (type, applyFilter) => {
 						}).catch(err => {
 							error("Export failed: " + err);
 						});
+					} else if (type === 'xls') {
+						return response.blob().then((data) => {
+							if (data) {
+								download(data, "data.xls");
+							} else {
+								error("No data exported! " + data.error);
+							}
+						}).catch(err => {
+							error("Export failed: " + err);
+						});
+					} else if (type === 'csv') {
+						return response.blob().then((data) => {
+							if (data) {
+								download(data, "data.csv");
+							} else {
+								error("No data exported! " + data.error);
+							}
+						}).catch(err => {
+							error("Export failed: " + err);
+						});
 					} else {
 						error(`Format ${type} is not supported!`);
 					}

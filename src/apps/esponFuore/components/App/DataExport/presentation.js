@@ -81,8 +81,16 @@ class DataExport extends React.PureComponent {
 							Shapefile
 							{this.state.downloading === "shp" ? loader : null}
 						</Button>
-						<Button disabled icon="csv" onClick={this.onExportClick.bind(this, "csv")}>CSV</Button>
-						<Button disabled icon="xls" onClick={this.onExportClick.bind(this, "xls")}>XLS</Button>
+						<Button disabled={this.state.downloading === "csv"} onClick={this.onExportClick.bind(this, "csv")}>
+							<Icon icon="csv"/>
+							CSV
+							{this.state.downloading === "csv" ? loader : null}
+						</Button>
+						<Button disabled={this.state.downloading === "xls"} onClick={this.onExportClick.bind(this, "xls")}>
+							<Icon icon="xls"/>
+							XLS
+							{this.state.downloading === "xls" ? loader : null}
+						</Button>
 					</Buttons>
 				</div>
 				{this.state.errorMessage ? <div className="esponFuore-export-error-message">{this.state.errorMessage}</div> : null}
