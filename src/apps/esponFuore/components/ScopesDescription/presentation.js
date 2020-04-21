@@ -121,7 +121,7 @@ class ScopesDescription extends React.PureComponent {
 						<li>Definition of a >70% GI threshold for the average value to classify LAUs as high GI potential. </li>
 						<li>Dissolving selected LAUs by country to create functional regions with high GI potential by country.</li>
 					</ul>
-					<p><a href="https://www.espon.eu/sites/default/files/attachments/GRETA_Final%20Report.pdf" target="_blank">More details on the ESPON GRETA Final Report, pp. 35-45</a></p>.
+					<p><a href="https://www.espon.eu/sites/default/files/attachments/GRETA_Final%20Report.pdf" target="_blank">More details on the ESPON GRETA Final Report, pp. 35-45</a>.</p>
 
 					{this.renderExploreButton("green-infrastructure")}
 					<img className="esponFuore-doc-image" src={greenInfrastructure}/>
