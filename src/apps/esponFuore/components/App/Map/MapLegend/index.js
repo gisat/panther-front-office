@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../../../state/Action";
 import React from "react";
-import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics } from '../../../../../../utils/statistics';
+import { quartilePercentiles, mergeAttributeStatistics, getMiddleClassValues, getClassesIntervals, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics, getLogClassesByStatistics, getLogValue, getExpValue } from '../../../../../../utils/statistics';
 import { getIntervalTitle } from '../../../../../../utils/legend';
 import { getPolygonImageByAttribution } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/legend/legend'
 import { DEFAULTFILLTRANSPARENCY } from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/colors'
-import {getCartogramStyleFunction, getTwoColoredCartogramStyleFunction} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
+import {getCartogramStyleFunction, getTwoColoredCartogramStyleFunction, useLogScale} from '../../../../../../components/common/maps/Deprecated_WorldWindMap/styles/cartogram';
 import {cloneDeep} from 'lodash';
 
 import presentation from './presentation';
@@ -96,6 +96,7 @@ const mapStateToProps = (state, ownProps) => {
 				let styleFunction;
 				if(layerByLayerTemplateKey.attribute.data.valueType === 'relative') {
 					let classes;
+					let getIntervalValue = (v) => v;
 					if(activeIndicator.data.twoSideScale === true) {
 						const classCount = 3;
 						const colors = [...fuoreUtils.resolveColours(activeIndicator), '#ffffff']; //#ffffff - center color
@@ -103,20 +104,27 @@ const mapStateToProps = (state, ownProps) => {
 						const lowColor = colors[1];
 						const centerColor = colors[2];	
 						styleFunction = getTwoColoredCartogramStyleFunction(highColor, lowColor, centerColor, classCount, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
-						classes = getMinMaxCenterValueClassesByStatistics(layerByLayerTemplateKey.mergedStatistics, classCount);
+						if(useLogScale) {
+							classes = getLogClassesByStatistics(layerByLayerTemplateKey.mergedStatistics, classCount);
+							getIntervalValue = getExpValue;
+						} else {
+							classes = getMinMaxCenterValueClassesByStatistics(layerByLayerTemplateKey.mergedStatistics, classCount);
+						}
+					
 					} else {
 						styleFunction = getCartogramStyleFunction(color, DEFAULTFILLTRANSPARENCY, layerByLayerTemplateKey.mergedStatistics, 'tmpAttribute');
 						classes = setClassesMinMaxFromStatistics(layerByLayerTemplateKey.mergedStatistics.percentile, layerByLayerTemplateKey.mergedStatistics);
 					}
 					classes.sort((a, b) => b - a);
-					const intervals = getClassesIntervals(classes);
+					const intervals = getClassesIntervals(classes, getIntervalValue);
+					const values = intervals.map((interval => getMiddleClassValues(interval)[0]));
 
 					choroplethLegendItem.name = layerByLayerTemplateKey.attribute.data.nameDisplay;
 					choroplethLegendItem.description = layerByLayerTemplateKey.attribute.data.description;
 
 					//avoid clear values
 					choroplethLegendItem.items = intervals.map((interval, index) => {
-						const value = getMiddleClassValues(interval)[0];
+						const value = values[index]
 						const attribution = styleFunction({userProperties:{tmpAttribute: value}})
 						const first = index === 0;
 						const title = getIntervalTitle(interval, first);

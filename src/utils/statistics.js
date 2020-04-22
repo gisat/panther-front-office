@@ -18,6 +18,62 @@ export const getValueClassesByStatistics = (statistics, classesCount = 1) => {
     return classes;
 }
 
+export const getLogValue = (value) => {
+    if(value === 0) {
+        return 0;
+    };
+
+    const negative = value < 0;
+    const absValue = Math.abs(value);
+    const absLogValue = Math.log(absValue);
+    const logValue = negative ? -absLogValue : absLogValue;
+    return logValue;
+}
+
+export const getExpValue = (value) => {
+    if(value === 0) {
+        return 0;
+    };
+
+    const negative = value < 0;
+    const absValue = Math.abs(value);
+    const absLogValue = Math.exp(absValue);
+    const logValue = negative ? -absLogValue : absLogValue;
+    return logValue;
+}
+
+export const getLogClassByValue = (classes, value) => {
+    const logValue = getLogValue(value);
+    return classes[0] === logValue ? 0 : classes.findIndex(b => logValue <= b) - 1;
+}
+
+export const getLogClassesByStatistics = (statistics, absClassesCount = 1) => {
+    const min = Number.parseFloat(statistics.min);
+    const max = Number.parseFloat(statistics.max);
+    const center = Number.parseFloat(statistics.center);
+
+    const absRange = Math.max(Math.abs(center-min), Math.abs(center-max));
+    const logAbsRange = Math.log(absRange);
+    const classWidth = logAbsRange / absClassesCount;
+
+    const classes = [];
+
+    //classes on left side
+    for(let i = 0; i < absClassesCount; i++) {
+        const position = absClassesCount - i;
+        classes[i] = center - (position * classWidth);
+    }
+
+    classes[absClassesCount] = center;
+
+    //classes on right side
+    for(let i = 1; i < absClassesCount + 1; i++) {
+        const position = absClassesCount + i;
+        classes[position] = center + (i * classWidth);
+    }
+    return classes;
+}
+
 /**
  * 
  * @param {Object} statistics 
@@ -136,12 +192,12 @@ export const getMiddleClassValues = (classes = []) => {
     }, [])
 }
 
-export const getClassesIntervals = (classes = []) => {
+export const getClassesIntervals = (classes = [], getValue) => {
     const collectedClasses = [...new Set(classes)];
     if(collectedClasses.length > 1) {
         const intervals = collectedClasses.reduce((acc, val, idx, src) => {
             if(idx > 0) {
-                acc.push([src[idx - 1], src[idx]]);
+                acc.push([getValue(src[idx - 1]), getValue(src[idx])]);
                 return acc;
             } else {
                 return acc;

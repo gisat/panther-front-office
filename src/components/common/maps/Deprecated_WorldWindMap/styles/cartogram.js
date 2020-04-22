@@ -1,6 +1,6 @@
 import WorldWind from "webworldwind-esa";
 import chroma from 'chroma-js';
-import {getValueClassesByStatistics, getClassByValue, getClassCount, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics} from '../../../../../utils/statistics'
+import {getValueClassesByStatistics, getClassByValue, getClassCount, setClassesMinMaxFromStatistics, getMinMaxCenterValueClassesByStatistics, getLogClassesByStatistics, getLogClassByValue} from '../../../../../utils/statistics'
 import {
     DEFAULTFILLTRANSPARENCY,
     DEFAULTOUTLINETRANSPARENCY,
@@ -15,6 +15,7 @@ import {
 
 const {Color, ShapeAttributes} = WorldWind;
 
+export const useLogScale = true;
 /**
  * 
  * @param {string} highColor  
@@ -26,7 +27,12 @@ const {Color, ShapeAttributes} = WorldWind;
  * @param {string} attributeDataKey
  */
 export const getTwoColoredCartogramStyleFunction = (highColor, lowColor, centerColor, classCount, fillTransparency = DEFAULTFILLTRANSPARENCY, statistics, attributeDataKey) => {
-    const statisticsClasses = getMinMaxCenterValueClassesByStatistics(statistics, classCount);
+    let statisticsClasses;
+    if(useLogScale) {
+        statisticsClasses = getLogClassesByStatistics(statistics, classCount);
+    } else {
+        statisticsClasses = getMinMaxCenterValueClassesByStatistics(statistics, classCount);
+    }
     
     const colorByteArrayClasses = getCartogramTwoColorScale(highColor, lowColor, centerColor, classCount);
     const colorClasses = colorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, fillTransparency]));
@@ -74,7 +80,12 @@ export const getScalesStyleFunction = (statisticsClasses, attributeDataKey, outl
         let valueColor;
         let outlineValueColor;
         if(value || value === 0) {
-            const calassIndex = getClassByValue(statisticsClasses, value);
+            let calassIndex;
+            if(useLogScale) {
+                calassIndex = getLogClassByValue(statisticsClasses, value);
+            } else {
+                calassIndex = getClassByValue(statisticsClasses, value);
+            }
             valueColor = colorClasses[calassIndex];
             outlineValueColor = outlineColorClasses[calassIndex];
         }
