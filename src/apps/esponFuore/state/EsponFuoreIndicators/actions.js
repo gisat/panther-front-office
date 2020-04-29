@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 
 import Select from '../Select';
@@ -74,8 +75,8 @@ function useIndexedIndicatorsWithAttributes(filterByActive, filter, order, start
 		dispatch(useIndexed(filterByActive, filter, order, start, length, componentId)).then(() => {
 			let indicators = Select.specific.esponFuoreIndicators.getIndexed(getState(), filterByActive, filter, order, start, length);
 			if (indicators) {
-				let attributeKeys = indicators.map(indicator => indicator.data.attributeKey);
-				dispatch(attributeActions.useKeys(attributeKeys, componentId));
+				let attributeKeys = indicators.map(indicator => indicator && indicator.data && indicator.data.attributeKey);
+				dispatch(attributeActions.useKeys(_.compact(attributeKeys), componentId));
 			}
 		});
 	}
