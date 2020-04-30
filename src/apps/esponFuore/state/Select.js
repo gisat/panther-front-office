@@ -47,7 +47,7 @@ function getOrderedModelsByConfigParameter(models, config, parameter) {
 			const uniqueKeysOrder = _.uniq(order);
 			let orderedModels = [];
 			_.forEach(uniqueKeysOrder, categoryKey => {
-				const category = _.find(models, (tag) => tag.key === categoryKey);
+				const category = _.find(models, (tag) => tag && tag.key === categoryKey);
 				if (category) {
 					orderedModels.push(category);
 				}
