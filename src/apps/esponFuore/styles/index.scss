@@ -224,6 +224,13 @@ $headerHeight: m(2);
 	padding: .5rem;
 	font-size: $a0;
 	color: var(--base70);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.esponFuore-map-attribution span {
+	margin-right: .25rem;
 }
 
 @media screen and (max-width: 75rem)  {

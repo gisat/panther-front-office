@@ -31,7 +31,7 @@ const backgroundLayers = [
 		key: 'cartoDbVoyagerNoLabels',
 		type: 'wmts-new',
 		name: 'Light',
-		attribution: <>Background map data © <a target="_blank" href="https://www.openstreetmap.org/copyright">CARTO</a> © <a target="_blank" href="https://carto.com/attribution/">OpenStreetMap contributors</a></>,
+		attribution: <span>Background map data © <a target="_blank" href="https://www.openstreetmap.org/copyright">CARTO</a> © <a target="_blank" href="https://carto.com/attribution/">OpenStreetMap contributors</a>.</span>,
 		options: {
 			url: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager_nolabels/{z}/{x}/{y}.png"
 		},
@@ -41,13 +41,13 @@ const backgroundLayers = [
 		type: 'wikimedia',
 		name: 'Wikimedia',
 		thumbnail: 'wikimedia', // TODO get this information from layer template?
-		attribution: <>Background map data © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></>
+		attribution: <span>Background map data © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</span>
 	}, {
 		key: 'bingAerial',
 		type: 'bingAerial',
 		name: 'Aerial',
 		thumbnail: 'bingAerial',
-		attribution: <a target="_blank" href="https://www.bing.com/maps"><img alt="bing" src={bing}/></a>
+		attribution: <span><a target="_blank" href="https://www.bing.com/maps"><img alt="bing" src={bing}/></a></span>
 	}
 ];
 
@@ -142,7 +142,11 @@ s
 																/>
 																<MapControls zoomOnly/>
 															</MapTools>
-															<div style={{bottom: this.props.timelineHeight}}className="esponFuore-map-attribution">{this.state.backgroundLayers[0].attribution}</div>
+															<div style={{bottom: this.props.timelineHeight}}className="esponFuore-map-attribution">
+																{this.state.backgroundLayers[0].attribution}
+																<span>Administrative boundaries <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA</a> <a target="_blank" href="https://www.unige.ch/gedt/en/home/gedt-presentation/">UNIGE</a>.</span>
+
+															</div>
 														</>
 														)
 													}}
