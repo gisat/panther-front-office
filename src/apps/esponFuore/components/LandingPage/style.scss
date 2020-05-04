@@ -56,7 +56,7 @@
 
 .esponFuore-landing-page-about {
 	padding: 0 m(2) 0 21rem;
-	margin-bottom: m(2);
+	margin-bottom: m(3);
 	outline: none;
 }
 
@@ -75,19 +75,20 @@
 }
 
 .esponFuore-landing-page-footer {
-	padding: m(2) m(1) m(2) 21rem;
-	background: var(--base15);
+	padding: m(1) 0 m(1) m(1);
+	border-top: 1px dashed var(--base25);
 }
 
 .esponFuore-landing-page-footer > div {
-	max-width: 50rem;
+	//max-width: 50rem;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 }
 
 .esponFuore-landing-page-footer > div > a {
-	margin-right: m(4);
+	margin: m(1) m(2);
 }
 
 .esponFuore-landing-page-footer > div > a img {
@@ -115,7 +116,7 @@
 		justify-content: flex-start;
 	}
 	.esponFuore-landing-page-footer > div > a {
-		margin-right: m(3);
+		margin: m(1) m(3) m(1) 0;
 	}
 }
 
@@ -125,6 +126,9 @@
 	}
 	.esponFuore-landing-page-text {
 		padding: m(1) 0;
+	}
+	.esponFuore-landing-page-text h1 {
+		font-size: $a2;
 	}
 	.esponFuore-landing-page-about {
 		padding: 0 m(1);
@@ -143,7 +147,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 	}
-	.esponFuore-landing-page-footer > div > a:not(:last-child) {
-		margin-bottom: m(2);
+	.esponFuore-landing-page-footer > div > a {
+		margin: m(1) m(1) m(1) 0;
 	}
 }

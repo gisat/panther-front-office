@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import methodology from "../../assets/img/methodology.png";
 import esponLogoFull from '../../assets/img/espon-logo-full.png';
 import gisatLogo from '../../assets/img/gisat-logo.png';
+import randbeeLogo from '../../assets/img/Randbee_logo.png';
+import uabLogo from '../../assets/img/UAB_logo.png';
+import unigeLogo from '../../assets/img/UNIGE_logo.png';
 import './style.scss';
 import ScopesList from "./ScopesList";
 import {Link, NavLink} from "react-router-dom";
@@ -44,8 +47,11 @@ class LandingPage extends React.PureComponent {
 					</div>
 					<div className="esponFuore-landing-page-footer">
 						<div>
-							<a href="https://espon.eu" target="_blank"><img src={esponLogoFull}/></a>
-							<a href="http://gisat.cz/content/en" target="_blank"><img src={gisatLogo}/></a>
+							<a title="ESPON | espon.eu" href="https://espon.eu" target="_blank"><img src={esponLogoFull}/></a>
+							<a title="GISAT | gisat.cz" href="http://gisat.cz/content/en" target="_blank"><img src={gisatLogo}/></a>
+							<a title="Universitat Autònoma de Barcelona | uab.cat" href="https://www.uab.cat/en/" target="_blank"><img src={uabLogo}/></a>
+							<a title="Università degli studi di Genova | unige.it" href="https://unige.it/en/" target="_blank"><img src={unigeLogo}/></a>
+							<a title="Randbee Consultants: Data Science & Visualization | randbee.com" href="https://randbee.com/" target="_blank"><img src={randbeeLogo}/></a>
 						</div>
 					</div>
 				</div>
