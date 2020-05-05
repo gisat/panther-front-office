@@ -40,7 +40,7 @@ export const getTwoColoredCartogramStyleFunction = (highColor, lowColor, centerC
     const outlineColorByteArrayClasses = transformScaleDarker(colorByteArrayClasses, 2);
     const outlineColorClasses = outlineColorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, DEFAULTOUTLINETRANSPARENCY]));
 
-    return getScalesStyleFunction(statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses);
+    return getScalesStyleFunction(statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses, useLogScale);
 }
 
 /**
@@ -62,7 +62,7 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
     const outlineColorByteArrayClasses = transformScaleDarker(colorByteArrayClasses, 2);
     const outlineColorClasses = outlineColorByteArrayClasses.map((c) => Color.colorFromByteArray([...c, DEFAULTOUTLINETRANSPARENCY]));
 
-    return getScalesStyleFunction(statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses);
+    return getScalesStyleFunction(statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses, false);
 }
 
 /**
@@ -72,7 +72,7 @@ export const getCartogramStyleFunction = (color, fillTransparency = DEFAULTFILLT
  * @param {Array} outlineColorClasses
  * @param {Array} colorClasses
  */
-export const getScalesStyleFunction = (statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses) => {
+export const getScalesStyleFunction = (statisticsClasses, attributeDataKey, outlineColorClasses, colorClasses, useLogScale) => {
     //create 5 classes
     return (renderable, layer) => {
         const attributes = new ShapeAttributes();
