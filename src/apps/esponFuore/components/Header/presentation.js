@@ -27,7 +27,6 @@ export default class Header extends React.PureComponent {
 				</div>
 				<div className="esponFuore-header-toolbar">
 					<Tools/>
-					<div className="esponFuore-header-toolbar-right"><User inverted/></div>
 				</div>
 			</div>
 			)
