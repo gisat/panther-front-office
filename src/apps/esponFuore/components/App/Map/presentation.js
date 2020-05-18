@@ -467,9 +467,11 @@ class FuoreWorldWindMap extends React.PureComponent {
 				let value = _.get(feature, valueSource);
 				let spatialId = _.get(feature, spatialIdSource);
 				if(value || value === 0) {
+					let unit = this.props.activeAttribute && this.props.activeAttribute.data && this.props.activeAttribute.data.unit;
+
 					content.push(<div className="ptr-popup-header" key={spatialId}>{name || unit}</div>);
 					content.push(<div key={spatialId + '-group'} className="ptr-popup-record-value-group">
-						{value || value === 0 ? <span className="value">{value.toLocaleString()}</span> : null}
+						{value || value === 0 ? <span className="value">{value.toLocaleString()} {unit || ""}</span> : null}
 					</div>)
 				} else {
 					content.push(<div className="ptr-popup-header" key={spatialId}>No data</div>);

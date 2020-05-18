@@ -66,10 +66,14 @@ class EsponFuoreChart extends React.PureComponent {
 			let names = props.periods.map(period => period.data && period.data.nameDisplay);
 			if (names.length > 1) {
 				let sortedNames = _.sortBy(names);
-				subtitle = `From ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`;
+				subtitle = `from ${sortedNames[0]} to ${sortedNames[sortedNames.length - 1]}`;
 			} else {
 				subtitle = `${names[0]}`;
 			}
+		}
+
+		if (attr && attr.unit) {
+			subtitle = `${attr.unit}, ${subtitle}`
 		}
 
 		/* All data prepared? */
@@ -119,6 +123,7 @@ class EsponFuoreChart extends React.PureComponent {
 	}
 
 	renderColumnChart(data, availablePeriods, color) {
+		let yOptions = {};
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
 		let enoughPeriods = availablePeriods && availablePeriods.length === 1;
 
@@ -131,6 +136,10 @@ class EsponFuoreChart extends React.PureComponent {
 				const positive = item.data.values[0].value >= 0; 
 				item.data.color = positive ? colors[0] : colors[1];
 			}
+		}
+
+		if (this.props.attribute && this.props.attribute.data && this.props.attribute.data.unit) {
+			yOptions.unit = this.props.attribute.data.unit;
 		}
 
 		if (noItemFitsFilter) {
@@ -151,6 +160,7 @@ class EsponFuoreChart extends React.PureComponent {
 				xValues
 				xValuesSize={5}
 				yValuesSize={4.5}
+				yOptions={yOptions}
 				minAspectRatio={1.5}
 				withoutYbaseline
 				data={data}
@@ -165,7 +175,7 @@ class EsponFuoreChart extends React.PureComponent {
 	}
 
 	renderLineChart(data, availablePeriods, color) {
-		let yOptions = null;
+		let yOptions = {};
 		let enoughPeriods = availablePeriods && availablePeriods.length > 1;
 		let filters = this.props.filter && this.props.filter.attributeFilter && this.props.filter.attributeFilter.and;
 		let noItemFitsFilter = this.props.filter && this.props.filter.filteredKeys && !this.props.filter.filteredKeys.length;
@@ -174,14 +184,18 @@ class EsponFuoreChart extends React.PureComponent {
 		if (filters && this.props.attribute) {
 			let activeAttributeFilter = _.find(filters, {attributeKey: this.props.attribute.key});
 			if (activeAttributeFilter) {
-				yOptions = {
-					highlightedArea: {
+				yOptions.highlightedArea = {
 						from: activeAttributeFilter.min,
 						to: activeAttributeFilter.max
-					}
 				}
 			}
 		}
+
+		if (this.props.attribute && this.props.attribute.data && this.props.attribute.data.unit) {
+			yOptions.unit = this.props.attribute.data.unit;
+		}
+
+
 
 		//in case of twoSideScale data set default color as color for highest values
 		if(this.props.activeIndicator.data.type === 'relative' && this.props.activeIndicator.data.twoSideScale) {
