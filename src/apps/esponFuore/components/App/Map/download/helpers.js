@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import download from "downloadjs";
 import domToImage from "dom-to-image";
 import { Provider } from 'react-redux';
+import WorldWind from 'webworldwind-esa';
 
 import {Store} from "../../../../index";
 import template from "./template";
@@ -26,6 +27,11 @@ function downloadAsPng(wwd, canvasId) {
 
 
 function prepareDocument(props, wwd, canvasId, container, node, legendComponentId) {
+	let globe = new WorldWind.Globe2D();
+	globe.projection = new WorldWind.ProjectionMercator();
+	wwd.globe = globe;
+	wwd.redraw();
+
 	return getMapCanvasData(wwd, canvasId).then(mapCanvasData => {
 		container.style.overflow = "hidden";
 		node.id = "esponFuore-map-download";
@@ -46,6 +52,7 @@ function prepareDocument(props, wwd, canvasId, container, node, legendComponentI
 			scaleLineId
 		});
 
+		wwd.globe = new WorldWind.Globe(new WorldWind.ElevationModel(), null);
 		return updateScaleAndAddLegend(props, mapComponentId, legendComponentId, scaleLabelId, scaleLineId, node);
 	}).catch(err => {
 		resetElements(container, node, legendComponentId);
@@ -110,11 +117,14 @@ function calculateScaleData(width, coeff) {
 
 
 function resetElements(container, node, legendComponentId) {
-	ReactDom.unmountComponentAtNode(document.getElementById(legendComponentId));
-	setTimeout(() => {
-		node.remove();
-		container.style.overflow = "auto";
-	}, 50);
+	const element = document.getElementById(legendComponentId);
+	if (element) {
+		ReactDom.unmountComponentAtNode(element);
+		setTimeout(() => {
+			node.remove();
+			container.style.overflow = "auto";
+		}, 50);
+	}
 }
 
 export default {
