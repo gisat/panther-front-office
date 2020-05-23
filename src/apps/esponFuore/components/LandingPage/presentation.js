@@ -41,7 +41,7 @@ class LandingPage extends React.PureComponent {
 							<div className="bottom-link"><a href="https://www.espon.eu/sites/default/files/attachments/ESPON%20FUORE%20-%20Draft%20Final%20Report.pdf" target="_blank">ESPON FUORE Draft Final Report</a></div>
 							<div className="bottom-link"><a href="https://www.espon.eu/functional-urban-areas-tool" target="_blank">Project information</a></div>
 							<div className="bottom-link"><a href="https://www.youtube.com/playlist?list=PL49pQPEGrQRFbq4gOeoolkqBDNdY8d_Ms" target="_blank">Video tutorial</a></div>
-							<div className="bottom-link disabled"><a href="#">Custom disaggregation tool</a></div>
+							<div className="bottom-link"><a href="https://212.24.101.53/user/fuore_advanced_user/notebooks/espon_analytical_webtool.ipynb" target="_blank">Custom disaggregation tool</a></div>
 
 
 					</div>
