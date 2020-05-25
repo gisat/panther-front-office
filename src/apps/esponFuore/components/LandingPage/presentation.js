@@ -50,7 +50,7 @@ class LandingPage extends React.PureComponent {
 							<a title="ESPON | espon.eu" href="https://espon.eu" target="_blank"><img src={esponLogoFull}/></a>
 							<a title="GISAT | gisat.cz" href="http://gisat.cz/content/en" target="_blank"><img src={gisatLogo}/></a>
 							<a title="Universitat Autònoma de Barcelona | uab.cat" href="https://www.uab.cat/en/" target="_blank"><img src={uabLogo}/></a>
-							<a title="Università degli studi di Genova | unige.it" href="https://unige.it/en/" target="_blank"><img src={unigeLogo}/></a>
+							<a title="Université de Genève | unige.ch" href="https://www.unige.ch/gedt/en/home/gedt-presentation/" target="_blank"><img src={unigeLogo}/></a>
 							<a title="Randbee Consultants: Data Science & Visualization | randbee.com" href="https://randbee.com/" target="_blank"><img src={randbeeLogo}/></a>
 						</div>
 					</div>
