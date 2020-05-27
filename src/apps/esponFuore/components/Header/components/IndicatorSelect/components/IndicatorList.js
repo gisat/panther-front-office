@@ -104,10 +104,13 @@ class IndicatorList extends React.PureComponent {
 	}
 	
 	onSubCategoryChange() {
-		this.subRefs[this.props.activeSubCategoryKey].current.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start',
-		});
+		const target = this.subRefs[this.props.activeSubCategoryKey].current;
+		if (target) {
+			target.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start',
+			});
+		}
 	}
 
 	render() {
