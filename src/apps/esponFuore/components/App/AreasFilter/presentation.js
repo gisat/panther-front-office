@@ -61,6 +61,19 @@ class AreasFilter extends React.PureComponent {
 
 	onAttributeFilterChange(range) {
 		if (range) {
+			const statistic = this.props.activeAttributeStatistics;
+			const min = statistic && statistic.min;
+			const max = statistic && statistic.max;
+
+			if (range[0] - min < 0.001) {
+				range[0] = min;
+			}
+
+			if (max - range[1] < 0.001) {
+				range[1] = max;
+			}
+
+
 			this.updateActiveAttributeFilter(range[0], range[1]);
 		}
 	}

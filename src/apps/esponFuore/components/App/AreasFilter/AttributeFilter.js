@@ -80,9 +80,11 @@ class AttributeFilter extends React.PureComponent {
 		}
 	}
 
-	render() {
-		let isDecimal = (this.props.max % 1 !== 0) || (this.props.min % 1 !== 0);
+	isRangeDecimal() {
+		return (this.props.max % 1 !== 0) || (this.props.min % 1 !== 0);
+	}
 
+	render() {
 		return (
 			this.props.min && this.props.max ? (
 				<div className="esponFuore-attribute-filter">
@@ -93,7 +95,7 @@ class AttributeFilter extends React.PureComponent {
 						min={this.props.min}
 						max={this.props.max}
 						value={this.state.range}
-						step={isDecimal ? 0.001:1}
+						step={this.isRangeDecimal() ? 0.001:1}
 						marks={{
 							[this.props.min]: {
 								label: this.props.min.toLocaleString(),
@@ -120,14 +122,14 @@ class AttributeFilter extends React.PureComponent {
 						<InputNumber
 							defaultValue={this.props.min}
 							value={this.state.range[0]}
-							precision={isDecimal ? 3:0}
+							precision={this.isRangeDecimal() ? 3:0}
 							onChange={this.onInputMinChange}
 						/>
 						<div className="esponFuore-attribute-filter-input-separator">-</div>
 						<InputNumber
 							defaultValue={this.props.max}
 							value={this.state.range[1]}
-							precision={isDecimal ? 3:0}
+							precision={this.isRangeDecimal() ? 3:0}
 							onChange={this.onInputMaxChange}
 						/>
 					</div>
