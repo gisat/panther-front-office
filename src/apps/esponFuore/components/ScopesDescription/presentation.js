@@ -127,19 +127,26 @@ class ScopesDescription extends React.PureComponent {
 					<img className="esponFuore-doc-image" src={greenInfrastructure}/>
 
 					<h2 id="border-narrow">ESPON GEOSPECS Border narrow (45 min)</h2>
-					<p>OSPECS borders are based on driving time-distance to border, taking account therefore of the road accessibility to delineate various buffer zones of potential mutual influence. </p>
-					<p>GEOSPECS identifies different types of border effects. Because the ranges of mobility and interaction associated to these different types vary, a general delineation of border areas was not produced. Instead, decision was made to select a “narrow” and a “broad” border among the variety of time distances computed.</p>
-					<p>The GEOSPECS “45 minutes / max. 90km” delineation (= ±1 hour on Google Map) corresponds to the “narrow border”, a proxy for the maximum generally accepted commuting distance, where proximity cooperation is most likely to take place.</p>
+					<p>BDA 45 originates from ESPON GEOSPECS project. It stands as proxy for cross-border commuting functionality. In that sense, it shows gaps over mountain massifs and other border areas with poor road connection.</p>
+					<p><b>Definition: </b>Areas made of the aggregation of LAUs where more than 50% of LAU surface is accessible within 45 min driving time from a border (= ±1 hour on Google Map).</p>
+					<p>ESPON GEOSPECS delineation of borders is generated at LAU level, then aggregated into “border areas” (BDA). Driving time-distances have been calculated from each border. As some LAUs can be within accessible distance of more than one national border, BDA 45 are consequently overlapping objects. </p>
+					<p>Measures of time-distance are based on the “friction surface” of cells (grids from 250*250m to 5*5km). Friction is defined by the average travel time required to cross a cell in all directions, taking into account road and off-road travel speeds. GEOSPECS used the EuroRegionalMap V30-31 road model (TRAN_Road_LI_250K) for all countries with the exception of Western Balkans, Bulgaria, Turkey and all outermost regions for which they were missing. In these countries, the Eurogeographics road model has been replaced by Open Street Map. The limited number of secondary roads in Open Street Map, however, creates some bias in the analyses that must be kept in mind when interpreting results. Time-distance and the resulting “isochrone areas” covering the entire GEOSPECS space are used in the calculation of accessibility to borders.</p>
+
 					<p>More details on the ESPON GEOSPECS methodology to delineate Border areas can be consulted in the project’s <a href="https://www.espon.eu/sites/default/files/attachments/GEOSPECS_Final_scientific_report_v2_-_revised_version.pdf" target="_blank">Final Scientific Report, pp. 106-134</a>.</p>
 
 					{this.renderExploreButton("border-narrow")}
 					<img className="esponFuore-doc-image" src={bordersNarrow}/>
 
 					<h2 id="border-large">ESPON GEOSPECS Border large (90 min)</h2>
-					<p>GEOSPECS borders are based on driving time-distance to border, taking account therefore of the road accessibility to delineate various buffer zones of potential mutual influence. </p>
-					<p>GEOSPECS identifies different types of border effects. Because the ranges of mobility and interaction associated to these different types vary, a general delineation of border areas was not produced. Instead, decision was made to select a “narrow” and a “broad” border among the variety of time distances computed.</p>
-					<p>The GEOSPECS “90 min /max 180 km” delineation (= ±2 hour on Google Map) corresponds to the “broad border”, providing a larger perspective to potential border influence.</p>
-					<p>All LAUs contiguous to border have been added to this category. Indeed contiguity - even in case of insufficient road accessibility to border as it is the case in northern Scandinavia or in the Alps among others - can potentially lead to cooperation stakes on the example of cross-border nature conservation areas.</p>
+					<p>BDA 90 originates from ESPON GEOSPECS project. It provides a larger perspective to potential border influence. In that sense, Irrespective of driving time-distances, all LAUs contiguous to borders have been added to this category, as contiguity (even in the case of insufficient road accessibility to border) can lead to cooperation on the example of cross-border nature conservation areas.
+					</p>
+					<p><b>Definition:</b></p>
+					<ul>
+						<li>Areas made of the aggregation of LAUs where more than 50% of LAU surface is accessible within 90 min driving from a border (= ±2 hour on Google Map).</li>
+						<li>LAUs where less than 50% of their surface is accessible within 90 min driving from a border, but that are contiguous to that border, have been added.</li>
+					</ul>
+					<p>ESPON GEOSPECS delineation of borders is generated at LAU level, then aggregated into “border areas” (BDA). Driving time-distances have been calculated from each border. As some LAUs can be within accessible distance of more than one national border, BDA 90 are consequently overlapping objects. </p>
+					<p>Measures of time-distance are based on the “friction surface” of cells (grids from 250*250m to 5*5km). Friction is defined by the average travel time required to cross a cell in all directions, taking into account road and off-road travel speeds.  GEOSPECS used the EuroRegionalMap V30-31 road model (TRAN_Road_LI_250K) for all countries with the exception of Western Balkans, Bulgaria, Turkey and all outermost regions for which they were missing. In these countries, the Eurogeographics road model has been replaced by Open Street Map. The limited number of secondary roads in Open Street Map, however, creates some bias in the analyses that must be kept in mind when interpreting results. Time-distance and the resulting “isochrone areas” covering the entire GEOSPECS space are used in the calculation of accessibility to borders.</p>
 					<p>More details on the ESPON GEOSPECS methodology to delineate Border areas can be consulted in the project’s <a href="https://www.espon.eu/sites/default/files/attachments/GEOSPECS_Final_scientific_report_v2_-_revised_version.pdf" target="_blank">Final Scientific Report, pp. 106-134</a>.</p>
 
 					{this.renderExploreButton("border-large")}
