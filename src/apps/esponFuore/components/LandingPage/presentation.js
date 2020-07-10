@@ -27,7 +27,7 @@ class LandingPage extends React.PureComponent {
 							<p>Welcome to the FUORE web tool! Explore hundreds of estimated demographic and socioeconomic time series indicators reported by nine types of functional regions in Europe, selected from <NavLink to={"/delineation-methods"}>various sources</NavLink>. Analyse, filter and benchmark them by means of illustrative maps and charts. Add and estimate your own indicator by means of the <a href="https://212.24.101.53/user/fuore_advanced_user/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">advanced toolbox</a>.
 							</p>
 							<div className="esponFuore-info-paragraph">
-								<p>The FUORE Webtool is providing estimated indicators by Functional Urban Areas and other functional regions in Europe. Therefore, the figures shown by the FUORE webtool cannot replace official statistics whenever they exist.</p>
+								<p>The FUORE webtool is providing estimated indicators by Functional Urban Areas and other functional regions in Europe. Therefore, the figures shown by the FUORE webtool cannot replace official statistics whenever they exist.</p>
 
 								<p>The estimated values are based on a <a href={methodology} target="_blank" rel="noopener noreferrer">complex methodology</a> of disaggregation of NUTS-based indicators by means of different ancillary datasets and the aggregation back to the different functional regions.</p>
 							</div>
