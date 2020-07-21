@@ -27,6 +27,9 @@ function downloadAsPng(wwd, canvasId) {
 
 function prepareDocument(props, wwd, canvasId, container, node, legendComponentId) {
 	return getMapCanvasData(wwd, canvasId).then(mapCanvasData => {
+        // TODO for download testing - always comment before commit
+		// container.style.overflow = "auto";
+
 		container.style.overflow = "hidden";
 		node.id = "esponFuore-map-download";
 		const mapComponentId = 'esponFuore-map-snapshot';
