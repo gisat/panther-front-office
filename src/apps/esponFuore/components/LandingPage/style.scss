@@ -14,12 +14,15 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	max-width: 120rem;
+}
+
+.esponFuore-landing-page-content{
+  max-width: 120rem;
 }
 
 .esponFuore-landing-page-intro {
 	display: flex;
-	padding: m(4/3) m(2) 0;
+	padding: m(7/3) m(2) 0;
 }
 
 .esponFuore-landing-page-logo {
@@ -97,11 +100,8 @@
 
 @media screen and (max-width: 80rem)  {
 	.esponFuore-landing-page-intro {
-		flex-direction: column;
-	}
-
-	.esponFuore-landing-page-intro {
-		padding: m(1);
+      padding: m(2) m(1) m(1);
+      flex-direction: column;
 	}
 	.esponFuore-landing-page-text {
 		padding: m(1) m(1) m(1) 0;
@@ -122,7 +122,7 @@
 
 @media screen and (max-width: 35rem)  {
 	.esponFuore-landing-page-intro {
-		padding: m(1) 0;
+		padding: m(8/3) 0 m(1);
 	}
 	.esponFuore-landing-page-text {
 		padding: m(1) 0;

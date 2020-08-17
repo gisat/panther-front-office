@@ -8,6 +8,7 @@ import randbeeLogo from '../../assets/img/Randbee_logo.png';
 import uabLogo from '../../assets/img/UAB_logo.png';
 import unigeLogo from '../../assets/img/UNIGE_logo.png';
 import './style.scss';
+import EsponHeader from "../EsponHeader";
 import ScopesList from "./ScopesList";
 import {Link, NavLink} from "react-router-dom";
 import Button from "../../../../components/common/atoms/Button";
@@ -17,7 +18,8 @@ class LandingPage extends React.PureComponent {
 	render() {
 		return (
 			<div className="esponFuore-landing-page">
-				<div>
+                <EsponHeader/>
+				<div className="esponFuore-landing-page-content">
 					<div className="esponFuore-landing-page-intro">
 						<div className="esponFuore-landing-page-logo">
 							<img src={esponLogoFull}/>

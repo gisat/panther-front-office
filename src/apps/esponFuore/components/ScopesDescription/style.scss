@@ -3,6 +3,7 @@
 .esponFuore-scopes-description {
 	display: flex;
 	justify-content: flex-start;
+    margin-top: m(4/3);
 }
 
 .esponFuore-scopes-description-menu {
@@ -82,7 +83,8 @@
 	.esponFuore-scopes-description-menu {
 		width: 100%;
 		justify-content: flex-start;
-		height: 3rem;
+        background: none;
+        padding-top: m(2/3);
 	}
 
 	.esponFuore-scopes-description-menu .ptr-button {
