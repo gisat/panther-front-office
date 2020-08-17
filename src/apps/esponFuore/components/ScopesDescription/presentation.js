@@ -3,7 +3,6 @@ import _ from "lodash";
 
 import './style.scss';
 import {NavLink} from "react-router-dom";
-import Icon from "../../../../components/common/atoms/Icon";
 
 import fua from "../../assets/regions/fua.png";
 import greenInfrastructure from "../../assets/regions/green-infrastructure.png";
@@ -35,11 +34,10 @@ class ScopesDescription extends React.PureComponent {
 	render() {
 		return (
 		    <>
-                <EsponHeader fixed/>
+                <EsponHeader fixed home/>
                 <div className="esponFuore-scopes-description">
                     <div className="esponFuore-scopes-description-menu">
                         <div className="esponFuore-scopes-description-menu-content">
-                            <NavLink className="ptr-button invisible" to={"/"}><Icon icon="back"/><div className="ptr-button-caption">Main page</div></NavLink>
                             <div className="esponFuore-scopes-description-menu-content-links">
                                 <NavLink to="#fua">Functional urban areas</NavLink>
                                 <NavLink to="#tcoa">TERCET Coast</NavLink>

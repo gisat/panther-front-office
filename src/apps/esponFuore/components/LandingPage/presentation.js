@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 
 import methodology from "../../assets/img/methodology.png";
 import esponLogoFull from '../../assets/img/espon-logo-full.png';
-import gisatLogo from '../../assets/img/gisat-logo.png';
-import randbeeLogo from '../../assets/img/Randbee_logo.png';
-import uabLogo from '../../assets/img/UAB_logo.png';
-import unigeLogo from '../../assets/img/UNIGE_logo.png';
 import './style.scss';
 import EsponHeader from "../EsponHeader";
 import ScopesList from "./ScopesList";
 import {Link, NavLink} from "react-router-dom";
-import Button from "../../../../components/common/atoms/Button";
+import Footer from "../Footer";
 
 class LandingPage extends React.PureComponent {
 
@@ -53,15 +49,7 @@ class LandingPage extends React.PureComponent {
 
 
 					</div>
-					<div className="esponFuore-landing-page-footer">
-						<div>
-							<a title="ESPON | espon.eu" href="https://espon.eu" target="_blank"><img src={esponLogoFull}/></a>
-							<a title="GISAT | gisat.cz" href="http://gisat.cz/content/en" target="_blank"><img src={gisatLogo}/></a>
-							<a title="Universitat Autònoma de Barcelona | uab.cat" href="https://www.uab.cat/en/" target="_blank"><img src={uabLogo}/></a>
-							<a title="Université de Genève | unige.ch" href="https://www.unige.ch/gedt/en/home/gedt-presentation/" target="_blank"><img src={unigeLogo}/></a>
-							<a title="Randbee Consultants: Data Science & Visualization | randbee.com" href="https://randbee.com/" target="_blank"><img src={randbeeLogo}/></a>
-						</div>
-					</div>
+					<Footer/>
 				</div>
 			</div>
 		);
