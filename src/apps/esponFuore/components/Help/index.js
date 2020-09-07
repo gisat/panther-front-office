@@ -27,6 +27,10 @@ class Help extends React.PureComponent {
                             </div>
                             <div>If you want to know more about the tool and see practical examples please have a look at the user guide.</div>
                         </a>
+                        <h2>Video tutorial</h2>
+                        <iframe className="esponFuore-video-iframe" src="https://www.youtube.com/embed/atTsxTHPMr4" frameBorder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen></iframe>
                     </div>
                     <Footer/>
                 </div>

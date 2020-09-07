@@ -296,6 +296,12 @@ $headerHeight: m(2);
   color: var(--base80);
 }
 
+.esponFuore-video-iframe {
+  width: 100%;
+  max-width: 48rem;
+  height: 27rem;
+}
+
 @media screen and (max-width: 75rem)  {
 	.esponFuore-header-region-select {
 		flex: 0 0 12rem;
