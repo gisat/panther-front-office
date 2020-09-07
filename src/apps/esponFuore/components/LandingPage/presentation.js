@@ -42,7 +42,7 @@ class LandingPage extends React.PureComponent {
 						<h3 id="links">Learn more</h3>
 
 							<div className="bottom-link"><NavLink to={"/delineation-methods"}>Delineation methods</NavLink></div>
-							<div className="bottom-link"><a href="https://www.espon.eu/sites/default/files/attachments/ESPON%20FUORE%20-%20Draft%20Final%20Report.pdf" target="_blank" rel="noopener noreferrer">ESPON FUORE Draft Final Report</a></div>
+							<div className="bottom-link"><a href="https://www.espon.eu/sites/default/files/attachments/ESPON%20FUORE%20-%20Draft%20Final%20Report.pdf" target="_blank" rel="noopener noreferrer">ESPON FUORE Final Report</a></div>
 							<div className="bottom-link"><a href="https://www.youtube.com/playlist?list=PL49pQPEGrQRFbq4gOeoolkqBDNdY8d_Ms" target="_blank" rel="noopener noreferrer">Video tutorials</a></div>
 						<h3>Advanced</h3>
 							<div className="bottom-link"><a href="https://212.24.101.53/user/fuore_advanced_user/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">Custom disaggregation tool</a></div>
