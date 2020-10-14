@@ -4,7 +4,7 @@
 	position: absolute;
 	width: 210mm;
 	height: 297mm;
-	padding: 8mm 8mm 10mm;
+	padding: 15px 10px 30px;
 	background: #ffffff;
 	border: 1px solid;
 	display: flex;
@@ -12,51 +12,183 @@
 	top: 0;
 	left: 0;
 
-	// for testing
+	// TODO for download testing - always comment before commit
 	//z-index: 99999999;
 }
 
 /* Header */
-#esponFuore-map-download .scope {
-	display: inline-block;
-	color: var(--base60);
-	margin-bottom: 1mm;
-	text-transform: uppercase;
-	font-size: 12pt;
+.download-page-header {
+  position: relative;
+  padding: 0 20px 0 32px;
 }
 
-#esponFuore-map-download .title {
-	font-size: 20pt;
-	margin-bottom: 5mm;
+.download-page-header:before {
+  content: "";
+  position: absolute;
+  display: block;
+  background: #034ea2;
+  height: 200px;
+  width: 12px;
+  top: 0;
+  left: 10px;
+  z-index: 1;
 }
 
-#esponFuore-map-download .description {
-	color: var(--base60);
-	font-size: 12pt;
+.download-page-header:after {
+  content: "";
+  position: absolute;
+  display: block;
+  background: #034ea2;
+  height: 3px;
+  width: 300px;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }
 
-/* Content */
-#esponFuore-map-download .content {
-	width: 100%;
-	overflow: hidden;
-	flex-grow: 1;
+.download-page-header .scope {
+  display: inline-block;
+  margin: 3px 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #4a7ebb;
+  white-space: nowrap;
 }
 
-#esponFuore-map-download .map {
-	max-width: 100%;
-	max-height: 200mm;
-	overflow: hidden;
+.download-page-header .title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #034ea2;
 }
 
-#esponFuore-map-download .legend-scale-container {
-	display: flex;
-	margin: 1mm 0 0;
+/* Map container */
+.download-page-map-container {
+  padding: 0 10px;
+  position: relative;
+  margin-top: -3px;
 }
 
-/* Legend */
+.download-page-map-container:before {
+  content: "";
+  position: absolute;
+  display: block;
+  background: #034ea2;
+  height: 200px;
+  width: 12px;
+  bottom: 5px;
+  left: 10px;
+}
+
+.download-page-map-container:after {
+  content: "";
+  position: absolute;
+  display: block;
+  background: #034ea2;
+  height: calc(100% + 70px);
+  width: 12px;
+  top: 0;
+  right: 10px;
+}
+
+.download-page-map-container .map {
+  max-width: 100%;
+  max-height: 200mm;
+  overflow: hidden;
+}
+
+// Logo
+.download-page-map-container .espon-logo {
+  position: absolute;
+  background: rgba(255, 255, 255, .6);
+  padding: 10px;
+  border-radius: 5px;
+  left: 25px;
+  bottom: 12px;
+  max-width: 150px;
+}
+
+// Scale
+#esponFuore-map-scale {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  background: rgba(255, 255, 255, .6);
+  padding: 10px;
+  border-radius: 5px;
+  right: 25px;
+  bottom: 12px;
+}
+
+#esponFuore-map-scale .scale-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#esponFuore-map-scale-line {
+  height: .8mm;
+  background: var(--base50);
+  margin-bottom: .5mm;
+}
+
+#esponFuore-map-scale-label {
+  color: var(--base60);
+  font-size: 10pt;
+}
+
+
+/* Footer */
+.download-page-footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 30px 0 25px;
+  margin-top: -10px;
+  flex: 1;
+}
+
+.download-page-footer:before {
+  content: "";
+  position: absolute;
+  display: block;
+  background: #034ea2;
+  height: 3px;
+  width: 300px;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+// Copyrights
+.download-page-copyrights {
+  font-size: 10px;
+  text-align: right;
+  padding-right: 5px;
+  position: relative;
+  color: #444444;
+  flex: 1;
+}
+
+.download-page-espon-copyright {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+// Legend
+.download-page-legend-container {
+  background: #eeeeee;
+  border-radius: 5px;
+  padding: 15px 20px 20px;
+  color: #444444;
+}
+
+.download-page-legend-container h5 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #444444;
+}
+
 #esponFuore-map-legend {
-	flex: 1;
-	margin-top: .5rem;
 }
 
 #esponFuore-map-legend .legend {
@@ -85,41 +217,4 @@
 
 #esponFuore-map-legend .diagram-container {
 	border: 0;
-}
-
-/* Scale */
-#esponFuore-map-scale {
-	display: flex;
-	justify-content: flex-end;
-}
-
-#esponFuore-map-scale .scale-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-#esponFuore-map-scale-line {
-	height: .8mm;
-	background: var(--base50);
-	margin-bottom: .5mm;
-}
-
-#esponFuore-map-scale-label {
-	color: var(--base60);
-	font-size: 10pt;
-}
-
-/* Footer */
-#esponFuore-map-download .footer {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 3mm;
-	position: absolute;
-	right: 8mm;
-	bottom: 10mm;
-}
-
-#esponFuore-map-download .footer-logo {
-	max-width: 40mm;
 }

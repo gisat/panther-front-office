@@ -29,7 +29,19 @@ class CartodiagramVectorLayer extends VectorLayer {
 		this.removeAllRenderables();
 		if (renderablesData) {
 			const attributeDataKey = metadata && metadata.attributeDataKey;
-			if(attributeDataKey && renderablesData.features.length > 0 && renderablesData.features[0].properties.hasOwnProperty(attributeDataKey)) {
+
+			let hasAnyFeatureDefinedProperty = false;
+			if (attributeDataKey && renderablesData.features.length > 0) {
+				for (const feature of renderablesData.features) {
+					if (feature.properties.hasOwnProperty(attributeDataKey)) {
+						hasAnyFeatureDefinedProperty = true;
+						break;
+					}
+				}
+			}
+
+
+			if(hasAnyFeatureDefinedProperty) {
 				this.orderFeaturesDescending(renderablesData, attributeDataKey);
 			}
 

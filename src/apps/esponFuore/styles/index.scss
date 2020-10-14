@@ -233,6 +233,75 @@ $headerHeight: m(2);
 	margin-right: .25rem;
 }
 
+// about page
+.esponFuore-about-page {
+  margin-top: m(3);
+  width: 100%;
+}
+
+.esponFuore-about-page-content {
+  position: relative;
+  margin: 0 auto;
+  max-width: 70rem;
+  padding: m(1/3) m(1) m(2);
+}
+
+.esponFuore-about-page-back {
+  margin-bottom: m(1);
+  margin-left: -0.5rem;
+}
+
+.esponFuore-about-page-content ol,
+.esponFuore-about-page-content ul {
+  margin-left: m(1);
+  padding-bottom: m(1);
+}
+
+.esponFuore-help-downoad-item {
+  max-width: 30rem;
+  margin-bottom: m(1);
+  padding: m(2/3);
+  background: var(--accent15);
+  border-radius: .25rem;
+  display: block;
+  text-decoration: none;
+}
+
+.esponFuore-help-downoad-item:hover {
+  background: var(--accent20);
+}
+
+.esponFuore-help-downoad-item-header > .ptr-icon {
+  width: 1.3rem;
+  margin-right: .5rem;
+}
+
+.esponFuore-help-downoad-item-header > .ptr-icon .line {
+  fill: var(--base80);
+}
+
+.esponFuore-help-downoad-item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: .15rem;
+}
+
+.esponFuore-help-downoad-item-header > span {
+  font-size: $b2;
+  font-weight: bold;
+  color: var(--accent60);
+}
+
+.esponFuore-help-downoad-item > div {
+  color: var(--base80);
+}
+
+.esponFuore-video-iframe {
+  width: 100%;
+  max-width: 48rem;
+  height: 27rem;
+}
+
 @media screen and (max-width: 75rem)  {
 	.esponFuore-header-region-select {
 		flex: 0 0 12rem;

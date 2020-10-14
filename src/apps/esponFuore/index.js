@@ -24,6 +24,8 @@ import ReactRouterViewController from "./components/ReactRouterViewController";
 import App from "./components/App";
 
 import favicon from './assets/favicon.ico';
+import About from "./components/About";
+import Help from "./components/Help";
 import ScopesDescription from "./components/ScopesDescription";
 
 // override and extend locales in namespaces
@@ -68,6 +70,8 @@ export default (path, baseUrl) => {
 						<ConnectedRouter history={history}>
 							<Switch>
 								<Route exact path={"/delineation-methods"} component={ScopesDescription} />
+								<Route exact path={"/about"} component={About} />
+								<Route exact path={"/help"} component={Help} />
 								<>
 									<Route path={"/:viewKey"} component={ReactRouterViewController} />
 									<Route component={App} />

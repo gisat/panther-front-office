@@ -1,7 +1,7 @@
 import chroma from 'chroma-js';
 
 export const DEFAULTOUTLINETRANSPARENCY = 120 // 0-255
-export const DEFAULTFILLTRANSPARENCY = 220 // 0-255
+export const DEFAULTFILLTRANSPARENCY = 170 // 0-255
 
 //GRAY colors
 const gray0 = '#fffefc';
