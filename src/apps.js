@@ -43,8 +43,16 @@ export default [
 		configuration: {
 			specificMetadataTypes: ['esponFuoreIndicators']
 		},
-		hostname: 'fuore.eu',
-		path: null,
+		urls: [
+			{
+				hostname: 'fuore.eu',
+				path: null
+			},
+			{
+				hostname: 'fuore.espon.eu',
+				path: null
+			}
+		],
 		devPath: '/esponFuore',
 		app: (path, baseUrl) => import(/* webpackChunkName: "esponFuore" */'./apps/esponFuore').then(module => {
 			module.default(path, baseUrl);
