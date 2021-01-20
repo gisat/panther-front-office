@@ -22,7 +22,7 @@ class LandingPage extends React.PureComponent {
 						</div>
 						<div className="esponFuore-landing-page-text">
 							<h1>FUORE Tool</h1>
-							<p>Welcome to the FUORE web tool! Explore hundreds of estimated demographic and socioeconomic time series indicators reported by nine types of functional regions in Europe, selected from <NavLink to={"/delineation-methods"}>various sources</NavLink>. Analyse, filter and benchmark them by means of illustrative maps and charts. Add and estimate your own indicator by means of the <a href="https://212.24.101.53/user/fuore_advanced_user/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">advanced toolbox</a>.
+							<p>Welcome to the FUORE web tool! Explore hundreds of estimated demographic and socioeconomic time series indicators reported by nine types of functional regions in Europe, selected from <NavLink to={"/delineation-methods"}>various sources</NavLink>. Analyse, filter and benchmark them by means of illustrative maps and charts. Add and estimate your own indicator by means of the <a href="https://fuore.espon.eu/user/fuore_advanced_user/notebooks/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">advanced toolbox</a>.
 							</p>
 							<div className="esponFuore-info-paragraph">
 								<p>The FUORE webtool is providing estimated indicators by Functional Urban Areas and other functional regions in Europe. Therefore, the figures shown by the FUORE webtool cannot replace official statistics whenever they exist.</p>
@@ -45,9 +45,9 @@ class LandingPage extends React.PureComponent {
 							<div className="bottom-link"><a href="https://www.espon.eu/sites/default/files/attachments/Functional%20Urban%20Areas%20and%20Regions%20in%20Europe%20-%20Final%20Report.pdf" target="_blank" rel="noopener noreferrer">ESPON FUORE Final Report</a></div>
 							<div className="bottom-link"><a href="https://www.youtube.com/playlist?list=PL49pQPEGrQRFbq4gOeoolkqBDNdY8d_Ms" target="_blank" rel="noopener noreferrer">Video tutorials</a></div>
 						<h3>Advanced</h3>
-							<div className="bottom-link"><a href="https://212.24.101.53/user/fuore_advanced_user/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">Custom disaggregation tool</a></div>
+							<div className="bottom-link"><a href="https://fuore.espon.eu/user/fuore_advanced_user/notebooks/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">Custom disaggregation tool</a></div>
 
-
+i
 					</div>
 					<Footer/>
 				</div>
