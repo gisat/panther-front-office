@@ -46,8 +46,6 @@ class LandingPage extends React.PureComponent {
 							<div className="bottom-link"><a href="https://www.youtube.com/playlist?list=PL49pQPEGrQRFbq4gOeoolkqBDNdY8d_Ms" target="_blank" rel="noopener noreferrer">Video tutorials</a></div>
 						<h3>Advanced</h3>
 							<div className="bottom-link"><a href="https://fuore.espon.eu/user/fuore_advanced_user/notebooks/notebooks/espon_analytical_webtool.ipynb" target="_blank" rel="noopener noreferrer">Custom disaggregation tool</a></div>
-
-i
 					</div>
 					<Footer/>
 				</div>
